@@ -1,0 +1,508 @@
+{
+	"name": "webgisprototyp.xds",
+	"projectId": "E307E833-32D7-4F83-8258-ADB1B41F5A85",
+	"settings": {
+		"urlPrefix": "http://srv139/",
+		"directAPI": "",
+		"spacesToIndent": "tab",
+		"codeGenFormat": "Class",
+		"extPath": "/resources/ext-3.3.0",
+		"exportPath": ".",
+		"lineEnding": "LF",
+		"instantiateStore": true,
+		"exportXDSFiles": true,
+		"genTimestamps": true
+	},
+	"xdsVersion": "xds-1.0.3.2",
+	"components": [
+		{
+			"id": "MyViewport",
+			"cid": "viewport",
+			"jsClass": "MyViewport",
+			"snapToGrid": 10,
+			"userConfig": {
+				"layout": "fit"
+			},
+			"cn": [
+				{
+					"id": "MyPanel",
+					"cid": "panel",
+					"jsClass": "MyPanel",
+					"snapToGrid": 10,
+					"userConfig": {
+						"title": "GisBrowser Uster - ",
+						"width": "-ext-undefined-",
+						"height": "-ext-undefined-",
+						"autoWidth": "-ext-undefined-",
+						"id": "GisBrowserPanel",
+						"draggable": "-ext-undefined-",
+						"layout": "border",
+						"autoHeight": "-ext-undefined-",
+						"autoShow": "-ext-undefined-",
+						"forceLayout": "-ext-undefined-"
+					},
+					"cn": [
+						{
+							"id": "MyPanel1",
+							"cid": "panel",
+							"jsClass": "MyPanel1",
+							"snapToGrid": 10,
+							"userConfig": {
+								"title": "Infos und Werkzeuge",
+								"height": 333,
+								"width": 225,
+								"collapsible": true,
+								"frame": "-ext-undefined-",
+								"boxMinWidth": 200,
+								"boxMaxWidth": 400,
+								"layout": "border",
+								"autoScroll": "-ext-undefined-",
+								"id": "LeftPanel",
+								"draggable": "-ext-undefined-",
+								"region": "west",
+								"floatable": false,
+								"closable": "-ext-undefined-",
+								"minWidth": 200,
+								"split": true,
+								"collapseMode": "standard"
+							},
+							"cn": [
+								{
+									"id": "MyTreePanel",
+									"cid": "treepanel",
+									"jsClass": "MyTreePanel",
+									"snapToGrid": 10,
+									"userConfig": {
+										"title": "Kartenebenen",
+										"height": 159,
+										"split": true,
+										"region": "center",
+										"id": "LayerTree",
+										"collapsible": true,
+										"rootVisible": false,
+										"autoScroll": true,
+										"singleExpand": "-ext-undefined-",
+										"useArrows": "-ext-undefined-",
+										"containerScroll": true,
+										"cls": "x-tree-noicon"
+									},
+									"cn": [
+										{
+											"id": "MyAsyncTreeNode",
+											"cid": "asynctreenode",
+											"jsClass": "MyAsyncTreeNode",
+											"dock": "root",
+											"snapToGrid": 10,
+											"userConfig": {
+												"text": "Root",
+												"expanded": true,
+												"expandable": "-ext-undefined-",
+												"singleClickExpand": true
+											}
+										},
+										{
+											"id": "MyTreeLoader",
+											"cid": "treeloader",
+											"jsClass": "MyTreeLoader",
+											"dock": "loader",
+											"snapToGrid": 10
+										}
+									]
+								},
+								{
+									"id": "MyPanel2",
+									"cid": "panel",
+									"jsClass": "MyPanel6",
+									"snapToGrid": 10,
+									"userConfig": {
+										"title": "-ext-undefined-",
+										"region": "south",
+										"collapsible": true,
+										"boxMinHeight": 275,
+										"id": "ToolsPanel",
+										"split": true,
+										"headerAsText": false
+									},
+									"cn": [
+										{
+											"id": "MyTabPanel",
+											"cid": "tabpanel",
+											"jsClass": "MyTabPanel",
+											"snapToGrid": 10,
+											"userConfig": {
+												"activeTab": 0,
+												"id": "ToolTabPanel",
+												"autoHeight": "-ext-undefined-"
+											},
+											"cn": [
+												{
+													"id": "MyPanel3",
+													"cid": "panel",
+													"jsClass": "MyPanel7",
+													"snapToGrid": 10,
+													"userConfig": {
+														"title": "Legende",
+														"id": "LegendTab",
+														"autoScroll": true,
+														"layout": "-ext-undefined-",
+														"autoHeight": "-ext-undefined-"
+													}
+												},
+												{
+													"id": "MyPanel4",
+													"cid": "panel",
+													"jsClass": "MyPanel8",
+													"snapToGrid": 10,
+													"userConfig": {
+														"title": "Metadaten",
+														"id": "SearchTab",
+														"layout": "fit",
+														"padding": "-ext-undefined-"
+													}
+												}
+											]
+										}
+									]
+								}
+							]
+						},
+						{
+							"id": "MyPanel5",
+							"cid": "panel",
+							"jsClass": "MyPanel2",
+							"snapToGrid": 10,
+							"userConfig": {
+								"title": "-ext-undefined-",
+								"flex": 1,
+								"id": "CenterPanel",
+								"region": "center",
+								"width": 100,
+								"layout": "border",
+								"split": "-ext-undefined-"
+							},
+							"cn": [
+								{
+									"id": "MyPanel6",
+									"cid": "panel",
+									"jsClass": "MyPanel3",
+									"snapToGrid": 10,
+									"userConfig": {
+										"title": "-ext-undefined-",
+										"region": "center",
+										"id": "MapPanel",
+										"split": "-ext-undefined-",
+										"tpl": "",
+										"footer": "-ext-undefined-",
+										"header": "-ext-undefined-",
+										"layout": "fit",
+										"autoHide": "-ext-undefined-",
+										"hidden": "-ext-undefined-"
+									},
+									"cn": [
+										{
+											"id": "MyToolbar",
+											"cid": "toolbar",
+											"jsClass": "MyToolbar",
+											"dock": "tbar",
+											"snapToGrid": 10,
+											"userConfig": {
+												"id": "myTopToolbar",
+												"autoHeight": true,
+												"height": "-ext-undefined-"
+											},
+											"cn": [
+												{
+													"id": "MySeparator",
+													"cid": "tbseparator",
+													"jsClass": "MySeparator2",
+													"snapToGrid": 10
+												},
+												{
+													"id": "MyButton3",
+													"cid": "button",
+													"jsClass": "MyButton",
+													"snapToGrid": 10,
+													"userConfig": {
+														"id": "IdentifyTool",
+														"tooltip": "Objektidentifizierung (Attributdaten)",
+														"toggleGroup": "mapTools",
+														"enableToggle": true,
+														"icon": "/resources/icons/mActionIdentify.png",
+														"allowDepress": true,
+														"tooltipType": "title",
+														"iconCls": "",
+														"scale": "medium"
+													}
+												},
+												{
+													"id": "MyButton4",
+													"cid": "button",
+													"jsClass": "MyButton3",
+													"snapToGrid": 10,
+													"userConfig": {
+														"id": "MapTips",
+														"tooltip": "MapTips anzeigen",
+														"toggleGroup": "mapTools",
+														"enableToggle": true,
+														"icon": "/resources/icons/mActionMapTips.png",
+														"allowDepress": true,
+														"tooltipType": "title",
+														"iconCls": "",
+														"scale": "medium"
+													}
+												},
+												{
+													"id": "MyText4",
+													"cid": "tbtext",
+													"jsClass": "MyText4",
+													"snapToGrid": 10,
+													"userConfig": {
+														"text": "Objektidentifikation:"
+													}
+												},
+												{
+													"id": "MyCombo",
+													"cid": "combobox",
+													"jsClass": "MyCombo",
+													"snapToGrid": 10,
+													"userConfig": {
+														"width": 120,
+														"id": "ObectIdentificationModeCombo",
+														"store": "objIdentificationModes",
+														"valueField": "value",
+														"mode": "local",
+														"name": "-ext-undefined-",
+														"value": "-ext-undefined-",
+														"displayField": "name",
+														"triggerAction": "all",
+														"readOnly": "-ext-undefined-"
+													}
+												},
+												{
+													"id": "MySeparator1",
+													"cid": "tbseparator",
+													"jsClass": "MySeparator",
+													"snapToGrid": 10
+												},
+												{
+													"id": "MyButton7",
+													"cid": "button",
+													"jsClass": "MyButton4",
+													"snapToGrid": 10,
+													"userConfig": {
+														"text": "-ext-undefined-",
+														"enableToggle": true,
+														"allowDepress": true,
+														"toggleGroup": "mapTools",
+														"icon": "/resources/icons/mActionMeasure.png",
+														"tooltip": "Distanz Messen",
+														"id": "measureDistance",
+														"tooltipType": "title",
+														"scale": "medium"
+													}
+												},
+												{
+													"id": "MyButton8",
+													"cid": "button",
+													"jsClass": "MyButton5",
+													"snapToGrid": 10,
+													"userConfig": {
+														"text": "-ext-undefined-",
+														"id": "measureArea",
+														"enableToggle": true,
+														"allowDepress": true,
+														"toggleGroup": "mapTools",
+														"scale": "medium",
+														"icon": "/resources/icons/mActionMeasureArea.png",
+														"tooltipType": "title",
+														"tooltip": "Fläche Messen"
+													}
+												},
+												{
+													"id": "MySeparator2",
+													"cid": "tbseparator",
+													"jsClass": "MySeparator1",
+													"snapToGrid": 10
+												},
+												{
+													"id": "MyButton9",
+													"cid": "button",
+													"jsClass": "MyButton6",
+													"snapToGrid": 10,
+													"userConfig": {
+														"id": "PrintMap",
+														"enableToggle": true,
+														"allowDepress": true,
+														"toggleGroup": "mapTools",
+														"scale": "medium",
+														"icon": "/resources/icons/mActionFilePrint.png",
+														"tooltipType": "title",
+														"tooltip": "Karte drucken"
+													}
+												},
+												{
+													"id": "MyFill",
+													"cid": "tbfill",
+													"jsClass": "MyFill1",
+													"snapToGrid": 10
+												},
+												{
+													"id": "MyButton10",
+													"cid": "button",
+													"jsClass": "MyButton6",
+													"snapToGrid": 10,
+													"userConfig": {
+														"id": "EmptySearchField",
+														"enableToggle": "-ext-undefined-",
+														"allowDepress": "-ext-undefined-",
+														"toggleGroup": "-ext-undefined-",
+														"scale": "medium",
+														"icon": "/resources/icons/mActionUndo.png",
+														"tooltipType": "title",
+														"tooltip": "Suchfeld zurücksetzen",
+														"pressed": "-ext-undefined-"
+													}
+												}
+											]
+										},
+										{
+											"id": "MyToolbar1",
+											"cid": "toolbar",
+											"jsClass": "MyToolbar1",
+											"dock": "bbar",
+											"snapToGrid": 10,
+											"userConfig": {
+												"id": "myBottomToolbar"
+											},
+											"cn": [
+												{
+													"id": "MyText1",
+													"cid": "tbtext",
+													"jsClass": "MyText",
+													"snapToGrid": 10,
+													"userConfig": {
+														"text": "Kartenapplikation ladet ...",
+														"id": "mainStatusText"
+													}
+												},
+												{
+													"id": "MyFill1",
+													"cid": "tbfill",
+													"jsClass": "MyFill",
+													"snapToGrid": 10
+												},
+												{
+													"id": "MyText2",
+													"cid": "tbtext",
+													"jsClass": "MyText1",
+													"snapToGrid": 10,
+													"userConfig": {
+														"text": "",
+														"id": "rightStatusText"
+													}
+												},
+												{
+													"id": "MyText3",
+													"cid": "tbtext",
+													"jsClass": "MyText3",
+													"snapToGrid": 10,
+													"userConfig": {
+														"text": "X/Y:"
+													}
+												},
+												{
+													"id": "MySpacer",
+													"cid": "tbspacer",
+													"jsClass": "MySpacer",
+													"snapToGrid": 10
+												},
+												{
+													"id": "MyTextField",
+													"cid": "textfield",
+													"jsClass": "MyTextField",
+													"snapToGrid": 10,
+													"userConfig": {
+														"id": "CoordinateTextField",
+														"width": 130,
+														"stripCharsRe": "-ext-undefined-",
+														"regex": "/^\\d{6}\\.?\\d{0,2},\\d{6}\\.?\\d{0,2}$/",
+														"enableKeyEvents": true
+													}
+												},
+												{
+													"id": "MyText",
+													"cid": "tbtext",
+													"jsClass": "MyText2",
+													"snapToGrid": 10,
+													"userConfig": {
+														"text": "1:"
+													}
+												},
+												{
+													"id": "MyNumberField",
+													"cid": "numberfield",
+													"jsClass": "MyNumberField",
+													"snapToGrid": 10,
+													"userConfig": {
+														"id": "ScaleNumberField",
+														"minValue": 1,
+														"allowNegative": false,
+														"allowDecimals": false,
+														"width": 45,
+														"enableKeyEvents": true
+													}
+												}
+											]
+										}
+									]
+								},
+								{
+									"id": "MyTreePanel1",
+									"cid": "treepanel",
+									"jsClass": "MyTreePanel1",
+									"snapToGrid": 10,
+									"userConfig": {
+										"title": "Attributdaten",
+										"id": "AttributeDataTree",
+										"rootVisible": false,
+										"region": "east",
+										"minHeight": "-ext-undefined-",
+										"collapsed": true,
+										"boxMinWidth": 300,
+										"boxMaxWidth": 600,
+										"collapsible": true,
+										"autoScroll": true,
+										"split": true,
+										"width": 300
+									},
+									"cn": [
+										{
+											"id": "MyAsyncTreeNode1",
+											"cid": "asynctreenode",
+											"jsClass": "MyAsyncTreeNode1",
+											"dock": "root",
+											"snapToGrid": 10,
+											"userConfig": {
+												"text": "Tree Node",
+												"expanded": true,
+												"editable": false
+											}
+										},
+										{
+											"id": "MyTreeLoader1",
+											"cid": "treeloader",
+											"jsClass": "MyTreeLoader1",
+											"dock": "loader",
+											"snapToGrid": 10
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"stores": []
+}

@@ -1,0 +1,17 @@
+//sample URL
+http://gis.uster.ch/webgis/prototyp/index.html?mapserver=qgis_mapserv.fcgi&map=/home/www/projekte/liegenschaftsentwaesserung/abwasser_werkplan.qgs&visibleLayers=Amtliche Vermessung,Werkplan
+
+//GetFeatureInfo:
+http://gis.uster.ch/cgi/qgis_mapserv.fcgi?map=/home/www/projekte/liegenschaftsentwaesserung/abwasser_werkplan.qgs&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&LAYERS=Liegenschaften&QUERY_LAYERS=Liegenschaften&STYLES=&BBOX=695675.338601,246009.226167,695855.648485,246107.154828&FEATURE_COUNT=10&HEIGHT=485&WIDTH=893&INFO_FORMAT=text/xml&SRS=EPSG:21781&X=352&Y=225
+
+//GetCapabilities
+http://gis.uster.ch/cgi/qgis_mapserv.fcgi?map=/home/www/projekte/liegenschaftsentwaesserung/abwasser_werkplan.qgs&SERVICE=WMS&REQUEST=GetCapabilities
+
+//GetMap
+//http://gis.uster.ch/cgi/qgis_mapserv.fcgi?map=/home/www/projekte/liegenschaftsentwaesserung/abwasser_werkplan.qgs&LAYERS=Amtliche Vermessung,Werkplan&FORMAT=image/png&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&STYLES=&EXCEPTIONS=application/vnd.ogc.se_inimage&SRS=EPSG:21781&BBOX=696946.87242346,244935.49655783,697023.55888736,244995.20081571&WIDTH=1007&HEIGHT=784
+
+//GetLegendGraphics
+http://gis.uster.ch/cgi/qgis_mapserv.fcgi?map=/home/www/projekte/liegenschaftsentwaesserung/abwasser_werkplan.qgs&LAYERS=Bodenbedeckungssymbole&FORMAT=image/png&SERVICE=WMS&VERSION=1.3&REQUEST=GetLegendGraphics&EXCEPTIONS=application/vnd.ogc.se_inimage&WIDTH=200
+
+//GetPrint
+http://gis.uster.ch/cgi/qgis_mapserv.fcgi?map=/home/www/projekte/liegenschaftsentwaesserung/abwasser_werkplan.qgs&SERVICE=WMS&VERSION=1.3&REQUEST=GetPrint&FORMAT=pdf&EXCEPTIONS=application/vnd.ogc.se_inimage&TRANSPARENT=true&SRS=EPSG:21781&DPI=300&TEMPLATE=A3-Quer&map0:extent=695670.5,244696.7,695771,244758.2&map0:rotation=0&map0:scale=250&map0:grid_interval_x=25&map0:grid_interval_y=25&LAYERS=Bodenbedeckung%20(gefiltert)%2CLiegenschaften%2CParzellennummern%2CGemeindegrenze%2CEinzelobjekte%20Fl%C3%A4chen%2CEinzelobjekte%20Linien%2CEisenbahnen%20(Zentrumsachse)%2CEisenbahn%20Schienen%20(doppellinig)%2CGeb%C3%A4ude%20unterirdisch%2CUnterst%C3%A4nde%2CProjektierte%20Geb%C3%A4ude%2CGeb%C3%A4ude%2CGeb%C3%A4ude%20(%C3%BCbriger%20Geb%C3%A4udeteil%20Fl%C3%A4chen)%2CGeb%C3%A4ude%20(%C3%BCbriger%20Geb%C3%A4udeteil%20Linien)%2CGeb%C3%A4udenummern%2CGeb%C3%A4udeadressen%2CFlurnamen%2CStrassenbeschriftung%2CGel%C3%A4ndenamen%2CNamen%20Bodenbedeckung%2CBodenbedeckungssymbole%2CHaltungen%20(Masstab%201001%20-%202500)%2CKleine%20Haltungen%20(gr%20Massstab%201000)%2CHauptsammelkan%C3%A4le%20(kl%20Massstab%201000)%2CGrosse%20Haltungen%20(gr%20Massstab%201000)%2CGrosse%20Haltungen-Umrandung%20(gr%20Massstab%201000)%2CHaltungsbeschriftung%2CSonderbauwerke%20Fl%C3%A4chen%2CSonderbauwerke%20Linien%2CZwischenpunkt%2CVerbindungspunkte%20(Knoten%20Haltungs%C3%A4nderung)%2CNormschacht

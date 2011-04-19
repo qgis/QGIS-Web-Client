@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="gis-project_listing.xsl"?>
+<webgis path="/webgis/prototyp/qgiswebclient.html" mapserver="/cgi/qgis_mapserv.fcgi" thumbnails="/webgis/prototyp/thumbnails" title="Webgis-Uster">
+    <topic name="Amtliche Vermessung und Basispläne">
+        <project name="Grundplan Amtliche Vermessung mit Abstandslinien (schwarz/weiss)" projectpath="/home/www/projekte/av/" projectfile="grundplan_av" format="image/png" visibleLayers="Raumplanung,Nomenklatur,Fixpunkte,Gebäude,Grenzen,Einzelobjekte,Bodenbedeckung,Liegenschaften Fläche,Einzelobjekte Unterstände,Einzelobjekte Unterirdische Gebäude" update="wöchentlich" responsible="Stadt Uster, Stadtvermessung"/>
+        <project name="Grundplan Amtliche Vermessung mit Abstandslinien (farbig)" projectpath="/home/www/projekte/av/" projectfile="grundplan_av_farbig" format="image/png" visibleLayers="Raumplanung,Nomenklatur,Fixpunkte,Gebäude,Grenzen,Einzelobjekte,Bodenbedeckung,Liegenschaften Fläche,Einzelobjekte Unterstände,Einzelobjekte Unterirdische Gebäude,Bodenbedeckung Fläche detailliert,Bodenbedeckung Fläche grob" update="wöchentlich" responsible="Stadt Uster, Stadtvermessung" />
+        <project name="Orthofotos und Übersichtspläne (inkl. historische)" projectpath="/home/www/projekte/orthofotos_und_uep/" projectfile="orthofotos_und_uep" format="image/jpeg" visibleLayers="Gemeindegrenze,Orthofoto 2008" />
+    </topic>
+    <topic name="Raumplanung">
+        <project name="Zonenplan" projectpath="/home/www/projekte/raumplanung/" projectfile="raumplanung" format="image/jpeg" visibleLayers="Gestaltungspläne Beschriftung,Gemeindegrenze,Sondernutzungen,Sondernutzungen Bauzonen mit Gestaltungsplanpflicht,Differenzierte Lärmempfindlichkeitsstufe,Nutzungszonen,UEP (2009)" update="täglich" responsible="Stadt Uster, Stadtraum und Natur" />
+    </topic>
+    <topic name="Werkpläne und Leitungskataster">
+        <project name="Werkplan Abwasser" projectpath="/home/www/projekte/liegenschaftsentwaesserung/" projectfile="abwasser_werkplan" format="image/png" visibleLayers="Amtliche Vermessung,Werkplan" searchtables="abwasser.suchtabelle" update="täglich" responsible="Stadt Uster, Stadtentwässerung Uster" />
+    </topic>
+</webgis>
