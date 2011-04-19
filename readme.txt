@@ -3,7 +3,7 @@ QGIS Web Client (qgiswebclient):
 
 Purpose:
 --------
-A WMS based webgis client that makes use of proprietary QGIS WMS extensions (e.g. highlighting, printing, metadata, etc.). QGIS webclient reads the configuration from the WMS GetCapabilities command and builds the layer tree accordingly. Supports legend graphic, feature info requests and printing.
+A WMS based webgis client that makes use of QGIS specific WMS extensions (e.g. highlighting, printing, metadata, etc.). QGIS webclient reads the configuration from the WMS GetCapabilities command and builds the layer tree accordingly. Supports legend graphic, feature info requests and printing.
 
 The client builds on existing Web-GIS libraries OpenLayers and GeoExt, as well as ExtJS 3 for the GUI widgets.
 
