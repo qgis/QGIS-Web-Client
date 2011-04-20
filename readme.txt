@@ -92,7 +92,7 @@ The above search table can also be a view or materialized view. One can combine 
 
 License
 -------
-GPL v3
+BSD
 
 Acknowledgements:
 ----------------
