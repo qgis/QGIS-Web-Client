@@ -1,7 +1,7 @@
 //list of available languages
 var availableLanguages = new Array();
 availableLanguages["en"] = {names:[], translator:"Andreas Neumann"}; //a(dot)neumann(at)carto(dot)net
-availableLanguages["es"] = {names:[], translator:"Samuel Mesa"}; //
+availableLanguages["es"] = {names:[], translator:"Samuel Mesa"}; // samuelmesa (at) gmail (dot) com
 availableLanguages["de"] = {names:[], translator:"Andreas Neumann"}; //a(dot)neumann(at)carto(dot)net
 availableLanguages["fr"] = {names:[], translator:"Mayeul Kauffmann"}; //mayeul(_dot_)kauffmann(at)free(dot)fr
 availableLanguages["it"] = {names:[], translator:"Paolo Cavallini, Faunalia"}; //cavallini(at)faunalia(dot)it
@@ -73,7 +73,7 @@ mapLoadingString["it"] = "Caricamento della mappa...";
 //mode string for navigation
 var modeNavigationString = new Array();
 modeNavigationString["en"] = "Mode: navigation. Shift/rectangle or mouse wheel for zooming.";
-modeNavigationString["es"] = "Modo: navegaci&oacute;n. Shift/rect&aacute;ngulo o rueda del rat&oacute;n para Zoom.";
+modeNavigationString["es"] = "Modo: navegaci&oacute;n. Shift/rect&aacute;ngulo o rueda del rat&oacute;n para zoom.";
 modeNavigationString["de"] = "Modus: Navigation. Shift/Rechteck aufziehen oder Mausrad zum zoomen.";
 modeNavigationString["fr"] = "Mode: navigation. Majuscule+tracer un rectangle ou roulette de la souris pour zoomer.";
 modeNavigationString["it"] = "Modalit&agrave;: navigazione. Shift+rettangolo o rotella del mouse per zommare.";
@@ -89,7 +89,7 @@ modeZoomRectangle["it"] = "Modalit&agrave;: zoom con rettangolo. Disegnare un re
 //mode string for attribute data detailed
 var modeObjectIdentificationString = new Array();
 modeObjectIdentificationString["en"] = "Mode: object identification. View attribute data with mouse click.";
-modeObjectIdentificationString["es"] = "Modo: Identificaci&oacute;n de objeto. Ver atributos de datos con el click del rat&oacute;n.";
+modeObjectIdentificationString["es"] = "Modo: Identificaci&oacute;n de entidad. Ver atributos de datos con el click del rat&oacute;n.";
 modeObjectIdentificationString["de"] = "Modus: Objektidentifikation. Attributdatenabfrage &uuml;ber Mausklick.";
 modeObjectIdentificationString["fr"] = "Mode: identification d&apos;entit&eacute;. Identifier une entit&eacute; en cliquant.";
 modeObjectIdentificationString["it"] = "Modalit&agrave;: identificazione di elementi. Identificare un elemento tramite il click.";
@@ -97,7 +97,7 @@ modeObjectIdentificationString["it"] = "Modalit&agrave;: identificazione di elem
 //mode string for map tips (display main attribute with tooltips)
 var modeMapTipsString = new Array();
 modeMapTipsString["en"] = "Mode: MapTips. Display on mouse over with Tooltips.";
-modeMapTipsString["es"] = "Modo: MapTips. Desplegar textos emergentes con el cursor del mouse.";
+modeMapTipsString["es"] = "Modo: MapTips. Desplegar textos emergentes con el cursor del rat&oactue;n.";
 modeMapTipsString["de"] = "Modus: MapTips. Anzeige mit Mouseover &uuml;ber tooltips.";
 modeMapTipsString["fr"] = "Mode: infobulles. Montrer une infobulle sous le curseur de la souris.";
 modeMapTipsString["it"] = "Modalit&agrave;: suggerimenti. Mostrare i suggerimenti con il cursore del mouse.";
@@ -165,7 +165,7 @@ metadataTabTitleString["it"] = "Metadati";
 //label in main toolbar for object identification
 var objectIdentificationTextLabel = new Array();
 objectIdentificationTextLabel["en"] = "Object identification: ";
-objectIdentificationTextLabel["es"] = "Identificaci&oacute;n de objetos: ";
+objectIdentificationTextLabel["es"] = "Identificaci&oacute;n de entidades: ";
 objectIdentificationTextLabel["de"] = "Objektdentifikation: ";
 objectIdentificationTextLabel["fr"] = "Identification d&apos;entit&eacute;: ";
 objectIdentificationTextLabel["it"] = "Identificazione di entit&aagrave;: ";
@@ -197,7 +197,7 @@ attributeFeatureWithString["it"] = "Elemento con ID ";//intentionally left with 
 //search
 var searchFieldDefaultTextString = new Array();
 searchFieldDefaultTextString["en"] = "Search (addresses, parcel-nrs, names, etc.)";
-searchFieldDefaultTextString["es"] = "Buscar (nombres, etc.)";
+searchFieldDefaultTextString["es"] = "Buscar (direcciones, registros, nombres, etc.)";
 searchFieldDefaultTextString["de"] = "Suche (Adressen, Parzellenr, Flurnamen, etc.)";
 searchFieldDefaultTextString["fr"] = "Chercher (adresses, n&deg; de parcelles, noms, etc.)";
 searchFieldDefaultTextString["it"] = "Ricerca (indirizzi, n&deg; delle particelle, nomi, ecc.)";
@@ -221,7 +221,7 @@ printSettingsToolbarTitleString["it"] = "Configurazione della stampa";
 //print rotation text label
 var printSettingsRotationTextlabelString = new Array();
 printSettingsRotationTextlabelString["en"] = "Rotation: ";
-printSettingsRotationTextlabelString["es"] = "Rotaci&oacute;n: ";
+printSettingsRotationTextlabelString["es"] = "Rotación: ";
 printSettingsRotationTextlabelString["de"] = "Rotation: ";
 printSettingsRotationTextlabelString["fr"] = "Rotation: ";
 printSettingsRotationTextlabelString["it"] = "Rotazione: ";
@@ -296,7 +296,7 @@ zoomRectangleTooltipString["it"] = "Zoom su rettangolo";
 //zoom to full view
 var zoomFullViewTooltipString = new Array();
 zoomFullViewTooltipString["en"] = "Zoom to the maximum map extent";
-zoomFullViewTooltipString["es"] = "Zoom a la m&aacute;xima extensi&oacute;n";
+zoomFullViewTooltipString["es"] = "Zoom a la extensi&oacute;n m&aacute;xima ";
 zoomFullViewTooltipString["de"] = "Zoom zum maximalen Kartenausschnitt";
 zoomFullViewTooltipString["fr"] = "Zoomer sur l&apos;&eacute;tendue compl&egrave;te de la carte";
 zoomFullViewTooltipString["it"] = "Zoom all'estensione massima";
@@ -336,7 +336,7 @@ zoomOutTooltipString["it"] = "Rimpicciolisci";
 //object identification tooltip
 var objIdentificationTooltipString = new Array();
 objIdentificationTooltipString["en"] = "Object identification (attribute data)";
-objIdentificationTooltipString["es"] = "Indentificaci&oacute;n de objeto (atributos de datos)";
+objIdentificationTooltipString["es"] = "Indentificaci&oacute;n de entidad (atributos de datos)";
 objIdentificationTooltipString["de"] = "Objektidentifizierung (Attributdaten)";
 objIdentificationTooltipString["fr"] = "Identification d&apos;entit&eacute; (attributs)";
 objIdentificationTooltipString["it"] = "Identificazione di oggetti (attributi)";
@@ -384,7 +384,7 @@ resetSearchFieldTooltipString["it"] = "Azzerare il campo di ricerca";
 //print window title 
 var printWindowTitleString = new Array();
 printWindowTitleString["en"] = "The server is generating a PDF file. For correct up to scale printing please deactivate the option &apos;Fit to Page&apos;!";
-printWindowTitleString["es"] = "El servidor est&aacute; generando un archivo PDF. Para corregir la escala de impresi&oacute;n desactive la opci&oacute;n &apos;Ajustar a p&aacute;gina&apos;!";
+printWindowTitleString["es"] = "El servidor est&aacute; generando un archivo PDF. Para corregir la escala de impresi&oacute;n desactive la opci&oacute;n &apos;Ajustar a la p&aacute;gina&apos;!";
 printWindowTitleString["de"] = "PDF wird vom Server generiert. F&uuml;r massst&auml;bliches Drucken deaktivieren Sie bitte das &apos;Anpassen der Seitengr&ouml;sse&apos;!";
 printWindowTitleString["fr"] = "Le serveur g&eacute;n&egrave;re le fichier PDF. Pour conserver l&apos;&eacute;chelle, ne pas activer l&apos;option &apos;Ajuster &agrave; la page&apos;!"
 printWindowTitleString["it"] = "Il server sta generando il file PDF. Per stampare alla scala corretta disattivare l'opzione &apos;Ridimensiona alla pagina&apos;!"
