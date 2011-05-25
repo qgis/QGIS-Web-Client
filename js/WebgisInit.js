@@ -229,7 +229,7 @@ function postLoading() {
 				items: [{
 					xtype: "button",
 					scale: "medium",
-					icon: 'icons/mActionZoomIn.png',
+					icon: 'gis_icons/mActionZoomIn.png',
 					tooltip: zoomInTooltipString[lang],
 					listeners: {
 						'click': function() {
@@ -257,7 +257,7 @@ function postLoading() {
 				items: [{
 					xtype: "button",
 					scale: "medium",
-					icon: 'icons/mActionZoomOut.png',
+					icon: 'gis_icons/mActionZoomOut.png',
 					tooltip: zoomOutTooltipString[lang],
 					listeners: {
 						'click': function() {
@@ -372,7 +372,7 @@ function postLoading() {
 	var myTopToolbar = Ext.getCmp('myTopToolbar');
 	//zoom box
 	var zoomBoxAction = new GeoExt.Action({
-		icon: 'icons/mActionZoomBox.png',
+		icon: 'gis_icons/mActionZoomBox.png',
 		id: 'navZoomBoxButton',
 		scale: 'medium',
 		control: new OpenLayers.Control.ZoomBox({out: false}),
@@ -389,7 +389,7 @@ function postLoading() {
 
 	//zoom full
 	var zoomToMaxExtentAction = new GeoExt.Action({
-		icon: 'icons/mActionZoomFullExtent.png',
+		icon: 'gis_icons/mActionZoomFullExtent.png',
 		scale: 'medium',
 		control: new OpenLayers.Control.ZoomToMaxExtent(),
 		map: geoExtMap.map,
@@ -399,7 +399,7 @@ function postLoading() {
 	myTopToolbar.insert(1,zoomToMaxExtentAction);
 	//zoom previous
 	var zoomToPreviousAction = new GeoExt.Action({
-		icon: 'icons/mActionZoomLast.png',
+		icon: 'gis_icons/mActionZoomLast.png',
 		scale: 'medium',
 		control: navHistoryCtrl.previous,
 		disabled: true,
@@ -409,7 +409,7 @@ function postLoading() {
 	myTopToolbar.insert(2,zoomToPreviousAction);
 	//zoom next
 	var zoomToNextAction = new GeoExt.Action({
-		icon: 'icons/mActionZoomNext.png',
+		icon: 'gis_icons/mActionZoomNext.png',
 		scale: 'medium',
 		control: navHistoryCtrl.next,
 		disabled: true,
