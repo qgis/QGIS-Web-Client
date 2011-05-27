@@ -1,0 +1,228 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<META NAME="generator" CONTENT="http://txt2tags.org">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<TITLE>Quantum GIS (QGIS) Web Client</TITLE>
+
+<!-- CSS include failed for style.css -->
+
+</HEAD>
+<BODY>
+
+<DIV CLASS="header" ID="header">
+<H1>Quantum GIS (QGIS) Web Client</H1>
+<H2>Installation Guide</H2>
+<H3>Friday May 27, 2011</H3>
+</DIV>
+
+<DIV CLASS="body" ID="body">
+<P>
+Last Updated: Friday May 27, 2011
+Last Change : Friday May 27, 2011
+</P>
+<DIV CLASS="toc">
+
+  <OL>
+  <LI><A HREF="#toc1">Purpose</A>
+  <LI><A HREF="#toc2">Installation</A>
+  <LI><A HREF="#toc3">Configuration of Client</A>
+  <LI><A HREF="#toc4">Configuration of search python script</A>
+  <LI><A HREF="#toc5">PostgreSQL table setup for searching</A>
+  <LI><A HREF="#toc6">License</A>
+  <LI><A HREF="#toc7">Acknowledgements</A>
+  </OL>
+
+</DIV>
+
+<A NAME="toc1"></A>
+<H1>1. Purpose</H1>
+
+<P>
+A WMS based webgis client that makes use of QGIS specific WMS extensions (e.g.
+highlighting, printing, metadata, etc.). QGIS webclient reads the configuration
+from the WMS GetCapabilities command and builds the layer tree accordingly.
+Supports legend graphic, feature info requests and printing.
+</P>
+<P>
+The client builds on existing Web-GIS libraries OpenLayers and GeoExt, as well
+as ExtJS 3 for the GUI widgets.
+</P>
+<P>
+All major browsers should be supported.
+</P>
+
+<A NAME="toc2"></A>
+<H1>2. Installation</H1>
+
+<P>
+Requirements (Server):
+</P>
+
+<UL>
+<LI>Apache2 - Webserver (Ubuntu: apache2)
+<LI>mod-fcgid (Ubuntu: libapache2-mod-fcgid)
+<LI>QGIS and QGIS Server (best installed from source)
+</UL>
+
+<P>
+On ubuntu you can meet these requirements by simply doing:
+</P>
+
+<div class="code"><PRE>
+sudo apt-get install libapache2-mod-fcgid
+</PRE></div>
+
+<P>
+The QGIS server compilation and installation will be covered in the QGIS manual.
+</P>
+<P>
+For searching:
+</P>
+
+<UL>
+<LI>python-wsgi for searching (Ubuntu: libapache2-mod-wsgi)
+<LI>psycopg2 PostgreSQL db driver (Ubuntu: python-psycopg2)
+<LI>webob - Python module providing WSGI request and response objects (Ubuntu: python-webob)
+</UL>
+
+<P>
+The client part needs svn checkout with the following command:
+svn co <A HREF="https://svn.osgeo.org/qgis/trunk/qgiswebclient">https://svn.osgeo.org/qgis/trunk/qgiswebclient</A> qgiswebclient
+</P>
+
+<A NAME="toc3"></A>
+<H1>3. Configuration of Client</H1>
+
+<P>
+Global Settings for all projects:
+</P>
+
+<div class="code"><PRE>
+js/GlobalConfiguration.js
+</PRE></div>
+
+<P>
+Translations (additional languages):
+</P>
+
+<div class="code"><PRE>
+js/Translations.js
+</PRE></div>
+
+<P>
+Project settings and index:
+</P>
+
+<div class="code"><PRE>
+index.xml
+</PRE></div>
+
+<P>
+Stylesheet of project index:
+</P>
+
+<div class="code"><PRE>
+gis-project_listing.xsl
+</PRE></div>
+
+<P>
+Thumbnails for individual projects:
+</P>
+
+<div class="code"><PRE>
+thumbnails/projectname.png
+</PRE></div>
+
+<A NAME="toc4"></A>
+<H1>4. Configuration of search python script</H1>
+
+<P>
+Searching is handled by two separate python-wsgi scripts: "search.wsgi" lists
+back a hit list while the user is typing in the searchbox. It groups the
+results and returns a bounding box of the result. "getSearchGeom.wsgi" returns
+the actual wkt geometry for a selected search result. It is recommended to
+install the wsgi scripts in a separate directory, e.g. /home/www/wsgi, a place
+that is not reachable by regular web traffic.
+</P>
+<P>
+You need to enable mod_wsgi as root. (Ubuntu: a2enmod mod_wsgi).
+</P>
+<P>
+You need to configure apache with the following lines (e.g. in file
+/etc/apache2/sites-available/default):
+</P>
+
+<div class="code"><PRE>
+#mod_wsgi
+WSGIDaemonProcess gis processes=5 threads=15 display-name=%{GROUP}
+WSGIScriptAlias /wsgi/ /home/www/wsgi/
+WSGIScriptAliasMatch ^/wsgi/([^/]+) /home/www/wsgi/$1.wsgi
+</PRE></div>
+
+<P>
+In the files "search.wsgi" and "getSearchGeom.wsgi" please edit the line
+containing the db connection strings. Search for the line 
+</P>
+
+<div class="code"><PRE>
+conn = psycopg2.connect("db='yourdb' port='5432' user='yourusername' password='yourpassword'")
+</PRE></div>
+
+<P>
+and adapt the parameters according to your server/db.
+</P>
+
+<A NAME="toc5"></A>
+<H1>5. PostgreSQL table setup for searching</H1>
+
+<div class="code"><PRE>
+CREATE TABLE cadastre.searchtable
+(
+  searchstring text, --the search string (all lower case), e.g. "zürichstrasse 46, 8610 uster"
+  displaytext text NOT NULL, --the display text for the search combobox, e.g. "Zürichstrasse 46, 8610 Uster (address)"
+  search_category text, --should have a leading two digit number:, e.g.
+                        --"03_parcels", where 03 is the order of the search categories, the number
+                        --should be unique across all search tables
+  the_geom geometry,    --the actual geometry
+  geometry_type text,   --the geometry type as returned by ST_GeometryType(the_geom)
+  searchstring_tsvector tsvector,
+  CONSTRAINT searchtable_pkey PRIMARY KEY (displaytext)
+)
+WITH (
+  OIDS=FALSE
+);
+GRANT SELECT ON TABLE cadastre.searchtable TO alle;
+
+-- Index: cadastre.in_cadastre_searchstring_tsvector_gin
+
+CREATE INDEX in_cadastre_searchstring_tsvector_gin
+  ON cadastre.searchtable
+  USING gin
+  (searchstring_tsvector);
+</PRE></div>
+
+<P>
+The above search table can also be a view or materialized view. One can combine
+several search tables by specifying the <CODE>`searchtables=searchtable1,searchtable2,searchtable3`</CODE> 
+parameter when requesting the <I>search.wsgi</I> script.
+</P>
+
+<A NAME="toc6"></A>
+<H1>6. License</H1>
+
+<P>
+BSD
+</P>
+
+<A NAME="toc7"></A>
+<H1>7. Acknowledgements</H1>
+
+<P>
+We'd like to thank the OpenLayers and GeoExt team for providing their base libraries.
+</P>
+</DIV>
+
+<!-- html code generated by txt2tags 2.6 (http://txt2tags.org) -->
+<!-- cmdline: txt2tags -o README.html -t html README.t2t -->
+</BODY></HTML>
