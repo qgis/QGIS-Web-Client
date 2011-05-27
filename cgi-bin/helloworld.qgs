@@ -1,55 +1,85 @@
 <!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
-<qgis projectname="Hello World" version="1.8.0-Trunk">
-    <title>Hello World</title>
+<qgis projectname="QGIS Mapserver Hello World" version="1.8.0-Trunk">
+    <title>QGIS Mapserver Hello World</title>
     <mapcanvas>
-        <units>meters</units>
+        <units>degrees</units>
         <extent>
-            <xmin>-27545343.044621</xmin>
-            <ymin>-10362324.566165</ymin>
-            <xmax>27545343.044621</xmax>
-            <ymax>19120350.789779</ymax>
+            <xmin>-185.227042</xmin>
+            <ymin>-92.891282</ymin>
+            <xmax>191.871959</xmax>
+            <ymax>108.919372</ymax>
         </extent>
         <projections>1</projections>
         <destinationsrs>
             <spatialrefsys>
-                <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +over +no_defs</proj4>
-                <srsid>3644</srsid>
-                <srid>900913</srid>
-                <authid>EPSG:900913</authid>
-                <description>Google Mercator</description>
-                <projectionacronym>merc</projectionacronym>
+                <proj4>+proj=longlat +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +no_defs</proj4>
+                <srsid>3452</srsid>
+                <srid>4326</srid>
+                <authid>EPSG:4326</authid>
+                <description>WGS 84</description>
+                <projectionacronym>longlat</projectionacronym>
                 <ellipsoidacronym>WGS84</ellipsoidacronym>
-                <geographicflag>false</geographicflag>
+                <geographicflag>true</geographicflag>
             </spatialrefsys>
         </destinationsrs>
     </mapcanvas>
     <legend>
         <legendlayer open="true" checked="Qt::Checked" name="Hello" showFeatureCount="0">
             <filegroup open="true" hidden="false">
-                <legendlayerfile isInOverview="0" layerid="hello20110527101239641" visible="1"/>
+                <legendlayerfile isInOverview="0" layerid="hello20110527130942841" visible="1"/>
             </filegroup>
         </legendlayer>
         <legendlayer open="true" checked="Qt::Checked" name="Country" showFeatureCount="0">
             <filegroup open="true" hidden="false">
-                <legendlayerfile isInOverview="0" layerid="country20110527101943681" visible="1"/>
+                <legendlayerfile isInOverview="0" layerid="country20110527130942817" visible="1"/>
             </filegroup>
         </legendlayer>
     </legend>
+    <Composer title="Composer 1" visible="0">
+        <ComposerMap keepLayerSet="false" id="0" previewMode="Cache" drawCanvasItems="true">
+            <Extent ymin="-92.89128236529909" xmin="-185.2270423149401" ymax="121.0904763110989" xmax="191.8719586311711"/>
+            <LayerSet/>
+            <Grid gridStyle="0" crossLength="3" penColorRed="0" penColorBlue="0" intervalX="0" offsetX="0" intervalY="0" offsetY="0" show="0" penWidth="0" penColorGreen="0">
+                <Annotation direction="0" precision="3" position="1" frameDistance="1" show="0" font="Ubuntu,10,-1,5,50,0,0,0,0,0"/>
+            </Grid>
+            <ComposerItem width="215" x="42.39327146171692" y="36.81438515081207" rotation="0" height="122" frame="false" outlineWidth="0.3" zValue="1" lastValidViewScaleFactor="2.89261744966443" positionLock="false">
+                <FrameColor alpha="255" red="0" blue="0" green="0"/>
+                <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
+            </ComposerItem>
+        </ComposerMap>
+        <ComposerLabel valign="32" labelText="Quantum GIS Mapserver" id="" halign="1" margin="1">
+            <LabelFont description="Ubuntu,48,-1,5,75,0,0,0,0,0"/>
+            <FontColor red="0" blue="0" green="0"/>
+            <ComposerItem width="215.030162412993" x="49.98375870069606" y="9.334106728538281" rotation="0" height="28.00232018561485" frame="false" outlineWidth="0.3" zValue="2" lastValidViewScaleFactor="2.89261744966443" positionLock="false">
+                <FrameColor alpha="255" red="0" blue="0" green="0"/>
+                <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
+            </ComposerItem>
+        </ComposerLabel>
+        <ComposerLabel valign="32" labelText="Welcome to our world...." id="" halign="1" margin="1">
+            <LabelFont description="Ubuntu,12,-1,5,75,0,0,0,0,0"/>
+            <FontColor red="0" blue="0" green="0"/>
+            <ComposerItem width="64.30162412993039" x="213.3016241299304" y="161.7911832946636" rotation="0" height="11.06264501160091" frame="false" outlineWidth="0.3" zValue="3" lastValidViewScaleFactor="2.89261744966443" positionLock="false">
+                <FrameColor alpha="255" red="0" blue="0" green="0"/>
+                <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
+            </ComposerItem>
+        </ComposerLabel>
+        <Composition printResolution="300" paperWidth="297" snapGridOffsetX="0" snapGridResolution="0" snapGridOffsetY="0" snapping="0" paperHeight="210" printAsRaster="0"/>
+    </Composer>
     <projectlayers layercount="2">
         <maplayer minimumScale="0" maximumScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0">
-            <id>country20110527101943681</id>
+            <id>country20110527130942817</id>
             <datasource>dbname='../data/helloworld.db' table="country" (geometry) sql=</datasource>
             <layername>Country</layername>
             <srs>
                 <spatialrefsys>
                     <proj4>+proj=longlat +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +no_defs</proj4>
-                    <srsid>100016</srsid>
-                    <srid>0</srid>
-                    <authid>:</authid>
-                    <description> * Generated CRS (+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs)</description>
+                    <srsid>3452</srsid>
+                    <srid>4326</srid>
+                    <authid>EPSG:4326</authid>
+                    <description>WGS 84</description>
                     <projectionacronym>longlat</projectionacronym>
                     <ellipsoidacronym>WGS84</ellipsoidacronym>
-                    <geographicflag>false</geographicflag>
+                    <geographicflag>true</geographicflag>
                 </spatialrefsys>
             </srs>
             <transparencyLevelInt>255</transparencyLevelInt>
@@ -59,15 +89,15 @@
                 <symbols>
                     <symbol outputUnit="MM" alpha="1" type="fill" name="0">
                         <layer pass="0" class="SimpleFill" locked="0">
-                            <prop k="color" v="110,120,126,255"/>
-                            <prop k="color_border" v="102,102,102,255"/>
+                            <prop k="color" v="145,149,158,255"/>
+                            <prop k="color_border" v="157,157,157,255"/>
                             <prop k="offset" v="2,2"/>
                             <prop k="style" v="solid"/>
                             <prop k="style_border" v="solid"/>
                             <prop k="width_border" v="0.26"/>
                         </layer>
                         <layer pass="0" class="SimpleFill" locked="0">
-                            <prop k="color" v="25,142,209,255"/>
+                            <prop k="color" v="0,0,255,255"/>
                             <prop k="color_border" v="0,0,0,255"/>
                             <prop k="offset" v="0,0"/>
                             <prop k="style" v="solid"/>
@@ -107,23 +137,23 @@
             </edittypes>
             <editform></editform>
             <editforminit></editforminit>
-            <annotationform></annotationform>
+            <annotationform>.</annotationform>
             <attributeactions/>
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0">
-            <id>hello20110527101239641</id>
+            <id>hello20110527130942841</id>
             <datasource>dbname='../data/helloworld.db' table="hello" (geometry) sql=</datasource>
             <layername>Hello</layername>
             <srs>
                 <spatialrefsys>
                     <proj4>+proj=longlat +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +no_defs</proj4>
-                    <srsid>100016</srsid>
-                    <srid>0</srid>
-                    <authid>:</authid>
-                    <description> * Generated CRS (+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs)</description>
+                    <srsid>3452</srsid>
+                    <srid>4326</srid>
+                    <authid>EPSG:4326</authid>
+                    <description>WGS 84</description>
                     <projectionacronym>longlat</projectionacronym>
                     <ellipsoidacronym>WGS84</ellipsoidacronym>
-                    <geographicflag>false</geographicflag>
+                    <geographicflag>true</geographicflag>
                 </spatialrefsys>
             </srs>
             <transparencyLevelInt>255</transparencyLevelInt>
@@ -133,9 +163,9 @@
                 <symbols>
                     <symbol outputUnit="MM" alpha="1" type="fill" name="0">
                         <layer pass="0" class="SimpleFill" locked="0">
-                            <prop k="color" v="0,0,255,255"/>
+                            <prop k="color" v="174,176,194,255"/>
                             <prop k="color_border" v="121,121,121,255"/>
-                            <prop k="offset" v="1,1"/>
+                            <prop k="offset" v="2,2"/>
                             <prop k="style" v="solid"/>
                             <prop k="style_border" v="solid"/>
                             <prop k="width_border" v="0.26"/>
@@ -182,12 +212,12 @@
             </edittypes>
             <editform></editform>
             <editforminit></editforminit>
-            <annotationform></annotationform>
+            <annotationform>../projects</annotationform>
             <attributeactions/>
         </maplayer>
     </projectlayers>
     <properties>
-        <WMSServiceAbstract type="QString"></WMSServiceAbstract>
+        <WMSServiceAbstract type="QString">Simple hello world app.</WMSServiceAbstract>
         <TimeManager>
             <timeFrameSize type="int">1</timeFrameSize>
             <timeLayerManager type="QString"></timeLayerManager>
@@ -200,14 +230,15 @@
             <timeLayerList type="QStringList"/>
             <playBackwards type="int">0</playBackwards>
         </TimeManager>
-        <WMSContactPerson type="QString"></WMSContactPerson>
+        <WMSContactPerson type="QString">Tim Sutton</WMSContactPerson>
         <Identify>
             <disabledLayers type="QStringList"/>
         </Identify>
         <WMSContactPhone type="QString"></WMSContactPhone>
         <SpatialRefSys>
-            <ProjectCRSProj4String type="QString">+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +over +no_defs</ProjectCRSProj4String>
+            <ProjectCRSProj4String type="QString">+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0</ProjectCRSProj4String>
             <ProjectCrs type="QString">EPSG:900913</ProjectCrs>
+            <ProjectCRSID type="int">3452</ProjectCRSID>
         </SpatialRefSys>
         <Gui>
             <SelectionColorBluePart type="int">108</SelectionColorBluePart>
@@ -221,14 +252,24 @@
         <Paths>
             <Absolute type="bool">false</Absolute>
         </Paths>
-        <WMSContactMail type="QString"></WMSContactMail>
+        <WMSContactMail type="QString">tim@linfiniti.com</WMSContactMail>
+        <WMSCrsList type="QStringList">
+            <value>EPSG:4326</value>
+            <value>EPSG:900913</value>
+        </WMSCrsList>
         <PositionPrecision>
             <DecimalPlaces type="int">2</DecimalPlaces>
             <Automatic type="bool">true</Automatic>
         </PositionPrecision>
         <WMSAddWktGeometry type="bool">false</WMSAddWktGeometry>
-        <WMSContactOrganization type="QString"></WMSContactOrganization>
-        <WMSServiceCapabilities type="bool">false</WMSServiceCapabilities>
-        <WMSServiceTitle type="QString"></WMSServiceTitle>
+        <WMSContactOrganization type="QString">Quantum GIS</WMSContactOrganization>
+        <WMSServiceCapabilities type="bool">true</WMSServiceCapabilities>
+        <WMSServiceTitle type="QString">QGIS Mapserver Hello World</WMSServiceTitle>
+        <WMSExtent type="QStringList">
+            <value>-180</value>
+            <value>-90</value>
+            <value>180</value>
+            <value>90</value>
+        </WMSExtent>
     </properties>
 </qgis>

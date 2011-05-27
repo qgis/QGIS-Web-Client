@@ -1,1 +1,15 @@
 apache-conf/qgis-web-client.conf
+generate_docs.sh~
+q.log
+README.aux
+README.log
+README.out
+readme.t2t~
+README.tex
+README.toc
+*~
+*.*~
+index.xml
+qgis-web-client.conf
+site/js/GlobalOptions.js
+*.swp

@@ -1,14 +1,9 @@
 //default language code, can be overwritten with lang parameter in URL
 var lang = "en"; //for available codes see array availableLanguages in file GlobalOptions.js 
 
-//new namespace for QGIS extensions
-//do not modify those three lines
-if (!window.QGIS) {
-    window.QGIS = {};
-}
-
 //Servername and name of CGI-file
-var serverAndCGI = "http://srv139/cgi/qgis_mapserv.fcgi"; //URL mit Name des qgis mapserver cgi
+//Path must include the host name for print to work
+var serverAndCGI = "http://qgis-web-client.localhost/cgi-bin/qgis_mapserv.fcgi"; //URL mit Name des qgis mapserver cgi
 
 //search URLs
 //URL for queries while typing
@@ -17,10 +12,18 @@ var searchBoxQueryURL = "/wsgi/search.wsgi?query=";
 var searchBoxGetGeomURL = "/wsgi/getSearchGeom.wsgi";
 
 //first part of titlebar text
-var titleBarText = "GIS-Browser Uster - "; // will be appended with project title
+var titleBarText = "GIS-Browser - "; // will be appended with project title
 
 //EPSG projection code
-var epsgcode = 21781;
+var epsgcode = 4326;
+
+// <------------ No changes should be needed below here ------------------>
+
+//new namespace for QGIS extensions
+//do not modify those three lines
+if (!window.QGIS) {
+    window.QGIS = {};
+}
 
 // OpenLayers global options
 // see http://dev.openlayers.org/releases/OpenLayers-2.10/doc/apidocs/files/OpenLayers/Map-js.html
@@ -44,7 +47,7 @@ var OverviewMapOptions = {
 };
 var OverviewMapSize = new OpenLayers.Size(200,200);
 var overviewLayer = new OpenLayers.Layer.WMS("Pixelkarte",
-			"http://srv139/cgi/mapserv?map=/home/www/mapserverdata/uster_pk_kombiniert.map", 
+			"/cgi-bin/mapserv?map=/path-to-map/.map", 
 			{layers:"pk_kombiniert",format:"image/jpeg"},
 			{buffer:0,singleTile:true,transitionEffect:"resize"});
 
