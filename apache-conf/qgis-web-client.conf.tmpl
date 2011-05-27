@@ -1,0 +1,29 @@
+<VirtualHost *:80>
+  ServerAdmin webmaster@localhost
+ # Add an entry to your /etc/hosts file for qgis-web-client.localhost
+ ServerName qgis-web-client.localhost
+
+  DocumentRoot /<path-to-qgis-web-client>/site
+  <Directory />
+    Options FollowSymLinks
+    AllowOverride None
+  </Directory>
+  <Directory /<path-to-qgis-web-client>/site/>
+    Options Indexes FollowSymLinks MultiViews
+    AllowOverride None
+    Order allow,deny
+    allow from all
+  </Directory>
+
+  ScriptAlias /cgi-bin/ /<path-to-qgis-web-client>/site/cgi-bin/
+  <Directory "/<path-to-qgis-web-client>/site/cgi-bin/">
+    AllowOverride None
+    Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+    Order allow,deny
+    Allow from all
+  </Directory>
+
+  ErrorLog ${APACHE_LOG_DIR}/qgis-web-client-error.log
+  CustomLog ${APACHE_LOG_DIR}/qgis-web-client-access.log combined
+
+</VirtualHost>
