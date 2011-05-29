@@ -4,10 +4,10 @@
     <mapcanvas>
         <units>degrees</units>
         <extent>
-            <xmin>-185.227042</xmin>
-            <ymin>-92.891282</ymin>
-            <xmax>191.871959</xmax>
-            <ymax>108.919372</ymax>
+            <xmin>-153.829742</xmin>
+            <ymin>-64.122534</ymin>
+            <xmax>161.361678</xmax>
+            <ymax>104.154215</ymax>
         </extent>
         <projections>1</projections>
         <destinationsrs>
@@ -135,7 +135,7 @@
             <edittypes>
                 <edittype type="0" name="name"/>
             </edittypes>
-            <editform></editform>
+            <editform>.</editform>
             <editforminit></editforminit>
             <annotationform>.</annotationform>
             <attributeactions/>
@@ -210,7 +210,7 @@
                 <edittype type="0" name="colour"/>
                 <edittype type="0" name="pkuid"/>
             </edittypes>
-            <editform></editform>
+            <editform>.</editform>
             <editforminit></editforminit>
             <annotationform>../projects</annotationform>
             <attributeactions/>
@@ -237,7 +237,7 @@
         <WMSContactPhone type="QString"></WMSContactPhone>
         <SpatialRefSys>
             <ProjectCRSProj4String type="QString">+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0</ProjectCRSProj4String>
-            <ProjectCrs type="QString">EPSG:900913</ProjectCrs>
+            <ProjectCrs type="QString">EPSG:4326</ProjectCrs>
             <ProjectCRSID type="int">3452</ProjectCRSID>
         </SpatialRefSys>
         <Gui>
@@ -255,7 +255,6 @@
         <WMSContactMail type="QString">tim@linfiniti.com</WMSContactMail>
         <WMSCrsList type="QStringList">
             <value>EPSG:4326</value>
-            <value>EPSG:900913</value>
         </WMSCrsList>
         <PositionPrecision>
             <DecimalPlaces type="int">2</DecimalPlaces>
@@ -266,10 +265,10 @@
         <WMSServiceCapabilities type="bool">true</WMSServiceCapabilities>
         <WMSServiceTitle type="QString">QGIS Mapserver Hello World</WMSServiceTitle>
         <WMSExtent type="QStringList">
-            <value>-180</value>
-            <value>-90</value>
-            <value>180</value>
-            <value>90</value>
+            <value>-153.83</value>
+            <value>-64.1225</value>
+            <value>161.362</value>
+            <value>104.154</value>
         </WMSExtent>
     </properties>
 </qgis>
