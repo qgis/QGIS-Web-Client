@@ -22,6 +22,8 @@
     Options +ExecCGI -MultiViews -SymLinksIfOwnerMatch
     Order allow,deny
     Allow from all
+    #Uncomment the next line to enable logging to a file
+    #SetEnv QGIS_LOG_FILE /tmp/qgislog.txt
   </Directory>
 
   ErrorLog ${APACHE_LOG_DIR}/qgis-web-client-error.log
