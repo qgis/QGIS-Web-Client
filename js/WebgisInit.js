@@ -677,7 +677,7 @@ function postLoading() {
 		//need to disable printing because no print layouts are defined in
 		var printMapButton = Ext.getCmp('PrintMap');
 		printMapButton.disable();
-		printMapButton.setTooltip("Drucken nicht möglich, da keine Layouts im QGIS-Projekt definiert wurden");
+		printMapButton.setTooltip(printMapDisabledTooltipString[lang]);
 	}
 	
 	//show that we are done with initializing the map
@@ -702,7 +702,7 @@ function mapToolbarHandler(btn,evt) {
 	if (btn.id == "MapTips") {
 		if (btn.pressed) {
 			WMSGetFInfoHover.activate();
-			mainStatusText.setText(modeMapTipsString);
+			mainStatusText.setText(modeMapTipsString[lang]);
 			attribToolTip.enable();
 			attribToolTip.show();
 		}

@@ -168,7 +168,7 @@ objectIdentificationTextLabel["en"] = "Object identification: ";
 objectIdentificationTextLabel["es"] = "Identificaci&oacute;n de entidades: ";
 objectIdentificationTextLabel["de"] = "Objektdentifikation: ";
 objectIdentificationTextLabel["fr"] = "Identification d&apos;entit&eacute;: ";
-objectIdentificationTextLabel["it"] = "Identificazione di entit&aagrave;: ";
+objectIdentificationTextLabel["it"] = "Identificazione di entit&agrave;: ";
 
 //Coordinate text label (coordinate display in bottom toolbar of main map window)
 var coordinateTextLabel = new Array();
@@ -256,7 +256,7 @@ objectIdentificationModeString["allLayers"]["en"] = "All layers";
 objectIdentificationModeString["allLayers"]["es"] = "Todas las capas";
 objectIdentificationModeString["allLayers"]["de"] = "Alle Ebenen";
 objectIdentificationModeString["allLayers"]["fr"] = "Toutes les couches";
-objectIdentificationModeString["allLayers"]["it"] = "Toutti i layer";
+objectIdentificationModeString["allLayers"]["it"] = "Tutti i layer";
 
 objectIdentificationModeString["activeLayers"] = new Array();
 objectIdentificationModeString["activeLayers"]["en"] = "Active Layer";
@@ -362,8 +362,8 @@ var measureAreaTooltipString = new Array();
 measureAreaTooltipString["en"] = "Measure area";
 measureAreaTooltipString["es"] = "Medir &aacute;rea";
 measureAreaTooltipString["de"] = "Fl&auml;che messen";
-measureDistanceTooltipString["fr"] = "Mesurer une surface";
-measureDistanceTooltipString["it"] = "Misura superficie";
+measureAreaTooltipString["fr"] = "Mesurer une surface";
+measureAreaTooltipString["it"] = "Misura superficie";
 
 //Print Map
 var printMapTooltipString = new Array();
@@ -372,6 +372,14 @@ printMapTooltipString["es"] = "Imprimir mapa";
 printMapTooltipString["de"] = "Karte drucken";
 printMapTooltipString["fr"] = "Imprimer la carte";
 printMapTooltipString["it"] = "Stampa la mappa";
+
+//Print Map disabled
+var printMapDisabledTooltipString = new Array();
+printMapDisabledTooltipString["en"] = "Print disabled, no layout is defined into the QGIS project";
+printMapDisabledTooltipString["es"] = "Imprima lisiado, ningun layout se define en el proyecto QGIS";
+printMapDisabledTooltipString["de"] = "Drucken nicht möglich, da keine Layouts im QGIS-Projekt definiert wurden";
+printMapDisabledTooltipString["fr"] = "Imprimez non activée, aucune layout est défini dans le projet QGIS";
+printMapDisabledTooltipString["it"] = "Stampa disabilitata: nel progetto QGIS non &egrave; definito alcun layout";
 
 //Reset Search Field
 var resetSearchFieldTooltipString = new Array();
