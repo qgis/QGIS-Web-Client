@@ -97,7 +97,7 @@ Ext.extend(QGIS.PrintProvider, GeoExt.data.PrintProvider, {
 					closable: true,
 					x:50,
 					y:10,
-					html: '<object data="'+url+'" type="application/pdf" width="100%" height="100%"><p style="margin:5px;">'+printingObjectDataAlternativeString1 + url + printingObjectDataAlternativeString2
+					html: '<object data="'+url+'" type="application/pdf" width="100%" height="100%"><p style="margin:5px;">'+printingObjectDataAlternativeString1[lang] + url + printingObjectDataAlternativeString2[lang]
 				}
 			);
 			pdfWindow.show();
