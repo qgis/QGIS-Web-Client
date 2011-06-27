@@ -33,7 +33,7 @@ var MapOptions = {
 //overview map settings - do not change variable names!
 var OverviewMapOptions = {
 	projection: new OpenLayers.Projection("EPSG:"+epsgcode),
-	units: "m",
+	units: "degrees",
 	maxScale:50,
 	minScale:250000,
 	transitionEffect:"resize"
