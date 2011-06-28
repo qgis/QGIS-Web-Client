@@ -2,7 +2,7 @@
 var lang = "en"; //for available codes see array availableLanguages in file GlobalOptions.js 
 
 //Servername and name of CGI-file
-//Path must include the host name for print to work
+//Path must include the host name
 var serverAndCGI = "http://qgis-web-client.localhost/cgi-bin/qgis_mapserv.fcgi"; //URL mit Name des qgis mapserver cgi
 
 //search URLs
