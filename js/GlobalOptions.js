@@ -1,5 +1,5 @@
 //default language code, can be overwritten with lang parameter in URL
-var lang = "en"; //for available codes see array availableLanguages in file GlobalOptions.js 
+var lang = "de"; //for available codes see array availableLanguages in file GlobalOptions.js 
 
 //new namespace for QGIS extensions
 //do not modify those three lines
@@ -8,8 +8,8 @@ if (!window.QGIS) {
 }
 
 //Base URL for WMS server
-var serverAndCGI = "/cgi-bin/qgis_mapserv.fcgi";
-//var serverAndCGI = "/wms";
+//var serverAndCGI = "http://localhost/cgi-bin/qgis_mapserv.fcgi";
+var serverAndCGI = "/wms";
 
 //search URLs
 //URL for queries while typing
@@ -18,10 +18,10 @@ var searchBoxQueryURL = "/wsgi/search.wsgi?query=";
 var searchBoxGetGeomURL = "/wsgi/getSearchGeom.wsgi";
 
 //first part of titlebar text
-var titleBarText = "GIS-Browser - "; // will be appended with project title
+var titleBarText = "GIS-Browser Kanton Glarus - "; // will be appended with project title
 
 //EPSG projection code
-var epsgcode = 4326;
+var epsgcode = 21781;
 
 // OpenLayers global options
 // see http://dev.openlayers.org/releases/OpenLayers-2.10/doc/apidocs/files/OpenLayers/Map-js.html
@@ -45,8 +45,8 @@ var OverviewMapOptions = {
 };
 var OverviewMapSize = new OpenLayers.Size(200,200);
 var overviewLayer = new OpenLayers.Layer.WMS("Pixelkarte",
-			serverAndCGI + "/NaturalEarth",
-			{layers:"HYP_50M_SR_W",format:"image/jpeg"},
+			serverAndCGI + "/av_glarus_server",
+			{layers:"relief_gl_20m",format:"image/jpeg"},
 			{buffer:0,singleTile:true,transitionEffect:"resize"});
 
 
