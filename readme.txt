@@ -1,5 +1,5 @@
-QGIS Web Client (qgiswebclient):
-================================
+QGIS Web Client (qgis-web-client):
+==================================
 
 Purpose:
 --------
@@ -23,8 +23,10 @@ For searching:
 * psycopg2 PostgreSQL db driver (Ubuntu: python-psycopg2)
 * webob - Python module providing WSGI request and response objects (Ubuntu: python-webob)
 
-The client part needs svn checkout with the following command:
-svn co https://svn.osgeo.org/qgis/trunk/qgiswebclient qgiswebclient
+The client part can be downloaded from:
+https://github.com/qgis/qgis-web-client/archives/master
+Or you can clone the git repositroy with the following command:
+git clone https://github.com/qgis/qgis-web-client.git
 
 Configuration of Client
 -----------------------
@@ -42,6 +44,33 @@ gis-project_listing.xsl
 
 Thumbnails for individual projects:
 thumbnails/projectname.png
+
+URL Rewriting
+-------------
+
+Using a standard installation of QGIS server, GlobalOptions.js will have a WMS server configuration like
+
+var serverAndCGI = "/cgi-bin/qgis_mapserv.fcgi";
+
+A sample URL for QGIS Web Client installed in /var/www/qgis-web-client:
+
+http://localhost/qgis-web-client/qgiswebclient.html?map=/opt/geodata/maps/NaturalEarth.qgs&visibleLayers=HYP_50M_SR_W
+
+With the following rules for Apache mod_rewrite you can shorten the URLs to
+
+var serverAndCGI = "/wms";
+
+and
+
+http://localhost/maps/NaturalEarth?visibleLayers=HYP_50M_SR_W
+
+Rules in VirtualHost configuration:
+
+# Map /wms to qgis_mapserv.fcgi
+RewriteRule ^/wms/(.+)$ /cgi-bin/qgis_mapserv.fcgi?map=/opt/geodata/maps/$1.qgs [QSA,PT]
+# Map /maps to /qgis-web-client
+RewriteRule ^/maps/([^/.]+)$ /qgis-web-client/qgiswebclient.html [PT]
+RewriteRule ^/maps/(.*) /qgis-web-client/$1 [PT]
 
 Configuration of search python script
 -------------------------------------
