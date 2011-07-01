@@ -134,7 +134,7 @@ function postLoading() {
 	Ext.getCmp('measureArea').toggleHandler = mapToolbarHandler;
 	Ext.getCmp('PrintMap').toggleHandler = mapToolbarHandler;
 	//other buttons
-	Ext.getCmp('EmptySearchField').handler = mapToolbarHandler;
+	//Ext.getCmp('EmptySearchField').handler = mapToolbarHandler;
 	//combobox listeners
 	var ObjectIdentificationModeCombobox = Ext.getCmp('ObjectIdentificationModeCombo');
 	ObjectIdentificationModeCombobox.setValue("topMostHit");
@@ -419,6 +419,7 @@ function postLoading() {
 	myTopToolbar.insert(3,zoomToNextAction);
 	
 	//add QGISSearchCombo
+	/*
 	qgisSearchCombo = new QGIS.SearchComboBox(
 	  {
 	    map:geoExtMap.map,
@@ -427,6 +428,7 @@ function postLoading() {
 	    searchtables:searchtables
 	});
 	myTopToolbar.insert(myTopToolbar.items.length - 1,qgisSearchCombo);
+	*/
 	myTopToolbar.doLayout();
 
 	//measure-controls (distance and area)
