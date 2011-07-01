@@ -18,7 +18,7 @@
                             <h1 style="font-size:20px;"><xsl:value-of select="/webgis/@title"/></h1>
                         </td>
                         <td width="195" align="right">
-                            <img width="185" height="77" src="/resources/uster_logo_transparent_medium_size.png" alt="Uster Wappen" />
+                            <img src="thumbnails/logo-QGIS.png" alt="QGIS Server" />
                         </td>
                     </tr>
                 </table>
@@ -33,33 +33,29 @@
                 <xsl:variable name="projectfile"><xsl:value-of select="./@projectfile"/></xsl:variable>
                 <xsl:variable name="url">
                     <xsl:value-of select="/webgis/@path"/>
-                    <xsl:text>?map=</xsl:text>
-                    <xsl:value-of select="./@projectpath"/>
+                    <xsl:text>/</xsl:text>
                     <xsl:value-of select="./@projectfile"/>
-                    <xsl:text>.qgs&amp;format=</xsl:text>
+                    <xsl:text>?format=</xsl:text>
                     <xsl:value-of select="./@format"/>
                     <xsl:text>&amp;visibleLayers=</xsl:text>
                     <xsl:value-of select="./@visibleLayers"/>
                 </xsl:variable>
                 <xsl:variable name="urlcgi">
                     <xsl:value-of select="/webgis/@mapserver"/>
-                    <xsl:text>?map=</xsl:text>
-                    <xsl:value-of select="./@projectpath"/>
+                    <xsl:text>/</xsl:text>
                     <xsl:value-of select="./@projectfile"/>
-                    <xsl:text>.qgs</xsl:text>
                 </xsl:variable>
                 <tr>
                 <td>
-                    <a href="{$url}"><img width="600" height="200" src="/webgis/thumbnails/{$projectfile}.png" align="top"/></a>
+                    <a href="{$url}"><img width="600" height="200" src="/qgiswebclient/thumbnails/{$projectfile}.png" align="top"/></a>
                 </td>
                 <td valign="top">
                     <a href="{$url}"><xsl:value-of select="./@name"></xsl:value-of></a><br/><br/>
-                    <a href="{$urlcgi}&amp;service=WMS&amp;Request=GetCapabilities">WMS Get Capabilities</a><br/><br/>
-                    Aktualisierung: <xsl:value-of select="./@update"/><br/>
-                    Zuständig: <xsl:value-of select="./@responsible"/>
+                    <a href="{$urlcgi}?service=WMS&amp;Request=GetCapabilities">WMS Get Capabilities</a><br/><br/>
+                    Responsible: <xsl:value-of select="./@responsible"/>
                 </td>
             </tr>
             </xsl:for-each>
         </table>
     </xsl:template>
-</xsl:stylesheet>    
+</xsl:stylesheet>

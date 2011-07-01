@@ -7,8 +7,9 @@ if (!window.QGIS) {
     window.QGIS = {};
 }
 
-//Servername and name of CGI-file
-var serverAndCGI = "http://srv139/cgi/qgis_mapserv.fcgi"; //URL mit Name des qgis mapserver cgi
+//Base URL for WMS server
+var serverAndCGI = "http://localhost/cgi-bin/qgis_mapserv.fcgi";
+//var serverAndCGI = "http://localhost/wms";
 
 //search URLs
 //URL for queries while typing
@@ -17,10 +18,10 @@ var searchBoxQueryURL = "/wsgi/search.wsgi?query=";
 var searchBoxGetGeomURL = "/wsgi/getSearchGeom.wsgi";
 
 //first part of titlebar text
-var titleBarText = "GIS-Browser Uster - "; // will be appended with project title
+var titleBarText = "GIS-Browser - "; // will be appended with project title
 
 //EPSG projection code
-var epsgcode = 21781;
+var epsgcode = 4326;
 
 // OpenLayers global options
 // see http://dev.openlayers.org/releases/OpenLayers-2.10/doc/apidocs/files/OpenLayers/Map-js.html
@@ -44,8 +45,8 @@ var OverviewMapOptions = {
 };
 var OverviewMapSize = new OpenLayers.Size(200,200);
 var overviewLayer = new OpenLayers.Layer.WMS("Pixelkarte",
-			"http://srv139/cgi/mapserv?map=/home/www/mapserverdata/uster_pk_kombiniert.map", 
-			{layers:"pk_kombiniert",format:"image/jpeg"},
+			serverAndCGI + "/NaturalEarth",
+			{layers:"HYP_50M_SR_W",format:"image/jpeg"},
 			{buffer:0,singleTile:true,transitionEffect:"resize"});
 
 
