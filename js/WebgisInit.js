@@ -41,7 +41,7 @@ Ext.onReady(function() {
 	loadMask.show();
 	
 	if (urlParamsOK) {
-		var getCapURI = serverAndCGI+"?map="+urlParams.map+"&SERVICE=WMS&VERSION=1.3&REQUEST=GetCapabilities";
+		var getCapURI = wmsURI+"&SERVICE=WMS&VERSION=1.3&REQUEST=GetCapabilities";
 		//load getCapabilities info in treeview
 		wmsLoader = new QGIS.WMSCapabilitiesLoader({
 		    url: getCapURI,
@@ -86,7 +86,7 @@ function postLoading() {
 	  var ToolTabPanel = Ext.getCmp('ToolTabPanel');
 	  legendTab.setHeight(ToolsPanel.getInnerHeight() - (ToolTabPanel.getHeight() - ToolTabPanel.getInnerHeight()));
 	  Ext.getCmp('ToolTabPanel').activate(legendTab);
-	  var imageUrl = serverAndCGI+'?map='+urlParams.map+'&SERVICE=WMS&VERSION=1.3&REQUEST=GetLegendGraphics&FORMAT=image/png&EXCEPTIONS=application/vnd.ogc.se_inimage&WIDTH=195&LAYERS='+encodeURIComponent(treeNode.text)+'&dpi='+screenDpi;
+	  var imageUrl = wmsURI+'&SERVICE=WMS&VERSION=1.3&REQUEST=GetLegendGraphics&FORMAT=image/png&EXCEPTIONS=application/vnd.ogc.se_inimage&WIDTH=195&LAYERS='+encodeURIComponent(treeNode.text)+'&dpi='+screenDpi;
 	  var legendImage = '<p><img src="'+imageUrl+'" alt="Legend of Layer '+treeNode.text+'" /></p>';
 	  legendTab.update({html:legendImage,border:false});
 	  //change selected activated layers for GetFeatureInfo requests
@@ -185,7 +185,7 @@ function postLoading() {
 	printProvider = new QGIS.PrintProvider({
 		method: "GET", // "POST" recommended for production use
 		capabilities: printCapabilities, // from the info.json script in the html
-		url: serverAndCGI+'?map='+urlParams.map+'&SERVICE=WMS&VERSION=1.3&REQUEST=GetPrint&FORMAT=pdf&EXCEPTIONS=application/vnd.ogc.se_inimage&TRANSPARENT=true'
+		url: wmsURI+'&SERVICE=WMS&VERSION=1.3&REQUEST=GetPrint&FORMAT=pdf&EXCEPTIONS=application/vnd.ogc.se_inimage&TRANSPARENT=true'
 	});
 
 	printExtent = new GeoExt.plugins.PrintExtent({
@@ -205,7 +205,7 @@ function postLoading() {
 			zoom: 1.6,
 			layers: [
 				thematicLayer = new OpenLayers.Layer.WMS(layerTree.root.firstChild.text,
-					serverAndCGI+"?map="+urlParams.map, 
+					wmsURI, 
 					{layers:selectedLayers.reverse().join(","),format:format,dpi:screenDpi},
 					{buffer:0,singleTile:true,ratio:1,transitionEffect:"resize"}
 				),

@@ -3,6 +3,7 @@
 
 var urlParams;
 var urlParamsOK = true;
+var wmsURI; //URI with map parameter or appended map name (with URL rewriting)
 var urlString = "";
 var format = "image/png";
 var searchtables = null;
@@ -19,9 +20,19 @@ else {
 var urlArray = urlString.split('?');
 if (urlArray.length > 1) {
 	urlParams = Ext.urlDecode(urlArray[1]);
-	if (urlParams.map == undefined) {
-		alert(errMessageStartupMapParamString[lang]);
-		urlParamsOK = false;
+	var norewrite = serverAndCGI.substr(-3) === "cgi";
+	if (norewrite) {
+		if (urlParams.map == undefined) {
+			alert(errMessageStartupMapParamString[lang]);
+			urlParamsOK = false;
+		} else {
+			wmsURI = serverAndCGI+"?map="+urlParams.map+"&"
+		}
+	} else {
+		//Get map name from base URL (e.g. http://example.com/wms/mapname)
+		var urlBaseArray = urlArray[0].split('/')
+		var map = urlBaseArray[urlBaseArray.length-1]
+		wmsURI = serverAndCGI+"/"+map+"?"
 	}
 	if (urlParams.visibleLayers) {
 		visibleLayers = urlParams.visibleLayers.split(",");
