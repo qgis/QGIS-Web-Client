@@ -8,8 +8,8 @@ if (!window.QGIS) {
 }
 
 //Base URL for WMS server
-var serverAndCGI = "http://localhost/cgi-bin/qgis_mapserv.fcgi";
-//var serverAndCGI = "http://localhost/wms";
+var serverAndCGI = "/cgi-bin/qgis_mapserv.fcgi";
+//var serverAndCGI = "/wms";
 
 //search URLs
 //URL for queries while typing
