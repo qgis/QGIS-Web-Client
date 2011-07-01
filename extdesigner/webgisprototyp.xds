@@ -30,7 +30,7 @@
 					"jsClass": "MyPanel",
 					"snapToGrid": 10,
 					"userConfig": {
-						"title": "GisBrowser Uster - ",
+						"title": "GIS-Browser",
 						"width": "-ext-undefined-",
 						"height": "-ext-undefined-",
 						"autoWidth": "-ext-undefined-",
