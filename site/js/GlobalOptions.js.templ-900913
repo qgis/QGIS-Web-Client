@@ -5,6 +5,7 @@ var lang = "en"; //for available codes see array availableLanguages in file Glob
 //Path must include the host name
 var serverAndCGI = "http://qgis-web-client.localhost/cgi-bin/qgis_mapserv.fcgi"; //URL mit Name des qgis mapserver cgi
 
+
 //search URLs
 //URL for queries while typing
 //at a later time QGIS server may provide query results, currently one needs a separate script
@@ -15,7 +16,7 @@ var searchBoxGetGeomURL = "/wsgi/getSearchGeom.wsgi";
 var titleBarText = "GIS-Browser - "; // will be appended with project title
 
 //EPSG projection code
-var epsgcode = 4326;
+var epsgcode = 900913;
 
 // <------------ No changes should be needed below here ------------------>
 
@@ -47,8 +48,8 @@ var OverviewMapOptions = {
 };
 var OverviewMapSize = new OpenLayers.Size(200,200);
 var overviewLayer = new OpenLayers.Layer.WMS("Pixelkarte",
-			"/cgi-bin/mapserv?map=/path-to-map/.map", 
-			{layers:"pk_kombiniert",format:"image/jpeg"},
+			serverAndCGI + "/NaturalEarth",
+			{layers:"HYP_50M_SR_W",format:"image/jpeg"},
 			{buffer:0,singleTile:true,transitionEffect:"resize"});
 
 

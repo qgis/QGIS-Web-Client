@@ -40,7 +40,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 		this.items = [
 			{
 				xtype: 'panel',
-				title: 'GisBrowser',
+				title: 'GIS-Browser',
 				layout: 'border',
 				id: 'GisBrowserPanel',
 				items: [
