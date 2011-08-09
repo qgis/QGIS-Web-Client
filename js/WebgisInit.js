@@ -149,6 +149,10 @@ function postLoading() {
 	//read values from first group (root) of GetCapabilities response
 	var BoundingBox = wmsLoader.WMSCapabilities.getElementsByTagName("BoundingBox")[0];
 	var extent = new OpenLayers.Bounds(parseFloat(BoundingBox.getAttribute("minx")),parseFloat(BoundingBox.getAttribute("miny")),parseFloat(BoundingBox.getAttribute("maxx")),parseFloat(BoundingBox.getAttribute("maxy")));
+	var layer_crs = BoundingBox.getAttribute("CRS");
+	if (layer_crs != null && layer_crs != MapOptions.projection.getCode()) {
+		extent.transform(new OpenLayers.Projection(layer_crs), MapOptions.projection);
+	}
 	MapOptions.maxExtent = extent;
 	
 	//now collect all selected layers (with checkbox enabled in tree)
