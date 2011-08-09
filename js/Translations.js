@@ -347,7 +347,7 @@ mapTipsTooltipString["en"] = "Display MapTips (attribute data)";
 mapTipsTooltipString["es"] = "Desplegar textos emergentos (atributos de datos)";
 mapTipsTooltipString["de"] = "MapTips anzeigen (Attributdaten)";
 mapTipsTooltipString["fr"] = "Afficher les infobulles (attributs)";
-mapTipsTooltipString["it"] = "Mostrare leinformazioni (attributi)";
+mapTipsTooltipString["it"] = "Mostra le informazioni (attributi)";
 
 //Measure Distance
 var measureDistanceTooltipString = new Array();
