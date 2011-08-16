@@ -420,6 +420,7 @@ printMapDisabledTooltipString["es"] = "Imprima lisiado, ningun layout se define 
 printMapDisabledTooltipString["de"] = "Drucken nicht möglich, da keine Layouts im QGIS-Projekt definiert wurden";
 printMapDisabledTooltipString["fr"] = "Imprimez non activée, aucune layout est défini dans le projet QGIS";
 printMapDisabledTooltipString["it"] = "Stampa disabilitata: nel progetto QGIS non &egrave; definito alcun layout";
+printMapDisabledTooltipString["pt_PT"] = "Impress&atilde;o n&atilde;o dispon&iacute;vel: no projecto QGIS n&atilde;o &eacute; deinfido algum layout";
 
 //Reset Search Field
 var resetSearchFieldTooltipString = new Array();
@@ -475,7 +476,7 @@ printCancelButtonTooltipString["es"] = "Cancelar impresi&oacute;n (Cerrar)";
 printCancelButtonTooltipString["de"] = "Druck abbrechen (Schliesen)";
 printCancelButtonTooltipString["fr"] = "Annuler l&apos;impression (fermer)";
 printCancelButtonTooltipString["it"] = "Annulla la stampa (chiudi)";
-printCancelButtonTooltipString["it"] = "Cancelar impress&atilde;o (Fechar)";
+printCancelButtonTooltipString["pt_PT"] = "Cancelar impress&atilde;o (Fechar)";
 
 /***********************
 Error Messages
@@ -524,7 +525,7 @@ errMessageSearchComboNetworkRequestFailureTitleString["es"] = "Fall&oacute; la s
 errMessageSearchComboNetworkRequestFailureTitleString["de"] = "Netzwerk-Request fehlgeschlagen";
 errMessageSearchComboNetworkRequestFailureTitleString["fr"] = "La requ&ecirc;te r&eacute;seau a &eacute;chou&eacute;";
 errMessageSearchComboNetworkRequestFailureTitleString["it"] = "La richiesta di rete &egrave; fallita";
-errMessageSearchComboNetworkRequestFailureTitleString["it"] = "Pedido de rede falhou";
+errMessageSearchComboNetworkRequestFailureTitleString["pt_PT"] = "Pedido de rede falhou";
 
 //error message of search combo network request detailed message - do not forget the \n at the end of the string!
 var errMessageSearchComboNetworkRequestFailureString = new Array();
