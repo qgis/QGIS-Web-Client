@@ -244,3 +244,93 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
 
 /** api: xtype = qgis_searchcombo */
 Ext.reg("qgis_searchcombo", QGIS.SearchComboBox);
+
+
+/* *************************** QGIS.SearchPanel **************************** */
+// extends Ext.Panel with a search form and a list of search results
+QGIS.SearchPanel = Ext.extend(Ext.Panel, {
+    form: null,
+
+    // config
+    /**
+     * search URL
+     */
+    url: '',
+    /**
+     * single item or array of child components to be added as form fields (see Ext.form.FormPanel.items)
+     */
+    formItems: [],
+
+    constructor: function (config) {
+        config = config || {};
+        config.url = config.url || '';
+        config.formItems = config.formItems || [];
+
+        QGIS.SearchPanel.superclass.constructor.call(this, config);
+    },
+
+    initComponent : function() {
+        this.form = new Ext.form.FormPanel({
+            autoHeight: true,
+            bodyBorder: false,
+            defaults: {
+                anchor: '-10'
+            },
+            items: this.formItems,
+            buttons: [
+                {
+                    text: "Suchen", // TODO: i18n
+                    scope: this,
+                    handler: this.onSubmit
+                },
+                {
+                    text: "Zurücksetzen", // TODO: i18n
+                    scope: this,
+                    handler: function() {
+                        this.form.getForm().reset();
+                    }
+                }
+            ],
+            keys: [
+                {
+                    key: [Ext.EventObject.ENTER],
+                    handler: function() {
+                        this.onSubmit();
+                    },
+                    scope: this
+                }
+            ]
+        });
+
+        Ext.apply(this, {
+            layout: 'fit',
+            items: [
+                this.form
+                // TODO: results
+            ]
+        });
+        QGIS.SearchPanel.superclass.initComponent.call(this);
+    },
+
+    onSubmit : function() {
+        this.form.getForm().submit({
+            url: this.url,
+            method: 'GET',
+            scope: this,
+            success: this.onSuccess,
+            failure: this.onFailure
+        });
+    },
+
+    onSuccess : function(form, action) {
+        Ext.MessageBox.alert("Search successful", action.result);
+        // TODO: show results
+    },
+
+    onFailure : function(form, action) {
+        Ext.MessageBox.alert("Error on search", action.failureType);
+    }
+});
+
+/** api: xtype = qgis_searchpanel */
+Ext.reg('qgis_searchpanel', QGIS.SearchPanel);

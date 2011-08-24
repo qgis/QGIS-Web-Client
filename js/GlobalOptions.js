@@ -17,6 +17,31 @@ var serverAndCGI = "/wms";
 var searchBoxQueryURL = "/wsgi/search.wsgi?query=";
 var searchBoxGetGeomURL = "/wsgi/getSearchGeom.wsgi";
 
+//list of configs for QGIS.SearchPanel
+var searchPanelConfigs = [
+	{
+		title: "Parzellensuche",
+		url: '/wms/av',
+		formItems: [
+			{
+				xtype: 'hidden',
+				name: 'query',
+				value: 'parzelle'
+			},
+			{
+				xtype: 'textfield',
+				name: 'gemeinde',
+				fieldLabel: "Gemeinde"
+			},
+			{
+				xtype: 'textfield',
+				name: 'nummer',
+				fieldLabel: "Nummer"
+			}
+		]
+	}
+];
+
 //first part of titlebar text
 var titleBarText = "GIS-Browser Kanton Glarus - "; // will be appended with project title
 

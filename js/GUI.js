@@ -61,6 +61,24 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 						id: 'LeftPanel',
 						items: [
 							{
+								xtype: 'panel',
+								title: "Suche", // TODO: i18n
+								region: 'north',
+								collapsible: true,
+								collapsed: true,
+								boxMinHeight: 150,
+								split: true,
+								id: 'SearchPanel',
+								items: [
+									{
+										xtype: 'tabpanel',
+										activeTab: 0,
+										id: 'SearchTabPanel',
+										items: []
+									}
+								]
+							},
+							{
 								xtype: 'treepanel',
 								title: layerTreeTitleString[lang],
 								height: 159,

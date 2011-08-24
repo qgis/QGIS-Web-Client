@@ -431,6 +431,23 @@ function postLoading() {
 	*/
 	myTopToolbar.doLayout();
 
+	//search panel
+	if (searchPanelConfigs.length > 0) {
+		// add QGIS search panels
+		var searchTabPanel = Ext.getCmp('SearchTabPanel');
+		for (var i=0; i<searchPanelConfigs.length; i++) {
+			searchTabPanel.add(new QGIS.SearchPanel(searchPanelConfigs[i]));
+		}
+		searchTabPanel.setActiveTab(0);
+	}
+	else {
+		// hide search panel
+		var searchPanel = Ext.getCmp('SearchPanel');
+		searchPanel.removeAll();
+		searchPanel.hide();
+		Ext.getCmp('LeftPanel').doLayout();
+	}
+
 	//measure-controls (distance and area)
 	var styleMeasureControls = new OpenLayers.Style();
 	styleMeasureControls.addRules([
