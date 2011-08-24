@@ -1,6 +1,7 @@
 var geoExtMap;
 var layerTree;
 var selectedLayers = "";
+var selectedQueryableLayers = "";
 var thematicLayer, highlightLayer;
 var highLightGeometry = new Array();
 var WMSGetFInfo, WMSGetFInfoHover;
@@ -50,7 +51,6 @@ Ext.onReady(function() {
 		    // customize the createNode method to add a checkbox to nodes and the ui provider
 		    createNode: function(attr) {
 			    attr.checked = false;
-			    //return GeoExt.tree.WMSCapabilitiesLoader.prototype.createNode.apply(this, [attr]);
 			    return QGIS.WMSCapabilitiesLoader.prototype.createNode.apply(this, [attr]);
 		    },
 		    baseAttrs:{
@@ -63,6 +63,8 @@ Ext.onReady(function() {
 		  listeners: {
 		    'load': function() {
 			postLoading();
+			//testing findLayerNodeByName
+			wmsLoader.findLayerNodeByName("Absperrungen");
 		    }
 		  }
 		});
@@ -149,18 +151,18 @@ function postLoading() {
 	//read values from first group (root) of GetCapabilities response
 	var BoundingBox = wmsLoader.WMSCapabilities.getElementsByTagName("BoundingBox")[0];
 	var extent = new OpenLayers.Bounds(parseFloat(BoundingBox.getAttribute("minx")),parseFloat(BoundingBox.getAttribute("miny")),parseFloat(BoundingBox.getAttribute("maxx")),parseFloat(BoundingBox.getAttribute("maxy")));
-	var layer_crs = BoundingBox.getAttribute("CRS");
-	if (layer_crs != null && layer_crs != MapOptions.projection.getCode()) {
-		extent.transform(new OpenLayers.Projection(layer_crs), MapOptions.projection);
-	}
 	MapOptions.maxExtent = extent;
 	
 	//now collect all selected layers (with checkbox enabled in tree)
 	selectedLayers = Array();
+	selectedQueryableLayers = Array();
 	layerTree.root.firstChild.cascade(
 		function (n) {
 			if (n.isLeaf() && n.attributes.checked) {
 				selectedLayers.push(n.text);
+				if (wmsLoader.layerProperties[n.text].queryable == 1) {
+                                  selectedQueryableLayers.push(n.text);
+				}
 			}
 		}
 	);
@@ -355,10 +357,12 @@ function postLoading() {
 	navHistoryCtrl = new OpenLayers.Control.NavigationHistory();
 	geoExtMap.map.addControl(navHistoryCtrl);
 	//controls for getfeatureinfo
-	WMSGetFInfo = new OpenLayers.Control.WMSGetFeatureInfo({layers: [thematicLayer], infoFormat: "text/xml", queryVisible: true, vendorParams: {QUERY_LAYERS: selectedLayers.join(",")}});
+	selectedQueryableLayers.reverse();
+	var fiLayer = new OpenLayers.Layer.WMS(layerTree.root.firstChild.text,wmsURI,{layers:[]},{buffer:0,singleTile:true,ratio:1});
+	WMSGetFInfo = new OpenLayers.Control.WMSGetFeatureInfo({layers: [fiLayer], infoFormat: "text/xml", queryVisible: true, vendorParams: {QUERY_LAYERS: selectedQueryableLayers.join(",")}});
 	WMSGetFInfo.events.register("getfeatureinfo", this, showFeatureInfo);
 	geoExtMap.map.addControl(WMSGetFInfo);
-	WMSGetFInfoHover = new OpenLayers.Control.WMSGetFeatureInfo({layers: [thematicLayer], infoFormat: "text/xml", queryVisible: true, hover: true, vendorParams: {QUERY_LAYERS: selectedLayers.join(",")}});
+	WMSGetFInfoHover = new OpenLayers.Control.WMSGetFeatureInfo({layers: [fiLayer], infoFormat: "text/xml", queryVisible: true, hover: true, vendorParams: {QUERY_LAYERS: selectedQueryableLayers.join(",")}});
 	WMSGetFInfoHover.events.register("getfeatureinfo", this, showFeatureInfoHover);
 	geoExtMap.map.addControl(WMSGetFInfoHover);
 	//in IE the autoWidth property of the tooltip fails
@@ -471,44 +475,54 @@ function postLoading() {
 
 	//listeners für layertree dazufügen
 	layerTree.addListener('leafschange',function () {
-	  //now collect all selected layers for WMS request
+	  //now collect all selected queryable layers for WMS request
 	  selectedLayers = Array();
+	  selectedQueryableLayers = Array();
 	  layerTree.root.firstChild.cascade(
 	    function (n) {
 	      if (n.isLeaf() && n.attributes.checked) {
 			selectedLayers.push(n.text);
+			if (wmsLoader.layerProperties[n.text].queryable == 1) {
+				selectedQueryableLayers.push(n.text);
+			}
 	      }
 	    }
 	  );
 	  //change array order
 	  selectedLayers.reverse();
+	  selectedQueryableLayers.reverse();
 	  if (identificationMode == 'activeLayers') {
 		//only collect selected layers that are active
 		var selectedActiveLayers = Array();
+		var selectedActiveQueryableLayers = Array();
 		//need to find active layer
 		var activeNode = layerTree.getSelectionModel().getSelectedNode();
 		activeNode.cascade(
 			function (n) {
 			  if (n.isLeaf() && n.attributes.checked) {
 				selectedActiveLayers.push(n.text);
+				if (wmsLoader.layerProperties[n.text].queryable == 1) {
+					selectedActiveQueryableLayers.push(n.text);
+				}
 			  }
 			}
 		);
 		selectedActiveLayers.reverse();
-	  }
-	  if (identificationMode != 'activeLayers') {
-		WMSGetFInfo.vendorParams = {'QUERY_LAYERS':selectedLayers.join(',')};
-	  }
-	  else {
-		WMSGetFInfo.vendorParams = {'QUERY_LAYERS':selectedActiveLayers.join(',')};	  
-	  }
-	  if (identificationMode != 'activeLayers') {
-		WMSGetFInfoHover.vendorParams = {'QUERY_LAYERS':selectedLayers.join(',')};
-	  }
-	  else {
-		WMSGetFInfoHover.vendorParams = {'QUERY_LAYERS':selectedActiveLayers.join(',')};  
+		selectedActiveQueryableLayers.reverse();
 	  }
 	  thematicLayer.mergeNewParams({layers:selectedLayers.join(",")});
+	  if (identificationMode != 'activeLayers') {
+		WMSGetFInfo.vendorParams = {'QUERY_LAYERS':selectedQueryableLayers.join(',')};
+	  }
+	  else {
+		WMSGetFInfo.vendorParams = {'QUERY_LAYERS':selectedActiveQueryableLayers.join(',')};	  
+	  }
+	  if (identificationMode != 'activeLayers') {
+		WMSGetFInfoHover.vendorParams = {'QUERY_LAYERS':selectedQueryableLayers.join(',')};
+	  }
+	  else {
+		WMSGetFInfoHover.vendorParams = {'QUERY_LAYERS':selectedActiveQueryableLayers.join(',')};  
+	  }
 	});
 	
 	if (printLayoutsDefined == true) {
