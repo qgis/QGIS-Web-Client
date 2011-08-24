@@ -30,6 +30,7 @@ var MapOptions = {
 	units: "m",
 	maxScale:50,
 	minScale:40000,
+	numZoomLevels:20,
 	fractionalZoom: true,
 	transitionEffect:"resize",
 	controls: []

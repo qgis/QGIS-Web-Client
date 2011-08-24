@@ -493,12 +493,30 @@ errMessageStartupMapParamString["pt_PT"] = "Parametro de inicializaç&atilde;o e
 
 //additional startup error message
 var errMessageStartupNotAllParamsFoundString = new Array();
-errMessageStartupNotAllParamsFoundString["en"] = "Some mandatory startup paramaters are missing";
+errMessageStartupNotAllParamsFoundString["en"] = "Some mandatory startup paramaters are missing or an optional startup parameter is invalid.";
 errMessageStartupNotAllParamsFoundString["es"] = "Faltan algunos parametros obligatorios";
-errMessageStartupNotAllParamsFoundString["de"] = "Es wurden nicht alle notwendigen Web-GIS-Parameter gefunden.";
+errMessageStartupNotAllParamsFoundString["de"] = "Es wurden nicht alle notwendigen Web-GIS-Parameter gefunden oder ein optionaler Start-Parameter ist falsch.";
 errMessageStartupNotAllParamsFoundString["fr"] = "Certains param&egrave;tres indispensables manquent.";
 errMessageStartupNotAllParamsFoundString["it"] = "Alcuni parametri necessari mancano.";
 errMessageStartupNotAllParamsFoundString["pt_PT"] = "Faltam alguns parametros necess&aacute;rios.";
+
+//error message if optional startExtent parameter is wrong
+var errMessageExtentParamWrongPart1 = new Array();
+errMessageExtentParamWrongPart1["en"] = "Start-parameter '";
+errMessageExtentParamWrongPart1["es"] = "Start-parameter '";
+errMessageExtentParamWrongPart1["de"] = "Start-Parameter '";
+errMessageExtentParamWrongPart1["fr"] = "Start-parameter '";
+errMessageExtentParamWrongPart1["it"] = "Start-parameter '";
+errMessageExtentParamWrongPart1["pt_PT"] = "Start-parameter '";
+
+//error message if optional startExtent parameter is wrong
+var errMessageExtentParamWrongPart2 = new Array();
+errMessageExtentParamWrongPart2["en"] = "' needs to be in OpenLayers.Bounds format: 'left,bottom,right,top'.";
+errMessageExtentParamWrongPart2["es"] = "' needs to be in OpenLayers.Bounds format: 'left,bottom,right,top'.";
+errMessageExtentParamWrongPart2["de"] = "' muss im OpenLayers.Bounds format sein: 'links,unten,rechts,oben'.";
+errMessageExtentParamWrongPart2["fr"] = "' needs to be in OpenLayers.Bounds format: 'left,bottom,right,top'.";
+errMessageExtentParamWrongPart2["it"] = "' needs to be in OpenLayers.Bounds format: 'left,bottom,right,top'.";
+errMessageExtentParamWrongPart2["pt_PT"] = "' needs to be in OpenLayers.Bounds format: 'left,bottom,right,top'.";
 
 //error message invalid language code, part 1
 var errMessageInvalidLanguageCodeString1 = new Array();

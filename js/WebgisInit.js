@@ -63,8 +63,6 @@ Ext.onReady(function() {
 		  listeners: {
 		    'load': function() {
 			postLoading();
-			//testing findLayerNodeByName
-			wmsLoader.findLayerNodeByName("Absperrungen");
 		    }
 		  }
 		});
@@ -149,9 +147,15 @@ function postLoading() {
 	
 	//set map parameters
 	//read values from first group (root) of GetCapabilities response
-	var BoundingBox = wmsLoader.WMSCapabilities.getElementsByTagName("BoundingBox")[0];
-	var extent = new OpenLayers.Bounds(parseFloat(BoundingBox.getAttribute("minx")),parseFloat(BoundingBox.getAttribute("miny")),parseFloat(BoundingBox.getAttribute("maxx")),parseFloat(BoundingBox.getAttribute("maxy")));
-	MapOptions.maxExtent = extent;
+	if (urlParams.maxExtent) {
+                var maxExtentParams = urlParams.startExtent.split(",");
+                var maxExtent = new OpenLayers.Bounds(parseFloat(maxExtentParams[0]),parseFloat(maxExtentParams[1]),parseFloat(maxExtentParams[2]),parseFloat(maxExtentParams[3]));
+        }
+	else {
+		var BoundingBox = wmsLoader.WMSCapabilities.getElementsByTagName("BoundingBox")[0];
+		var maxExtent = new OpenLayers.Bounds(parseFloat(BoundingBox.getAttribute("minx")),parseFloat(BoundingBox.getAttribute("miny")),parseFloat(BoundingBox.getAttribute("maxx")),parseFloat(BoundingBox.getAttribute("maxy")));
+	}
+	MapOptions.maxExtent = maxExtent;
 	
 	//now collect all selected layers (with checkbox enabled in tree)
 	selectedLayers = Array();
@@ -274,6 +278,14 @@ function postLoading() {
 			}			
 			]
 	});
+	if (urlParams.startExtent) {
+		var startExtentParams = urlParams.startExtent.split(",");
+		var startExtent = new OpenLayers.Bounds(parseFloat(startExtentParams[0]),parseFloat(startExtentParams[1]),parseFloat(startExtentParams[2]),parseFloat(startExtentParams[3]));
+		geoExtMap.map.zoomToExtent(startExtent);
+	}
+	else {
+		geoExtMap.map.zoomToMaxExtent();
+	}
 				  
 	//add listener to adapt map on panel resize (only needed because of IE)
 	MapPanelRef.on('resize', function(panel, w, h) {
@@ -373,7 +385,7 @@ function postLoading() {
 	attribToolTip = new Ext.ToolTip({target:geoExtMap.body,html:'<p>Attributdaten-Tooltip</p>',disabled:true,trackMouse:true,autoHide:false,autoWidth:tAutoWidth,autoHeight:true});
 	
 	//overview map
-	OverviewMapOptions.maxExtent = extent;
+	OverviewMapOptions.maxExtent = maxExtent;
 	geoExtMap.map.addControl(new OpenLayers.Control.OverviewMap({size:OverviewMapSize,minRatio:16,maxRatio:64,mapOptions:OverviewMapOptions,layers:[overviewLayer]}));
 	
 	//navigation actions
