@@ -21,7 +21,8 @@ var searchBoxGetGeomURL = "/wsgi/getSearchGeom.wsgi";
 var searchPanelConfigs = [
 	{
 		title: "Parzellensuche",
-		url: '/wms/av',
+//		url: '/wms/av',
+		url: "/wms/av?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&LAYERS=countries%2Cbo_areas&QUERY_LAYERS=bo_areas&STYLES=%2C&BBOX=713354.834732%2C206929.700761%2C721427.165268%2C210310.299239&FEATURE_COUNT=10&HEIGHT=477&WIDTH=1139&FORMAT=image%2Fpng&INFO_FORMAT=text%2Fxml&SRS=EPSG%3A21781&FILTER=bo_areas:%22art%22%20=%2029",
 		formItems: [
 			{
 				xtype: 'hidden',
@@ -38,6 +39,10 @@ var searchPanelConfigs = [
 				name: 'nummer',
 				fieldLabel: "Nummer"
 			}
+		],
+		gridColumns: [
+				{header: 'ogc_fid', dataIndex: 'ogc_fid', menuDisabled: 'true'},
+				{header: 'Art', dataIndex: 'art', menuDisabled: 'true'},
 		]
 	}
 ];

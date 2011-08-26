@@ -65,8 +65,8 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 								title: "Suche", // TODO: i18n
 								region: 'north',
 								collapsible: true,
-								collapsed: true,
-								boxMinHeight: 150,
+//								collapsed: true,
+								boxMinHeight: 220,
 								split: true,
 								id: 'SearchPanel',
 								items: [
@@ -103,7 +103,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 								xtype: 'panel',
 								region: 'south',
 								collapsible: true,
-								boxMinHeight: 275,
+								boxMinHeight: 200,
 								split: true,
 								headerAsText: false,
 								id: 'ToolsPanel',

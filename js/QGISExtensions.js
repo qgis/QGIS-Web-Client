@@ -1,7 +1,9 @@
-/* Three QGIS extensions:
+/* Five QGIS extensions:
  * QGIS.WMSCapabilitiesLoader 
  * QGIS.PrintProvider
  * QGIS.SearchComboBox
+ * QGIS.SearchPanel
+ * QGIS.FeatureInfoParser
 */
 
 /* ************************** QGIS.WMSCapabilitiesLoader ************************** */
@@ -250,6 +252,9 @@ Ext.reg("qgis_searchcombo", QGIS.SearchComboBox);
 // extends Ext.Panel with a search form and a list of search results
 QGIS.SearchPanel = Ext.extend(Ext.Panel, {
     form: null,
+    featureInfoParser: null,
+    store: null,
+    resultsGrid: null,
 
     // config
     /**
@@ -260,16 +265,21 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
      * single item or array of child components to be added as form fields (see Ext.form.FormPanel.items)
      */
     formItems: [],
+    /**
+     * array of columns for results grid (see Ext.grid.GridPanel.columns)
+     */
+    gridColumns: [],
 
     constructor: function (config) {
         config = config || {};
         config.url = config.url || '';
         config.formItems = config.formItems || [];
+        config.gridColumns = config.gridColumns || [];
 
         QGIS.SearchPanel.superclass.constructor.call(this, config);
     },
 
-    initComponent : function() {
+    initComponent: function() {
         this.form = new Ext.form.FormPanel({
             autoHeight: true,
             bodyBorder: false,
@@ -302,17 +312,25 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
             ]
         });
 
+        this.featureInfoParser = new QGIS.FeatureInfoParser();
+
         Ext.apply(this, {
             layout: 'fit',
             items: [
                 this.form
-                // TODO: results
             ]
         });
         QGIS.SearchPanel.superclass.initComponent.call(this);
     },
 
-    onSubmit : function() {
+    onSubmit: function() {
+        if (this.store != null) {
+            this.store.removeAll();
+        }
+        if (this.resultsGrid != null) {
+            this.resultsGrid.hide();
+        }
+        this.el.mask("Bitte warten", 'x-mask-loading'); // TODO: i18n
         this.form.getForm().submit({
             url: this.url,
             method: 'GET',
@@ -322,15 +340,134 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
         });
     },
 
-    onSuccess : function(form, action) {
-        Ext.MessageBox.alert("Search successful", action.result);
-        // TODO: show results
+    onSuccess: function(form, action) {
+        if (this.featureInfoParser.parseXML(action.response)) {
+            if (this.store == null) {
+                // create store
+                var storeFields = [];
+                var featureFields = this.featureInfoParser.featureFields();
+                for (var i=0; i<featureFields.length; i++) {
+                    storeFields.push({name: featureFields[i]});
+                }
+                this.store = new Ext.data.ArrayStore({
+                    idIndex: 0,
+                    fields: storeFields
+                });
+
+                // create and add results grid
+                this.resultsGrid = new Ext.grid.GridPanel({
+                    title: "Suchresultat", // TODO: i18n
+                    height: 200, // TODO: adjust to data size
+                    collapsible: true,
+                    collapsed: true,
+                    store: this.store,
+                    columns: this.gridColumns,
+                    viewConfig: {
+                        forceFit: true
+                    }
+                });
+                this.add(this.resultsGrid);
+                this.doLayout();
+            }
+
+            // show results
+            this.store.loadData(this.featureInfoParser.featuresArray(), true);
+            this.resultsGrid.show();
+            this.resultsGrid.expand(true);
+            this.el.unmask();
+        }
+        else {
+            // ServiceException
+            this.showFailure(this.featureInfoParser.serviceException());
+        }
     },
 
-    onFailure : function(form, action) {
-        Ext.MessageBox.alert("Error on search", action.failureType);
+    onFailure: function(form, action) {
+        this.showFailure(action.failureType);
+    },
+
+    showFailure: function(msg) {
+        this.el.unmask();
+        Ext.MessageBox.alert("Fehler bei Suche", msg); // TODO: i18n
     }
 });
 
 /** api: xtype = qgis_searchpanel */
 Ext.reg('qgis_searchpanel', QGIS.SearchPanel);
+
+
+/* ************************* QGIS.FeatureInfoParser ************************ */
+// parse GetFeatureInfo result returned by QGIS Server
+// offer feature fields and features as array for Ext.data.ArrayStore
+QGIS.FeatureInfoParser = Ext.extend(Object, {
+    serviceExceptionMessage: "",
+    fields: [],
+    features: [],
+
+    parseXML: function(response) {
+        var xmlDoc = null;
+        if (response.responseXML) {
+            xmlDoc = response.responseXML;
+        }
+        else {
+            if (window.DOMParser) {
+                var parser = new DOMParser();
+                xmlDoc = parser.parseFromString(response.responseText, "text/xml");
+            }
+            else { // Internet Explorer
+              xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+              xmlDoc.async = "false";
+              xmlDoc.loadXML(response.responseText);
+            }
+        }
+
+        var node = xmlDoc.firstChild;
+        if (node.nodeName == "ServiceExceptionReport") {
+            var serviceException = node.getElementsByTagName("ServiceException")[0]
+            this.serviceExceptionMessage = serviceException.text || serviceException.textContent;
+            return false;
+        }
+        else if (node.nodeName == "GetFeatureInfoResponse") {
+            this.fields = [];
+            var updateFields = true;
+            this.features = [];
+
+            // get layer features
+            var layerNode = node.getElementsByTagName("Layer")[0];
+            var featureNodes = layerNode.getElementsByTagName("Feature");
+            for (var i=0; i<featureNodes.length; i++) {
+                var featureNode = featureNodes[i];
+                var id = featureNode.getAttribute("id");
+                var attributeNodes = featureNode.getElementsByTagName("Attribute");
+                var feature = [];
+                for (var a=0; a<attributeNodes.length; a++) {
+                    var attributeNode = attributeNodes[a];
+                    if (updateFields) {
+                        // get fields from first feature
+                        this.fields.push(attributeNode.getAttribute("name"));
+                    }
+                    // add feature attribute value
+                    feature.push(attributeNode.getAttribute("value"));
+                }
+                updateFields = false;
+                this.features.push(feature);
+            }
+            return true;
+        }
+
+        this.serviceExceptionMessage = "Error";
+        return false;
+    },
+
+    serviceException: function() {
+        return this.serviceExceptionMessage;
+    },
+
+    featureFields: function() {
+        return this.fields;
+    },
+
+    featuresArray: function() {
+        return this.features;
+    }
+});
