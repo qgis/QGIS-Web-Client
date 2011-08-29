@@ -43,7 +43,9 @@ var searchPanelConfigs = [
 		gridColumns: [
 				{header: 'ogc_fid', dataIndex: 'ogc_fid', menuDisabled: 'true'},
 				{header: 'Art', dataIndex: 'art', menuDisabled: 'true'},
-		]
+		],
+		selectionLayer: 'bo_areas',
+		selectionZoom: 3
 	}
 ];
 

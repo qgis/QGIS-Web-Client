@@ -269,12 +269,22 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
      * array of columns for results grid (see Ext.grid.GridPanel.columns)
      */
     gridColumns: [],
+    /**
+     * WMS layer name for feature selection
+     */
+    selectionLayer: '',
+    /**
+     * zoom level for feature selection
+     */
+    selectionZoom: 4,
 
     constructor: function (config) {
         config = config || {};
         config.url = config.url || '';
         config.formItems = config.formItems || [];
         config.gridColumns = config.gridColumns || [];
+        config.selectionLayer = config.selectionLayer || '';
+        config.selectionZoom = config.selectionZoom || 4;
 
         QGIS.SearchPanel.superclass.constructor.call(this, config);
     },
@@ -297,6 +307,7 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
                     text: "Zurücksetzen", // TODO: i18n
                     scope: this,
                     handler: function() {
+                        this.fireEvent("featureselectioncleared");
                         this.form.getForm().reset();
                     }
                 }
@@ -321,6 +332,9 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
             ]
         });
         QGIS.SearchPanel.superclass.initComponent.call(this);
+
+        this.addEvents("featureselected");
+        this.addEvents("featureselectioncleared");
     },
 
     onSubmit: function() {
@@ -330,6 +344,7 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
         if (this.resultsGrid != null) {
             this.resultsGrid.hide();
         }
+        this.fireEvent("featureselectioncleared");
         this.el.mask("Bitte warten", 'x-mask-loading'); // TODO: i18n
         this.form.getForm().submit({
             url: this.url,
@@ -366,6 +381,7 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
                         forceFit: true
                     }
                 });
+                this.resultsGrid.on('rowclick', this.onRowClick, this);
                 this.add(this.resultsGrid);
                 this.doLayout();
             }
@@ -389,6 +405,14 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
     showFailure: function(msg) {
         this.el.unmask();
         Ext.MessageBox.alert("Fehler bei Suche", msg); // TODO: i18n
+    },
+
+    onRowClick: function(grid, rowIndex, e) {
+        var record = grid.store.getAt(rowIndex);
+        var id = record.id;
+        var x = record.data.geometrie_0;
+        var y = record.data.geometrie_1;
+        this.fireEvent("featureselected", this.selectionLayer, id, x, y, this.selectionZoom);
     }
 });
 
@@ -428,7 +452,7 @@ QGIS.FeatureInfoParser = Ext.extend(Object, {
             return false;
         }
         else if (node.nodeName == "GetFeatureInfoResponse") {
-            this.fields = [];
+            this.fields = ['feature_id'];
             var updateFields = true;
             this.features = [];
 
@@ -436,10 +460,10 @@ QGIS.FeatureInfoParser = Ext.extend(Object, {
             var layerNode = node.getElementsByTagName("Layer")[0];
             var featureNodes = layerNode.getElementsByTagName("Feature");
             for (var i=0; i<featureNodes.length; i++) {
-                var featureNode = featureNodes[i];
-                var id = featureNode.getAttribute("id");
-                var attributeNodes = featureNode.getElementsByTagName("Attribute");
                 var feature = [];
+                var featureNode = featureNodes[i];
+                feature.push(featureNode.getAttribute("id"));
+                var attributeNodes = featureNode.getElementsByTagName("Attribute");
                 for (var a=0; a<attributeNodes.length; a++) {
                     var attributeNode = attributeNodes[a];
                     if (updateFields) {

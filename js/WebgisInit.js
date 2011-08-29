@@ -436,7 +436,10 @@ function postLoading() {
 		// add QGIS search panels
 		var searchTabPanel = Ext.getCmp('SearchTabPanel');
 		for (var i=0; i<searchPanelConfigs.length; i++) {
-			searchTabPanel.add(new QGIS.SearchPanel(searchPanelConfigs[i]));
+			var panel = new QGIS.SearchPanel(searchPanelConfigs[i]);
+			panel.on("featureselected", showFeatureSelected);
+			panel.on("featureselectioncleared", clearFeatureSelected);
+			searchTabPanel.add(panel);
 		}
 		searchTabPanel.setActiveTab(0);
 	}
@@ -900,6 +903,17 @@ function showFeatureInfoHover(evt) {
 	}
 	text += '</p>';
 	attribToolTip.update(text);
+}
+
+function showFeatureSelected(layer, id, x, y, zoom) {
+	// select feature in layer
+	thematicLayer.mergeNewParams({"SELECTION": layer + ":" + id});
+	geoExtMap.map.setCenter(new OpenLayers.LonLat(x, y), zoom);
+}
+
+function clearFeatureSelected() {
+	// clear selection
+	thematicLayer.mergeNewParams({"SELECTION": null});
 }
 
 function parseFeatureInfoResult(node) {
