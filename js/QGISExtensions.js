@@ -83,6 +83,9 @@ Ext.extend(QGIS.PrintProvider, GeoExt.data.PrintProvider, {
 		}
 		
 		var printUrl = this.url+'&SRS=EPSG:'+epsgcode+'&DPI='+this.dpi.get("value")+'&TEMPLATE='+this.layout.get("name")+'&map0:extent='+printExtent.page.getPrintExtent(map).toBBOX(1,false)+'&map0:rotation='+(printExtent.page.rotation * -1)+'&map0:scale='+mapScale+'&map0:grid_interval_x='+grid_interval+'&map0:grid_interval_y='+grid_interval+'&LAYERS='+encodeURIComponent(thematicLayer.params.LAYERS);
+		if (thematicLayer.params.SELECTION) {
+			printUrl += '&SELECTION='+encodeURIComponent(thematicLayer.params.SELECTION);
+		}
  		this.download(printUrl);
 	},
     download: function(url) {
