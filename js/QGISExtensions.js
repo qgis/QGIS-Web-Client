@@ -412,10 +412,16 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
 
     onRowClick: function(grid, rowIndex, e) {
         var record = grid.store.getAt(rowIndex);
-        var id = record.id;
-        var x = record.data.geometrie_0;
-        var y = record.data.geometrie_1;
-        this.fireEvent("featureselected", this.selectionLayer, id, x, y, this.selectionZoom);
+        var geom = record.data.geometry;
+        if (geom != null) {
+            var id = record.id;
+            var wktFormat = new OpenLayers.Format.WKT();
+            var feature = wktFormat.read(geom);
+            var centroid = feature.geometry.getCentroid();
+            var x = centroid.x;
+            var y = centroid.y;
+            this.fireEvent("featureselected", this.selectionLayer, id, x, y, this.selectionZoom);
+        }
     }
 });
 
