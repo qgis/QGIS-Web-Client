@@ -21,8 +21,7 @@ var searchBoxGetGeomURL = "/wsgi/getSearchGeom.wsgi";
 var searchPanelConfigs = [
 	{
 		title: "Parzellensuche",
-//		url: '/wms/av',
-		url: "/wms/av?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&LAYERS=countries%2Cbo_areas&QUERY_LAYERS=bo_areas&STYLES=%2C&BBOX=713354.834732%2C206929.700761%2C721427.165268%2C210310.299239&FEATURE_COUNT=10&HEIGHT=477&WIDTH=1139&FORMAT=image%2Fpng&INFO_FORMAT=text%2Fxml&SRS=EPSG%3A21781&FILTER=bo_areas:%22art%22%20=%2029",
+		url: '/wms',
 		formItems: [
 			{
 				xtype: 'hidden',
@@ -30,9 +29,44 @@ var searchPanelConfigs = [
 				value: 'parzelle'
 			},
 			{
-				xtype: 'textfield',
-				name: 'gemeinde',
-				fieldLabel: "Gemeinde"
+				xtype: 'combo',
+				hiddenName: 'gemeinde',
+				fieldLabel: "Gemeinde",
+				mode: 'local',
+				store: new Ext.data.ArrayStore({
+					data: [
+						[1601, "Betschwanden"],
+						[1602, "Bilten"],
+						[1603, "Braunwald"],
+						[1604, "Diesbach"],
+						[1605, "Elm"],
+						[1606, "Engi"],
+						[1607, "Ennenda"],
+						[1608, "Filzbach"],
+						[1609, "Glarus"],
+						[1611, "Hätzingen"],
+						[1610, "Haslen"],
+						[1613, "Linthal"],
+						[1614, "Luchsingen"],
+						[1615, "Matt"],
+						[1616, "Mitlödi"],
+						[1618, "Mühlehorn"],
+						[1619, "Näfels"],
+						[1620, "Netstal"],
+						[1621, "Nidfurn"],
+						[6, "Oberurnen"],
+						[1624, "Obstalden"],
+						[1625, "Riedern"],
+						[1626, "Rüti(GL)"],
+						[1628, "Schwändi"],
+						[1627, "Schwanden(GL)"],
+						[1629, "Sool"]
+					],
+					id: 0,
+					fields: ['bfsnr', 'name']
+				}),
+				valueField: 'bfsnr',
+				displayField: 'name'
 			},
 			{
 				xtype: 'textfield',
@@ -41,11 +75,12 @@ var searchPanelConfigs = [
 			}
 		],
 		gridColumns: [
-				{header: 'ogc_fid', dataIndex: 'ogc_fid', menuDisabled: 'true'},
-				{header: 'Art', dataIndex: 'art', menuDisabled: 'true'},
+				{header: 'ID', dataIndex: 'feature_id', menuDisabled: 'true'},
+				{header: 'Nummer', dataIndex: 'nummer', menuDisabled: 'true'},
+				{header: 'Fläche', dataIndex: 'flaechenmass', menuDisabled: 'true'},
 		],
-		selectionLayer: 'bo_areas',
-		selectionZoom: 3
+		selectionLayer: 'liegenschaften',
+		selectionZoom: 5
 	}
 ];
 
