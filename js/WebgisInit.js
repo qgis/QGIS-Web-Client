@@ -886,22 +886,9 @@ function showFeatureInfoHover(evt) {
 			text += attribText + "<br/>";
 	      }
 	      else {
-			if (attribNodes[k].getAttribute("name") == "name") {
-				text += attribNodes[k].getAttribute("value") + "<br/>";
-			}
-			else {
-				if (attribNodes[k].getAttribute("name") == "ogc_fid") {
-					text += "ogc_fid: " + attribNodes[k].getAttribute("value") + "<br/>";
-				}
-				else {
-					if (attribNodes[k].getAttribute("name") == "gid") {
-						text += "gid: " + attribNodes[k].getAttribute("value") + "<br/>";
-					}
-					if (attribNodes[k].getAttribute("name") == "geometry") {
-						var feature = new OpenLayers.Feature.Vector(OpenLayers.Geometry.fromWKT(attribNodes[k].getAttribute("value")));
-						highlightLayer.addFeatures([feature]);
-					}
-				}
+			if (attribNodes[k].getAttribute("name") == "geometry") {
+				var feature = new OpenLayers.Feature.Vector(OpenLayers.Geometry.fromWKT(attribNodes[k].getAttribute("value")));
+				highlightLayer.addFeatures([feature]);
 			}
 	      }
 	    }
