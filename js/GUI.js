@@ -114,7 +114,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 												xtype: 'panel',
 												region: 'south',
 												collapsible: true,
-												boxMinHeight: 200,
+												boxMinHeight: 275,
 												split: true,
 												headerAsText: false,
 												id: 'ToolsPanel',
@@ -170,18 +170,6 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 										},
 										{
 											xtype: 'button',
-											tooltip: objIdentificationTooltipString[lang],
-											toggleGroup: 'mapTools',
-											enableToggle: true,
-											icon: 'icons/mActionIdentify.png',
-											allowDepress: true,
-											tooltipType: 'qtip',
-											iconCls: '',
-											scale: 'medium',
-											id: 'IdentifyTool'
-										},
-										{
-											xtype: 'button',
 											tooltip: mapTipsTooltipString[lang],
 											toggleGroup: 'mapTools',
 											enableToggle: true,
@@ -191,6 +179,18 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 											iconCls: '',
 											scale: 'medium',
 											id: 'MapTips'
+										},
+										{
+											xtype: 'button',
+											tooltip: objIdentificationTooltipString[lang],
+											toggleGroup: 'mapTools',
+											enableToggle: true,
+											icon: 'icons/mActionIdentify.png',
+											allowDepress: true,
+											tooltipType: 'qtip',
+											iconCls: '',
+											scale: 'medium',
+											id: 'IdentifyTool'
 										},
 										{
 											xtype: 'tbtext',

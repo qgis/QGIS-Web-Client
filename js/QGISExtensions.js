@@ -15,6 +15,8 @@ QGIS.WMSCapabilitiesLoader = function(config) {
 
 Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
   WMSCapabilities: null,
+  //this list holds layer properties, indexed by layername
+  layerProperties: new Array(),
   processResponse : function(response, node, callback, scope) {
 	if (response.responseXML) {
 	  this.WMSCapabilities = response.responseXML;
@@ -32,11 +34,70 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
 	}
         var capabilities = new OpenLayers.Format.WMSCapabilities().read(this.WMSCapabilities);
         this.processLayer(capabilities.capability,capabilities.capability.request.getmap.href, node);
+        //fill the list of layer properties
+        var xpathExpr = '//opengis:Layer';
+        //case standard compliant browsers
+        if (typeof(this.WMSCapabilities.evaluate) == "function") {
+          xpathResult = this.WMSCapabilities.evaluate(xpathExpr,this.WMSCapabilities.firstChild,this.nsResolver,XPathResult.ANY_TYPE,null);
+          //type 4 = UNORDERED_NODE_ITERATOR_TYPE 
+          if (xpathResult.resultType == 4) {
+            layerNode = xpathResult.iterateNext();
+            while(layerNode) {
+              this.storeLayerProperties(layerNode);
+              layerNode = xpathResult.iterateNext();
+            }
+          }
+        }
+        else {
+          //case older IEs
+          this.WMSCapabilities.setProperty("SelectionLanguage", "XPath");
+          this.WMSCapabilities.setProperty("SelectionNamespaces","xmlns:opengis='http://www.opengis.net/wms'");
+          var layerNodes = this.WMSCapabilities.selectNodes(xpathExpr);
+          for (var i=0;i<layerNodes.length;i++) {
+            this.storeLayerProperties(layerNodes[i]);
+          }
+        }
+        //deal with callback function
         if (typeof callback == "function") {
             callback.apply(scope || node, [node]);
         }
-  }}
-);
+  },
+  findLayerNodeByName: function(layername) {
+    //goal of this function is to find a layer by its name
+    //we need to fork between IE 7/8 and modern browsers
+    var xpathExpr = '//opengis:Layer/opengis:Name[text()="'+layername+'"]/..'; 
+    var layerNode = undefined;
+    //case standard compliant browsers
+    if (typeof(this.WMSCapabilities.evaluate) == "function") {
+      xpathResult = this.WMSCapabilities.evaluate(xpathExpr,this.WMSCapabilities.firstChild,this.nsResolver,XPathResult.ANY_TYPE,null);
+      //type 4 = UNORDERED_NODE_ITERATOR_TYPE 
+      if (xpathResult.resultType == 4) {
+        layerNode = xpathResult.iterateNext();
+      }
+    }
+    else {
+      //case older IEs
+      this.WMSCapabilities.setProperty("SelectionLanguage", "XPath");
+      this.WMSCapabilities.setProperty("SelectionNamespaces","xmlns:opengis='http://www.opengis.net/wms'");
+      layerNode = this.WMSCapabilities.selectSingleNode(xpathExpr);
+    }
+    return layerNode;
+  },
+  storeLayerProperties: function(node) {
+    var layerName = node.getElementsByTagName("Name")[0].firstChild.nodeValue;
+    var layerTitle = node.getElementsByTagName("Title")[0].firstChild.nodeValue;
+    var layerQueryable = parseInt(node.getAttribute("queryable"));
+    //see if it is a leaf layer or not
+    var nrChildLayers = node.getElementsByTagName("Layer").length;
+    this.layerProperties[layerName] = {name:layerName, title:layerTitle, queryable:layerQueryable, nrChildLayers:nrChildLayers};
+  },
+  nsResolver: function(prefix) {
+    var ns = {
+      'opengis' : 'http://www.opengis.net/wms'
+    };
+    return ns[prefix] || null;
+  }
+});
 
 
 /* ************************** QGIS.PrintProvider ************************** */
