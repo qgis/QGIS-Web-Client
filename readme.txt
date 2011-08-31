@@ -69,6 +69,11 @@ Rules in VirtualHost configuration:
 # Forbid direct access
 RewriteRule ^/cgi-bin/.*$ - [F]
 
+# Search with SearchPanel (e.g. Address)
+RewriteCond %{QUERY_STRING} ^(?:.*)query=address&*(?:.*)$
+RewriteCond %{QUERY_STRING} ^(?:(?:.*)&)?street=([^&]*)(?:(?:.*)&)+number=([^&]*)(?:.*)$
+RewriteRule ^/wms/(.+)$ /cgi-bin/qgis_mapserv.fcgi?map=/opt/geodata/maps/$1.qgs&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&LAYERS=addresses&QUERY_LAYERS=addresses&FEATURE_COUNT=10&INFO_FORMAT=text/xml&SRS=EPSG:21781&FILTER=addresses:"street"\ =\ '%1' AND "number"\ =\ %2 [PT]
+
 # Rewrite /wms/mapname to qgis_mapserv.fcgi?map=mappath/mapname.qgs
 RewriteRule ^/wms/(.+)$ /cgi-bin/qgis_mapserv.fcgi?map=/opt/geodata/maps/$1.qgs [QSA,PT]
 # Rewrite /maps/mapname to qgis-web-client main page. mapname will be extracted for wms calls in Javascript code.
