@@ -66,6 +66,9 @@ http://localhost/maps/NaturalEarth?visibleLayers=HYP_50M_SR_W
 
 Rules in VirtualHost configuration:
 
+# Forbid direct access
+RewriteRule ^/cgi-bin/.*$ - [F]
+
 # Rewrite /wms/mapname to qgis_mapserv.fcgi?map=mappath/mapname.qgs
 RewriteRule ^/wms/(.+)$ /cgi-bin/qgis_mapserv.fcgi?map=/opt/geodata/maps/$1.qgs [QSA,PT]
 # Rewrite /maps/mapname to qgis-web-client main page. mapname will be extracted for wms calls in Javascript code.
@@ -76,6 +79,13 @@ RewriteRule ^/maps/(.*) /qgis-web-client/$1 [PT]
 For supporting qgs files in subdirectories (e.g. /maps/subdir/mapnampe) replace last rule with:
 
 RewriteRule ^/maps/[^/]+/(.*) /qgis-web-client/$1 [PT]
+
+For adding zones in different subdirecories (e.g. maps and maps-protected) add the following rules:
+
+RewriteRule ^/wms-protected/(.+)$ /cgi-bin/qgis_mapserv.fcgi?map=/opt/geodata/maps-protected/$1.qgs [QSA,PT]
+RewriteRule ^/maps-protected/([^\.]+)$ /qgis-web-client/qgiswebclient.html [PT]
+RewriteRule ^/maps-protected/(.*) /qgis-web-client/$1 [PT]
+
 
 Configuration of search python script
 -------------------------------------

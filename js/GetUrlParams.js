@@ -33,7 +33,13 @@ if (urlArray.length > 1) {
 		var urlBaseArray = urlArray[0].split('/')
 		//Remove host and first element of path. http://example.com/maps/subdir/mapname -> subdir/mapname
 		var map = urlBaseArray.slice(4).join('/');
-		wmsURI = serverAndCGI+"/"+map+"?";
+		//Search for wms directory suffix (maps-protected -> wms-protected)
+		var suffix = '';
+		var dashpos = urlBaseArray[3].indexOf('-')
+		if (dashpos != -1) {
+		    suffix = urlBaseArray[3].substr(dashpos);
+		}
+		wmsURI = serverAndCGI+suffix+"/"+map+"?";
 	}
 	if (urlParams.visibleLayers) {
 		visibleLayers = urlParams.visibleLayers.split(",");
