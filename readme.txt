@@ -66,11 +66,16 @@ http://localhost/maps/NaturalEarth?visibleLayers=HYP_50M_SR_W
 
 Rules in VirtualHost configuration:
 
-# Map /wms to qgis_mapserv.fcgi
+# Rewrite /wms/mapname to qgis_mapserv.fcgi?map=mappath/mapname.qgs
 RewriteRule ^/wms/(.+)$ /cgi-bin/qgis_mapserv.fcgi?map=/opt/geodata/maps/$1.qgs [QSA,PT]
-# Map /maps to /qgis-web-client
-RewriteRule ^/maps/([^/.]+)$ /qgis-web-client/qgiswebclient.html [PT]
+# Rewrite /maps/mapname to qgis-web-client main page. mapname will be extracted for wms calls in Javascript code.
+RewriteRule ^/maps/([^\.]+)$ /qgis-web-client/qgiswebclient.html [PT]
+# Rewrite /maps/* to qgis-web-client (e.g. /maps/icons/mActionZoomNext.png -> /qgis-web-client/icons/mActionZoomNext.png)
 RewriteRule ^/maps/(.*) /qgis-web-client/$1 [PT]
+
+For supporting qgs files in subdirectories (e.g. /maps/subdir/mapnampe) replace last rule with:
+
+RewriteRule ^/maps/[^/]+/(.*) /qgis-web-client/$1 [PT]
 
 Configuration of search python script
 -------------------------------------
