@@ -29,19 +29,17 @@ if (urlArray.length > 1) {
 			wmsURI = serverAndCGI+"?map="+urlParams.map+"&";
 		}
 	} else {
-		//Get map name from base URL (e.g. http://example.com/wms/mapname)
-		var urlBaseArray = urlArray[0].split('/');
-		var map = urlBaseArray[urlBaseArray.length-1];
-/*
-		//handle the case where there are additional directories between 
-		//base directory and .qgs file
-		var slashCtr = 2;
-		if (urlBaseArray[urlBaseArray.length-slashCtr] != "wms") {
-			map = urlBaseArray[urlBaseArray.length-slashCtr] + "/" + map;
-			slashCtr++;
+		//Get map name from base URL (e.g. http://example.com/maps/mapname)
+		var urlBaseArray = urlArray[0].split('/')
+		//Remove host and first element of path. http://example.com/maps/subdir/mapname -> subdir/mapname
+		var map = urlBaseArray.slice(4).join('/');
+		//Search for wms directory suffix (maps-protected -> wms-protected)
+		var suffix = '';
+		var dashpos = urlBaseArray[3].indexOf('-')
+		if (dashpos != -1) {
+		    suffix = urlBaseArray[3].substr(dashpos);
 		}
-*/
-		wmsURI = serverAndCGI+"/"+map+"?";
+		wmsURI = serverAndCGI+suffix+"/"+map+"?";
 	}
 	if (urlParams.visibleLayers) {
 		visibleLayers = urlParams.visibleLayers.split(",");
