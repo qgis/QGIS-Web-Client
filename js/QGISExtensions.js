@@ -322,10 +322,6 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
 
     // config
     /**
-     * search URL
-     */
-    url: '',
-    /**
      * single item or array of child components to be added as form fields (see Ext.form.FormPanel.items)
      */
     formItems: [],
@@ -344,7 +340,6 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
 
     constructor: function (config) {
         config = config || {};
-        config.url = config.url || '';
         config.formItems = config.formItems || [];
         config.gridColumns = config.gridColumns || [];
         config.selectionLayer = config.selectionLayer || '';
@@ -412,7 +407,7 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
         this.fireEvent("featureselectioncleared");
         this.el.mask("Bitte warten", 'x-mask-loading'); // TODO: i18n
         this.form.getForm().submit({
-            url: this.url,
+            url: wmsURI,
             method: 'GET',
             scope: this,
             success: this.onSuccess,

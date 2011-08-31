@@ -21,7 +21,6 @@ var searchBoxGetGeomURL = "/wsgi/getSearchGeom.wsgi";
 var searchPanelConfigs = [
 	{
 		title: "Parzellensuche",
-		url: '/wms',
 		formItems: [
 			{
 				xtype: 'hidden',
