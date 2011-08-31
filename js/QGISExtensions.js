@@ -330,6 +330,7 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
 
         Ext.apply(this, {
             layout: 'fit',
+            autoHeight: true,
             items: [
                 this.form
             ]
@@ -375,7 +376,6 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
                 // create and add results grid
                 this.resultsGrid = new Ext.grid.GridPanel({
                     title: "Suchresultat", // TODO: i18n
-                    height: 200, // TODO: adjust to data size
                     collapsible: true,
                     collapsed: true,
                     store: this.store,

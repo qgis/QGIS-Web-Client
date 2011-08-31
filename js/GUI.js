@@ -52,7 +52,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 						collapsible: true,
 						boxMinWidth: 200,
 						boxMaxWidth: 400,
-						layout: 'border',
+						layout: 'fit',
 						region: 'west',
 						floatable: false,
 						minWidth: 200,
@@ -62,74 +62,89 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 						items: [
 							{
 								xtype: 'panel',
-								title: "Suche", // TODO: i18n
-								region: 'north',
-								collapsible: true,
-//								collapsed: true,
-								boxMinHeight: 220,
-								split: true,
-								id: 'SearchPanel',
-								items: [
-									{
-										xtype: 'tabpanel',
-										activeTab: 0,
-										id: 'SearchTabPanel',
-										items: []
-									}
-								]
-							},
-							{
-								xtype: 'treepanel',
-								title: layerTreeTitleString[lang],
-								height: 159,
-								split: true,
-								region: 'center',
-								collapsible: true,
-								rootVisible: false,
-								autoScroll: true,
-								containerScroll: true,
-								cls: 'x-tree-noicon',
-								id: 'LayerTree',
-								root: {
-									text: 'Root',
-									expanded: true,
-									singleClickExpand: true
+								layout: 'accordion',
+								border: false,
+								layoutConfig: {
+									titleCollapse: true,
+									animate: true,
+									activeOnTop: false
 								},
-								loader: {
-
-								}
-							},
-							{
-								xtype: 'panel',
-								region: 'south',
-								collapsible: true,
-								boxMinHeight: 200,
-								split: true,
-								headerAsText: false,
-								id: 'ToolsPanel',
+								activeItem: 1,
 								items: [
 									{
-										xtype: 'tabpanel',
-										activeTab: 0,
-										id: 'ToolTabPanel',
+										xtype: 'panel',
+										title: "Suche", // TODO: i18n
+										id: 'SearchPanel',
 										items: [
 											{
-												xtype: 'panel',
-												title: legendTabTitleString[lang],
+												xtype: 'tabpanel',
+												enableTabScroll:true,
+												activeTab: 0,
+												id: 'SearchTabPanel',
+												items: []
+											}
+										]
+									},
+									{
+										xtype: 'panel',
+										title: "Karte", // TODO: i18n
+										layout: 'border',
+										items: [
+											{
+												xtype: 'treepanel',
+												title: layerTreeTitleString[lang],
+												height: 159,
+												split: true,
+												region: 'center',
+												collapsible: true,
+												rootVisible: false,
 												autoScroll: true,
-												id: 'LegendTab'
+												containerScroll: true,
+												cls: 'x-tree-noicon',
+												id: 'LayerTree',
+												root: {
+													text: 'Root',
+													expanded: true,
+													singleClickExpand: true
+												},
+												loader: {
+												}
 											},
 											{
 												xtype: 'panel',
-												title: metadataTabTitleString[lang],
-												layout: 'fit',
-												id: 'SearchTab'
+												region: 'south',
+												collapsible: true,
+												boxMinHeight: 200,
+												split: true,
+												headerAsText: false,
+												id: 'ToolsPanel',
+												items: [
+													{
+														xtype: 'tabpanel',
+														activeTab: 0,
+														id: 'ToolTabPanel',
+														items: [
+															{
+																xtype: 'panel',
+																title: legendTabTitleString[lang],
+																autoScroll: true,
+																id: 'LegendTab'
+															},
+															{
+																xtype: 'panel',
+																title: metadataTabTitleString[lang],
+																layout: 'fit',
+																id: 'SearchTab'
+															}
+														]
+													}
+												]
 											}
-										]
+										] // map items
 									}
-								]
+								] // accordion items
 							}
-						]
+						] // left panel items
 					},
 					{
 						xtype: 'panel',
