@@ -148,12 +148,16 @@ function postLoading() {
 	//set map parameters
 	//read values from first group (root) of GetCapabilities response
 	if (urlParams.maxExtent) {
-                var maxExtentParams = urlParams.startExtent.split(",");
+                var maxExtentParams = urlParams.maxExtent.split(",");
                 var maxExtent = new OpenLayers.Bounds(parseFloat(maxExtentParams[0]),parseFloat(maxExtentParams[1]),parseFloat(maxExtentParams[2]),parseFloat(maxExtentParams[3]));
         }
 	else {
 		var BoundingBox = wmsLoader.WMSCapabilities.getElementsByTagName("BoundingBox")[0];
 		var maxExtent = new OpenLayers.Bounds(parseFloat(BoundingBox.getAttribute("minx")),parseFloat(BoundingBox.getAttribute("miny")),parseFloat(BoundingBox.getAttribute("maxx")),parseFloat(BoundingBox.getAttribute("maxy")));
+		var layer_crs = BoundingBox.getAttribute("CRS");
+		if (layer_crs != null && layer_crs != MapOptions.projection.getCode()) {
+			maxExtent.transform(new OpenLayers.Projection(layer_crs), MapOptions.projection);
+		}
 	}
 	MapOptions.maxExtent = maxExtent;
 	
