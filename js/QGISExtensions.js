@@ -322,6 +322,17 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
 
     // config
     /**
+     * Search request method:
+     *   false: submit search form using URL rewriting
+     *   true:  submit WMS GetFeatureInfo request
+     */
+    useWmsRequest: false,
+    /**
+     * WMS layer name for GetFeatureInfo request
+     * required if useWmsRequest is true
+     */
+    queryLayer: '',
+    /**
      * single item or array of child components to be added as form fields (see Ext.form.FormPanel.items)
      */
     formItems: [],
@@ -340,6 +351,8 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
 
     constructor: function (config) {
         config = config || {};
+        config.useWmsRequest = config.useWmsRequest || false;
+        config.queryLayer = config.queryLayer || '';
         config.formItems = config.formItems || [];
         config.gridColumns = config.gridColumns || [];
         config.selectionLayer = config.selectionLayer || '';
@@ -395,6 +408,8 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
 
         this.addEvents("featureselected");
         this.addEvents("featureselectioncleared");
+
+        Ext.Ajax.on('requestexception', this.onAjaxRequestException, this);
     },
 
     onSubmit: function() {
@@ -406,17 +421,68 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
         }
         this.fireEvent("featureselectioncleared");
         this.el.mask("Bitte warten", 'x-mask-loading'); // TODO: i18n
+        if (this.useWmsRequest) {
+            this.submitGetFeatureInfo();
+        }
+        else {
+            this.submitForm();
+        }
+    },
+
+    submitGetFeatureInfo: function() {
+        var filter = this.queryLayer + ":";
+        var fieldValues = this.form.getForm().getFieldValues();
+        var addAnd = false;
+        for (var key in fieldValues) {
+            if (addAnd) {
+                filter += " AND ";
+            }
+            var field = this.form.getForm().findField(key);
+            if (field.isXType('numberfield') || field.isXType('combo')) {
+                valueQuotes = "";
+            }
+            else {
+                valueQuotes = "'"
+            }
+            filter += "\"" + key + "\" = " + valueQuotes + fieldValues[key] + valueQuotes;
+            addAnd = true;
+        }
+
+        Ext.Ajax.request({
+            url: wmsURI,
+            params: {
+                'SERVICE': 'WMS',
+                'VERSION': '1.1.1',
+                'REQUEST': 'GetFeatureInfo',
+                'LAYERS': this.queryLayer,
+                'QUERY_LAYERS': this.queryLayer,
+                'FEATURE_COUNT': 10,
+                'INFO_FORMAT': 'text/xml',
+                'SRS': 'EPSG:' + epsgcode,
+                'FILTER': filter
+            },
+            method: 'GET',
+            scope: this,
+            success: this.onSuccess
+        });
+    },
+
+    submitForm: function() {
         this.form.getForm().submit({
             url: wmsURI,
             method: 'GET',
             scope: this,
-            success: this.onSuccess,
-            failure: this.onFailure
+            success: this.onFormSuccess,
+            failure: this.onFormFailure
         });
     },
 
-    onSuccess: function(form, action) {
-        if (this.featureInfoParser.parseXML(action.response)) {
+    onFormSuccess: function(form, action) {
+        this.onSuccess(action.response);
+    },
+
+    onSuccess: function(response) {
+        if (this.featureInfoParser.parseXML(response)) {
             if (this.store == null) {
                 // create store
                 var storeFields = [];
@@ -457,7 +523,11 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
         }
     },
 
-    onFailure: function(form, action) {
+    onAjaxRequestException: function() {
+        this.showFailure("Netzwerkfehler"); // TODO: i18n
+    },
+
+    onFormFailure: function(form, action) {
         this.showFailure(action.failureType);
     },
 
