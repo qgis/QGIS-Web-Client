@@ -107,18 +107,25 @@ function postLoading() {
 	  var title = layerTree.root.firstChild.text;
 	  document.title = titleBarText+title;
 	  Ext.getCmp('GisBrowserPanel').setTitle(document.title);
-  
-	  layerTree.root.firstChild.expand(true,false);
-	  for (var index=0;index < visibleLayers.length; index++) {
-		  layerNode = layerTree.root.firstChild.findChild("text",visibleLayers[index],true);
-		  if (layerNode) {
-		    //need to expand node in order to access all children
-			if (layerNode.isExpandable()) {
-				layerNode.expand(true,false);
+
+		if (visibleLayers == null) {
+			// show all layers if URL parameter 'visibleLayers' is missing
+			layerTree.root.firstChild.expand(true,false);
+			layerTree.root.firstChild.getUI().toggleCheck();
+		}
+		else {
+			layerTree.root.firstChild.expand(true,false);
+			for (var index=0;index < visibleLayers.length; index++) {
+				layerNode = layerTree.root.firstChild.findChild("text",visibleLayers[index],true);
+				if (layerNode) {
+					//need to expand node in order to access all children
+				if (layerNode.isExpandable()) {
+					layerNode.expand(true,false);
+				}
+				layerNode.getUI().toggleCheck();
+				}
 			}
-			layerNode.getUI().toggleCheck();
-		  }
-	  }
+		}
 	  //expand first level
 	  layerTree.root.firstChild.collapseChildNodes(true);
 	  layerTree.root.firstChild.expand(false,false);

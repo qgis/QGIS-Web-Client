@@ -1,14 +1,14 @@
 //we need to call this part of the script before initializing the GUI
 //because some settings, like the language choice, influence the GUI
 
-var urlParams;
+var urlParams = {};
 var urlParamsOK = true;
 var wmsURI; //URI with map parameter or appended map name (with URL rewriting)
 var wmsMapName; // map parameter or appended map name (with URL rewriting)
 var urlString = "";
 var format = "image/png";
 var searchtables = null;
-var visibleLayers = new Array();
+var visibleLayers = null;
 
 if (document.documentURI) {
 	//all browsers except older IE
@@ -19,18 +19,8 @@ else {
 	urlString = window.location.href;
 }
 var urlArray = urlString.split('?');
-if (urlArray.length > 1) {
-	urlParams = Ext.urlDecode(urlArray[1]);
-	var norewrite = serverAndCGI.substr(-3) === "cgi";
-	if (norewrite) {
-		if (urlParams.map == undefined) {
-			alert(errMessageStartupMapParamString[lang]);
-			urlParamsOK = false;
-		} else {
-			wmsURI = serverAndCGI+"?map="+urlParams.map+"&";
-			wmsMapName = urlParams.map;
-		}
-	} else {
+var norewrite = serverAndCGI.substr(-3) === "cgi";
+if (!norewrite) {
 		//Get map name from base URL (e.g. http://example.com/maps/mapname)
 		var urlBaseArray = urlArray[0].split('/')
 		//Remove host and first element of path. http://example.com/maps/subdir/mapname -> subdir/mapname
@@ -43,12 +33,25 @@ if (urlArray.length > 1) {
 		}
 		wmsURI = serverAndCGI+suffix+"/"+map+"?";
 		wmsMapName = map;
+}
+if (urlArray.length > 1) {
+	urlParams = Ext.urlDecode(urlArray[1]);
+	if (norewrite) {
+		if (urlParams.map == undefined) {
+			alert(errMessageStartupMapParamString[lang]);
+			urlParamsOK = false;
+		} else {
+			wmsURI = serverAndCGI+"?map="+urlParams.map+"&";
+			wmsMapName = urlParams.map;
+		}
 	}
-	if (urlParams.visibleLayers) {
-		visibleLayers = urlParams.visibleLayers.split(",");
-	}
-	else {
-		urlParams.visibleLayers = "";
+	if (urlParams.visibleLayers != null) {
+		if (urlParams.visibleLayers == "") {
+			visibleLayers = [];
+		}
+		else {
+			visibleLayers = urlParams.visibleLayers.split(",");
+		}
 	}
 	if (urlParams.format) {
 		format = urlParams.format;
@@ -99,5 +102,5 @@ if (urlArray.length > 1) {
 	}
 }
 else {
-	urlParamsOK = false;
+	urlParamsOK = !norewrite;
 }
