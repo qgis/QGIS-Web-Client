@@ -593,23 +593,25 @@ QGIS.FeatureInfoParser = Ext.extend(Object, {
 
             // get layer features
             var layerNode = node.getElementsByTagName("Layer")[0];
-            var featureNodes = layerNode.getElementsByTagName("Feature");
-            for (var i=0; i<featureNodes.length; i++) {
-                var feature = [];
-                var featureNode = featureNodes[i];
-                feature.push(featureNode.getAttribute("id"));
-                var attributeNodes = featureNode.getElementsByTagName("Attribute");
-                for (var a=0; a<attributeNodes.length; a++) {
-                    var attributeNode = attributeNodes[a];
-                    if (updateFields) {
-                        // get fields from first feature
-                        this.fields.push(attributeNode.getAttribute("name"));
-                    }
-                    // add feature attribute value
-                    feature.push(attributeNode.getAttribute("value"));
-                }
-                updateFields = false;
-                this.features.push(feature);
+            if (layerNode != null) {
+              var featureNodes = layerNode.getElementsByTagName("Feature");
+              for (var i=0; i<featureNodes.length; i++) {
+                  var feature = [];
+                  var featureNode = featureNodes[i];
+                  feature.push(featureNode.getAttribute("id"));
+                  var attributeNodes = featureNode.getElementsByTagName("Attribute");
+                  for (var a=0; a<attributeNodes.length; a++) {
+                      var attributeNode = attributeNodes[a];
+                      if (updateFields) {
+                          // get fields from first feature
+                          this.fields.push(attributeNode.getAttribute("name"));
+                      }
+                      // add feature attribute value
+                      feature.push(attributeNode.getAttribute("value"));
+                  }
+                  updateFields = false;
+                  this.features.push(feature);
+              }
             }
             return true;
         }
