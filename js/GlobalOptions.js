@@ -20,6 +20,7 @@ var searchBoxGetGeomURL = "/wsgi/getSearchGeom.wsgi";
 //config for QGIS.SearchPanel
 var parzellensuche = {
 	title: "Parzellensuche",
+	query: 'parzelle',
 	formItems: [
 		{
 			xtype: 'hidden',

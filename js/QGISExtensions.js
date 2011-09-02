@@ -562,6 +562,8 @@ QGIS.FeatureInfoParser = Ext.extend(Object, {
     serviceExceptionMessage: "",
     fields: [],
     features: [],
+    ids: [],
+    bbox: null,
 
     parseXML: function(response) {
         var xmlDoc = null;
@@ -590,6 +592,16 @@ QGIS.FeatureInfoParser = Ext.extend(Object, {
             this.fields = ['feature_id'];
             var updateFields = true;
             this.features = [];
+            this.ids = [];
+
+            // get bbox of all features
+            var bboxNode = node.getElementsByTagName("BoundingBox")[0];
+            this.bbox = [
+                bboxNode.getAttribute("minx"),
+                bboxNode.getAttribute("miny"),
+                bboxNode.getAttribute("maxx"),
+                bboxNode.getAttribute("maxy")
+            ];
 
             // get layer features
             var layerNode = node.getElementsByTagName("Layer")[0];
@@ -598,7 +610,9 @@ QGIS.FeatureInfoParser = Ext.extend(Object, {
               for (var i=0; i<featureNodes.length; i++) {
                   var feature = [];
                   var featureNode = featureNodes[i];
-                  feature.push(featureNode.getAttribute("id"));
+                  var id = featureNode.getAttribute("id");
+                  feature.push(id);
+                  this.ids.push(id);
                   var attributeNodes = featureNode.getElementsByTagName("Attribute");
                   for (var a=0; a<attributeNodes.length; a++) {
                       var attributeNode = attributeNodes[a];
@@ -630,5 +644,13 @@ QGIS.FeatureInfoParser = Ext.extend(Object, {
 
     featuresArray: function() {
         return this.features;
-    }
+    },
+
+    featureIds: function() {
+        return this.ids;
+    },
+
+    featuresBbox: function() {
+        return this.bbox;
+		}
 });

@@ -455,7 +455,7 @@ function postLoading() {
 	*/
 	myTopToolbar.doLayout();
 
-	//search panel
+	//search panel and URL search parameters
 	var searchPanelConfigs = [];
 	if (wmsMapName in mapSearchPanelConfigs) {
 		searchPanelConfigs = mapSearchPanelConfigs[wmsMapName];
@@ -470,6 +470,9 @@ function postLoading() {
 			searchTabPanel.add(panel);
 		}
 		searchTabPanel.setActiveTab(0);
+
+		// show search from URL parameters
+		showURLParametersSearch(searchPanelConfigs);
 	}
 	else {
 		// hide search panel
@@ -478,6 +481,44 @@ function postLoading() {
 		searchPanel.hide();
 		Ext.getCmp('LeftPanel').doLayout();
 	}
+
+	function showURLParametersSearch(searchPanelConfigs) {
+		if ('query' in urlParams) {
+			// find search config for query
+			var searchConfig = null;
+			for (var i=0; i<searchPanelConfigs.length; i++) {
+				if (urlParams.query == searchPanelConfigs[i].query) {
+					searchConfig = searchPanelConfigs[i];
+					break;
+				}
+			}
+
+			// submit search request (using URL rewriting)
+			Ext.Ajax.request({
+				url: wmsURI,
+				params: urlParams,
+				method: 'GET',
+				success: function(response) {
+					var featureInfoParser = new QGIS.FeatureInfoParser();
+					if (featureInfoParser.parseXML(response)) {
+						if (featureInfoParser.featureIds().length > 0) {
+							// select features in layer
+							thematicLayer.mergeNewParams({"SELECTION": searchConfig.selectionLayer + ":" + featureInfoParser.featureIds().join(',')});
+
+							// zoom to features
+							var bbox = featureInfoParser.featuresBbox();
+							geoExtMap.map.zoomToExtent(new OpenLayers.Bounds(bbox[0], bbox[1], bbox[2], bbox[3]));
+							var scale = geoExtMap.map.getScale() * 1.1;
+							if (scale < 500) {
+								scale = 500;
+							}
+							geoExtMap.map.zoomToScale(scale);
+						}
+					}
+				}
+			});
+		};
+	};
 
 	//measure-controls (distance and area)
 	var styleMeasureControls = new OpenLayers.Style();
