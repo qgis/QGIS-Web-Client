@@ -456,6 +456,10 @@ function postLoading() {
 	myTopToolbar.doLayout();
 
 	//search panel
+	var searchPanelConfigs = [];
+	if (wmsMapName in mapSearchPanelConfigs) {
+		searchPanelConfigs = mapSearchPanelConfigs[wmsMapName];
+	}
 	if (searchPanelConfigs.length > 0) {
 		// add QGIS search panels
 		var searchTabPanel = Ext.getCmp('SearchTabPanel');

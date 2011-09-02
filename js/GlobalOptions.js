@@ -17,71 +17,75 @@ var serverAndCGI = "/wms";
 var searchBoxQueryURL = "/wsgi/search.wsgi?query=";
 var searchBoxGetGeomURL = "/wsgi/getSearchGeom.wsgi";
 
-//list of configs for QGIS.SearchPanel
-var searchPanelConfigs = [
-	{
-		title: "Parzellensuche",
-		formItems: [
-			{
-				xtype: 'hidden',
-				name: 'query',
-				value: 'parzelle'
-			},
-			{
-				xtype: 'combo',
-				hiddenName: 'gemeinde',
-				fieldLabel: "Gemeinde",
-				mode: 'local',
-				store: new Ext.data.ArrayStore({
-					data: [
-						[1601, "Betschwanden"],
-						[1602, "Bilten"],
-						[1603, "Braunwald"],
-						[1604, "Diesbach"],
-						[1605, "Elm"],
-						[1606, "Engi"],
-						[1607, "Ennenda"],
-						[1608, "Filzbach"],
-						[1609, "Glarus"],
-						[1611, "Hätzingen"],
-						[1610, "Haslen"],
-						[1613, "Linthal"],
-						[1614, "Luchsingen"],
-						[1615, "Matt"],
-						[1616, "Mitlödi"],
-						[1618, "Mühlehorn"],
-						[1619, "Näfels"],
-						[1620, "Netstal"],
-						[1621, "Nidfurn"],
-						[6, "Oberurnen"],
-						[1624, "Obstalden"],
-						[1625, "Riedern"],
-						[1626, "Rüti(GL)"],
-						[1628, "Schwändi"],
-						[1627, "Schwanden(GL)"],
-						[1629, "Sool"]
-					],
-					id: 0,
-					fields: ['bfsnr', 'name']
-				}),
-				valueField: 'bfsnr',
-				displayField: 'name'
-			},
-			{
-				xtype: 'textfield',
-				name: 'nummer',
-				fieldLabel: "Nummer"
-			}
-		],
-		gridColumns: [
-				{header: 'ID', dataIndex: 'feature_id', menuDisabled: 'true'},
-				{header: 'Nummer', dataIndex: 'nummer', menuDisabled: 'true'},
-				{header: 'Fläche', dataIndex: 'flaechenmass', menuDisabled: 'true'},
-		],
-		selectionLayer: 'liegenschaften',
-		selectionZoom: 5
-	}
-];
+//config for QGIS.SearchPanel
+var parzellensuche = {
+	title: "Parzellensuche",
+	formItems: [
+		{
+			xtype: 'hidden',
+			name: 'query',
+			value: 'parzelle'
+		},
+		{
+			xtype: 'combo',
+			hiddenName: 'gemeinde',
+			fieldLabel: "Gemeinde",
+			mode: 'local',
+			store: new Ext.data.ArrayStore({
+				data: [
+					[1601, "Betschwanden"],
+					[1602, "Bilten"],
+					[1603, "Braunwald"],
+					[1604, "Diesbach"],
+					[1605, "Elm"],
+					[1606, "Engi"],
+					[1607, "Ennenda"],
+					[1608, "Filzbach"],
+					[1609, "Glarus"],
+					[1611, "Hätzingen"],
+					[1610, "Haslen"],
+					[1613, "Linthal"],
+					[1614, "Luchsingen"],
+					[1615, "Matt"],
+					[1616, "Mitlödi"],
+					[1618, "Mühlehorn"],
+					[1619, "Näfels"],
+					[1620, "Netstal"],
+					[1621, "Nidfurn"],
+					[6, "Oberurnen"],
+					[1624, "Obstalden"],
+					[1625, "Riedern"],
+					[1626, "Rüti(GL)"],
+					[1628, "Schwändi"],
+					[1627, "Schwanden(GL)"],
+					[1629, "Sool"]
+				],
+				id: 0,
+				fields: ['bfsnr', 'name']
+			}),
+			valueField: 'bfsnr',
+			displayField: 'name'
+		},
+		{
+			xtype: 'textfield',
+			name: 'nummer',
+			fieldLabel: "Nummer"
+		}
+	],
+	gridColumns: [
+		{header: 'ID', dataIndex: 'feature_id', menuDisabled: 'true'},
+		{header: 'Nummer', dataIndex: 'nummer', menuDisabled: 'true'},
+		{header: 'Fläche', dataIndex: 'flaechenmass', menuDisabled: 'true'},
+	],
+	selectionLayer: 'Liegenschaften.wkb_geometry',
+	selectionZoom: 5
+};
+
+//list of configs for QGIS.SearchPanel per map name
+var mapSearchPanelConfigs = {
+	"av_glarus": [parzellensuche],
+	"av_sw_glarus": [parzellensuche]
+};
 
 //first part of titlebar text
 var titleBarText = "GIS-Browser Kanton Glarus - "; // will be appended with project title

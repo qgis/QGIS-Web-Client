@@ -4,6 +4,7 @@
 var urlParams;
 var urlParamsOK = true;
 var wmsURI; //URI with map parameter or appended map name (with URL rewriting)
+var wmsMapName; // map parameter or appended map name (with URL rewriting)
 var urlString = "";
 var format = "image/png";
 var searchtables = null;
@@ -27,6 +28,7 @@ if (urlArray.length > 1) {
 			urlParamsOK = false;
 		} else {
 			wmsURI = serverAndCGI+"?map="+urlParams.map+"&";
+			wmsMapName = urlParams.map;
 		}
 	} else {
 		//Get map name from base URL (e.g. http://example.com/maps/mapname)
@@ -40,6 +42,7 @@ if (urlArray.length > 1) {
 		    suffix = urlBaseArray[3].substr(dashpos);
 		}
 		wmsURI = serverAndCGI+suffix+"/"+map+"?";
+		wmsMapName = map;
 	}
 	if (urlParams.visibleLayers) {
 		visibleLayers = urlParams.visibleLayers.split(",");
