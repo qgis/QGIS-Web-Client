@@ -18,6 +18,53 @@ var searchBoxQueryURL = "/wsgi/search.wsgi?query=";
 var searchBoxGetGeomURL = "/wsgi/getSearchGeom.wsgi";
 
 //config for QGIS.SearchPanel
+var gbKreisField = {
+	xtype: 'combo',
+	hiddenName: 'gb_kreis',
+	fieldLabel: "GB-Kreis",
+	mode: 'local',
+	allowBlank: false,
+	blankText: "Bitte GB-Kreis wählen",
+	forceSelection: true,
+	store: new Ext.data.ArrayStore({
+		data: [
+			[1601, "Betschwanden"],
+			[1602, "Bilten"],
+			[1603, "Braunwald"],
+			[1604, "Diesbach"],
+			[1605, "Elm"],
+			[1606, "Engi"],
+			[1607, "Ennenda"],
+			[1608, "Filzbach"],
+			[1609, "Glarus"],
+			[1610, "Haslen"],
+			[1611, "Hätzingen"],
+			[1612, "Leuggelbach"],
+			[1613, "Linthal"],
+			[1614, "Luchsingen"],
+			[1615, "Matt"],
+			[1616, "Mitlödi"],
+			[1617, "Mollis"],
+			[1618, "Mühlehorn"],
+			[1619, "Näfels"],
+			[1620, "Netstal"],
+			[1621, "Nidfurn"],
+			[1622, "Niederurnen"],
+			[1623, "Oberurnen"],
+			[1624, "Obstalden"],
+			[1625, "Riedern"],
+			[1626, "Rüti (GL)"],
+			[1627, "Schwanden (GL)"],
+			[1628, "Schwändi"],
+			[1629, "Sool"]
+		],
+		id: 0,
+		fields: ['gb_kreis', 'name']
+	}),
+	valueField: 'gb_kreis',
+	displayField: 'name'
+};
+
 var parzellensuche = {
 	title: "Parzellensuche",
 	query: 'parzelle',
@@ -27,52 +74,7 @@ var parzellensuche = {
 			name: 'query',
 			value: 'parzelle'
 		},
-		{
-			xtype: 'combo',
-			hiddenName: 'gb_kreis',
-			fieldLabel: "GB-Kreis",
-			mode: 'local',
-			allowBlank: false,
-			blankText: "Bitte GB-Kreis wählen",
-			forceSelection: true,
-			store: new Ext.data.ArrayStore({
-				data: [
-					[1601, "Betschwanden"],
-					[1602, "Bilten"],
-					[1603, "Braunwald"],
-					[1604, "Diesbach"],
-					[1605, "Elm"],
-					[1606, "Engi"],
-					[1607, "Ennenda"],
-					[1608, "Filzbach"],
-					[1609, "Glarus"],
-					[1610, "Haslen"],
-					[1611, "Hätzingen"],
-					[1612, "Leuggelbach"],
-					[1613, "Linthal"],
-					[1614, "Luchsingen"],
-					[1615, "Matt"],
-					[1616, "Mitlödi"],
-					[1617, "Mollis"],
-					[1618, "Mühlehorn"],
-					[1619, "Näfels"],
-					[1620, "Netstal"],
-					[1621, "Nidfurn"],
-					[1622, "Niederurnen"],
-					[1623, "Oberurnen"],
-					[1624, "Obstalden"],
-					[1625, "Riedern"],
-					[1626, "Rüti (GL)"],
-					[1627, "Schwanden (GL)"],
-					[1628, "Schwändi"],
-					[1629, "Sool"]
-				],
-				id: 0,
-				fields: ['gb_kreis', 'name']
-			}),
-			valueField: 'gb_kreis',
-			displayField: 'name'
-		},
+		gbKreisField,
 		{
 			xtype: 'textfield',
 			name: 'nummer',
@@ -90,10 +92,36 @@ var parzellensuche = {
 	selectionZoom: 5
 };
 
+var gebaeudenummersuche = {
+	title: "Gebäudenummersuche",
+	query: 'gebaeudenummer',
+	formItems: [
+		{
+			xtype: 'hidden',
+			name: 'query',
+			value: 'gebaeudenummer'
+		},
+		gbKreisField,
+		{
+			xtype: 'textfield',
+			name: 'nummer',
+			fieldLabel: "Nummer",
+			allowBlank: false,
+			blankText: "Bitte Gebäudenummer wählen"
+		}
+	],
+	gridColumns: [
+		{header: 'ID', dataIndex: 'feature_id', menuDisabled: 'true'},
+		{header: 'Nummer', dataIndex: 'nummer', menuDisabled: 'true'}
+	],
+	selectionLayer: 'Gebaeudenummer',
+	selectionZoom: 11
+};
+
 //list of configs for QGIS.SearchPanel per map name
 var mapSearchPanelConfigs = {
-	"av_glarus": [parzellensuche],
-	"av_sw_glarus": [parzellensuche]
+	"av_glarus": [parzellensuche, gebaeudenummersuche],
+	"av_sw_glarus": [parzellensuche, gebaeudenummersuche]
 };
 
 //first part of titlebar text
