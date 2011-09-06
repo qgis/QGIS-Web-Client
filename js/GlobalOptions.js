@@ -84,7 +84,6 @@ var parzellensuche = {
 		}
 	],
 	gridColumns: [
-		{header: 'ID', dataIndex: 'feature_id', menuDisabled: 'true'},
 		{header: 'Nummer', dataIndex: 'nummer', menuDisabled: 'true'},
 		{header: 'Fläche', dataIndex: 'flaechenmass', menuDisabled: 'true'},
 	],
@@ -111,10 +110,42 @@ var gebaeudenummersuche = {
 		}
 	],
 	gridColumns: [
-		{header: 'ID', dataIndex: 'feature_id', menuDisabled: 'true'},
 		{header: 'Nummer', dataIndex: 'nummer', menuDisabled: 'true'}
 	],
 	selectionLayer: 'Gebaeudenummer',
+	selectionZoom: 11
+};
+
+var adresssuche = {
+	title: "Adresssuche",
+	query: 'adresse',
+	formItems: [
+		{
+			xtype: 'hidden',
+			name: 'query',
+			value: 'adresse'
+		},
+		gbKreisField,
+		{
+			xtype: 'textfield',
+			name: 'strasse',
+			fieldLabel: "Strasse",
+			allowBlank: false,
+			blankText: "Bitte Strasse wählen"
+		},
+		{
+			xtype: 'textfield',
+			name: 'nummer',
+			fieldLabel: "Hausnummer",
+			allowBlank: false,
+			blankText: "Bitte Hausnummer wählen"
+		}
+	],
+	gridColumns: [
+		{header: 'Strasse', dataIndex: 'text', menuDisabled: 'true'},
+		{header: 'Hausnummer', dataIndex: 'hausnummer', menuDisabled: 'true'}
+	],
+	selectionLayer: 'Adresse',
 	selectionZoom: 11
 };
 
