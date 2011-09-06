@@ -29,9 +29,12 @@ var parzellensuche = {
 		},
 		{
 			xtype: 'combo',
-			hiddenName: 'gemeinde',
-			fieldLabel: "Gemeinde",
+			hiddenName: 'gb_kreis',
+			fieldLabel: "GB-Kreis",
 			mode: 'local',
+			allowBlank: false,
+			blankText: "Bitte GB-Kreis wählen",
+			forceSelection: true,
 			store: new Ext.data.ArrayStore({
 				data: [
 					[1601, "Betschwanden"],
@@ -43,34 +46,39 @@ var parzellensuche = {
 					[1607, "Ennenda"],
 					[1608, "Filzbach"],
 					[1609, "Glarus"],
-					[1611, "Hätzingen"],
 					[1610, "Haslen"],
+					[1611, "Hätzingen"],
+					[1612, "Leuggelbach"],
 					[1613, "Linthal"],
 					[1614, "Luchsingen"],
 					[1615, "Matt"],
 					[1616, "Mitlödi"],
+					[1617, "Mollis"],
 					[1618, "Mühlehorn"],
 					[1619, "Näfels"],
 					[1620, "Netstal"],
 					[1621, "Nidfurn"],
-					[6, "Oberurnen"],
+					[1622, "Niederurnen"],
+					[1623, "Oberurnen"],
 					[1624, "Obstalden"],
 					[1625, "Riedern"],
-					[1626, "Rüti(GL)"],
+					[1626, "Rüti (GL)"],
+					[1627, "Schwanden (GL)"],
 					[1628, "Schwändi"],
-					[1627, "Schwanden(GL)"],
 					[1629, "Sool"]
 				],
 				id: 0,
-				fields: ['bfsnr', 'name']
+				fields: ['gb_kreis', 'name']
 			}),
-			valueField: 'bfsnr',
+			valueField: 'gb_kreis',
 			displayField: 'name'
 		},
 		{
 			xtype: 'textfield',
 			name: 'nummer',
-			fieldLabel: "Nummer"
+			fieldLabel: "Nummer",
+			allowBlank: false,
+			blankText: "Bitte Parzellennummer wählen"
 		}
 	],
 	gridColumns: [
