@@ -528,6 +528,12 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
     },
 
     onFormFailure: function(form, action) {
+        // workaround for IE 8/9, when response is XML
+        if (action.response.status == 200) {
+          this.onSuccess(action.response);
+          return;
+        }
+
         this.showFailure(action.failureType);
     },
 
