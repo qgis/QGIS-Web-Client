@@ -85,10 +85,10 @@ var parzellensuche = {
 	],
 	gridColumns: [
 		{header: 'Nummer', dataIndex: 'nummer', menuDisabled: 'true'},
-		{header: 'Fläche', dataIndex: 'flaechenmass', menuDisabled: 'true'},
+		{header: 'Fläche', dataIndex: 'flaechenmass', menuDisabled: 'true'}
 	],
 	selectionLayer: 'Liegenschaften.wkb_geometry',
-	selectionZoom: 5
+	selectionZoom: 10
 };
 
 var gebaeudenummersuche = {
