@@ -529,7 +529,7 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
 
     onFormFailure: function(form, action) {
         // workaround for IE 8/9, when response is XML
-        if (action.response.status == 200) {
+        if (action.response != null && action.response.status == 200) {
           this.onSuccess(action.response);
           return;
         }
@@ -539,7 +539,12 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
 
     showFailure: function(msg) {
         this.el.unmask();
-        Ext.MessageBox.alert("Fehler bei Suche", msg); // TODO: i18n
+        if (msg == "client") {
+          Ext.MessageBox.alert("Suche", "Fehlende oder ungültige Werte im Suchformular"); // TODO: i18n
+        }
+        else {
+          Ext.MessageBox.alert("Fehler bei Suche", msg); // TODO: i18n
+        }
     },
 
     onRowClick: function(grid, rowIndex, e) {
