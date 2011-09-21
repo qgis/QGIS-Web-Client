@@ -483,6 +483,12 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
 
     onSuccess: function(response) {
         if (this.featureInfoParser.parseXML(response)) {
+            var features = this.featureInfoParser.featuresArray();
+
+            // workaround for missing subsequent grid panel updates if first search result was empty:
+            // recreate store and grid panel until a search result contains features
+            var destroyStore = (this.store == null && features.length == 0);
+
             if (this.store == null) {
                 // create store
                 var storeFields = [];
@@ -512,10 +518,14 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
             }
 
             // show results
-            this.store.loadData(this.featureInfoParser.featuresArray(), true);
+            this.store.loadData(features, false);
             this.resultsGrid.show();
             this.resultsGrid.expand(true);
             this.el.unmask();
+
+            if (destroyStore) {
+              this.store = null;
+            }
         }
         else {
             // ServiceException
