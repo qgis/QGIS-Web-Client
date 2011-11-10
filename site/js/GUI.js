@@ -137,27 +137,27 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 										},
 										{
 											xtype: 'button',
-											tooltip: objIdentificationTooltipString[lang],
-											toggleGroup: 'mapTools',
-											enableToggle: true,
-											icon: 'gis_icons/mActionIdentify.png',
-											allowDepress: true,
-											tooltipType: 'qtip',
-											iconCls: '',
-											scale: 'medium',
-											id: 'IdentifyTool'
-										},
-										{
-											xtype: 'button',
 											tooltip: mapTipsTooltipString[lang],
 											toggleGroup: 'mapTools',
 											enableToggle: true,
-											icon: 'gis_icons/mActionMapTips.png',
+											icon: 'icons/mActionMapTips.png',
 											allowDepress: true,
 											tooltipType: 'qtip',
 											iconCls: '',
 											scale: 'medium',
 											id: 'MapTips'
+										},
+										{
+											xtype: 'button',
+											tooltip: objIdentificationTooltipString[lang],
+											toggleGroup: 'mapTools',
+											enableToggle: true,
+											icon: 'icons/mActionIdentify.png',
+											allowDepress: true,
+											tooltipType: 'qtip',
+											iconCls: '',
+											scale: 'medium',
+											id: 'IdentifyTool'
 										},
 										{
 											xtype: 'tbtext',
@@ -181,7 +181,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 											enableToggle: true,
 											allowDepress: true,
 											toggleGroup: 'mapTools',
-											icon: 'gis_icons/mActionMeasure.png',
+											icon: 'icons/mActionMeasure.png',
 											tooltip: measureDistanceTooltipString[lang],
 											tooltipType: 'qtip',
 											scale: 'medium',
@@ -193,7 +193,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 											allowDepress: true,
 											toggleGroup: 'mapTools',
 											scale: 'medium',
-											icon: 'gis_icons/mActionMeasureArea.png',
+											icon: 'icons/mActionMeasureArea.png',
 											tooltipType: 'qtip',
 											tooltip: measureAreaTooltipString[lang],
 											id: 'measureArea'
@@ -207,7 +207,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 											allowDepress: true,
 											toggleGroup: 'mapTools',
 											scale: 'medium',
-											icon: 'gis_icons/mActionFilePrint.png',
+											icon: 'icons/mActionFilePrint.png',
 											tooltipType: 'qtip',
 											tooltip: printMapTooltipString[lang],
 											id: 'PrintMap'
@@ -218,7 +218,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 										{
 											xtype: 'button',
 											scale: 'medium',
-											icon: 'gis_icons/mActionUndo.png',
+											icon: 'icons/mActionUndo.png',
 											tooltipType: 'qtip',
 											tooltip: resetSearchFieldTooltipString[lang],
 											id: 'EmptySearchField'

@@ -1,6 +1,7 @@
 var geoExtMap;
 var layerTree;
 var selectedLayers = "";
+var selectedQueryableLayers = "";
 var thematicLayer, highlightLayer;
 var highLightGeometry = new Array();
 var WMSGetFInfo, WMSGetFInfoHover;
@@ -50,7 +51,6 @@ Ext.onReady(function() {
 		    // customize the createNode method to add a checkbox to nodes and the ui provider
 		    createNode: function(attr) {
 			    attr.checked = false;
-			    //return GeoExt.tree.WMSCapabilitiesLoader.prototype.createNode.apply(this, [attr]);
 			    return QGIS.WMSCapabilitiesLoader.prototype.createNode.apply(this, [attr]);
 		    },
 		    baseAttrs:{
@@ -147,16 +147,30 @@ function postLoading() {
 	
 	//set map parameters
 	//read values from first group (root) of GetCapabilities response
-	var BoundingBox = wmsLoader.WMSCapabilities.getElementsByTagName("BoundingBox")[0];
-	var extent = new OpenLayers.Bounds(parseFloat(BoundingBox.getAttribute("minx")),parseFloat(BoundingBox.getAttribute("miny")),parseFloat(BoundingBox.getAttribute("maxx")),parseFloat(BoundingBox.getAttribute("maxy")));
-	MapOptions.maxExtent = extent;
+	if (urlParams.maxExtent) {
+                var maxExtentParams = urlParams.maxExtent.split(",");
+                var maxExtent = new OpenLayers.Bounds(parseFloat(maxExtentParams[0]),parseFloat(maxExtentParams[1]),parseFloat(maxExtentParams[2]),parseFloat(maxExtentParams[3]));
+        }
+	else {
+		var BoundingBox = wmsLoader.WMSCapabilities.getElementsByTagName("BoundingBox")[0];
+		var maxExtent = new OpenLayers.Bounds(parseFloat(BoundingBox.getAttribute("minx")),parseFloat(BoundingBox.getAttribute("miny")),parseFloat(BoundingBox.getAttribute("maxx")),parseFloat(BoundingBox.getAttribute("maxy")));
+		var layer_crs = BoundingBox.getAttribute("CRS");
+		if (layer_crs != null && layer_crs != MapOptions.projection.getCode()) {
+			maxExtent.transform(new OpenLayers.Projection(layer_crs), MapOptions.projection);
+		}
+	}
+	MapOptions.maxExtent = maxExtent;
 	
 	//now collect all selected layers (with checkbox enabled in tree)
 	selectedLayers = Array();
+	selectedQueryableLayers = Array();
 	layerTree.root.firstChild.cascade(
 		function (n) {
 			if (n.isLeaf() && n.attributes.checked) {
 				selectedLayers.push(n.text);
+				if (wmsLoader.layerProperties[n.text].queryable == 1) {
+                                  selectedQueryableLayers.push(n.text);
+				}
 			}
 		}
 	);
@@ -268,6 +282,14 @@ function postLoading() {
 			}			
 			]
 	});
+	if (urlParams.startExtent) {
+		var startExtentParams = urlParams.startExtent.split(",");
+		var startExtent = new OpenLayers.Bounds(parseFloat(startExtentParams[0]),parseFloat(startExtentParams[1]),parseFloat(startExtentParams[2]),parseFloat(startExtentParams[3]));
+		geoExtMap.map.zoomToExtent(startExtent);
+	}
+	else {
+		geoExtMap.map.zoomToMaxExtent();
+	}
 				  
 	//add listener to adapt map on panel resize (only needed because of IE)
 	MapPanelRef.on('resize', function(panel, w, h) {
@@ -351,10 +373,12 @@ function postLoading() {
 	navHistoryCtrl = new OpenLayers.Control.NavigationHistory();
 	geoExtMap.map.addControl(navHistoryCtrl);
 	//controls for getfeatureinfo
-	WMSGetFInfo = new OpenLayers.Control.WMSGetFeatureInfo({layers: [thematicLayer], infoFormat: "text/xml", queryVisible: true, vendorParams: {QUERY_LAYERS: selectedLayers.join(",")}});
+	selectedQueryableLayers.reverse();
+	var fiLayer = new OpenLayers.Layer.WMS(layerTree.root.firstChild.text,wmsURI,{layers:[]},{buffer:0,singleTile:true,ratio:1});
+	WMSGetFInfo = new OpenLayers.Control.WMSGetFeatureInfo({layers: [fiLayer], infoFormat: "text/xml", queryVisible: true, vendorParams: {QUERY_LAYERS: selectedQueryableLayers.join(",")}});
 	WMSGetFInfo.events.register("getfeatureinfo", this, showFeatureInfo);
 	geoExtMap.map.addControl(WMSGetFInfo);
-	WMSGetFInfoHover = new OpenLayers.Control.WMSGetFeatureInfo({layers: [thematicLayer], infoFormat: "text/xml", queryVisible: true, hover: true, vendorParams: {QUERY_LAYERS: selectedLayers.join(",")}});
+	WMSGetFInfoHover = new OpenLayers.Control.WMSGetFeatureInfo({layers: [fiLayer], infoFormat: "text/xml", queryVisible: true, hover: true, vendorParams: {QUERY_LAYERS: selectedQueryableLayers.join(",")}});
 	WMSGetFInfoHover.events.register("getfeatureinfo", this, showFeatureInfoHover);
 	geoExtMap.map.addControl(WMSGetFInfoHover);
 	//in IE the autoWidth property of the tooltip fails
@@ -365,7 +389,7 @@ function postLoading() {
 	attribToolTip = new Ext.ToolTip({target:geoExtMap.body,html:'<p>Attributdaten-Tooltip</p>',disabled:true,trackMouse:true,autoHide:false,autoWidth:tAutoWidth,autoHeight:true});
 	
 	//overview map
-	OverviewMapOptions.maxExtent = extent;
+	OverviewMapOptions.maxExtent = maxExtent;
 	geoExtMap.map.addControl(new OpenLayers.Control.OverviewMap({size:OverviewMapSize,minRatio:16,maxRatio:64,mapOptions:OverviewMapOptions,layers:[overviewLayer]}));
 	
 	//navigation actions
@@ -467,44 +491,54 @@ function postLoading() {
 
 	//listeners für layertree dazufügen
 	layerTree.addListener('leafschange',function () {
-	  //now collect all selected layers for WMS request
+	  //now collect all selected queryable layers for WMS request
 	  selectedLayers = Array();
+	  selectedQueryableLayers = Array();
 	  layerTree.root.firstChild.cascade(
 	    function (n) {
 	      if (n.isLeaf() && n.attributes.checked) {
 			selectedLayers.push(n.text);
+			if (wmsLoader.layerProperties[n.text].queryable == 1) {
+				selectedQueryableLayers.push(n.text);
+			}
 	      }
 	    }
 	  );
 	  //change array order
 	  selectedLayers.reverse();
+	  selectedQueryableLayers.reverse();
 	  if (identificationMode == 'activeLayers') {
 		//only collect selected layers that are active
 		var selectedActiveLayers = Array();
+		var selectedActiveQueryableLayers = Array();
 		//need to find active layer
 		var activeNode = layerTree.getSelectionModel().getSelectedNode();
 		activeNode.cascade(
 			function (n) {
 			  if (n.isLeaf() && n.attributes.checked) {
 				selectedActiveLayers.push(n.text);
+				if (wmsLoader.layerProperties[n.text].queryable == 1) {
+					selectedActiveQueryableLayers.push(n.text);
+				}
 			  }
 			}
 		);
 		selectedActiveLayers.reverse();
-	  }
-	  if (identificationMode != 'activeLayers') {
-		WMSGetFInfo.vendorParams = {'QUERY_LAYERS':selectedLayers.join(',')};
-	  }
-	  else {
-		WMSGetFInfo.vendorParams = {'QUERY_LAYERS':selectedActiveLayers.join(',')};	  
-	  }
-	  if (identificationMode != 'activeLayers') {
-		WMSGetFInfoHover.vendorParams = {'QUERY_LAYERS':selectedLayers.join(',')};
-	  }
-	  else {
-		WMSGetFInfoHover.vendorParams = {'QUERY_LAYERS':selectedActiveLayers.join(',')};  
+		selectedActiveQueryableLayers.reverse();
 	  }
 	  thematicLayer.mergeNewParams({layers:selectedLayers.join(",")});
+	  if (identificationMode != 'activeLayers') {
+		WMSGetFInfo.vendorParams = {'QUERY_LAYERS':selectedQueryableLayers.join(',')};
+	  }
+	  else {
+		WMSGetFInfo.vendorParams = {'QUERY_LAYERS':selectedActiveQueryableLayers.join(',')};	  
+	  }
+	  if (identificationMode != 'activeLayers') {
+		WMSGetFInfoHover.vendorParams = {'QUERY_LAYERS':selectedQueryableLayers.join(',')};
+	  }
+	  else {
+		WMSGetFInfoHover.vendorParams = {'QUERY_LAYERS':selectedActiveQueryableLayers.join(',')};  
+	  }
 	});
 	
 	if (printLayoutsDefined == true) {
@@ -852,22 +886,9 @@ function showFeatureInfoHover(evt) {
 			text += attribText + "<br/>";
 	      }
 	      else {
-			if (attribNodes[k].getAttribute("name") == "name") {
-				text += attribNodes[k].getAttribute("value") + "<br/>";
-			}
-			else {
-				if (attribNodes[k].getAttribute("name") == "ogc_fid") {
-					text += "ogc_fid: " + attribNodes[k].getAttribute("value") + "<br/>";
-				}
-				else {
-					if (attribNodes[k].getAttribute("name") == "gid") {
-						text += "gid: " + attribNodes[k].getAttribute("value") + "<br/>";
-					}
-					if (attribNodes[k].getAttribute("name") == "geometry") {
-						var feature = new OpenLayers.Feature.Vector(OpenLayers.Geometry.fromWKT(attribNodes[k].getAttribute("value")));
-						highlightLayer.addFeatures([feature]);
-					}
-				}
+			if (attribNodes[k].getAttribute("name") == "geometry") {
+				var feature = new OpenLayers.Feature.Vector(OpenLayers.Geometry.fromWKT(attribNodes[k].getAttribute("value")));
+				highlightLayer.addFeatures([feature]);
 			}
 	      }
 	    }
