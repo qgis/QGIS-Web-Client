@@ -140,7 +140,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 											tooltip: mapTipsTooltipString[lang],
 											toggleGroup: 'mapTools',
 											enableToggle: true,
-											icon: 'icons/mActionMapTips.png',
+											icon: 'gis_icons/mActionMapTips.png',
 											allowDepress: true,
 											tooltipType: 'qtip',
 											iconCls: '',
@@ -152,7 +152,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 											tooltip: objIdentificationTooltipString[lang],
 											toggleGroup: 'mapTools',
 											enableToggle: true,
-											icon: 'icons/mActionIdentify.png',
+											icon: 'gis_icons/mActionIdentify.png',
 											allowDepress: true,
 											tooltipType: 'qtip',
 											iconCls: '',
@@ -181,7 +181,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 											enableToggle: true,
 											allowDepress: true,
 											toggleGroup: 'mapTools',
-											icon: 'icons/mActionMeasure.png',
+											icon: 'gis_icons/mActionMeasure.png',
 											tooltip: measureDistanceTooltipString[lang],
 											tooltipType: 'qtip',
 											scale: 'medium',
@@ -193,7 +193,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 											allowDepress: true,
 											toggleGroup: 'mapTools',
 											scale: 'medium',
-											icon: 'icons/mActionMeasureArea.png',
+											icon: 'gis_icons/mActionMeasureArea.png',
 											tooltipType: 'qtip',
 											tooltip: measureAreaTooltipString[lang],
 											id: 'measureArea'
@@ -207,7 +207,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 											allowDepress: true,
 											toggleGroup: 'mapTools',
 											scale: 'medium',
-											icon: 'icons/mActionFilePrint.png',
+											icon: 'gis_icons/mActionFilePrint.png',
 											tooltipType: 'qtip',
 											tooltip: printMapTooltipString[lang],
 											id: 'PrintMap'
@@ -218,7 +218,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 										{
 											xtype: 'button',
 											scale: 'medium',
-											icon: 'icons/mActionUndo.png',
+											icon: 'gis_icons/mActionUndo.png',
 											tooltipType: 'qtip',
 											tooltip: resetSearchFieldTooltipString[lang],
 											id: 'EmptySearchField'
