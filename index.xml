@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet type="text/xsl" href="gis-project_listing.xsl"?>
-<webgis path="/maps" mapserver="/wms" thumbnails="/qgis-webclient/thumbnails" title="QGIS Webclient">
-    <topic name="OSGEO Live">
-        <project name="Natural Earth" projectfile="NaturalEarth" format="image/png" visibleLayers="HYP_50M_SR_W,10m_rivers_lake_cenerlines,10m_lakes" responsible="OSGEO Live maintainers"/>
-    </topic>
-</webgis>
