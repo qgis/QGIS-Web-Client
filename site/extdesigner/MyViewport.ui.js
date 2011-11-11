@@ -116,7 +116,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 											tooltip: 'Objektidentifizierung (Attributdaten)',
 											toggleGroup: 'mapTools',
 											enableToggle: true,
-											icon: '/resources/icons/mActionIdentify.png',
+											icon: '/resources/gis_icons/mActionIdentify.png',
 											allowDepress: true,
 											tooltipType: 'title',
 											iconCls: '',
@@ -128,7 +128,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 											tooltip: 'MapTips anzeigen',
 											toggleGroup: 'mapTools',
 											enableToggle: true,
-											icon: '/resources/icons/mActionMapTips.png',
+											icon: '/resources/gis_icons/mActionMapTips.png',
 											allowDepress: true,
 											tooltipType: 'title',
 											iconCls: '',
@@ -157,7 +157,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 											enableToggle: true,
 											allowDepress: true,
 											toggleGroup: 'mapTools',
-											icon: '/resources/icons/mActionMeasure.png',
+											icon: '/resources/gis_icons/mActionMeasure.png',
 											tooltip: 'Distanz Messen',
 											tooltipType: 'title',
 											scale: 'medium',
@@ -169,7 +169,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 											allowDepress: true,
 											toggleGroup: 'mapTools',
 											scale: 'medium',
-											icon: '/resources/icons/mActionMeasureArea.png',
+											icon: '/resources/gis_icons/mActionMeasureArea.png',
 											tooltipType: 'title',
 											tooltip: 'Fläche Messen',
 											id: 'measureArea'
@@ -183,7 +183,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 											allowDepress: true,
 											toggleGroup: 'mapTools',
 											scale: 'medium',
-											icon: '/resources/icons/mActionFilePrint.png',
+											icon: '/resources/gis_icons/mActionFilePrint.png',
 											tooltipType: 'title',
 											tooltip: 'Karte drucken',
 											id: 'PrintMap'
@@ -194,7 +194,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 										{
 											xtype: 'button',
 											scale: 'medium',
-											icon: '/resources/icons/mActionUndo.png',
+											icon: '/resources/gis_icons/mActionUndo.png',
 											tooltipType: 'title',
 											tooltip: 'Suchfeld zurücksetzen',
 											id: 'EmptySearchField'

@@ -1,0 +1,295 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<META NAME="generator" CONTENT="http://txt2tags.sf.net">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<TITLE>Quantum GIS (QGIS) Web Client</TITLE>
+
+<!-- CSS include failed for style.css -->
+
+</HEAD>
+<BODY>
+
+<DIV CLASS="header" ID="header">
+<H1>Quantum GIS (QGIS) Web Client</H1>
+<H2>Installation Guide</H2>
+<H3>Friday November 11, 2011</H3>
+</DIV>
+
+<DIV CLASS="body" ID="body">
+<P>
+Last Updated: Friday November 11, 2011
+Last Change : Friday November 11, 2011
+</P>
+<DIV CLASS="toc" ID="toc">
+  <OL>
+  <LI><A HREF="#toc1">For the terminally lazy</A>
+  <LI><A HREF="#toc2">Purpose</A>
+  <LI><A HREF="#toc3">Installation</A>
+  <LI><A HREF="#toc4">Configuration of Client</A>
+  <LI><A HREF="#toc5">URL Rewriting</A>
+  <LI><A HREF="#toc6">Configuration of search python script</A>
+  <LI><A HREF="#toc7">PostgreSQL table setup for searching</A>
+  <LI><A HREF="#toc8">License</A>
+  <LI><A HREF="#toc9">Acknowledgements</A>
+  </OL>
+
+</DIV>
+<P></P>
+<A NAME="toc1"></A>
+<H1>1. For the terminally lazy</H1>
+<div class="code"><PRE>
+sudo apt-get install apache2 libapache2-mod-fcgid
+cp apache-conf/qgis-web-client.conf.templ apache-conf/qgis-web-client.conf
+</PRE></div>
+<P></P>
+<P>
+Update the paths in the copied file then:
+</P>
+<div class="code"><PRE>
+cd /etc/apache2/sites-available/
+ln -s &lt;path to apache-conf/qgis-web-client.conf&gt; .
+sudo a2ensite qgis-web-client.conf
+sudo /etc/init.d/apache2 reload
+</PRE></div>
+<P></P>
+<P>
+Check the symlink in cgi-bin is correct.
+Check the QGIS libs are in your /etc/ld.so.conf path
+Copy site/index.xml and check paths match your system
+</P>
+<A NAME="toc2"></A>
+<H1>2. Purpose</H1>
+<P>
+A WMS based webgis client that makes use of QGIS specific WMS extensions (e.g.
+highlighting, printing, metadata, etc.). QGIS webclient reads the configuration
+from the WMS GetCapabilities command and builds the layer tree accordingly.
+Supports legend graphic, feature info requests and printing.
+</P>
+<P>
+The client builds on existing Web-GIS libraries OpenLayers and GeoExt, as well
+as ExtJS 3 for the GUI widgets.
+</P>
+<P>
+All major browsers should be supported.
+</P>
+<A NAME="toc3"></A>
+<H1>3. Installation</H1>
+<P>
+Requirements (Server):
+</P>
+<UL>
+<LI>Apache2 - Webserver (Ubuntu: apache2)
+<LI>mod-fcgid (Ubuntu: libapache2-mod-fcgid)
+<LI>QGIS and QGIS Server (best installed from source)
+</UL>
+
+<P></P>
+<P>
+On ubuntu you can meet these requirements by simply doing:
+</P>
+<div class="code"><PRE>
+sudo apt-get install libapache2-mod-fcgid
+</PRE></div>
+<P></P>
+<P>
+The QGIS server compilation and installation will be covered in the QGIS manual.
+</P>
+<P>
+For searching:
+</P>
+<UL>
+<LI>python-wsgi for searching (Ubuntu: libapache2-mod-wsgi)
+<LI>psycopg2 PostgreSQL db driver (Ubuntu: python-psycopg2)
+<LI>webob - Python module providing WSGI request and response objects (Ubuntu: python-webob)
+</UL>
+
+<P></P>
+<P>
+The client part needs svn checkout with the following command:
+svn co <A HREF="https://svn.osgeo.org/qgis/trunk/qgiswebclient">https://svn.osgeo.org/qgis/trunk/qgiswebclient</A> qgiswebclient
+</P>
+<A NAME="toc4"></A>
+<H1>4. Configuration of Client</H1>
+<P>
+Global Settings for all projects:
+</P>
+<div class="code"><PRE>
+site/js/GlobalConfiguration.js
+</PRE></div>
+<P></P>
+<P>
+Translations (additional languages):
+</P>
+<div class="code"><PRE>
+site/js/Translations.js
+</PRE></div>
+<P></P>
+<P>
+Project settings and index:
+</P>
+<div class="code"><PRE>
+site/index.xml
+</PRE></div>
+<P></P>
+<P>
+Stylesheet of project index:
+</P>
+<div class="code"><PRE>
+site/gis-project_listing.xsl
+</PRE></div>
+<P>
+Thumbnails for individual projects:
+</P>
+<div class="code"><PRE>
+thumbnails/projectname.png
+</PRE></div>
+<P></P>
+<A NAME="toc5"></A>
+<H1>5. URL Rewriting</H1>
+<P>
+Using a standard installation of QGIS server, GlobalOptions.js will have a WMS server configuration like
+</P>
+<div class="code"><PRE>
+var serverAndCGI = "/cgi-bin/qgis_mapserv.fcgi";
+</PRE></div>
+<P></P>
+<P>
+A sample URL for QGIS Web Client installed in /var/www/qgis-web-client:
+</P>
+<div class="code"><PRE>
+http://localhost/qgis-web-client/qgiswebclient.html?map=/opt/geodata/maps/NaturalEarth.qgs&amp;visibleLayers=HYP_50M_SR_W
+</PRE></div>
+<P></P>
+<P>
+With the following rules for Apache mod_rewrite you can shorten the URLs to
+</P>
+<div class="code"><PRE>
+var serverAndCGI = "/wms";
+</PRE></div>
+<P>
+and
+</P>
+<div class="code"><PRE>
+http://localhost/maps/NaturalEarth?visibleLayers=HYP_50M_SR_W
+</PRE></div>
+<P></P>
+<P>
+Rules in VirtualHost configuration:
+</P>
+<div class="code"><PRE>
+# Forbid direct access
+RewriteRule ^/cgi-bin/.*$ - [F]
+
+# Search with SearchPanel (e.g. Address)
+RewriteCond %{QUERY_STRING} ^(?:.*)query=address&amp;*(?:.*)$
+RewriteCond %{QUERY_STRING} ^(?:(?:.*)&amp;)?street=([^&amp;]*)(?:(?:.*)&amp;)+number=([^&amp;]*)(?:.*)$
+RewriteRule ^/wms/(.+)$ /cgi-bin/qgis_mapserv.fcgi?map=/opt/geodata/maps/$1.qgs&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetFeatureInfo&amp;LAYERS=addresses&amp;QUERY_LAYERS=addresses&amp;FEATURE_COUNT=10&amp;INFO_FORMAT=text/xml&amp;SRS=EPSG:21781&amp;FILTER=addresses:"street"\ =\ '%1' AND "number"\ =\ %2 [PT]
+
+# Rewrite /wms/mapname to qgis_mapserv.fcgi?map=mappath/mapname.qgs
+RewriteRule ^/wms/(.+)$ /cgi-bin/qgis_mapserv.fcgi?map=/opt/geodata/maps/$1.qgs [QSA,PT]
+# Rewrite /maps/mapname to qgis-web-client main page. mapname will be extracted for wms calls in Javascript code.
+RewriteRule ^/maps/([^\.]+)$ /qgis-web-client/site/qgiswebclient.html [PT]
+# Rewrite /maps/* to qgis-web-client/site (e.g. /maps/gis_icons/mActionZoomNext.png -&gt; /qgis-web-client/site/gis_icons/mActionZoomNext.png)
+RewriteRule ^/maps/(.*) /qgis-web-client/site/$1 [PT]
+</PRE></div>
+<P></P>
+<P>
+For supporting qgs files in subdirectories (e.g. /maps/subdir/mapnampe) replace last rule with:
+</P>
+<div class="code"><PRE>
+RewriteRule ^/maps/[^/]+/(.*) /qgis-web-client/site/$1 [PT]
+</PRE></div>
+<P></P>
+<P>
+For adding zones in different subdirecories (e.g. maps and maps-protected) add the following rules:
+</P>
+<div class="code"><PRE>
+RewriteRule ^/wms-protected/(.+)$ /cgi-bin/qgis_mapserv.fcgi?map=/opt/geodata/maps-protected/$1.qgs [QSA,PT]
+RewriteRule ^/maps-protected/([^\.]+)$ /qgis-web-client/site/qgiswebclient.html [PT]
+RewriteRule ^/maps-protected/(.*) /qgis-web-client/site/$1 [PT]
+</PRE></div>
+<P></P>
+<A NAME="toc6"></A>
+<H1>6. Configuration of search python script</H1>
+<P>
+Searching is handled by two separate python-wsgi scripts: "search.wsgi" lists
+back a hit list while the user is typing in the searchbox. It groups the
+results and returns a bounding box of the result. "getSearchGeom.wsgi" returns
+the actual wkt geometry for a selected search result. It is recommended to
+install the wsgi scripts in a separate directory, e.g. /home/www/wsgi, a place
+that is not reachable by regular web traffic.
+</P>
+<P>
+You need to enable mod_wsgi as root. (Ubuntu: a2enmod mod_wsgi).
+</P>
+<P>
+You need to configure apache with the following lines (e.g. in file
+/etc/apache2/sites-available/default):
+</P>
+<div class="code"><PRE>
+#mod_wsgi
+WSGIDaemonProcess gis processes=5 threads=15 display-name=%{GROUP}
+WSGIScriptAlias /wsgi/ /home/www/wsgi/
+WSGIScriptAliasMatch ^/wsgi/([^/]+) /home/www/wsgi/$1.wsgi
+</PRE></div>
+<P></P>
+<P>
+In the files "search.wsgi" and "getSearchGeom.wsgi" please edit the line
+containing the db connection strings. Search for the line 
+</P>
+<div class="code"><PRE>
+conn = psycopg2.connect("db='yourdb' port='5432' user='yourusername' password='yourpassword'")
+</PRE></div>
+<P></P>
+<P>
+and adapt the parameters according to your server/db.
+</P>
+<A NAME="toc7"></A>
+<H1>7. PostgreSQL table setup for searching</H1>
+<div class="code"><PRE>
+CREATE TABLE cadastre.searchtable
+(
+  searchstring text, --the search string (all lower case), e.g. "zürichstrasse 46, 8610 uster"
+  displaytext text NOT NULL, --the display text for the search combobox, e.g. "Zürichstrasse 46, 8610 Uster (address)"
+  search_category text, --should have a leading two digit number:, e.g.
+                        --"03_parcels", where 03 is the order of the search categories, the number
+                        --should be unique across all search tables
+  the_geom geometry,    --the actual geometry
+  geometry_type text,   --the geometry type as returned by ST_GeometryType(the_geom)
+  searchstring_tsvector tsvector,
+  CONSTRAINT searchtable_pkey PRIMARY KEY (displaytext)
+)
+WITH (
+  OIDS=FALSE
+);
+GRANT SELECT ON TABLE cadastre.searchtable TO alle;
+
+-- Index: cadastre.in_cadastre_searchstring_tsvector_gin
+
+CREATE INDEX in_cadastre_searchstring_tsvector_gin
+  ON cadastre.searchtable
+  USING gin
+  (searchstring_tsvector);
+</PRE></div>
+<P></P>
+<P>
+The above search table can also be a view or materialized view. One can combine
+several search tables by specifying the <CODE>`searchtables=searchtable1,searchtable2,searchtable3`</CODE> 
+parameter when requesting the <I>search.wsgi</I> script.
+</P>
+<A NAME="toc8"></A>
+<H1>8. License</H1>
+<P>
+BSD
+</P>
+<A NAME="toc9"></A>
+<H1>9. Acknowledgements</H1>
+<P>
+We'd like to thank the OpenLayers and GeoExt team for providing their base libraries.
+</P>
+</DIV>
+
+<!-- html code generated by txt2tags 2.5 (http://txt2tags.sf.net) -->
+<!-- cmdline: txt2tags -o README.html -t html README.t2t -->
+</BODY></HTML>

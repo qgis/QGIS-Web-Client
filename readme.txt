@@ -91,6 +91,24 @@ RewriteRule ^/wms-protected/(.+)$ /cgi-bin/qgis_mapserv.fcgi?map=/opt/geodata/ma
 RewriteRule ^/maps-protected/([^\.]+)$ /qgis-web-client/qgiswebclient.html [PT]
 RewriteRule ^/maps-protected/(.*) /qgis-web-client/$1 [PT]
 
+If you want to protect a zone with HTTP Basic Authentication, you have rewrite to a different location:
+
+RewriteRule ^/wms-protected/(.+)$ /cgi-bin/qgis_mapserv-protected.fcgi?map=/opt/geodata/maps-protected/$1.qgs [QSA,PT]
+RewriteRule ^/maps-protected/([^\.]+)$ /qgis-web-client-protected/qgiswebclient.html [PT]
+RewriteRule ^/maps-protected/(.*) /qgis-web-client-protected/$1 [PT]
+
+<LocationMatch "/qgis-web-client-protected/|/qgis_mapserv-protected.fcgi">
+  AuthType Basic
+  AuthName "Authorization Required"
+  AuthUserFile /etc/apache2/htpasswd
+  Require valid-user
+</LocationMatch>
+
+These locations are usually symlinks to the non-protected files/directory:
+
+ln -s qgis-web-client /var/www/qgis-web-client-protected
+ln -s qgis_mapserv.fcgi /usr/lib/cgi-bin/qgis_mapserv-protected.fcgi
+
 
 Configuration of search python script
 -------------------------------------

@@ -1,15 +1,9 @@
 //default language code, can be overwritten with lang parameter in URL
-var lang = "de"; //for available codes see array availableLanguages in file GlobalOptions.js 
+var lang = "en"; //for available codes see array availableLanguages in file GlobalOptions.js
 
-//new namespace for QGIS extensions
-//do not modify those three lines
-if (!window.QGIS) {
-    window.QGIS = {};
-}
-
-//Base URL for WMS server
-//var serverAndCGI = "http://localhost/cgi-bin/qgis_mapserv.fcgi";
-var serverAndCGI = "/wms";
+//Servername and name of CGI-file
+//Path must include the host name
+var serverAndCGI = "http://qgis-web-client.localhost/cgi-bin/qgis_mapserv.fcgi"; //URL mit Name des qgis mapserver cgi
 
 //search URLs
 //URL for queries while typing
@@ -18,148 +12,50 @@ var searchBoxQueryURL = "/wsgi/search.wsgi?query=";
 var searchBoxGetGeomURL = "/wsgi/getSearchGeom.wsgi";
 
 //config for QGIS.SearchPanel
-var gbKreisField = {
-	xtype: 'combo',
-	hiddenName: 'gb_kreis',
-	fieldLabel: "GB-Kreis",
-	mode: 'local',
-	allowBlank: false,
-	blankText: "Bitte GB-Kreis wählen",
-	forceSelection: true,
-	store: new Ext.data.ArrayStore({
-		data: [
-			[1601, "Betschwanden"],
-			[1602, "Bilten"],
-			[1603, "Braunwald"],
-			[1604, "Diesbach"],
-			[1605, "Elm"],
-			[1606, "Engi"],
-			[1607, "Ennenda"],
-			[1608, "Filzbach"],
-			[1609, "Glarus"],
-			[1610, "Haslen"],
-			[1611, "Hätzingen"],
-			[1612, "Leuggelbach"],
-			[1613, "Linthal"],
-			[1614, "Luchsingen"],
-			[1615, "Matt"],
-			[1616, "Mitlödi"],
-			[1617, "Mollis"],
-			[1618, "Mühlehorn"],
-			[1619, "Näfels"],
-			[1620, "Netstal"],
-			[1621, "Nidfurn"],
-			[1622, "Niederurnen"],
-			[1623, "Oberurnen"],
-			[1624, "Obstalden"],
-			[1625, "Riedern"],
-			[1626, "Rüti (GL)"],
-			[1627, "Schwanden (GL)"],
-			[1628, "Schwändi"],
-			[1629, "Sool"]
-		],
-		id: 0,
-		fields: ['gb_kreis', 'name']
-	}),
-	valueField: 'gb_kreis',
-	displayField: 'name'
-};
-
-var parzellensuche = {
-	title: "Parzellensuche",
-	query: 'parzelle',
+/*
+var sampleSearch = {
+	title: "Sample Search",
+	query: 'samplesearch',
 	formItems: [
 		{
 			xtype: 'hidden',
 			name: 'query',
-			value: 'parzelle'
+			value: 'samplesearch'
 		},
-		gbKreisField,
 		{
 			xtype: 'textfield',
-			name: 'nummer',
-			fieldLabel: "Nummer",
+			name: 'number',
+			fieldLabel: "Number",
 			allowBlank: false,
-			blankText: "Bitte Parzellennummer wählen"
+			blankText: "Please enter a number"
 		}
 	],
 	gridColumns: [
-		{header: 'Nummer', dataIndex: 'nummer', menuDisabled: 'true'},
-		{header: 'Fläche', dataIndex: 'flaechenmass', menuDisabled: 'true'}
+		{header: 'Number', dataIndex: 'number', menuDisabled: 'true'}
 	],
-	selectionLayer: 'Liegenschaften.wkb_geometry',
-	selectionZoom: 10
-};
-
-var gebaeudenummersuche = {
-	title: "Gebäudenummersuche",
-	query: 'gebaeudenummer',
-	formItems: [
-		{
-			xtype: 'hidden',
-			name: 'query',
-			value: 'gebaeudenummer'
-		},
-		gbKreisField,
-		{
-			xtype: 'textfield',
-			name: 'nummer',
-			fieldLabel: "Nummer",
-			allowBlank: false,
-			blankText: "Bitte Gebäudenummer wählen"
-		}
-	],
-	gridColumns: [
-		{header: 'Nummer', dataIndex: 'nummer', menuDisabled: 'true'}
-	],
-	selectionLayer: 'Gebaeudenummer',
+	selectionLayer: 'number_layer_name',
 	selectionZoom: 11
 };
-
-var adresssuche = {
-	title: "Adresssuche",
-	query: 'adresse',
-	formItems: [
-		{
-			xtype: 'hidden',
-			name: 'query',
-			value: 'adresse'
-		},
-		gbKreisField,
-		{
-			xtype: 'textfield',
-			name: 'strasse',
-			fieldLabel: "Strasse",
-			allowBlank: false,
-			blankText: "Bitte Strasse wählen"
-		},
-		{
-			xtype: 'textfield',
-			name: 'nummer',
-			fieldLabel: "Hausnummer",
-			allowBlank: false,
-			blankText: "Bitte Hausnummer wählen"
-		}
-	],
-	gridColumns: [
-		{header: 'Strasse', dataIndex: 'text', menuDisabled: 'true'},
-		{header: 'Hausnummer', dataIndex: 'hausnummer', menuDisabled: 'true'}
-	],
-	selectionLayer: 'Adresse',
-	selectionZoom: 11
-};
+*/
 
 //list of configs for QGIS.SearchPanel per map name
 var mapSearchPanelConfigs = {
-	"av_glarus": [parzellensuche, gebaeudenummersuche],
-	"av_sw_glarus": [parzellensuche, gebaeudenummersuche]
+//	"map_name": [sampleSearch]
 };
 
 //first part of titlebar text
-var titleBarText = "GIS-Browser Kanton Glarus - "; // will be appended with project title
+var titleBarText = "GIS-Browser - "; // will be appended with project title
 
 //EPSG projection code
-var epsgcode = 21781;
+var epsgcode = 900913;
+
+// <------------ No changes should be needed below here ------------------>
+
+//new namespace for QGIS extensions
+//do not modify those three lines
+if (!window.QGIS) {
+    window.QGIS = {};
+}
 
 // OpenLayers global options
 // see http://dev.openlayers.org/releases/OpenLayers-2.10/doc/apidocs/files/OpenLayers/Map-js.html
