@@ -448,15 +448,27 @@ function postLoading() {
   myTopToolbar.insert(3,zoomToNextAction);
 
   //add QGISSearchCombo
-  if (searchBoxQueryURL != null) {
+  if (useGeoNamesSearchBox || searchBoxQueryURL != null) {
     myTopToolbar.insert(myTopToolbar.items.length, new Ext.Toolbar.Fill());
 
-    qgisSearchCombo = new QGIS.SearchComboBox({
-      map: geoExtMap.map,
-      highlightLayerName:'attribHighLight',
-      width: 300,
-      searchtables: searchtables
-    });
+    if (useGeoNamesSearchBox) {
+      qgisSearchCombo = new GeoExt.ux.GeoNamesSearchCombo(
+      {
+        map: geoExtMap.map,
+        width: 300,
+        minChars: 2,
+        loadingText: geonamesLoadingString[lang],
+        emptyText: geonamesEmptyString[lang]
+      });
+    }
+    else {
+      qgisSearchCombo = new QGIS.SearchComboBox({
+        map: geoExtMap.map,
+        highlightLayerName:'attribHighLight',
+        width: 300,
+        searchtables: searchtables
+      });
+    }
     myTopToolbar.insert(myTopToolbar.items.length, qgisSearchCombo);
 
     var emptySearchFieldButton = new Ext.Button({

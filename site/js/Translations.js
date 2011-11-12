@@ -503,6 +503,24 @@ printMapDisabledTooltipString["fr"] = "Imprimez non activée, aucune layout est 
 printMapDisabledTooltipString["it"] = "Stampa disabilitata: nel progetto QGIS non &egrave; definito alcun layout";
 printMapDisabledTooltipString["pt_PT"] = "Impress&atilde;o n&atilde;o dispon&iacute;vel: no projecto QGIS n&atilde;o &eacute; deinfido algum layout";
 
+//Geonames loading string
+var geonamesLoadingString = new Array();
+geonamesLoadingString["en"] = "Search in Geonames...";
+geonamesLoadingString["es"] = "Search in Geonames..."; // FIXME
+geonamesLoadingString["de"] = "Suche in Geonames...";
+geonamesLoadingString["fr"] = "Search in Geonames..."; // FIXME
+geonamesLoadingString["it"] = "Search in Geonames..."; // FIXME
+geonamesLoadingString["pt_PT"] = "Search in Geonames..."; // FIXME
+
+//Geonames empty string
+var geonamesEmptyString = new Array();
+geonamesEmptyString["en"] = "Search location in Geonames";
+geonamesEmptyString["es"] = "Search location in Geonames"; // FIXME
+geonamesEmptyString["de"] = "Suche Ort in Geonames";
+geonamesEmptyString["fr"] = "Search location in Geonames"; // FIXME
+geonamesEmptyString["it"] = "Search location in Geonames"; // FIXME
+geonamesEmptyString["pt_PT"] = "Search location in Geonames"; // FIXME
+
 //Reset Search Field
 var resetSearchFieldTooltipString = new Array();
 resetSearchFieldTooltipString["en"] = "Reset/empty Searchfield";

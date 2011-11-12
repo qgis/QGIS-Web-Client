@@ -5,9 +5,10 @@ var lang = "en"; //for available codes see array availableLanguages in file Glob
 //Path must include the host name
 var serverAndCGI = "http://qgis-web-client.localhost/cgi-bin/qgis_mapserv.fcgi"; //URL mit Name des qgis mapserver cgi
 
-//search URLs
-//URL for queries while typing
-//at a later time QGIS server may provide query results, currently one needs a separate script
+//search box for queries while typing
+//enable to use GeoNames search
+var useGeoNamesSearchBox = true;
+//URL for custom search scripts
 var searchBoxQueryURL = null; // "/wsgi/search.wsgi?query=";
 var searchBoxGetGeomURL = null; // "/wsgi/getSearchGeom.wsgi";
 
