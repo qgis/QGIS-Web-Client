@@ -8,8 +8,8 @@ var serverAndCGI = "http://qgis-web-client.localhost/cgi-bin/qgis_mapserv.fcgi";
 //search URLs
 //URL for queries while typing
 //at a later time QGIS server may provide query results, currently one needs a separate script
-var searchBoxQueryURL = "/wsgi/search.wsgi?query=";
-var searchBoxGetGeomURL = "/wsgi/getSearchGeom.wsgi";
+var searchBoxQueryURL = null; // "/wsgi/search.wsgi?query=";
+var searchBoxGetGeomURL = null; // "/wsgi/getSearchGeom.wsgi";
 
 //config for QGIS.SearchPanel
 /*

@@ -244,17 +244,6 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
                       tooltipType: 'qtip',
                       tooltip: printMapTooltipString[lang],
                       id: 'PrintMap'
-                    },
-                    {
-                      xtype: 'tbfill'
-                    },
-                    {
-                      xtype: 'button',
-                      scale: 'medium',
-                      icon: 'gis_icons/mActionUndo.png',
-                      tooltipType: 'qtip',
-                      tooltip: resetSearchFieldTooltipString[lang],
-                      id: 'EmptySearchField'
                     }
                   ]
                 },

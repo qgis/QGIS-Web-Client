@@ -140,8 +140,6 @@ function postLoading() {
   Ext.getCmp('measureDistance').toggleHandler = mapToolbarHandler;
   Ext.getCmp('measureArea').toggleHandler = mapToolbarHandler;
   Ext.getCmp('PrintMap').toggleHandler = mapToolbarHandler;
-  //other buttons
-  //Ext.getCmp('EmptySearchField').handler = mapToolbarHandler;
   //combobox listeners
   var ObjectIdentificationModeCombobox = Ext.getCmp('ObjectIdentificationModeCombo');
   ObjectIdentificationModeCombobox.setValue("topMostHit");
@@ -450,16 +448,28 @@ function postLoading() {
   myTopToolbar.insert(3,zoomToNextAction);
 
   //add QGISSearchCombo
-  /*
-  qgisSearchCombo = new QGIS.SearchComboBox(
-    {
-      map:geoExtMap.map,
+  if (searchBoxQueryURL != null) {
+    myTopToolbar.insert(myTopToolbar.items.length, new Ext.Toolbar.Fill());
+
+    qgisSearchCombo = new QGIS.SearchComboBox({
+      map: geoExtMap.map,
       highlightLayerName:'attribHighLight',
-      width:300,
-      searchtables:searchtables
-  });
-  myTopToolbar.insert(myTopToolbar.items.length - 1,qgisSearchCombo);
-  */
+      width: 300,
+      searchtables: searchtables
+    });
+    myTopToolbar.insert(myTopToolbar.items.length, qgisSearchCombo);
+
+    var emptySearchFieldButton = new Ext.Button({
+      scale: 'medium',
+      icon: 'gis_icons/mActionUndo.png',
+      tooltipType: 'qtip',
+      tooltip: resetSearchFieldTooltipString[lang],
+      id: 'EmptySearchField'
+    });
+    emptySearchFieldButton.handler = mapToolbarHandler;
+    myTopToolbar.insert(myTopToolbar.items.length, emptySearchFieldButton);
+  }
+
   myTopToolbar.doLayout();
 
   //search panel and URL search parameters
