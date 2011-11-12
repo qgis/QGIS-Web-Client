@@ -372,12 +372,12 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
       items: this.formItems,
       buttons: [
         {
-          text: "Suchen", // TODO: i18n
+          text: searchButtonString[lang],
           scope: this,
           handler: this.onSubmit
         },
         {
-          text: "Zurücksetzen", // TODO: i18n
+          text: resetButtonString[lang],
           scope: this,
           handler: function() {
             this.fireEvent("featureselectioncleared");
@@ -421,7 +421,7 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
         this.resultsGrid.hide();
     }
     this.fireEvent("featureselectioncleared");
-    this.el.mask("Bitte warten", 'x-mask-loading'); // TODO: i18n
+    this.el.mask(pleaseWaitString[lang], 'x-mask-loading');
     if (this.useWmsRequest) {
       this.submitGetFeatureInfo();
     }
@@ -504,7 +504,7 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
 
         // create and add results grid
         this.resultsGrid = new Ext.grid.GridPanel({
-          title: "Suchresultat", // TODO: i18n
+          title: searchResultString[lang],
           collapsible: true,
           collapsed: true,
           store: this.store,
@@ -535,7 +535,7 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
   },
 
   onAjaxRequestException: function() {
-    this.showFailure("Netzwerkfehler"); // TODO: i18n
+    this.showFailure(networkErrorString[lang]);
   },
 
   onFormFailure: function(form, action) {
@@ -551,10 +551,10 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
   showFailure: function(msg) {
     this.el.unmask();
     if (msg == "client") {
-      Ext.MessageBox.alert("Suche", "Fehlende oder ungültige Werte im Suchformular"); // TODO: i18n
+      Ext.MessageBox.alert(searchPanelTitleString[lang], missingOrInvalidSearchParams[lang]);
     }
     else {
-      Ext.MessageBox.alert("Fehler bei Suche", msg); // TODO: i18n
+      Ext.MessageBox.alert(searchErrorString[lang], msg);
     }
   },
 

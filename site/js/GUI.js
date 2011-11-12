@@ -73,7 +73,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
                 items: [
                   {
                     xtype: 'panel',
-                    title: "Suche", // TODO: i18n
+                    title: searchPanelTitleString[lang],
                     id: 'SearchPanel',
                     items: [
                       {
@@ -87,7 +87,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
                   },
                   {
                     xtype: 'panel',
-                    title: "Karte", // TODO: i18n
+                    title: mapPanelTitleString[lang],
                     layout: 'border',
                     items: [
                       {
