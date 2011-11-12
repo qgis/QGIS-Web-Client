@@ -955,15 +955,15 @@ function showFeatureInfoHover(evt) {
       var attribNodes = featureNodes[j].getElementsByTagName("Attribute");
       for (var k = 0; k < attribNodes.length; ++k) {
         if (attribNodes[k].getAttribute("name") == "tooltip") {
-      attribText = attribNodes[k].getAttribute("value").replace(/\n/,"<br/>");
-      attribText = attribText.replace("\n","<br/>");
-      text += attribText + "<br/>";
+          attribText = attribNodes[k].getAttribute("value").replace(/\n/,"<br/>");
+          attribText = attribText.replace("\n","<br/>");
+          text += attribText + "<br/>";
         }
         else {
-      if (attribNodes[k].getAttribute("name") == "geometry") {
-        var feature = new OpenLayers.Feature.Vector(OpenLayers.Geometry.fromWKT(attribNodes[k].getAttribute("value")));
-        highlightLayer.addFeatures([feature]);
-      }
+          if (attribNodes[k].getAttribute("name") == "geometry") {
+            var feature = new OpenLayers.Feature.Vector(OpenLayers.Geometry.fromWKT(attribNodes[k].getAttribute("value")));
+            highlightLayer.addFeatures([feature]);
+          }
         }
       }
     }

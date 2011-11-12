@@ -560,12 +560,10 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
 
   onRowClick: function(grid, rowIndex, e) {
     var record = grid.store.getAt(rowIndex);
-    var geom = record.data.geometry;
-    if (geom != null) {
+    var bbox = record.data.bbox;
+    if (bbox != null) {
       var id = record.id;
-      var wktFormat = new OpenLayers.Format.WKT();
-      var feature = wktFormat.read(geom);
-      var centroid = feature.geometry.getCentroid();
+      var centroid = bbox.getCentroid();
       var x = centroid.x;
       var y = centroid.y;
       this.fireEvent("featureselected", this.selectionLayer, id, x, y, this.selectionZoom);
@@ -644,6 +642,20 @@ QGIS.FeatureInfoParser = Ext.extend(Object, {
             }
             // add feature attribute value
             feature.push(attributeNode.getAttribute("value"));
+          }
+          var bboxNodes = featureNode.getElementsByTagName("BoundingBox");
+          if (bboxNodes.length > 0) {
+            var bboxNode = bboxNodes[0];
+            if (updateFields) {
+              this.fields.push("bbox");
+            }
+            // add feature bbox geometry
+            feature.push(new OpenLayers.Bounds(
+              bboxNode.getAttribute("minx"),
+              bboxNode.getAttribute("miny"),
+              bboxNode.getAttribute("maxx"),
+              bboxNode.getAttribute("maxy")
+            ).toGeometry());
           }
           updateFields = false;
           this.features.push(feature);
