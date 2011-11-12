@@ -797,6 +797,7 @@ function postLoading() {
     printMapButton.disable();
     printMapButton.setTooltip(printMapDisabledTooltipString[lang]);
   }
+  printExtent.hide();
 
   //show that we are done with initializing the map
   mainStatusText.setText(modeNavigationString[lang]);
