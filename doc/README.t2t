@@ -128,7 +128,7 @@ svn co https://svn.osgeo.org/qgis/trunk/qgiswebclient qgiswebclient
 
 Global Settings for all projects:
 ```
-site/js/GlobalConfiguration.js
+site/js/GlobalOptions.js
 ```
 
 Translations (additional languages):
@@ -149,6 +149,126 @@ Thumbnails for individual projects:
 ```
 thumbnails/projectname.png
 ```
+
+== Configuration of search panels ==
+
+There are two types of search panels supported, using a direct WMS GetFeatureInfo request or using URL rewriting with a much shorter search URL.
+
+The search panels are configured in ``site/js/GlobalOptions.js``. 
+
+=== Using WMS GetFeatureInfo ===
+
+```
+var simpleWmsSearch = {
+  title: "Search continent",
+  query: 'simpleWmsSearch',
+  useWmsRequest: true,
+  queryLayer: "Country",
+  formItems: [
+    {
+      xtype: 'textfield',
+      name: 'name',
+      fieldLabel: "Name",
+      allowBlank: false,
+      blankText: "Please enter a name (e.g. 'africa')"
+    }
+  ],
+  gridColumns: [
+    {header: 'Name', dataIndex: 'name', menuDisabled: 'true'}
+  ],
+  selectionLayer: 'Country',
+  selectionZoom: 0
+};
+```
+
+- ``title``: title of the search tab
+- ``query``: identifier for this search
+- ``useWmsRequest``: enabkled for WMS GetFeatureInfo request
+- ``queryLayer``: name of query layer
+- ``formItems``: list of Ext.form.FormPanel item configs
+ - ``xtype``: form field type
+ - ``name``: name of query layer attribute
+ - ``fieldLabel``: visible text for this field
+ - ``blankText``: popup text for blank fields
+- ``gridColumns``: list of Ext.grid.GridPanel column configs to show search results
+- ``selectionLayer``: name of layer for marking selected results (the same as ``queryLayer``)
+- ``selectionZoom``: zoom level for jump-to when selecting results
+
+
+Request URL:
+
+``http://localhost/wms/helloworld?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&LAYERS=Country&QUERY_LAYERS=Country&FEATURE_COUNT=10&INFO_FORMAT=text/xml&SRS=EPSG:4326&FILTER=Country:"name"+=+'africa'``
+
+
+=== Using URL Rewriting ===
+
+```
+var urlRewriteSearch = {
+  title: "Search letter",
+  query: 'samplesearch',
+  formItems: [
+    {
+      xtype: 'hidden',
+      name: 'query',
+      value: 'samplesearch'
+    },
+    {
+      xtype: 'textfield',
+      name: 'colour',
+      fieldLabel: "Colour",
+      allowBlank: false,
+      blankText: "Please enter a colour (e.g. 'orange')"
+    }
+  ],
+  gridColumns: [
+    {header: 'PKUID', dataIndex: 'pkuid', menuDisabled: 'true'},
+    {header: 'Colour', dataIndex: 'colour', menuDisabled: 'true'}
+  ],
+  selectionLayer: 'Hello',
+  selectionZoom: 1
+};
+```
+
+- ``title``: title of the search tab
+- ``query``: identifier for this search
+- ``formItems``: list of Ext.form.FormPanel item configs, the ``query`` form field is required to match the rewrite rule (value is the same as ``query``)
+ - ``xtype``: form field type
+ - ``name``: name of query layer attribute
+ - ``fieldLabel``: visible text for this field
+ - ``blankText``: popup text for blank fields
+- ``gridColumns``: list of Ext.grid.GridPanel column configs to show search results
+- ``selectionLayer``: name of layer for marking selected results
+- ``selectionZoom``: zoom level for jump-to when selecting results
+
+
+For every search of this type you have to add a URL rewrite rule in the Apache config.
+
+```
+RewriteCond %{QUERY_STRING} ^(?:.*)query=samplesearch&*(?:.*)$
+RewriteCond %{QUERY_STRING} ^(?:(?:.*)&)?colour=([^&]*)(?:.*)$
+RewriteRule ^/wms/(.+)$ /cgi-bin/qgis_mapserv.fcgi?map=/<path-to-qgis-server-projects>/$1.qgs&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&LAYERS=Hello&QUERY_LAYERS=Hello&FEATURE_COUNT=20&INFO_FORMAT=text/xml&SRS=EPSG:4326&FILTER=Hello:"colour"\ =\ '%1' [PT]
+```
+
+The first RewriteCond matches the ``query`` id of the search panel config. The second RewriteCond extracts the values of the search request parameters.
+The RewriteRule composes the actual WMS GetFeatureInfo request to QGIS mapserver.
+
+
+Request URL:
+
+``http://localhost/wms/helloworld?query=samplesearch&colour=orange``
+
+
+=== Add search panels to projects ===
+
+```
+var mapSearchPanelConfigs = {
+  "helloworld": [simpleWmsSearch, urlRewriteSearch]
+};
+```
+
+Search panels are added to a project by adding a new key for the topic name with a list of search panel configs to ``mapSearchPanelConfigs``.
+If there is no search panel configuration for a project, the search will be hidden in the GUI.
+
 
 = URL Rewriting =
 

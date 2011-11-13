@@ -13,13 +13,13 @@
 <DIV CLASS="header" ID="header">
 <H1>Quantum GIS (QGIS) Web Client</H1>
 <H2>Installation Guide</H2>
-<H3>Friday November 11, 2011</H3>
+<H3>Sunday November 13, 2011</H3>
 </DIV>
 
 <DIV CLASS="body" ID="body">
 <P>
-Last Updated: Friday November 11, 2011
-Last Change : Friday November 11, 2011
+Last Updated: Sunday November 13, 2011
+Last Change : Sunday November 13, 2011
 </P>
 <DIV CLASS="toc" ID="toc">
   <OL>
@@ -27,11 +27,14 @@ Last Change : Friday November 11, 2011
   <LI><A HREF="#toc2">Purpose</A>
   <LI><A HREF="#toc3">Installation</A>
   <LI><A HREF="#toc4">Configuration of Client</A>
-  <LI><A HREF="#toc5">URL Rewriting</A>
-  <LI><A HREF="#toc6">Configuration of search python script</A>
-  <LI><A HREF="#toc7">PostgreSQL table setup for searching</A>
-  <LI><A HREF="#toc8">License</A>
-  <LI><A HREF="#toc9">Acknowledgements</A>
+    <UL>
+    <LI><A HREF="#toc5">4.1. Configuration of search panels</A>
+    </UL>
+  <LI><A HREF="#toc6">URL Rewriting</A>
+  <LI><A HREF="#toc7">Configuration of search python script</A>
+  <LI><A HREF="#toc8">PostgreSQL table setup for searching</A>
+  <LI><A HREF="#toc9">License</A>
+  <LI><A HREF="#toc10">Acknowledgements</A>
   </OL>
 
 </DIV>
@@ -115,7 +118,7 @@ svn co <A HREF="https://svn.osgeo.org/qgis/trunk/qgiswebclient">https://svn.osge
 Global Settings for all projects:
 </P>
 <div class="code"><PRE>
-site/js/GlobalConfiguration.js
+site/js/GlobalOptions.js
 </PRE></div>
 <P></P>
 <P>
@@ -146,6 +149,134 @@ thumbnails/projectname.png
 </PRE></div>
 <P></P>
 <A NAME="toc5"></A>
+<H2>4.1. Configuration of search panels</H2>
+<P>
+There are two types of search panels supported, using a direct WMS GetFeatureInfo request or using URL rewriting with a much shorter search URL.
+</P>
+<P>
+The search panels are configured in <CODE>site/js/GlobalOptions.js</CODE>. 
+</P>
+<H3>4.1.1. Using WMS GetFeatureInfo</H3>
+<div class="code"><PRE>
+var simpleWmsSearch = {
+  title: "Search continent",
+  query: 'simpleWmsSearch',
+  useWmsRequest: true,
+  queryLayer: "Country",
+  formItems: [
+    {
+      xtype: 'textfield',
+      name: 'name',
+      fieldLabel: "Name",
+      allowBlank: false,
+      blankText: "Please enter a name (e.g. 'africa')"
+    }
+  ],
+  gridColumns: [
+    {header: 'Name', dataIndex: 'name', menuDisabled: 'true'}
+  ],
+  selectionLayer: 'Country',
+  selectionZoom: 0
+};
+</PRE></div>
+<P></P>
+<UL>
+<LI><CODE>title</CODE>: title of the search tab
+<LI><CODE>query</CODE>: identifier for this search
+<LI><CODE>useWmsRequest</CODE>: enabkled for WMS GetFeatureInfo request
+<LI><CODE>queryLayer</CODE>: name of query layer
+<LI><CODE>formItems</CODE>: list of Ext.form.FormPanel item configs
+ <UL>
+ <LI><CODE>xtype</CODE>: form field type
+ <LI><CODE>name</CODE>: name of query layer attribute
+ <LI><CODE>fieldLabel</CODE>: visible text for this field
+ <LI><CODE>blankText</CODE>: popup text for blank fields
+ </UL>
+<LI><CODE>gridColumns</CODE>: list of Ext.grid.GridPanel column configs to show search results
+<LI><CODE>selectionLayer</CODE>: name of layer for marking selected results (the same as <CODE>queryLayer</CODE>)
+<LI><CODE>selectionZoom</CODE>: zoom level for jump-to when selecting results
+</UL>
+
+<P>
+Request URL:
+</P>
+<P>
+<CODE>http://localhost/wms/helloworld?SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetFeatureInfo&amp;LAYERS=Country&amp;QUERY_LAYERS=Country&amp;FEATURE_COUNT=10&amp;INFO_FORMAT=text/xml&amp;SRS=EPSG:4326&amp;FILTER=Country:"name"+=+'africa'</CODE>
+</P>
+<H3>4.1.2. Using URL Rewriting</H3>
+<div class="code"><PRE>
+var urlRewriteSearch = {
+  title: "Search letter",
+  query: 'samplesearch',
+  formItems: [
+    {
+      xtype: 'hidden',
+      name: 'query',
+      value: 'samplesearch'
+    },
+    {
+      xtype: 'textfield',
+      name: 'colour',
+      fieldLabel: "Colour",
+      allowBlank: false,
+      blankText: "Please enter a colour (e.g. 'orange')"
+    }
+  ],
+  gridColumns: [
+    {header: 'PKUID', dataIndex: 'pkuid', menuDisabled: 'true'},
+    {header: 'Colour', dataIndex: 'colour', menuDisabled: 'true'}
+  ],
+  selectionLayer: 'Hello',
+  selectionZoom: 1
+};
+</PRE></div>
+<P></P>
+<UL>
+<LI><CODE>title</CODE>: title of the search tab
+<LI><CODE>query</CODE>: identifier for this search
+<LI><CODE>formItems</CODE>: list of Ext.form.FormPanel item configs, the <CODE>query</CODE> form field is required to match the rewrite rule (value is the same as <CODE>query</CODE>)
+ <UL>
+ <LI><CODE>xtype</CODE>: form field type
+ <LI><CODE>name</CODE>: name of query layer attribute
+ <LI><CODE>fieldLabel</CODE>: visible text for this field
+ <LI><CODE>blankText</CODE>: popup text for blank fields
+ </UL>
+<LI><CODE>gridColumns</CODE>: list of Ext.grid.GridPanel column configs to show search results
+<LI><CODE>selectionLayer</CODE>: name of layer for marking selected results
+<LI><CODE>selectionZoom</CODE>: zoom level for jump-to when selecting results
+</UL>
+
+<P>
+For every search of this type you have to add a URL rewrite rule in the Apache config.
+</P>
+<div class="code"><PRE>
+RewriteCond %{QUERY_STRING} ^(?:.*)query=samplesearch&amp;*(?:.*)$
+RewriteCond %{QUERY_STRING} ^(?:(?:.*)&amp;)?colour=([^&amp;]*)(?:.*)$
+RewriteRule ^/wms/(.+)$ /cgi-bin/qgis_mapserv.fcgi?map=/&lt;path-to-qgis-server-projects&gt;/$1.qgs&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetFeatureInfo&amp;LAYERS=Hello&amp;QUERY_LAYERS=Hello&amp;FEATURE_COUNT=20&amp;INFO_FORMAT=text/xml&amp;SRS=EPSG:4326&amp;FILTER=Hello:"colour"\ =\ '%1' [PT]
+</PRE></div>
+<P></P>
+<P>
+The first RewriteCond matches the <CODE>query</CODE> id of the search panel config. The second RewriteCond extracts the values of the search request parameters.
+The RewriteRule composes the actual WMS GetFeatureInfo request to QGIS mapserver.
+</P>
+<P>
+Request URL:
+</P>
+<P>
+<CODE>http://localhost/wms/helloworld?query=samplesearch&amp;colour=orange</CODE>
+</P>
+<H3>4.1.3. Add search panels to projects</H3>
+<div class="code"><PRE>
+var mapSearchPanelConfigs = {
+  "helloworld": [simpleWmsSearch, urlRewriteSearch]
+};
+</PRE></div>
+<P></P>
+<P>
+Search panels are added to a project by adding a new key for the topic name with a list of search panel configs to <CODE>mapSearchPanelConfigs</CODE>.
+If there is no search panel configuration for a project, the search will be hidden in the GUI.
+</P>
+<A NAME="toc6"></A>
 <H1>5. URL Rewriting</H1>
 <P>
 Using a standard installation of QGIS server, GlobalOptions.js will have a WMS server configuration like
@@ -210,7 +341,7 @@ RewriteRule ^/maps-protected/([^\.]+)$ /qgis-web-client/site/qgiswebclient.html 
 RewriteRule ^/maps-protected/(.*) /qgis-web-client/site/$1 [PT]
 </PRE></div>
 <P></P>
-<A NAME="toc6"></A>
+<A NAME="toc7"></A>
 <H1>6. Configuration of search python script</H1>
 <P>
 Searching is handled by two separate python-wsgi scripts: "search.wsgi" lists
@@ -245,7 +376,7 @@ conn = psycopg2.connect("db='yourdb' port='5432' user='yourusername' password='y
 <P>
 and adapt the parameters according to your server/db.
 </P>
-<A NAME="toc7"></A>
+<A NAME="toc8"></A>
 <H1>7. PostgreSQL table setup for searching</H1>
 <div class="code"><PRE>
 CREATE TABLE cadastre.searchtable
@@ -278,12 +409,12 @@ The above search table can also be a view or materialized view. One can combine
 several search tables by specifying the <CODE>`searchtables=searchtable1,searchtable2,searchtable3`</CODE> 
 parameter when requesting the <I>search.wsgi</I> script.
 </P>
-<A NAME="toc8"></A>
+<A NAME="toc9"></A>
 <H1>8. License</H1>
 <P>
 BSD
 </P>
-<A NAME="toc9"></A>
+<A NAME="toc10"></A>
 <H1>9. Acknowledgements</H1>
 <P>
 We'd like to thank the OpenLayers and GeoExt team for providing their base libraries.
