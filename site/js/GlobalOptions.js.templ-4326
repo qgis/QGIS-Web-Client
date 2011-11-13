@@ -12,6 +12,58 @@ var useGeoNamesSearchBox = true;
 var searchBoxQueryURL = null; // "/wsgi/search.wsgi?query=";
 var searchBoxGetGeomURL = null; // "/wsgi/getSearchGeom.wsgi";
 
+//config for QGIS.SearchPanel
+var simpleWmsSearch = {
+  title: "Search continent",
+  query: 'simpleWmsSearch',
+  useWmsRequest: true,
+  queryLayer: "Country",
+  formItems: [
+    {
+      xtype: 'textfield',
+      name: 'name',
+      fieldLabel: "Name",
+      allowBlank: false,
+      blankText: "Please enter a name (e.g. 'africa')"
+    }
+  ],
+  gridColumns: [
+    {header: 'Name', dataIndex: 'name', menuDisabled: 'true'}
+  ],
+  selectionLayer: 'Country',
+  selectionZoom: 0
+};
+
+var urlRewriteSearch = {
+  title: "Search letter",
+  query: 'samplesearch',
+  formItems: [
+    {
+      xtype: 'hidden',
+      name: 'query',
+      value: 'samplesearch'
+    },
+    {
+      xtype: 'textfield',
+      name: 'colour',
+      fieldLabel: "Colour",
+      allowBlank: false,
+      blankText: "Please enter a colour (e.g. 'orange')"
+    }
+  ],
+  gridColumns: [
+    {header: 'PKUID', dataIndex: 'pkuid', menuDisabled: 'true'},
+    {header: 'Colour', dataIndex: 'colour', menuDisabled: 'true'}
+  ],
+  selectionLayer: 'Hello',
+  selectionZoom: 1
+};
+
+//list of configs for QGIS.SearchPanel per map name
+var mapSearchPanelConfigs = {
+  "helloworld": [simpleWmsSearch, urlRewriteSearch]
+};
+
 //first part of titlebar text
 var titleBarText = "GIS-Browser - "; // will be appended with project title
 

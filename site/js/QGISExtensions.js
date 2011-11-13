@@ -357,7 +357,7 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
     config.formItems = config.formItems || [];
     config.gridColumns = config.gridColumns || [];
     config.selectionLayer = config.selectionLayer || '';
-    config.selectionZoom = config.selectionZoom || 4;
+    config.selectionZoom = config.selectionZoom != null || 4;
 
     QGIS.SearchPanel.superclass.constructor.call(this, config);
   },
@@ -433,6 +433,7 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
   submitGetFeatureInfo: function() {
     var filter = this.queryLayer + ":";
     var fieldValues = this.form.getForm().getFieldValues();
+    var fieldsValidate = true;
     var addAnd = false;
     for (var key in fieldValues) {
       if (addAnd) {
@@ -446,26 +447,32 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
         valueQuotes = "'"
       }
       filter += "\"" + key + "\" = " + valueQuotes + fieldValues[key] + valueQuotes;
+      fieldsValidate &= field.validate();
       addAnd = true;
     }
 
-    Ext.Ajax.request({
-      url: wmsURI,
-      params: {
-        'SERVICE': 'WMS',
-        'VERSION': '1.1.1',
-        'REQUEST': 'GetFeatureInfo',
-        'LAYERS': this.queryLayer,
-        'QUERY_LAYERS': this.queryLayer,
-        'FEATURE_COUNT': 10,
-        'INFO_FORMAT': 'text/xml',
-        'SRS': 'EPSG:' + epsgcode,
-        'FILTER': filter
-      },
-      method: 'GET',
-      scope: this,
-      success: this.onSuccess
-    });
+    if (fieldsValidate) {
+      Ext.Ajax.request({
+        url: wmsURI,
+        params: {
+          'SERVICE': 'WMS',
+          'VERSION': '1.1.1',
+          'REQUEST': 'GetFeatureInfo',
+          'LAYERS': this.queryLayer,
+          'QUERY_LAYERS': this.queryLayer,
+          'FEATURE_COUNT': 10,
+          'INFO_FORMAT': 'text/xml',
+          'SRS': 'EPSG:' + epsgcode,
+          'FILTER': filter
+        },
+        method: 'GET',
+        scope: this,
+        success: this.onSuccess
+      });
+    }
+    else {
+      this.showFailure("client");
+    }
   },
 
   submitForm: function() {
@@ -563,9 +570,8 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
     var bbox = record.data.bbox;
     if (bbox != null) {
       var id = record.id;
-      var centroid = bbox.getCentroid();
-      var x = centroid.x;
-      var y = centroid.y;
+      var x = (bbox.minx + bbox.maxx) / 2.0;
+      var y = (bbox.miny + bbox.maxy) / 2.0;
       this.fireEvent("featureselected", this.selectionLayer, id, x, y, this.selectionZoom);
     }
   }
@@ -616,12 +622,12 @@ QGIS.FeatureInfoParser = Ext.extend(Object, {
 
       // get bbox of all features
       var bboxNode = node.getElementsByTagName("BoundingBox")[0];
-      this.bbox = [
-        bboxNode.getAttribute("minx"),
-        bboxNode.getAttribute("miny"),
-        bboxNode.getAttribute("maxx"),
-        bboxNode.getAttribute("maxy")
-      ];
+      this.bbox = {
+        "minx": parseFloat(bboxNode.getAttribute("minx")),
+        "miny": parseFloat(bboxNode.getAttribute("miny")),
+        "maxx": parseFloat(bboxNode.getAttribute("maxx")),
+        "maxy": parseFloat(bboxNode.getAttribute("maxy"))
+      };
 
       // get layer features
       var layerNode = node.getElementsByTagName("Layer")[0];
@@ -649,13 +655,13 @@ QGIS.FeatureInfoParser = Ext.extend(Object, {
             if (updateFields) {
               this.fields.push("bbox");
             }
-            // add feature bbox geometry
-            feature.push(new OpenLayers.Bounds(
-              bboxNode.getAttribute("minx"),
-              bboxNode.getAttribute("miny"),
-              bboxNode.getAttribute("maxx"),
-              bboxNode.getAttribute("maxy")
-            ).toGeometry());
+            // add feature bbox
+            feature.push({
+              "minx": parseFloat(bboxNode.getAttribute("minx")),
+              "miny": parseFloat(bboxNode.getAttribute("miny")),
+              "maxx": parseFloat(bboxNode.getAttribute("maxx")),
+              "maxy": parseFloat(bboxNode.getAttribute("maxy"))
+            });
           }
           updateFields = false;
           this.features.push(feature);
