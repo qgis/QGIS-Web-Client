@@ -357,7 +357,9 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
     config.formItems = config.formItems || [];
     config.gridColumns = config.gridColumns || [];
     config.selectionLayer = config.selectionLayer || '';
-    config.selectionZoom = config.selectionZoom != null || 4;
+    if (config.selectionZoom == null) {
+      config.selectionZoom = 4;
+    }
 
     QGIS.SearchPanel.superclass.constructor.call(this, config);
   },
