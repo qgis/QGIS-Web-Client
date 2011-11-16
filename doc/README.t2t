@@ -128,26 +128,197 @@ svn co https://svn.osgeo.org/qgis/trunk/qgiswebclient qgiswebclient
 
 Global Settings for all projects:
 ```
-js/GlobalConfiguration.js
+site/js/GlobalOptions.js
 ```
 
 Translations (additional languages):
 ```
-js/Translations.js
+site/js/Translations.js
 ```
 
 Project settings and index:
 ```
-index.xml
+site/index.xml
 ```
 
 Stylesheet of project index:
 ```
-gis-project_listing.xsl
+site/gis-project_listing.xsl
 ```
 Thumbnails for individual projects:
 ```
 thumbnails/projectname.png
+```
+
+== Configuration of search panels ==
+
+There are two types of search panels supported, using a direct WMS GetFeatureInfo request or using URL rewriting with a much shorter search URL.
+
+The search panels are configured in ``site/js/GlobalOptions.js``. 
+
+=== Using WMS GetFeatureInfo ===
+
+```
+var simpleWmsSearch = {
+  title: "Search continent",
+  query: 'simpleWmsSearch',
+  useWmsRequest: true,
+  queryLayer: "Country",
+  formItems: [
+    {
+      xtype: 'textfield',
+      name: 'name',
+      fieldLabel: "Name",
+      allowBlank: false,
+      blankText: "Please enter a name (e.g. 'africa')"
+    }
+  ],
+  gridColumns: [
+    {header: 'Name', dataIndex: 'name', menuDisabled: 'true'}
+  ],
+  selectionLayer: 'Country',
+  selectionZoom: 0
+};
+```
+
+- ``title``: title of the search tab
+- ``query``: identifier for this search
+- ``useWmsRequest``: enabkled for WMS GetFeatureInfo request
+- ``queryLayer``: name of query layer
+- ``formItems``: list of Ext.form.FormPanel item configs
+ - ``xtype``: form field type
+ - ``name``: name of query layer attribute
+ - ``fieldLabel``: visible text for this field
+ - ``blankText``: popup text for blank fields
+- ``gridColumns``: list of Ext.grid.GridPanel column configs to show search results
+- ``selectionLayer``: name of layer for marking selected results (the same as ``queryLayer``)
+- ``selectionZoom``: zoom level for jump-to when selecting results
+
+
+Request URL:
+
+``http://localhost/wms/helloworld?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&LAYERS=Country&QUERY_LAYERS=Country&FEATURE_COUNT=10&INFO_FORMAT=text/xml&SRS=EPSG:4326&FILTER=Country:"name"+=+'africa'``
+
+
+=== Using URL Rewriting ===
+
+```
+var urlRewriteSearch = {
+  title: "Search letter",
+  query: 'samplesearch',
+  formItems: [
+    {
+      xtype: 'hidden',
+      name: 'query',
+      value: 'samplesearch'
+    },
+    {
+      xtype: 'textfield',
+      name: 'colour',
+      fieldLabel: "Colour",
+      allowBlank: false,
+      blankText: "Please enter a colour (e.g. 'orange')"
+    }
+  ],
+  gridColumns: [
+    {header: 'PKUID', dataIndex: 'pkuid', menuDisabled: 'true'},
+    {header: 'Colour', dataIndex: 'colour', menuDisabled: 'true'}
+  ],
+  selectionLayer: 'Hello',
+  selectionZoom: 1
+};
+```
+
+- ``title``: title of the search tab
+- ``query``: identifier for this search
+- ``formItems``: list of Ext.form.FormPanel item configs, the ``query`` form field is required to match the rewrite rule (value is the same as ``query``)
+ - ``xtype``: form field type
+ - ``name``: name of query layer attribute
+ - ``fieldLabel``: visible text for this field
+ - ``blankText``: popup text for blank fields
+- ``gridColumns``: list of Ext.grid.GridPanel column configs to show search results
+- ``selectionLayer``: name of layer for marking selected results
+- ``selectionZoom``: zoom level for jump-to when selecting results
+
+
+For every search of this type you have to add a URL rewrite rule in the Apache config.
+
+```
+RewriteCond %{QUERY_STRING} ^(?:.*)query=samplesearch&*(?:.*)$
+RewriteCond %{QUERY_STRING} ^(?:(?:.*)&)?colour=([^&]*)(?:.*)$
+RewriteRule ^/wms/(.+)$ /cgi-bin/qgis_mapserv.fcgi?map=/<path-to-qgis-server-projects>/$1.qgs&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&LAYERS=Hello&QUERY_LAYERS=Hello&FEATURE_COUNT=20&INFO_FORMAT=text/xml&SRS=EPSG:4326&FILTER=Hello:"colour"\ =\ '%1' [PT]
+```
+
+The first RewriteCond matches the ``query`` id of the search panel config. The second RewriteCond extracts the values of the search request parameters.
+The RewriteRule composes the actual WMS GetFeatureInfo request to QGIS mapserver.
+
+
+Request URL:
+
+``http://localhost/wms/helloworld?query=samplesearch&colour=orange``
+
+
+=== Add search panels to projects ===
+
+```
+var mapSearchPanelConfigs = {
+  "helloworld": [simpleWmsSearch, urlRewriteSearch]
+};
+```
+
+Search panels are added to a project by adding a new key for the topic name with a list of search panel configs to ``mapSearchPanelConfigs``.
+If there is no search panel configuration for a project, the search will be hidden in the GUI.
+
+
+= URL Rewriting =
+
+Using a standard installation of QGIS server, GlobalOptions.js will have a WMS server configuration like
+```
+var serverAndCGI = "/cgi-bin/qgis_mapserv.fcgi";
+```
+
+A sample URL for QGIS Web Client installed in /var/www/qgis-web-client:
+```
+http://localhost/qgis-web-client/qgiswebclient.html?map=/opt/geodata/maps/NaturalEarth.qgs&visibleLayers=HYP_50M_SR_W
+```
+
+With the following rules for Apache mod_rewrite you can shorten the URLs to
+```
+var serverAndCGI = "/wms";
+```
+and
+```
+http://localhost/maps/NaturalEarth?visibleLayers=HYP_50M_SR_W
+```
+
+Rules in VirtualHost configuration:
+```
+# Forbid direct access
+RewriteRule ^/cgi-bin/.*$ - [F]
+
+# Search with SearchPanel (e.g. Address)
+RewriteCond %{QUERY_STRING} ^(?:.*)query=address&*(?:.*)$
+RewriteCond %{QUERY_STRING} ^(?:(?:.*)&)?street=([^&]*)(?:(?:.*)&)+number=([^&]*)(?:.*)$
+RewriteRule ^/wms/(.+)$ /cgi-bin/qgis_mapserv.fcgi?map=/opt/geodata/maps/$1.qgs&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&LAYERS=addresses&QUERY_LAYERS=addresses&FEATURE_COUNT=10&INFO_FORMAT=text/xml&SRS=EPSG:21781&FILTER=addresses:"street"\ =\ '%1' AND "number"\ =\ %2 [PT]
+
+# Rewrite /wms/mapname to qgis_mapserv.fcgi?map=mappath/mapname.qgs
+RewriteRule ^/wms/(.+)$ /cgi-bin/qgis_mapserv.fcgi?map=/opt/geodata/maps/$1.qgs [QSA,PT]
+# Rewrite /maps/mapname to qgis-web-client main page. mapname will be extracted for wms calls in Javascript code.
+RewriteRule ^/maps/([^\.]+)$ /qgis-web-client/site/qgiswebclient.html [PT]
+# Rewrite /maps/* to qgis-web-client/site (e.g. /maps/gis_icons/mActionZoomNext.png -> /qgis-web-client/site/gis_icons/mActionZoomNext.png)
+RewriteRule ^/maps/(.*) /qgis-web-client/site/$1 [PT]
+```
+
+For supporting qgs files in subdirectories (e.g. /maps/subdir/mapnampe) replace last rule with:
+```
+RewriteRule ^/maps/[^/]+/(.*) /qgis-web-client/site/$1 [PT]
+```
+
+For adding zones in different subdirecories (e.g. maps and maps-protected) add the following rules:
+```
+RewriteRule ^/wms-protected/(.+)$ /cgi-bin/qgis_mapserv.fcgi?map=/opt/geodata/maps-protected/$1.qgs [QSA,PT]
+RewriteRule ^/maps-protected/([^\.]+)$ /qgis-web-client/site/qgiswebclient.html [PT]
+RewriteRule ^/maps-protected/(.*) /qgis-web-client/site/$1 [PT]
 ```
 
 = Configuration of search python script =

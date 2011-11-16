@@ -148,6 +148,24 @@ leftPanelTitleString["fr"] = "Infos et outils";
 leftPanelTitleString["it"] = "Info e strumenti";
 leftPanelTitleString["pt_PT"] = "Informaç&atilde;o e Ferramentas";
 
+//title of search panel
+var searchPanelTitleString = new Array();
+searchPanelTitleString["en"] = "Search";
+searchPanelTitleString["es"] = "Search"; // FIXME
+searchPanelTitleString["de"] = "Suche";
+searchPanelTitleString["fr"] = "Search"; // FIXME
+searchPanelTitleString["it"] = "Search"; // FIXME
+searchPanelTitleString["pt_PT"] = "Search"; // FIXME
+
+//title of map panel
+var mapPanelTitleString = new Array();
+mapPanelTitleString["en"] = "Map";
+mapPanelTitleString["es"] = "Map"; // FIXME
+mapPanelTitleString["de"] = "Karte";
+mapPanelTitleString["fr"] = "Map"; // FIXME
+mapPanelTitleString["it"] = "Map"; // FIXME
+mapPanelTitleString["pt_PT"] = "Map"; // FIXME
+
 //title of map layer tree
 var layerTreeTitleString = new Array();
 layerTreeTitleString["en"] = "Map Layers";
@@ -220,6 +238,69 @@ searchFieldDefaultTextString["de"] = "Suche (Adressen, Parzellenr, Flurnamen, et
 searchFieldDefaultTextString["fr"] = "Chercher (adresses, n&deg; de parcelles, noms, etc.)";
 searchFieldDefaultTextString["it"] = "Ricerca (indirizzi, n&deg; delle particelle, nomi, ecc.)";
 searchFieldDefaultTextString["pt_PT"] = "Pesquisa (morada, parcelas, nomes, etc.)";
+
+//search button
+var searchButtonString = new Array();
+searchButtonString["en"] = "Search";
+searchButtonString["es"] = "Search"; // FIXME
+searchButtonString["de"] = "Suchen";
+searchButtonString["fr"] = "Search"; // FIXME
+searchButtonString["it"] = "Search"; // FIXME
+searchButtonString["pt_PT"] = "Search"; // FIXME
+
+//reset button
+var resetButtonString = new Array();
+resetButtonString["en"] = "Reset";
+resetButtonString["es"] = "Reset"; // FIXME
+resetButtonString["de"] = "Zur&uuml;cksetzen";
+resetButtonString["fr"] = "Reset"; // FIXME
+resetButtonString["it"] = "Reset"; // FIXME
+resetButtonString["pt_PT"] = "Reset"; // FIXME
+
+//please wait
+var pleaseWaitString = new Array();
+pleaseWaitString["en"] = "Please wait";
+pleaseWaitString["es"] = "Please wait"; // FIXME
+pleaseWaitString["de"] = "Bitte warten";
+pleaseWaitString["fr"] = "Please wait"; // FIXME
+pleaseWaitString["it"] = "Please wait"; // FIXME
+pleaseWaitString["pt_PT"] = "Please wait"; // FIXME
+
+//search result
+var searchResultString = new Array();
+searchResultString["en"] = "Search result";
+searchResultString["es"] = "Search result"; // FIXME
+searchResultString["de"] = "Suchresultat";
+searchResultString["fr"] = "Search result"; // FIXME
+searchResultString["it"] = "Search result"; // FIXME
+searchResultString["pt_PT"] = "Search result"; // FIXME
+
+//network error
+var networkErrorString = new Array();
+networkErrorString["en"] = "Network error";
+networkErrorString["es"] = "Network error"; // FIXME
+networkErrorString["de"] = "Netzwerkfehler";
+networkErrorString["fr"] = "Network error"; // FIXME
+networkErrorString["it"] = "Network error"; // FIXME
+networkErrorString["pt_PT"] = "Network error"; // FIXME
+
+// missing or invalid search params
+var missingOrInvalidSearchParams = new Array();
+missingOrInvalidSearchParams["en"] = "Missing or invalid values in search form";
+missingOrInvalidSearchParams["es"] = "Missing or invalid values in search form"; // FIXME
+missingOrInvalidSearchParams["de"] = "Fehlende oder ung&uuml;ltige Werte im Suchformular";
+missingOrInvalidSearchParams["fr"] = "Missing or invalid values in search form"; // FIXME
+missingOrInvalidSearchParams["it"] = "Missing or invalid values in search form"; // FIXME
+missingOrInvalidSearchParams["pt_PT"] = "Missing or invalid values in search form"; // FIXME
+
+//search error
+var searchErrorString = new Array();
+searchErrorString["en"] = "Error during search";
+searchErrorString["es"] = "Error during search"; // FIXME
+searchErrorString["de"] = "Fehler bei Suche";
+searchErrorString["fr"] = "Error during search"; // FIXME
+searchErrorString["it"] = "Error during search"; // FIXME
+searchErrorString["pt_PT"] = "Error during search"; // FIXME
 
 //map tips no result
 var mapTipsNoResultString = new Array();
@@ -421,6 +502,24 @@ printMapDisabledTooltipString["de"] = "Drucken nicht möglich, da keine Layouts 
 printMapDisabledTooltipString["fr"] = "Imprimez non activée, aucune layout est défini dans le projet QGIS";
 printMapDisabledTooltipString["it"] = "Stampa disabilitata: nel progetto QGIS non &egrave; definito alcun layout";
 printMapDisabledTooltipString["pt_PT"] = "Impress&atilde;o n&atilde;o dispon&iacute;vel: no projecto QGIS n&atilde;o &eacute; deinfido algum layout";
+
+//Geonames loading string
+var geonamesLoadingString = new Array();
+geonamesLoadingString["en"] = "Search in Geonames...";
+geonamesLoadingString["es"] = "Search in Geonames..."; // FIXME
+geonamesLoadingString["de"] = "Suche in Geonames...";
+geonamesLoadingString["fr"] = "Search in Geonames..."; // FIXME
+geonamesLoadingString["it"] = "Search in Geonames..."; // FIXME
+geonamesLoadingString["pt_PT"] = "Search in Geonames..."; // FIXME
+
+//Geonames empty string
+var geonamesEmptyString = new Array();
+geonamesEmptyString["en"] = "Search location in Geonames";
+geonamesEmptyString["es"] = "Search location in Geonames"; // FIXME
+geonamesEmptyString["de"] = "Suche Ort in Geonames";
+geonamesEmptyString["fr"] = "Search location in Geonames"; // FIXME
+geonamesEmptyString["it"] = "Search location in Geonames"; // FIXME
+geonamesEmptyString["pt_PT"] = "Search location in Geonames"; // FIXME
 
 //Reset Search Field
 var resetSearchFieldTooltipString = new Array();
