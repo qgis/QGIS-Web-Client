@@ -66,11 +66,44 @@ http://localhost/maps/NaturalEarth?visibleLayers=HYP_50M_SR_W
 
 Rules in VirtualHost configuration:
 
-# Map /wms to qgis_mapserv.fcgi
+# Forbid direct access
+RewriteRule ^/cgi-bin/.*$ - [F]
+
+# Rewrite /wms/mapname to qgis_mapserv.fcgi?map=mappath/mapname.qgs
 RewriteRule ^/wms/(.+)$ /cgi-bin/qgis_mapserv.fcgi?map=/opt/geodata/maps/$1.qgs [QSA,PT]
-# Map /maps to /qgis-web-client
-RewriteRule ^/maps/([^/.]+)$ /qgis-web-client/qgiswebclient.html [PT]
+# Rewrite /maps/mapname to qgis-web-client main page. mapname will be extracted for wms calls in Javascript code.
+RewriteRule ^/maps/([^\.]+)$ /qgis-web-client/qgiswebclient.html [PT]
+# Rewrite /maps/* to qgis-web-client (e.g. /maps/icons/mActionZoomNext.png -> /qgis-web-client/icons/mActionZoomNext.png)
 RewriteRule ^/maps/(.*) /qgis-web-client/$1 [PT]
+
+For supporting qgs files in subdirectories (e.g. /maps/subdir/mapnampe) replace last rule with:
+
+RewriteRule ^/maps/[^/]+/(.*) /qgis-web-client/$1 [PT]
+
+For adding zones in different subdirecories (e.g. maps and maps-protected) add the following rules:
+
+RewriteRule ^/wms-protected/(.+)$ /cgi-bin/qgis_mapserv.fcgi?map=/opt/geodata/maps-protected/$1.qgs [QSA,PT]
+RewriteRule ^/maps-protected/([^\.]+)$ /qgis-web-client/qgiswebclient.html [PT]
+RewriteRule ^/maps-protected/(.*) /qgis-web-client/$1 [PT]
+
+If you want to protect a zone with HTTP Basic Authentication, you have rewrite to a different location:
+
+RewriteRule ^/wms-protected/(.+)$ /cgi-bin/qgis_mapserv-protected.fcgi?map=/opt/geodata/maps-protected/$1.qgs [QSA,PT]
+RewriteRule ^/maps-protected/([^\.]+)$ /qgis-web-client-protected/qgiswebclient.html [PT]
+RewriteRule ^/maps-protected/(.*) /qgis-web-client-protected/$1 [PT]
+
+<LocationMatch "/qgis-web-client-protected/|/qgis_mapserv-protected.fcgi">
+  AuthType Basic
+  AuthName "Authorization Required"
+  AuthUserFile /etc/apache2/htpasswd
+  Require valid-user
+</LocationMatch>
+
+These locations are usually symlinks to the non-protected files/directory:
+
+ln -s qgis-web-client /var/www/qgis-web-client-protected
+ln -s qgis_mapserv.fcgi /usr/lib/cgi-bin/qgis_mapserv-protected.fcgi
+
 
 Configuration of search python script
 -------------------------------------

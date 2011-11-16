@@ -137,18 +137,6 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 										},
 										{
 											xtype: 'button',
-											tooltip: objIdentificationTooltipString[lang],
-											toggleGroup: 'mapTools',
-											enableToggle: true,
-											icon: 'gis_icons/mActionIdentify.png',
-											allowDepress: true,
-											tooltipType: 'qtip',
-											iconCls: '',
-											scale: 'medium',
-											id: 'IdentifyTool'
-										},
-										{
-											xtype: 'button',
 											tooltip: mapTipsTooltipString[lang],
 											toggleGroup: 'mapTools',
 											enableToggle: true,
@@ -158,6 +146,18 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 											iconCls: '',
 											scale: 'medium',
 											id: 'MapTips'
+										},
+										{
+											xtype: 'button',
+											tooltip: objIdentificationTooltipString[lang],
+											toggleGroup: 'mapTools',
+											enableToggle: true,
+											icon: 'gis_icons/mActionIdentify.png',
+											allowDepress: true,
+											tooltipType: 'qtip',
+											iconCls: '',
+											scale: 'medium',
+											id: 'IdentifyTool'
 										},
 										{
 											xtype: 'tbtext',

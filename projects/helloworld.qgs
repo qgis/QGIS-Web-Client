@@ -4,9 +4,9 @@
     <mapcanvas>
         <units>degrees</units>
         <extent>
-            <xmin>-153.829742</xmin>
+            <xmin>-158.891431</xmin>
             <ymin>-64.122534</ymin>
-            <xmax>161.361678</xmax>
+            <xmax>166.423367</xmax>
             <ymax>104.154215</ymax>
         </extent>
         <projections>1</projections>
@@ -36,33 +36,33 @@
         </legendlayer>
     </legend>
     <Composer title="Composer 1" visible="0">
+        <ComposerLabel valign="32" labelText="Welcome to our world...." halign="1" margin="1">
+            <LabelFont description="Ubuntu,12,-1,5,75,0,0,0,0,0"/>
+            <FontColor red="0" blue="0" green="0"/>
+            <ComposerItem width="64.30162412993039" x="213.3016241299304" y="161.7911832946636" rotation="0" height="11.06264501160091" frame="false" outlineWidth="0.3" zValue="3" lastValidViewScaleFactor="2.89261744966443" id="" positionLock="false">
+                <FrameColor alpha="255" red="0" blue="0" green="0"/>
+                <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
+            </ComposerItem>
+        </ComposerLabel>
+        <ComposerLabel valign="32" labelText="Quantum GIS Mapserver" halign="1" margin="1">
+            <LabelFont description="Ubuntu,48,-1,5,75,0,0,0,0,0"/>
+            <FontColor red="0" blue="0" green="0"/>
+            <ComposerItem width="215.030162412993" x="49.98375870069606" y="9.334106728538281" rotation="0" height="28.00232018561485" frame="false" outlineWidth="0.3" zValue="2" lastValidViewScaleFactor="2.89261744966443" id="" positionLock="false">
+                <FrameColor alpha="255" red="0" blue="0" green="0"/>
+                <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
+            </ComposerItem>
+        </ComposerLabel>
         <ComposerMap keepLayerSet="false" id="0" previewMode="Cache" drawCanvasItems="true">
             <Extent ymin="-92.89128236529909" xmin="-185.2270423149401" ymax="121.0904763110989" xmax="191.8719586311711"/>
             <LayerSet/>
             <Grid gridStyle="0" crossLength="3" penColorRed="0" penColorBlue="0" intervalX="0" offsetX="0" intervalY="0" offsetY="0" show="0" penWidth="0" penColorGreen="0">
                 <Annotation direction="0" precision="3" position="1" frameDistance="1" show="0" font="Ubuntu,10,-1,5,50,0,0,0,0,0"/>
             </Grid>
-            <ComposerItem width="215" x="42.39327146171692" y="36.81438515081207" rotation="0" height="122" frame="false" outlineWidth="0.3" zValue="1" lastValidViewScaleFactor="2.89261744966443" positionLock="false">
+            <ComposerItem width="215" x="42.39327146171692" y="36.81438515081207" rotation="0" height="122" frame="false" outlineWidth="0.3" zValue="1" lastValidViewScaleFactor="1.714765100671141" id="" positionLock="false">
                 <FrameColor alpha="255" red="0" blue="0" green="0"/>
                 <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
             </ComposerItem>
         </ComposerMap>
-        <ComposerLabel valign="32" labelText="Quantum GIS Mapserver" id="" halign="1" margin="1">
-            <LabelFont description="Ubuntu,48,-1,5,75,0,0,0,0,0"/>
-            <FontColor red="0" blue="0" green="0"/>
-            <ComposerItem width="215.030162412993" x="49.98375870069606" y="9.334106728538281" rotation="0" height="28.00232018561485" frame="false" outlineWidth="0.3" zValue="2" lastValidViewScaleFactor="2.89261744966443" positionLock="false">
-                <FrameColor alpha="255" red="0" blue="0" green="0"/>
-                <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
-            </ComposerItem>
-        </ComposerLabel>
-        <ComposerLabel valign="32" labelText="Welcome to our world...." id="" halign="1" margin="1">
-            <LabelFont description="Ubuntu,12,-1,5,75,0,0,0,0,0"/>
-            <FontColor red="0" blue="0" green="0"/>
-            <ComposerItem width="64.30162412993039" x="213.3016241299304" y="161.7911832946636" rotation="0" height="11.06264501160091" frame="false" outlineWidth="0.3" zValue="3" lastValidViewScaleFactor="2.89261744966443" positionLock="false">
-                <FrameColor alpha="255" red="0" blue="0" green="0"/>
-                <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
-            </ComposerItem>
-        </ComposerLabel>
         <Composition printResolution="300" paperWidth="297" snapGridOffsetX="0" snapGridResolution="0" snapGridOffsetY="0" snapping="0" paperHeight="210" printAsRaster="0"/>
     </Composer>
     <projectlayers layercount="2">
@@ -212,12 +212,13 @@
             </edittypes>
             <editform>.</editform>
             <editforminit></editforminit>
-            <annotationform>../projects</annotationform>
+            <annotationform>.</annotationform>
             <attributeactions/>
         </maplayer>
     </projectlayers>
     <properties>
         <WMSServiceAbstract type="QString">Simple hello world app.</WMSServiceAbstract>
+        <WMSOnlineResource type="QString"></WMSOnlineResource>
         <TimeManager>
             <timeFrameSize type="int">1</timeFrameSize>
             <timeLayerManager type="QString"></timeLayerManager>
@@ -239,6 +240,7 @@
             <ProjectCRSProj4String type="QString">+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0</ProjectCRSProj4String>
             <ProjectCrs type="QString">EPSG:4326</ProjectCrs>
             <ProjectCRSID type="int">3452</ProjectCRSID>
+            <ProjectionsEnabled type="int">1</ProjectionsEnabled>
         </SpatialRefSys>
         <Gui>
             <SelectionColorBluePart type="int">108</SelectionColorBluePart>
@@ -265,10 +267,10 @@
         <WMSServiceCapabilities type="bool">true</WMSServiceCapabilities>
         <WMSServiceTitle type="QString">QGIS Mapserver Hello World</WMSServiceTitle>
         <WMSExtent type="QStringList">
-            <value>-153.83</value>
-            <value>-64.1225</value>
-            <value>161.362</value>
-            <value>104.154</value>
+            <value>-158.89143108</value>
+            <value>-64.12253400</value>
+            <value>166.42336708</value>
+            <value>104.15421500</value>
         </WMSExtent>
     </properties>
 </qgis>
