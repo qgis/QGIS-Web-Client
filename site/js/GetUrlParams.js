@@ -19,7 +19,15 @@ else {
   urlString = window.location.href;
 }
 var urlArray = urlString.split('?');
-var norewrite = serverAndCGI.substr(-3) === "cgi";
+//substr did not work on ie - patch from Noda
+var norewrite;
+if ( serverAndCGI.substr( serverAndCGI.length-3 ,3).toLowerCase() === "cgi" ) {
+  norewrite = true ;
+} 
+else { 
+  norewrite = false ; 
+}
+//patch ends
 if (!norewrite) {
   //Get map name from base URL (e.g. http://example.com/maps/mapname)
   var urlBaseArray = urlArray[0].split('/')
