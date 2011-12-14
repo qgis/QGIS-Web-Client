@@ -28,6 +28,7 @@ var identificationMode; //can have a value from objectIdentificationModes
 Ext.onReady(function() {
   //dpi detection
   screenDpi = document.getElementById("dpiDetection").offsetHeight;
+  OpenLayers.DOTS_PER_INCH = screenDpi;
 
   //some references
   AttributeDataTree = Ext.getCmp('AttributeDataTree');
