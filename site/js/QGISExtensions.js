@@ -518,6 +518,7 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
           collapsed: true,
           store: this.store,
           columns: this.gridColumns,
+          autoHeight: true,
           viewConfig: {
             forceFit: true
           }
