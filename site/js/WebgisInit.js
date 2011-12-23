@@ -537,7 +537,7 @@ function postLoading() {
 
               // zoom to features
               var bbox = featureInfoParser.featuresBbox();
-              geoExtMap.map.zoomToExtent(new OpenLayers.Bounds(bbox[0], bbox[1], bbox[2], bbox[3]));
+              geoExtMap.map.zoomToExtent(new OpenLayers.Bounds(bbox.minx, bbox.miny, bbox.maxx, bbox.maxy));
               var scale = geoExtMap.map.getScale() * 1.1;
               if (scale < 500) {
                 scale = 500;
