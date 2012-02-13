@@ -116,14 +116,12 @@ function postLoading() {
     }
     else {
       layerTree.root.firstChild.expand(true,false);
+      // expand all nodes in order to access all children
+      layerTree.root.firstChild.expandChildNodes(true);
       for (var index=0;index < visibleLayers.length; index++) {
         layerNode = layerTree.root.firstChild.findChild("text",visibleLayers[index],true);
         if (layerNode) {
-          //need to expand node in order to access all children
-        if (layerNode.isExpandable()) {
-          layerNode.expand(true,false);
-        }
-        layerNode.getUI().toggleCheck();
+          layerNode.getUI().toggleCheck();
         }
       }
     }
