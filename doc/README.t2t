@@ -82,10 +82,11 @@ sudo a2ensite qgis-web-client.conf
 sudo /etc/init.d/apache2 reload
 ```
 
-Check the symlink in cgi-bin is correct.
-Check the QGIS libs are in your /etc/ld.so.conf path
-Copy site/index.xml and check paths match your system
-
++ Check the symlink in cgi-bin is correct.
++ Check the QGIS libs are in your /etc/ld.so.conf path
++ Copy site/index.xml and check paths match your system OR
+  Modify index.html and point your browser to that
++
 
 = Purpose =
 
@@ -115,10 +116,14 @@ sudo apt-get install libapache2-mod-fcgid
 
 The QGIS server compilation and installation will be covered in the QGIS manual.
 
+
+
+
 For searching:
 - python-wsgi for searching (Ubuntu: libapache2-mod-wsgi)
 - psycopg2 PostgreSQL db driver (Ubuntu: python-psycopg2)
-- webob - Python module providing WSGI request and response objects (Ubuntu: python-webob)
+- webob - Python module providing WSGI request and response objects (Ubuntu:
+  python-webob)
 -
 
 The client part needs svn checkout with the following command:
@@ -126,7 +131,8 @@ svn co https://svn.osgeo.org/qgis/trunk/qgiswebclient qgiswebclient
 
 = Configuration of Client =
 
-Global Settings for all projects:
+Global Settings for all projects (make a copy from one of the templates 
+provided):
 ```
 site/js/GlobalOptions.js
 ```
@@ -138,21 +144,22 @@ site/js/Translations.js
 
 Project settings and index:
 ```
-site/index.xml
+site/index.xml or site/index.html
 ```
 
 Stylesheet of project index:
 ```
 site/gis-project_listing.xsl
 ```
-Thumbnails for individual projects:
+Thumbnails for individual projects (if you take the index.xml route):
 ```
 thumbnails/projectname.png
 ```
 
 == Configuration of search panels ==
 
-There are two types of search panels supported, using a direct WMS GetFeatureInfo request or using URL rewriting with a much shorter search URL.
+There are two types of search panels supported, using a direct WMS
+GetFeatureInfo request or using URL rewriting with a much shorter search URL.
 
 The search panels are configured in ``site/js/GlobalOptions.js``. 
 
@@ -183,24 +190,37 @@ var simpleWmsSearch = {
 
 - ``title``: title of the search tab
 - ``query``: identifier for this search
-- ``useWmsRequest``: enabkled for WMS GetFeatureInfo request
+- ``useWmsRequest``: enabled for WMS GetFeatureInfo request
 - ``queryLayer``: name of query layer
 - ``formItems``: list of Ext.form.FormPanel item configs
  - ``xtype``: form field type
  - ``name``: name of query layer attribute
  - ``fieldLabel``: visible text for this field
  - ``blankText``: popup text for blank fields
-- ``gridColumns``: list of Ext.grid.GridPanel column configs to show search results
-- ``selectionLayer``: name of layer for marking selected results (the same as ``queryLayer``)
+ -
+- ``gridColumns``: list of Ext.grid.GridPanel column configs to show search
+  results
+- ``selectionLayer``: name of layer for marking selected results (the same as
+  ``queryLayer``)
 - ``selectionZoom``: zoom level for jump-to when selecting results
-
+-
 
 Request URL:
 
-``http://localhost/wms/helloworld?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&LAYERS=Country&QUERY_LAYERS=Country&FEATURE_COUNT=10&INFO_FORMAT=text/xml&SRS=EPSG:4326&FILTER=Country:"name"+=+'africa'``
+When performing a search query using the above configuration,
+the following get request will be made.
+
+``http://localhost/wms/helloworld?SERVICE=WMS&VERSION=1.1.1&
+REQUEST=GetFeatureInfo&LAYERS=Country&QUERY_LAYERS=Country&
+FEATURE_COUNT=10&INFO_FORMAT=text/xml&SRS=EPSG:4326&
+FILTER=Country:"name"+=+'africa'``
 
 
 === Using URL Rewriting ===
+
+For security and neatness, you may prefer to use rewritten URLs (so that your
+internal server file paths are not revealed. In that case your options file
+would contain something like this:
 
 ```
 var urlRewriteSearch = {
@@ -231,25 +251,35 @@ var urlRewriteSearch = {
 
 - ``title``: title of the search tab
 - ``query``: identifier for this search
-- ``formItems``: list of Ext.form.FormPanel item configs, the ``query`` form field is required to match the rewrite rule (value is the same as ``query``)
+- ``formItems``: list of Ext.form.FormPanel item configs, the ``query`` form
+  field is required to match the rewrite rule (value is the same as ``query``)
  - ``xtype``: form field type
  - ``name``: name of query layer attribute
  - ``fieldLabel``: visible text for this field
  - ``blankText``: popup text for blank fields
-- ``gridColumns``: list of Ext.grid.GridPanel column configs to show search results
+ -
+- ``gridColumns``: list of Ext.grid.GridPanel column configs to show search
+  results
 - ``selectionLayer``: name of layer for marking selected results
 - ``selectionZoom``: zoom level for jump-to when selecting results
+-
 
-
-For every search of this type you have to add a URL rewrite rule in the Apache config.
+For every search of this type you have to add a URL rewrite rule in the Apache
+config. *Note:* Linebreaks added for formatting - they should be removed in your
+config file.
 
 ```
 RewriteCond %{QUERY_STRING} ^(?:.*)query=samplesearch&*(?:.*)$
 RewriteCond %{QUERY_STRING} ^(?:(?:.*)&)?colour=([^&]*)(?:.*)$
-RewriteRule ^/wms/(.+)$ /cgi-bin/qgis_mapserv.fcgi?map=/<path-to-qgis-server-projects>/$1.qgs&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&LAYERS=Hello&QUERY_LAYERS=Hello&FEATURE_COUNT=20&INFO_FORMAT=text/xml&SRS=EPSG:4326&FILTER=Hello:"colour"\ =\ '%1' [PT]
+RewriteRule ^/wms/(.+)$ /cgi-bin/qgis_mapserv.fcgi?map=/
+<path-to-qgis-server-projects>/$1.qgs&SERVICE=WMS&VERSION=1.1.1&
+REQUEST=GetFeatureInfo&LAYERS=Hello&QUERY_LAYERS=Hello&FEATURE_COUNT=20&
+INFO_FORMAT=text/xml&SRS=EPSG:4326&FILTER=Hello:"colour"\ =\ '%1' [PT]
 ```
 
-The first RewriteCond matches the ``query`` id of the search panel config. The second RewriteCond extracts the values of the search request parameters.
+The first RewriteCond matches the ``query`` id of the search panel config. The
+second RewriteCond extracts the values of the search request parameters.
+
 The RewriteRule composes the actual WMS GetFeatureInfo request to QGIS mapserver.
 
 
@@ -260,19 +290,43 @@ Request URL:
 
 === Add search panels to projects ===
 
+In order for your search panel to appear in the web UI, you must
+enumerate them in your GlobalOptions.js for example (with url rewriting):
+
 ```
 var mapSearchPanelConfigs = {
   "helloworld": [simpleWmsSearch, urlRewriteSearch]
 };
 ```
 
-Search panels are added to a project by adding a new key for the topic name with a list of search panel configs to ``mapSearchPanelConfigs``.
-If there is no search panel configuration for a project, the search will be hidden in the GUI.
+Example (no rewriting):
+
+```
+var mapSearchPanelConfigs = {
+  "../projects/helloworld.qgs": [simpleWmsSearch, urlRewriteSearch]
+};
+```
+
+Search panels are added to a project by adding a new key for the map name
+with a list of search panel configs to ``mapSearchPanelConfigs``.  If there is
+no search panel configuration for a project, the search will be hidden in the
+GUI.
+
+The map name is whatever is passed in the get request for your .qgs file. For
+example if your url includes this:
+
+```
+http://localhost/cgi-bin/qgis_mapserv.fcgi?map=../projects/helloworld.qgs
+```
+
+then your mapSearchPanelConfigs should reflect ../projects/helloworld.qgs as
+the key for the search list.
 
 
 = URL Rewriting =
 
-Using a standard installation of QGIS server, GlobalOptions.js will have a WMS server configuration like
+Using a standard installation of QGIS server, GlobalOptions.js will have a WMS
+server configuration like
 ```
 var serverAndCGI = "/cgi-bin/qgis_mapserv.fcgi";
 ```
