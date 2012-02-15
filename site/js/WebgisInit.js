@@ -116,13 +116,18 @@ function postLoading() {
     }
     else {
       layerTree.root.firstChild.expand(true,false);
-      // expand all nodes in order to access all children
-      layerTree.root.firstChild.expandChildNodes(true);
       for (var index=0;index < visibleLayers.length; index++) {
-        layerNode = layerTree.root.firstChild.findChild("text",visibleLayers[index],true);
-        if (layerNode) {
-          layerNode.getUI().toggleCheck();
-        }
+        layerTree.root.firstChild.findChildBy(function() {
+          if (this.isExpandable()) {
+            // expand node while traversing in order to allow toggling checkbox on deeper levels
+            this.expand(true,false);
+          }
+          if (this.attributes["text"] == visibleLayers[index]) {
+            this.getUI().toggleCheck(true);
+            return true;
+          }
+          return false;
+        }, null, true);
       }
     }
     //expand first level
