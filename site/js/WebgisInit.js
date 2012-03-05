@@ -112,7 +112,14 @@ function postLoading() {
     if (visibleLayers == null) {
       // show all layers if URL parameter 'visibleLayers' is missing
       layerTree.root.firstChild.expand(true,false);
-      layerTree.root.firstChild.getUI().toggleCheck();
+      layerTree.root.firstChild.findChildBy(function() {
+          if (this.isExpandable()) {
+            // expand node while traversing in order to allow toggling checkbox on deeper levels
+            this.expand(true,false);
+          }
+          this.getUI().toggleCheck(true);
+          return false;
+      }, null, true);
     }
     else {
       layerTree.root.firstChild.expand(true,false);
