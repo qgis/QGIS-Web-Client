@@ -19,9 +19,16 @@ def application(environ, start_response):
   
   errorText = ''
   try:
-    conn = psycopg2.connect("db='yourdb' port='5432' user='yourusername' password='yourpassword'")
+    conn = psycopg2.connect("host='yourhost' dbname='yourdb' port='5432' user='yourusername' password='yourpassword'")
   except:
     errorText += 'error: database connection failed.'
+    # write the error message to the error.log
+    print >> environ['wsgi.errors'], "%s" % errorText
+    response_headers = [('Content-type', 'text/plain'),
+                        ('Content-Length', str(len(errorText)))]
+    start_response('500 INTERNAL SERVER ERROR', response_headers)
+
+    return [errorText]
   
   cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
   
@@ -29,7 +36,15 @@ def application(environ, start_response):
     cur.execute(sql,{'displaytext':displaytext})
   except:
     exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
-    errorText += 'error: could not execute query: '+str(exceptionValue)
+    conn.close()
+    errorText += 'error: could not execute query'
+    # write the error message to the error.log
+    print >> environ['wsgi.errors'], "%s" % errorText+": "+str(exceptionValue)
+    response_headers = [('Content-type', 'text/plain'),
+                        ('Content-Length', str(len(errorText)))]
+    start_response('500 INTERNAL SERVER ERROR', response_headers)
+
+    return [errorText]
     
   #result = sql;
   #result += ";" + errorText;

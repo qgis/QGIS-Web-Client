@@ -13,13 +13,13 @@
 <DIV CLASS="header" ID="header">
 <H1>Quantum GIS (QGIS) Web Client</H1>
 <H2>Installation Guide</H2>
-<H3>Thursday February 02, 2012</H3>
+<H3>Wednesday February 29, 2012</H3>
 </DIV>
 
 <DIV CLASS="body" ID="body">
 <P>
-Last Updated: Thursday February 02, 2012
-Last Change : Thursday February 02, 2012
+Last Updated: Wednesday February 29, 2012
+Last Change : Wednesday February 29, 2012
 </P>
 <DIV CLASS="toc">
 
@@ -33,9 +33,13 @@ Last Change : Thursday February 02, 2012
     </UL>
   <LI><A HREF="#toc6">URL Rewriting</A>
   <LI><A HREF="#toc7">Configuration of search python script</A>
-  <LI><A HREF="#toc8">PostgreSQL table setup for searching</A>
-  <LI><A HREF="#toc9">License</A>
-  <LI><A HREF="#toc10">Acknowledgements</A>
+    <UL>
+    <LI><A HREF="#toc8">6.1. Configuration of mod_wsgi</A>
+    <LI><A HREF="#toc9">6.2. Adaption of the wsgi scripts to your settings and needs</A>
+    </UL>
+  <LI><A HREF="#toc10">PostgreSQL table setup for searching</A>
+  <LI><A HREF="#toc11">License</A>
+  <LI><A HREF="#toc12">Acknowledgements</A>
   </OL>
 
 </DIV>
@@ -446,6 +450,10 @@ the actual wkt geometry for a selected search result. It is recommended to
 install the wsgi scripts in a separate directory, e.g. /home/www/wsgi, a place
 that is not reachable by regular web traffic.
 </P>
+
+<A NAME="toc8"></A>
+<H2>6.1. Configuration of mod_wsgi</H2>
+
 <P>
 You need to enable mod_wsgi as root. (Ubuntu: a2enmod mod_wsgi).
 </P>
@@ -461,20 +469,69 @@ WSGIScriptAlias /wsgi/ /home/www/wsgi/
 WSGIScriptAliasMatch ^/wsgi/([^/]+) /home/www/wsgi/$1.wsgi
 </PRE></div>
 
+<A NAME="toc9"></A>
+<H2>6.2. Adaption of the wsgi scripts to your settings and needs</H2>
+
+<H3>6.2.1. DB connection</H3>
+
 <P>
 In the files "search.wsgi" and "getSearchGeom.wsgi" please edit the line
 containing the db connection strings. Search for the line 
 </P>
 
 <div class="code"><PRE>
-conn = psycopg2.connect("db='yourdb' port='5432' user='yourusername' password='yourpassword'")
+conn = psycopg2.connect("host='yourhost' dbname='yourdb' port='5432' user='yourusername' password='yourpassword'")
 </PRE></div>
 
 <P>
 and adapt the parameters according to your server/db.
 </P>
 
-<A NAME="toc8"></A>
+<H3>6.2.2. Search type to be used</H3>
+
+<P>
+The search can use PostgreSQL's tsvector data type. 
+"A tsvector value is a sorted list of distinct lexemes, which are words that have been normalized to merge different variants of the same word."
+(from the doc at <A HREF="http://www.postgresql.org/docs/9.0/interactive/datatype-textsearch.html#DATATYPE-TSVECTOR">http://www.postgresql.org/docs/9.0/interactive/datatype-textsearch.html#DATATYPE-TSVECTOR</A>)
+Thus tsvector skips all the fill words and reduces nouns to their single form, a behaviour useful for searching texts.
+However as we are normally dealing with <B>place names</B> here we want them to stay as they are. If you use a language where the single form is a lot different
+from the plural form but your name contains a plural you will not get a suitable result.
+If you want to use the tsvector search option you should activate the line
+</P>
+
+<div class="code"><PRE>
+sql += "searchstring_tsvector @@ to_tsquery(\'not_your_language\', '"+querystrings[j]+":*')"
+</PRE></div>
+
+<P>
+<I>not_your_language</I> is to be replaced with an entry e.g. <I>finnish</I> if you have German place names.
+Thus plural forms and fillwords are kept as they are. Be aware of side effects!
+Be sure to fill the field <I>searchstring_tsvector</I> with <CODE>`to_tsvector('not_your_language', 'yourstring')`</CODE>.
+</P>
+<P>
+The use of
+</P>
+
+<div class="code"><PRE>
+sql += "searchstring::tsvector @@ lower('"+querystrings[j]+":*')::tsquery"
+</PRE></div>
+
+<P>
+is <B>discouraged</B> as it does not find a place name like <I>Stoke-sub-Hamden</I> when you enter <I>Stoke</I>.
+</P>
+<P>
+If you do not want to use tsvector at all you can enable the full string comparison on the field searchstring (activated by default).
+</P>
+
+<div class="code"><PRE>
+sql += "searchstring ILIKE \'%"+querystrings[j]+"%\'"
+</PRE></div>
+
+<P>
+This method however is slower than tsvector but not relevantly at least if you only have a couple 1000 datasets. 
+</P>
+
+<A NAME="toc10"></A>
 <H1>7. PostgreSQL table setup for searching</H1>
 
 <div class="code"><PRE>
@@ -487,7 +544,7 @@ CREATE TABLE cadastre.searchtable
                         --should be unique across all search tables
   the_geom geometry,    --the actual geometry
   geometry_type text,   --the geometry type as returned by ST_GeometryType(the_geom)
-  searchstring_tsvector tsvector,
+  searchstring_tsvector tsvector, -- be sure to fill this with to_tsvector()
   CONSTRAINT searchtable_pkey PRIMARY KEY (displaytext)
 )
 WITH (
@@ -508,15 +565,18 @@ The above search table can also be a view or materialized view. One can combine
 several search tables by specifying the <CODE>`searchtables=searchtable1,searchtable2,searchtable3`</CODE> 
 parameter when requesting the <I>search.wsgi</I> script.
 </P>
+<P>
+Using views is generally slower than properly indexed tables, check for yourself what works best.
+</P>
 
-<A NAME="toc9"></A>
+<A NAME="toc11"></A>
 <H1>8. License</H1>
 
 <P>
 BSD
 </P>
 
-<A NAME="toc10"></A>
+<A NAME="toc12"></A>
 <H1>9. Acknowledgements</H1>
 
 <P>

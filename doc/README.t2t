@@ -384,6 +384,8 @@ the actual wkt geometry for a selected search result. It is recommended to
 install the wsgi scripts in a separate directory, e.g. /home/www/wsgi, a place
 that is not reachable by regular web traffic.
 
+== Configuration of mod_wsgi ==
+
 You need to enable mod_wsgi as root. (Ubuntu: a2enmod mod_wsgi).
 
 You need to configure apache with the following lines (e.g. in file
@@ -396,14 +398,52 @@ WSGIScriptAlias /wsgi/ /home/www/wsgi/
 WSGIScriptAliasMatch ^/wsgi/([^/]+) /home/www/wsgi/$1.wsgi
 ```
 
+== Adaption of the wsgi scripts to your settings and needs ==
+
+=== DB connection ===
 In the files "search.wsgi" and "getSearchGeom.wsgi" please edit the line
 containing the db connection strings. Search for the line 
 
 ```
-conn = psycopg2.connect("db='yourdb' port='5432' user='yourusername' password='yourpassword'")
+conn = psycopg2.connect("host='yourhost' dbname='yourdb' port='5432' user='yourusername' password='yourpassword'")
 ```
 
 and adapt the parameters according to your server/db.
+
+=== Search type to be used ===
+
+The search can use PostgreSQL's tsvector data type. 
+"A tsvector value is a sorted list of distinct lexemes, which are words that have been normalized to merge different variants of the same word."
+(from the doc at http://www.postgresql.org/docs/9.0/interactive/datatype-textsearch.html#DATATYPE-TSVECTOR)
+Thus tsvector skips all the fill words and reduces nouns to their single form, a behaviour useful for searching texts.
+However as we are normally dealing with **place names** here we want them to stay as they are. If you use a language where the single form is a lot different
+from the plural form but your name contains a plural you will not get a suitable result.
+If you want to use the tsvector search option you should activate the line
+
+```
+sql += "searchstring_tsvector @@ to_tsquery(\'not_your_language\', '"+querystrings[j]+":*')"
+```
+
+//not_your_language// is to be replaced with an entry e.g. //finnish// if you have German place names.
+Thus plural forms and fillwords are kept as they are. Be aware of side effects!
+Be sure to fill the field //searchstring_tsvector// with ```to_tsvector('not_your_language', 'yourstring')```.
+
+The use of
+
+```
+sql += "searchstring::tsvector @@ lower('"+querystrings[j]+":*')::tsquery"
+```
+
+is **discouraged** as it does not find a place name like //Stoke-sub-Hamden// when you enter //Stoke//.
+
+If you do not want to use tsvector at all you can enable the full string comparison on the field //searchstring// (activated by default).
+
+```
+sql += "searchstring ILIKE \'%"+querystrings[j]+"%\'"
+```
+
+This method however is slower than tsvector but not relevantly at least if you only have a couple 1000 datasets. 
+
 
 = PostgreSQL table setup for searching =
 
@@ -417,7 +457,7 @@ CREATE TABLE cadastre.searchtable
                         --should be unique across all search tables
   the_geom geometry,    --the actual geometry
   geometry_type text,   --the geometry type as returned by ST_GeometryType(the_geom)
-  searchstring_tsvector tsvector,
+  searchstring_tsvector tsvector, -- be sure to fill this with to_tsvector()
   CONSTRAINT searchtable_pkey PRIMARY KEY (displaytext)
 )
 WITH (
@@ -436,6 +476,8 @@ CREATE INDEX in_cadastre_searchstring_tsvector_gin
 The above search table can also be a view or materialized view. One can combine
 several search tables by specifying the ```searchtables=searchtable1,searchtable2,searchtable3``` 
 parameter when requesting the //search.wsgi// script.
+
+Using views is generally slower than properly indexed tables, check for yourself what works best.
 
 
 = License =

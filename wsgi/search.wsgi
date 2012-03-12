@@ -15,7 +15,7 @@ import sys #für Fehlerreporting
 
 def application(environ, start_response):
   request = Request(environ)
-  searchtables = ['av_user.suchtabelle'];
+  searchtables = []; # enter your default searchtable(s) here
   searchtablesstring = '';
   if "searchtables" in request.params:
     searchtablesstring = request.params["searchtables"]
@@ -32,26 +32,58 @@ def application(environ, start_response):
   searchtableLength = len(searchtables)
   querystringsLength = len(querystrings)
   sql = ""
+  errorText = ''
   
+  # any searchtable given?
+  if searchtableLength == 0:
+    errorText += 'error: no search table'
+    # write the error message to the error.log
+    print >> environ['wsgi.errors'], "%s" % errorText
+    response_headers = [('Content-type', 'text/plain'),
+                        ('Content-Length', str(len(errorText)))]
+    start_response('500 INTERNAL SERVER ERROR', response_headers)
+
+    return [errorText]
+
+    
   #for each table
   for i in range(searchtableLength):
-    sql += "SELECT displaytext, '"+searchtables[i]+r"' AS searchtable, search_category, substring(search_category from 4) AS searchcat_trimmed, '['||replace(regexp_replace(BOX2D(the_geom)::text,'BOX\(|\)','','g'),' ',',')||']'::text AS bbox FROM "+searchtables[i]+" WHERE "
+    sql += "SELECT displaytext, '"+searchtables[i]+r"' AS searchtable, search_category, substring(search_category from 4) AS searchcat_trimmed, "
+    # the following line is responsible for zooming in to the features
+    # this is supposed to work in PostgreSQL since version 9.0
+    sql += "'['||replace(regexp_replace(BOX2D(the_geom)::text,'BOX\(|\)','','g'),' ',',')||']'::text AS bbox "
+    # if the above line does not work for you, deactivate it and uncomment the next line
+    #sql += "'['||replace(regexp_replace(BOX2D(the_geom)::text,'BOX[(]|[)]','','g'),' ',',')||']'::text AS bbox "
+    sql += "FROM "+searchtables[i]+" WHERE "
     #for each querystring
     for j in range(0, querystringsLength):
-      sql += "searchstring::tsvector @@ lower('"+querystrings[j]+":*')::tsquery"
+      # for tsvector issues see the docs, use whichever version works best for you
+      # this search does not use the field searchstring_tsvector at all but converts searchstring into a tsvector, its use is discouraged!
+      #sql += "searchstring::tsvector @@ lower('"+querystrings[j]+":*')::tsquery"
+      # this search uses the searchstring_tsvector field, which _must_ have been filled with to_tsvector('not_your_language', 'yourstring')
+      #sql += "searchstring_tsvector @@ to_tsquery(\'not_your_language\', '"+querystrings[j]+":*')"
+      # if all tsvector stuff fails you can use this string comparison on the searchstring field
+      sql += "searchstring ILIKE \'%"+querystrings[j]+"%\'"
+      
       if j < querystringsLength - 1:
         sql += " AND "
     #union for next table
     if i < searchtableLength - 1:
       sql += " UNION "
-      
-  sql += " ORDER BY search_category ASC, displaytext ASC;"
 
-  errorText = ''
+  sql += " ORDER BY search_category ASC, displaytext ASC;"
+    
   try:
-    conn = psycopg2.connect("db='yourdb' port='5432' user='yourusername' password='yourpassword'")
+    conn = psycopg2.connect("host='yourhost' dbname='yourdb' port='5432' user='yourusername' password='yourpassword'")
   except:
-    errorText += 'error: database connection failed!'
+    errorText += 'error: database connection failed'
+    # write the error message to the error.log
+    print >> environ['wsgi.errors'], "%s" % errorText
+    response_headers = [('Content-type', 'text/plain'),
+                        ('Content-Length', str(len(errorText)))]
+    start_response('500 INTERNAL SERVER ERROR', response_headers)
+
+    return [errorText]
   
   cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     
@@ -59,7 +91,15 @@ def application(environ, start_response):
     cur.execute(sql)
   except:
     exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
-    errorText += 'error: could not execute query: '+str(exceptionValue)
+    conn.close()
+    errorText += 'error: could not execute query'
+    # write the error message to the error.log
+    print >> environ['wsgi.errors'], "%s" % errorText+": "+str(exceptionValue)
+    response_headers = [('Content-type', 'text/plain'),
+                        ('Content-Length', str(len(errorText)))]
+    start_response('500 INTERNAL SERVER ERROR', response_headers)
+
+    return [errorText]
     
   rowData = [];
   rows = cur.fetchall()
