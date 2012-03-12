@@ -1,11 +1,9 @@
 Quantum GIS (QGIS) Web Client
 Installation Guide
-Thursday February 02, 2012
+Monday March 12, 2012
 
-
-Last Updated: Thursday February 02, 2012
-Last Change : Thursday February 02, 2012
-
+Last Updated: Monday March 12, 2012
+Last Change : Monday March 12, 2012
 
   1. For the terminally lazy
   2. Purpose
@@ -14,28 +12,36 @@ Last Change : Thursday February 02, 2012
     4.1. Configuration of search panels
   5. URL Rewriting
   6. Configuration of search python script
+    6.1. Configuration of mod_wsgi
+    6.2. Adaption of the wsgi scripts to your settings and needs
   7. PostgreSQL table setup for searching
   8. License
   9. Acknowledgements
 
 
+
   1. For the terminally lazy
   ==========================
+
 
   sudo apt-get install apache2 libapache2-mod-fcgid
   cp apache-conf/qgis-web-client.conf.templ apache-conf/qgis-web-client.conf
 
+
 Update the paths in the copied file then:
+
 
   cd /etc/apache2/sites-available/
   ln -s <path to apache-conf/qgis-web-client.conf> .
   sudo a2ensite qgis-web-client.conf
   sudo /etc/init.d/apache2 reload
 
+
 1. Check the symlink in cgi-bin is correct.
 2. Check the QGIS libs are in your /etc/ld.so.conf path
 3. Copy site/index.xml and check paths match your system OR
   Modify index.html and point your browser to that
+
 
 
   2. Purpose
@@ -61,9 +67,12 @@ Requirements (Server):
 - mod-fcgid (Ubuntu: libapache2-mod-fcgid)
 - QGIS and QGIS Server (best installed from source)
 
+
 On ubuntu you can meet these requirements by simply doing:
 
+
   sudo apt-get install libapache2-mod-fcgid
+
 
 The QGIS server compilation and installation will be covered in the QGIS manual.
 
@@ -73,6 +82,7 @@ For searching:
 - psycopg2 PostgreSQL db driver (Ubuntu: python-psycopg2)
 - webob - Python module providing WSGI request and response objects (Ubuntu:
   python-webob)
+
 
 The client part needs svn checkout with the following command:
 svn co https://svn.osgeo.org/qgis/trunk/qgiswebclient qgiswebclient
@@ -84,23 +94,32 @@ svn co https://svn.osgeo.org/qgis/trunk/qgiswebclient qgiswebclient
 Global Settings for all projects (make a copy from one of the templates 
 provided):
 
+
   site/js/GlobalOptions.js
+
 
 Translations (additional languages):
 
+
   site/js/Translations.js
+
 
 Project settings and index:
 
+
   site/index.xml or site/index.html
 
+
 Stylesheet of project index:
+
 
   site/gis-project_listing.xsl
 
 Thumbnails for individual projects (if you take the index.xml route):
 
+
   thumbnails/projectname.png
+
 
 
   4.1. Configuration of search panels
@@ -114,6 +133,7 @@ The search panels are configured in site/js/GlobalOptions.js.
 
     4.1.1. Using WMS GetFeatureInfo
     ===============================
+
 
   var simpleWmsSearch = {
     title: "Search continent",
@@ -136,6 +156,7 @@ The search panels are configured in site/js/GlobalOptions.js.
     selectionZoom: 0
   };
 
+
 - title: title of the search tab
 - query: identifier for this search
 - useWmsRequest: enabled for WMS GetFeatureInfo request
@@ -150,6 +171,7 @@ The search panels are configured in site/js/GlobalOptions.js.
 - selectionLayer: name of layer for marking selected results (the same as
   queryLayer)
 - selectionZoom: zoom level for jump-to when selecting results
+
 
 Request URL:
 
@@ -168,6 +190,7 @@ FILTER=Country:"name"+=+'africa'``
 For security and neatness, you may prefer to use rewritten URLs (so that your
 internal server file paths are not revealed. In that case your options file
 would contain something like this:
+
 
   var urlRewriteSearch = {
     title: "Search letter",
@@ -194,6 +217,7 @@ would contain something like this:
     selectionZoom: 1
   };
 
+
 - title: title of the search tab
 - query: identifier for this search
 - formItems: list of Ext.form.FormPanel item configs, the query form
@@ -207,9 +231,11 @@ would contain something like this:
 - selectionLayer: name of layer for marking selected results
 - selectionZoom: zoom level for jump-to when selecting results
 
+
 For every search of this type you have to add a URL rewrite rule in the Apache
 config. *Note:* Linebreaks added for formatting - they should be removed in your
 config file.
+
 
   RewriteCond %{QUERY_STRING} ^(?:.*)query=samplesearch&*(?:.*)$
   RewriteCond %{QUERY_STRING} ^(?:(?:.*)&)?colour=([^&]*)(?:.*)$
@@ -217,6 +243,7 @@ config file.
   <path-to-qgis-server-projects>/$1.qgs&SERVICE=WMS&VERSION=1.1.1&
   REQUEST=GetFeatureInfo&LAYERS=Hello&QUERY_LAYERS=Hello&FEATURE_COUNT=20&
   INFO_FORMAT=text/xml&SRS=EPSG:4326&FILTER=Hello:"colour"\ =\ '%1' [PT]
+
 
 The first RewriteCond matches the query id of the search panel config. The
 second RewriteCond extracts the values of the search request parameters.
@@ -234,15 +261,19 @@ http://localhost/wms/helloworld?query=samplesearch&colour=orange
 In order for your search panel to appear in the web UI, you must
 enumerate them in your GlobalOptions.js for example (with url rewriting):
 
+
   var mapSearchPanelConfigs = {
     "helloworld": [simpleWmsSearch, urlRewriteSearch]
   };
 
+
 Example (no rewriting):
+
 
   var mapSearchPanelConfigs = {
     "../projects/helloworld.qgs": [simpleWmsSearch, urlRewriteSearch]
   };
+
 
 Search panels are added to a project by adding a new key for the map name
 with a list of search panel configs to mapSearchPanelConfigs.  If there is
@@ -252,7 +283,9 @@ GUI.
 The map name is whatever is passed in the get request for your .qgs file. For
 example if your url includes this:
 
+
   http://localhost/cgi-bin/qgis_mapserv.fcgi?map=../projects/helloworld.qgs
+
 
 then your mapSearchPanelConfigs should reflect ../projects/helloworld.qgs as
 the key for the search list.
@@ -264,21 +297,29 @@ the key for the search list.
 Using a standard installation of QGIS server, GlobalOptions.js will have a WMS
 server configuration like
 
+
   var serverAndCGI = "/cgi-bin/qgis_mapserv.fcgi";
+
 
 A sample URL for QGIS Web Client installed in /var/www/qgis-web-client:
 
+
   http://localhost/qgis-web-client/qgiswebclient.html?map=/opt/geodata/maps/NaturalEarth.qgs&visibleLayers=HYP_50M_SR_W
 
+
 With the following rules for Apache mod_rewrite you can shorten the URLs to
+
 
   var serverAndCGI = "/wms";
 
 and
 
+
   http://localhost/maps/NaturalEarth?visibleLayers=HYP_50M_SR_W
 
+
 Rules in VirtualHost configuration:
+
 
   # Forbid direct access
   RewriteRule ^/cgi-bin/.*$ - [F]
@@ -295,15 +336,20 @@ Rules in VirtualHost configuration:
   # Rewrite /maps/* to qgis-web-client/site (e.g. /maps/gis_icons/mActionZoomNext.png -> /qgis-web-client/site/gis_icons/mActionZoomNext.png)
   RewriteRule ^/maps/(.*) /qgis-web-client/site/$1 [PT]
 
+
 For supporting qgs files in subdirectories (e.g. /maps/subdir/mapnampe) replace last rule with:
+
 
   RewriteRule ^/maps/[^/]+/(.*) /qgis-web-client/site/$1 [PT]
 
+
 For adding zones in different subdirecories (e.g. maps and maps-protected) add the following rules:
+
 
   RewriteRule ^/wms-protected/(.+)$ /cgi-bin/qgis_mapserv.fcgi?map=/opt/geodata/maps-protected/$1.qgs [QSA,PT]
   RewriteRule ^/maps-protected/([^\.]+)$ /qgis-web-client/site/qgiswebclient.html [PT]
   RewriteRule ^/maps-protected/(.*) /qgis-web-client/site/$1 [PT]
+
 
 
   6. Configuration of search python script
@@ -316,26 +362,79 @@ the actual wkt geometry for a selected search result. It is recommended to
 install the wsgi scripts in a separate directory, e.g. /home/www/wsgi, a place
 that is not reachable by regular web traffic.
 
+
+  6.1. Configuration of mod_wsgi
+  ==============================
+
 You need to enable mod_wsgi as root. (Ubuntu: a2enmod mod_wsgi).
 
 You need to configure apache with the following lines (e.g. in file
 /etc/apache2/sites-available/default):
+
 
   #mod_wsgi
   WSGIDaemonProcess gis processes=5 threads=15 display-name=%{GROUP}
   WSGIScriptAlias /wsgi/ /home/www/wsgi/
   WSGIScriptAliasMatch ^/wsgi/([^/]+) /home/www/wsgi/$1.wsgi
 
+
+
+  6.2. Adaption of the wsgi scripts to your settings and needs
+  ============================================================
+
+
+    6.2.1. DB connection
+    ====================
+
 In the files "search.wsgi" and "getSearchGeom.wsgi" please edit the line
 containing the db connection strings. Search for the line 
 
-  conn = psycopg2.connect("db='yourdb' port='5432' user='yourusername' password='yourpassword'")
+
+  conn = psycopg2.connect("host='yourhost' dbname='yourdb' port='5432' user='yourusername' password='yourpassword'")
+
 
 and adapt the parameters according to your server/db.
 
 
+    6.2.2. Search type to be used
+    =============================
+
+The search can use PostgreSQL's tsvector data type. 
+"A tsvector value is a sorted list of distinct lexemes, which are words that have been normalized to merge different variants of the same word."
+(from the doc at http://www.postgresql.org/docs/9.0/interactive/datatype-textsearch.html#DATATYPE-TSVECTOR)
+Thus tsvector skips all the fill words and reduces nouns to their single form, a behaviour useful for searching texts.
+However as we are normally dealing with place names here we want them to stay as they are. If you use a language where the single form is a lot different
+from the plural form but your name contains a plural you will not get a suitable result.
+If you want to use the tsvector search option you should activate the line
+
+
+  sql += "searchstring_tsvector @@ to_tsquery(\'not_your_language\', '"+querystrings[j]+":*')"
+
+
+not_your_language is to be replaced with an entry e.g. finnish if you have German place names.
+Thus plural forms and fillwords are kept as they are. Be aware of side effects!
+Be sure to fill the field searchstring_tsvector with `to_tsvector('not_your_language', 'yourstring')`.
+
+The use of
+
+
+  sql += "searchstring::tsvector @@ lower('"+querystrings[j]+":*')::tsquery"
+
+
+is discouraged as it does not find a place name like Stoke-sub-Hamden when you enter Stoke.
+
+If you do not want to use tsvector at all you can enable the full string comparison on the field searchstring (activated by default).
+
+
+  sql += "searchstring ILIKE \'%"+querystrings[j]+"%\'"
+
+
+This method however is slower than tsvector but not relevantly at least if you only have a couple 1000 datasets. 
+
+
   7. PostgreSQL table setup for searching
   =======================================
+
 
   CREATE TABLE cadastre.searchtable
   (
@@ -346,7 +445,7 @@ and adapt the parameters according to your server/db.
                           --should be unique across all search tables
     the_geom geometry,    --the actual geometry
     geometry_type text,   --the geometry type as returned by ST_GeometryType(the_geom)
-    searchstring_tsvector tsvector,
+    searchstring_tsvector tsvector, -- be sure to fill this with to_tsvector()
     CONSTRAINT searchtable_pkey PRIMARY KEY (displaytext)
   )
   WITH (
@@ -361,9 +460,12 @@ and adapt the parameters according to your server/db.
     USING gin
     (searchstring_tsvector);
 
+
 The above search table can also be a view or materialized view. One can combine
 several search tables by specifying the `searchtables=searchtable1,searchtable2,searchtable3` 
 parameter when requesting the search.wsgi script.
+
+Using views is generally slower than properly indexed tables, check for yourself what works best.
 
 
   8. License
@@ -376,4 +478,8 @@ BSD
   ===================
 
 We'd like to thank the OpenLayers and GeoExt team for providing their base libraries.
+
+
+
+
 
