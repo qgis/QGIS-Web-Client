@@ -6,9 +6,11 @@ var urlParamsOK = true;
 var wmsURI; //URI with map parameter or appended map name (with URL rewriting)
 var wmsMapName; // map parameter or appended map name (with URL rewriting)
 var urlString = "";
-var format = "image/png";
+var format = "image/png"; //the default image format
+var origFormat = null; //the original default image format, format is temporarily changed
 var searchtables = null;
-var visibleLayers = null;
+var visibleLayers = null; //layers that are initially visible
+var fullColorLayers = new Array(); //layers that should be displayed in 24bit (JPEG) instead of 8bit PNG, only relevant if the project format is 8bit
 
 if (document.documentURI) {
   //all browsers except older IE
@@ -61,9 +63,18 @@ if (urlArray.length > 1) {
       visibleLayers = urlParams.visibleLayers.split(",");
     }
   }
+  if (urlParams.fullColorLayers != null) {
+    if (urlParams.fullColorLayers == "") {
+      fullColorLayers = [];
+    }
+    else {
+      fullColorLayers = urlParams.fullColorLayers.split(",");
+    }
+  }
   if (urlParams.format) {
     format = urlParams.format;
   }
+  origFormat = format;
   if (typeof lang == "undefined") {
     //if lang is not defined in GlobalOptions.js we set it to "en"
     lang = "en";

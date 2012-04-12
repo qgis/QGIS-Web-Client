@@ -155,6 +155,42 @@ Thumbnails for individual projects (if you take the index.xml route):
 ```
 thumbnails/projectname.png
 ```
+== Per Project Startup Options ==
+These options are usually defined in the file site/index.xml. The stylesheet then generates the startup URL parameter options. On the client, the file ``site/js/GetUrlParams.js`` is responsible for the proper handling of the startup options. The following options are available:
+```
+lang
+```
+An optional language parameter. Normally, this parameter is defined in the file ``site/js/GlobalOptions.js``. Optionally this can be overwritten on a per project base. Allowed values are two-character language codes that must be present in the file ``site/js/Translations.js``.
+
+```
+visibleLayers
+```
+A comma-separated list of layers that should be set visible on the project start.
+
+```
+format
+```
+This optional parameter allows a per project definition of the file format. Valid values are ``image/png``, ``image/jpeg`` and ``image/png;mode=8bit``. Defaults to ``image/png`` if no format is given per project.
+
+```
+fullColorLayers
+```
+An optional comma-separated list of layers that need to be in full color (24bit). This parameter is only relevant if the project default image format is set to ``image/png;mode=8bit``. If any of the layers in the fullColorLayers parameter list is set visible, the format changes to ``image/jpeg``.
+
+```
+maxExtent
+```
+The maximum extent of the project. This parameter is used if the ``Full View`` navigation button is clicked. If the ``startExtent`` parameter is not specified, ``maxExtent`` will also be used as the ``startExtent``. The format is: left,bottom,right,top in map units.
+
+```
+startExtent
+```
+The initial extent on project load if the project should start with a given, but not the maximum extent (e.g. for zooming to a specific project area). Not to be confused with the ``maxExtent`` parameter. The format is: left,bottom,right,top in map units.
+
+```
+searchtables
+```
+An optional list of additional search tables specific to the project. The format is ``schemaname.tablename``. These additional search tables will be used for the search field at the top-right corner of the Webclient-GUI. The default search tables are hard-coded in the file ``wsgi/search.wsgi``, in the ``searchtables`` array.
 
 == Configuration of search panels ==
 

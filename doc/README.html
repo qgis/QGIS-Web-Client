@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML>
 <HEAD>
-<META NAME="generator" CONTENT="http://txt2tags.org">
+<META NAME="generator" CONTENT="http://txt2tags.sf.net">
 <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
 <TITLE>Quantum GIS (QGIS) Web Client</TITLE>
 
@@ -13,56 +13,54 @@
 <DIV CLASS="header" ID="header">
 <H1>Quantum GIS (QGIS) Web Client</H1>
 <H2>Installation Guide</H2>
-<H3>Wednesday February 29, 2012</H3>
+<H3>Thursday April 12, 2012</H3>
 </DIV>
 
 <DIV CLASS="body" ID="body">
 <P>
-Last Updated: Wednesday February 29, 2012
-Last Change : Wednesday February 29, 2012
+Last Updated: Thursday April 12, 2012
+Last Change : Thursday April 12, 2012
 </P>
-<DIV CLASS="toc">
-
+<DIV CLASS="toc" ID="toc">
   <OL>
   <LI><A HREF="#toc1">For the terminally lazy</A>
   <LI><A HREF="#toc2">Purpose</A>
   <LI><A HREF="#toc3">Installation</A>
   <LI><A HREF="#toc4">Configuration of Client</A>
     <UL>
-    <LI><A HREF="#toc5">4.1. Configuration of search panels</A>
+    <LI><A HREF="#toc5">4.1. Per Project Startup Options</A>
+    <LI><A HREF="#toc6">4.2. Configuration of search panels</A>
     </UL>
-  <LI><A HREF="#toc6">URL Rewriting</A>
-  <LI><A HREF="#toc7">Configuration of search python script</A>
+  <LI><A HREF="#toc7">URL Rewriting</A>
+  <LI><A HREF="#toc8">Configuration of search python script</A>
     <UL>
-    <LI><A HREF="#toc8">6.1. Configuration of mod_wsgi</A>
-    <LI><A HREF="#toc9">6.2. Adaption of the wsgi scripts to your settings and needs</A>
+    <LI><A HREF="#toc9">6.1. Configuration of mod_wsgi</A>
+    <LI><A HREF="#toc10">6.2. Adaption of the wsgi scripts to your settings and needs</A>
     </UL>
-  <LI><A HREF="#toc10">PostgreSQL table setup for searching</A>
-  <LI><A HREF="#toc11">License</A>
-  <LI><A HREF="#toc12">Acknowledgements</A>
+  <LI><A HREF="#toc11">PostgreSQL table setup for searching</A>
+  <LI><A HREF="#toc12">License</A>
+  <LI><A HREF="#toc13">Acknowledgements</A>
   </OL>
 
 </DIV>
-
+<P></P>
 <A NAME="toc1"></A>
 <H1>1. For the terminally lazy</H1>
-
 <div class="code"><PRE>
 sudo apt-get install apache2 libapache2-mod-fcgid
 cp apache-conf/qgis-web-client.conf.templ apache-conf/qgis-web-client.conf
 </PRE></div>
-
+<P></P>
 <P>
 Update the paths in the copied file then:
 </P>
-
 <div class="code"><PRE>
 cd /etc/apache2/sites-available/
 ln -s &lt;path to apache-conf/qgis-web-client.conf&gt; .
 sudo a2ensite qgis-web-client.conf
 sudo /etc/init.d/apache2 reload
 </PRE></div>
-
+<P></P>
 <OL>
 <LI>Check the symlink in cgi-bin is correct.
 <LI>Check the QGIS libs are in your /etc/ld.so.conf path
@@ -70,9 +68,9 @@ sudo /etc/init.d/apache2 reload
   Modify index.html and point your browser to that
 </OL>
 
+<P></P>
 <A NAME="toc2"></A>
 <H1>2. Purpose</H1>
-
 <P>
 A WMS based webgis client that makes use of QGIS specific WMS extensions (e.g.
 highlighting, printing, metadata, etc.). QGIS webclient reads the configuration
@@ -86,35 +84,31 @@ as ExtJS 3 for the GUI widgets.
 <P>
 All major browsers should be supported.
 </P>
-
 <A NAME="toc3"></A>
 <H1>3. Installation</H1>
-
 <P>
 Requirements (Server):
 </P>
-
 <UL>
 <LI>Apache2 - Webserver (Ubuntu: apache2)
 <LI>mod-fcgid (Ubuntu: libapache2-mod-fcgid)
 <LI>QGIS and QGIS Server (best installed from source)
 </UL>
 
+<P></P>
 <P>
 On ubuntu you can meet these requirements by simply doing:
 </P>
-
 <div class="code"><PRE>
 sudo apt-get install libapache2-mod-fcgid
 </PRE></div>
-
+<P></P>
 <P>
 The QGIS server compilation and installation will be covered in the QGIS manual.
 </P>
 <P>
 For searching:
 </P>
-
 <UL>
 <LI>python-wsgi for searching (Ubuntu: libapache2-mod-wsgi)
 <LI>psycopg2 PostgreSQL db driver (Ubuntu: python-psycopg2)
@@ -122,58 +116,96 @@ For searching:
   python-webob)
 </UL>
 
+<P></P>
 <P>
 The client part needs svn checkout with the following command:
 svn co <A HREF="https://svn.osgeo.org/qgis/trunk/qgiswebclient">https://svn.osgeo.org/qgis/trunk/qgiswebclient</A> qgiswebclient
 </P>
-
 <A NAME="toc4"></A>
 <H1>4. Configuration of Client</H1>
-
 <P>
 Global Settings for all projects (make a copy from one of the templates 
 provided):
 </P>
-
 <div class="code"><PRE>
 site/js/GlobalOptions.js
 </PRE></div>
-
+<P></P>
 <P>
 Translations (additional languages):
 </P>
-
 <div class="code"><PRE>
 site/js/Translations.js
 </PRE></div>
-
+<P></P>
 <P>
 Project settings and index:
 </P>
-
 <div class="code"><PRE>
 site/index.xml or site/index.html
 </PRE></div>
-
+<P></P>
 <P>
 Stylesheet of project index:
 </P>
-
 <div class="code"><PRE>
 site/gis-project_listing.xsl
 </PRE></div>
-
 <P>
 Thumbnails for individual projects (if you take the index.xml route):
 </P>
-
 <div class="code"><PRE>
 thumbnails/projectname.png
 </PRE></div>
-
 <A NAME="toc5"></A>
-<H2>4.1. Configuration of search panels</H2>
-
+<H2>4.1. Per Project Startup Options</H2>
+<P>
+These options are usually defined in the file site/index.xml. The stylesheet then generates the startup URL parameter options. On the client, the file <CODE>site/js/GetUrlParams.js</CODE> is responsible for the proper handling of the startup options. The following options are available:
+</P>
+<div class="code"><PRE>
+lang
+</PRE></div>
+<P>
+An optional language parameter. Normally, this parameter is defined in the file <CODE>site/js/GlobalOptions.js</CODE>. Optionally this can be overwritten on a per project base. Allowed values are two-character language codes that must be present in the file <CODE>site/js/Translations.js</CODE>.
+</P>
+<div class="code"><PRE>
+visibleLayers
+</PRE></div>
+<P>
+A comma-separated list of layers that should be set visible on the project start.
+</P>
+<div class="code"><PRE>
+format
+</PRE></div>
+<P>
+This optional parameter allows a per project definition of the file format. Valid values are <CODE>image/png</CODE>, <CODE>image/jpeg</CODE> and <CODE>image/png;mode=8bit</CODE>. Defaults to <CODE>image/png</CODE> if no format is given per project.
+</P>
+<div class="code"><PRE>
+fullColorLayers
+</PRE></div>
+<P>
+An optional comma-separated list of layers that need to be in full color (24bit). This parameter is only relevant if the project default image format is set to <CODE>image/png;mode=8bit</CODE>. If any of the layers in the fullColorLayers parameter list is set visible, the format changes to <CODE>image/jpeg</CODE>.
+</P>
+<div class="code"><PRE>
+maxExtent
+</PRE></div>
+<P>
+The maximum extent of the project. This parameter is used if the <CODE>Full View</CODE> navigation button is clicked. If the <CODE>startExtent</CODE> parameter is not specified, <CODE>maxExtent</CODE> will also be used as the <CODE>startExtent</CODE>. The format is: left,bottom,right,top in map units.
+</P>
+<div class="code"><PRE>
+startExtent
+</PRE></div>
+<P>
+The initial extent on project load if the project should start with a given, but not the maximum extent (e.g. for zooming to a specific project area). Not to be confused with the <CODE>maxExtent</CODE> parameter. The format is: left,bottom,right,top in map units.
+</P>
+<div class="code"><PRE>
+searchtables
+</PRE></div>
+<P>
+An optional list of additional search tables specific to the project. The format is <CODE>schemaname.tablename</CODE>. These additional search tables will be used for the search field at the top-right corner of the Webclient-GUI. The default search tables are hard-coded in the file <CODE>wsgi/search.wsgi</CODE>, in the <CODE>searchtables</CODE> array.
+</P>
+<A NAME="toc6"></A>
+<H2>4.2. Configuration of search panels</H2>
 <P>
 There are two types of search panels supported, using a direct WMS
 GetFeatureInfo request or using URL rewriting with a much shorter search URL.
@@ -181,9 +213,7 @@ GetFeatureInfo request or using URL rewriting with a much shorter search URL.
 <P>
 The search panels are configured in <CODE>site/js/GlobalOptions.js</CODE>. 
 </P>
-
-<H3>4.1.1. Using WMS GetFeatureInfo</H3>
-
+<H3>4.2.1. Using WMS GetFeatureInfo</H3>
 <div class="code"><PRE>
 var simpleWmsSearch = {
   title: "Search continent",
@@ -206,7 +236,7 @@ var simpleWmsSearch = {
   selectionZoom: 0
 };
 </PRE></div>
-
+<P></P>
 <UL>
 <LI><CODE>title</CODE>: title of the search tab
 <LI><CODE>query</CODE>: identifier for this search
@@ -226,6 +256,7 @@ var simpleWmsSearch = {
 <LI><CODE>selectionZoom</CODE>: zoom level for jump-to when selecting results
 </UL>
 
+<P></P>
 <P>
 Request URL:
 </P>
@@ -239,15 +270,12 @@ REQUEST=GetFeatureInfo&amp;LAYERS=Country&amp;QUERY_LAYERS=Country&amp;
 FEATURE_COUNT=10&amp;INFO_FORMAT=text/xml&amp;SRS=EPSG:4326&amp;
 FILTER=Country:"name"+=+'africa'``
 </P>
-
-<H3>4.1.2. Using URL Rewriting</H3>
-
+<H3>4.2.2. Using URL Rewriting</H3>
 <P>
 For security and neatness, you may prefer to use rewritten URLs (so that your
 internal server file paths are not revealed. In that case your options file
 would contain something like this:
 </P>
-
 <div class="code"><PRE>
 var urlRewriteSearch = {
   title: "Search letter",
@@ -274,7 +302,7 @@ var urlRewriteSearch = {
   selectionZoom: 1
 };
 </PRE></div>
-
+<P></P>
 <UL>
 <LI><CODE>title</CODE>: title of the search tab
 <LI><CODE>query</CODE>: identifier for this search
@@ -292,12 +320,12 @@ var urlRewriteSearch = {
 <LI><CODE>selectionZoom</CODE>: zoom level for jump-to when selecting results
 </UL>
 
+<P></P>
 <P>
 For every search of this type you have to add a URL rewrite rule in the Apache
 config. *Note:* Linebreaks added for formatting - they should be removed in your
 config file.
 </P>
-
 <div class="code"><PRE>
 RewriteCond %{QUERY_STRING} ^(?:.*)query=samplesearch&amp;*(?:.*)$
 RewriteCond %{QUERY_STRING} ^(?:(?:.*)&amp;)?colour=([^&amp;]*)(?:.*)$
@@ -306,7 +334,7 @@ RewriteRule ^/wms/(.+)$ /cgi-bin/qgis_mapserv.fcgi?map=/
 REQUEST=GetFeatureInfo&amp;LAYERS=Hello&amp;QUERY_LAYERS=Hello&amp;FEATURE_COUNT=20&amp;
 INFO_FORMAT=text/xml&amp;SRS=EPSG:4326&amp;FILTER=Hello:"colour"\ =\ '%1' [PT]
 </PRE></div>
-
+<P></P>
 <P>
 The first RewriteCond matches the <CODE>query</CODE> id of the search panel config. The
 second RewriteCond extracts the values of the search request parameters.
@@ -320,30 +348,26 @@ Request URL:
 <P>
 <CODE>http://localhost/wms/helloworld?query=samplesearch&amp;colour=orange</CODE>
 </P>
-
-<H3>4.1.3. Add search panels to projects</H3>
-
+<H3>4.2.3. Add search panels to projects</H3>
 <P>
 In order for your search panel to appear in the web UI, you must
 enumerate them in your GlobalOptions.js for example (with url rewriting):
 </P>
-
 <div class="code"><PRE>
 var mapSearchPanelConfigs = {
   "helloworld": [simpleWmsSearch, urlRewriteSearch]
 };
 </PRE></div>
-
+<P></P>
 <P>
 Example (no rewriting):
 </P>
-
 <div class="code"><PRE>
 var mapSearchPanelConfigs = {
   "../projects/helloworld.qgs": [simpleWmsSearch, urlRewriteSearch]
 };
 </PRE></div>
-
+<P></P>
 <P>
 Search panels are added to a project by adding a new key for the map name
 with a list of search panel configs to <CODE>mapSearchPanelConfigs</CODE>.  If there is
@@ -354,56 +378,47 @@ GUI.
 The map name is whatever is passed in the get request for your .qgs file. For
 example if your url includes this:
 </P>
-
 <div class="code"><PRE>
 http://localhost/cgi-bin/qgis_mapserv.fcgi?map=../projects/helloworld.qgs
 </PRE></div>
-
+<P></P>
 <P>
 then your mapSearchPanelConfigs should reflect ../projects/helloworld.qgs as
 the key for the search list.
 </P>
-
-<A NAME="toc6"></A>
+<A NAME="toc7"></A>
 <H1>5. URL Rewriting</H1>
-
 <P>
 Using a standard installation of QGIS server, GlobalOptions.js will have a WMS
 server configuration like
 </P>
-
 <div class="code"><PRE>
 var serverAndCGI = "/cgi-bin/qgis_mapserv.fcgi";
 </PRE></div>
-
+<P></P>
 <P>
 A sample URL for QGIS Web Client installed in /var/www/qgis-web-client:
 </P>
-
 <div class="code"><PRE>
 http://localhost/qgis-web-client/qgiswebclient.html?map=/opt/geodata/maps/NaturalEarth.qgs&amp;visibleLayers=HYP_50M_SR_W
 </PRE></div>
-
+<P></P>
 <P>
 With the following rules for Apache mod_rewrite you can shorten the URLs to
 </P>
-
 <div class="code"><PRE>
 var serverAndCGI = "/wms";
 </PRE></div>
-
 <P>
 and
 </P>
-
 <div class="code"><PRE>
 http://localhost/maps/NaturalEarth?visibleLayers=HYP_50M_SR_W
 </PRE></div>
-
+<P></P>
 <P>
 Rules in VirtualHost configuration:
 </P>
-
 <div class="code"><PRE>
 # Forbid direct access
 RewriteRule ^/cgi-bin/.*$ - [F]
@@ -420,28 +435,25 @@ RewriteRule ^/maps/([^\.]+)$ /qgis-web-client/site/qgiswebclient.html [PT]
 # Rewrite /maps/* to qgis-web-client/site (e.g. /maps/gis_icons/mActionZoomNext.png -&gt; /qgis-web-client/site/gis_icons/mActionZoomNext.png)
 RewriteRule ^/maps/(.*) /qgis-web-client/site/$1 [PT]
 </PRE></div>
-
+<P></P>
 <P>
 For supporting qgs files in subdirectories (e.g. /maps/subdir/mapnampe) replace last rule with:
 </P>
-
 <div class="code"><PRE>
 RewriteRule ^/maps/[^/]+/(.*) /qgis-web-client/site/$1 [PT]
 </PRE></div>
-
+<P></P>
 <P>
 For adding zones in different subdirecories (e.g. maps and maps-protected) add the following rules:
 </P>
-
 <div class="code"><PRE>
 RewriteRule ^/wms-protected/(.+)$ /cgi-bin/qgis_mapserv.fcgi?map=/opt/geodata/maps-protected/$1.qgs [QSA,PT]
 RewriteRule ^/maps-protected/([^\.]+)$ /qgis-web-client/site/qgiswebclient.html [PT]
 RewriteRule ^/maps-protected/(.*) /qgis-web-client/site/$1 [PT]
 </PRE></div>
-
-<A NAME="toc7"></A>
+<P></P>
+<A NAME="toc8"></A>
 <H1>6. Configuration of search python script</H1>
-
 <P>
 Searching is handled by two separate python-wsgi scripts: "search.wsgi" lists
 back a hit list while the user is typing in the searchbox. It groups the
@@ -450,10 +462,8 @@ the actual wkt geometry for a selected search result. It is recommended to
 install the wsgi scripts in a separate directory, e.g. /home/www/wsgi, a place
 that is not reachable by regular web traffic.
 </P>
-
-<A NAME="toc8"></A>
+<A NAME="toc9"></A>
 <H2>6.1. Configuration of mod_wsgi</H2>
-
 <P>
 You need to enable mod_wsgi as root. (Ubuntu: a2enmod mod_wsgi).
 </P>
@@ -461,34 +471,28 @@ You need to enable mod_wsgi as root. (Ubuntu: a2enmod mod_wsgi).
 You need to configure apache with the following lines (e.g. in file
 /etc/apache2/sites-available/default):
 </P>
-
 <div class="code"><PRE>
 #mod_wsgi
 WSGIDaemonProcess gis processes=5 threads=15 display-name=%{GROUP}
 WSGIScriptAlias /wsgi/ /home/www/wsgi/
 WSGIScriptAliasMatch ^/wsgi/([^/]+) /home/www/wsgi/$1.wsgi
 </PRE></div>
-
-<A NAME="toc9"></A>
+<P></P>
+<A NAME="toc10"></A>
 <H2>6.2. Adaption of the wsgi scripts to your settings and needs</H2>
-
 <H3>6.2.1. DB connection</H3>
-
 <P>
 In the files "search.wsgi" and "getSearchGeom.wsgi" please edit the line
 containing the db connection strings. Search for the line 
 </P>
-
 <div class="code"><PRE>
 conn = psycopg2.connect("host='yourhost' dbname='yourdb' port='5432' user='yourusername' password='yourpassword'")
 </PRE></div>
-
+<P></P>
 <P>
 and adapt the parameters according to your server/db.
 </P>
-
 <H3>6.2.2. Search type to be used</H3>
-
 <P>
 The search can use PostgreSQL's tsvector data type. 
 "A tsvector value is a sorted list of distinct lexemes, which are words that have been normalized to merge different variants of the same word."
@@ -498,11 +502,10 @@ However as we are normally dealing with <B>place names</B> here we want them to 
 from the plural form but your name contains a plural you will not get a suitable result.
 If you want to use the tsvector search option you should activate the line
 </P>
-
 <div class="code"><PRE>
 sql += "searchstring_tsvector @@ to_tsquery(\'not_your_language\', '"+querystrings[j]+":*')"
 </PRE></div>
-
+<P></P>
 <P>
 <I>not_your_language</I> is to be replaced with an entry e.g. <I>finnish</I> if you have German place names.
 Thus plural forms and fillwords are kept as they are. Be aware of side effects!
@@ -511,29 +514,25 @@ Be sure to fill the field <I>searchstring_tsvector</I> with <CODE>`to_tsvector('
 <P>
 The use of
 </P>
-
 <div class="code"><PRE>
 sql += "searchstring::tsvector @@ lower('"+querystrings[j]+":*')::tsquery"
 </PRE></div>
-
+<P></P>
 <P>
 is <B>discouraged</B> as it does not find a place name like <I>Stoke-sub-Hamden</I> when you enter <I>Stoke</I>.
 </P>
 <P>
-If you do not want to use tsvector at all you can enable the full string comparison on the field searchstring (activated by default).
+If you do not want to use tsvector at all you can enable the full string comparison on the field <I>searchstring</I> (activated by default).
 </P>
-
 <div class="code"><PRE>
 sql += "searchstring ILIKE \'%"+querystrings[j]+"%\'"
 </PRE></div>
-
+<P></P>
 <P>
 This method however is slower than tsvector but not relevantly at least if you only have a couple 1000 datasets. 
 </P>
-
-<A NAME="toc10"></A>
+<A NAME="toc11"></A>
 <H1>7. PostgreSQL table setup for searching</H1>
-
 <div class="code"><PRE>
 CREATE TABLE cadastre.searchtable
 (
@@ -559,7 +558,7 @@ CREATE INDEX in_cadastre_searchstring_tsvector_gin
   USING gin
   (searchstring_tsvector);
 </PRE></div>
-
+<P></P>
 <P>
 The above search table can also be a view or materialized view. One can combine
 several search tables by specifying the <CODE>`searchtables=searchtable1,searchtable2,searchtable3`</CODE> 
@@ -568,22 +567,18 @@ parameter when requesting the <I>search.wsgi</I> script.
 <P>
 Using views is generally slower than properly indexed tables, check for yourself what works best.
 </P>
-
-<A NAME="toc11"></A>
+<A NAME="toc12"></A>
 <H1>8. License</H1>
-
 <P>
 BSD
 </P>
-
-<A NAME="toc12"></A>
+<A NAME="toc13"></A>
 <H1>9. Acknowledgements</H1>
-
 <P>
 We'd like to thank the OpenLayers and GeoExt team for providing their base libraries.
 </P>
 </DIV>
 
-<!-- html code generated by txt2tags 2.6 (http://txt2tags.org) -->
+<!-- html code generated by txt2tags 2.5 (http://txt2tags.sf.net) -->
 <!-- cmdline: txt2tags -o README.html -t html README.t2t -->
 </BODY></HTML>

@@ -135,6 +135,16 @@ function postLoading() {
           }
           return false;
         }, null, true);
+        //test to see if we need to change to jpeg because checked
+        //layer is in array fullColorLayers
+        if (fullColorLayers.length > 0 && origFormat.match(/8bit/)) {
+          for (var i=0;i<fullColorLayers.length;i++) {
+            if (fullColorLayers[i] == visibleLayers[index]) {
+              format = "image/jpeg";
+              break;
+            }
+          }
+        }
       }
     }
     //expand first level
@@ -601,6 +611,7 @@ function postLoading() {
     //now collect all selected queryable layers for WMS request
     selectedLayers = Array();
     selectedQueryableLayers = Array();
+    format = origFormat;
     layerTree.root.firstChild.cascade(
       function (n) {
         if (n.isLeaf() && n.attributes.checked) {
@@ -608,9 +619,20 @@ function postLoading() {
           if (wmsLoader.layerProperties[n.text].queryable == 1) {
             selectedQueryableLayers.push(n.text);
           }
+          //test to see if we need to change to jpeg because checked
+          //layer is in array fullColorLayers
+          if (fullColorLayers.length > 0 && origFormat.match(/8bit/)) {
+            for (var i=0;i<fullColorLayers.length;i++) {
+              if (fullColorLayers[i] == n.text) {
+                 format = "image/jpeg";
+                 break;
+              }
+            } 
+          }
         }
       }
     );
+    thematicLayer.mergeNewParams({format:format});
     //change array order
     selectedLayers.reverse();
     selectedQueryableLayers.reverse();
