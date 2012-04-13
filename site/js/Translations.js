@@ -111,9 +111,9 @@ modeZoomRectangle["uk"] = "Режим: збільшення прямокутни
 
 //mode string for attribute data detailed
 var modeObjectIdentificationString = new Array();
-modeObjectIdentificationString["en"] = "Mode: object identification. View attribute data with mouse click.";
+modeObjectIdentificationString["en"] = "Mode: object identification. Move the mouse over an object to identify it, click it to view its attribute data.";
 modeObjectIdentificationString["es"] = "Modo: Identificaci&oacute;n de entidad. Ver atributos de datos con el click del rat&oacute;n.";
-modeObjectIdentificationString["de"] = "Modus: Objektidentifikation. Attributdatenabfrage &uuml;ber Mausklick.";
+modeObjectIdentificationString["de"] = "Modus: Objektidentifikation. Bewegen Sie die Maus über das Objekt, um es zu identifizeren, klicken Sie es an, um seine Attributdaten anzuzeigen.";
 modeObjectIdentificationString["fr"] = "Mode: identification d&apos;entit&eacute;. Identifier une entit&eacute; en cliquant.";
 modeObjectIdentificationString["it"] = "Modalit&agrave;: identificazione di elementi. Identificare un elemento tramite il click.";
 modeObjectIdentificationString["pt_PT"] = "Modo: identificaç&atilde;o do elemento. Ver atributos dos dados atrav&eacute;s de um clique do rato.";

@@ -12,6 +12,9 @@ var useGeoNamesSearchBox = true;
 var searchBoxQueryURL = null; // "/wsgi/search.wsgi?query=";
 var searchBoxGetGeomURL = null; // "/wsgi/getSearchGeom.wsgi";
 
+// do not show fields in ObjectIdentification results that have null values
+var suppressEmptyValues = false;
+
 //config for QGIS.SearchPanel
 var simpleWmsSearch = {
   title: "Search continent",

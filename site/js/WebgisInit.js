@@ -24,6 +24,9 @@ var coordinateTextField; //reference to number field for coordinate display
 var printLayoutsDefined = false; //true if ComposerTemplates are found in QGIS
 var navHistoryCtrl; //OpenLayers NavigationHistory control
 var identificationMode; //can have a value from objectIdentificationModes
+var mapInfoFieldName = "tooltip"; // this field is suppressed in the AttributeTree panel
+var identifyToolActive = false; // a state variabel used to track whether the tooltip should be displayed or not
+
 
 Ext.onReady(function() {
   //dpi detection
@@ -157,7 +160,6 @@ function postLoading() {
   //deal with myTopToolbar (map tools)
   //toggle buttons
   Ext.getCmp('IdentifyTool').toggleHandler = mapToolbarHandler;
-  Ext.getCmp('MapTips').toggleHandler = mapToolbarHandler;
   Ext.getCmp('measureDistance').toggleHandler = mapToolbarHandler;
   Ext.getCmp('measureArea').toggleHandler = mapToolbarHandler;
   Ext.getCmp('PrintMap').toggleHandler = mapToolbarHandler;
@@ -412,7 +414,26 @@ function postLoading() {
   if (Ext.isIE) {
     tAutoWidth = false;
   }
-  attribToolTip = new Ext.ToolTip({target:geoExtMap.body,html:'<p>Attributdaten-Tooltip</p>',disabled:true,trackMouse:true,autoHide:false,autoWidth:tAutoWidth,autoHeight:true});
+  attribToolTip = new Ext.ToolTip(
+    {
+	   target:geoExtMap.body,
+	   html:'<p>Attributdaten-Tooltip</p>',
+	   disabled:true,
+	   trackMouse:true,
+	   autoHide:false,
+	   autoWidth:tAutoWidth,
+	   autoHeight:true,
+	   listeners: {
+	     'move': function(tt,x,y) {
+			//fixes disabled tooltip that still displays - not nice, but it works
+			if (!identifyToolActive) {
+				tt.disable();
+				tt.hide();
+			}
+		 }
+	   }
+	});
+
 
   //overview map
   OverviewMapOptions.maxExtent = maxExtent;
@@ -852,30 +873,23 @@ function postLoading() {
 function mapToolbarHandler(btn,evt) {
   if (btn.id == "IdentifyTool") {
     if (btn.pressed) {
+	  identifyToolActive = true;
       WMSGetFInfo.activate();
-      AttributeDataTree.expand();
+      WMSGetFInfoHover.activate();
+      attribToolTip.enable();
+      attribToolTip.show();
+	  attribToolTip.update('<p>'+mapTipsNoResultString[lang]+'</p>');
       mainStatusText.setText(modeObjectIdentificationString[lang]);
     }
     else {
+	  identifyToolActive = false;
       WMSGetFInfo.deactivate();
-      highlightLayer.removeAllFeatures();
-      AttributeDataTree.collapse();
-      mainStatusText.setText(modeNavigationString[lang]);
-    }
-  }
-  if (btn.id == "MapTips") {
-    if (btn.pressed) {
-      WMSGetFInfoHover.activate();
-      mainStatusText.setText(modeMapTipsString[lang]);
-      attribToolTip.enable();
-      attribToolTip.show();
-    }
-    else {
       WMSGetFInfoHover.deactivate();
       highlightLayer.removeAllFeatures();
-      mainStatusText.setText(modeNavigationString[lang]);
       attribToolTip.disable();
       attribToolTip.hide();
+      //AttributeDataTree.collapse();
+      mainStatusText.setText(modeNavigationString[lang]);
     }
   }
   if (btn.id == "measureDistance") {
@@ -911,7 +925,7 @@ function mapToolbarHandler(btn,evt) {
           printExtent.page.lastScale = Math.round(printExtent.page.scale.data.value);
           printExtent.page.lastRotation = 0;
           Ext.getCmp('PrintScaleCombobox').setValue(printExtent.page.lastScale);
-        //listener when page scale changes from page extent widget
+          //listener when page scale changes from page extent widget
           printExtent.page.on('change', function(page,modifications) {
           if (page.scale.data.value != printExtent.page.lastScale) {
           Ext.getCmp('PrintScaleCombobox').setValue(page.scale.data.value);
@@ -925,7 +939,7 @@ function mapToolbarHandler(btn,evt) {
           printExtent.initialized = true;
         }
         printExtent.page.setRotation(0,true);
-      Ext.getCmp('PrintLayoutRotation').setValue(0);
+        Ext.getCmp('PrintLayoutRotation').setValue(0);
         printExtent.page.fit(geoExtMap,{'mode':'screen'});
         printExtent.show();
         mainStatusText.setText(modePrintingString[lang]);
@@ -949,89 +963,126 @@ function mapToolbarHandler(btn,evt) {
 }
 
 function showFeatureInfo(evt) {
-  if (window.DOMParser) {
-    var parser = new DOMParser();
-    xmlDoc = parser.parseFromString(evt.text,"text/xml");
-  }
-  else {
-    xmlDoc=new ActiveXObject("Microsoft.XMLDOM");
-    xmlDoc.async="false";
-    xmlDoc.loadXML(evt.text);
-  }
   //empty previous result in attribute Tree
   AttributeDataTree.getRootNode().removeAll();
-  featureInfoResultLayers = new Array();
-  highLightGeometry = new Array();
-  parseFeatureInfoResult(xmlDoc);
-  featureInfoResultLayers.reverse();
-  highLightGeometry.reverse();
-  highlightLayer.removeAllFeatures();
-  if (identificationMode == 'topMostHit' && featureInfoResultLayers.length > 0) {
-      AttributeDataTree.getRootNode().appendChild(featureInfoResultLayers[0]);
-    var feature = new OpenLayers.Feature.Vector(OpenLayers.Geometry.fromWKT(highLightGeometry[0]));
-    highlightLayer.addFeatures([feature]);
+  if (identifyToolActive) {
+	  if (window.DOMParser) {
+		var parser = new DOMParser();
+		xmlDoc = parser.parseFromString(evt.text,"text/xml");
+	  }
+	  else {
+		xmlDoc=new ActiveXObject("Microsoft.XMLDOM");
+		xmlDoc.async="false";
+		xmlDoc.loadXML(evt.text);
+	  }
+	  // open AttributeTree panel
+	  AttributeDataTree.expand();
+	  featureInfoResultLayers = new Array();
+	  highLightGeometry = new Array();
+	  parseFeatureInfoResult(xmlDoc);
+	  featureInfoResultLayers.reverse();
+	  highLightGeometry.reverse();
+	  highlightLayer.removeAllFeatures();
+	  var idsToRemove = new Array(); // array to store fields/attributes that should not be displayed
+	  if (identificationMode == 'topMostHit' && featureInfoResultLayers.length > 0) {
+		var featureInfoResult = featureInfoResultLayers[0];
+		AttributeDataTree.getRootNode().appendChild(featureInfoResult);
+		var feature = new OpenLayers.Feature.Vector(OpenLayers.Geometry.fromWKT(highLightGeometry[0]));
+		highlightLayer.addFeatures([feature]);
+		// scan through the results and check if there are any to be suppressed
+		for (var j = 0;j<featureInfoResult.childNodes.length;j++) {
+		  var aFeatureInfo = featureInfoResult.childNodes[j];
+		  for (var k = 0;k<aFeatureInfo.childNodes.length;k++) {
+			var anAttributeValue = aFeatureInfo.childNodes[k];
+			var parts = anAttributeValue.attributes.text.split(":");
+			// condition 1: field name = tooltip, cond 2 fields with null values
+			if ((parts[0] === mapInfoFieldName) || (suppressEmptyValues && parts[1].replace(/^\s\s*/, '').replace(/\s\s*$/, '') === "")){
+			  idsToRemove.push(anAttributeValue.id);
+			}
+		  }
+		}
+	  }
+	  else if (identificationMode == 'allLayers' || identificationMode == 'activeLayers') {
+		var features = new Array();
+		for (var i = 0;i<featureInfoResultLayers.length;i++) {
+		  var featureInfoResult = featureInfoResultLayers[i];
+		  AttributeDataTree.getRootNode().appendChild(featureInfoResult);
+		  features[i] = new OpenLayers.Feature.Vector(OpenLayers.Geometry.fromWKT(highLightGeometry[i]));
+		  // scan through the results and check if there are any to be suppressed
+		  for (var j = 0;j<featureInfoResult.childNodes.length;j++) {
+			  var aFeatureInfo = featureInfoResult.childNodes[j];
+			  for (var k = 0;k<aFeatureInfo.childNodes.length;k++) {
+				  var anAttributeValue = aFeatureInfo.childNodes[k];
+				  var parts = anAttributeValue.attributes.text.split(":");
+				  // condition 1: field name = tooltip, cond 2 fields with null values
+				  if ((parts[0] === mapInfoFieldName) || (suppressEmptyValues && parts[1].replace(/^\s\s*/, '').replace(/\s\s*$/, '') === "")){
+					idsToRemove.push(anAttributeValue.id);
+				  }
+			   }
+		   }
+		}
+		highlightLayer.addFeatures(features);
+	  }
+	  AttributeDataTree.getRootNode().expandChildNodes(true);
+	  // remove suppressed attributes
+	  for (var i = 0;i<idsToRemove.length;i++) {
+		AttributeDataTree.getRootNode().findChild("id", idsToRemove[i], true).remove();
+	  }
   }
-  else if (identificationMode == 'allLayers' || identificationMode == 'activeLayers') {
-    var features = new Array();
-    for (var i = 0;i<featureInfoResultLayers.length;i++) {
-      AttributeDataTree.getRootNode().appendChild(featureInfoResultLayers[i]);
-      features[i] = new OpenLayers.Feature.Vector(OpenLayers.Geometry.fromWKT(highLightGeometry[i]));
-    }
-    highlightLayer.addFeatures(features);
-  }
-  AttributeDataTree.getRootNode().expandChildNodes(true);
 }
 
 function showFeatureInfoHover(evt) {
-  if (window.DOMParser) {
-    var parser = new DOMParser();
-    xmlDoc = parser.parseFromString(evt.text,"text/xml");
-  }
-  else {
-    xmlDoc=new ActiveXObject("Microsoft.XMLDOM");
-    xmlDoc.async="false";
-    xmlDoc.loadXML(evt.text);
-  }
   //highlightLayer leeren
   highlightLayer.removeAllFeatures();
-  var tooltipText = "";
-  var nameText = "";
-  var ogc_fidText = "";
-  var gidText = "";
-  var layerNodes = xmlDoc.getElementsByTagName("Layer");
-  var text = '<p>';
-  var result = false;
-  for (var i = layerNodes.length - 1; i > -1; --i) {
-    var featureNodes = layerNodes[i].getElementsByTagName("Feature");
-    for (var j = 0; j < featureNodes.length; ++j) {
-      if (j == 0) {
-        text += '<span style="font-weight:bold;">'+layerNodes[i].getAttribute("name")+'</span><br/>';
-        result = true;
-      }
-      var attribNodes = featureNodes[j].getElementsByTagName("Attribute");
-      for (var k = 0; k < attribNodes.length; ++k) {
-        if (attribNodes[k].getAttribute("name") == "tooltip") {
-          attribText = attribNodes[k].getAttribute("value").replace(/\n/,"<br/>");
-          attribText = attribText.replace("\n","<br/>");
-          text += attribText + "<br/>";
-        }
-        else {
-          if (attribNodes[k].getAttribute("name") == "geometry") {
-            var feature = new OpenLayers.Feature.Vector(OpenLayers.Geometry.fromWKT(attribNodes[k].getAttribute("value")));
-            highlightLayer.addFeatures([feature]);
-          }
-        }
-      }
-    }
-    if (identificationMode == 'topMostHit' && result) {
-      break;
-    }
+  if (identifyToolActive) {
+	  if (window.DOMParser) {
+		var parser = new DOMParser();
+		xmlDoc = parser.parseFromString(evt.text,"text/xml");
+	  }
+	  else {
+		xmlDoc=new ActiveXObject("Microsoft.XMLDOM");
+		xmlDoc.async="false";
+		xmlDoc.loadXML(evt.text);
+	  }
+	  var tooltipText = "";
+	  var nameText = "";
+	  var ogc_fidText = "";
+	  var gidText = "";
+	  var layerNodes = xmlDoc.getElementsByTagName("Layer");
+	  var text = '<p>';
+	  var result = false;
+	  for (var i = layerNodes.length - 1; i > -1; --i) {
+		var featureNodes = layerNodes[i].getElementsByTagName("Feature");
+		for (var j = 0; j < featureNodes.length; ++j) {
+		  if (j == 0) {
+			text += '<span style="font-weight:bold;">'+layerNodes[i].getAttribute("name")+'</span><br/>';
+			result = true;
+		  }
+		  var attribNodes = featureNodes[j].getElementsByTagName("Attribute");
+		  for (var k = 0; k < attribNodes.length; ++k) {
+			if (attribNodes[k].getAttribute("name") == "tooltip") {
+			  attribText = attribNodes[k].getAttribute("value").replace(/\n/,"<br/>");
+			  attribText = attribText.replace("\n","<br/>");
+			  text += attribText + "<br/>";
+			}
+			else {
+			  if (attribNodes[k].getAttribute("name") == "geometry") {
+				var feature = new OpenLayers.Feature.Vector(OpenLayers.Geometry.fromWKT(attribNodes[k].getAttribute("value")));
+				highlightLayer.addFeatures([feature]);
+			  }
+			}
+		  }
+		}
+		if (identificationMode == 'topMostHit' && result) {
+		  break;
+		}
+	  }
+	  if (result == false) {
+		text += mapTipsNoResultString[lang];
+	  }
+	  text += '</p>';
+	  attribToolTip.update(text);
   }
-  if (result == false) {
-    text += mapTipsNoResultString[lang];
-  }
-  text += '</p>';
-  attribToolTip.update(text);
 }
 
 function showFeatureSelected(layer, id, x, y, zoom) {
