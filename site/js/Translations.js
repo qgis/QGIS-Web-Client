@@ -127,7 +127,7 @@ modeMapTipsString["de"] = "Modus: MapTips. Anzeige mit Mouseover über tooltips.
 modeMapTipsString["fr"] = "Mode: infobulles. Montrer une infobulle sous le curseur de la souris.";
 modeMapTipsString["it"] = "Modalit&agrave;: suggerimenti. Mostrare i suggerimenti con il cursore del mouse."; //FIXME
 modeMapTipsString["pt_PT"] = "Modo: MapTips. Mostra dicas de atributos do mapa.";
-modeMapTipsString["uk"] = "Режим: впливаючі підказки. Наведіть мишою на об'єкт аби побачити підказку.";
+modeMapTipsString["uk"] = "Режим: випливаючі підказки. Наведіть мишою на об'єкт аби побачити підказку.";
 
 //mode measure distance
 var modeMeasureDistanceString = new Array();
@@ -576,7 +576,7 @@ geonamesLoadingString["de"] = "Suche in Geonames...";
 geonamesLoadingString["fr"] = "Search in Geonames..."; // FIXME
 geonamesLoadingString["it"] = "Search in Geonames..."; // FIXME
 geonamesLoadingString["pt_PT"] = "Search in Geonames..."; // FIXME
-geonamesLoadingString["uk"] = "Пошук в Geonames..."; //FIXME
+geonamesLoadingString["uk"] = "Пошук в Геоданих...";
 
 //Geonames empty string
 var geonamesEmptyString = new Array();
@@ -586,7 +586,7 @@ geonamesEmptyString["de"] = "Suche Ort in Geonames";
 geonamesEmptyString["fr"] = "Search location in Geonames"; // FIXME
 geonamesEmptyString["it"] = "Search location in Geonames"; // FIXME
 geonamesEmptyString["pt_PT"] = "Search location in Geonames"; // FIXME
-geonamesEmptyString["uk"] = "Search location in Geonames"; // FIXME
+geonamesEmptyString["uk"] = "Пошук місць у Геоданих";
 
 //Reset Search Field
 var resetSearchFieldTooltipString = new Array();
@@ -606,7 +606,7 @@ printWindowTitleString["de"] = "PDF wird vom Server generiert. Für massstäblic
 printWindowTitleString["fr"] = "Le serveur g&eacute;n&egrave;re le fichier PDF. Pour conserver l'&eacute;chelle, ne pas activer l'option 'Ajuster &agrave; la page'!" //FIXME
 printWindowTitleString["it"] = "Il server sta generando il file PDF. Per stampare alla scala corretta disattivare l'opzione 'Ridimensiona alla pagina'!"
 printWindowTitleString["pt_PT"] = "O servidor est&aacute; a gerar um ficheiro PDF. Para impress&atilde;o &agrave; escala correcta, desactivar a opç&atilde;o 'Fit to Page'!"; //FIXME
-printWindowTitleString["uk"] = "The server is generating a PDF file. For correct up to scale printing please deactivate the option 'Fit to Page'!"; //FIXME
+printWindowTitleString["uk"] = "На сервері створюється PDF файл. Для корректного масштабуваня друку відключіть опцію 'Підігнати до сторінки'!";
 
 //print object data alternative string in case no pdf plugin is present in browser
 //attention: single quotes around string, partially html formatting
