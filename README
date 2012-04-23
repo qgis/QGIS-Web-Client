@@ -26,7 +26,7 @@ Last Change : Thursday April 12, 2012
 
 
   sudo apt-get install apache2 libapache2-mod-fcgid
-  cp apache-conf/qgis-web-client.conf.templ apache-conf/qgis-web-client.conf
+  cp apache-conf/qgis-web-client.conf.tmpl apache-conf/qgis-web-client.conf
 
 
 Update the paths in the copied file then:
@@ -34,6 +34,7 @@ Update the paths in the copied file then:
 
   cd /etc/apache2/sites-available/
   ln -s <path to apache-conf/qgis-web-client.conf> .
+  sudo a2enmode rewrite
   sudo a2ensite qgis-web-client.conf
   sudo /etc/init.d/apache2 reload
 
@@ -86,7 +87,7 @@ For searching:
 
 
 The client part needs svn checkout with the following command:
-svn co https://svn.osgeo.org/qgis/trunk/qgiswebclient qgiswebclient
+git clone https://github.com/qgis/qgis-web-client.git
 
 
   4. Configuration of Client
