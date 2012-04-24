@@ -26,7 +26,7 @@ availableLanguages["de"].names["de"] = "Deutsch";
 availableLanguages["de"].names["es"] = "Alem&aacute;n"; //FIXME
 availableLanguages["de"].names["fr"] = "Allemand";
 availableLanguages["de"].names["it"] = "Tedesco";
-availableLanguages["de"].names["pt_PT"] = "Alem&atilde;o"; //FIXME
+availableLanguages["de"].names["pt_PT"] = "Alemão";
 availableLanguages["de"].names["uk"] = "Німецька";
 
 //French
@@ -76,7 +76,7 @@ mapAppLoadingString["es"] = "Cargando aplicaci&oacute;n de mapa..."; //FIXME
 mapAppLoadingString["de"] = "Kartenapplikation wird geladen...";
 mapAppLoadingString["fr"] = "Chargement de l'application cartographique...";
 mapAppLoadingString["it"] = "Caricamento dell'applicazione cartografica...";
-mapAppLoadingString["pt_PT"] = "Carregando a aplicaç&atilde;o do mapa..."; //FIXME
+mapAppLoadingString["pt_PT"] = "Carregando a aplicação do mapa...";
 mapAppLoadingString["uk"] = "Завантаження додатку...";
 
 //indicating that map app was loaded and we are now loading the map
@@ -96,7 +96,7 @@ modeNavigationString["es"] = "Modo: navegaci&oacute;n. Shift/rect&aacute;ngulo o
 modeNavigationString["de"] = "Modus: Navigation. Shift/Rechteck aufziehen oder Mausrad zum zoomen.";
 modeNavigationString["fr"] = "Mode: navigation. Majuscule+tracer un rectangle ou roulette de la souris pour zoomer.";
 modeNavigationString["it"] = "Modalit&agrave;: navigazione. Shift+rettangolo o rotella del mouse per zommare."; //FIXME
-modeNavigationString["pt_PT"] = "Modo: navegaç&atilde;o. Shitf+rect&acirc;ngulo ou roda do rato para efectuar zoom."; //FIXME
+modeNavigationString["pt_PT"] = "Modo: navegação. Shift+rectângulo ou roda do rato para efectuar zoom.";
 modeNavigationString["uk"] = "Режим: навігація. Shift/прямокутне виділення або колесо миші для зміни масштабу.";
 
 //mode string for rectangle zoom
@@ -106,7 +106,7 @@ modeZoomRectangle["es"] = "Modo: zoom con rect&aacute;ngulo. Dibujar el rect&aac
 modeZoomRectangle["de"] = "Modus: Zoom mit Rechteck. Ziehen Sie die gewünschte Region auf.";
 modeZoomRectangle["fr"] = "Mode: zoom rectangle. Dessiner un rectangle sur la zone sur laquelle zoomer.";
 modeZoomRectangle["it"] = "Modalit&agrave;: zoom con rettangolo. Disegnare un rettangolo sulla zona da ingrandire."; //FIXME
-modeZoomRectangle["pt_PT"] = "Modo: zoom com rect&acirc;ngulo. Desenhar um rect&acirc;ngulo sobre a &aacute;rea que deseja aproximar."; //FIXME
+modeZoomRectangle["pt_PT"] = "Modo: zoom com rectângulo. Desenhar um rectângulo sobre a zona que deseja aproximar.";
 modeZoomRectangle["uk"] = "Режим: збільшення прямокутником. Виділіть прямокутником регіон який Ви бажаєте збільшити.";
 
 //mode string for attribute data detailed
@@ -116,7 +116,7 @@ modeObjectIdentificationString["es"] = "Modo: Identificaci&oacute;n de entidad. 
 modeObjectIdentificationString["de"] = "Modus: Objektidentifikation. Bewegen Sie die Maus über das Objekt, um es zu identifizeren, klicken Sie es an, um seine Attributdaten anzuzeigen.";
 modeObjectIdentificationString["fr"] = "Mode: identification d'entit&eacute;. Identifier une entit&eacute; en cliquant."; //FIXME
 modeObjectIdentificationString["it"] = "Modalit&agrave;: identificazione di elementi. Identificare un elemento tramite il click."; //FIXME
-modeObjectIdentificationString["pt_PT"] = "Modo: identificaç&atilde;o do elemento. Ver atributos dos dados atrav&eacute;s de um clique do rato."; //FIXME
+modeObjectIdentificationString["pt_PT"] = "Modo: identificação do elemento. Ver atributos dos dados por meio de um clique do rato.";
 modeObjectIdentificationString["uk"] = "Режим: вибір об'єкта. Клацніть лівою кнопкою щоб побачити атрибути об'єкта.";
 
 //mode string for map tips (display main attribute with tooltips)
@@ -136,7 +136,7 @@ modeMeasureDistanceString["es"] = "Modo: medir distancia. Finalizar con doble cl
 modeMeasureDistanceString["de"] = "Modus: Distanzmessung. Beenden mit Doppelklick.";
 modeMeasureDistanceString["fr"] = "Mode: mesure de distance. Terminer avec un double-clic.";
 modeMeasureDistanceString["it"] = "Modalit&agrave;: misura delle distanze. Interrompere con un doppio clic."; //FIXME
-modeMeasureDistanceString["pt_PT"] = "Modo: medir dist&acirc;ncia. Para terminar, efectuar duplo clique."; //FIXME
+modeMeasureDistanceString["pt_PT"] = "Modo: medir distância. Para terminar, efectuar duplo clique.";
 modeMeasureDistanceString["uk"] = "Режим: вимірювання відстаней. Подвійне клацання щоб завершити.";
 
 //mode measure area
@@ -146,7 +146,7 @@ modeMeasureAreaString["es"] = "Modo: medir &aacute;rea. Finalizar con doble clic
 modeMeasureAreaString["de"] = "Modus: Flächenmessung. Beenden mit Doppelklick.";
 modeMeasureAreaString["fr"] = "Mode: mesure de surface. Terminer avec un double-clic.";
 modeMeasureAreaString["it"] = "Modalit&agrave;: misura delle superifici. Interrompere con un doppio clic."; //FIXME
-modeMeasureAreaString["pt_PT"] = "Modo: medir &aacute;rea. Para terminar, efectuar duplo clique."; //FIXME
+modeMeasureAreaString["pt_PT"] = "Modo: medir área. Para terminar, efectuar duplo clique.";
 modeMeasureAreaString["uk"] = "Режим: вимірювання площі. Подвійне клацання щоб завершити.";
 
 //mode printing
@@ -156,7 +156,7 @@ modePrintingString["es"] = "Modo: imprimir. mueva o rote la extensi&oacute;n del
 modePrintingString["de"] = "Modus: Drucken. Verschieben oder Rotieren Sie den Kartenausschnitt. Drucken mit 'Drucken'-Knopf.";
 modePrintingString["fr"] = "Mode: impression. D&eacute;placer ou faire tourner la zone d'impression. Imprimer avec le bouton 'Imprimer'."; //FIXME
 modePrintingString["it"] = "Modalit&agrave;: stampa. Spostare o ruotare la zona di stampa. Stampare con il pulsante 'Stamap'."; //FIXME
-modePrintingString["pt_PT"] = "Modo: impress&atilde;o. Mover ou girar a extens&atilde;o do mapa. Imprimir com o 'Print'-Button."; //FIXME
+modePrintingString["pt_PT"] = "Modo: impressão. Mover ou girar a extensão do mapa. Imprimir com o botão 'Imprimir'.";
 modePrintingString["uk"] = "Режим: друк. Обаріть ділянку мапи. Роздрукуйте кнопкою 'Друк'.";
 
 /***********************
@@ -170,7 +170,7 @@ leftPanelTitleString["es"] = "Informaci&oacute;n y herramientas"; //FIXME
 leftPanelTitleString["de"] = "Infos und Werkzeuge";
 leftPanelTitleString["fr"] = "Infos et outils";
 leftPanelTitleString["it"] = "Info e strumenti";
-leftPanelTitleString["pt_PT"] = "Informaç&atilde;o e Ferramentas"; //FIXME
+leftPanelTitleString["pt_PT"] = "Informação e Ferramentas";
 leftPanelTitleString["uk"] = "Дані та інструменти";
 
 //title of search panel
@@ -180,7 +180,7 @@ searchPanelTitleString["es"] = "Search"; // FIXME
 searchPanelTitleString["de"] = "Suche";
 searchPanelTitleString["fr"] = "Search"; // FIXME
 searchPanelTitleString["it"] = "Search"; // FIXME
-searchPanelTitleString["pt_PT"] = "Search"; // FIXME
+searchPanelTitleString["pt_PT"] = "Pesquisar";
 searchPanelTitleString["uk"] = "Пошук";
 
 //title of map panel
@@ -190,7 +190,7 @@ mapPanelTitleString["es"] = "Map"; // FIXME
 mapPanelTitleString["de"] = "Karte";
 mapPanelTitleString["fr"] = "Map"; // FIXME
 mapPanelTitleString["it"] = "Map"; // FIXME
-mapPanelTitleString["pt_PT"] = "Map"; // FIXME
+mapPanelTitleString["pt_PT"] = "Mapa";
 mapPanelTitleString["uk"] = "Мапа";
 
 //title of map layer tree
@@ -231,7 +231,7 @@ objectIdentificationTextLabel["de"] = "Objektdentifikation: ";
 objectIdentificationTextLabel["fr"] = "Identification d'entit&eacute;: "; //FIXME
 objectIdentificationTextLabel["it"] = "Identificazione di entit&agrave;: "; //FIXME
 objectIdentificationTextLabel["it"] = "Identificazione di entit&aagrave;: "; //FIXME
-objectIdentificationTextLabel["pt_PT"] = "Identificaç&atilde;o de objectos: "; //FIXME
+objectIdentificationTextLabel["pt_PT"] = "Identificação de objectos: ";
 objectIdentificationTextLabel["uk"] = "Вибір об'єкту: ";
 
 //Coordinate text label (coordinate display in bottom toolbar of main map window)
@@ -271,7 +271,7 @@ searchFieldDefaultTextString["es"] = "Buscar (direcciones, registros, nombres, e
 searchFieldDefaultTextString["de"] = "Suche (Adressen, Parzellenr, Flurnamen, etc.)";
 searchFieldDefaultTextString["fr"] = "Chercher (adresses, n&deg; de parcelles, noms, etc.)"; //FIXME
 searchFieldDefaultTextString["it"] = "Ricerca (indirizzi, n&deg; delle particelle, nomi, ecc.)"; //FIXME
-searchFieldDefaultTextString["pt_PT"] = "Pesquisa (morada, parcelas, nomes, etc.)";
+searchFieldDefaultTextString["pt_PT"] = "Pesquisar (morada, parcelas, nomes, etc.)";
 searchFieldDefaultTextString["uk"] = "Шукати (адреси, назви, тощо.)";
 
 //search button
@@ -281,7 +281,7 @@ searchButtonString["es"] = "Search"; // FIXME
 searchButtonString["de"] = "Suchen";
 searchButtonString["fr"] = "Search"; // FIXME
 searchButtonString["it"] = "Search"; // FIXME
-searchButtonString["pt_PT"] = "Search"; // FIXME
+searchButtonString["pt_PT"] = "Pesquisar";
 searchButtonString["uk"] = "Пошук";
 
 //reset button
@@ -291,7 +291,7 @@ resetButtonString["es"] = "Reset"; // FIXME
 resetButtonString["de"] = "Zurücksetzen";
 resetButtonString["fr"] = "Reset"; // FIXME
 resetButtonString["it"] = "Reset"; // FIXME
-resetButtonString["pt_PT"] = "Reset"; // FIXME
+resetButtonString["pt_PT"] = "Apagar";
 resetButtonString["uk"] = "Очистити";
 
 //please wait
@@ -301,7 +301,7 @@ pleaseWaitString["es"] = "Please wait"; // FIXME
 pleaseWaitString["de"] = "Bitte warten";
 pleaseWaitString["fr"] = "Please wait"; // FIXME
 pleaseWaitString["it"] = "Please wait"; // FIXME
-pleaseWaitString["pt_PT"] = "Please wait"; // FIXME
+pleaseWaitString["pt_PT"] = "Por favor espere";
 pleaseWaitString["uk"] = "Зачекайте";
 
 //search result
@@ -311,7 +311,7 @@ searchResultString["es"] = "Search result"; // FIXME
 searchResultString["de"] = "Suchresultat";
 searchResultString["fr"] = "Search result"; // FIXME
 searchResultString["it"] = "Search result"; // FIXME
-searchResultString["pt_PT"] = "Search result"; // FIXME
+searchResultString["pt_PT"] = "Resultado de pesquisa";
 searchResultString["uk"] = "Результати пошуку";
 
 //network error
@@ -321,7 +321,7 @@ networkErrorString["es"] = "Network error"; // FIXME
 networkErrorString["de"] = "Netzwerkfehler";
 networkErrorString["fr"] = "Network error"; // FIXME
 networkErrorString["it"] = "Network error"; // FIXME
-networkErrorString["pt_PT"] = "Network error"; // FIXME
+networkErrorString["pt_PT"] = "Erro de rede";
 networkErrorString["uk"] = "Помилка мережі";
 
 // missing or invalid search params
@@ -331,7 +331,7 @@ missingOrInvalidSearchParams["es"] = "Missing or invalid values in search form";
 missingOrInvalidSearchParams["de"] = "Fehlende oder ungültige Werte im Suchformular";
 missingOrInvalidSearchParams["fr"] = "Missing or invalid values in search form"; // FIXME
 missingOrInvalidSearchParams["it"] = "Missing or invalid values in search form"; // FIXME
-missingOrInvalidSearchParams["pt_PT"] = "Missing or invalid values in search form"; // FIXME
+missingOrInvalidSearchParams["pt_PT"] = "Valores em falta ou inválidos no formulário de pesquisa";
 missingOrInvalidSearchParams["uk"] = "Відсутні або не правильні дані в полі пошуку";
 
 
@@ -342,7 +342,7 @@ searchErrorString["es"] = "Error during search"; // FIXME
 searchErrorString["de"] = "Fehler bei Suche";
 searchErrorString["fr"] = "Error during search"; // FIXME
 searchErrorString["it"] = "Error during search"; // FIXME
-searchErrorString["pt_PT"] = "Error during search"; // FIXME
+searchErrorString["pt_PT"] = "Erro durante a pesquisa";
 searchErrorString["uk"] = "Помилка під час пошуку";
 
 //map tips no result
@@ -362,7 +362,7 @@ printSettingsToolbarTitleString["es"] = "Configuraci&oacute;n de impresi&oacute;
 printSettingsToolbarTitleString["de"] = "Druckeinstellungen";
 printSettingsToolbarTitleString["fr"] = "Configuration de l'impression";
 printSettingsToolbarTitleString["it"] = "Configurazione della stampa";
-printSettingsToolbarTitleString["pt_PT"] = "Configuraç&atilde;o de impress&atilde;o"; //FIXME
+printSettingsToolbarTitleString["pt_PT"] = "Configuração de impressão";
 printSettingsToolbarTitleString["uk"] = "Налаштовування друку";
 
 //print rotation text label
@@ -372,7 +372,7 @@ printSettingsRotationTextlabelString["es"] = "Rotación: ";
 printSettingsRotationTextlabelString["de"] = "Rotation: ";
 printSettingsRotationTextlabelString["fr"] = "Rotation: ";
 printSettingsRotationTextlabelString["it"] = "Rotazione: ";
-printSettingsRotationTextlabelString["pt_PT"] = "Rotaç&atilde;o: "; //FIXME
+printSettingsRotationTextlabelString["pt_PT"] = "Rotação: ";
 printSettingsRotationTextlabelString["uk"] = "Поворот: ";
 
 //print button text
@@ -382,7 +382,7 @@ printButtonTextString["es"] = "Imprimir";
 printButtonTextString["de"] = "Drucken";
 printButtonTextString["fr"] = "Imprimer";
 printButtonTextString["it"] = "Stampa";
-printButtonTextString["pt_PT"] = "Impress&atilde;o"; //FIXME
+printButtonTextString["pt_PT"] = "Impressão";
 printButtonTextString["uk"] = "Друк";
 
 //print cancel button text
@@ -431,7 +431,7 @@ measureDistanceResultPrefixString["es"] = "Distancia";
 measureDistanceResultPrefixString["de"] = "Distanz";
 measureDistanceResultPrefixString["fr"] = "Distance";
 measureDistanceResultPrefixString["it"] = "Distanza";
-measureDistanceResultPrefixString["pt_PT"] = "Dist&acirc;ncia"; //FIXME
+measureDistanceResultPrefixString["pt_PT"] = "Distância";
 measureDistanceResultPrefixString["uk"] = "Відстань";
 
 //distance prefix for result:
@@ -441,7 +441,7 @@ measureAreaResultPrefixString["es"] = "&Aacute;rea"; //FIXME
 measureAreaResultPrefixString["de"] = "Fläche";
 measureAreaResultPrefixString["fr"] = "Surface";
 measureAreaResultPrefixString["it"] = "Area";
-measureAreaResultPrefixString["pt_PT"] = "&aacute;rea"; //FIXME
+measureAreaResultPrefixString["pt_PT"] = "Área";
 measureAreaResultPrefixString["uk"] = "Площа";
 
 /***********************
@@ -455,7 +455,7 @@ zoomRectangleTooltipString["es"] = "Zoom con rect&aacute;ngulo"; //FIXME
 zoomRectangleTooltipString["de"] = "Zoom Rechteck aufziehen";
 zoomRectangleTooltipString["fr"] = "Zoomer sur un rectangle";
 zoomRectangleTooltipString["it"] = "Zoom su rettangolo";
-zoomRectangleTooltipString["pt_PT"] = "Zoom com rect&acirc;ngulo"; //FIXME
+zoomRectangleTooltipString["pt_PT"] = "Zoom com rectângulo";
 zoomRectangleTooltipString["uk"] = "Масштабувати прямокутником";
 
 //zoom to full view
@@ -465,7 +465,7 @@ zoomFullViewTooltipString["es"] = "Zoom a la extensi&oacute;n m&aacute;xima "; /
 zoomFullViewTooltipString["de"] = "Zoom zum maximalen Kartenausschnitt";
 zoomFullViewTooltipString["fr"] = "Zoomer sur l'&eacute;tendue compl&egrave;te de la carte"; //FIXME
 zoomFullViewTooltipString["it"] = "Zoom all'estensione massima";
-zoomFullViewTooltipString["pt_PT"] = "Zoom &agrave; extens&atilde;o m&aacute;xima do mapa"; //FIXME
+zoomFullViewTooltipString["pt_PT"] = "Zoom à extensão total do mapa";
 zoomFullViewTooltipString["uk"] = "Масштаб за розмірами мапи";
 
 //navigation history backward
@@ -515,7 +515,7 @@ objIdentificationTooltipString["es"] = "Indentificaci&oacute;n de entidad (atrib
 objIdentificationTooltipString["de"] = "Objektidentifizierung (Attributdaten)";
 objIdentificationTooltipString["fr"] = "Identification d'entit&eacute; (attributs)"; //FIXME
 objIdentificationTooltipString["it"] = "Identificazione di oggetti (attributi)";
-objIdentificationTooltipString["pt_PT"] = "Identificaç&atilde;o de objectos (attributos)"; //FIXME
+objIdentificationTooltipString["pt_PT"] = "Identificação de objectos (attributos)";
 objIdentificationTooltipString["uk"] = "Вибір об'єкту (атрибути)";
 
 //MapTips tooltip // Those were with simple quotes?!
@@ -535,7 +535,7 @@ measureDistanceTooltipString["es"] = "Medir distancia";
 measureDistanceTooltipString["de"] = "Distanz messen";
 measureDistanceTooltipString["fr"] = "Mesurer une distance";
 measureDistanceTooltipString["it"] = "Misura distanza";
-measureDistanceTooltipString["pt_PT"] = "Medir dist&acirc;ncia"; //FIXME
+measureDistanceTooltipString["pt_PT"] = "Medir distância";
 measureDistanceTooltipString["uk"] = "Вимірювання відстані";
 
 //Measure Area
@@ -545,7 +545,7 @@ measureAreaTooltipString["es"] = "Medir &aacute;rea"; //FIXME
 measureAreaTooltipString["de"] = "Fläche messen";
 measureAreaTooltipString["fr"] = "Mesurer une surface";
 measureAreaTooltipString["it"] = "Misura superficie";
-measureAreaTooltipString["pt_PT"] = "Medir &aacute;rea"; //FIXME
+measureAreaTooltipString["pt_PT"] = "Medir área";
 measureAreaTooltipString["uk"] = "Вимірювання площі";
 
 //Print Map
@@ -565,7 +565,7 @@ printMapDisabledTooltipString["es"] = "Imprima lisiado, ningun layout se define 
 printMapDisabledTooltipString["de"] = "Drucken nicht möglich, da keine Layouts im QGIS-Projekt definiert wurden";
 printMapDisabledTooltipString["fr"] = "Imprimez non activée, aucune layout est défini dans le projet QGIS";
 printMapDisabledTooltipString["it"] = "Stampa disabilitata: nel progetto QGIS non &egrave; definito alcun layout"; //FIXME
-printMapDisabledTooltipString["pt_PT"] = "Impress&atilde;o n&atilde;o dispon&iacute;vel: no projecto QGIS n&atilde;o &eacute; deinfido algum layout"; //FIXME
+printMapDisabledTooltipString["pt_PT"] = "Impressão indisponível: não tem definido nenhum layout no projecto QGIS";
 printMapDisabledTooltipString["uk"] = "Друк відключено, не вказано шар в QGIS проекті";
 
 //Geonames loading string
@@ -575,7 +575,7 @@ geonamesLoadingString["es"] = "Search in Geonames..."; // FIXME
 geonamesLoadingString["de"] = "Suche in Geonames...";
 geonamesLoadingString["fr"] = "Search in Geonames..."; // FIXME
 geonamesLoadingString["it"] = "Search in Geonames..."; // FIXME
-geonamesLoadingString["pt_PT"] = "Search in Geonames..."; // FIXME
+geonamesLoadingString["pt_PT"] = "Pesquisar em Geonames...";
 geonamesLoadingString["uk"] = "Пошук в Geonames..."; //FIXME
 
 //Geonames empty string
@@ -585,7 +585,7 @@ geonamesEmptyString["es"] = "Search location in Geonames"; // FIXME
 geonamesEmptyString["de"] = "Suche Ort in Geonames";
 geonamesEmptyString["fr"] = "Search location in Geonames"; // FIXME
 geonamesEmptyString["it"] = "Search location in Geonames"; // FIXME
-geonamesEmptyString["pt_PT"] = "Search location in Geonames"; // FIXME
+geonamesEmptyString["pt_PT"] = "Pesquisar localização em Geonames";
 geonamesEmptyString["uk"] = "Search location in Geonames"; // FIXME
 
 //Reset Search Field
@@ -605,7 +605,7 @@ printWindowTitleString["es"] = "El servidor est&aacute; generando un archivo PDF
 printWindowTitleString["de"] = "PDF wird vom Server generiert. Für massstäbliches Drucken deaktivieren Sie bitte das 'Anpassen der Seitengrösse'!";
 printWindowTitleString["fr"] = "Le serveur g&eacute;n&egrave;re le fichier PDF. Pour conserver l'&eacute;chelle, ne pas activer l'option 'Ajuster &agrave; la page'!" //FIXME
 printWindowTitleString["it"] = "Il server sta generando il file PDF. Per stampare alla scala corretta disattivare l'opzione 'Ridimensiona alla pagina'!"
-printWindowTitleString["pt_PT"] = "O servidor est&aacute; a gerar um ficheiro PDF. Para impress&atilde;o &agrave; escala correcta, desactivar a opç&atilde;o 'Fit to Page'!"; //FIXME
+printWindowTitleString["pt_PT"] = "O servidor está a gerar um ficheiro PDF. Para imprimir na escala correcta, desactivar a opção 'Fit to Page'!";
 printWindowTitleString["uk"] = "The server is generating a PDF file. For correct up to scale printing please deactivate the option 'Fit to Page'!"; //FIXME
 
 //print object data alternative string in case no pdf plugin is present in browser
@@ -616,7 +616,7 @@ printingObjectDataAlternativeString1["es"] = 'Su navegador no puede abrir archiv
 printingObjectDataAlternativeString1["de"] = 'Es sieht so aus als ob Ihr Browser kein PDF Plugin unterstützt. Kein Problem, Sie können die <a href="';
 printingObjectDataAlternativeString1["fr"] = 'Il semble que votre navigateur ne puisse pas ouvrir les fichiers PDF directement. Pas de probl&egrave;me, vous pouvez <a href="'; //FIXME
 printingObjectDataAlternativeString1["it"] = 'Sembra che il vostro browser non possa aprire direttamente i files PDF. Nessun problema -  potete <a href="';
-printingObjectDataAlternativeString1["pt_PT"] = 'Parece que o seu navegador n&atilde;o pode abrir ficheiros PDF directamente. N&atilde;o tem problema - pode <a href="'; //FIXME
+printingObjectDataAlternativeString1["pt_PT"] = 'Parece que o seu navegador não pode abrir ficheiros PDF directamente. Não tem problema - pode <a href="';
 printingObjectDataAlternativeString1["uk"] = 'Схоже Ваш оглядач не вміє відкривати PDF файли. Не проблема - скористуйтесь <a href="';
 
 //the second part of the string after the URL
@@ -647,7 +647,7 @@ printCancelButtonTooltipString["es"] = "Cancelar impresi&oacute;n (Cerrar)"; //F
 printCancelButtonTooltipString["de"] = "Druck abbrechen (Schliesen)";
 printCancelButtonTooltipString["fr"] = "Annuler l'impression (fermer)";
 printCancelButtonTooltipString["it"] = "Annulla la stampa (chiudi)";
-printCancelButtonTooltipString["pt_PT"] = "Cancelar impress&atilde;o (Fechar)"; //FIXME
+printCancelButtonTooltipString["pt_PT"] = "Cancelar impressão (Fechar)";
 printCancelButtonTooltipString["uk"] = "Скасувати друк (Закрити)";
 
 /***********************
@@ -661,7 +661,7 @@ errMessageStartupMapParamString["es"] = "Falta el parametro de inicio 'map'!";
 errMessageStartupMapParamString["de"] = "Start-Parameter 'map' fehlt!";
 errMessageStartupMapParamString["fr"] = "Le param&egrave;tre de d&eacute;marrage 'map' est manquant!"; //FIXME
 errMessageStartupMapParamString["it"] = "Il parametro di inizializzazione manca!";
-errMessageStartupMapParamString["pt_PT"] = "Parametro de inicializaç&atilde;o em falta!"; //FIXME
+errMessageStartupMapParamString["pt_PT"] = "Parâmetro de inicialização em falta!";
 errMessageStartupMapParamString["uk"] = "Параметр 'map' відсутній!";
 
 //additional startup error message
@@ -671,7 +671,7 @@ errMessageStartupNotAllParamsFoundString["es"] = "Faltan algunos parametros obli
 errMessageStartupNotAllParamsFoundString["de"] = "Es wurden nicht alle notwendigen Web-GIS-Parameter gefunden oder ein optionaler Start-Parameter ist falsch.";
 errMessageStartupNotAllParamsFoundString["fr"] = "Certains param&egrave;tres indispensables manquent."; //FIXME
 errMessageStartupNotAllParamsFoundString["it"] = "Alcuni parametri necessari mancano.";
-errMessageStartupNotAllParamsFoundString["pt_PT"] = "Faltam alguns parametros necess&aacute;rios."; //FIXME
+errMessageStartupNotAllParamsFoundString["pt_PT"] = "Faltam alguns parâmetros necessários.";
 errMessageStartupNotAllParamsFoundString["uk"] = "Відсутні обов'язкові параметри, або деякі параметри мають невірне значення.";
 
 //error message if optional startExtent parameter is wrong
@@ -681,7 +681,7 @@ errMessageExtentParamWrongPart1["es"] = "Start-parameter '";
 errMessageExtentParamWrongPart1["de"] = "Start-Parameter '";
 errMessageExtentParamWrongPart1["fr"] = "Start-parameter '";
 errMessageExtentParamWrongPart1["it"] = "Start-parameter '";
-errMessageExtentParamWrongPart1["pt_PT"] = "Start-parameter '";
+errMessageExtentParamWrongPart1["pt_PT"] = "Parâmetro de inicialização '";
 errMessageExtentParamWrongPart1["uk"] = "Параметр '";
 
 //error message if optional startExtent parameter is wrong
@@ -691,7 +691,7 @@ errMessageExtentParamWrongPart2["es"] = "' needs to be in OpenLayers.Bounds form
 errMessageExtentParamWrongPart2["de"] = "' muss im OpenLayers.Bounds format sein: 'links,unten,rechts,oben'.";
 errMessageExtentParamWrongPart2["fr"] = "' needs to be in OpenLayers.Bounds format: 'left,bottom,right,top'.";
 errMessageExtentParamWrongPart2["it"] = "' needs to be in OpenLayers.Bounds format: 'left,bottom,right,top'.";
-errMessageExtentParamWrongPart2["pt_PT"] = "' needs to be in OpenLayers.Bounds format: 'left,bottom,right,top'.";
+errMessageExtentParamWrongPart2["pt_PT"] = "' precisa de estar em OpenLayers.Bounds formato: 'esquerda,baixo,direita,topo'.";
 errMessageExtentParamWrongPart2["uk"] = "' має бути в форматі OpenLayers.Bounds: 'left,bottom,right,top'.";
 
 //error message invalid language code, part 1
@@ -701,7 +701,7 @@ errMessageInvalidLanguageCodeString1["es"] = "Inv&aacute;lido el c&amp;ooacute;d
 errMessageInvalidLanguageCodeString1["de"] = "Falscher Sprachparameter übergeben: ";
 errMessageInvalidLanguageCodeString1["fr"] = "Identifiant de langue incorrect: ";
 errMessageInvalidLanguageCodeString1["it"] = "Identificativo della lingua non corretto: ";
-errMessageInvalidLanguageCodeString1["pt_PT"] = "Identificaç&atilde;o do idioma n&atilde;o &eacute; correcto: "; //FIXME
+errMessageInvalidLanguageCodeString1["pt_PT"] = "Identificação do idioma incorrecto: ";
 errMessageInvalidLanguageCodeString1["uk"] = "Вказано невірний код мови: ";
 
 //error message invalid language code, part 2
@@ -711,7 +711,7 @@ errMessageInvalidLanguageCodeString2["es"] = "Se reestablece el idioma por defec
 errMessageInvalidLanguageCodeString2["de"] = "Wechsle zurück zur Standardsprache ";
 errMessageInvalidLanguageCodeString2["fr"] = "La langue par d&eacute;faut sera utilis&eacute;e "; //FIXME
 errMessageInvalidLanguageCodeString2["it"] = "Si utilizza la lingua di default ";
-errMessageInvalidLanguageCodeString2["pt_PT"] = "Mudar para idioma padr&atilde;o  "; //FIXME
+errMessageInvalidLanguageCodeString2["pt_PT"] = "Mudar para idioma padrão  ";
 errMessageInvalidLanguageCodeString2["uk"] = "Переключаюсь на мову за замовчуванням ";
 
 //error message of search combo network request title
