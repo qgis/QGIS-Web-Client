@@ -13,13 +13,13 @@
 <DIV CLASS="header" ID="header">
 <H1>Quantum GIS (QGIS) Web Client</H1>
 <H2>Installation Guide</H2>
-<H3>Thursday April 12, 2012</H3>
+<H3>Tuesday April 24, 2012</H3>
 </DIV>
 
 <DIV CLASS="body" ID="body">
 <P>
-Last Updated: Thursday April 12, 2012
-Last Change : Thursday April 12, 2012
+Last Updated: Tuesday April 24, 2012
+Last Change : Tuesday April 24, 2012
 </P>
 <DIV CLASS="toc" ID="toc">
   <OL>
@@ -48,7 +48,7 @@ Last Change : Thursday April 12, 2012
 <H1>1. For the terminally lazy</H1>
 <div class="code"><PRE>
 sudo apt-get install apache2 libapache2-mod-fcgid
-cp apache-conf/qgis-web-client.conf.templ apache-conf/qgis-web-client.conf
+cp apache-conf/qgis-web-client.conf.tmpl apache-conf/qgis-web-client.conf
 </PRE></div>
 <P></P>
 <P>
@@ -57,6 +57,7 @@ Update the paths in the copied file then:
 <div class="code"><PRE>
 cd /etc/apache2/sites-available/
 ln -s &lt;path to apache-conf/qgis-web-client.conf&gt; .
+sudo a2enmode rewrite
 sudo a2ensite qgis-web-client.conf
 sudo /etc/init.d/apache2 reload
 </PRE></div>
@@ -118,8 +119,8 @@ For searching:
 
 <P></P>
 <P>
-The client part needs svn checkout with the following command:
-svn co <A HREF="https://svn.osgeo.org/qgis/trunk/qgiswebclient">https://svn.osgeo.org/qgis/trunk/qgiswebclient</A> qgiswebclient
+The client part needs to be git cloned with the following command:
+git clone <A HREF="https://github.com/qgis/qgis-web-client.git">https://github.com/qgis/qgis-web-client.git</A>
 </P>
 <A NAME="toc4"></A>
 <H1>4. Configuration of Client</H1>

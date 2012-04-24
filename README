@@ -1,9 +1,9 @@
 Quantum GIS (QGIS) Web Client
 Installation Guide
-Thursday April 12, 2012
+Tuesday April 24, 2012
 
-Last Updated: Thursday April 12, 2012
-Last Change : Thursday April 12, 2012
+Last Updated: Tuesday April 24, 2012
+Last Change : Tuesday April 24, 2012
 
   1. For the terminally lazy
   2. Purpose
@@ -86,7 +86,7 @@ For searching:
   python-webob)
 
 
-The client part needs svn checkout with the following command:
+The client part needs to be git cloned with the following command:
 git clone https://github.com/qgis/qgis-web-client.git
 
 
