@@ -409,11 +409,6 @@ function postLoading() {
   WMSGetFInfoHover = new OpenLayers.Control.WMSGetFeatureInfo({layers: [fiLayer], infoFormat: "text/xml", queryVisible: true, hover: true, vendorParams: {QUERY_LAYERS: selectedQueryableLayers.join(",")}});
   WMSGetFInfoHover.events.register("getfeatureinfo", this, showFeatureInfoHover);
   geoExtMap.map.addControl(WMSGetFInfoHover);
-  //in IE the autoWidth property of the tooltip fails
-  var tAutoWidth = true;
-  if (Ext.isIE) {
-    tAutoWidth = false;
-  }
   attribToolTip = new Ext.ToolTip(
     {
 	   target:geoExtMap.body,
@@ -421,7 +416,7 @@ function postLoading() {
 	   disabled:true,
 	   trackMouse:true,
 	   autoHide:false,
-	   autoWidth:tAutoWidth,
+	   autoWidth:true,
 	   autoHeight:true,
 	   listeners: {
 	     'move': function(tt,x,y) {
