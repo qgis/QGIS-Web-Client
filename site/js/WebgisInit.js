@@ -1080,10 +1080,15 @@ function showFeatureInfoHover(evt) {
   }
 }
 
-function showFeatureSelected(layer, id, x, y, zoom) {
+function showFeatureSelected(args) {
   // select feature in layer
-  thematicLayer.mergeNewParams({"SELECTION": layer + ":" + id});
-  geoExtMap.map.setCenter(new OpenLayers.LonLat(x, y), zoom);
+  thematicLayer.mergeNewParams({"SELECTION": args["layer"] + ":" + args["id"]});
+  if (args["doZoomToExtent"]){
+  	geoExtMap.map.zoomToExtent(args["bbox"]);
+  }
+  else{
+  	geoExtMap.map.setCenter(new OpenLayers.LonLat(args["x"], args["y"]), args["zoom"]);
+  }
 }
 
 function clearFeatureSelected() {
