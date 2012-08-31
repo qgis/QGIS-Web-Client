@@ -442,13 +442,14 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
         filter += " AND ";
       }
       var field = this.form.getForm().findField(key);
+      var filterOp = field.initialConfig.filterOp?field.initialConfig.filterOp:"=";
       if (field.isXType('numberfield') || field.isXType('combo')) {
         valueQuotes = "";
       }
       else {
         valueQuotes = "'"
       }
-      filter += "\"" + key + "\" = " + valueQuotes + fieldValues[key] + valueQuotes;
+      filter += "\"" + key + "\" "+ filterOp +" " + valueQuotes + fieldValues[key] + valueQuotes;
       fieldsValidate &= field.validate();
       addAnd = true;
     }
