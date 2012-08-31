@@ -575,7 +575,11 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
       var id = record.id;
       var x = (bbox.minx + bbox.maxx) / 2.0;
       var y = (bbox.miny + bbox.maxy) / 2.0;
-      this.fireEvent("featureselected", this.selectionLayer, id, x, y, this.selectionZoom);
+      var doZoomToExtent = false;
+      if (this.hasOwnProperty('doZoomToExtent')){
+        doZoomToExtent = this.doZoomToExtent;
+      }
+      this.fireEvent("featureselected", {"layer":this.selectionLayer, "id":id, "x":x, "y":y, "bbox":new OpenLayers.Bounds(bbox.minx,bbox.miny,bbox.maxx,bbox.maxy), "zoom":this.selectionZoom, "doZoomToExtent":doZoomToExtent});
     }
   }
 });
