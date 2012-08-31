@@ -34,7 +34,8 @@ var simpleWmsSearch = {
     {header: 'Name', dataIndex: 'name', menuDisabled: 'true'}
   ],
   selectionLayer: 'Country',
-  selectionZoom: 0
+  selectionZoom: 0,
+  doZoomToExtent: true
 };
 
 var urlRewriteSearch = {
