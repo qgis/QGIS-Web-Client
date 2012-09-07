@@ -27,14 +27,16 @@ var simpleWmsSearch = {
       name: 'name',
       fieldLabel: "Name",
       allowBlank: false,
-      blankText: "Please enter a name (e.g. 'africa')"
+      blankText: "Please enter a name (e.g. 'africa')",
+      filterOp: "="
     }
   ],
   gridColumns: [
     {header: 'Name', dataIndex: 'name', menuDisabled: 'true'}
   ],
   selectionLayer: 'Country',
-  selectionZoom: 0
+  selectionZoom: 0,
+  doZoomToExtent: true
 };
 
 var urlRewriteSearch = {
@@ -51,7 +53,8 @@ var urlRewriteSearch = {
       name: 'colour',
       fieldLabel: "Colour",
       allowBlank: false,
-      blankText: "Please enter a colour (e.g. 'orange')"
+      blankText: "Please enter a colour (e.g. 'orange')",
+      filterOp: "="
     }
   ],
   gridColumns: [

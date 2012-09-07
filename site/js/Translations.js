@@ -4,7 +4,7 @@ availableLanguages["en"] = {names:[], translator:"Andreas Neumann"}; //a(dot)neu
 availableLanguages["es"] = {names:[], translator:"Samuel Mesa"}; // samuelmesa (at) gmail (dot) com
 availableLanguages["de"] = {names:[], translator:"Andreas Neumann"}; //a(dot)neumann(at)carto(dot)net
 availableLanguages["fr"] = {names:[], translator:"Mayeul Kauffmann"}; //mayeul(_dot_)kauffmann(at)free(dot)fr
-availableLanguages["it"] = {names:[], translator:"Paolo Cavallini, Faunalia"}; //cavallini(at)faunalia(dot)it
+availableLanguages["it"] = {names:[], translator:"Paolo Cavallini (Faunalia), Giovanni Allegri (Gis3W)"}; //cavallini(at)faunalia(dot)it
 availableLanguages["pt_PT"] = {names:[], translator:"Nelson Silva"}; //nelson(dot)jgs(at)gmail(dot)com>
 availableLanguages["uk"] = {names:[], translator:"Pavlo Taranov"}; //taranov(dot)pavel(at)gmail(dot)com>
 
@@ -179,7 +179,7 @@ searchPanelTitleString["en"] = "Search";
 searchPanelTitleString["es"] = "Search"; // FIXME
 searchPanelTitleString["de"] = "Suche";
 searchPanelTitleString["fr"] = "Search"; // FIXME
-searchPanelTitleString["it"] = "Search"; // FIXME
+searchPanelTitleString["it"] = "Cerca";
 searchPanelTitleString["pt_PT"] = "Pesquisar";
 searchPanelTitleString["uk"] = "Пошук";
 
@@ -189,7 +189,7 @@ mapPanelTitleString["en"] = "Map";
 mapPanelTitleString["es"] = "Map"; // FIXME
 mapPanelTitleString["de"] = "Karte";
 mapPanelTitleString["fr"] = "Map"; // FIXME
-mapPanelTitleString["it"] = "Map"; // FIXME
+mapPanelTitleString["it"] = "Mappa";
 mapPanelTitleString["pt_PT"] = "Mapa";
 mapPanelTitleString["uk"] = "Мапа";
 
@@ -229,8 +229,7 @@ objectIdentificationTextLabel["en"] = "Object identification: ";
 objectIdentificationTextLabel["es"] = "Identificaci&oacute;n de entidades: "; //FIXME
 objectIdentificationTextLabel["de"] = "Objektdentifikation: ";
 objectIdentificationTextLabel["fr"] = "Identification d'entit&eacute;: "; //FIXME
-objectIdentificationTextLabel["it"] = "Identificazione di entit&agrave;: "; //FIXME
-objectIdentificationTextLabel["it"] = "Identificazione di entit&aagrave;: "; //FIXME
+objectIdentificationTextLabel["it"] = "Identificazione oggetti: ";
 objectIdentificationTextLabel["pt_PT"] = "Identificação de objectos: ";
 objectIdentificationTextLabel["uk"] = "Вибір об'єкту: ";
 
@@ -270,7 +269,7 @@ searchFieldDefaultTextString["en"] = "Search (addresses, parcel-nrs, names, etc.
 searchFieldDefaultTextString["es"] = "Buscar (direcciones, registros, nombres, etc.)";
 searchFieldDefaultTextString["de"] = "Suche (Adressen, Parzellenr, Flurnamen, etc.)";
 searchFieldDefaultTextString["fr"] = "Chercher (adresses, n&deg; de parcelles, noms, etc.)"; //FIXME
-searchFieldDefaultTextString["it"] = "Ricerca (indirizzi, n&deg; delle particelle, nomi, ecc.)"; //FIXME
+searchFieldDefaultTextString["it"] = "Ricerca (indirizzi, n. delle particelle, nomi, ecc.)"; //FIXME
 searchFieldDefaultTextString["pt_PT"] = "Pesquisar (morada, parcelas, nomes, etc.)";
 searchFieldDefaultTextString["uk"] = "Шукати (адреси, назви, тощо.)";
 
@@ -280,7 +279,7 @@ searchButtonString["en"] = "Search";
 searchButtonString["es"] = "Search"; // FIXME
 searchButtonString["de"] = "Suchen";
 searchButtonString["fr"] = "Search"; // FIXME
-searchButtonString["it"] = "Search"; // FIXME
+searchButtonString["it"] = "Cerca";
 searchButtonString["pt_PT"] = "Pesquisar";
 searchButtonString["uk"] = "Пошук";
 
@@ -290,7 +289,7 @@ resetButtonString["en"] = "Reset";
 resetButtonString["es"] = "Reset"; // FIXME
 resetButtonString["de"] = "Zurücksetzen";
 resetButtonString["fr"] = "Reset"; // FIXME
-resetButtonString["it"] = "Reset"; // FIXME
+resetButtonString["it"] = "Annulla";
 resetButtonString["pt_PT"] = "Apagar";
 resetButtonString["uk"] = "Очистити";
 
@@ -300,7 +299,7 @@ pleaseWaitString["en"] = "Please wait";
 pleaseWaitString["es"] = "Please wait"; // FIXME
 pleaseWaitString["de"] = "Bitte warten";
 pleaseWaitString["fr"] = "Please wait"; // FIXME
-pleaseWaitString["it"] = "Please wait"; // FIXME
+pleaseWaitString["it"] = "Attendere prego";
 pleaseWaitString["pt_PT"] = "Por favor espere";
 pleaseWaitString["uk"] = "Зачекайте";
 
@@ -310,7 +309,7 @@ searchResultString["en"] = "Search result";
 searchResultString["es"] = "Search result"; // FIXME
 searchResultString["de"] = "Suchresultat";
 searchResultString["fr"] = "Search result"; // FIXME
-searchResultString["it"] = "Search result"; // FIXME
+searchResultString["it"] = "Risultati ricerca";
 searchResultString["pt_PT"] = "Resultado de pesquisa";
 searchResultString["uk"] = "Результати пошуку";
 
@@ -320,7 +319,7 @@ networkErrorString["en"] = "Network error";
 networkErrorString["es"] = "Network error"; // FIXME
 networkErrorString["de"] = "Netzwerkfehler";
 networkErrorString["fr"] = "Network error"; // FIXME
-networkErrorString["it"] = "Network error"; // FIXME
+networkErrorString["it"] = "Errore di rete";
 networkErrorString["pt_PT"] = "Erro de rede";
 networkErrorString["uk"] = "Помилка мережі";
 
@@ -330,7 +329,7 @@ missingOrInvalidSearchParams["en"] = "Missing or invalid values in search form";
 missingOrInvalidSearchParams["es"] = "Missing or invalid values in search form"; // FIXME
 missingOrInvalidSearchParams["de"] = "Fehlende oder ungültige Werte im Suchformular";
 missingOrInvalidSearchParams["fr"] = "Missing or invalid values in search form"; // FIXME
-missingOrInvalidSearchParams["it"] = "Missing or invalid values in search form"; // FIXME
+missingOrInvalidSearchParams["it"] = "Valori mancanti o in validi nel modulo di ricerca";
 missingOrInvalidSearchParams["pt_PT"] = "Valores em falta ou inválidos no formulário de pesquisa";
 missingOrInvalidSearchParams["uk"] = "Відсутні або не правильні дані в полі пошуку";
 
@@ -341,7 +340,7 @@ searchErrorString["en"] = "Error during search";
 searchErrorString["es"] = "Error during search"; // FIXME
 searchErrorString["de"] = "Fehler bei Suche";
 searchErrorString["fr"] = "Error during search"; // FIXME
-searchErrorString["it"] = "Error during search"; // FIXME
+searchErrorString["it"] = "Errore durante la ricerca";
 searchErrorString["pt_PT"] = "Erro durante a pesquisa";
 searchErrorString["uk"] = "Помилка під час пошуку";
 
@@ -564,7 +563,7 @@ printMapDisabledTooltipString["en"] = "Print disabled, no layout is defined into
 printMapDisabledTooltipString["es"] = "Imprima lisiado, ningun layout se define en el proyecto QGIS";
 printMapDisabledTooltipString["de"] = "Drucken nicht möglich, da keine Layouts im QGIS-Projekt definiert wurden";
 printMapDisabledTooltipString["fr"] = "Imprimez non activée, aucune layout est défini dans le projet QGIS";
-printMapDisabledTooltipString["it"] = "Stampa disabilitata: nel progetto QGIS non &egrave; definito alcun layout"; //FIXME
+printMapDisabledTooltipString["it"] = "Stampa disabilitata: nel progetto QGIS non è definito alcun layout";
 printMapDisabledTooltipString["pt_PT"] = "Impressão indisponível: não tem definido nenhum layout no projecto QGIS";
 printMapDisabledTooltipString["uk"] = "Друк відключено, не вказано шар в QGIS проекті";
 
@@ -574,7 +573,7 @@ geonamesLoadingString["en"] = "Search in Geonames...";
 geonamesLoadingString["es"] = "Search in Geonames..."; // FIXME
 geonamesLoadingString["de"] = "Suche in Geonames...";
 geonamesLoadingString["fr"] = "Search in Geonames..."; // FIXME
-geonamesLoadingString["it"] = "Search in Geonames..."; // FIXME
+geonamesLoadingString["it"] = "Ricerca con Geonames...";
 geonamesLoadingString["pt_PT"] = "Pesquisar em Geonames...";
 geonamesLoadingString["uk"] = "Пошук в Геоданих...";
 
@@ -584,7 +583,7 @@ geonamesEmptyString["en"] = "Search location in Geonames";
 geonamesEmptyString["es"] = "Search location in Geonames"; // FIXME
 geonamesEmptyString["de"] = "Suche Ort in Geonames";
 geonamesEmptyString["fr"] = "Search location in Geonames"; // FIXME
-geonamesEmptyString["it"] = "Search location in Geonames"; // FIXME
+geonamesEmptyString["it"] = "Cerca località con Geonames";
 geonamesEmptyString["pt_PT"] = "Pesquisar localização em Geonames";
 geonamesEmptyString["uk"] = "Пошук місць у Геоданих";
 
@@ -680,7 +679,7 @@ errMessageExtentParamWrongPart1["en"] = "Start-parameter '";
 errMessageExtentParamWrongPart1["es"] = "Start-parameter '";
 errMessageExtentParamWrongPart1["de"] = "Start-Parameter '";
 errMessageExtentParamWrongPart1["fr"] = "Start-parameter '";
-errMessageExtentParamWrongPart1["it"] = "Start-parameter '";
+errMessageExtentParamWrongPart1["it"] = "Parametro di inizializzazione '";
 errMessageExtentParamWrongPart1["pt_PT"] = "Parâmetro de inicialização '";
 errMessageExtentParamWrongPart1["uk"] = "Параметр '";
 
@@ -690,7 +689,7 @@ errMessageExtentParamWrongPart2["en"] = "' needs to be in OpenLayers.Bounds form
 errMessageExtentParamWrongPart2["es"] = "' needs to be in OpenLayers.Bounds format: 'left,bottom,right,top'.";
 errMessageExtentParamWrongPart2["de"] = "' muss im OpenLayers.Bounds format sein: 'links,unten,rechts,oben'.";
 errMessageExtentParamWrongPart2["fr"] = "' needs to be in OpenLayers.Bounds format: 'left,bottom,right,top'.";
-errMessageExtentParamWrongPart2["it"] = "' needs to be in OpenLayers.Bounds format: 'left,bottom,right,top'.";
+errMessageExtentParamWrongPart2["it"] = "' deve essere nel formato di OpenLayers.Bounds: 'left,bottom,right,top'.";
 errMessageExtentParamWrongPart2["pt_PT"] = "' precisa de estar em OpenLayers.Bounds formato: 'esquerda,baixo,direita,topo'.";
 errMessageExtentParamWrongPart2["uk"] = "' має бути в форматі OpenLayers.Bounds: 'left,bottom,right,top'.";
 
@@ -720,7 +719,7 @@ errMessageSearchComboNetworkRequestFailureTitleString["en"] = "Network request f
 errMessageSearchComboNetworkRequestFailureTitleString["es"] = "Fall&oacute; la solicitud de red"; //FIXME
 errMessageSearchComboNetworkRequestFailureTitleString["de"] = "Netzwerk-Request fehlgeschlagen";
 errMessageSearchComboNetworkRequestFailureTitleString["fr"] = "La requ&ecirc;te r&eacute;seau a &eacute;chou&eacute;"; //FIXME
-errMessageSearchComboNetworkRequestFailureTitleString["it"] = "La richiesta di rete &egrave; fallita"; //FIXME
+errMessageSearchComboNetworkRequestFailureTitleString["it"] = "La richiesta di rete è fallita";
 errMessageSearchComboNetworkRequestFailureTitleString["pt_PT"] = "Pedido de rede falhou";
 errMessageSearchComboNetworkRequestFailureTitleString["uk"] = "Помилка мережевого запиту";
 
@@ -730,6 +729,6 @@ errMessageSearchComboNetworkRequestFailureString["en"] = "The network request fo
 errMessageSearchComboNetworkRequestFailureString["es"] = "Fall&oacute; la solicitud de red para el resultado  de la b&uacute;squeda de la geometr&iacute;:\n"; //FIXME
 errMessageSearchComboNetworkRequestFailureString["de"] = "Netzwerk-Request für Geometrie des gesuchten Objekts fehlgeschlagen:\n";
 errMessageSearchComboNetworkRequestFailureString["fr"] = "La requ&ecirc;te r&eacute;seau pour la g&eacute;om&eacute;trie du r&eacute;sultat de la recherche a &eacute;chou&eacute;:\n"; //FIXME
-errMessageSearchComboNetworkRequestFailureString["it"] = "La richiesta di rete &egrave; fallita per la geometria del risultato di ricerca:\n"; //FIXME
+errMessageSearchComboNetworkRequestFailureString["it"] = "La richiesta di rete è fallita per la geometria del risultato di ricerca:\n";
 errMessageSearchComboNetworkRequestFailureString["pt_PT"] = "O pedido de rede para a geometria do resultado de pesquisa falhou:\n";
 errMessageSearchComboNetworkRequestFailureString["uk"] = "Не вдалося виконати запит геометрії для результатів пошуку:\n";
