@@ -7,7 +7,7 @@ var wmsURI; //URI with map parameter or appended map name (with URL rewriting)
 var wmsMapName; // map parameter or appended map name (with URL rewriting)
 var urlString = "";
 var format = "image/png"; //the default image format
-var origFormat = null; //the original default image format, format is temporarily changed
+var origFormat = format; //the original default image format, format is temporarily changed
 var searchtables = null;
 var visibleLayers = null; //layers that are initially visible
 var fullColorLayers = new Array(); //layers that should be displayed in 24bit (JPEG) instead of 8bit PNG, only relevant if the project format is 8bit
