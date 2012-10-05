@@ -146,6 +146,7 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
         name: layer.name,
         title: layer.title,
         queryable: layer.queryable,
+        displayField: layer.displayField,
         nrChildLayers: layer.nestedLayers.length
       };
     }

@@ -1068,6 +1068,8 @@ function showFeatureInfoHover(evt) {
 	  var result = false;
 	  for (var i = layerNodes.length - 1; i > -1; --i) {
 		var featureNodes = layerNodes[i].getElementsByTagName("Feature");
+		// show layer display field or if missing, the attribute 'tooltip'
+		var tooltipAttributeName = wmsLoader.layerProperties[layerNodes[i].getAttribute("name")].displayField || "tooltip";
 		for (var j = 0; j < featureNodes.length; ++j) {
 		  if (j == 0) {
 			text += '<span style="font-weight:bold;">'+layerNodes[i].getAttribute("name")+'</span><br/>';
@@ -1075,7 +1077,7 @@ function showFeatureInfoHover(evt) {
 		  }
 		  var attribNodes = featureNodes[j].getElementsByTagName("Attribute");
 		  for (var k = 0; k < attribNodes.length; ++k) {
-			if (attribNodes[k].getAttribute("name") == "tooltip") {
+			if (attribNodes[k].getAttribute("name") == tooltipAttributeName) {
 			  attribText = attribNodes[k].getAttribute("value").replace(/\n/,"<br/>");
 			  attribText = attribText.replace("\n","<br/>");
 			  text += attribText + "<br/>";
