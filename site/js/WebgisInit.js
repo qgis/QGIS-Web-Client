@@ -203,22 +203,27 @@ function postLoading() {
   );
   mainStatusText.setText(mapLoadingString[lang]);
 
-  //now extract printing parameters from the getCapabilities request
-  var composerTemplateNodes = wmsLoader.WMSCapabilities.getElementsByTagName("ComposerTemplate");
-  if (composerTemplateNodes.length > 0) {
+  // apply printing parameters from project settings
+  var composerTemplates = wmsLoader.projectSettings.capability.composerTemplates;
+  if (composerTemplates.length > 0) {
     printLayoutsDefined = true;
-
-    var layoutName = "";
-    var mapWidth = "";
-    var mapHeight = "";
-    var composerMap = undefined;
-    for (var i=0;i<composerTemplateNodes.length;i++) {
-      layoutName = composerTemplateNodes[i].getAttribute("name");
-      composerMap = composerTemplateNodes[i].getElementsByTagName("ComposerMap")[0];
-      mapWidth = parseFloat(composerMap.getAttribute("width"));
-      mapHeight = parseFloat(composerMap.getAttribute("height"));
+    for (var i=0; i<composerTemplates.length; i++) {
+      var composerTemplate = composerTemplates[i];
+      var mapWidth = composerTemplate.map.width / ptTomm;
+      var mapHeight = composerTemplate.map.height / ptTomm;
       //for some strange reason we need to provide a "map" and a "size" object with identical content
-      printCapabilities.layouts.push({"name":layoutName,"map":{"width":(mapWidth/ptTomm),"height":(mapHeight/ptTomm)},"size":{"width":(mapWidth/ptTomm),"height":(mapHeight/ptTomm)},"rotation":true})
+      printCapabilities.layouts.push({
+        "name": composerTemplate.name,
+        "map": {
+          "width": mapWidth,
+          "height": mapHeight
+        },
+        "size": {
+          "width": mapWidth,
+          "height": mapHeight
+        },
+        "rotation": true
+      });
     }
   }
 

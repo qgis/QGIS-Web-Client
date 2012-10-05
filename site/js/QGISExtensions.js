@@ -16,6 +16,7 @@ QGIS.WMSCapabilitiesLoader = function(config) {
 
 Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
   WMSCapabilities: null,
+  projectSettings: null,
   //this list holds layer properties, indexed by layername
   layerProperties: new Array(),
   getParams: function(node) {
@@ -40,7 +41,7 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
         this.WMSCapabilities.loadXML(response.responseText);
       }
     }
-    var capabilities = new OpenLayers.Format.WMSCapabilities({
+    this.projectSettings = new OpenLayers.Format.WMSCapabilities({
       readers: {
         "wms": OpenLayers.Util.applyDefaults({
 
@@ -136,7 +137,7 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
         }, OpenLayers.Format.WMSCapabilities.v1_3.prototype.readers["wms"])
       },
     }).read(this.WMSCapabilities);
-    this.processLayer(capabilities.capability,capabilities.capability.request.getmap.href, node);
+    this.processLayer(this.projectSettings.capability, this.projectSettings.capability.request.getmap.href, node);
     //fill the list of layer properties
     var xpathExpr = '//opengis:Layer';
     //case standard compliant browsers
