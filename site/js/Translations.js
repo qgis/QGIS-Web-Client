@@ -1,7 +1,7 @@
 //list of available languages
 var availableLanguages = new Array();
 availableLanguages["en"] = {names:[], translator:"Andreas Neumann"}; //a(dot)neumann(at)carto(dot)net
-availableLanguages["es"] = {names:[], translator:"Samuel Mesa"}; // samuelmesa (at) gmail (dot) com
+availableLanguages["es"] = {names:[], translator:"Samuel Mesa, Diana Galindo, Germán Carrillo"}; // samuelmesa (at) gmail (dot) com , drgalindog (at) linuxmail (dot) org
 availableLanguages["de"] = {names:[], translator:"Andreas Neumann"}; //a(dot)neumann(at)carto(dot)net
 availableLanguages["fr"] = {names:[], translator:"Mayeul Kauffmann"}; //mayeul(_dot_)kauffmann(at)free(dot)fr
 availableLanguages["it"] = {names:[], translator:"Paolo Cavallini (Faunalia), Giovanni Allegri (Gis3W)"}; //cavallini(at)faunalia(dot)it
@@ -41,7 +41,7 @@ availableLanguages["fr"].names["uk"] = "Французька";
 //Italian
 availableLanguages["it"].names["en"] = "Italian";
 availableLanguages["it"].names["de"] = "Italienisch";
-availableLanguages["it"].names["es"] = "Inglés";
+availableLanguages["it"].names["es"] = "Italiano";
 availableLanguages["it"].names["fr"] = "Italien";
 availableLanguages["it"].names["it"] = "Italiano";
 availableLanguages["it"].names["pt_PT"] = "Italiano";
@@ -59,7 +59,7 @@ availableLanguages["pt_PT"].names["uk"] = "Португальська";
 //Ukrainian
 availableLanguages["uk"].names["en"] = "Ukrainian";
 availableLanguages["uk"].names["de"] = "Ukrainisch";
-availableLanguages["uk"].names["es"] = "Ucranio";
+availableLanguages["uk"].names["es"] = "Ucraniano";
 availableLanguages["uk"].names["fr"] = "Ukrainiens";
 availableLanguages["uk"].names["it"] = "Ucraino";
 availableLanguages["uk"].names["pt_PT"] = "Ucraniano";
@@ -72,7 +72,7 @@ Status messages
 //map loading string displayed when starting the map application
 var mapAppLoadingString = new Array();
 mapAppLoadingString["en"] = "Loading map application...";
-mapAppLoadingString["es"] = "Cargando aplicación de mapa...";
+mapAppLoadingString["es"] = "Cargando la aplicación del mapa...";
 mapAppLoadingString["de"] = "Kartenapplikation wird geladen...";
 mapAppLoadingString["fr"] = "Chargement de l'application cartographique...";
 mapAppLoadingString["it"] = "Caricamento dell'applicazione cartografica...";
@@ -92,7 +92,7 @@ mapLoadingString["uk"] = "Завантаження мапи...";
 //mode string for navigation
 var modeNavigationString = new Array();
 modeNavigationString["en"] = "Mode: navigation. Shift/rectangle or mouse wheel for zooming.";
-modeNavigationString["es"] = "Modo: navegación. Shift/rectángulo o rueda del ratón para zoom.";
+modeNavigationString["es"] = "Modo: navegación. Shift/rectángulo o rueda del ratón que desea zoom.";
 modeNavigationString["de"] = "Modus: Navigation. Shift/Rechteck aufziehen oder Mausrad zum zoomen.";
 modeNavigationString["fr"] = "Mode: navigation. Majuscule+tracer un rectangle ou roulette de la souris pour zoomer.";
 modeNavigationString["it"] = "Modalità: navigazione. Shift+rettangolo o rotella del mouse per zommare.";
@@ -102,7 +102,7 @@ modeNavigationString["uk"] = "Режим: навігація. Shift/прямок
 //mode string for rectangle zoom
 var modeZoomRectangle = new Array();
 modeZoomRectangle["en"] = "Mode: zoom with rectangle. Draw rectangle over region you wish to zoom in.";
-modeZoomRectangle["es"] = "Modo: zoom con rectángulo. Dibujar el rectángulo sobre la región para acercar.";
+modeZoomRectangle["es"] = "Modo: zoom con rectángulo. Dibujar el rectángulo sobre la región que desea acercar.";
 modeZoomRectangle["de"] = "Modus: Zoom mit Rechteck. Ziehen Sie die gewünschte Region auf.";
 modeZoomRectangle["fr"] = "Mode: zoom rectangle. Dessiner un rectangle sur la zone sur laquelle zoomer.";
 modeZoomRectangle["it"] = "Modalità: zoom con rettangolo. Disegnare un rettangolo sulla zona da ingrandire.";
@@ -112,7 +112,7 @@ modeZoomRectangle["uk"] = "Режим: збільшення прямокутни
 //mode string for attribute data detailed
 var modeObjectIdentificationString = new Array();
 modeObjectIdentificationString["en"] = "Mode: object identification. Move the mouse over an object to identify it, click it to view its attribute data.";
-modeObjectIdentificationString["es"] = "Modo: Identificación de entidad. Ver atributos de datos con el click del ratón.";
+modeObjectIdentificationString["es"] = "Modo: Identificación de objeto. Mueva el cursor sobre un objeto para identificarlo, haga click sobre él para ver sus atributos.";
 modeObjectIdentificationString["de"] = "Modus: Objektidentifikation. Bewegen Sie die Maus über das Objekt, um es zu identifizeren, klicken Sie es an, um seine Attributdaten anzuzeigen.";
 modeObjectIdentificationString["fr"] = "Mode: identification d'entité. Identifier une entité en cliquant.";
 modeObjectIdentificationString["it"] = "Modalità: identificazione di elementi. Identificare un elemento tramite il click.";
@@ -122,7 +122,7 @@ modeObjectIdentificationString["uk"] = "Режим: вибір об'єкта. К
 //mode string for map tips (display main attribute with tooltips)
 var modeMapTipsString = new Array();
 modeMapTipsString["en"] = "Mode: MapTips. Display on mouse over with Tooltips.";
-modeMapTipsString["es"] = "Modo: MapTips. Desplegar textos emergentes con el cursor del ratón.";
+modeMapTipsString["es"] = "Modo: MapTips. Despliega textos emergentes con el cursor del ratón.";
 modeMapTipsString["de"] = "Modus: MapTips. Anzeige mit Mouseover über tooltips.";
 modeMapTipsString["fr"] = "Mode: infobulles. Montrer une infobulle sous le curseur de la souris.";
 modeMapTipsString["it"] = "Modalità: suggerimenti. Mostrare i suggerimenti con il cursore del mouse.";
@@ -152,7 +152,7 @@ modeMeasureAreaString["uk"] = "Режим: вимірювання площі. П
 //mode printing
 var modePrintingString = new Array();
 modePrintingString["en"] = "Mode: printing. Move or rotate the map extent. Print with the 'Print'-Button.";
-modePrintingString["es"] = "Modo: imprimir. mueva o rote la extensión del mapa. Imprima con el botón 'imprimir'.";
+modePrintingString["es"] = "Modo: imprimir. Mueva o rote la extensión del mapa. Imprima con el botón 'imprimir'.";
 modePrintingString["de"] = "Modus: Drucken. Verschieben oder Rotieren Sie den Kartenausschnitt. Drucken mit 'Drucken'-Knopf.";
 modePrintingString["fr"] = "Mode: impression. Déplacer ou faire tourner la zone d'impression. Imprimer avec le bouton 'Imprimer'."; //FIXME
 modePrintingString["it"] = "Modalità: stampa. Spostare o ruotare la zona di stampa. Stampare con il pulsante 'Stampa'."; //FIXME
@@ -226,7 +226,7 @@ metadataTabTitleString["uk"] = "Метадані";
 //label in main toolbar for object identification
 var objectIdentificationTextLabel = new Array();
 objectIdentificationTextLabel["en"] = "Object identification: ";
-objectIdentificationTextLabel["es"] = "Identificación de entidades: ";
+objectIdentificationTextLabel["es"] = "Identificación de objetos: ";
 objectIdentificationTextLabel["de"] = "Objektdentifikation: ";
 objectIdentificationTextLabel["fr"] = "Identification d'entité: ";
 objectIdentificationTextLabel["it"] = "Identificazione oggetti: ";
@@ -306,7 +306,7 @@ pleaseWaitString["uk"] = "Зачекайте";
 //search result
 var searchResultString = new Array();
 searchResultString["en"] = "Search result";
-searchResultString["es"] = "Resultado de la busca"; //FIXME
+searchResultString["es"] = "Resultado de la búsqueda";
 searchResultString["de"] = "Suchresultat";
 searchResultString["fr"] = "Resultat de la recherche";
 searchResultString["it"] = "Risultati ricerca";
@@ -316,7 +316,7 @@ searchResultString["uk"] = "Результати пошуку";
 //network error
 var networkErrorString = new Array();
 networkErrorString["en"] = "Network error";
-networkErrorString["es"] = "Error de red"; // FIXME
+networkErrorString["es"] = "Error de red";
 networkErrorString["de"] = "Netzwerkfehler";
 networkErrorString["fr"] = "Erreur reseau";
 networkErrorString["it"] = "Errore di rete";
@@ -326,7 +326,7 @@ networkErrorString["uk"] = "Помилка мережі";
 // missing or invalid search params
 var missingOrInvalidSearchParams = new Array();
 missingOrInvalidSearchParams["en"] = "Missing or invalid values in search form";
-missingOrInvalidSearchParams["es"] = "Missing or invalid values in search form"; // FIXME
+missingOrInvalidSearchParams["es"] = "Valores inválidos o faltantes en el formulario de búsqueda";
 missingOrInvalidSearchParams["de"] = "Fehlende oder ungültige Werte im Suchformular";
 missingOrInvalidSearchParams["fr"] = "Valeurs invalides ou manquantes dans la recherche";
 missingOrInvalidSearchParams["it"] = "Valori mancanti o in validi nel modulo di ricerca";
@@ -337,7 +337,7 @@ missingOrInvalidSearchParams["uk"] = "Відсутні або не правил�
 //search error
 var searchErrorString = new Array();
 searchErrorString["en"] = "Error during search";
-searchErrorString["es"] = "Error en la busca"; // FIXME
+searchErrorString["es"] = "Error en la búsqueda";
 searchErrorString["de"] = "Fehler bei Suche";
 searchErrorString["fr"] = "Erreur pendant la recherche";
 searchErrorString["it"] = "Errore durante la ricerca";
@@ -398,7 +398,7 @@ printCancelButtonTextString["uk"] = "Відмінити";
 var objectIdentificationModeString = new Array();
 objectIdentificationModeString["topMostHit"] = new Array();
 objectIdentificationModeString["topMostHit"]["en"] = "Topmost hit";
-objectIdentificationModeString["topMostHit"]["es"] = "La capa superior";
+objectIdentificationModeString["topMostHit"]["es"] = "Capa superior";
 objectIdentificationModeString["topMostHit"]["de"] = "Oberster Treffer";
 objectIdentificationModeString["topMostHit"]["fr"] = "Couche la plus haute";
 objectIdentificationModeString["topMostHit"]["it"] = "Layer in alto";
@@ -470,7 +470,7 @@ zoomFullViewTooltipString["uk"] = "Масштаб за розмірами мап
 //navigation history backward
 var navigationHistoryBackwardTooltipString = new Array();
 navigationHistoryBackwardTooltipString["en"] = "Navigation history backward";
-navigationHistoryBackwardTooltipString["es"] = "Navegación zoom anterior";
+navigationHistoryBackwardTooltipString["es"] = "Ir a la vista anterior";
 navigationHistoryBackwardTooltipString["de"] = "Navigationshistorie zurück";
 navigationHistoryBackwardTooltipString["fr"] = "Zone précédente dans l'historique";
 navigationHistoryBackwardTooltipString["it"] = "Inquadramento precedente";
@@ -480,7 +480,7 @@ navigationHistoryBackwardTooltipString["uk"] = "Історія навігіці�
 //navigation history forward
 var navigationHistoryForwardTooltipString = new Array();
 navigationHistoryForwardTooltipString["en"] = "Navigation history forward";
-navigationHistoryForwardTooltipString["es"] = "Navegación zoom posterior";
+navigationHistoryForwardTooltipString["es"] = "Ir a la vista posterior";
 navigationHistoryForwardTooltipString["de"] = "Navigationshistorie vorwärts";
 navigationHistoryForwardTooltipString["fr"] = "Zone suivante dans l'historique";
 navigationHistoryForwardTooltipString["it"] = "Inquadramento successivo";
@@ -490,7 +490,7 @@ navigationHistoryForwardTooltipString["uk"] = "Історія навігації
 //discrete zoom in button above zoom slider
 var zoomInTooltipString = new Array();
 zoomInTooltipString["en"] = "Zoom in (discrete step)";
-zoomInTooltipString["es"] = "Acercar";
+zoomInTooltipString["es"] = "Acercar (un nivel)";
 zoomInTooltipString["de"] = "Einzoomen (eine Stufe)";
 zoomInTooltipString["fr"] = "Zoom avant";
 zoomInTooltipString["it"] = "Ingrandisci";
@@ -500,7 +500,7 @@ zoomInTooltipString["uk"] = "Збільшити";
 //discrete zoom in button above zoom slider
 var zoomOutTooltipString = new Array();
 zoomOutTooltipString["en"] = "Zoom out (discrete step)";
-zoomOutTooltipString["es"] = "Alejar";
+zoomOutTooltipString["es"] = "Alejar (un nivel)";
 zoomOutTooltipString["de"] = "Rauszoomen (eine Stufe)";
 zoomOutTooltipString["fr"] = "Zoom arrière";
 zoomOutTooltipString["it"] = "Rimpicciolisci";
@@ -510,7 +510,7 @@ zoomOutTooltipString["uk"] = "Зменшити";
 //object identification tooltip
 var objIdentificationTooltipString = new Array();
 objIdentificationTooltipString["en"] = "Object identification (attribute data)";
-objIdentificationTooltipString["es"] = "Indentificación de entidad (atributos de datos)"; //FIXME
+objIdentificationTooltipString["es"] = "Indentificación de objetos (atributos)";
 objIdentificationTooltipString["de"] = "Objektidentifizierung (Attributdaten)";
 objIdentificationTooltipString["fr"] = "Identification d'entité (attributs)";
 objIdentificationTooltipString["it"] = "Identificazione di oggetti (attributi)";
@@ -520,7 +520,7 @@ objIdentificationTooltipString["uk"] = "Вибір об'єкту (атрибут
 //MapTips tooltip
 var mapTipsTooltipString = new Array();
 mapTipsTooltipString["en"] = "Display MapTips (attribute data)";
-mapTipsTooltipString["es"] = "Desplegar textos emergentos (atributos de datos)";
+mapTipsTooltipString["es"] = "Desplegar textos emergentes (atributos)";
 mapTipsTooltipString["de"] = "MapTips anzeigen (Attributdaten)";
 mapTipsTooltipString["fr"] = "Afficher les infobulles (attributs)";
 mapTipsTooltipString["it"] = "Mostra le informazioni (attributi)";
@@ -559,8 +559,8 @@ printMapTooltipString["uk"] = "Друкувати мапу";
 
 //Print Map disabled
 var printMapDisabledTooltipString = new Array();
-printMapDisabledTooltipString["en"] = "Print disabled, no layout is defined into the QGIS project";
-printMapDisabledTooltipString["es"] = "Imprima lisiado, ningun layout se define en el proyecto QGIS";
+printMapDisabledTooltipString["en"] = "Print disabled, no layout is defined in the QGIS project";
+printMapDisabledTooltipString["es"] = "Imprimir deshabilitado, no hay formato definido en el proyecto de QGIS";
 printMapDisabledTooltipString["de"] = "Drucken nicht möglich, da keine Layouts im QGIS-Projekt definiert wurden";
 printMapDisabledTooltipString["fr"] = "Imprimez non activée, aucune layout est défini dans le projet QGIS";
 printMapDisabledTooltipString["it"] = "Stampa disabilitata: nel progetto QGIS non è definito alcun layout";
@@ -580,7 +580,7 @@ geonamesLoadingString["uk"] = "Пошук в Геоданих...";
 //Geonames empty string
 var geonamesEmptyString = new Array();
 geonamesEmptyString["en"] = "Search location in Geonames";
-geonamesEmptyString["es"] = "Buscar lugar en Geonames"; // FIXME
+geonamesEmptyString["es"] = "Buscar lugar en Geonames";
 geonamesEmptyString["de"] = "Suche Ort in Geonames";
 geonamesEmptyString["fr"] = "Rechercher le lieu dans Geonames";
 geonamesEmptyString["it"] = "Cerca località con Geonames";
@@ -590,7 +590,7 @@ geonamesEmptyString["uk"] = "Пошук місць у Геоданих";
 //Reset Search Field
 var resetSearchFieldTooltipString = new Array();
 resetSearchFieldTooltipString["en"] = "Reset/empty Searchfield";
-resetSearchFieldTooltipString["es"] = "Limpiar campo de búsqueda"; //FIXME
+resetSearchFieldTooltipString["es"] = "Limpiar campo de búsqueda";
 resetSearchFieldTooltipString["de"] = "Suchfeld zurücksetzen";
 resetSearchFieldTooltipString["fr"] = "Réinitialiser la recherche";
 resetSearchFieldTooltipString["it"] = "Azzerare il campo di ricerca";
@@ -611,7 +611,7 @@ printWindowTitleString["uk"] = "На сервері створюється PDF �
 //attention: single quotes around string, partially html formatting
 var printingObjectDataAlternativeString1 = new Array();
 printingObjectDataAlternativeString1["en"] = 'It looks like your browser cannot open PDF files directly. Not a big problem - you can <a href="';
-printingObjectDataAlternativeString1["es"] = 'Su navegador no puede abrir archivos PDF directanmente. No es problema - usted puede <a href="';
+printingObjectDataAlternativeString1["es"] = 'Su navegador no puede abrir archivos PDF directamente. No es problema - usted puede <a href="';
 printingObjectDataAlternativeString1["de"] = 'Es sieht so aus als ob Ihr Browser kein PDF Plugin unterstützt. Kein Problem, Sie können die <a href="';
 printingObjectDataAlternativeString1["fr"] = 'Il semble que votre navigateur ne puisse pas ouvrir les fichiers PDF directement. Pas de problème, vous pouvez <a href="';
 printingObjectDataAlternativeString1["it"] = 'Sembra che il vostro browser non possa aprire direttamente i files PDF. Nessun problema -  potete <a href="';
@@ -656,7 +656,7 @@ Error Messages
 //error messages on startup
 var errMessageStartupMapParamString = new Array();
 errMessageStartupMapParamString["en"] = "Startup-Parameter 'map' missing!";
-errMessageStartupMapParamString["es"] = "Falta el parametro de inicio 'map'!";
+errMessageStartupMapParamString["es"] = "Falta el parámetro de inicio 'map'!";
 errMessageStartupMapParamString["de"] = "Start-Parameter 'map' fehlt!";
 errMessageStartupMapParamString["fr"] = "Le paramètre de démarrage 'map' est manquant!";
 errMessageStartupMapParamString["it"] = "Il parametro di inizializzazione manca!";
@@ -666,7 +666,7 @@ errMessageStartupMapParamString["uk"] = "Параметр 'map' відсутні
 //additional startup error message
 var errMessageStartupNotAllParamsFoundString = new Array();
 errMessageStartupNotAllParamsFoundString["en"] = "Some mandatory startup paramaters are missing or an optional startup parameter is invalid.";
-errMessageStartupNotAllParamsFoundString["es"] = "Faltan algunos parametros obligatorios";
+errMessageStartupNotAllParamsFoundString["es"] = "Faltan algunos parámetros obligatorios";
 errMessageStartupNotAllParamsFoundString["de"] = "Es wurden nicht alle notwendigen Web-GIS-Parameter gefunden oder ein optionaler Start-Parameter ist falsch.";
 errMessageStartupNotAllParamsFoundString["fr"] = "Certains paramètres indispensables manquent.";
 errMessageStartupNotAllParamsFoundString["it"] = "Alcuni parametri necessari mancano.";
@@ -676,7 +676,7 @@ errMessageStartupNotAllParamsFoundString["uk"] = "Відсутні обов'яз
 //error message if optional startExtent parameter is wrong
 var errMessageExtentParamWrongPart1 = new Array();
 errMessageExtentParamWrongPart1["en"] = "Start-parameter '";
-errMessageExtentParamWrongPart1["es"] = "Parámetro de inicialización '"; //FIXME
+errMessageExtentParamWrongPart1["es"] = "Parámetro de inicialización '";
 errMessageExtentParamWrongPart1["de"] = "Start-Parameter '";
 errMessageExtentParamWrongPart1["fr"] = "Paramètre d'initialisation '"; //FIXME
 errMessageExtentParamWrongPart1["it"] = "Parametro di inizializzazione '";
@@ -686,7 +686,7 @@ errMessageExtentParamWrongPart1["uk"] = "Параметр '";
 //error message if optional startExtent parameter is wrong
 var errMessageExtentParamWrongPart2 = new Array();
 errMessageExtentParamWrongPart2["en"] = "' needs to be in OpenLayers.Bounds format: 'left,bottom,right,top'.";
-errMessageExtentParamWrongPart2["es"] = "' hay que estar en la forma OpenLayers.Bounds: 'left,bottom,right,top'."; //FIXME
+errMessageExtentParamWrongPart2["es"] = "' debe estar en formato OpenLayers.Bounds: 'left,bottom,right,top'.";
 errMessageExtentParamWrongPart2["de"] = "' muss im OpenLayers.Bounds format sein: 'left,bottom,right,top'.";
 errMessageExtentParamWrongPart2["fr"] = "' devrait être dans le format OpenLayers.Bounds: 'left,bottom,right,top'.";
 errMessageExtentParamWrongPart2["it"] = "' deve essere nel formato di OpenLayers.Bounds: 'left,bottom,right,top'.";
@@ -696,7 +696,7 @@ errMessageExtentParamWrongPart2["uk"] = "' має бути в форматі Ope
 //error message invalid language code, part 1
 var errMessageInvalidLanguageCodeString1 = new Array();
 errMessageInvalidLanguageCodeString1["en"] = "Invalid language code provided: ";
-errMessageInvalidLanguageCodeString1["es"] = "Inválido el código de idioma proveído: "; //FIXME
+errMessageInvalidLanguageCodeString1["es"] = "El código de idioma es inválido: ";
 errMessageInvalidLanguageCodeString1["de"] = "Falscher Sprachparameter übergeben: ";
 errMessageInvalidLanguageCodeString1["fr"] = "Identifiant de langue incorrect: ";
 errMessageInvalidLanguageCodeString1["it"] = "Identificativo della lingua non corretto: ";
@@ -706,7 +706,7 @@ errMessageInvalidLanguageCodeString1["uk"] = "Вказано невірний к
 //error message invalid language code, part 2
 var errMessageInvalidLanguageCodeString2 = new Array();
 errMessageInvalidLanguageCodeString2["en"] = "Switching back to default language ";
-errMessageInvalidLanguageCodeString2["es"] = "Se reestablece el idioma por defecto ";
+errMessageInvalidLanguageCodeString2["es"] = "Restableciendo el idioma por defecto ";
 errMessageInvalidLanguageCodeString2["de"] = "Wechsle zurück zur Standardsprache ";
 errMessageInvalidLanguageCodeString2["fr"] = "La langue par défaut sera utilisée ";
 errMessageInvalidLanguageCodeString2["it"] = "Si utilizza la lingua di default ";
@@ -726,7 +726,7 @@ errMessageSearchComboNetworkRequestFailureTitleString["uk"] = "Помилка м
 //error message of search combo network request detailed message - do not forget the \n at the end of the string!
 var errMessageSearchComboNetworkRequestFailureString = new Array();
 errMessageSearchComboNetworkRequestFailureString["en"] = "The network request for the geometry of the search result failed:\n";
-errMessageSearchComboNetworkRequestFailureString["es"] = "Falló la solicitud de red para el resultado  de la búsqueda de la geometrí:\n";
+errMessageSearchComboNetworkRequestFailureString["es"] = "Falló la solicitud de red para la geometría del resultado de la búsqueda:\n";
 errMessageSearchComboNetworkRequestFailureString["de"] = "Netzwerk-Request für Geometrie des gesuchten Objekts fehlgeschlagen:\n";
 errMessageSearchComboNetworkRequestFailureString["fr"] = "La requête réseau pour la géométrie du résultat de la recherche a échoué:\n";
 errMessageSearchComboNetworkRequestFailureString["it"] = "La richiesta di rete è fallita per la geometria del risultato di ricerca:\n";
