@@ -155,6 +155,25 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
         callback.apply(scope || node, [node]);
     }
   },
+  createWMSLayer: function(layer, url) {
+    if (layer.name) {
+      return new OpenLayers.Layer.WMS(
+        layer.title, url,
+        OpenLayers.Util.extend({
+          formats: layer.formats[0],
+          layers: layer.name
+        }, this.layerParams),
+        OpenLayers.Util.extend({
+          minScale: layer.minScale,
+          queryable: layer.queryable,
+          maxScale: layer.maxScale,
+          visible: layer.visible,
+          metadata: layer
+        }, this.layerOptions));
+    } else {
+      return null;
+    }
+  },
   findLayerNodeByName: function(layername) {
     //goal of this function is to find a layer by its name
     //we need to fork between IE 7/8 and modern browsers

@@ -119,7 +119,7 @@ function postLoading() {
             // expand node while traversing in order to allow toggling checkbox on deeper levels
             this.expand(true,false);
           }
-          this.getUI().toggleCheck(true);
+          this.getUI().toggleCheck(this.attributes.layer.visible);
           return false;
       }, null, true);
     }
