@@ -197,7 +197,7 @@ function postLoading() {
     function (n) {
       if (n.isLeaf() && n.attributes.checked) {
         selectedLayers.push(n.text);
-        if (wmsLoader.layerProperties[n.text].queryable == 1) {
+        if (wmsLoader.layerProperties[n.text].queryable) {
           selectedQueryableLayers.push(n.text);
         }
       }
@@ -638,7 +638,7 @@ function postLoading() {
       function (n) {
         if (n.isLeaf() && n.attributes.checked) {
           selectedLayers.push(n.text);
-          if (wmsLoader.layerProperties[n.text].queryable == 1) {
+          if (wmsLoader.layerProperties[n.text].queryable) {
             selectedQueryableLayers.push(n.text);
           }
           //test to see if we need to change to jpeg because checked
@@ -668,7 +668,7 @@ function postLoading() {
         function (n) {
           if (n.isLeaf() && n.attributes.checked) {
             selectedActiveLayers.push(n.text);
-            if (wmsLoader.layerProperties[n.text].queryable == 1) {
+            if (wmsLoader.layerProperties[n.text].queryable) {
               selectedActiveQueryableLayers.push(n.text);
             }
           }
