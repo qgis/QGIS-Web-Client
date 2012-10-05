@@ -248,13 +248,27 @@ function postLoading() {
 
   var MapPanelRef = Ext.getCmp('MapPanel');
 
+  // return input layers sorted by order defined in project settings
+  function layersInDrawingOrder(layers) {
+    var layerDrawingOrder = wmsLoader.projectSettings.capability.layerDrawingOrder;
+    var orderedLayers = [];
+    for (var i=0 ;i<layerDrawingOrder.length; i++) {
+      var layer = layerDrawingOrder[i];
+      if (layers.indexOf(layer) != -1) {
+        orderedLayers.push(layer);
+      }
+    }
+    return orderedLayers;
+  }
+
   //create new map panel with a single OL layer
+  selectedLayers = layersInDrawingOrder(selectedLayers);
   geoExtMap = new GeoExt.MapPanel({
     zoom: 1.6,
     layers: [
       thematicLayer = new OpenLayers.Layer.WMS(layerTree.root.firstChild.text,
         wmsURI,
-        {layers:selectedLayers.reverse().join(","),format:format,dpi:screenDpi},
+        {layers:selectedLayers.join(","),format:format,dpi:screenDpi},
         {buffer:0,singleTile:true,ratio:1,transitionEffect:"resize"}
       ),
       //layerOptions: {styleMap: styleMapMeasureControls}, isBaseLayer: false,
@@ -407,7 +421,7 @@ function postLoading() {
   navHistoryCtrl = new OpenLayers.Control.NavigationHistory();
   geoExtMap.map.addControl(navHistoryCtrl);
   //controls for getfeatureinfo
-  selectedQueryableLayers.reverse();
+  selectedQueryableLayers = layersInDrawingOrder(selectedQueryableLayers);
   var fiLayer = new OpenLayers.Layer.WMS(layerTree.root.firstChild.text,wmsURI,{layers:[]},{buffer:0,singleTile:true,ratio:1});
   WMSGetFInfo = new OpenLayers.Control.WMSGetFeatureInfo({layers: [fiLayer], infoFormat: "text/xml", queryVisible: true, vendorParams: {QUERY_LAYERS: selectedQueryableLayers.join(",")}});
   WMSGetFInfo.events.register("getfeatureinfo", this, showFeatureInfo);
@@ -656,8 +670,8 @@ function postLoading() {
     );
     thematicLayer.mergeNewParams({format:format});
     //change array order
-    selectedLayers.reverse();
-    selectedQueryableLayers.reverse();
+    selectedLayers = layersInDrawingOrder(selectedLayers);
+    selectedQueryableLayers = layersInDrawingOrder(selectedQueryableLayers);
     if (identificationMode == 'activeLayers') {
       //only collect selected layers that are active
       var selectedActiveLayers = Array();
@@ -674,8 +688,8 @@ function postLoading() {
           }
         }
       );
-      selectedActiveLayers.reverse();
-      selectedActiveQueryableLayers.reverse();
+      selectedActiveLayers = layersInDrawingOrder(selectedActiveLayers);
+      selectedActiveQueryableLayers = layersInDrawingOrder(selectedActiveQueryableLayers);
     }
     thematicLayer.mergeNewParams({layers:selectedLayers.join(",")});
     if (identificationMode != 'activeLayers') {
