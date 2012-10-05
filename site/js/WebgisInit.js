@@ -46,10 +46,9 @@ Ext.onReady(function() {
   loadMask.show();
 
   if (urlParamsOK) {
-    var getCapURI = wmsURI+"SERVICE=WMS&VERSION=1.3&REQUEST=GetCapabilities";
     //load getCapabilities info in treeview
     wmsLoader = new QGIS.WMSCapabilitiesLoader({
-        url: getCapURI,
+        url: wmsURI,
         layerOptions: {buffer: 0, singleTile: true, ratio: 1},
         layerParams: {'TRANSPARENT': 'TRUE'},
         // customize the createNode method to add a checkbox to nodes and the ui provider

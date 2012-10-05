@@ -7,6 +7,7 @@
 */
 
 /* ************************** QGIS.WMSCapabilitiesLoader ************************** */
+// parse GetProjectSettings from QGIS Mapserver
 // extends GeoExt.tree.WMSCapabilitiesLoader in order to expose the WMSCapabilities Tree to later read out settings from the tree
 QGIS.WMSCapabilitiesLoader = function(config) {
   Ext.apply(this, config);
@@ -17,6 +18,13 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
   WMSCapabilities: null,
   //this list holds layer properties, indexed by layername
   layerProperties: new Array(),
+  getParams: function(node) {
+    return {
+      SERVICE: 'WMS',
+      VERSION: '1.3',
+      REQUEST: 'GetProjectSettings'
+    };
+  },
   processResponse : function(response, node, callback, scope) {
     if (response.responseXML) {
       this.WMSCapabilities = response.responseXML;
@@ -32,8 +40,102 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
         this.WMSCapabilities.loadXML(response.responseText);
       }
     }
+    var capabilities = new OpenLayers.Format.WMSCapabilities({
+      readers: {
+        "wms": OpenLayers.Util.applyDefaults({
 
-    var capabilities = new OpenLayers.Format.WMSCapabilities().read(this.WMSCapabilities);
+          "ComposerTemplates": function(node, obj) {
+            obj.composerTemplates = []
+            this.readChildNodes(node, obj.composerTemplates);
+          },
+          "ComposerTemplate": function(node, obj) {
+            var composerTemplate = {
+              name: node.getAttribute("name"),
+              width: parseInt(node.getAttribute("width")),
+              height: parseInt(node.getAttribute("height"))
+            };
+            this.readChildNodes(node, composerTemplate);
+            obj.push(composerTemplate);
+          },
+          "ComposerMap": function(node, obj) {
+            obj.map = {
+              name: node.getAttribute("name"),
+              width: parseInt(node.getAttribute("width")),
+              height: parseInt(node.getAttribute("height"))
+            };
+          },
+
+          "LayerDrawingOrder": function(node, obj) {
+            obj.layerDrawingOrder = this.getChildValue(node).split(',');
+          },
+
+          // based on OpenLayers.Format.WMSCapabilities.v1 parser
+          "Layer": function(node, obj) {
+            var attrNode = node.getAttributeNode("queryable");
+            var queryable = (attrNode && attrNode.specified) ?
+              node.getAttribute("queryable") : null;
+            attrNode = node.getAttributeNode("cascaded");
+            var cascaded = (attrNode && attrNode.specified) ?
+              node.getAttribute("cascaded") : null;
+            attrNode = node.getAttributeNode("opaque");
+            var opaque = (attrNode && attrNode.specified) ?
+              node.getAttribute('opaque') : null;
+
+            // custom attributes
+            attrNode = node.getAttributeNode("visible");
+            var visible = (attrNode && attrNode.specified) ?
+              node.getAttribute("visible") : null;
+            var displayField = node.getAttribute('displayField');
+
+            var noSubsets = node.getAttribute('noSubsets');
+            var fixedWidth = node.getAttribute('fixedWidth');
+            var fixedHeight = node.getAttribute('fixedHeight');
+            var layer = {nestedLayers: [], styles: [], srs: {},
+              metadataURLs: [], bbox: {}, dimensions: {},
+              authorityURLs: {}, identifiers: {}, keywords: [],
+              queryable: (queryable && queryable !== "") ?
+                ( queryable === "1" || queryable === "true" ) : null,
+              cascaded: (cascaded !== null) ? parseInt(cascaded) : null,
+              opaque: opaque ?
+                (opaque === "1" || opaque === "true" ) : null,
+              visible: (visible && visible !== "") ?
+                ( visible === "1" || visible === "true" ) : null,
+              displayField: displayField,
+              noSubsets: (noSubsets !== null) ?
+                ( noSubsets === "1" || noSubsets === "true" ) : null,
+              fixedWidth: (fixedWidth != null) ?
+                parseInt(fixedWidth) : null,
+              fixedHeight: (fixedHeight != null) ?
+                parseInt(fixedHeight) : null
+            };
+            obj.nestedLayers.push(layer);
+            this.readChildNodes(node, layer);
+            if(layer.name) {
+              var parts = layer.name.split(":");
+              if(parts.length > 0) {
+                layer.prefix = parts[0];
+              }
+            }
+          },
+
+          "Attributes": function(node, obj) {
+            obj.attributes = []
+            this.readChildNodes(node, obj.attributes);
+          },
+          "Attribute": function(node, obj) {
+            var attribute = {
+              name: node.getAttribute("name"),
+              type: node.getAttribute("type"),
+              precision: parseInt(node.getAttribute("precision")),
+              length: parseInt(node.getAttribute("length")),
+              editType: node.getAttribute("editType"),
+              comment: node.getAttribute("comment")
+            };
+            obj.push(attribute);
+          }
+        }, OpenLayers.Format.WMSCapabilities.v1_3.prototype.readers["wms"])
+      },
+    }).read(this.WMSCapabilities);
     this.processLayer(capabilities.capability,capabilities.capability.request.getmap.href, node);
     //fill the list of layer properties
     var xpathExpr = '//opengis:Layer';
