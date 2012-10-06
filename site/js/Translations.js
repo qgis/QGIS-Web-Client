@@ -183,6 +183,16 @@ searchPanelTitleString["it"] = "Cerca";
 searchPanelTitleString["pt_PT"] = "Pesquisar";
 searchPanelTitleString["uk"] = "Пошук";
 
+//title of search panel
+var mapThemeButtonTitleString = new Array();
+mapThemeButtonTitleString["en"] = "Map themes";
+mapThemeButtonTitleString["es"] = "Buscar"; //FIXME
+mapThemeButtonTitleString["de"] = "Kartenthemen";
+mapThemeButtonTitleString["fr"] = "Chercher"; //FIXME
+mapThemeButtonTitleString["it"] = "Cerca"; //FIXME
+mapThemeButtonTitleString["pt_PT"] = "Pesquisar"; //FIXME
+mapThemeButtonTitleString["uk"] = "Пошук"; //FIXME
+
 //title of map panel
 var mapPanelTitleString = new Array();
 mapPanelTitleString["en"] = "Map";
@@ -648,6 +658,16 @@ printCancelButtonTooltipString["fr"] = "Annuler l'impression (fermer)";
 printCancelButtonTooltipString["it"] = "Annulla la stampa (chiudi)";
 printCancelButtonTooltipString["pt_PT"] = "Cancelar impressão (Fechar)";
 printCancelButtonTooltipString["uk"] = "Скасувати друк (Закрити)";
+
+//print cancel button tooltip
+var mapThemeButtonTooltipString = new Array();
+mapThemeButtonTooltipString["en"] = "Click to choose a new map theme";
+mapThemeButtonTooltipString["es"] = ""; //FIXME
+mapThemeButtonTooltipString["de"] = "Klicken Sie um das Kartenthema zu wechseln";
+mapThemeButtonTooltipString["fr"] = ""; //FIXME
+mapThemeButtonTooltipString["it"] = ""; //FIXME
+mapThemeButtonTooltipString["pt_PT"] = ""; //FIXME
+mapThemeButtonTooltipString["uk"] = ""; //FIXME
 
 /***********************
 Error Messages

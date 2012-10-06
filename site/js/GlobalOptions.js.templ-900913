@@ -67,6 +67,12 @@ var mapSearchPanelConfigs = {
   "helloworld": [simpleWmsSearch, urlRewriteSearch]
 };
 
+//define whether you want to display a map theme switcher
+//note that you have to also link a gis-project-listing.js file containing a valid
+//project listing structure - the root object is called 'gis_projects'
+//have a look at the template file and documentation for the correct json structure
+var mapThemeSwitcherActive = false;
+
 //first part of titlebar text
 var titleBarText = "GIS-Browser - "; // will be appended with project title
 

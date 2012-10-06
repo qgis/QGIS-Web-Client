@@ -25,7 +25,9 @@ var printLayoutsDefined = false; //true if ComposerTemplates are found in QGIS
 var navHistoryCtrl; //OpenLayers NavigationHistory control
 var identificationMode; //can have a value from objectIdentificationModes
 var mapInfoFieldName = "tooltip"; // this field is suppressed in the AttributeTree panel
-var identifyToolActive = false; // a state variabel used to track whether the tooltip should be displayed or not
+var identifyToolActive = false; // a state variable used to track whether the tooltip should be displayed or not
+var initialLoadDone = false; //a state variable defining if an initial project was loaded or not
+var gisProjectListingStore = undefined; //this will later hold a json store containing 
 
 
 Ext.onReady(function() {
@@ -66,7 +68,7 @@ Ext.onReady(function() {
       loader: wmsLoader,
       listeners: {
         'load': function() {
-      postLoading();
+           postLoading();
         }
       }
     });
@@ -520,6 +522,38 @@ function postLoading() {
   }
 
   myTopToolbar.doLayout();
+  
+  //map themes panel
+  //var MapThemesPanel = Ext.getCmp('MapThemesPanel');
+  if (mapThemeSwitcherActive == true) {
+	//create a new jsonstore holding the project-listing data
+	if (gis_projects) {
+		gisProjectListingStore = new Ext.data.JsonStore({
+			storeId: 'gisProjectListingStore',
+			data: gis_projects,
+			// reader configs
+			root: 'topic',
+			idProperty: 'name',
+			fields: ['name']
+		});
+		/*var gisProjectsListView = new Ext.list.ListView({
+			store: gisProjectListingStore,
+			multiSelect: false,
+			reserveScrollOffset: true,
+			columns: [{
+				dataIndex: 'name'
+			}],
+			renderTo: MapThemesPanel.body
+		});*/
+	}
+	else {
+		alert(errMessageGisProjectsJSONStructureMissing[lang]);
+	}
+  }
+  else {
+    // hide map theme button
+    Ext.getCmp('mapThemeButton').hide();
+  }
 
   //search panel and URL search parameters
   var searchPanelConfigs = [];
@@ -545,8 +579,17 @@ function postLoading() {
     var searchPanel = Ext.getCmp('SearchPanel');
     searchPanel.removeAll();
     searchPanel.hide();
-    Ext.getCmp('LeftPanel').doLayout();
   }
+  
+  //update layout of left panel and adds a listener to automatically adjust layout after resizing
+  var leftPanel = Ext.getCmp('LeftPanel');
+  leftPanel.doLayout();
+  leftPanel.addListener('resize',function(myPanel, adjWidth, adjHeight, rawWidth, rawHeight) {
+	  myPanel.items.each(function(item,index,length) {
+		item.width = adjWidth;
+	  });
+	  myPanel.doLayout();
+  });
 
   function showURLParametersSearch(searchPanelConfigs) {
     if ('query' in urlParams) {
