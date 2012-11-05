@@ -194,3 +194,6 @@ var sketchSymbolizersMeasureControls = {
     fillOpacity: 0.3
   }
 };
+
+//amount of layer legends shown, set this to -1 to show all
+var legend_length = 15;
