@@ -91,6 +91,14 @@ var MapOptions = {
   controls: []
 };
 
+// Options for the main map layer (OpenLayers.layer)
+//see http://dev.openlayers.org/releases/OpenLayers-2.10/doc/apidocs/files/OpenLayers/Layer-js.html
+var LayerOptions = {
+  buffer:0,
+  singleTile:true,
+  ratio:1,
+  transitionEffect:"resize"
+};
 
 //overview map settings - do not change variable names!
 var OverviewMapOptions = {
