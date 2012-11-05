@@ -337,6 +337,21 @@ function postLoading() {
     }
   });
 
+  // loading listeners 
+  thematicLayer.events.register('loadstart', this, function() {
+    mapIsLoading = true;
+    // show the loadMask with a delay of one second, no need to show it for quick changes
+    setTimeout("displayLoadMask()", 1000); 
+  });
+
+  thematicLayer.events.register('loadend', this, function() {
+    mapIsLoading = false; 
+    if (loadMask) {
+      loadMask.hide();
+      loadMask = null;
+    }
+  });
+
   //listener on numberfield to set map scale
   var ScaleNumberField = Ext.getCmp('ScaleNumberField');
   ScaleNumberField.setValue(Math.round(geoExtMap.map.getScale()));
@@ -1290,4 +1305,12 @@ function handleMeasurements(event) {
     out += measureAreaResultPrefixString[lang] + ": " + measure.toFixed(2) + units + "<sup>2</sup> | ";
   }
   rightStatusText.setText(out);
+}
+
+// function to display a loadMask during lengthy load operations
+function displayLoadMask() {
+  if (mapIsLoading) { // check if layer is still loading
+    loadMask = new Ext.LoadMask(Ext.getCmp('MapPanel').body, {msg:mapLoadingString[lang]});
+    loadMask.show();
+  }
 }
