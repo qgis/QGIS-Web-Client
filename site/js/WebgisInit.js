@@ -252,7 +252,7 @@ function postLoading() {
       thematicLayer = new OpenLayers.Layer.WMS(layerTree.root.firstChild.text,
         wmsURI,
         {layers:selectedLayers.reverse().join(","),format:format,dpi:screenDpi},
-        {buffer:0,singleTile:true,ratio:1,transitionEffect:"resize"}
+        LayerOptions
       ),
       //layerOptions: {styleMap: styleMapMeasureControls}, isBaseLayer: false,
       highlightLayer = new OpenLayers.Layer.Vector("attribHighLight",{isBaseLayer: false, styleMap: styleMapHighLightLayer})
