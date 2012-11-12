@@ -1,0 +1,54 @@
+/*!
+ * file for styling the data view for the theme switcher
+ * which allows the client to switch to another qgis project
+ */
+#projects {
+    background-color: #fff;
+    text-shadow: #fff 0 1px 0;
+}
+
+#projects ul {
+    position: relative;
+    display: block;
+    height: auto;
+    font-size: 95%;
+}
+
+#projects ul li img {
+    margin-bottom: 1px;
+}
+
+#projects ul li {
+    float: left;
+    padding: 5px;
+    margin: 5px;
+    text-align: center;
+    line-height: 1.25em;
+    color: #333;
+    font-family: sans-serif;
+    height: 230px;
+    width: 305px;
+    overflow: hidden;
+    border-top: 1px solid transparent;
+    cursor: pointer;
+}
+
+#projects ul li.projects-hover {
+    background-color: #eee;
+}
+
+#projects ul li.x-view-selected {
+    background-color: rgba(100, 100, 100, .15);
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-top: 1px solid rgba(0, 0, 0, .15);
+}
+
+#projects li strong {
+    color: #000;
+    display: block;
+}
+
+#projects li span {
+    color: #999;
+}

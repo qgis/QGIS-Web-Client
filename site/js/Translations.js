@@ -183,7 +183,7 @@ searchPanelTitleString["it"] = "Cerca";
 searchPanelTitleString["pt_PT"] = "Pesquisar";
 searchPanelTitleString["uk"] = "Пошук";
 
-//title of search panel
+//text of theme Switcher button
 var mapThemeButtonTitleString = new Array();
 mapThemeButtonTitleString["en"] = "Map themes";
 mapThemeButtonTitleString["es"] = "Buscar"; //FIXME
@@ -192,6 +192,99 @@ mapThemeButtonTitleString["fr"] = "Chercher"; //FIXME
 mapThemeButtonTitleString["it"] = "Cerca"; //FIXME
 mapThemeButtonTitleString["pt_PT"] = "Pesquisar"; //FIXME
 mapThemeButtonTitleString["uk"] = "Пошук"; //FIXME
+
+//theme switcher window title
+var themeSwitcherWindowTitleString = new Array();
+themeSwitcherWindowTitleString["en"] = "Map theme choice";
+themeSwitcherWindowTitleString["es"] = ""; //FIXME
+themeSwitcherWindowTitleString["de"] = "Kartenthemenwechsel";
+themeSwitcherWindowTitleString["fr"] = ""; //FIXME
+themeSwitcherWindowTitleString["it"] = ""; //FIXME
+themeSwitcherWindowTitleString["pt_PT"] = ""; //FIXME
+themeSwitcherWindowTitleString["uk"] = ""; //FIXME
+
+//theme switcher filter label string
+var themeSwitcherFilterLabelString = new Array();
+themeSwitcherFilterLabelString["en"] = "Filter by map title: ";
+themeSwitcherFilterLabelString["es"] = ""; //FIXME
+themeSwitcherFilterLabelString["de"] = "Filterung nach Kartentitel: ";
+themeSwitcherFilterLabelString["fr"] = ""; //FIXME
+themeSwitcherFilterLabelString["it"] = ""; //FIXME
+themeSwitcherFilterLabelString["pt_PT"] = ""; //FIXME
+themeSwitcherFilterLabelString["uk"] = ""; //FIXME
+
+//theme switcher all themes string in list view
+var themeSwitcherAllThemesListViewString = new Array();
+themeSwitcherAllThemesListViewString["en"] = "All map themes";
+themeSwitcherAllThemesListViewString["es"] = ""; //FIXME
+themeSwitcherAllThemesListViewString["de"] = "Alle Kartenthemen";
+themeSwitcherAllThemesListViewString["fr"] = ""; //FIXME
+themeSwitcherAllThemesListViewString["it"] = ""; //FIXME
+themeSwitcherAllThemesListViewString["pt_PT"] = ""; //FIXME
+themeSwitcherAllThemesListViewString["uk"] = ""; //FIXME
+
+var themeSwitcherTooltipResponsibleString = new Array();
+themeSwitcherTooltipResponsibleString["en"] = "Responsible: ";
+themeSwitcherTooltipResponsibleString["es"] = ""; //FIXME
+themeSwitcherTooltipResponsibleString["de"] = "Verantwortlich: ";
+themeSwitcherTooltipResponsibleString["fr"] = ""; //FIXME
+themeSwitcherTooltipResponsibleString["it"] = ""; //FIXME
+themeSwitcherTooltipResponsibleString["pt_PT"] = ""; //FIXME
+themeSwitcherTooltipResponsibleString["uk"] = ""; //FIXME
+
+var themeSwitcherTooltipMapThemeString = new Array();
+themeSwitcherTooltipMapThemeString["en"] = "Map theme: ";
+themeSwitcherTooltipMapThemeString["es"] = ""; //FIXME
+themeSwitcherTooltipMapThemeString["de"] = "Kartenthema: ";
+themeSwitcherTooltipMapThemeString["fr"] = ""; //FIXME
+themeSwitcherTooltipMapThemeString["it"] = ""; //FIXME
+themeSwitcherTooltipMapThemeString["pt_PT"] = ""; //FIXME
+themeSwitcherTooltipMapThemeString["uk"] = ""; //FIXME
+
+var themeSwitcherTooltipUpdateString = new Array();
+themeSwitcherTooltipUpdateString["en"] = "Update interval: ";
+themeSwitcherTooltipUpdateString["es"] = ""; //FIXME
+themeSwitcherTooltipUpdateString["de"] = "Aktualisierung: ";
+themeSwitcherTooltipUpdateString["fr"] = ""; //FIXME
+themeSwitcherTooltipUpdateString["it"] = ""; //FIXME
+themeSwitcherTooltipUpdateString["pt_PT"] = ""; //FIXME
+themeSwitcherTooltipUpdateString["uk"] = ""; //FIXME
+
+var themeSwitcherTooltipLastUpdateString = new Array();
+themeSwitcherTooltipLastUpdateString["en"] = "Last update: ";
+themeSwitcherTooltipLastUpdateString["es"] = ""; //FIXME
+themeSwitcherTooltipLastUpdateString["de"] = "Letze Aktualisierung: ";
+themeSwitcherTooltipLastUpdateString["fr"] = ""; //FIXME
+themeSwitcherTooltipLastUpdateString["it"] = ""; //FIXME
+themeSwitcherTooltipLastUpdateString["pt_PT"] = ""; //FIXME
+themeSwitcherTooltipLastUpdateString["uk"] = ""; //FIXME
+
+var themeSwitcherTooltipPwProtectedString = new Array();
+themeSwitcherTooltipPwProtectedString["en"] = "password protected";
+themeSwitcherTooltipPwProtectedString["es"] = ""; //FIXME
+themeSwitcherTooltipPwProtectedString["de"] = "passwortgeschützt";
+themeSwitcherTooltipPwProtectedString["fr"] = ""; //FIXME
+themeSwitcherTooltipPwProtectedString["it"] = ""; //FIXME
+themeSwitcherTooltipPwProtectedString["pt_PT"] = ""; //FIXME
+themeSwitcherTooltipPwProtectedString["uk"] = ""; //FIXME
+
+var emptyThemeSearchFieldString = new Array();
+emptyThemeSearchFieldString["en"] = "Insert filter string";
+emptyThemeSearchFieldString["es"] = ""; //FIXME
+emptyThemeSearchFieldString["de"] = "Filtertext eingeben";
+emptyThemeSearchFieldString["fr"] = ""; //FIXME
+emptyThemeSearchFieldString["it"] = ""; //FIXME
+emptyThemeSearchFieldString["pt_PT"] = ""; //FIXME
+emptyThemeSearchFieldString["uk"] = ""; //FIXME
+
+var resetThemeSearchFieldTooltipString = new Array();
+resetThemeSearchFieldTooltipString["en"] = "Reset map theme search filter";
+resetThemeSearchFieldTooltipString["es"] = ""; //FIXME
+resetThemeSearchFieldTooltipString["de"] = "Kartenthemenfilter zurücksetzen";
+resetThemeSearchFieldTooltipString["fr"] = ""; //FIXME
+resetThemeSearchFieldTooltipString["it"] = ""; //FIXME
+resetThemeSearchFieldTooltipString["pt_PT"] = ""; //FIXME
+resetThemeSearchFieldTooltipString["uk"] = ""; //FIXME
 
 //title of map panel
 var mapPanelTitleString = new Array();
@@ -222,6 +315,16 @@ legendTabTitleString["fr"] = "Légende";
 legendTabTitleString["it"] = "Legenda";
 legendTabTitleString["pt_PT"] = "Legenda";
 legendTabTitleString["uk"] = "Легенда";
+
+//title of legend tab
+var legendDisplayHowtoString = new Array();
+legendDisplayHowtoString["en"] = "Please select a group or layer in the map layer tree above to display it's legend";
+legendDisplayHowtoString["es"] = ""; //FIXME
+legendDisplayHowtoString["de"] = "Selektieren Sie eine Gruppe oder Ebene im obigen Kartenebenenbaum um die Legende anzuzeigen.";
+legendDisplayHowtoString["fr"] = ""; //FIXME
+legendDisplayHowtoString["it"] = ""; //FIXME
+legendDisplayHowtoString["pt_PT"] = ""; //FIXME
+legendDisplayHowtoString["uk"] = ""; //FIXME
 
 //title of metadata tab
 var metadataTabTitleString = new Array();
@@ -659,7 +762,7 @@ printCancelButtonTooltipString["it"] = "Annulla la stampa (chiudi)";
 printCancelButtonTooltipString["pt_PT"] = "Cancelar impressão (Fechar)";
 printCancelButtonTooltipString["uk"] = "Скасувати друк (Закрити)";
 
-//print cancel button tooltip
+//theme switcher button tooltip
 var mapThemeButtonTooltipString = new Array();
 mapThemeButtonTooltipString["en"] = "Click to choose a new map theme";
 mapThemeButtonTooltipString["es"] = ""; //FIXME
