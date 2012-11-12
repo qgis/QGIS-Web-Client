@@ -93,7 +93,7 @@ ThemeSwitcher.prototype.initialize = function () {
 	//add data view for grid thumbnails view
 	this.projectDataView = new Ext.DataView({
 		store: this.gisProjectListingStore,
-		tpl: new Ext.XTemplate('<ul>', '<tpl for=".">', '<li class="project">', '<img width="300" height="200" src="thumbnails/{projectfile}-small.png" title="{tooltip}" />', '<strong>{projname}', '<tpl if="pwprotected==\'yes\'">', ' - ' + themeSwitcherTooltipPwProtectedString[lang], '</tpl>', '</strong>', '</li>', '</tpl>', '</ul>'),
+		tpl: new Ext.XTemplate('<ul>', '<tpl for=".">', '<li class="project">', '<img width="300" height="200" src="thumbnails/{projectfile}.png" title="{tooltip}" />', '<strong>{projname}', '<tpl if="pwprotected==\'yes\'">', ' - ' + themeSwitcherTooltipPwProtectedString[lang], '</tpl>', '</strong>', '</li>', '</tpl>', '</ul>'),
 		id: 'projects',
 		itemSelector: 'li.project',
 		overClass: 'projects-hover',
