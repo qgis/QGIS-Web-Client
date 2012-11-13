@@ -33,20 +33,23 @@ function ThemeSwitcher(parentPanel) {
 				var projData = topicRec.data.project[j];
 				projData.topic = topicRec.data.name;
 				var tooltip = themeSwitcherTooltipMapThemeString[lang] + projData.name;
+				if (projData.tags) {
+					tooltip += "\n" + themeSwitcherTooltipTagString[lang] + projData.tags;
+				}
 				if (projData.responsible) {
-					tooltip += "\n" + themeSwitcherTooltipResponsibleString[lang] + projData.responsible
+					tooltip += "\n" + themeSwitcherTooltipResponsibleString[lang] + projData.responsible;
 				}
 				if (projData.update) {
-					tooltip += "\n" + themeSwitcherTooltipUpdateString[lang] + projData.update
+					tooltip += "\n" + themeSwitcherTooltipUpdateString[lang] + projData.update;
 				}
 				if (projData.lastUpdate) {
-					tooltip += "\n" + themeSwitcherTooltipLastUpdateString[lang] + projData.lastUpdate
+					tooltip += "\n" + themeSwitcherTooltipLastUpdateString[lang] + projData.lastUpdate;
 				}
 				var pwprotected = "no";
 				if (projData.pwProtected) {
 					if (projData.pwProtected == "yes") {
 						pwprotected = "yes";
-						tooltip += "\n" + themeSwitcherTooltipPwProtectedString[lang];
+						tooltip += "\n\n" + themeSwitcherTooltipPwProtectedString[lang] + ": " + projData.pwMessage;
 					}
 				}
 				projListingArray.push([topicCounter + '_' + projData.projectfile, projData.name, projData.topic, projData.projectfile, projData.tags, pwprotected, tooltip, projData]);
@@ -93,7 +96,7 @@ ThemeSwitcher.prototype.initialize = function () {
 	//add data view for grid thumbnails view
 	this.projectDataView = new Ext.DataView({
 		store: this.gisProjectListingStore,
-		tpl: new Ext.XTemplate('<ul>', '<tpl for=".">', '<li class="project">', '<img width="300" height="200" src="thumbnails/{projectfile}.png" title="{tooltip}" />', '<strong>{projname}', '<tpl if="pwprotected==\'yes\'">', ' - ' + themeSwitcherTooltipPwProtectedString[lang], '</tpl>', '</strong>', '</li>', '</tpl>', '</ul>'),
+		tpl: new Ext.XTemplate('<ul>', '<tpl for=".">', '<li class="project">', '<img width="300" height="200" class="thumbnail" src="thumbnails/{projectfile}.png" title="{tooltip}" />', '<tpl if="pwprotected==\'yes\'">', '<img class="pwProtected" src="gis_icons/lockIcon.png" width="32" height="32" />','</tpl>','<strong>{projname}', '<tpl if="pwprotected==\'yes\'">', ' - ' + themeSwitcherTooltipPwProtectedString[lang], '</tpl>', '</strong>', '</li>', '</tpl>', '</ul>'),
 		id: 'projects',
 		itemSelector: 'li.project',
 		overClass: 'projects-hover',

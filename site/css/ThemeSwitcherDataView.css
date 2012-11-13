@@ -8,17 +8,19 @@
 }
 
 #projects ul {
-    position: relative;
     display: block;
     height: auto;
     font-size: 95%;
 }
 
-#projects ul li img {
+#projects ul li img.thumbnail {
     margin-bottom: 1px;
+		position: absolute;
 }
 
+
 #projects ul li {
+		position: relative;
     float: left;
     padding: 5px;
     margin: 5px;
@@ -31,6 +33,12 @@
     overflow: hidden;
     border-top: 1px solid transparent;
     cursor: pointer;
+}
+
+#projects ul li img.pwProtected {
+	position: absolute;
+	left: 5px;
+	top: 5px;
 }
 
 #projects ul li.projects-hover {
