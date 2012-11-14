@@ -645,41 +645,6 @@ function postLoading() {
 			// hide map theme button
 			Ext.getCmp('mapThemeButton').hide();
 		}
-	
-		//search panel and URL search parameters
-		var searchPanelConfigs = [];
-		if (wmsMapName in mapSearchPanelConfigs) {
-			searchPanelConfigs = mapSearchPanelConfigs[wmsMapName];
-		}
-		if (searchPanelConfigs.length > 0) {
-			// add QGIS search panels
-			var searchTabPanel = Ext.getCmp('SearchTabPanel');
-			for (var i = 0; i < searchPanelConfigs.length; i++) {
-				var panel = new QGIS.SearchPanel(searchPanelConfigs[i]);
-				panel.on("featureselected", showFeatureSelected);
-				panel.on("featureselectioncleared", clearFeatureSelected);
-				searchTabPanel.add(panel);
-			}
-			searchTabPanel.setActiveTab(0);
-
-			// show search from URL parameters
-			showURLParametersSearch(searchPanelConfigs);
-		} else {
-			// hide search panel
-			var searchPanel = Ext.getCmp('SearchPanel');
-			searchPanel.removeAll();
-			searchPanel.hide();
-		}
-
-		//update layout of left panel and adds a listener to automatically adjust layout after resizing
-		var leftPanel = Ext.getCmp('LeftPanel');
-		leftPanel.doLayout();
-		leftPanel.addListener('resize', function (myPanel, adjWidth, adjHeight, rawWidth, rawHeight) {
-			myPanel.items.each(function (item, index, length) {
-				item.width = adjWidth;
-			});
-			myPanel.doLayout();
-		});
 
 		function showURLParametersSearch(searchPanelConfigs) {
 			if ('query' in urlParams) {
@@ -720,6 +685,41 @@ function postLoading() {
 				});
 			};
 		};
+
+		//search panel and URL search parameters
+		var searchPanelConfigs = [];
+		if (wmsMapName in mapSearchPanelConfigs) {
+			searchPanelConfigs = mapSearchPanelConfigs[wmsMapName];
+		}
+		if (searchPanelConfigs.length > 0) {
+			// add QGIS search panels
+			var searchTabPanel = Ext.getCmp('SearchTabPanel');
+			for (var i = 0; i < searchPanelConfigs.length; i++) {
+				var panel = new QGIS.SearchPanel(searchPanelConfigs[i]);
+				panel.on("featureselected", showFeatureSelected);
+				panel.on("featureselectioncleared", clearFeatureSelected);
+				searchTabPanel.add(panel);
+			}
+			searchTabPanel.setActiveTab(0);
+
+			// show search from URL parameters
+			showURLParametersSearch(searchPanelConfigs);
+		} else {
+			// hide search panel
+			var searchPanel = Ext.getCmp('SearchPanel');
+			searchPanel.removeAll();
+			searchPanel.hide();
+		}
+
+		//update layout of left panel and adds a listener to automatically adjust layout after resizing
+		var leftPanel = Ext.getCmp('LeftPanel');
+		leftPanel.doLayout();
+		leftPanel.addListener('resize', function (myPanel, adjWidth, adjHeight, rawWidth, rawHeight) {
+			myPanel.items.each(function (item, index, length) {
+				item.width = adjWidth;
+			});
+			myPanel.doLayout();
+		});
 
 		//measure-controls (distance and area)
 		var styleMeasureControls = new OpenLayers.Style();
