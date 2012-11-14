@@ -183,7 +183,7 @@ searchPanelTitleString["it"] = "Cerca";
 searchPanelTitleString["pt_PT"] = "Pesquisar";
 searchPanelTitleString["uk"] = "Пошук";
 
-//title of search panel
+//text of theme Switcher button
 var mapThemeButtonTitleString = new Array();
 mapThemeButtonTitleString["en"] = "Map themes";
 mapThemeButtonTitleString["es"] = "Buscar"; //FIXME
@@ -192,6 +192,109 @@ mapThemeButtonTitleString["fr"] = "Chercher"; //FIXME
 mapThemeButtonTitleString["it"] = "Cerca"; //FIXME
 mapThemeButtonTitleString["pt_PT"] = "Pesquisar"; //FIXME
 mapThemeButtonTitleString["uk"] = "Пошук"; //FIXME
+
+//theme switcher window title
+var themeSwitcherWindowTitleString = new Array();
+themeSwitcherWindowTitleString["en"] = "Map theme choice";
+themeSwitcherWindowTitleString["es"] = "Map theme choice"; //FIXME
+themeSwitcherWindowTitleString["de"] = "Kartenthemenwechsel";
+themeSwitcherWindowTitleString["fr"] = "Map theme choice"; //FIXME
+themeSwitcherWindowTitleString["it"] = "Map theme choice"; //FIXME
+themeSwitcherWindowTitleString["pt_PT"] = "Map theme choice"; //FIXME
+themeSwitcherWindowTitleString["uk"] = "Map theme choice"; //FIXME
+
+//theme switcher filter label string
+var themeSwitcherFilterLabelString = new Array();
+themeSwitcherFilterLabelString["en"] = "Filter by map title: ";
+themeSwitcherFilterLabelString["es"] = "Filter by map title: "; //FIXME
+themeSwitcherFilterLabelString["de"] = "Filterung nach Kartentitel: ";
+themeSwitcherFilterLabelString["fr"] = "Filter by map title: "; //FIXME
+themeSwitcherFilterLabelString["it"] = "Filter by map title: "; //FIXME
+themeSwitcherFilterLabelString["pt_PT"] = "Filter by map title: "; //FIXME
+themeSwitcherFilterLabelString["uk"] = "Filter by map title: "; //FIXME
+
+//theme switcher all themes string in list view
+var themeSwitcherAllThemesListViewString = new Array();
+themeSwitcherAllThemesListViewString["en"] = "All map themes";
+themeSwitcherAllThemesListViewString["es"] = "All map themes"; //FIXME
+themeSwitcherAllThemesListViewString["de"] = "Alle Kartenthemen";
+themeSwitcherAllThemesListViewString["fr"] = "All map themes"; //FIXME
+themeSwitcherAllThemesListViewString["it"] = "All map themes"; //FIXME
+themeSwitcherAllThemesListViewString["pt_PT"] = "All map themes"; //FIXME
+themeSwitcherAllThemesListViewString["uk"] = "All map themes"; //FIXME
+
+var themeSwitcherTooltipResponsibleString = new Array();
+themeSwitcherTooltipResponsibleString["en"] = "Responsible: ";
+themeSwitcherTooltipResponsibleString["es"] = "Responsible: "; //FIXME
+themeSwitcherTooltipResponsibleString["de"] = "Verantwortlich: ";
+themeSwitcherTooltipResponsibleString["fr"] = "Responsible: "; //FIXME
+themeSwitcherTooltipResponsibleString["it"] = "Responsible: "; //FIXME
+themeSwitcherTooltipResponsibleString["pt_PT"] = "Responsible: "; //FIXME
+themeSwitcherTooltipResponsibleString["uk"] = "Responsible: "; //FIXME
+
+//either tags or keywords
+var themeSwitcherTooltipTagString = new Array();
+themeSwitcherTooltipTagString["en"] = "Tags: ";
+themeSwitcherTooltipTagString["es"] = "Tags: "; //FIXME
+themeSwitcherTooltipTagString["de"] = "Stichwörter: ";
+themeSwitcherTooltipTagString["fr"] = "Tags: "; //FIXME
+themeSwitcherTooltipTagString["it"] = "Tags: "; //FIXME
+themeSwitcherTooltipTagString["pt_PT"] = "Tags: "; //FIXME
+themeSwitcherTooltipTagString["uk"] = "Tags: "; //FIXME
+
+var themeSwitcherTooltipMapThemeString = new Array();
+themeSwitcherTooltipMapThemeString["en"] = "Map theme: ";
+themeSwitcherTooltipMapThemeString["es"] = "Map theme: "; //FIXME
+themeSwitcherTooltipMapThemeString["de"] = "Kartenthema: ";
+themeSwitcherTooltipMapThemeString["fr"] = "Map theme: "; //FIXME
+themeSwitcherTooltipMapThemeString["it"] = "Map theme: "; //FIXME
+themeSwitcherTooltipMapThemeString["pt_PT"] = "Map theme: "; //FIXME
+themeSwitcherTooltipMapThemeString["uk"] = "Map theme: "; //FIXME
+
+var themeSwitcherTooltipUpdateString = new Array();
+themeSwitcherTooltipUpdateString["en"] = "Update interval: ";
+themeSwitcherTooltipUpdateString["es"] = "Update interval: "; //FIXME
+themeSwitcherTooltipUpdateString["de"] = "Aktualisierung: ";
+themeSwitcherTooltipUpdateString["fr"] = "Update interval: "; //FIXME
+themeSwitcherTooltipUpdateString["it"] = "Update interval: "; //FIXME
+themeSwitcherTooltipUpdateString["pt_PT"] = "Update interval: "; //FIXME
+themeSwitcherTooltipUpdateString["uk"] = "Update interval: "; //FIXME
+
+var themeSwitcherTooltipLastUpdateString = new Array();
+themeSwitcherTooltipLastUpdateString["en"] = "Last update: ";
+themeSwitcherTooltipLastUpdateString["es"] = "Last update: "; //FIXME
+themeSwitcherTooltipLastUpdateString["de"] = "Letze Aktualisierung: ";
+themeSwitcherTooltipLastUpdateString["fr"] = "Last update: "; //FIXME
+themeSwitcherTooltipLastUpdateString["it"] = "Last update: "; //FIXME
+themeSwitcherTooltipLastUpdateString["pt_PT"] = "Last update: "; //FIXME
+themeSwitcherTooltipLastUpdateString["uk"] = "Last update: "; //FIXME
+
+var themeSwitcherTooltipPwProtectedString = new Array();
+themeSwitcherTooltipPwProtectedString["en"] = "password protected";
+themeSwitcherTooltipPwProtectedString["es"] = "password protected"; //FIXME
+themeSwitcherTooltipPwProtectedString["de"] = "passwortgeschützt";
+themeSwitcherTooltipPwProtectedString["fr"] = "password protected"; //FIXME
+themeSwitcherTooltipPwProtectedString["it"] = "password protected"; //FIXME
+themeSwitcherTooltipPwProtectedString["pt_PT"] = "password protected"; //FIXME
+themeSwitcherTooltipPwProtectedString["uk"] = "password protected"; //FIXME
+
+var emptyThemeSearchFieldString = new Array();
+emptyThemeSearchFieldString["en"] = "Insert filter string";
+emptyThemeSearchFieldString["es"] = "Insert filter string"; //FIXME
+emptyThemeSearchFieldString["de"] = "Filtertext eingeben";
+emptyThemeSearchFieldString["fr"] = "Insert filter string"; //FIXME
+emptyThemeSearchFieldString["it"] = "Insert filter string"; //FIXME
+emptyThemeSearchFieldString["pt_PT"] = "Insert filter string"; //FIXME
+emptyThemeSearchFieldString["uk"] = "Insert filter string"; //FIXME
+
+var resetThemeSearchFieldTooltipString = new Array();
+resetThemeSearchFieldTooltipString["en"] = "Reset map theme search filter";
+resetThemeSearchFieldTooltipString["es"] = "Reset map theme search filter"; //FIXME
+resetThemeSearchFieldTooltipString["de"] = "Kartenthemenfilter zurücksetzen";
+resetThemeSearchFieldTooltipString["fr"] = "Reset map theme search filter"; //FIXME
+resetThemeSearchFieldTooltipString["it"] = "Reset map theme search filter"; //FIXME
+resetThemeSearchFieldTooltipString["pt_PT"] = "Reset map theme search filter"; //FIXME
+resetThemeSearchFieldTooltipString["uk"] = "Reset map theme search filter"; //FIXME
 
 //title of map panel
 var mapPanelTitleString = new Array();
@@ -222,6 +325,16 @@ legendTabTitleString["fr"] = "Légende";
 legendTabTitleString["it"] = "Legenda";
 legendTabTitleString["pt_PT"] = "Legenda";
 legendTabTitleString["uk"] = "Легенда";
+
+//title of legend tab
+var legendDisplayHowtoString = new Array();
+legendDisplayHowtoString["en"] = "Please select a group or layer in the map layer tree above to display it's legend";
+legendDisplayHowtoString["es"] = "Please select a group or layer in the map layer tree above to display it's legend"; //FIXME
+legendDisplayHowtoString["de"] = "Selektieren Sie eine Gruppe oder Ebene im obigen Kartenebenenbaum um die Legende anzuzeigen.";
+legendDisplayHowtoString["fr"] = "Please select a group or layer in the map layer tree above to display it's legend"; //FIXME
+legendDisplayHowtoString["it"] = "Please select a group or layer in the map layer tree above to display it's legend"; //FIXME
+legendDisplayHowtoString["pt_PT"] = "Please select a group or layer in the map layer tree above to display it's legend"; //FIXME
+legendDisplayHowtoString["uk"] = "Please select a group or layer in the map layer tree above to display it's legend"; //FIXME
 
 //title of metadata tab
 var metadataTabTitleString = new Array();
@@ -266,7 +379,7 @@ attributeDataTreeTitleString["uk"] = "Атрибути";
 //
 var attributeFeatureWithString = new Array();
 attributeFeatureWithString["en"] = "Feature with ID:";
-attributeFeatureWithString["es"] = "Elemento con identificador: ";
+attributeFeatureWithString["es"] = "Elemento con identificador:";
 attributeFeatureWithString["de"] = "Feature mit ID:";
 attributeFeatureWithString["fr"] = "Entité avec l'identifiant ";//intentionally left with no colon
 attributeFeatureWithString["it"] = "Elemento con ID ";//intentionally left with no colon
@@ -659,15 +772,15 @@ printCancelButtonTooltipString["it"] = "Annulla la stampa (chiudi)";
 printCancelButtonTooltipString["pt_PT"] = "Cancelar impressão (Fechar)";
 printCancelButtonTooltipString["uk"] = "Скасувати друк (Закрити)";
 
-//print cancel button tooltip
+//theme switcher button tooltip
 var mapThemeButtonTooltipString = new Array();
 mapThemeButtonTooltipString["en"] = "Click to choose a new map theme";
-mapThemeButtonTooltipString["es"] = ""; //FIXME
+mapThemeButtonTooltipString["es"] = "Click to choose a new map theme"; //FIXME
 mapThemeButtonTooltipString["de"] = "Klicken Sie um das Kartenthema zu wechseln";
-mapThemeButtonTooltipString["fr"] = ""; //FIXME
-mapThemeButtonTooltipString["it"] = ""; //FIXME
-mapThemeButtonTooltipString["pt_PT"] = ""; //FIXME
-mapThemeButtonTooltipString["uk"] = ""; //FIXME
+mapThemeButtonTooltipString["fr"] = "Click to choose a new map theme"; //FIXME
+mapThemeButtonTooltipString["it"] = "Click to choose a new map theme"; //FIXME
+mapThemeButtonTooltipString["pt_PT"] = "Click to choose a new map theme"; //FIXME
+mapThemeButtonTooltipString["uk"] = "Click to choose a new map theme"; //FIXME
 
 /***********************
 Error Messages
