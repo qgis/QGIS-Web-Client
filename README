@@ -1,9 +1,11 @@
 Quantum GIS (QGIS) Web Client
-Installation Guide
-Tuesday April 24, 2012
+Installation  and Configuration Guide
+Wednesday November 14, 2012
 
-Last Updated: Tuesday April 24, 2012
-Last Change : Tuesday April 24, 2012
+
+Last Updated: Wednesday November 14, 2012
+Last Change : Wednesday November 14, 2012
+
 
   1. For the terminally lazy
   2. Purpose
@@ -11,26 +13,24 @@ Last Change : Tuesday April 24, 2012
   4. Configuration of Client
     4.1. Per Project Startup Options
     4.2. Configuration of search panels
+    4.3. Configuration of the theme switcher
   5. URL Rewriting
   6. Configuration of search python script
     6.1. Configuration of mod_wsgi
     6.2. Adaption of the wsgi scripts to your settings and needs
   7. PostgreSQL table setup for searching
   8. License
-  9. Acknowledgements
-
+  9. Developers and Contributors
+  10. Acknowledgements
 
 
   1. For the terminally lazy
   ==========================
 
-
   sudo apt-get install apache2 libapache2-mod-fcgid
   cp apache-conf/qgis-web-client.conf.tmpl apache-conf/qgis-web-client.conf
 
-
 Update the paths in the copied file then:
-
 
   cd /etc/apache2/sites-available/
   ln -s <path to apache-conf/qgis-web-client.conf> .
@@ -38,12 +38,10 @@ Update the paths in the copied file then:
   sudo a2ensite qgis-web-client.conf
   sudo /etc/init.d/apache2 reload
 
-
 1. Check the symlink in cgi-bin is correct.
 2. Check the QGIS libs are in your /etc/ld.so.conf path
 3. Copy site/index.xml and check paths match your system OR
   Modify index.html and point your browser to that
-
 
 
   2. Purpose
@@ -69,12 +67,9 @@ Requirements (Server):
 - mod-fcgid (Ubuntu: libapache2-mod-fcgid)
 - QGIS and QGIS Server (best installed from source)
 
-
 On ubuntu you can meet these requirements by simply doing:
 
-
   sudo apt-get install libapache2-mod-fcgid
-
 
 The QGIS server compilation and installation will be covered in the QGIS manual.
 
@@ -84,7 +79,6 @@ For searching:
 - psycopg2 PostgreSQL db driver (Ubuntu: python-psycopg2)
 - webob - Python module providing WSGI request and response objects (Ubuntu:
   python-webob)
-
 
 The client part needs to be git cloned with the following command:
 git clone https://github.com/qgis/qgis-web-client.git
@@ -96,29 +90,21 @@ git clone https://github.com/qgis/qgis-web-client.git
 Global Settings for all projects (make a copy from one of the templates 
 provided):
 
-
   site/js/GlobalOptions.js
-
 
 Translations (additional languages):
 
-
   site/js/Translations.js
-
 
 Project settings and index:
 
-
   site/index.xml or site/index.html
 
-
 Stylesheet of project index:
-
 
   site/gis-project_listing.xsl
 
 Thumbnails for individual projects (if you take the index.xml route):
-
 
   thumbnails/projectname.png
 
@@ -126,42 +112,48 @@ Thumbnails for individual projects (if you take the index.xml route):
   4.1. Per Project Startup Options
   ================================
 
-These options are usually defined in the file site/index.xml. The stylesheet then generates the startup URL parameter options. On the client, the file site/js/GetUrlParams.js is responsible for the proper handling of the startup options. The following options are available:
-
+These options are usually defined in the file site/index.xml. The stylesheet then generates
+the startup URL parameter options. On the client, the file 'site/js/GetUrlParams.js'
+is responsible for the proper handling of the startup options. The following options are available:
 
   lang
 
-An optional language parameter. Normally, this parameter is defined in the file site/js/GlobalOptions.js. Optionally this can be overwritten on a per project base. Allowed values are two-character language codes that must be present in the file site/js/Translations.js.
-
+An optional language parameter. Normally, this parameter is defined in the file 'site/js/GlobalOptions.js'.
+Optionally this can be overwritten on a per project base. Allowed values are two-character language codes
+that must be present in the file 'site/js/Translations.js'.
 
   visibleLayers
 
 A comma-separated list of layers that should be set visible on the project start.
 
-
   format
 
-This optional parameter allows a per project definition of the file format. Valid values are image/png, image/jpeg and image/png;mode=8bit. Defaults to image/png if no format is given per project.
-
+This optional parameter allows a per project definition of the file format. Valid values are
+'image/png', 'image/jpeg' and 'image/png;mode=8bit'. Defaults to 'image/png' if no format is given per project.
 
   fullColorLayers
 
-An optional comma-separated list of layers that need to be in full color (24bit). This parameter is only relevant if the project default image format is set to image/png;mode=8bit. If any of the layers in the fullColorLayers parameter list is set visible, the format changes to image/jpeg.
-
+An optional comma-separated list of layers that need to be in full color (24bit). This parameter is only
+relevant if the project default image format is set to 'image/png' or 'image/png;mode=8bit'.
+If any of the layers in the fullColorLayers parameter list is set visible, the format changes to 'image/jpeg'.
 
   maxExtent
 
-The maximum extent of the project. This parameter is used if the Full View navigation button is clicked. If the startExtent parameter is not specified, maxExtent will also be used as the startExtent. The format is: left,bottom,right,top in map units.
-
+The maximum extent of the project. This parameter is used if the 'Full View' navigation button is clicked.
+If the 'startExtent' parameter is not specified, 'maxExtent' will also be used as the 'startExtent'.
+The format is: left,bottom,right,top in map units.
 
   startExtent
 
-The initial extent on project load if the project should start with a given, but not the maximum extent (e.g. for zooming to a specific project area). Not to be confused with the maxExtent parameter. The format is: left,bottom,right,top in map units.
-
+The initial extent on project load if the project should start with a given, but not the maximum extent
+(e.g. for zooming to a specific project area). Not to be confused with the 'maxExtent' parameter.
+The format is: left,bottom,right,top in map units.
 
   searchtables
 
-An optional list of additional search tables specific to the project. The format is schemaname.tablename. These additional search tables will be used for the search field at the top-right corner of the Webclient-GUI. The default search tables are hard-coded in the file wsgi/search.wsgi, in the searchtables array.
+An optional list of additional search tables specific to the project. The format is 'schemaname.tablename'.
+These additional search tables will be used for the search field at the top-right corner of the Webclient-GUI.
+The default search tables are hard-coded in the file 'wsgi/search.wsgi', in the 'searchtables' array.
 
 
   4.2. Configuration of search panels
@@ -170,12 +162,11 @@ An optional list of additional search tables specific to the project. The format
 There are two types of search panels supported, using a direct WMS
 GetFeatureInfo request or using URL rewriting with a much shorter search URL.
 
-The search panels are configured in site/js/GlobalOptions.js. 
+The search panels are configured in 'site/js/GlobalOptions.js'. 
 
 
     4.2.1. Using WMS GetFeatureInfo
     ===============================
-
 
   var simpleWmsSearch = {
     title: "Search continent",
@@ -198,7 +189,6 @@ The search panels are configured in site/js/GlobalOptions.js.
     selectionZoom: 0
   };
 
-
 - title: title of the search tab
 - query: identifier for this search
 - useWmsRequest: enabled for WMS GetFeatureInfo request
@@ -213,7 +203,6 @@ The search panels are configured in site/js/GlobalOptions.js.
 - selectionLayer: name of layer for marking selected results (the same as
   queryLayer)
 - selectionZoom: zoom level for jump-to when selecting results
-
 
 Request URL:
 
@@ -232,7 +221,6 @@ FILTER=Country:"name"+=+'africa'``
 For security and neatness, you may prefer to use rewritten URLs (so that your
 internal server file paths are not revealed. In that case your options file
 would contain something like this:
-
 
   var urlRewriteSearch = {
     title: "Search letter",
@@ -259,7 +247,6 @@ would contain something like this:
     selectionZoom: 1
   };
 
-
 - title: title of the search tab
 - query: identifier for this search
 - formItems: list of Ext.form.FormPanel item configs, the query form
@@ -273,11 +260,9 @@ would contain something like this:
 - selectionLayer: name of layer for marking selected results
 - selectionZoom: zoom level for jump-to when selecting results
 
-
 For every search of this type you have to add a URL rewrite rule in the Apache
 config. *Note:* Linebreaks added for formatting - they should be removed in your
 config file.
-
 
   RewriteCond %{QUERY_STRING} ^(?:.*)query=samplesearch&*(?:.*)$
   RewriteCond %{QUERY_STRING} ^(?:(?:.*)&)?colour=([^&]*)(?:.*)$
@@ -303,19 +288,15 @@ http://localhost/wms/helloworld?query=samplesearch&colour=orange
 In order for your search panel to appear in the web UI, you must
 enumerate them in your GlobalOptions.js for example (with url rewriting):
 
-
   var mapSearchPanelConfigs = {
     "helloworld": [simpleWmsSearch, urlRewriteSearch]
   };
 
-
 Example (no rewriting):
-
 
   var mapSearchPanelConfigs = {
     "../projects/helloworld.qgs": [simpleWmsSearch, urlRewriteSearch]
   };
-
 
 Search panels are added to a project by adding a new key for the map name
 with a list of search panel configs to mapSearchPanelConfigs.  If there is
@@ -325,12 +306,150 @@ GUI.
 The map name is whatever is passed in the get request for your .qgs file. For
 example if your url includes this:
 
-
   http://localhost/cgi-bin/qgis_mapserv.fcgi?map=../projects/helloworld.qgs
-
 
 then your mapSearchPanelConfigs should reflect ../projects/helloworld.qgs as
 the key for the search list.
+
+
+  4.3. Configuration of the theme switcher
+  ========================================
+
+The theme switcher allows to change to a diffent QGIS project (or map theme)
+without having to leave the application and using the map extent. To
+enable/disable the theme switcher you have to set the variable 
+
+  var mapThemeSwitcherActive = true;
+
+in the site/js/GlobalOptions.js file to true|false. In addition you should
+place thumbnail images of your map into the directory site/thumbnails where
+the file name equals the projectname. All thumbnails should be 300x200 pixels
+in size and in .png format. If you .qgs project is called 'helloworld.qgs' then
+your thumbnail should be called 'helloworld.png'.
+
+In addition you need to make entries for topics and projects in the file
+'site/js/GISProjectListing.js'. Please use the given file as a template.
+The file is in JSON format and starts with a few central parameters.
+
+
+    4.3.1. Central theme switcher parameters
+    ========================================
+
+  path
+
+The 'path' is the URL part used at the start of the application telling the QGIS Webclient where
+to find the QGIS projects (see also Apache URL rewriting). This path
+may be overwritten in some projects if you password-protect them in a separate Apache location.
+
+  mapserver
+
+This is the path to the WMS server used for WMS requests (e.g. for GetCapabilities, GetFeatureInfo, etc. requests).
+Again, this parameter may be overwritten in some projects if you want to password-protect the WMS
+in a separate Apache location.
+
+  thumbnails
+
+The URL where QGIS web client can find the project thumbnail images.
+
+  title
+
+The overall title of your Web-GIS. This will be later appended with the name
+of your project, separated by a dash. It appears in the title bar of the browser
+window and in the title bar of the web application.
+
+
+    4.3.2. Per topic theme switcher parameters
+    ==========================================
+
+You can group your projects into topics. A topic only has a single parameter
+with the name of the topic. In a topic element you can have several project
+entries in a JSON array called project.
+
+  name
+
+The name of the topic.
+
+
+    4.3.3. Per project theme switcher parameters
+    ============================================
+
+In a topic you can have several project entries. A project can overwrite the global
+'path' and 'mapserver' entries.
+
+  name
+
+The name of the project or map. Will be displayed in the theme switcher below the thumbnail and
+in the title strings of the application.
+
+  path
+
+Optional. Overrides the central settings in case you need to password-protect certain
+projects. The 'path' is the URL part used at the start of the application telling the
+QGIS Webclient where to find the QGIS projects (see also Apache URL rewriting).
+
+  mapserver
+
+Optional. Overrides the central settings in case you need to password-protect certain
+projects. This is the path to the WMS server used for WMS requests (e.g. for GetCapabilities,
+GetFeatureInfo, etc. requests).
+
+  projectpath
+
+The projectpath (directory) or part of the Apache rewrite expression necessary to find
+the project file. This parameter is mandatory.
+
+  projectfile
+
+The QGIS project file or part of the Apache rewrite expression necessary to find
+the project file. This parameter is mandatory. Depending on the Apache rewrite expression
+you may have to omit the .qgis extension.
+
+  format
+
+Optional. The image format that QGIS web client should request. Valid values are: 'image/jpeg',
+'image/png' or 'image/png;mode=8bit'. If omitted, the value is taken from site/js/GlobalOptions.js.
+If it is not defined there either, the value defaults to 'image/png'.
+
+  visibleLayers
+
+Optional. A comma separated list of layers that should be visible after loading the projects.
+A future QGIS Webclient version will also read the layer visibility directly from the GetProjectSettings
+command.
+
+  fullColorLayers
+
+Optional. A comma separated list of layers that would trigger a format change from 'image/png' to 'image/jpeg'.
+Per defaul, the project would use 'image/png' or 'image/png;mode=8bit' but if the user toggles the visibility 
+of a layer with orthophoto data or satellit images, the format will change to 'image/jpeg'.
+
+  updateInterval
+
+Optional. A prosa text indicating how often the project will get data update. E.g. daily, weekly,
+monthly, weekly or occasional.
+
+  lastUpdate
+
+Optional. The date of the last data update, e.g. '2012-10-23'.
+
+  responsible
+
+Optional. The organization and/or person responsible for the project
+and the data involved.
+
+  startExtent
+
+Optional. The bounding box (left,bottom,right,top in map units) used when starting the project.
+If not specified, maxExtent or the extent from the GetProjectSettings is used.
+
+  maxExtent
+
+Optional. The maximum bounding box (left,bottom,right,top in map units) of the project.
+If not specified the extent from the GetProjectSettings is used.
+
+  tags
+
+Optional. Tags or keywords displayed in the tooltips in the theme switcher.
+The tags are also used in the search filter used in the theme switcher.
 
 
   5. URL Rewriting
@@ -339,29 +458,21 @@ the key for the search list.
 Using a standard installation of QGIS server, GlobalOptions.js will have a WMS
 server configuration like
 
-
   var serverAndCGI = "/cgi-bin/qgis_mapserv.fcgi";
-
 
 A sample URL for QGIS Web Client installed in /var/www/qgis-web-client:
 
-
   http://localhost/qgis-web-client/qgiswebclient.html?map=/opt/geodata/maps/NaturalEarth.qgs&visibleLayers=HYP_50M_SR_W
 
-
 With the following rules for Apache mod_rewrite you can shorten the URLs to
-
 
   var serverAndCGI = "/wms";
 
 and
 
-
   http://localhost/maps/NaturalEarth?visibleLayers=HYP_50M_SR_W
 
-
 Rules in VirtualHost configuration:
-
 
   # Forbid direct access
   RewriteRule ^/cgi-bin/.*$ - [F]
@@ -378,20 +489,15 @@ Rules in VirtualHost configuration:
   # Rewrite /maps/* to qgis-web-client/site (e.g. /maps/gis_icons/mActionZoomNext.png -> /qgis-web-client/site/gis_icons/mActionZoomNext.png)
   RewriteRule ^/maps/(.*) /qgis-web-client/site/$1 [PT]
 
-
 For supporting qgs files in subdirectories (e.g. /maps/subdir/mapnampe) replace last rule with:
-
 
   RewriteRule ^/maps/[^/]+/(.*) /qgis-web-client/site/$1 [PT]
 
-
 For adding zones in different subdirecories (e.g. maps and maps-protected) add the following rules:
-
 
   RewriteRule ^/wms-protected/(.+)$ /cgi-bin/qgis_mapserv.fcgi?map=/opt/geodata/maps-protected/$1.qgs [QSA,PT]
   RewriteRule ^/maps-protected/([^\.]+)$ /qgis-web-client/site/qgiswebclient.html [PT]
   RewriteRule ^/maps-protected/(.*) /qgis-web-client/site/$1 [PT]
-
 
 
   6. Configuration of search python script
@@ -413,12 +519,10 @@ You need to enable mod_wsgi as root. (Ubuntu: a2enmod mod_wsgi).
 You need to configure apache with the following lines (e.g. in file
 /etc/apache2/sites-available/default):
 
-
   #mod_wsgi
   WSGIDaemonProcess gis processes=5 threads=15 display-name=%{GROUP}
   WSGIScriptAlias /wsgi/ /home/www/wsgi/
   WSGIScriptAliasMatch ^/wsgi/([^/]+) /home/www/wsgi/$1.wsgi
-
 
 
   6.2. Adaption of the wsgi scripts to your settings and needs
@@ -431,9 +535,7 @@ You need to configure apache with the following lines (e.g. in file
 In the files "search.wsgi" and "getSearchGeom.wsgi" please edit the line
 containing the db connection strings. Search for the line 
 
-
   conn = psycopg2.connect("host='yourhost' dbname='yourdb' port='5432' user='yourusername' password='yourpassword'")
-
 
 and adapt the parameters according to your server/db.
 
@@ -442,16 +544,14 @@ and adapt the parameters according to your server/db.
     =============================
 
 The search can use PostgreSQL's tsvector data type. 
-"A tsvector value is a sorted list of distinct lexemes, which are words that have been normalized to merge different variants of the same word."
-(from the doc at http://www.postgresql.org/docs/9.0/interactive/datatype-textsearch.html#DATATYPE-TSVECTOR)
-Thus tsvector skips all the fill words and reduces nouns to their single form, a behaviour useful for searching texts.
-However as we are normally dealing with place names here we want them to stay as they are. If you use a language where the single form is a lot different
-from the plural form but your name contains a plural you will not get a suitable result.
-If you want to use the tsvector search option you should activate the line
-
+"A tsvector value is a sorted list of distinct lexemes, which are words that have been normalized to
+merge different variants of the same word." from the PostgreSQL doc at (http://www.postgresql.org/docs/9.0/interactive/datatype-textsearch.html#DATATYPE-TSVECTOR)
+Thus tsvector skips all the fill words and reduces nouns to their single form, a behaviour useful
+for searching texts. However as we are normally dealing with place names here we want them to stay as they are.
+If you use a language where the single form is a lot different from the plural form but your name contains a plural
+you will not get a suitable result. If you want to use the tsvector search option you should activate the line
 
   sql += "searchstring_tsvector @@ to_tsquery(\'not_your_language\', '"+querystrings[j]+":*')"
-
 
 not_your_language is to be replaced with an entry e.g. finnish if you have German place names.
 Thus plural forms and fillwords are kept as they are. Be aware of side effects!
@@ -459,24 +559,20 @@ Be sure to fill the field searchstring_tsvector with `to_tsvector('not_your_lang
 
 The use of
 
-
   sql += "searchstring::tsvector @@ lower('"+querystrings[j]+":*')::tsquery"
-
 
 is discouraged as it does not find a place name like Stoke-sub-Hamden when you enter Stoke.
 
-If you do not want to use tsvector at all you can enable the full string comparison on the field searchstring (activated by default).
-
+If you do not want to use tsvector at all you can enable the full string comparison on the field searchstring
+(activated by default).
 
   sql += "searchstring ILIKE \'%"+querystrings[j]+"%\'"
-
 
 This method however is slower than tsvector but not relevantly at least if you only have a couple 1000 datasets. 
 
 
   7. PostgreSQL table setup for searching
   =======================================
-
 
   CREATE TABLE cadastre.searchtable
   (
@@ -502,7 +598,6 @@ This method however is slower than tsvector but not relevantly at least if you o
     USING gin
     (searchstring_tsvector);
 
-
 The above search table can also be a view or materialized view. One can combine
 several search tables by specifying the `searchtables=searchtable1,searchtable2,searchtable3` 
 parameter when requesting the search.wsgi script.
@@ -513,15 +608,59 @@ Using views is generally slower than properly indexed tables, check for yourself
   8. License
   ==========
 
-BSD
+The QGIS web client is released under a BSD license.
+
+Copyright (2010-2012), The QGIS Project
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted
+provided that the following conditions are met:
+
+- Redistributions of source code must retain the above copyright notice, this list of conditions
+  and the following disclaimer.
+- Redistributions in binary form must reproduce the above copyright notice, this list of conditions
+  and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+THE POSSIBILITY OF SUCH DAMAGE.
 
 
-  9. Acknowledgements
-  ===================
+  9. Developers and Contributors
+  ==============================
 
-We'd like to thank the OpenLayers and GeoExt team for providing their base libraries.
+Developers:
+
+- Jürgen Fischer
+- Marco Hugentobler
+- Pirmin Kalberer
+- Andreas Neumann
+- Niccolo Rigacci
+- Denis Rouzaud
+- Bernhard Ströbl
+- Tim Sutton
+- Mathias Walker
+
+Translators:
+
+- Giovanni Allegri
+- Germán Carrillo
+- Paolo Cavallini
+- Diana Galindo
+- Mayeul Kauffmann
+- Samuel Mesa
+- Nelson Silva
+- Pavlo Taranov
 
 
+  10. Acknowledgements
+  ====================
 
-
+We'd like to thank the OpenLayers, GeoExt and ExtJS teams for providing their base libraries
+we build upon.
 

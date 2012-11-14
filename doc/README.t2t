@@ -1,5 +1,5 @@
 Quantum GIS (QGIS) Web Client
-Installation Guide
+Installation  and Configuration Guide
 %%date(%A %B %d, %Y)
 
 %! target       : html
@@ -10,7 +10,7 @@ Installation Guide
 %! PostProc(html): '(?i)(</pre>)' '\1</div>'
 % Next line will replace tabs with 2 spaces in txt generated outputs
 %! PostProc(txt): '(?i)(\t)' '  '
-%! encoding: iso-8859-1
+%! encoding: utf-8
 %
 % Tex processing
 %
@@ -35,7 +35,7 @@ Installation Guide
 %! PostProc(tex): NEWPAGE  '\\newpage'
 % Give alternating table rows different colours and use a smaller font in tables (\tiny)
 %! PostProc(tex): '\\begin{tabular}' '\\rowcolors{2}{tableShade}{white} \n\\tiny\\begin{tabular}'
-%! encoding: iso-8859-1
+%! encoding: utf-8
 
 %! PostProc(tex): WALLPAPER-IMAGE 'qgis-footer.png'
 % These are comments and will not be generated in any output
@@ -87,7 +87,7 @@ sudo /etc/init.d/apache2 reload
 + Check the QGIS libs are in your /etc/ld.so.conf path
 + Copy site/index.xml and check paths match your system OR
   Modify index.html and point your browser to that
-+
+
 
 = Purpose =
 
@@ -118,17 +118,15 @@ sudo apt-get install libapache2-mod-fcgid
 The QGIS server compilation and installation will be covered in the QGIS manual.
 
 
-
-
 For searching:
 - python-wsgi for searching (Ubuntu: libapache2-mod-wsgi)
 - psycopg2 PostgreSQL db driver (Ubuntu: python-psycopg2)
 - webob - Python module providing WSGI request and response objects (Ubuntu:
   python-webob)
--
 
 The client part needs to be git cloned with the following command:
 git clone https://github.com/qgis/qgis-web-client.git
+
 
 = Configuration of Client =
 
@@ -156,12 +154,18 @@ Thumbnails for individual projects (if you take the index.xml route):
 ```
 thumbnails/projectname.png
 ```
+
 == Per Project Startup Options ==
-These options are usually defined in the file site/index.xml. The stylesheet then generates the startup URL parameter options. On the client, the file ``site/js/GetUrlParams.js`` is responsible for the proper handling of the startup options. The following options are available:
+These options are usually defined in the file site/index.xml. The stylesheet then generates
+the startup URL parameter options. On the client, the file 'site/js/GetUrlParams.js'
+is responsible for the proper handling of the startup options. The following options are available:
+
 ```
 lang
 ```
-An optional language parameter. Normally, this parameter is defined in the file ``site/js/GlobalOptions.js``. Optionally this can be overwritten on a per project base. Allowed values are two-character language codes that must be present in the file ``site/js/Translations.js``.
+An optional language parameter. Normally, this parameter is defined in the file 'site/js/GlobalOptions.js'.
+Optionally this can be overwritten on a per project base. Allowed values are two-character language codes
+that must be present in the file 'site/js/Translations.js'.
 
 ```
 visibleLayers
@@ -171,34 +175,45 @@ A comma-separated list of layers that should be set visible on the project start
 ```
 format
 ```
-This optional parameter allows a per project definition of the file format. Valid values are ``image/png``, ``image/jpeg`` and ``image/png;mode=8bit``. Defaults to ``image/png`` if no format is given per project.
+This optional parameter allows a per project definition of the file format. Valid values are
+'image/png', 'image/jpeg' and 'image/png;mode=8bit'. Defaults to 'image/png' if no format is given per project.
 
 ```
 fullColorLayers
 ```
-An optional comma-separated list of layers that need to be in full color (24bit). This parameter is only relevant if the project default image format is set to ``image/png;mode=8bit``. If any of the layers in the fullColorLayers parameter list is set visible, the format changes to ``image/jpeg``.
+An optional comma-separated list of layers that need to be in full color (24bit). This parameter is only
+relevant if the project default image format is set to 'image/png' or 'image/png;mode=8bit'.
+If any of the layers in the fullColorLayers parameter list is set visible, the format changes to 'image/jpeg'.
 
 ```
 maxExtent
 ```
-The maximum extent of the project. This parameter is used if the ``Full View`` navigation button is clicked. If the ``startExtent`` parameter is not specified, ``maxExtent`` will also be used as the ``startExtent``. The format is: left,bottom,right,top in map units.
+The maximum extent of the project. This parameter is used if the 'Full View' navigation button is clicked.
+If the 'startExtent' parameter is not specified, 'maxExtent' will also be used as the 'startExtent'.
+The format is: left,bottom,right,top in map units.
 
 ```
 startExtent
 ```
-The initial extent on project load if the project should start with a given, but not the maximum extent (e.g. for zooming to a specific project area). Not to be confused with the ``maxExtent`` parameter. The format is: left,bottom,right,top in map units.
+The initial extent on project load if the project should start with a given, but not the maximum extent
+(e.g. for zooming to a specific project area). Not to be confused with the 'maxExtent' parameter.
+The format is: left,bottom,right,top in map units.
 
 ```
 searchtables
 ```
-An optional list of additional search tables specific to the project. The format is ``schemaname.tablename``. These additional search tables will be used for the search field at the top-right corner of the Webclient-GUI. The default search tables are hard-coded in the file ``wsgi/search.wsgi``, in the ``searchtables`` array.
+An optional list of additional search tables specific to the project. The format is 'schemaname.tablename'.
+These additional search tables will be used for the search field at the top-right corner of the Webclient-GUI.
+The default search tables are hard-coded in the file 'wsgi/search.wsgi', in the 'searchtables' array.
+
 
 == Configuration of search panels ==
 
 There are two types of search panels supported, using a direct WMS
 GetFeatureInfo request or using URL rewriting with a much shorter search URL.
 
-The search panels are configured in ``site/js/GlobalOptions.js``. 
+The search panels are configured in 'site/js/GlobalOptions.js'. 
+
 
 === Using WMS GetFeatureInfo ===
 
@@ -299,7 +314,6 @@ var urlRewriteSearch = {
   results
 - ``selectionLayer``: name of layer for marking selected results
 - ``selectionZoom``: zoom level for jump-to when selecting results
--
 
 For every search of this type you have to add a URL rewrite rule in the Apache
 config. *Note:* Linebreaks added for formatting - they should be removed in your
@@ -358,6 +372,186 @@ http://localhost/cgi-bin/qgis_mapserv.fcgi?map=../projects/helloworld.qgs
 
 then your mapSearchPanelConfigs should reflect ../projects/helloworld.qgs as
 the key for the search list.
+
+
+== Configuration of the theme switcher ==
+
+The theme switcher allows to change to a diffent QGIS project (or map theme)
+without having to leave the application and using the map extent. To
+enable/disable the theme switcher you have to set the variable 
+
+```
+var mapThemeSwitcherActive = true;
+```
+
+in the site/js/GlobalOptions.js file to true|false. In addition you should
+place thumbnail images of your map into the directory site/thumbnails where
+the file name equals the projectname. All thumbnails should be 300x200 pixels
+in size and in .png format. If you .qgs project is called 'helloworld.qgs' then
+your thumbnail should be called 'helloworld.png'.
+
+In addition you need to make entries for topics and projects in the file
+'site/js/GISProjectListing.js'. Please use the given file as a template.
+The file is in JSON format and starts with a few central parameters.
+
+
+=== Central theme switcher parameters ===
+
+```
+path
+```
+
+The 'path' is the URL part used at the start of the application telling the QGIS Webclient where
+to find the QGIS projects (see also Apache URL rewriting). This path
+may be overwritten in some projects if you password-protect them in a separate Apache location.
+
+
+```
+mapserver
+```
+
+This is the path to the WMS server used for WMS requests (e.g. for GetCapabilities, GetFeatureInfo, etc. requests).
+Again, this parameter may be overwritten in some projects if you want to password-protect the WMS
+in a separate Apache location.
+
+
+```
+thumbnails
+```
+
+The URL where QGIS web client can find the project thumbnail images.
+
+
+```
+title
+```
+
+The overall title of your Web-GIS. This will be later appended with the name
+of your project, separated by a dash. It appears in the title bar of the browser
+window and in the title bar of the web application.
+
+
+=== Per topic theme switcher parameters ===
+
+You can group your projects into topics. A topic only has a single parameter
+with the name of the topic. In a topic element you can have several project
+entries in a JSON array called project.
+
+```
+name
+```
+
+The name of the topic.
+
+
+=== Per project theme switcher parameters ===
+
+In a topic you can have several project entries. A project can overwrite the global
+'path' and 'mapserver' entries.
+
+```
+name
+```
+
+The name of the project or map. Will be displayed in the theme switcher below the thumbnail and
+in the title strings of the application.
+
+```
+path
+```
+
+Optional. Overrides the central settings in case you need to password-protect certain
+projects. The 'path' is the URL part used at the start of the application telling the
+QGIS Webclient where to find the QGIS projects (see also Apache URL rewriting).
+
+```
+mapserver
+```
+
+Optional. Overrides the central settings in case you need to password-protect certain
+projects. This is the path to the WMS server used for WMS requests (e.g. for GetCapabilities,
+GetFeatureInfo, etc. requests).
+
+```
+projectpath
+```
+
+The projectpath (directory) or part of the Apache rewrite expression necessary to find
+the project file. This parameter is mandatory.
+
+```
+projectfile
+```
+
+The QGIS project file or part of the Apache rewrite expression necessary to find
+the project file. This parameter is mandatory. Depending on the Apache rewrite expression
+you may have to omit the .qgis extension.
+
+```
+format
+```
+
+Optional. The image format that QGIS web client should request. Valid values are: 'image/jpeg',
+'image/png' or 'image/png;mode=8bit'. If omitted, the value is taken from site/js/GlobalOptions.js.
+If it is not defined there either, the value defaults to 'image/png'.
+
+```
+visibleLayers
+```
+
+Optional. A comma separated list of layers that should be visible after loading the projects.
+A future QGIS Webclient version will also read the layer visibility directly from the GetProjectSettings
+command.
+
+```
+fullColorLayers
+```
+
+Optional. A comma separated list of layers that would trigger a format change from 'image/png' to 'image/jpeg'.
+Per defaul, the project would use 'image/png' or 'image/png;mode=8bit' but if the user toggles the visibility 
+of a layer with orthophoto data or satellit images, the format will change to 'image/jpeg'.
+
+```
+updateInterval
+```
+
+Optional. A prosa text indicating how often the project will get data update. E.g. daily, weekly,
+monthly, weekly or occasional.
+
+```
+lastUpdate
+```
+
+Optional. The date of the last data update, e.g. '2012-10-23'.
+
+```
+responsible
+```
+
+Optional. The organization and/or person responsible for the project
+and the data involved.
+
+```
+startExtent
+```
+
+Optional. The bounding box (left,bottom,right,top in map units) used when starting the project.
+If not specified, maxExtent or the extent from the GetProjectSettings is used.
+
+
+```
+maxExtent
+```
+
+Optional. The maximum bounding box (left,bottom,right,top in map units) of the project.
+If not specified the extent from the GetProjectSettings is used.
+
+```
+tags
+```
+
+Optional. Tags or keywords displayed in the tooltips in the theme switcher.
+The tags are also used in the search filter used in the theme switcher.
 
 
 = URL Rewriting =
@@ -421,6 +615,7 @@ the actual wkt geometry for a selected search result. It is recommended to
 install the wsgi scripts in a separate directory, e.g. /home/www/wsgi, a place
 that is not reachable by regular web traffic.
 
+
 == Configuration of mod_wsgi ==
 
 You need to enable mod_wsgi as root. (Ubuntu: a2enmod mod_wsgi).
@@ -450,12 +645,12 @@ and adapt the parameters according to your server/db.
 === Search type to be used ===
 
 The search can use PostgreSQL's tsvector data type. 
-"A tsvector value is a sorted list of distinct lexemes, which are words that have been normalized to merge different variants of the same word."
-(from the doc at http://www.postgresql.org/docs/9.0/interactive/datatype-textsearch.html#DATATYPE-TSVECTOR)
-Thus tsvector skips all the fill words and reduces nouns to their single form, a behaviour useful for searching texts.
-However as we are normally dealing with **place names** here we want them to stay as they are. If you use a language where the single form is a lot different
-from the plural form but your name contains a plural you will not get a suitable result.
-If you want to use the tsvector search option you should activate the line
+"A tsvector value is a sorted list of distinct lexemes, which are words that have been normalized to
+merge different variants of the same word." [from the PostgreSQL doc at http://www.postgresql.org/docs/9.0/interactive/datatype-textsearch.html#DATATYPE-TSVECTOR]
+Thus tsvector skips all the fill words and reduces nouns to their single form, a behaviour useful
+for searching texts. However as we are normally dealing with **place names** here we want them to stay as they are.
+If you use a language where the single form is a lot different from the plural form but your name contains a plural
+you will not get a suitable result. If you want to use the tsvector search option you should activate the line
 
 ```
 sql += "searchstring_tsvector @@ to_tsquery(\'not_your_language\', '"+querystrings[j]+":*')"
@@ -473,7 +668,8 @@ sql += "searchstring::tsvector @@ lower('"+querystrings[j]+":*')::tsquery"
 
 is **discouraged** as it does not find a place name like //Stoke-sub-Hamden// when you enter //Stoke//.
 
-If you do not want to use tsvector at all you can enable the full string comparison on the field //searchstring// (activated by default).
+If you do not want to use tsvector at all you can enable the full string comparison on the field //searchstring//
+(activated by default).
 
 ```
 sql += "searchstring ILIKE \'%"+querystrings[j]+"%\'"
@@ -519,9 +715,56 @@ Using views is generally slower than properly indexed tables, check for yourself
 
 = License =
 
-BSD
+The QGIS web client is released under a BSD license.
+
+Copyright (2010-2012), The QGIS Project
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted
+provided that the following conditions are met:
+
+- Redistributions of source code must retain the above copyright notice, this list of conditions
+  and the following disclaimer.
+- Redistributions in binary form must reproduce the above copyright notice, this list of conditions
+  and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+THE POSSIBILITY OF SUCH DAMAGE.
+
+
+= Developers and Contributors =
+
+Developers:
+- Jürgen Fischer
+- Marco Hugentobler
+- Pirmin Kalberer
+- Andreas Neumann
+- Niccolo Rigacci
+- Denis Rouzaud
+- Bernhard Ströbl
+- Tim Sutton
+- Mathias Walker
+
+
+Translators:
+- Giovanni Allegri
+- Germán Carrillo
+- Paolo Cavallini
+- Diana Galindo
+- Mayeul Kauffmann
+- Samuel Mesa
+- Nelson Silva
+- Pavlo Taranov
+
 
 = Acknowledgements =
 
-We'd like to thank the OpenLayers and GeoExt team for providing their base libraries.
+We'd like to thank the OpenLayers, GeoExt and ExtJS teams for providing their base libraries
+we build upon.
 
