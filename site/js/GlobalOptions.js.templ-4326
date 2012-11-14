@@ -5,6 +5,11 @@ var lang = "en"; //for available codes see array availableLanguages in file Glob
 //Path must include the host name
 var serverAndCGI = "http://qgis-web-client.localhost/cgi-bin/qgis_mapserv.fcgi"; //URL mit Name des qgis mapserver cgi
 
+//Define whether you want to use the GetProjectSettings extension of QGIS Server
+//for more configuration options in the project.
+//Set this to false to use GetCapabilities for older QGIS Server versions.
+var useGetProjectSettings = true;
+
 //search box for queries while typing
 //enable to use GeoNames search
 var useGeoNamesSearchBox = true;

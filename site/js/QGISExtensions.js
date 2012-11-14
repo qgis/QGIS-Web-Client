@@ -15,6 +15,7 @@ QGIS.WMSCapabilitiesLoader = function(config) {
 };
 
 Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
+  useGetProjectSettings: true,
   WMSCapabilities: null,
   projectSettings: null,
   //this list holds layer properties, indexed by layername
@@ -23,7 +24,7 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
     return {
       SERVICE: 'WMS',
       VERSION: '1.3',
-      REQUEST: 'GetProjectSettings'
+      REQUEST: this.useGetProjectSettings ? 'GetProjectSettings' : 'GetCapabilities'
     };
   },
   processResponse : function(response, node, callback, scope) {
@@ -100,7 +101,7 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
               opaque: opaque ?
                 (opaque === "1" || opaque === "true" ) : null,
               visible: (visible && visible !== "") ?
-                ( visible === "1" || visible === "true" ) : null,
+                ( visible === "1" || visible === "true" ) : true,
               displayField: displayField,
               noSubsets: (noSubsets !== null) ?
                 ( noSubsets === "1" || noSubsets === "true" ) : null,
@@ -149,6 +150,11 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
         displayField: layer.displayField,
         nrChildLayers: layer.nestedLayers.length
       };
+    }
+
+    // defaults for GetCapabilities
+    if (this.projectSettings.capability.composerTemplates == undefined) {
+      this.projectSettings.capability.composerTemplates = [];
     }
 
     //deal with callback function

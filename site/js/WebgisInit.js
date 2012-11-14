@@ -60,6 +60,7 @@ function loadWMSConfig() {
 	//load getCapabilities info in treeview
 	wmsLoader = new QGIS.WMSCapabilitiesLoader({
 		url: wmsURI,
+		useGetProjectSettings: useGetProjectSettings,
 		layerOptions: {
 			buffer: 0,
 			singleTile: true,
@@ -287,14 +288,19 @@ function postLoading() {
 	// return input layers sorted by order defined in project settings
 	function layersInDrawingOrder(layers) {
 		var layerDrawingOrder = wmsLoader.projectSettings.capability.layerDrawingOrder;
-		var orderedLayers = [];
-		for (var i = 0; i < layerDrawingOrder.length; i++) {
-			var layer = layerDrawingOrder[i];
-			if (layers.indexOf(layer) != -1) {
-				orderedLayers.push(layer);
+		if (layerDrawingOrder != null) {
+			var orderedLayers = [];
+			for (var i = 0; i < layerDrawingOrder.length; i++) {
+				var layer = layerDrawingOrder[i];
+				if (layers.indexOf(layer) != -1) {
+					orderedLayers.push(layer);
+				}
 			}
+			return orderedLayers;
 		}
-		return orderedLayers;
+		else {
+			return layers.reverse();
+		}
 	}
 	
 	//create new map panel with a single OL layer
@@ -645,41 +651,6 @@ function postLoading() {
 			// hide map theme button
 			Ext.getCmp('mapThemeButton').hide();
 		}
-	
-		//search panel and URL search parameters
-		var searchPanelConfigs = [];
-		if (wmsMapName in mapSearchPanelConfigs) {
-			searchPanelConfigs = mapSearchPanelConfigs[wmsMapName];
-		}
-		if (searchPanelConfigs.length > 0) {
-			// add QGIS search panels
-			var searchTabPanel = Ext.getCmp('SearchTabPanel');
-			for (var i = 0; i < searchPanelConfigs.length; i++) {
-				var panel = new QGIS.SearchPanel(searchPanelConfigs[i]);
-				panel.on("featureselected", showFeatureSelected);
-				panel.on("featureselectioncleared", clearFeatureSelected);
-				searchTabPanel.add(panel);
-			}
-			searchTabPanel.setActiveTab(0);
-
-			// show search from URL parameters
-			showURLParametersSearch(searchPanelConfigs);
-		} else {
-			// hide search panel
-			var searchPanel = Ext.getCmp('SearchPanel');
-			searchPanel.removeAll();
-			searchPanel.hide();
-		}
-
-		//update layout of left panel and adds a listener to automatically adjust layout after resizing
-		var leftPanel = Ext.getCmp('LeftPanel');
-		leftPanel.doLayout();
-		leftPanel.addListener('resize', function (myPanel, adjWidth, adjHeight, rawWidth, rawHeight) {
-			myPanel.items.each(function (item, index, length) {
-				item.width = adjWidth;
-			});
-			myPanel.doLayout();
-		});
 
 		function showURLParametersSearch(searchPanelConfigs) {
 			if ('query' in urlParams) {
@@ -720,6 +691,41 @@ function postLoading() {
 				});
 			};
 		};
+
+		//search panel and URL search parameters
+		var searchPanelConfigs = [];
+		if (wmsMapName in mapSearchPanelConfigs) {
+			searchPanelConfigs = mapSearchPanelConfigs[wmsMapName];
+		}
+		if (searchPanelConfigs.length > 0) {
+			// add QGIS search panels
+			var searchTabPanel = Ext.getCmp('SearchTabPanel');
+			for (var i = 0; i < searchPanelConfigs.length; i++) {
+				var panel = new QGIS.SearchPanel(searchPanelConfigs[i]);
+				panel.on("featureselected", showFeatureSelected);
+				panel.on("featureselectioncleared", clearFeatureSelected);
+				searchTabPanel.add(panel);
+			}
+			searchTabPanel.setActiveTab(0);
+
+			// show search from URL parameters
+			showURLParametersSearch(searchPanelConfigs);
+		} else {
+			// hide search panel
+			var searchPanel = Ext.getCmp('SearchPanel');
+			searchPanel.removeAll();
+			searchPanel.hide();
+		}
+
+		//update layout of left panel and adds a listener to automatically adjust layout after resizing
+		var leftPanel = Ext.getCmp('LeftPanel');
+		leftPanel.doLayout();
+		leftPanel.addListener('resize', function (myPanel, adjWidth, adjHeight, rawWidth, rawHeight) {
+			myPanel.items.each(function (item, index, length) {
+				item.width = adjWidth;
+			});
+			myPanel.doLayout();
+		});
 
 		//measure-controls (distance and area)
 		var styleMeasureControls = new OpenLayers.Style();
