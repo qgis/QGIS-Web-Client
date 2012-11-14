@@ -83,6 +83,7 @@ function loadWMSConfig() {
 		listeners: {
 			'load': function () {
 				postLoading();
+				legend_visible();
 			}
 		}
 	});
@@ -311,16 +312,13 @@ function postLoading() {
 			zoom: 1.6,
 			layers: [
 			thematicLayer = new OpenLayers.Layer.WMS(layerTree.root.firstChild.text,
-			wmsURI, {
-				layers: selectedLayers.join(","),
-				format: format,
-				dpi: screenDpi
-			}, {
-				buffer: 0,
-				singleTile: true,
-				ratio: 1,
-				transitionEffect: "resize"
-			}),
+				wmsURI, {
+					layers: selectedLayers.join(","),
+					format: format,
+					dpi: screenDpi
+				},
+				LayerOptions
+			),
 			//layerOptions: {styleMap: styleMapMeasureControls}, isBaseLayer: false,
 			highlightLayer = new OpenLayers.Layer.Vector("attribHighLight", {
 				isBaseLayer: false,
@@ -410,6 +408,21 @@ function postLoading() {
 			Ext.getCmp('ScaleNumberField').setValue(Math.round(currentScale));
 			if (geoExtMap.map.zoomBoxActive) {
 				Ext.getCmp('navZoomBoxButton').toggle(false);
+			}
+		});
+
+		// loading listeners
+		thematicLayer.events.register('loadstart', this, function() {
+			mapIsLoading = true;
+			// show the loadMask with a delay of one second, no need to show it for quick changes
+			setTimeout("displayLoadMask()", 1000);
+		});
+
+		thematicLayer.events.register('loadend', this, function() {
+			mapIsLoading = false;
+			if (loadMask) {
+				loadMask.hide();
+				loadMask = null;
 			}
 		});
 
@@ -1059,6 +1072,118 @@ function postLoading() {
 	initialLoadDone = true;
 }
 
+function legend_visible() {
+	// on load active layers
+	node = layerTree.getSelectionModel().getSelectedNode();
+	selectedLayers = Array();
+	selectedQueryableLayers = Array();
+
+	layerTree.root.firstChild.cascade(
+	function (n) {
+		if (n.attributes.checked && n.isLeaf()) {
+			selectedLayers.reverse();
+			selectedLayers.push(n.text);
+
+			selectedLayers.reverse();
+			selectedLayers = legend_unique(selectedLayers);
+
+			(legend_length == -1) ? legend_layers=selectedLayers : legend_layers = selectedLayers.slice(legend_length*(-1)) ;
+
+			//update legend graphic
+			legend_image(legend_layers);
+
+			//update legend height
+			legend_height();
+
+		} //  End is leaf && checked
+	}   //  End function n
+	);	 //  End LayerTree Cascade
+
+	// on checkchange active layers
+	Ext.getCmp('LayerTree').on("checkchange", function(node){
+
+		var selectedLayers = [];
+		var legend_layers = [];
+		node = layerTree.getSelectionModel().getSelectedNode();
+
+		//layerTree.root.firstChild.disable();
+		layerTree.root.firstChild.cascade(
+		function (n) {
+			if (n.attributes.checked && n.isLeaf()) {
+
+				selectedLayers.reverse();
+				selectedLayers.push(n.text);
+
+				selectedLayers.reverse();
+				selectedLayers = legend_unique(selectedLayers);
+
+				(legend_length == -1) ? legend_layers=selectedLayers : legend_layers = selectedLayers.slice(legend_length*(-1)) ;
+
+				//update legend graphic
+				legend_image(legend_layers);
+
+				//update legend height
+				legend_height();
+			}
+			else {
+
+				if (n.attributes.checked == false) {
+
+					(legend_length == -1) ? legend_layers=selectedLayers : legend_layers = selectedLayers.slice(legend_length*(-1)) ;
+
+					//update legend graphic
+					legend_image(legend_layers);
+
+					//update legend height
+					legend_height();
+
+					//output notification if no layer is selected
+					var legend_layers_count = legend_layers.length;
+					if (legend_layers_count == 0){
+						var legendTab = Ext.getCmp('LegendTab');
+						var msg = '<p>Keine Ebene ausgewählt</p>';
+						legendTab.update({html:msg,border:false, autoScroll: true, autoShow: true });
+					}
+				}
+			}
+		} // END function(n)
+		); // END Cascade
+	});   //  END Checkchange
+}
+
+function legend_image(legend_layers) {
+	var legendTab = Ext.getCmp('LegendTab');
+	var imageUrl = wmsURI+'SERVICE=WMS&VERSION=1.3&REQUEST=GetLegendGraphics&FORMAT=image/png&EXCEPTIONS=application/vnd.ogc.se_inimage&WIDTH=195&LAYERS='+encodeURIComponent(legend_layers)+'&dpi='+screenDpi;
+	var legendImage = '<p><img id="legend_img" src="'+imageUrl+'" height="auto" alt="Legend of Layer '+legend_layers+'" /></p>';
+	legendTab.update({html:legendImage,border:false, autoScroll: true, autoShow: true });
+}
+
+function legend_unique(origArr) {
+	var newArr = [],
+	origLen = origArr.length,
+	found,
+	x, y;
+
+	for ( x = 0; x < origLen; x++ ) {
+		found = undefined;
+		for ( y = 0; y < newArr.length; y++ ) {
+			if ( origArr[x] === newArr[y] ) {
+				found = true;
+				break;
+			}
+		}
+		if ( !found) newArr.push( origArr[x] );
+	}
+	return newArr;
+}
+
+function legend_height() {
+	var legendTab = Ext.getCmp('LegendTab');
+	var ToolsPanel = Ext.getCmp('ToolsPanel');
+	var ToolTabPanel = Ext.getCmp('ToolTabPanel');
+	legendTab.setHeight(ToolsPanel.getInnerHeight() - (ToolTabPanel.getHeight() - ToolTabPanel.getInnerHeight()));
+}
+
 function mapToolbarHandler(btn, evt) {
 	if (btn.id == "IdentifyTool") {
 		if (btn.pressed) {
@@ -1160,4 +1285,12 @@ function handleMeasurements(event) {
 		out += measureAreaResultPrefixString[lang] + ": " + measure.toFixed(2) + units + "<sup>2</sup> | ";
 	}
 	rightStatusText.setText(out);
+}
+
+// function to display a loadMask during lengthy load operations
+function displayLoadMask() {
+	if (mapIsLoading) { // check if layer is still loading
+		loadMask = new Ext.LoadMask(Ext.getCmp('MapPanel').body, {msg:mapLoadingString[lang]});
+		loadMask.show();
+	}
 }
