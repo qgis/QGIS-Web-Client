@@ -39,8 +39,8 @@ function ThemeSwitcher(parentPanel) {
 				if (projData.responsible) {
 					tooltip += "\n" + themeSwitcherTooltipResponsibleString[lang] + projData.responsible;
 				}
-				if (projData.update) {
-					tooltip += "\n" + themeSwitcherTooltipUpdateString[lang] + projData.update;
+				if (projData.updateInterval) {
+					tooltip += "\n" + themeSwitcherTooltipUpdateString[lang] + projData.updateInterval;
 				}
 				if (projData.lastUpdate) {
 					tooltip += "\n" + themeSwitcherTooltipLastUpdateString[lang] + projData.lastUpdate;
