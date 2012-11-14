@@ -60,6 +60,7 @@ function loadWMSConfig() {
 	//load getCapabilities info in treeview
 	wmsLoader = new QGIS.WMSCapabilitiesLoader({
 		url: wmsURI,
+		useGetProjectSettings: useGetProjectSettings,
 		layerOptions: {
 			buffer: 0,
 			singleTile: true,
@@ -287,14 +288,19 @@ function postLoading() {
 	// return input layers sorted by order defined in project settings
 	function layersInDrawingOrder(layers) {
 		var layerDrawingOrder = wmsLoader.projectSettings.capability.layerDrawingOrder;
-		var orderedLayers = [];
-		for (var i = 0; i < layerDrawingOrder.length; i++) {
-			var layer = layerDrawingOrder[i];
-			if (layers.indexOf(layer) != -1) {
-				orderedLayers.push(layer);
+		if (layerDrawingOrder != null) {
+			var orderedLayers = [];
+			for (var i = 0; i < layerDrawingOrder.length; i++) {
+				var layer = layerDrawingOrder[i];
+				if (layers.indexOf(layer) != -1) {
+					orderedLayers.push(layer);
+				}
 			}
+			return orderedLayers;
 		}
-		return orderedLayers;
+		else {
+			return layers.reverse();
+		}
 	}
 	
 	//create new map panel with a single OL layer
