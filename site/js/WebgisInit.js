@@ -30,6 +30,8 @@ var identifyToolWasActive = false; //this state variable is used during theme sw
 var initialLoadDone = false; //a state variable defining if an initial project was loaded or not
 var themeChangeActive = false; //status to indicate if theme chang is active
 var layerTreeSelectionChangeHandlerFunction; //a reference to the handler function of the selection tree
+var help_active = false;
+var helpWin;
 
 Ext.onReady(function () {
 	//dpi detection
@@ -187,6 +189,7 @@ function postLoading() {
 		Ext.getCmp('measureDistance').toggleHandler = mapToolbarHandler;
 		Ext.getCmp('measureArea').toggleHandler = mapToolbarHandler;
 		Ext.getCmp('PrintMap').toggleHandler = mapToolbarHandler;
+        Ext.getCmp('ShowHelp').handler = mapToolbarHandler;
 		//combobox listeners
 		var ObjectIdentificationModeCombobox = Ext.getCmp('ObjectIdentificationModeCombo');
 		ObjectIdentificationModeCombobox.setValue("topMostHit");
@@ -1271,6 +1274,37 @@ function mapToolbarHandler(btn, evt) {
 			mainStatusText.setText(modeNavigationString[lang]);
 		}
 	}
+  if (btn.id == "ShowHelp") {
+    if (help_active == true){
+      help_active = false;
+      helpWin.close();
+    } else {
+      help_active = true;
+      helpWin = new Ext.Window({
+        title: helpWindowTitleString[lang]
+        ,width: geoExtMap.getWidth()
+        ,height: geoExtMap.getHeight() * 0.7
+        ,id:'autoload-win'
+        ,autoScroll:true
+        ,maximizable: true
+        ,autoLoad:{
+            url:helpfile
+        }
+        ,listeners:{
+          show:function() {
+            this.loadMask = new Ext.LoadMask(this.body, {
+                msg:pleaseWaitString[lang]
+            });
+          },
+          hide:function() {
+            help_active = false;
+            helpWin.close();
+          }
+        }
+      });
+      helpWin.show();
+    }
+  }
 }
 
 function handleMeasurements(event) {
