@@ -163,8 +163,7 @@ var printCapabilities={
 
 // insert anything here, that is specific for your site
 function customPostLoading() {
-    // example: change tranlation strings:
-    //searchErrorString["en"] = "An error occured during your search";
+    // example: change tranlation strings
 }
 
 // <------------ No changes should be needed below here ------------------>
