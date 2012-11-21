@@ -83,6 +83,7 @@ function loadWMSConfig() {
 		listeners: {
 			'load': function () {
 				postLoading();
+        customPostLoading();
 				legend_visible();
 			}
 		}
