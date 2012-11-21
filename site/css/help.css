@@ -1,0 +1,121 @@
+#page {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  color: #222222;
+  font-family: "Helvetica Neue",Arial,Helvetica,sans-serif;
+  font-size: 120%;
+  line-height: 1.2;
+}
+
+#wrapper {
+  margin: 0 auto;
+  width: 950px;
+  padding: 10px;
+  background-color: #FFFFFF;
+}
+
+hr {
+  background: none repeat scroll 0 0 #DDDDDD;
+  border: medium none;
+  clear: both;
+  color: #DDDDDD;
+  float: none;
+  height: 1px;
+  margin: 0 0 1.45em;
+  width: 100%;
+}
+
+p {
+  margin: 0 0 1.5em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111111;
+  font-weight: normal;
+  padding: 0;
+  margin: 0;
+}
+
+h1 {
+  font-size: 2.5em;
+  line-height: 1;
+  margin-bottom: 0.5em;
+}
+
+h2 {
+  font-size: 1.5em;
+  margin-bottom: 0.75em;
+}
+
+h3 {
+  font-size: 1.3em;
+  line-height: 1;
+  margin-bottom: 1em;
+}
+
+li.list-header {
+  font-weight: bold;
+  list-style: none outside none;
+  margin-left: 0;
+}
+
+li ul, li ol {
+  margin: 0;
+}
+ul {
+  list-style-type: disc;
+}
+ul, ol {
+  margin: 0 1.5em 1.5em 0;
+  padding-left: 1.5em;
+}
+
+a {
+  color: #0066CC;
+  text-decoration: underline;
+}
+
+a:visited {
+  color: #0066CC;
+  text-decoration: underline;
+}
+
+header {
+  height:auto;
+  padding-top: 10px;
+}
+
+#Caption {
+  width: 710px;
+  margin-right: 0px;
+  float: left;
+}
+
+.SubCaption {
+  color: #666666;
+  font-family: "Warnock Pro","Goudy Old Style","Palatino","Book Antiqua",Georgia,serif;
+  font-style: italic;
+  font-weight: normal;
+}
+
+#Logo{
+  width: 230px;
+  float: right;
+}
+
+.logo_img{
+    padding-left: 85px;
+}
+
+nav {
+  float: right;
+  width: 190px;
+}
+
+#content {
+  width: 710px;
+  border-right: 1px solid #DDDDDD;
+  margin-right: 25px;
+  padding-right: 24px;
+}
