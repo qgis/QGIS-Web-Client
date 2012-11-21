@@ -153,6 +153,12 @@ var printCapabilities={
   "layouts":[]
 };
 
+// insert anything here, that is specific for your site
+function customPostLoading() {
+    // example: change tranlation strings:
+    //searchErrorString["en"] = "An error occured during your search";
+}
+
 // <------------ No changes should be needed below here ------------------>
 
 //new namespace for QGIS extensions
