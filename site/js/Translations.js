@@ -346,6 +346,16 @@ metadataTabTitleString["it"] = "Metadati";
 metadataTabTitleString["pt_PT"] = "Metadados";
 metadataTabTitleString["uk"] = "Метадані";
 
+//title of help window
+var helpWindowTitleString = new Array();
+helpWindowTitleString["en"] = "Help";
+helpWindowTitleString["es"] = "Help"; //FIXME
+helpWindowTitleString["de"] = "Hilfe";
+helpWindowTitleString["fr"] = "Help"; //FIXME
+helpWindowTitleString["it"] = "Help"; //FIXME
+helpWindowTitleString["pt_PT"] = "Help"; //FIXME
+helpWindowTitleString["uk"] = "Help"; //FIXME
+
 //label in main toolbar for object identification
 var objectIdentificationTextLabel = new Array();
 objectIdentificationTextLabel["en"] = "Object identification: ";
@@ -689,6 +699,16 @@ printMapDisabledTooltipString["fr"] = "Imprimez non activée, aucune layout est 
 printMapDisabledTooltipString["it"] = "Stampa disabilitata: nel progetto QGIS non è definito alcun layout";
 printMapDisabledTooltipString["pt_PT"] = "Impressão indisponível: não tem definido nenhum layout no projecto QGIS";
 printMapDisabledTooltipString["uk"] = "Друк відключено, не вказано шар в QGIS проекті";
+
+//Show Help
+var showHelpTooltipString = new Array();
+showHelpTooltipString["en"] = "Show Help";
+showHelpTooltipString["es"] = "Show Help"; //FIXME
+showHelpTooltipString["de"] = "Hilfe öffnen";
+showHelpTooltipString["fr"] = "Show Help"; //FIXME
+showHelpTooltipString["it"] = "Show Help"; //FIXME
+showHelpTooltipString["pt_PT"] = "Show Help"; //FIXME
+showHelpTooltipString["uk"] = "Show Help"; //FIXME
 
 //Geonames loading string
 var geonamesLoadingString = new Array();
