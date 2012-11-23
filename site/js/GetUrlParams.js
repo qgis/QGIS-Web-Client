@@ -1,3 +1,13 @@
+/*
+ *
+ * GetUrlParams.js -- part of Quantum GIS Web Client
+ *
+ * Copyright 2011-2012 Quantum GIS Web Client Contributors, released under a BSD
+ * license. Please see https://github.com/qgis/qgis-web-client/blob/master/README
+ * for the full text of the license and the list of contributors.
+ *
+*/ 
+
 //we need to call this part of the script before initializing the GUI
 //because some settings, like the language choice, influence the GUI
 var urlParams = {};

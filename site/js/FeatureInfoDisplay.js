@@ -1,3 +1,13 @@
+/*
+ *
+ * FeatureInfoDisplay.js -- part of Quantum GIS Web Client
+ *
+ * Copyright 2011-2012 Quantum GIS Web Client Contributors, released under a BSD
+ * license. Please see https://github.com/qgis/qgis-web-client/blob/master/README
+ * for the full text of the license and the list of contributors.
+ *
+*/ 
+
 function showFeatureInfo(evt) {
 	//empty previous result in attribute Tree
 	AttributeDataTree.getRootNode().removeAll();
