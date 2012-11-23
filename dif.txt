@@ -1,0 +1,192 @@
+diff --git a/site/js/FeatureInfoDisplay.js b/site/js/FeatureInfoDisplay.js
+index ba617fe..3a794cc 100644
+--- a/site/js/FeatureInfoDisplay.js
++++ b/site/js/FeatureInfoDisplay.js
+@@ -1,3 +1,16 @@
++/*
++
++  FeatureInfoDisplay.js -- part of Quantum GIS Web Client
++
++  Copyright (2010-2012), The QGIS Project
++  All rights reserved. 
++  
++  Released under a BSD license.
++  Please see https://github.com/qgis/qgis-web-client/blob/master/README
++  for the full text of the license.
++
++*/
++
+ function showFeatureInfo(evt) {
+ 	//empty previous result in attribute Tree
+ 	AttributeDataTree.getRootNode().removeAll();
+diff --git a/site/js/GISProjectListing.js b/site/js/GISProjectListing.js
+index 3445633..7f3c876 100644
+--- a/site/js/GISProjectListing.js
++++ b/site/js/GISProjectListing.js
+@@ -28,4 +28,5 @@ var gis_projects = {
+ 			"tags": "Natural Earth,Physical Earth Map"
+ 		}]	
+ 	}]
+-};
+\ No newline at end of file
++};
++
+diff --git a/site/js/GISProjectListing.js.templ b/site/js/GISProjectListing.js.templ
+index 3445633..ce9907c 100644
+--- a/site/js/GISProjectListing.js.templ
++++ b/site/js/GISProjectListing.js.templ
+@@ -28,4 +28,4 @@ var gis_projects = {
+ 			"tags": "Natural Earth,Physical Earth Map"
+ 		}]	
+ 	}]
+-};
+\ No newline at end of file
++};
+diff --git a/site/js/GUI.js b/site/js/GUI.js
+index fe57adc..bc5b18c 100644
+--- a/site/js/GUI.js
++++ b/site/js/GUI.js
+@@ -1,3 +1,13 @@
++/*
++
++  GUI.js -- part of Quantum GIS Web Client
++
++  Copyright 2012 Quantum GIS Web Client Contributors, released under a FreeBSD
++  license. Please see https://github.com/qgis/qgis-web-client/blob/master/README
++  for the full text of the license.
++
++*/
++
+ //this file contains the main gui definition (viewport) as edited through extjs designer
+ //source file for ext designer
+ //ext data store for combobox for selection of object identification modes (only active layer, all layers, top most hit)
+@@ -297,4 +307,4 @@ Ext.onReady(function () {
+ 		renderTo: Ext.getBody()
+ 	});
+ 	cmp1.show();
+-});
+\ No newline at end of file
++});
+diff --git a/site/js/GetUrlParams.js b/site/js/GetUrlParams.js
+index f30f6e2..0d07d4b 100644
+--- a/site/js/GetUrlParams.js
++++ b/site/js/GetUrlParams.js
+@@ -1,3 +1,16 @@
++/*
++
++  GetUrlParams.js -- part of Quantum GIS Web Client
++
++  Copyright (2010-2012), The QGIS Project
++  All rights reserved. 
++  
++  Released under a BSD license.
++  Please see https://github.com/qgis/qgis-web-client/blob/master/README
++  for the full text of the license.
++
++*/
++
+ //we need to call this part of the script before initializing the GUI
+ //because some settings, like the language choice, influence the GUI
+ var urlParams = {};
+@@ -118,4 +131,4 @@ if (urlArray.length > 1) {
+ 	}
+ } else {
+ 	urlParamsOK = !norewrite;
+-}
+\ No newline at end of file
++}
+diff --git a/site/js/QGISExtensions.js b/site/js/QGISExtensions.js
+index 7fab7c1..d520c03 100644
+--- a/site/js/QGISExtensions.js
++++ b/site/js/QGISExtensions.js
+@@ -1,3 +1,16 @@
++/*
++
++  QGISExtensions.js -- part of Quantum GIS Web Client
++
++  Copyright (2010-2012), The QGIS Project
++  All rights reserved. 
++  
++  Released under a BSD license.
++  Please see https://github.com/qgis/qgis-web-client/blob/master/README
++  for the full text of the license.
++
++*/
++
+ /* Five QGIS extensions:
+ * QGIS.WMSCapabilitiesLoader
+ * QGIS.PrintProvider
+diff --git a/site/js/ThemeSwitcher.js b/site/js/ThemeSwitcher.js
+index 31c6af8..8fd3708 100644
+--- a/site/js/ThemeSwitcher.js
++++ b/site/js/ThemeSwitcher.js
+@@ -1,3 +1,16 @@
++/*
++
++  ThemeSwitcher.js -- part of Quantum GIS Web Client
++
++  Copyright (2010-2012), The QGIS Project
++  All rights reserved. 
++  
++  Released under a BSD license.
++  Please see https://github.com/qgis/qgis-web-client/blob/master/README
++  for the full text of the license.
++
++*/
++
+ //this object handles the theme optional switching
+ function ThemeSwitcher(parentPanel) {
+ 	this.parentPanel = parentPanel;
+diff --git a/site/js/Translations.js b/site/js/Translations.js
+index eda399d..43667b5 100644
+--- a/site/js/Translations.js
++++ b/site/js/Translations.js
+@@ -1,3 +1,16 @@
++/*
++
++  Translations.js -- part of Quantum GIS Web Client
++
++  Copyright (2010-2012), The QGIS Project
++  All rights reserved. 
++  
++  Released under a BSD license.
++  Please see https://github.com/qgis/qgis-web-client/blob/master/README
++  for the full text of the license.
++
++*/
++
+ //list of available languages
+ var availableLanguages = new Array();
+ availableLanguages["en"] = {names:[], translator:"Andreas Neumann"}; //a(dot)neumann(at)carto(dot)net
+diff --git a/site/js/TriStateTree.js b/site/js/TriStateTree.js
+index 4017220..43b2592 100644
+--- a/site/js/TriStateTree.js
++++ b/site/js/TriStateTree.js
+@@ -326,4 +326,4 @@ Ext.override(Ext.tree.TreePanel, {
+     startNode.cascade(f);
+     return r;
+   }
+-});
+\ No newline at end of file
++});
+diff --git a/site/js/WebgisInit.js b/site/js/WebgisInit.js
+index c46da3b..bf02b24 100644
+--- a/site/js/WebgisInit.js
++++ b/site/js/WebgisInit.js
+@@ -1,3 +1,16 @@
++/*
++
++  WebgisInit.js -- part of Quantum GIS Web Client
++
++  Copyright (2010-2012), The QGIS Project
++  All rights reserved. 
++  
++  Released under a BSD license.
++  Please see https://github.com/qgis/qgis-web-client/blob/master/README
++  for the full text of the license.
++
++*/
++
+ var geoExtMap;
+ var layerTree;
+ var selectedLayers = "";
