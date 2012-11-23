@@ -1,3 +1,14 @@
+/*
+ *
+ * GUI.js -- part of Quantum GIS Web Client
+ *
+ * Copyright (2010-2012), The QGIS Project All rights reserved.
+ * Quantum GIS Web Client is released under a BSD license. Please see
+ * https://github.com/qgis/qgis-web-client/blob/master/README
+ * for the full text of the license and the list of contributors.
+ *
+*/ 
+
 //this file contains the main gui definition (viewport) as edited through extjs designer
 //source file for ext designer
 //ext data store for combobox for selection of object identification modes (only active layer, all layers, top most hit)

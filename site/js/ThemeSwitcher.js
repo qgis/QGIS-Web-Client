@@ -1,3 +1,14 @@
+/*
+ *
+ * ThemeSwitcher.js -- part of Quantum GIS Web Client
+ *
+ * Copyright (2010-2012), The QGIS Project All rights reserved.
+ * Quantum GIS Web Client is released under a BSD license. Please see
+ * https://github.com/qgis/qgis-web-client/blob/master/README
+ * for the full text of the license and the list of contributors.
+ *
+*/ 
+
 //this object handles the theme optional switching
 function ThemeSwitcher(parentPanel) {
 	this.parentPanel = parentPanel;
