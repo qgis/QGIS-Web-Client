@@ -106,18 +106,9 @@ function loadWMSConfig() {
 
 layerTreeSelectionChangeHandlerFunction =  function (selectionModel, treeNode) {
 	if (!themeChangeActive) {
-		var legendTab = Ext.getCmp('LegendTab');
 		var ToolsPanel = Ext.getCmp('ToolsPanel');
 		var ToolTabPanel = Ext.getCmp('ToolTabPanel');
-		legendTab.setHeight(ToolsPanel.getInnerHeight() - (ToolTabPanel.getHeight() - ToolTabPanel.getInnerHeight()));
-		Ext.getCmp('ToolTabPanel').activate(legendTab);
-		var imageUrl = wmsURI + 'SERVICE=WMS&VERSION=1.3&REQUEST=GetLegendGraphics&FORMAT=image/png&EXCEPTIONS=application/vnd.ogc.se_inimage&WIDTH=195&LAYERS=' + encodeURIComponent(treeNode.text) + '&dpi=' + screenDpi;
-		var legendImage = '<p><img src="' + imageUrl + '" alt="Legend of Layer ' + treeNode.text + '" /></p>';
-		legendTab.update({
-			html: legendImage,
-			border: false
-		});
-		//change selected activated layers for GetFeatureInfo requests
+		//change selected activated layers for GetFeatureInfo requests 
 		layerTree.fireEvent("leafschange");
 	}
 }
