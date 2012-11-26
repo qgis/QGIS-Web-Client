@@ -658,7 +658,7 @@ objIdentificationTooltipString["es"] = "Indentificación de objetos (atributos)"
 objIdentificationTooltipString["de"] = "Objektidentifizierung (Attributdaten)";
 objIdentificationTooltipString["fr"] = "Identification d'entité (attributs)";
 objIdentificationTooltipString["it"] = "Identificazione di oggetti (attributi)";
-objIdentificationTooltipString["pt_PT"] = "Identificação de objectos (attributos)";
+objIdentificationTooltipString["pt_PT"] = "Identificação de objectos (atributos)";
 objIdentificationTooltipString["uk"] = "Вибір об'єкту (атрибути)";
 
 //MapTips tooltip
