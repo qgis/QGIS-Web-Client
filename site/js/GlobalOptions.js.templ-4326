@@ -223,5 +223,11 @@ var sketchSymbolizersMeasureControls = {
   }
 };
 
+//var legend all at 
+//if legendAllAtOnceAtBegin is set to true, the legend image is loaded at project
+//load or theme switch, if set to false, it is not loaded at the begin, but only
+//if the user selects a group or layer in the layer tree
+var legendAllAtOnceAtBegin = false;
+
 //amount of layer legends shown, set this to -1 to show all
 var legend_length = 15;

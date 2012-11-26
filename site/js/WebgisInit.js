@@ -96,7 +96,9 @@ function loadWMSConfig() {
 		listeners: {
 			'load': function () {
 				postLoading();
-				legend_visible();
+				if (legendAllAtOnceAtBegin) {
+					legend_visible();
+				}
 			}
 		}
 	});
@@ -105,7 +107,7 @@ function loadWMSConfig() {
 }
 
 layerTreeSelectionChangeHandlerFunction =  function (selectionModel, treeNode) {
-	if (!themeChangeActive) {
+	if (!themeChangeActive && !legendAllAtOnceAtBegin) {
 		var legendTab = Ext.getCmp('LegendTab');
 		var ToolsPanel = Ext.getCmp('ToolsPanel');
 		var ToolTabPanel = Ext.getCmp('ToolTabPanel');
@@ -678,6 +680,7 @@ function postLoading() {
 			// hide map theme button
 			Ext.getCmp('mapThemeButton').hide();
 		}
+
 
 		function showURLParametersSearch(searchPanelConfigs) {
 			if ('query' in urlParams) {
