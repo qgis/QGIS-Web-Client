@@ -164,6 +164,13 @@ var printCapabilities={
   "layouts":[]
 };
 
+//var legend all at 
+//if legendAllAtOnceAtBegin is set to true, the legend image is loaded at project
+//load for all visible layers and whenever the visibility for a layer or group is
+//changed by the user; if set to false, it is not loaded at the begin, but only
+//if the user selects a group or layer in the layer tree
+var legendAllAtOnceAtBegin = false;
+
 // <------------ No changes should be needed below here ------------------>
 
 //new namespace for QGIS extensions
@@ -223,11 +230,4 @@ var sketchSymbolizersMeasureControls = {
   }
 };
 
-//var legend all at 
-//if legendAllAtOnceAtBegin is set to true, the legend image is loaded at project
-//load or theme switch, if set to false, it is not loaded at the begin, but only
-//if the user selects a group or layer in the layer tree
-var legendAllAtOnceAtBegin = false;
 
-//amount of layer legends shown, set this to -1 to show all
-var legend_length = 15;
