@@ -97,7 +97,7 @@ function loadWMSConfig() {
 			'load': function () {
 				postLoading();
 				if (legendAllAtOnceAtBegin) {
-					legend_visible();
+					showLegendImage();
 				}
 			}
 		}
@@ -106,7 +106,16 @@ function loadWMSConfig() {
 	layerTree.setRootNode(root);	
 }
 
-layerTreeSelectionChangeHandlerFunction =  function (selectionModel, treeNode) {
+layerTreeCheckChangeHandlerFunction = function (treeNode) {
+  // remove the handler so this function is not called for any cascading checkchanges,
+  // if e.g. a group itself is (un)checked or a layer withina group is (un)checked)
+  // listener will be added in showLegend() 
+  layerTree.removeListener("checkchange", layerTreeCheckChangeHandlerFunction);
+  // call this with a delay so all cascading checkchanges have happened
+  setTimeout("showLegendImage()", 1000);
+}
+
+layerTreeSelectionChangeHandlerFunction = function (selectionModel, treeNode) {
 	if (!themeChangeActive && !legendAllAtOnceAtBegin) {
 		var legendTab = Ext.getCmp('LegendTab');
 		var ToolsPanel = Ext.getCmp('ToolsPanel');
@@ -123,7 +132,6 @@ layerTreeSelectionChangeHandlerFunction =  function (selectionModel, treeNode) {
 		layerTree.fireEvent("leafschange");
 	}
 }
-
 
 function postLoading() {
 	//set root node to active layer of layertree
@@ -1079,9 +1087,9 @@ function postLoading() {
 	}
 
 	//handle events for legend display
-	var selModel = layerTree.getSelectionModel();
-	//add listeners to selection model
-	selModel.addListener("selectionChange",layerTreeSelectionChangeHandlerFunction);
+  var selModel = layerTree.getSelectionModel();
+  //add listeners to selection model
+  selModel.addListener("selectionChange", layerTreeSelectionChangeHandlerFunction);
 
 	//show that we are done with initializing the map
 	mainStatusText.setText(modeNavigationString[lang]);
@@ -1089,93 +1097,52 @@ function postLoading() {
 	initialLoadDone = true;
 }
 
-function legend_visible() {
-	// on load active layers
-	node = layerTree.getSelectionModel().getSelectedNode();
-	selectedLayers = Array();
-	selectedQueryableLayers = Array();
-
-	layerTree.root.firstChild.cascade(
-	function (n) {
-		if (n.attributes.checked && n.isLeaf()) {
-			selectedLayers.reverse();
-			selectedLayers.push(n.text);
-
-			selectedLayers.reverse();
-			selectedLayers = legend_unique(selectedLayers);
-
-			(legend_length == -1) ? legend_layers=selectedLayers : legend_layers = selectedLayers.slice(legend_length*(-1)) ;
-
-			//update legend graphic
-			legend_image(legend_layers);
-
-			//update legend height
-			legend_height();
-
-		} //  End is leaf && checked
-	}   //  End function n
-	);	 //  End LayerTree Cascade
-
-	// on checkchange active layers
-	Ext.getCmp('LayerTree').on("checkchange", function(node){
-
-		var selectedLayers = [];
-		var legend_layers = [];
-		node = layerTree.getSelectionModel().getSelectedNode();
-
-		//layerTree.root.firstChild.disable();
-		layerTree.root.firstChild.cascade(
-		function (n) {
-			if (n.attributes.checked && n.isLeaf()) {
-
-				selectedLayers.reverse();
-				selectedLayers.push(n.text);
-
-				selectedLayers.reverse();
-				selectedLayers = legend_unique(selectedLayers);
-
-				(legend_length == -1) ? legend_layers=selectedLayers : legend_layers = selectedLayers.slice(legend_length*(-1)) ;
-
-				//update legend graphic
-				legend_image(legend_layers);
-
-				//update legend height
-				legend_height();
-			}
-			else {
-
-				if (n.attributes.checked == false) {
-
-					(legend_length == -1) ? legend_layers=selectedLayers : legend_layers = selectedLayers.slice(legend_length*(-1)) ;
-
-					//update legend graphic
-					legend_image(legend_layers);
-
-					//update legend height
-					legend_height();
-
-					//output notification if no layer is selected
-					var legend_layers_count = legend_layers.length;
-					if (legend_layers_count == 0){
-						var legendTab = Ext.getCmp('LegendTab');
-						var msg = '<p>Keine Ebene ausgewählt</p>';
-						legendTab.update({html:msg,border:false, autoScroll: true, autoShow: true });
-					}
-				}
-			}
-		} // END function(n)
-		); // END Cascade
-	});   //  END Checkchange
+function getVisibleLayers(visibleLayers, currentNode){
+  while (currentNode != null){
+    
+    if (currentNode.attributes.checked) {
+      visibleLayers.push(currentNode.text);
+    } else if (currentNode.attributes.checked == null) {
+      // this node is partly checked, so it is a layer group with some layers visible
+      // dive into this group for layer visibility
+      for (var i = 0; i < currentNode.childNodes.length; i++) {
+        visibleLayers = getVisibleLayers(visibleLayers, currentNode.childNodes[i]);
+      }
+    }
+    currentNode = currentNode.nextSibling;
+  }
+  return visibleLayers;
 }
 
-function legend_image(legend_layers) {
-	var legendTab = Ext.getCmp('LegendTab');
-	var imageUrl = wmsURI+'SERVICE=WMS&VERSION=1.3&REQUEST=GetLegendGraphics&FORMAT=image/png&EXCEPTIONS=application/vnd.ogc.se_inimage&WIDTH=195&LAYERS='+encodeURIComponent(legend_layers)+'&dpi='+screenDpi;
-	var legendImage = '<p><img id="legend_img" src="'+imageUrl+'" height="auto" alt="Legend of Layer '+legend_layers+'" /></p>';
-	legendTab.update({html:legendImage,border:false, autoScroll: true, autoShow: true });
+
+function showLegendImage() {
+  var visibleLayers = Array();
+
+  visibleLayers = getVisibleLayers(visibleLayers, layerTree.root.firstChild);
+  visibleLayers = uniqueLayersInLegend(visibleLayers);
+  visibleLayers.reverse(); // order layers as in tree
+  
+  //update legend graphic
+  var legendTab = Ext.getCmp('LegendTab');
+
+  if (visibleLayers.length == 0){
+    legendTab.update({html:legendDisplayHowtoString[lang],border:false, autoScroll: true, autoShow: true });
+  } else {
+    var imageUrl = wmsURI+'SERVICE=WMS&VERSION=1.3&REQUEST=GetLegendGraphics&FORMAT=image/png&EXCEPTIONS=application/vnd.ogc.se_inimage&WIDTH=195&LAYERS='+encodeURIComponent(visibleLayers)+'&dpi='+screenDpi;
+    var legendImage = '<p><img id="legend_img" src="'+imageUrl+'" height="auto" alt="Legend of Layer '+visibleLayers+'" /></p>';
+    legendTab.update({html:legendImage,border:false, autoScroll: true, autoShow: true });
+  }
+
+  //resize the legend tab
+  var ToolsPanel = Ext.getCmp('ToolsPanel');
+	var ToolTabPanel = Ext.getCmp('ToolTabPanel');
+	legendTab.setHeight(ToolsPanel.getInnerHeight() - (ToolTabPanel.getHeight() - ToolTabPanel.getInnerHeight()));
+  
+  // (re)add checkchange listener
+  layerTree.addListener("checkchange", layerTreeCheckChangeHandlerFunction);
 }
 
-function legend_unique(origArr) {
+function uniqueLayersInLegend(origArr) {
 	var newArr = [],
 	origLen = origArr.length,
 	found,
@@ -1192,13 +1159,6 @@ function legend_unique(origArr) {
 		if ( !found) newArr.push( origArr[x] );
 	}
 	return newArr;
-}
-
-function legend_height() {
-	var legendTab = Ext.getCmp('LegendTab');
-	var ToolsPanel = Ext.getCmp('ToolsPanel');
-	var ToolTabPanel = Ext.getCmp('ToolTabPanel');
-	legendTab.setHeight(ToolsPanel.getInnerHeight() - (ToolTabPanel.getHeight() - ToolTabPanel.getInnerHeight()));
 }
 
 function mapToolbarHandler(btn, evt) {
