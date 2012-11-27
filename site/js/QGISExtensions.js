@@ -147,7 +147,7 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
             obj.push(attribute);
           }
         }, OpenLayers.Format.WMSCapabilities.v1_3.prototype.readers["wms"])
-      },
+      }
     }).read(this.WMSCapabilities);
     this.processLayer(this.projectSettings.capability, this.projectSettings.capability.request.getmap.href, node);
 
