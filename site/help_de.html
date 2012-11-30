@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Hilfe zum QGIS Web Client</title>
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width; initial-scale=1.0" />
+  <link type="text/css" href="css/help.css" rel="stylesheet" />
+</head>
+<body>
+<div id="page">
+<div id="wrapper">
+  <header>
+    <div id="Caption">
+      <h1 >Quantum GIS Web Client</h1>
+      <h2 class="SubCaption">Hilfe zum Client</h2>
+    </div>
+    <div id="Logo">
+      <span class="logo_img"><a href="http://qgis.org"><img src="img/qgis-icon.png"/></a></span>
+    </div>
+  </header>
+ <hr>
+  <nav>
+    <ul>
+    <li class="list-header">Inhalt
+      <ul>
+        <li><a href="#GeneralUsage">Allgemeines</a>
+          <ul>
+            <li><a href="#Working">Mit Kartenlayern arbeiten</a></li>
+            <li><a href="#Searching">Nach Kartenobjekten suchen</a></li>
+            <li><a href="#Navigating">Sich in der Karte bewegen</a></li>
+            <li><a href="#Measuring">Entfernungen und Flächen messen</a></li>
+            <li><a href="#Printing">Drucken</a></li>
+          </ul>
+        </li>
+        <li><a href="#About">Über den QGIS Web Client</a>
+          <ul>
+            <li><a href="#License">Lizenz</a></li>
+            <li><a href="#MoreHelp">Weitere Hilfe</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <br>
+    <li class="list-header">Einige nützliche Links
+      <ul>
+        <li><a href="http://github.com/qgis/qgis-web-client" target="_blank">Quellcode auf Github</a></li>
+        <li><a href="http://geoext.org" target="_blank">GeoExt Home</a></li>
+        <li><a href="http://qgis.org" target="_blank">QGIS Home</a></li>
+      </ul>
+    </li>
+    </ul>
+  </nav>
+  <div id="content">
+  <section id="general">
+    <article>
+      <h2 id="GeneralUsage">Allgemeines</h2>
+      <p>Das Anwendungsfenster ist in drei Bereich aufgeteilt: <i>Infos und Werzeuge</i> auf der linken Seite, das Hauptkartenfenster (mit Werzeugleiste oben) in der Mitte und die <i>Attributdaten</i> auf der rechten Seite. Der rechte und der linke Bereich können geschlossen und wieder geöffnet werden.
+      </p>
+    </article>
+    <article>
+      <h3 id="Working">Mit Kartenlayern arbeiten</h3>
+      <p>Im Bereich <i>Info und Werzeuge</i> sind alle verfügbaren Layer in den <i>Kartenebenen</i> aufgelistet. Haken Sie einen Layer an, um ihn in der Karte anzuzeigen. Die Legende aller angezeigten Layer wird im Reiter <i>Legende</i> angezeigt.
+      </p>
+      <p>Sobald Sie auf einen Layernamen klicken, wird dieser Layer der <b>aktive Layer</b>.
+      </p>
+      <p>Mit dem Werkzeug <img src="gis_icons/mActionIdentify.png" alt="identiy"/> in der Werkzeugleiste können Sie Informationen zu jedewedem Kartenobjekt abfragen.
+            Die Informationen können sichtbar sein, wenn die Maus über das Objekt bewegt wird und/oder sie werden angezeigt, wenn auf das Objekt geklickt wird.
+            Mit der Auswahl in der <i>Objektidentifikation</i> können Sie festlegen, von welchen Layern die angezeigten Informationen stammen sollen.
+      </p>
+    </article>
+    <article>
+      <h3 id="Searching">Nach Kartenobjekten suchen</h3>
+      <p>Geben Sie einen beliebigen Suchbegriff (Strassenname, Objekttyp etc.) oder auch nur einen Teil davon in die Suchmaske im oberen Teil des Kartenbereichs ein. Alle Objekte, die der Suche entsprechen, werden angezeigt; durch Anklicken können Sie eines davon auswählen. Der Kartenausschnitt wird dann automatisch so gewählt, dass das Objekt enthalten ist, das Objekt selbst wird farbig hervorgehoben.
+      </p>
+    </article>
+    <article>
+      <h3 id="Navigating">Sich in der Karte bewegen</h3>
+      <p>Um sich in der Karte zu bewegen, werden folgende Werkzeuge benutzt: <img src="gis_icons/mActionZoomBox.png" alt="ZoomBox"/>
+        <img src="gis_icons/mActionZoomFullExtent.png" alt="ZoomFullExtent"/>
+        <img src="gis_icons/mActionZoomLast.png" alt="ZoomLast"/> und <img src="gis_icons/mActionZoomNext.png" alt="ZoomNext"/>.
+          Alle Werkzeuge zeigen eine kleine Hilfe zu ihrer Funktion, wenn Sie die Maus über das Werkzeug bewegen.
+      </p>
+      <p>Sie können die Karte natürlich auch mit dem Massstabswerkzeug in der linken oberen Ecke des Kartenbereichs ein- und auszoomen oder geben Sie einen konkreten Massstab in das Massstabsfeld rechts unten ein. Weiterhin können Sie auch mit dem Mausrad ein- und auszoomen.
+        
+      </p>
+      <p>Um die Karte zu verschieben, drücken Sie die linke Maustaste und halten Sie sie gedrückt, während Sie die Maus verschieben. Weiterhin können Sie auch konkrete Koordinaten in das Koordinatenfeld in der rechten unteren Ecke eingeben.
+      </p>
+    </article>
+    <article>
+      <h3 id="Measuring">Entfernungen und Flächen messen</h3>
+      <p>Mit den Werkzeugen <img src="gis_icons/mActionMeasure.png" alt="Measure"/> und <img src="gis_icons/mActionMeasureArea.png" alt="MeasureArea"/> können Sie messen. Ein Klick mit der linken Maustaste setzt einen Punkt in der zu messenden Linie bzw. Fläche, ein Doppelklick beendet die Messung. Das Messergebnis wird kontinuierlich unterhalb der Karte angezeigt.
+      </p>
+    </article>
+    <article>
+      <h3 id="Printing">Drucken</h3>
+      <p>Falls der Verantwortliche dieser Webseite Drucklayouts definiert hat, können Sie sie hiermit anzeigen
+        <img src="gis_icons/mActionFilePrint.png" alt="FilePrint"/>. Auf der Karte wird dann der im Druck enthaltene Ausschnitt angezeigt. Sie können diesen Ausschnitt so drehen, skalieren und verschieben, bis er Ihren Vorstellungen entspricht.
+      </p>
+    </article>
+  </section>
+  <section id="about_qgis">
+    <article>
+      <h2 id="About">Über den QGIS Web Client</h2>
+      <p>QGIS oder Quantum GIS Web Client ist ein Webgis-Client der auf <a href="http://mapfish.org" target="_blank">MapFish</a> basiert und der QGIS-eigene Erweiterungen des WMS-Standards nutzt. Er unterstützt Legenden, Objektabfragen und das Drucken von Kartenausschnitten. Der Client setzt auf den Webgis-Bibliotheken OpenLayers und GeoExt sowie ExtJS 3 (Benutzeroberfläche) auf. Er sollte in allen handelsüblichen Browsern funktionieren.
+      </p>
+    </article>
+    <article>
+      <h3 id="License">Lizenz</h3>
+      <p>Der Quantum GIS Web Client ist unter einer BSD-Lizenz lizensiert. Der volle Lizenztext befindet sich in der 
+        <a href="http://github.com/qgis/qgis-web-client/blob/master/README" target="_blank">README</a>-Datei.
+      </p>
+    </article>
+  </section>
+  <section id="more">
+    <article>
+      <h2 id="MoreHelp">Weitere Hilfe</h2>
+      <p>Wenn Sie Probleme bei der Benutzung dieser Anwendung haben, wenden Sie sich bitte zuerst an den Verantwortlichen der Seite, auf der Sie sich befinden! Das Entwicklerteam des
+        Quantum GIS Web Client kann nicht die Probleme einer einzelnen Seite lösen.
+      </p>
+    </article>
+  </section>
+  </div>
+  <div style="Clear: both"></div>
+</div>
+</div>
+</body>
+</html>
