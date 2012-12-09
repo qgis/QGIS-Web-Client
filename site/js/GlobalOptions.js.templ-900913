@@ -10,7 +10,7 @@ var serverAndCGI = "http://qgis-web-client.localhost/cgi-bin/qgis_mapserv.fcgi";
 
 //Define whether you want to use the GetProjectSettings extension of QGIS Server
 //for more configuration options in the project.
-//Set this to false to use GetCapabilities for older QGIS Server versions.
+//Set this to false to use GetCapabilities for older QGIS Server versions (<= 1.8).
 var useGetProjectSettings = true;
 
 //search box for queries while typing
