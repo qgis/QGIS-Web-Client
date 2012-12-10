@@ -78,7 +78,7 @@ Update the paths in the copied file then:
 ```
 cd /etc/apache2/sites-available/
 ln -s <path to apache-conf/qgis-web-client.conf> .
-sudo a2enmode rewrite
+sudo a2enmod rewrite
 sudo a2ensite qgis-web-client.conf
 sudo /etc/init.d/apache2 reload
 ```
