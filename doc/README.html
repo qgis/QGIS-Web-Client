@@ -13,13 +13,13 @@
 <DIV CLASS="header" ID="header">
 <H1>Quantum GIS (QGIS) Web Client</H1>
 <H2>Installation  and Configuration Guide</H2>
-<H3>Wednesday November 14, 2012</H3>
+<H3>Monday December 10, 2012</H3>
 </DIV>
 
 <DIV CLASS="body" ID="body">
 <P>
-Last Updated: Wednesday November 14, 2012
-Last Change : Wednesday November 14, 2012
+Last Updated: Monday December 10, 2012
+Last Change : Monday December 10, 2012
 </P>
 <DIV CLASS="toc">
 
@@ -62,7 +62,7 @@ Update the paths in the copied file then:
 <div class="code"><PRE>
 cd /etc/apache2/sites-available/
 ln -s &lt;path to apache-conf/qgis-web-client.conf&gt; .
-sudo a2enmode rewrite
+sudo a2enmod rewrite
 sudo a2ensite qgis-web-client.conf
 sudo /etc/init.d/apache2 reload
 </PRE></div>
