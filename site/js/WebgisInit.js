@@ -1169,6 +1169,7 @@ function mapToolbarHandler(btn, evt) {
 			attribToolTip.show();
 			attribToolTip.update('<p>' + mapTipsNoResultString[lang] + '</p>');
 			mainStatusText.setText(modeObjectIdentificationString[lang]);
+      changeCursorInMap("pointer");
 		} else {
 			identifyToolActive = false;
 			WMSGetFInfo.deactivate();
@@ -1178,26 +1179,31 @@ function mapToolbarHandler(btn, evt) {
 			attribToolTip.hide();
 			//AttributeDataTree.collapse();
 			mainStatusText.setText(modeNavigationString[lang]);
+      changeCursorInMap("default");
 		}
 	}
 	if (btn.id == "measureDistance") {
 		if (btn.pressed) {
 			measureControls["line"].activate();
 			mainStatusText.setText(modeMeasureDistanceString[lang]);
+      changeCursorInMap("crosshair");
 		} else {
 			measureControls["line"].deactivate();
 			mainStatusText.setText(modeNavigationString[lang]);
 			rightStatusText.setText("");
+      changeCursorInMap("default");
 		}
 	}
 	if (btn.id == "measureArea") {
 		if (btn.pressed) {
 			measureControls["polygon"].activate();
 			mainStatusText.setText(modeMeasureAreaString[lang]);
+      changeCursorInMap("crosshair");
 		} else {
 			measureControls["polygon"].deactivate();
 			mainStatusText.setText(modeNavigationString[lang]);
 			rightStatusText.setText("");
+      changeCursorInMap("default");
 		}
 	}
 	if (btn.id == "EmptySearchField") {
@@ -1299,4 +1305,9 @@ function displayLoadMask() {
 		loadMask = new Ext.LoadMask(Ext.getCmp('MapPanel').body, {msg:mapLoadingString[lang]});
 		loadMask.show();
 	}
+}
+
+function changeCursorInMap(cursorStyle) {
+  var mapViewPort = Ext.query(".olMapViewport", document.getElementById("geoExtMapPanel"))[0];
+  mapViewPort.style.cursor = cursorStyle;
 }
