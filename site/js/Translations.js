@@ -9,6 +9,9 @@
  *
 */ 
 
+//indicating which of the help files have been translated already
+var availableHelpLanguages = Array("en","de");
+
 //list of available languages
 var availableLanguages = new Array();
 availableLanguages["en"] = {names:[], translator:"Andreas Neumann"}; //a(dot)neumann(at)carto(dot)net

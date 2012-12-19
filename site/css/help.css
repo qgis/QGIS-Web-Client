@@ -1,4 +1,4 @@
-#page {
+#help_page {
   margin: 0;
   padding: 0;
   height: 100%;
@@ -8,9 +8,8 @@
   line-height: 1.2;
 }
 
-#wrapper {
+#help_wrapper {
   margin: 0 auto;
-  width: 950px;
   padding: 10px;
   background-color: #FFFFFF;
 }
@@ -23,7 +22,7 @@ hr {
   float: none;
   height: 1px;
   margin: 0 0 1.45em;
-  width: 100%;
+  margin-right: 195px;
 }
 
 p {
@@ -57,7 +56,8 @@ h3 {
 li.list-header {
   font-weight: bold;
   list-style: none outside none;
-  margin-left: 0;
+  line-height: 2.5em;
+  margin: 0;
 }
 
 li ul, li ol {
@@ -66,8 +66,9 @@ li ul, li ol {
 
 ul.ul_help {
   list-style-type: disc;
-  margin: 0 1.5em 1.5em 0;
+  margin: 0 0.5em 1em 0;
   padding-left: 1.5em;
+  line-height: 1.4em;
 }
 
 a {
@@ -83,10 +84,10 @@ a:visited {
 header {
   height:auto;
   padding-top: 10px;
+  margin-right: 190px;
 }
 
-#Caption {
-  width: 710px;
+#help_caption {
   margin-right: 0px;
   float: left;
 }
@@ -98,23 +99,29 @@ header {
   font-weight: normal;
 }
 
-#Logo{
-  width: 230px;
-  float: right;
+.linksim {
+	text-decoration: underline;
+	cursor: pointer;
+	color: #0000FF;
 }
 
-.logo_img{
-    padding-left: 0px;
+#help_logo{
+  text-align: center;
+  padding-bottom: 15px;
+  padding-top: 15px;
 }
 
 nav {
   float: right;
   width: 190px;
+  position: absolute;
+  right: 30px;
+  top: 15px;
+  border-left: 1px solid #DDDDDD;
+  bottom: 15px;
 }
 
-#content {
-  width: 710px;
-  border-right: 1px solid #DDDDDD;
-  margin-right: 25px;
+#help_content {
+  margin-right: 190px;
   padding-right: 24px;
 }

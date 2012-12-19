@@ -1169,7 +1169,7 @@ function mapToolbarHandler(btn, evt) {
 			attribToolTip.show();
 			attribToolTip.update('<p>' + mapTipsNoResultString[lang] + '</p>');
 			mainStatusText.setText(modeObjectIdentificationString[lang]);
-      changeCursorInMap("pointer");
+			changeCursorInMap("pointer");
 		} else {
 			identifyToolActive = false;
 			WMSGetFInfo.deactivate();
@@ -1179,31 +1179,31 @@ function mapToolbarHandler(btn, evt) {
 			attribToolTip.hide();
 			//AttributeDataTree.collapse();
 			mainStatusText.setText(modeNavigationString[lang]);
-      changeCursorInMap("default");
+			changeCursorInMap("default");
 		}
 	}
 	if (btn.id == "measureDistance") {
 		if (btn.pressed) {
 			measureControls["line"].activate();
 			mainStatusText.setText(modeMeasureDistanceString[lang]);
-      changeCursorInMap("crosshair");
+			changeCursorInMap("crosshair");
 		} else {
 			measureControls["line"].deactivate();
 			mainStatusText.setText(modeNavigationString[lang]);
 			rightStatusText.setText("");
-      changeCursorInMap("default");
+			changeCursorInMap("default");
 		}
 	}
 	if (btn.id == "measureArea") {
 		if (btn.pressed) {
 			measureControls["polygon"].activate();
 			mainStatusText.setText(modeMeasureAreaString[lang]);
-      changeCursorInMap("crosshair");
+			changeCursorInMap("crosshair");
 		} else {
 			measureControls["polygon"].deactivate();
 			mainStatusText.setText(modeNavigationString[lang]);
 			rightStatusText.setText("");
-      changeCursorInMap("default");
+			changeCursorInMap("default");
 		}
 	}
 	if (btn.id == "EmptySearchField") {
@@ -1258,6 +1258,17 @@ function mapToolbarHandler(btn, evt) {
       helpWin.close();
     } else {
       help_active = true;
+	  //test if helpfile was specified, otherwise display default english help or language version if available
+	  if (typeof(helpfile) === 'undefined') {
+		helpfile = "help_en.html";
+		//we need to test if array.indexOf is available (IE <= version 8 do not support it)
+		//poor old IE users always get the english help, uneless specified in the GlobalOptions.js
+		if (availableHelpLanguages.indexOf()) {
+			if (availableHelpLanguages.indexOf(lang) != -1) {
+				helpfile = "help_"+lang+".html";
+			}
+		}
+	  }
       helpWin = new Ext.Window({
         title: helpWindowTitleString[lang]
         ,width: geoExtMap.getWidth()
@@ -1310,4 +1321,9 @@ function displayLoadMask() {
 function changeCursorInMap(cursorStyle) {
   var mapViewPort = Ext.query(".olMapViewport", document.getElementById("geoExtMapPanel"))[0];
   mapViewPort.style.cursor = cursorStyle;
+}
+
+//function for the help viewer
+function scrollToHelpItem(targetId) {
+	Ext.get(targetId).dom.scrollIntoView();
 }
