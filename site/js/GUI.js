@@ -227,18 +227,27 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 							tooltipType: 'qtip',
 							tooltip: printMapTooltipString[lang],
 							id: 'PrintMap'
-                        }, {
-                            xtype: 'tbseparator'
-                        }, {
-                            xtype: 'button',
-                            enableToggle: false,
-                            allowDepress: false,
-                            scale: 'medium',
-                            icon: 'gis_icons/mActionHelp.png',
-                            tooltipType: 'qtip',
-                            tooltip: showHelpTooltipString[lang],
-                            id: 'ShowHelp'
-                        }]
+						}, {
+							xtype: 'button',
+							enableToggle: false,
+							allowDepress: false,
+							scale: 'medium',
+							icon: 'gis_icons/mActionMailSend.png',
+							tooltipType: 'qtip',
+							tooltip: sendPermalinkTooltipString[lang],
+							id: 'SendPermalink'
+						}, {
+							xtype: 'tbseparator'
+						}, {
+							xtype: 'button',
+							enableToggle: false,
+							allowDepress: false,
+							scale: 'medium',
+							icon: 'gis_icons/mActionHelp.png',
+							tooltipType: 'qtip',
+							tooltip: showHelpTooltipString[lang],
+							id: 'ShowHelp'
+						}]
 					},
 					bbar: {
 						xtype: 'toolbar',
