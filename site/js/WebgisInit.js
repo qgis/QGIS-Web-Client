@@ -163,7 +163,7 @@ function postLoading() {
 		} else {
 			layerTree.root.firstChild.expand(true, false);
 			for (var index = 0; index < visibleLayers.length; index++) {
-				layerTree.root.firstChild.findChildBy(function () {
+				layerTree.root.findChildBy(function () {
 					if (this.isExpandable()) {
 						// expand node while traversing in order to allow toggling checkbox on deeper levels
 						this.expand(true, false);
