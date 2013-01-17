@@ -302,8 +302,8 @@ Ext.extend(QGIS.PrintProvider, GeoExt.data.PrintProvider, {
 QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
 
   map: null,
-  highlightLayerName: null,
-  highlightLayer: null,
+  searchResultLayerName: null,
+  searchResultLayer: null,
 
   /** config
   */
@@ -349,9 +349,9 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
 
     QGIS.SearchComboBox.superclass.initComponent.call(this);
 
-    //reference to highlightLayer
-    if (this.highlightLayerName) {
-      this.highlightLayer = this.map.getLayersByName(this.highlightLayerName)[0];
+    //reference to searchResultLayer
+    if (this.searchResultLayerName) {
+      this.searchResultLayer = this.map.getLayersByName(this.searchResultLayerName)[0];
     }
 
     this.on("select", this.recordSelected, this);
@@ -397,7 +397,7 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
     }
     //need to check if extent is too small
     this.map.zoomToExtent(extent);
-    if (this.highlightLayer) {
+    if (this.searchResultLayer) {
       //network request to get real wkt geometry of search object
       Ext.Ajax.request({
       url: this.geomUrl,
@@ -411,14 +411,13 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
     }
   },
   showSearchGeometry: function(result, request) {
-    this.highlightLayer.removeAllFeatures();
     var feature = new OpenLayers.Feature.Vector(OpenLayers.Geometry.fromWKT(result.responseText));
-    this.highlightLayer.addFeatures([feature]);
+    this.searchResultLayer.addFeatures([feature]);
   },
   clearSearchResult: function() {
     this.setValue("");
-    if (this.highlightLayer) {
-      this.highlightLayer.removeAllFeatures();
+    if (this.searchResultLayer) {
+      this.searchResultLayer.removeAllFeatures();
     }
   },
   getSearchTables: function() {
