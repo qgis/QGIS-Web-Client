@@ -13,7 +13,7 @@ var geoExtMap;
 var layerTree;
 var selectedLayers = "";
 var selectedQueryableLayers = "";
-var thematicLayer, highlightLayer;
+var thematicLayer, highlightLayer, searchResultLayer;
 var highLightGeometry = new Array();
 var WMSGetFInfo, WMSGetFInfoHover;
 var AttributeDataTree;
@@ -337,6 +337,10 @@ function postLoading() {
 			highlightLayer = new OpenLayers.Layer.Vector("attribHighLight", {
 				isBaseLayer: false,
 				styleMap: styleMapHighLightLayer
+			}),
+			searchResultLayer = new OpenLayers.Layer.Vector("searchResultHighlight", {
+				isBaseLayer: false,
+				styleMap: styleMapHighLightLayer
 			})],
 			map: MapOptions,
 			id: "geoExtMapPanel",
@@ -651,7 +655,7 @@ function postLoading() {
 			} else {
 				qgisSearchCombo = new QGIS.SearchComboBox({
 					map: geoExtMap.map,
-					highlightLayerName: 'attribHighLight',
+					searchResultLayerName: 'searchResultHighlight',
 					width: 300,
 					searchtables: searchtables
 				});
