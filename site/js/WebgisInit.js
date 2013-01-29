@@ -200,7 +200,8 @@ function postLoading() {
 		Ext.getCmp('measureDistance').toggleHandler = mapToolbarHandler;
 		Ext.getCmp('measureArea').toggleHandler = mapToolbarHandler;
 		Ext.getCmp('PrintMap').toggleHandler = mapToolbarHandler;
-        Ext.getCmp('ShowHelp').handler = mapToolbarHandler;
+		Ext.getCmp('SendPermalink').handler = mapToolbarHandler;
+		Ext.getCmp('ShowHelp').handler = mapToolbarHandler;
 		//combobox listeners
 		var ObjectIdentificationModeCombobox = Ext.getCmp('ObjectIdentificationModeCombo');
 		ObjectIdentificationModeCombobox.setValue("topMostHit");
@@ -1252,6 +1253,10 @@ function mapToolbarHandler(btn, evt) {
 			mainStatusText.setText(modeNavigationString[lang]);
 		}
 	}
+	if (btn.id == "SendPermalink") {
+		var permalink = createPermalink();
+		window.open("mailto:?subject=Link&body=" + encodeURIComponent(permalink));
+	}
   if (btn.id == "ShowHelp") {
     if (help_active == true){
       help_active = false;
@@ -1326,4 +1331,25 @@ function changeCursorInMap(cursorStyle) {
 //function for the help viewer
 function scrollToHelpItem(targetId) {
 	Ext.get(targetId).dom.scrollIntoView();
+}
+
+//function that creates a permalink
+function createPermalink(){
+	var visibleLayers = Array();
+	var permalink;
+	visibleLayers = getVisibleLayers(visibleLayers, layerTree.root.firstChild);
+	visibleLayers = uniqueLayersInLegend(visibleLayers);
+	var startExtentArray = geoExtMap.map.getExtent().toArray();
+	var startExtent = startExtentArray[0] + "," + startExtentArray[1] + "," + startExtentArray[2] + "," + startExtentArray[3];
+
+	if (!norewrite){
+		permalink = urlBaseArray.slice(0,-1).toString().replace(/,/g, "/");
+		permalink = permalink + "/" + wmsMapName.replace("/", "") + "?";
+	} else {
+		permalink = urlArray[0] + "?map=";
+		permalink = permalink + "/" + wmsMapName.replace("/", "") + "&";
+	}
+	
+	permalink = permalink + "visibleLayers=" + visibleLayers.toString() + "&startExtent=" + startExtent;
+	return permalink;
 }

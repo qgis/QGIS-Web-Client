@@ -714,6 +714,16 @@ printMapDisabledTooltipString["it"] = "Stampa disabilitata: nel progetto QGIS no
 printMapDisabledTooltipString["pt_PT"] = "Impressão indisponível: não tem definido nenhum layout no projecto QGIS";
 printMapDisabledTooltipString["uk"] = "Друк відключено, не вказано шар в QGIS проекті";
 
+//Send permalink
+var sendPermalinkTooltipString = new Array();
+sendPermalinkTooltipString["en"] = "Email a link to this map";
+sendPermalinkTooltipString["es"] = "Email a link to this map"; //FIXME
+sendPermalinkTooltipString["de"] = "Einen Link auf diese Karte per Email verschicken";
+sendPermalinkTooltipString["fr"] = "Email a link to this map"; //FIXME
+sendPermalinkTooltipString["it"] = "Email a link to this map"; //FIXME
+sendPermalinkTooltipString["pt_PT"] = "Email a link to this map"; //FIXME
+sendPermalinkTooltipString["uk"] = "Email a link to this map"; //FIXME
+
 //Show Help
 var showHelpTooltipString = new Array();
 showHelpTooltipString["en"] = "Show Help";
