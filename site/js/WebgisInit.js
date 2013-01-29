@@ -1127,10 +1127,13 @@ function showLegendImage(treeNode) {
   var ToolTabPanel = Ext.getCmp('ToolTabPanel');
   legendTab.setHeight(ToolsPanel.getInnerHeight() - (ToolTabPanel.getHeight() - ToolTabPanel.getInnerHeight()));
   Ext.getCmp('ToolTabPanel').activate(legendTab);
-
+  
   if (visibleLayers.length == 0) {
     var legendImage = legendDisplayHowtoString[lang];
   } else {
+    if ("&" != wmsURI.substr(wmsURI.length -1, 1)){
+      wmsURI = wmsURI + "&";
+    }
     var imageUrl = wmsURI + 'SERVICE=WMS&VERSION=1.3&REQUEST=GetLegendGraphics&FORMAT=image/png&EXCEPTIONS=application/vnd.ogc.se_inimage&WIDTH=195&LAYERS=' + encodeURIComponent(visibleLayers) + '&dpi=' + screenDpi;
     var legendImage = '<p><img src="' + imageUrl + '" alt="Legend of Layer ' + visibleLayers + '" /></p>';
   }
