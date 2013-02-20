@@ -1,0 +1,105 @@
+body {
+	background-image: url(../img/contbg.gif);
+	background-repeat: repeat-x;
+}
+
+.sogis-header {
+	padding-left: 0;
+	overflow: visible;
+	height: 108px;
+	border: none;
+	background-image: url(../img/keyvisual_global.jpg);
+	background-repeat: no-repeat;
+	background-position: center 14px ;
+}
+
+.sogis-header-logo {
+	background-image: url(../img/logo_so.gif);
+	width: 190px;
+	height: 21px;
+	left: 20px;
+	top: 30px;
+	position: absolute;
+}
+
+.sogis-header-text {
+	right: 36px;
+	top: 98px;
+	position: absolute;
+}
+
+.sogis-headernav {
+	margin-top: 85px;
+	padding: 0px 15px;
+	clear: both;
+	height: 27px;
+	background: url(../img/headnavbg.gif) repeat-x bottom;
+}
+
+.sogis-headernav ul li {
+	margin: 0px;
+	padding: 0px;
+	float: left;
+	list-style-type: none;
+	height: 100%;
+	position: relative;
+    	z-index: 2;
+}
+
+.sogis-headernav ul a {
+	border-right: 1px solid #CCC;
+	display: block;
+	padding: 5px 10px 3px;
+	margin-top: 3px;
+	border-right: 1px solid #CCC;
+	color: #333;
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 11px;
+	font-family: tahoma,arial,verdana,sans-serif;
+	background: url(../img/white.gif) repeat-y;
+}
+
+.sogis-headernav ul a.sogis-first {
+	border-left: 1px solid #CCC;
+}
+
+.sogis-headernav ul a.sogis-aktiv {
+	color: #C00;
+	border-top: 1px solid #CCC;
+	background-color: #fff;
+	margin-top: 0;
+	padding-top: 7px;
+}
+
+.sogis-headernav ul ul { 
+	position: absolute; 
+	z-index: 2; 
+	display: none; 
+	left: -1px;
+	top: 26px;
+}
+
+.sogis-headernav ul li:hover ul { 
+	display: block; 
+}
+
+.sogis-headernav ul ul li {
+	border: 1px solid #CCC;
+	background-color: white;
+	float: none;
+	border-width: 0px 1px 1px;
+	white-space: nowrap;
+    	width: 190px;
+}
+
+.sogis-headernav ul ul a.sogis-first {
+	border-top: 1px solid #CCC;
+}
+
+.sogis-headernav ul ul a {
+	margin: 0;
+	border: none;
+}
+
+

@@ -141,12 +141,12 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 									title: legendTabTitleString[lang],
 									autoScroll: true,
 									id: 'LegendTab'
-								}, {
+								}/*, {
 									xtype: 'panel',
 									title: metadataTabTitleString[lang],
 									layout: 'fit',
 									id: 'SearchTab'
-								}]
+								}*/]
 							}]
 						}] // map items
 					}] // accordion items
@@ -232,22 +232,14 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 							enableToggle: false,
 							allowDepress: false,
 							scale: 'medium',
-							icon: 'gis_icons/mActionMailSend.png',
-							tooltipType: 'qtip',
-							tooltip: sendPermalinkTooltipString[lang],
-							id: 'SendPermalink'
-						}, {
-							xtype: 'tbseparator'
-						}, {
-							xtype: 'button',
-							enableToggle: false,
-							allowDepress: false,
-							scale: 'medium',
 							icon: 'gis_icons/mActionHelp.png',
 							tooltipType: 'qtip',
 							tooltip: showHelpTooltipString[lang],
 							id: 'ShowHelp'
-						}]
+						}, {
+							xtype: 'tbseparator'
+						} 
+                        ]
 					},
 					bbar: {
 						xtype: 'toolbar',

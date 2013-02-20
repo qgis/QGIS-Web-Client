@@ -200,7 +200,7 @@ function postLoading() {
 		Ext.getCmp('measureDistance').toggleHandler = mapToolbarHandler;
 		Ext.getCmp('measureArea').toggleHandler = mapToolbarHandler;
 		Ext.getCmp('PrintMap').toggleHandler = mapToolbarHandler;
-		Ext.getCmp('SendPermalink').handler = mapToolbarHandler;
+		//Ext.getCmp('SendPermalink').handler = mapToolbarHandler;
 		Ext.getCmp('ShowHelp').handler = mapToolbarHandler;
 		//combobox listeners
 		var ObjectIdentificationModeCombobox = Ext.getCmp('ObjectIdentificationModeCombo');
@@ -226,6 +226,8 @@ function postLoading() {
 			}
 		}
 	}
+    //SOGIS - EXTENT OF SO
+    maxExtent = new OpenLayers.Bounds(576675,211071,653034,263618);
 	MapOptions.maxExtent = maxExtent;
 
 	//now collect all selected layers (with checkbox enabled in tree)
@@ -637,6 +639,9 @@ function postLoading() {
 		});
 		myTopToolbar.insert(3, zoomToNextAction);
 
+        //SOGIS: Permalink
+        addPermalinkToToolbar(myTopToolbar);
+
 		//add QGISSearchCombo
 		if (useGeoNamesSearchBox || searchBoxQueryURL != null) {
 			myTopToolbar.insert(myTopToolbar.items.length, new Ext.Toolbar.Fill());
@@ -669,6 +674,7 @@ function postLoading() {
 			emptySearchFieldButton.handler = mapToolbarHandler;
 			myTopToolbar.insert(myTopToolbar.items.length, emptySearchFieldButton);
 		}
+
 
 		myTopToolbar.doLayout();
 
@@ -1163,6 +1169,42 @@ function uniqueLayersInLegend(origArr) {
 	return newArr;
 }
 
+/* SOGIS -------------------------- */
+function addPermalinkToToolbar(toolbar) {
+        var shortUrlButton = new Ext.Button({
+            scale: 'medium',
+            icon: 'gis_icons/mActionPermalink.png',
+            tooltipType: 'qtip',
+            tooltip: "Permalink",
+            handler: updatePermalink
+        });
+        toolbar.addItem(shortUrlButton);
+        
+        var permalinkField = new Ext.form.TextField({
+            emptyText: "Permalink",
+            hidden: true,
+            readOnly: true,
+            width: 50,
+            selectOnFocus: true
+        });
+        toolbar.addItem(permalinkField);
+        
+        function updatePermalink() {
+            var permalink = createPermalink();
+            permalinkField.setValue(permalink);
+            permalinkField.show();
+        }
+
+        function unsetPermalink() {
+            permalinkField.hide();
+        }
+        
+        geoExtMap.map.events.register('moveend', this, unsetPermalink);
+        geoExtMap.map.events.register('changelayer', this, unsetPermalink);
+        
+}
+/* END SOGIS ---------------------- */
+
 function mapToolbarHandler(btn, evt) {
 	if (btn.id == "IdentifyTool") {
 		if (btn.pressed) {
@@ -1256,10 +1298,13 @@ function mapToolbarHandler(btn, evt) {
 			mainStatusText.setText(modeNavigationString[lang]);
 		}
 	}
+    /*
 	if (btn.id == "SendPermalink") {
 		var permalink = createPermalink();
-		window.open("mailto:?subject=Link&body=" + encodeURIComponent(permalink));
+		//window.open("mailto:?subject=Link&body=" + encodeURIComponent(permalink));
+        alert(permalink);
 	}
+    */
   if (btn.id == "ShowHelp") {
     if (help_active == true){
       help_active = false;
