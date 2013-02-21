@@ -227,7 +227,7 @@ function postLoading() {
 		}
 	}
     //SOGIS - EXTENT OF SO
-    maxExtent = new OpenLayers.Bounds(576675,211071,653034,263618);
+    //maxExtent = new OpenLayers.Bounds(566675,201071,663034,273618);
 	MapOptions.maxExtent = maxExtent;
 
 	//now collect all selected layers (with checkbox enabled in tree)
@@ -417,6 +417,7 @@ function postLoading() {
 		MapPanelRef.on('resize', function (panel, w, h) {
 			geoExtMap.setWidth(panel.getInnerWidth());
 			geoExtMap.setHeight(panel.getInnerHeight());
+
 		});
 
 		//scale listener to write current scale to numberfield
@@ -1061,7 +1062,7 @@ function postLoading() {
 			var printDPICombobox = Ext.getCmp('PrintDPICombobox');
 			printDPICombobox.setValue("150");
 			//need to manually fire the event, because .setValue doesn't; index omitted, not needed
-			printDPICombobox.fireEvent("select", printDPICombobox, printDPICombobox.findRecord(printDPICombobox.valueField, "300"));
+			printDPICombobox.fireEvent("select", printDPICombobox, printDPICombobox.findRecord(printDPICombobox.valueField, "150"));
 			printExtent.initialized = false;
 			//bug in spinnerField: need to explicitly show/hide printWindow (toolbar)
 			printWindow.show();
@@ -1184,14 +1185,15 @@ function addPermalinkToToolbar(toolbar) {
             emptyText: "Permalink",
             hidden: true,
             readOnly: true,
-            width: 50,
+            width: 70,
             selectOnFocus: true
+            
         });
         toolbar.addItem(permalinkField);
         
         function updatePermalink() {
             var permalink = createPermalink();
-            permalinkField.setValue(permalink);
+            permalinkField.setValue(encodeURI(permalink));
             permalinkField.show();
         }
 

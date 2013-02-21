@@ -85,13 +85,13 @@ function provLayerSwitcher(strMapName){
     
     switch(strMapName){
         case 'ortsplan':
-            window.location = 'http://www.sogis1.so.ch/map/ortsplan?startExtent='+left+','+bottom+','+right+','+top+'&scale='+scale+'&visibleLayers=Gemeindegrenzen,Ortsplan';
+            window.location = './ortsplan?startExtent='+left+','+bottom+','+right+','+top+'&visibleLayers=Gemeindegrenzen,Ortsplan';
             break;
         case 'nutzungszonen':
-            window.location = 'http://www.sogis1.so.ch/map/nutzungszonen?startExtent='+left+','+bottom+','+right+','+top+'&scale='+scale+'&visibleLayers=Gemeindegrenzen,Nutzungszonen,Orthofoto';
+            window.location = './nutzungszonen?startExtent='+left+','+bottom+','+right+','+top+'&visibleLayers=Gemeindegrenzen,Nutzungszonen,Orthofoto';
             break;
         case 'gemeindegis':
-            window.location = 'http://www.sogis1.so.ch/map/gemeindegis?startExtent='+left+','+bottom+','+right+','+top+'&scale='+scale+'&visibleLayers=Amtliche%20Vermessung,Wasser,Abwasser';
+            window.location = './gemeindegis?startExtent='+left+','+bottom+','+right+','+top+'&visibleLayers=Amtliche%20Vermessung,Wasser,Abwasser';
             //window.location='./gemeindegis?startExtent=615200,257000,618400,260750&visibleLayers=Amtliche%20Vermessung,Wasser,Abwasser';
             break;
         case 'grundbuch':
