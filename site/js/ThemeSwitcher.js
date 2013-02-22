@@ -289,7 +289,7 @@ ThemeSwitcher.prototype.changeTheme = function (dataView, index, node, evt) {
 			wmsURI = gis_projects.mapserver;
 		}
 		if (norewrite) {
-			wmsURI += "?map=" + projData.projectpath + "/" + projData.projectfile;
+			wmsURI += "?map=" + projData.projectpath + "/" + projData.projectfile + ".qgs";
 		} else {
 			wmsURI += "/" + projData.projectpath + "/" + projData.projectfile + "?";
 		}
