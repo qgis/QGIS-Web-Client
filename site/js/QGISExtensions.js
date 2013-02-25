@@ -31,6 +31,8 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
   projectSettings: null,
   //this list holds layer properties, indexed by layername
   layerProperties: new Array(),
+	//this list holds a mapping between title and layer name - the tree shows the title, the WMS requests need names
+	layerTitleNameMapping: new Array(),
   getParams: function(node) {
     return {
       SERVICE: 'WMS',
@@ -161,6 +163,7 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
         displayField: layer.displayField,
         nrChildLayers: layer.nestedLayers.length
       };
+			this.layerTitleNameMapping[layer.title] = layer.name;
     }
 
     // defaults for GetCapabilities
