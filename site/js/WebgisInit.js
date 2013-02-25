@@ -325,6 +325,8 @@ function postLoading() {
 
 	if (!initialLoadDone) {
 		geoExtMap = new GeoExt.MapPanel({
+            frame: false,
+            border: false,
 			zoom: 1.6,
 			layers: [
 			thematicLayer = new OpenLayers.Layer.WMS(layerTree.root.firstChild.text,
