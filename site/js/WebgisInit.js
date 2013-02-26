@@ -337,7 +337,6 @@ function postLoading() {
 				},
 				LayerOptions
 			),
-			//layerOptions: {styleMap: styleMapMeasureControls}, isBaseLayer: false,
 			highlightLayer = new OpenLayers.Layer.Vector("attribHighLight", {
 				isBaseLayer: false,
 				styleMap: styleMapHighLightLayer
@@ -524,7 +523,8 @@ function postLoading() {
 	}, {
 		buffer: 0,
 		singleTile: true,
-		ratio: 1
+		ratio: 1,
+		projection: 'EPSG:'+epsgcode
 	});
 
 	WMSGetFInfo = new OpenLayers.Control.WMSGetFeatureInfo({
@@ -560,6 +560,8 @@ function postLoading() {
 			autoHide: false,
 			autoWidth: true,
 			autoHeight: true,
+			anchor: 'left',
+			anchorToTarget: false,
 			listeners: {
 				'move': function (tt, x, y) {
 					//fixes disabled tooltip that still displays - not nice, but it works
@@ -570,6 +572,8 @@ function postLoading() {
 				}
 			}
 		});
+		//the following line is due to a ExtJS bug - see http://www.sencha.com/forum/showthread.php?51702-Tooltip-targetXY-is-undefined
+		attribToolTip.targetXY = geoExtMap.getPosition();
 	}
 	
 	//overview map
