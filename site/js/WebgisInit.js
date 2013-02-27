@@ -372,7 +372,7 @@ function postLoading() {
 			}, {
 				xtype: "gx_zoomslider",
 				vertical: true,
-				aggressive: true,
+				aggressive: false,
 				height: 100,
 				x: 17,
 				y: 50,
