@@ -324,6 +324,10 @@ function postLoading() {
 	selectedLayers = layersInDrawingOrder(selectedLayers);
 
 	if (!initialLoadDone) {
+		//we need to make sure that OpenLayers.map.fallThrough is set to true
+		//otherwise the mouse events are swallowed
+		MapOptions.fallThrough = true;
+		//creating the GeoExt map panel
 		geoExtMap = new GeoExt.MapPanel({
             frame: false,
             border: false,
@@ -560,7 +564,6 @@ function postLoading() {
 			autoHide: false,
 			autoWidth: true,
 			autoHeight: true,
-			anchor: 'left',
 			anchorToTarget: false,
 			listeners: {
 				'move': function (tt, x, y) {
