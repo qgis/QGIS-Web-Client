@@ -1,13 +1,13 @@
 var gis_projects = {
 	"path": "/site",
-	"mapserver": "/wms",
+	"mapserver": "/cgi-bin/qgis_mapserv.fcgi",
 	"thumbnails": "/thumbnails",
 	"title": "QGIS Mapserver demo",
 	"topic": [{
 		"name": "QGIS Hello World",
 		"project": [{
 			"name": "QGIS Hello World",
-			"projectpath": "",
+			"projectpath": "/home/web/qgis-web-client/projects",
 			"projectfile": "helloworld",
 			"format": "image/png",
 			"visibleLayers": "Hello,Country",
@@ -19,7 +19,7 @@ var gis_projects = {
 		"name": "Natural Earth",
 		"project": [{
 			"name": "Physical Geography (Natural Earth)",
-			"projectpath": "",
+			"projectpath": "/home/web/qgis-web-client/projects",
 			"projectfile": "naturalearth_110million",
 			"format": "image/png; mode=8bit",
 			"visibleLayers": "Ocean,Land,Lakes,Glaciated Areas,Rivers,Geographic Features",

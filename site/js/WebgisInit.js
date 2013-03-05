@@ -161,6 +161,7 @@ function postLoading() {
 				return false;
 			}, null, true);
 		} else {
+			//in case the URL parameter 'visibleLayers' is provided we iterate it
 			layerTree.root.firstChild.expand(true, false);
 			for (var index = 0; index < visibleLayers.length; index++) {
 				layerTree.root.findChildBy(function () {
@@ -168,7 +169,7 @@ function postLoading() {
 						// expand node while traversing in order to allow toggling checkbox on deeper levels
 						this.expand(true, false);
 					}
-					if (this.attributes["text"] == visibleLayers[index]) {
+					if (wmsLoader.layerTitleNameMapping[this.attributes["text"]] == visibleLayers[index]) {
 						this.getUI().toggleCheck(true);
 						return true;
 					}
@@ -237,9 +238,9 @@ function postLoading() {
 
 	function (n) {
 		if (n.isLeaf() && n.attributes.checked) {
-			selectedLayers.push(n.text);
-			if (wmsLoader.layerProperties[n.text].queryable) {
-				selectedQueryableLayers.push(n.text);
+			selectedLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
+			if (wmsLoader.layerProperties[wmsLoader.layerTitleNameMapping[n.text]].queryable) {
+				selectedQueryableLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
 			}
 		}
 	});
@@ -325,7 +326,13 @@ function postLoading() {
 	selectedLayers = layersInDrawingOrder(selectedLayers);
 
 	if (!initialLoadDone) {
+		//we need to make sure that OpenLayers.map.fallThrough is set to true
+		//otherwise the mouse events are swallowed
+		MapOptions.fallThrough = true;
+		//creating the GeoExt map panel
 		geoExtMap = new GeoExt.MapPanel({
+            frame: false,
+            border: false,
 			zoom: 1.6,
 			layers: [
 			thematicLayer = new OpenLayers.Layer.WMS(layerTree.root.firstChild.text,
@@ -336,7 +343,6 @@ function postLoading() {
 				},
 				LayerOptions
 			),
-			//layerOptions: {styleMap: styleMapMeasureControls}, isBaseLayer: false,
 			highlightLayer = new OpenLayers.Layer.Vector("attribHighLight", {
 				isBaseLayer: false,
 				styleMap: styleMapHighLightLayer
@@ -368,7 +374,7 @@ function postLoading() {
 			}, {
 				xtype: "gx_zoomslider",
 				vertical: true,
-				aggressive: true,
+				aggressive: false,
 				height: 100,
 				x: 17,
 				y: 50,
@@ -524,7 +530,8 @@ function postLoading() {
 	}, {
 		buffer: 0,
 		singleTile: true,
-		ratio: 1
+		ratio: 1,
+		projection: 'EPSG:'+epsgcode
 	});
 
 	WMSGetFInfo = new OpenLayers.Control.WMSGetFeatureInfo({
@@ -560,6 +567,7 @@ function postLoading() {
 			autoHide: false,
 			autoWidth: true,
 			autoHeight: true,
+			anchorToTarget: false,
 			listeners: {
 				'move': function (tt, x, y) {
 					//fixes disabled tooltip that still displays - not nice, but it works
@@ -570,6 +578,8 @@ function postLoading() {
 				}
 			}
 		});
+		//the following line is due to a ExtJS bug - see http://www.sencha.com/forum/showthread.php?51702-Tooltip-targetXY-is-undefined
+		attribToolTip.targetXY = geoExtMap.getPosition();
 	}
 	
 	//overview map
@@ -817,9 +827,9 @@ function postLoading() {
 
 		function (n) {
 			if (n.isLeaf() && n.attributes.checked) {
-				selectedLayers.push(n.text);
-				if (wmsLoader.layerProperties[n.text].queryable) {
-					selectedQueryableLayers.push(n.text);
+				selectedLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
+				if (wmsLoader.layerProperties[wmsLoader.layerTitleNameMapping[n.text]].queryable) {
+					selectedQueryableLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
 				}
 				//test to see if we need to change to jpeg because checked
 				//layer is in array fullColorLayers

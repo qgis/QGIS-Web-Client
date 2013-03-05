@@ -31,6 +31,8 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
   projectSettings: null,
   //this list holds layer properties, indexed by layername
   layerProperties: new Array(),
+	//this list holds a mapping between title and layer name - the tree shows the title, the WMS requests need names
+	layerTitleNameMapping: new Array(),
   getParams: function(node) {
     return {
       SERVICE: 'WMS',
@@ -84,6 +86,13 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
 
           // based on OpenLayers.Format.WMSCapabilities.v1 parser
           "Layer": function(node, obj) {
+						var parentLayer, capability;
+						if (obj.capability) {
+								capability = obj.capability;
+								parentLayer = obj;
+						} else {
+								capability = obj;
+						}
             var attrNode = node.getAttributeNode("queryable");
             var queryable = (attrNode && attrNode.specified) ?
               node.getAttribute("queryable") : null;
@@ -103,33 +112,61 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
             var noSubsets = node.getAttribute('noSubsets');
             var fixedWidth = node.getAttribute('fixedWidth');
             var fixedHeight = node.getAttribute('fixedHeight');
-            var layer = {nestedLayers: [], styles: [], srs: {},
-              metadataURLs: [], bbox: {}, dimensions: {},
-              authorityURLs: {}, identifiers: {}, keywords: [],
-              queryable: (queryable && queryable !== "") ?
-                ( queryable === "1" || queryable === "true" ) : null,
-              cascaded: (cascaded !== null) ? parseInt(cascaded) : null,
-              opaque: opaque ?
-                (opaque === "1" || opaque === "true" ) : null,
-              visible: (visible && visible !== "") ?
-                ( visible === "1" || visible === "true" ) : true,
-              displayField: displayField,
-              noSubsets: (noSubsets !== null) ?
-                ( noSubsets === "1" || noSubsets === "true" ) : null,
-              fixedWidth: (fixedWidth != null) ?
-                parseInt(fixedWidth) : null,
-              fixedHeight: (fixedHeight != null) ?
-                parseInt(fixedHeight) : null
-            };
+						var parent = parentLayer || {},
+								extend = OpenLayers.Util.extend;
+            var layer = {nestedLayers: [],
+                    styles: parentLayer ? [].concat(parentLayer.styles) : [],
+                    srs: parentLayer ? extend({}, parent.srs) : {}, 
+                    metadataURLs: [],
+                    bbox: parentLayer ? extend({}, parent.bbox) : {},
+                    llbbox: parent.llbbox,
+                    dimensions: parentLayer ? extend({}, parent.dimensions) : {},
+                    authorityURLs: parentLayer ? extend({}, parent.authorityURLs) : {},
+                    identifiers: {},
+                    keywords: [],
+                    queryable: (queryable && queryable !== "") ? 
+                        (queryable === "1" || queryable === "true" ) :
+                        (parent.queryable || false),
+                    cascaded: (cascaded !== null) ? parseInt(cascaded) :
+                        (parent.cascaded || 0),
+                    opaque: opaque ? 
+                        (opaque === "1" || opaque === "true" ) :
+                        (parent.opaque || false),
+										//visible and displayField are QGIS extensions
+										visible: (visible && visible !== "") ?
+											( visible === "1" || visible === "true" ) : true,
+										displayField: displayField,
+										noSubsets: (noSubsets !== null) ? 
+												(noSubsets === "1" || noSubsets === "true" ) :
+												(parent.noSubsets || false),
+										fixedWidth: (fixedWidth != null) ? 
+												parseInt(fixedWidth) : (parent.fixedWidth || 0),
+										fixedHeight: (fixedHeight != null) ? 
+												parseInt(fixedHeight) : (parent.fixedHeight || 0),
+										minScale: parent.minScale,
+										maxScale: parent.maxScale,
+										attribution: parent.attribution
+								};
             obj.nestedLayers.push(layer);
+            layer.capability = capability;
             this.readChildNodes(node, layer);
-            if(layer.name) {
-              var parts = layer.name.split(":");
-              if(parts.length > 0) {
-                layer.prefix = parts[0];
-              }
-            }
-          },
+						delete layer.capability;
+                if(layer.name) {
+                    var parts = layer.name.split(":"),
+                        request = capability.request,
+                        gfi = request.getfeatureinfo;
+                    if(parts.length > 0) {
+                        layer.prefix = parts[0];
+                    }
+                    capability.layers.push(layer);
+                    if (layer.formats === undefined) {
+                        layer.formats = request.getmap.formats;
+                    }
+                    if (layer.infoFormats === undefined && gfi) {
+                        layer.infoFormats = gfi.formats;
+                    }
+                }
+            },
 
           "Attributes": function(node, obj) {
             obj.attributes = []
@@ -145,7 +182,10 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
               comment: node.getAttribute("comment")
             };
             obj.push(attribute);
-          }
+          },
+					"SRS": function(node, obj) {
+							obj.srs[this.getChildValue(node)] = true;
+					}
         }, OpenLayers.Format.WMSCapabilities.v1_3.prototype.readers["wms"])
       }
     }).read(this.WMSCapabilities);
@@ -161,6 +201,7 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
         displayField: layer.displayField,
         nrChildLayers: layer.nestedLayers.length
       };
+			this.layerTitleNameMapping[layer.title] = layer.name;
     }
 
     // defaults for GetCapabilities
@@ -180,7 +221,8 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
         OpenLayers.Util.extend({
           formats: layer.formats[0],
           layers: layer.name
-        }, this.layerParams),
+        },
+				this.layerParams),
         OpenLayers.Util.extend({
           minScale: layer.minScale,
           queryable: layer.queryable,
@@ -822,4 +864,41 @@ QGIS.FeatureInfoParser = Ext.extend(Object, {
   featuresBbox: function() {
     return this.bbox;
   }
+});
+
+// override 3.4.0 to allow beforeshow to cancel the tooltip
+Ext.override(Ext.ToolTip, {
+   show: function(){
+      if(this.anchor){
+          this.showAt([-1000,-1000]);
+          this.origConstrainPosition = this.constrainPosition;
+          this.constrainPosition = false;
+          this.anchor = this.origAnchor;
+      }
+      this.showAt(this.getTargetXY());
+      
+      if(this.anchor){
+          this.anchorEl.show();
+          this.syncAnchor();
+          this.constrainPosition = this.origConstrainPosition;
+      // added "if (this.anchorEl)"
+      }else if (this.anchorEl){
+          this.anchorEl.hide();
+      }
+   },
+   showAt : function(xy){
+      this.lastActive = new Date();
+      this.clearTimers();
+      Ext.ToolTip.superclass.showAt.call(this, xy);
+      if(this.dismissDelay && this.autoHide !== false){
+          this.dismissTimer = this.hide.defer(this.dismissDelay, this);
+      }
+      if(this.anchor && !this.anchorEl.isVisible()){
+          this.syncAnchor();
+          this.anchorEl.show();
+      // added "if (this.anchorEl)"
+      }else if (this.anchorEl){
+          this.anchorEl.hide();
+      }
+   }
 });

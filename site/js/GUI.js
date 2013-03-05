@@ -56,6 +56,8 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 			id: 'GisBrowserPanel',
 			items: [{
 				xtype: 'panel',
+                margins: '3 0 3 3',
+                cmargins: '3 3 3 3',
 				title: leftPanelTitleString[lang],
 				height: 333,
 				width: 225,
@@ -83,6 +85,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 					xtype: 'panel',
 					layout: 'accordion',
 					border: false,
+                    frame: false,
 					flex: 0.9,
 					width: '100%',
 					layoutConfig: {
@@ -106,8 +109,12 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 						xtype: 'panel',
 						title: mapPanelTitleString[lang],
 						layout: 'border',
+                        border: false,
+                        frame: false,
 						items: [{
 							xtype: 'treepanel',
+                            border: false,
+                            frame: false,
 							title: layerTreeTitleString[lang],
 							height: 159,
 							split: true,
@@ -127,17 +134,23 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 						}, {
 							xtype: 'panel',
 							region: 'south',
+                            frame: false,
+                            border: false,
 							collapsible: true,
 							boxMinHeight: 275,
 							split: true,
 							headerAsText: false,
 							id: 'ToolsPanel',
 							items: [{
+                                
 								xtype: 'tabpanel',
+                                frame: false,
+                                border: false,
 								activeTab: 0,
 								id: 'ToolTabPanel',
 								items: [{
 									xtype: 'panel',
+                                    
 									title: legendTabTitleString[lang],
 									autoScroll: true,
 									id: 'LegendTab'
@@ -153,6 +166,9 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 				}] // left panel items
 			}, {
 				xtype: 'panel',
+                border: false,
+                frame: false,
+                margins: '3 3 3 0',
 				flex: 1,
 				region: 'center',
 				width: 100,
@@ -273,13 +289,15 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 							minValue: 1,
 							allowNegative: false,
 							allowDecimals: false,
-							width: 45,
+							width: 75,
 							enableKeyEvents: true,
 							id: 'ScaleNumberField'
 						}]
 					}
 				}, {
 					xtype: 'treepanel',
+                    margins: '0 0 0 0',
+                    cmargins: '0 0 0 3',                    
 					title: attributeDataTreeTitleString[lang],
 					rootVisible: false,
 					region: 'east',

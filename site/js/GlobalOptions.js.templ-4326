@@ -4,9 +4,9 @@ var lang = "en"; //for available codes see array availableLanguages in file Glob
 //Help file (must be a local file)
 var helpfile = "help_en.html";
 
-//Servername and name of CGI-file
-//Path must include the host name
-var serverAndCGI = "http://qgis-web-client.localhost/cgi-bin/qgis_mapserv.fcgi"; //URL mit Name des qgis mapserver cgi
+//Servername (optional) and path and name name of QGIS mapserver FCGI-file
+//either with or without server-name - without servername recommended for easier porting to other servers
+var serverAndCGI = "/cgi-bin/qgis_mapserv.fcgi";
 
 //Define whether you want to use the GetProjectSettings extension of QGIS Server
 //for more configuration options in the project.
@@ -81,7 +81,7 @@ var mapSearchPanelConfigs = {
 //note that you have to also link a gis-project-listing.js file containing a valid
 //project listing structure - the root object is called 'gis_projects'
 //have a look at the template file and documentation for the correct json structure
-var mapThemeSwitcherActive = false;
+var mapThemeSwitcherActive = true;
 
 //first part of titlebar text
 var titleBarText = "GIS-Browser - "; // will be appended with project title
@@ -94,8 +94,8 @@ var epsgcode = 4326;
 var MapOptions = {
   projection: new OpenLayers.Projection("EPSG:"+epsgcode),
   units: "degrees",
-  maxScale:50,
-  minScale:91819225,
+  maxScale:100000,
+  minScale:100000000,
   fractionalZoom: true,
   transitionEffect:"resize",
   controls: []
@@ -114,14 +114,14 @@ var LayerOptions = {
 var OverviewMapOptions = {
   projection: new OpenLayers.Projection("EPSG:"+epsgcode),
   units: "degrees",
-  maxScale:50,
-  minScale:250000,
+  maxScale:100000,
+  minScale:800000000,
   transitionEffect:"resize"
 };
 var OverviewMapSize = new OpenLayers.Size(200,200);
-var overviewLayer = new OpenLayers.Layer.WMS("Pixelkarte",
-  "/cgi-bin/mapserv?map=/path-to-map/.map",
-  {layers:"pk_kombiniert",format:"image/jpeg"},
+var overviewLayer = new OpenLayers.Layer.WMS("Overview-Map",
+  "/cgi-bin/qgis_mapserv.fcgi?map=/home/web/qgis-web-client/projects/naturalearth_110million.qgs",
+  {layers:"Land",format:"image/png"},
   {buffer:0,singleTile:true,transitionEffect:"resize"});
 
 
