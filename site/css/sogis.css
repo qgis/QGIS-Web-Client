@@ -43,7 +43,7 @@ body {
 	list-style-type: none;
 	height: 100%;
 	position: relative;
-    	z-index: 2;
+    z-index: 2;
 }
 
 .sogis-headernav ul a {
