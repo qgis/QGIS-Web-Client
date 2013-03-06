@@ -72,7 +72,7 @@
                 </ComposerItem>
             </ComposerScaleBar>
             <ComposerPicture pictureWidth="25" file="./north-arrow_3_simple_symmetric_triangular.svg" pictureHeight="25" mapId="-1">
-                <ComposerItem width="25" x="262" y="2.14904" rotation="0" height="25" positionMode="0" frame="false" outlineWidth="0.3" zValue="2" lastValidViewScaleFactor="2.79195" id="" background="false" positionLock="false">
+                <ComposerItem width="25" x="262" y="2.14904" rotation="0" height="25" positionMode="0" frame="false" outlineWidth="0.3" zValue="2" lastValidViewScaleFactor="4.8255" id="" background="false" positionLock="false">
                     <FrameColor alpha="255" red="0" blue="0" green="0"/>
                     <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
                 </ComposerItem>
@@ -107,7 +107,7 @@
                     </symbol>
                     <Annotation rightDirection="0" bottomDirection="0" format="0" topPosition="1" precision="3" leftDirection="0" rightPosition="1" bottomPosition="1" frameDistance="1" show="0" font="Sans Serif,9,-1,5,50,0,0,0,0,0" leftPosition="1" topDirection="0"/>
                 </Grid>
-                <ComposerItem width="277" x="10" y="25" rotation="0" height="175" positionMode="0" frame="false" outlineWidth="0.3" zValue="1" lastValidViewScaleFactor="2.79195" id="" background="true" positionLock="true">
+                <ComposerItem width="277" x="10" y="25" rotation="0" height="175" positionMode="0" frame="false" outlineWidth="0.3" zValue="1" lastValidViewScaleFactor="4.8255" id="" background="true" positionLock="true">
                     <FrameColor alpha="255" red="0" blue="0" green="0"/>
                     <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
                 </ComposerItem>
@@ -149,7 +149,7 @@
                         </layer>
                     </symbol>
                 </overviewFrame>
-                <Extent ymin="20.2794" xmin="86.5851" ymax="71.3658" xmax="124.035"/>
+                <Extent ymin="20.2794" xmin="86.5851" ymax="71.3659" xmax="124.035"/>
                 <LayerSet/>
                 <Grid gridStyle="0" crossLength="3" intervalX="10" offsetX="10" intervalY="10" offsetY="10" gridFrameStyle="0" gridFrameWidth="2" show="1">
                     <symbol outputUnit="MM" alpha="1" type="line" name="">
@@ -724,11 +724,11 @@
             <excludeAttributesWFS/>
             <attributeactions/>
         </maplayer>
-        <maplayer minimumScale="0" maximumScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0">
+        <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0">
             <id>ne_110m_land20121113085601097</id>
             <datasource>dbname='../data/naturalearth_110m_physical.sqlite' table="ne_110m_land" (geom) sql=</datasource>
             <title>The land masses</title>
-            <abstract></abstract>
+            <abstract>This layer contains all the land masses, generalized for the map scale of 1:100 Million.</abstract>
             <layername>Land</layername>
             <srs>
                 <spatialrefsys>

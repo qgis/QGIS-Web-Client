@@ -198,10 +198,12 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
       this.layerProperties[layer.name] = {
         name: layer.name,
         title: layer.title,
+				abstract: layer.abstract,
         opacity: 255,
         queryable: layer.queryable,
         displayField: layer.displayField,
-        nrChildLayers: layer.nestedLayers.length
+        nrChildLayers: layer.nestedLayers.length,
+				attributes: layer.attributes
       };
 			this.layerTitleNameMapping[layer.title] = layer.name;
     }

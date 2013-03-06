@@ -370,6 +370,63 @@ helpWindowTitleString["it"] = "Aiuto";
 helpWindowTitleString["pt_PT"] = "Ajuda";
 helpWindowTitleString["uk"] = "Довідка";
 
+//title of legend and per layer metadata window
+var legendMetadataWindowTitleString = new Array();
+legendMetadataWindowTitleString["en"] = "Legend and metadata information of layer";
+legendMetadataWindowTitleString["es"] = "Legend and metadata information of layer"; //FIXME
+legendMetadataWindowTitleString["de"] = "Legende und Metadaten der Ebene";
+legendMetadataWindowTitleString["fr"] = "Legend and metadata information of layer"; //FIXME
+legendMetadataWindowTitleString["it"] = "Legend and metadata information of layer"; //FIXME
+legendMetadataWindowTitleString["pt_PT"] = "Legend and metadata information of layer"; //FIXME
+legendMetadataWindowTitleString["uk"] = "Legend and metadata information of layer"; //FIXME
+
+//title of legend and per layer metadata window
+var layerQueryable = new Array();
+layerQueryable["en"] = "This layer is queryable: ";
+layerQueryable["es"] = "This layer is queryable: "; //FIXME
+layerQueryable["de"] = "Diese Ebene ist abfragbar: ";
+layerQueryable["fr"] = "This layer is queryable: "; //FIXME
+layerQueryable["it"] = "This layer is queryable: "; //FIXME
+layerQueryable["pt_PT"] = "This layer is queryable: "; //FIXME
+layerQueryable["uk"] = "This layer is queryable: "; //FIXME
+
+var yesString = new Array();
+yesString["en"] = "yes";
+yesString["es"] = "yes"; //FIXME
+yesString["de"] = "ja";
+yesString["fr"] = "yes"; //FIXME
+yesString["it"] = "yes"; //FIXME
+yesString["pt_PT"] = "yes"; //FIXME
+yesString["uk"] = "yes"; //FIXME
+
+var noString = new Array();
+noString["en"] = "no";
+noString["es"] = "no"; //FIXME
+noString["de"] = "nein";
+noString["fr"] = "no"; //FIXME
+noString["it"] = "no"; //FIXME
+noString["pt_PT"] = "no"; //FIXME
+noString["uk"] = "no"; //FIXME
+
+var displayFieldString = new Array();
+displayFieldString["en"] = "Display-Field";
+displayFieldString["es"] = "Display-Field"; //FIXME
+displayFieldString["de"] = "Anzeigefeld";
+displayFieldString["fr"] = "Display-Field"; //FIXME
+displayFieldString["it"] = "Display-Field"; //FIXME
+displayFieldString["pt_PT"] = "Display-Field"; //FIXME
+displayFieldString["uk"] = "Display-Field"; //FIXME
+
+//title of attribute data tree
+var attributesString = new Array();
+attributesString["en"] = "Attributes / Fields";
+attributesString["es"] = "Atributos";
+attributesString["de"] = "Attribute / Felder";
+attributesString["fr"] = "Attributs";
+attributesString["it"] = "Attributi";
+attributesString["pt_PT"] = "Atributos";
+attributesString["uk"] = "Атрибути";
+
 //label in main toolbar for object identification
 var objectIdentificationTextLabel = new Array();
 objectIdentificationTextLabel["en"] = "Object identification: ";

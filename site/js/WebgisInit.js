@@ -2,7 +2,7 @@
  *
  * WebgisInit.js -- part of Quantum GIS Web Client
  *
- * Copyright (2010-2012), The QGIS Project All rights reserved.
+ * Copyright (2010-2013), The QGIS Project All rights reserved.
  * Quantum GIS Web Client is released under a BSD license. Please see
  * https://github.com/qgis/qgis-web-client/blob/master/README
  * for the full text of the license and the list of contributors.
@@ -43,8 +43,13 @@ var themeChangeActive = false; //status to indicate if theme chang is active
 var layerTreeSelectionChangeHandlerFunction; //a reference to the handler function of the selection tree
 var layerOrderPanel = null;
 var visibleGroups = [];
-var help_active = false;
-var helpWin;
+var help_active = false; //help window is active or not
+var helpWin; //Ext window that will display the help file
+var legendMetadataWindow_active = false; //legend graphic and metadata window is active or not
+var legendMetadataWindow; //Ext window that will hold the legend and metatadata
+var legendMetaTabPanel; //a reference to the Ext tabpanel holding the tabs for legend graphic and metadata
+var legendTab; //a reference to the Ext tab holding the legend graphic
+var metadataTab; //a reference to the Ext tab holding the metadata information
 
 Ext.onReady(function () {
 	//dpi detection
@@ -1195,6 +1200,7 @@ function postLoading() {
     loadMask.hide();
   }
 	initialLoadDone = true;
+	showLegendAndMetadata("The land masses");
 }
 
 function getVisibleLayers(visibleLayers, currentNode){
