@@ -52,12 +52,14 @@ function showLegendAndMetadata(layername) {
 	}
 	metadataText += '</p>';
 	metadataText += '<p style="margin-top:1em;">'+displayFieldString[lang]+": "+wmsLoader.layerProperties[wmsLoader.layerTitleNameMapping[layername]].displayField + '</p>';
-	metadataText += '<p style="margin-top:1em"><b>'+attributesString [lang]+'</b></p><table style="margin-top:0.5em;border:1px solid gray;padding:2px;"><tr><th>Name</th><th>Type</th><th>Comment</th><th>Length</th><th>Precision</th></tr>';
-	for (var i=0;i<wmsLoader.layerProperties[wmsLoader.layerTitleNameMapping[layername]].attributes.length;i++) {
-		attribute = wmsLoader.layerProperties[wmsLoader.layerTitleNameMapping[layername]].attributes[i];
-		metadataText += '<tr><td>'+attribute.name+'</td><td>'+attribute.type+'</td><td>'+attribute.comment+'</td><td>'+attribute.length+'</td><td>'+attribute.precision+'</td></tr>';
+	if (wmsLoader.layerProperties[wmsLoader.layerTitleNameMapping[layername]].attributes) {
+		metadataText += '<p style="margin-top:1em"><b>'+attributesString [lang]+'</b></p><table style="margin-top:0.5em;border:1px solid gray;padding:2px;"><tr><th>Name</th><th>Type</th><th>Comment</th><th>Length</th><th>Precision</th></tr>';
+		for (var i=0;i<wmsLoader.layerProperties[wmsLoader.layerTitleNameMapping[layername]].attributes.length;i++) {
+			attribute = wmsLoader.layerProperties[wmsLoader.layerTitleNameMapping[layername]].attributes[i];
+			metadataText += '<tr><td>'+attribute.name+'</td><td>'+attribute.type+'</td><td>'+attribute.comment+'</td><td>'+attribute.length+'</td><td>'+attribute.precision+'</td></tr>';
+		}
+		metadataText += '</table>'
 	}
-	metadataText += '</table>'
 	metadataText += '</div>'
 	metadataTab.update(metadataText);
 	

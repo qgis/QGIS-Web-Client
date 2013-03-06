@@ -1166,7 +1166,7 @@ function postLoading() {
     loadMask.hide();
   }
 	initialLoadDone = true;
-	showLegendAndMetadata("The land masses");
+	//showLegendAndMetadata("The land masses");
 }
 
 function getVisibleLayers(visibleLayers, currentNode){
