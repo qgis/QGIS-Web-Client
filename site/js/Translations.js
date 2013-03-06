@@ -330,6 +330,56 @@ layerTreeTitleString["it"] = "Layer";
 layerTreeTitleString["pt_PT"] = "Temas";
 layerTreeTitleString["uk"] = "Шари мапи";
 
+//title of layer order panel
+var layerOrderPanelTitleString = new Array();
+layerOrderPanelTitleString["en"] = "Layer order";
+layerOrderPanelTitleString["es"] = "Layer order"; //FIXME
+layerOrderPanelTitleString["de"] = "Ebenenreihenfolge";
+layerOrderPanelTitleString["fr"] = "Layer order"; //FIXME
+layerOrderPanelTitleString["it"] = "Layer order"; //FIXME
+layerOrderPanelTitleString["pt_PT"] = "Layer order"; //FIXME
+layerOrderPanelTitleString["uk"] = "Layer order"; //FIXME
+
+//tooltip of layer settings button in layer order panel
+var layerOrderPanelLayerSettingsTooltipString = new Array();
+layerOrderPanelLayerSettingsTooltipString["en"] = "Settings";
+layerOrderPanelLayerSettingsTooltipString["es"] = "Settings"; //FIXME
+layerOrderPanelLayerSettingsTooltipString["de"] = "Einstellungen";
+layerOrderPanelLayerSettingsTooltipString["fr"] = "Settings"; //FIXME
+layerOrderPanelLayerSettingsTooltipString["it"] = "Settings"; //FIXME
+layerOrderPanelLayerSettingsTooltipString["pt_PT"] = "Settings"; //FIXME
+layerOrderPanelLayerSettingsTooltipString["uk"] = "Settings"; //FIXME
+
+//tooltip of remove layer button in layer order panel
+var layerOrderPanelRemoveLayerTooltipString = new Array();
+layerOrderPanelRemoveLayerTooltipString["en"] = "Remove layer";
+layerOrderPanelRemoveLayerTooltipString["es"] = "Remove layer"; //FIXME
+layerOrderPanelRemoveLayerTooltipString["de"] = "Ebene entfernen";
+layerOrderPanelRemoveLayerTooltipString["fr"] = "Remove layer"; //FIXME
+layerOrderPanelRemoveLayerTooltipString["it"] = "Remove layer"; //FIXME
+layerOrderPanelRemoveLayerTooltipString["pt_PT"] = "Remove layer"; //FIXME
+layerOrderPanelRemoveLayerTooltipString["uk"] = "Remove layer"; //FIXME
+
+//text when dragging layer in layer order panel
+var layerOrderPanelMoveLayerTextString = new Array();
+layerOrderPanelMoveLayerTextString["en"] = "Move layer";
+layerOrderPanelMoveLayerTextString["es"] = "Move layer"; //FIXME
+layerOrderPanelMoveLayerTextString["de"] = "Ebene verschieben";
+layerOrderPanelMoveLayerTextString["fr"] = "Move layer"; //FIXME
+layerOrderPanelMoveLayerTextString["it"] = "Move layer"; //FIXME
+layerOrderPanelMoveLayerTextString["pt_PT"] = "Move layer"; //FIXME
+layerOrderPanelMoveLayerTextString["uk"] = "Move layer"; //FIXME
+
+//tooltip of transparency sliders in layer order panel
+var layerOrderPanelTransparencyTooltipString = new Array();
+layerOrderPanelTransparencyTooltipString["en"] = "Transparency {0}%";
+layerOrderPanelTransparencyTooltipString["es"] = "Transparency {0}%"; //FIXME
+layerOrderPanelTransparencyTooltipString["de"] = "Transparenz {0}%";
+layerOrderPanelTransparencyTooltipString["fr"] = "Transparency {0}%"; //FIXME
+layerOrderPanelTransparencyTooltipString["it"] = "Transparency {0}%"; //FIXME
+layerOrderPanelTransparencyTooltipString["pt_PT"] = "Transparency {0}%"; //FIXME
+layerOrderPanelTransparencyTooltipString["uk"] = "Transparency {0}%"; //FIXME
+
 //title of legend tab
 var legendTabTitleString = new Array();
 legendTabTitleString["en"] = "Legend";

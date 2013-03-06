@@ -908,11 +908,10 @@ Ext.override(Ext.ToolTip, {
    }
 });
 
-
 /* *************************** QGIS.LayerOrderPanel **************************** */
 // extends Ext.Panel with a list of the active layers that can be ordered by the user
 QGIS.LayerOrderPanel = Ext.extend(Ext.Panel, {
-  title: "Ebenenreihenfolge",
+  title: layerOrderPanelTitleString[lang],
 
   store: null,
   grid: null,
@@ -979,7 +978,7 @@ QGIS.LayerOrderPanel = Ext.extend(Ext.Panel, {
           items: [
             {
               iconCls: 'action-icon action-down',
-              tooltip: "Einstellungen",
+              tooltip: layerOrderPanelLayerSettingsTooltipString[lang],
               getClass: function(v, meta, rec) {
                 return 'layerOptions_' + this.escapeString(rec.get('layer'));
               },
@@ -1001,7 +1000,7 @@ QGIS.LayerOrderPanel = Ext.extend(Ext.Panel, {
             },
             {
               iconCls: 'action-icon action-close',
-              tooltip: "Ebene entfernen",
+              tooltip: layerOrderPanelRemoveLayerTooltipString[lang],
               handler: function(grid, rowIndex, colIndex) {
                 var rec = this.store.getAt(rowIndex);
                 grid.store.remove(rec);
@@ -1062,7 +1061,7 @@ QGIS.LayerOrderPanel = Ext.extend(Ext.Panel, {
         }
       },
       ddGroup: 'layerorder',
-      ddText: "Ebene verschieben",
+      ddText: layerOrderPanelMoveLayerTextString[lang],
       enableDragDrop: true,
       sm: new Ext.grid.RowSelectionModel({singleSelect: true}),
       hideHeaders: true,
@@ -1142,7 +1141,7 @@ QGIS.LayerOrderPanel = Ext.extend(Ext.Panel, {
       value: wmsLoader.layerProperties[layer].opacity,
       plugins: new Ext.slider.Tip({
         getText: function(thumb) {
-          return String.format("Transparenz {0}%", Math.round((255 - thumb.value) / 255 * 100));
+          return String.format(layerOrderPanelTransparencyTooltipString[lang], Math.round((255 - thumb.value) / 255 * 100));
         }
       })
     });
