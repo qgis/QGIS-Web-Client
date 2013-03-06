@@ -181,20 +181,6 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 									autoScroll: true,
 									border: false
 								}
-/* LegendTab unused
-								,{
-									xtype: 'panel',
-                                    
-									title: legendTabTitleString[lang],
-									autoScroll: true,
-									id: 'LegendTab'
-								}, {
-									xtype: 'panel',
-									title: metadataTabTitleString[lang],
-									layout: 'fit',
-									id: 'SearchTab'
-								}
-*/
 								]
 							}]
 						}] // map items

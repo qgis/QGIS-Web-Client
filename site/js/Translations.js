@@ -340,16 +340,6 @@ legendTabTitleString["it"] = "Legenda";
 legendTabTitleString["pt_PT"] = "Legenda";
 legendTabTitleString["uk"] = "Легенда";
 
-//title of legend tab
-var legendDisplayHowtoString = new Array();
-legendDisplayHowtoString["en"] = "Please select a group or layer in the map layer tree above to display its legend";
-legendDisplayHowtoString["es"] = "Por favor seleccione un grupo o capa en el árbol de capas de arriba para desplegar su leyenda";
-legendDisplayHowtoString["de"] = "Selektieren Sie eine Gruppe oder Ebene im obigen Kartenebenenbaum um die Legende anzuzeigen.";
-legendDisplayHowtoString["fr"] = "Sélectionnez un groupe ou une couche dans l'arbre des couches ci-dessus pour afficher sa légende";
-legendDisplayHowtoString["it"] = "Scegli un gruppo o un layer nell'albero dei layer della mappa, qui sopra, per visualizzare la sua legenda";
-legendDisplayHowtoString["pt_PT"] = "Por favor selecione um grupo ou layer na árvore acima para visualizar a sua legenda";
-legendDisplayHowtoString["uk"] = "Please select a group or layer in the map layer tree above to display it's legend"; //FIXME
-
 //title of metadata tab
 var metadataTabTitleString = new Array();
 metadataTabTitleString["en"] = "Metadata";

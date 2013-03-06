@@ -99,11 +99,6 @@ function loadWMSConfig() {
 		listeners: {
 			'load': function () {
 				postLoading();
-/* LegendTab unused
-				if (legendAllAtOnceAtBegin) {
-					showLegendImage();
-				}
-*/
 			}
 		}
 	});
@@ -111,22 +106,8 @@ function loadWMSConfig() {
 	layerTree.setRootNode(root);	
 }
 
-layerTreeCheckChangeHandlerFunction = function (treeNode) {
-  // remove the handler so this function is not called for any cascading checkchanges,
-  // if e.g. a group itself is (un)checked or a layer within a group is (un)checked;
-  // listener will be (re)added in showLegendImage() 
-  layerTree.removeListener("checkchange", layerTreeCheckChangeHandlerFunction);
-/* LegendTab unused
-  // call this with a delay so all cascading checkchanges have happened
-  setTimeout("showLegendImage()", 100);
-*/
-}
-
 layerTreeSelectionChangeHandlerFunction = function (selectionModel, treeNode) {
-	if (!themeChangeActive /*&& !legendAllAtOnceAtBegin*/) {
-/* LegendTab unused
-    showLegendImage(treeNode);
-*/
+	if (!themeChangeActive) {
 		//change selected activated layers for GetFeatureInfo requests
 		layerTree.fireEvent("leafschange");
 	}
@@ -135,21 +116,6 @@ layerTreeSelectionChangeHandlerFunction = function (selectionModel, treeNode) {
 function postLoading() {
 	//set root node to active layer of layertree
 	layerTree.selectPath(layerTree.root.firstChild.getPath());
-/* LegendTab unused
-	var legendTab = Ext.getCmp('LegendTab');
-	if (!initialLoadDone) {
-		//add event listener to ToolsPanel panel
-		Ext.getCmp('ToolsPanel').on('resize', function (panel, w, h) {
-			var ToolTabPanel = Ext.getCmp('ToolTabPanel');
-			legendTab.setHeight(panel.getInnerHeight() - (ToolTabPanel.getHeight() - ToolTabPanel.getInnerHeight()));
-		});
-	}
-	legendTab.update({
-		html: '<p style="margin:0.4em;font-family:sans-serif;font-size:smaller;border-width:0px;border-style:none">'+legendDisplayHowtoString[lang]+'</p>',
-		border: false,
-		frame: false
-	});
-*/
 
 	applyPermalinkParams();
 
@@ -1184,7 +1150,7 @@ function postLoading() {
 		themeChangeActive = false;
 	}
 
-	//handle events for legend display
+	//handle selection events
   var selModel = layerTree.getSelectionModel();
   //add listeners to selection model
   selModel.addListener("selectionChange", layerTreeSelectionChangeHandlerFunction);
@@ -1214,43 +1180,6 @@ function getVisibleLayers(visibleLayers, currentNode){
   return visibleLayers;
 }
 
-/* LegendTab unused
-function showLegendImage(treeNode) {
-  var visibleLayers = Array();
-
-  if (legendAllAtOnceAtBegin) {
-    visibleLayers = getVisibleLayers(visibleLayers, layerTree.root.firstChild);
-    visibleLayers = uniqueLayersInLegend(visibleLayers);
-    visibleLayers.reverse(); // order layers as in tree
-    // (re)add checkchange listener
-    layerTree.addListener("checkchange", layerTreeCheckChangeHandlerFunction);
-  } else {
-    visibleLayers = treeNode.text;
-  }
-  
-  //update legend graphic
-  var legendTab = Ext.getCmp('LegendTab');
-  var ToolsPanel = Ext.getCmp('ToolsPanel');
-  var ToolTabPanel = Ext.getCmp('ToolTabPanel');
-  legendTab.setHeight(ToolsPanel.getInnerHeight() - (ToolTabPanel.getHeight() - ToolTabPanel.getInnerHeight()));
-  Ext.getCmp('ToolTabPanel').activate(legendTab);
-  
-  if (visibleLayers.length == 0) {
-    var legendImage = legendDisplayHowtoString[lang];
-  } else {
-    if ("&" != wmsURI.substr(wmsURI.length -1, 1)){
-      wmsURI = wmsURI + "&";
-    }
-    var imageUrl = wmsURI + 'SERVICE=WMS&VERSION=1.3&REQUEST=GetLegendGraphics&FORMAT=image/png&EXCEPTIONS=application/vnd.ogc.se_inimage&WIDTH=195&LAYERS=' + encodeURIComponent(visibleLayers) + '&dpi=' + screenDpi;
-    var legendImage = '<p><img src="' + imageUrl + '" alt="Legend of Layer ' + visibleLayers + '" /></p>';
-  }
-  
-  legendTab.update({
-    html: legendImage,
-    border: false
-  });
-}
-*/
 function uniqueLayersInLegend(origArr) {
 	var newArr = [],
 	origLen = origArr.length,
