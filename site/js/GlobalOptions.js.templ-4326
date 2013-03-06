@@ -180,14 +180,6 @@ var printCapabilities={
   "layouts":[]
 };
 
-/* LegendTab unused
-//var legend all at 
-//if legendAllAtOnceAtBegin is set to true, the legend image is loaded at project
-//load for all visible layers and whenever the visibility for a layer or group is
-//changed by the user; if set to false, it is not loaded at the begin, but only
-//if the user selects a group or layer in the layer tree
-var legendAllAtOnceAtBegin = false;
-*/
 // <------------ No changes should be needed below here ------------------>
 
 //new namespace for QGIS extensions

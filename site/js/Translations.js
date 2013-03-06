@@ -330,6 +330,56 @@ layerTreeTitleString["it"] = "Layer";
 layerTreeTitleString["pt_PT"] = "Temas";
 layerTreeTitleString["uk"] = "Шари мапи";
 
+//title of layer order panel
+var layerOrderPanelTitleString = new Array();
+layerOrderPanelTitleString["en"] = "Layer order";
+layerOrderPanelTitleString["es"] = "Layer order"; //FIXME
+layerOrderPanelTitleString["de"] = "Ebenenreihenfolge";
+layerOrderPanelTitleString["fr"] = "Layer order"; //FIXME
+layerOrderPanelTitleString["it"] = "Layer order"; //FIXME
+layerOrderPanelTitleString["pt_PT"] = "Layer order"; //FIXME
+layerOrderPanelTitleString["uk"] = "Layer order"; //FIXME
+
+//tooltip of layer settings button in layer order panel
+var layerOrderPanelLayerSettingsTooltipString = new Array();
+layerOrderPanelLayerSettingsTooltipString["en"] = "Settings";
+layerOrderPanelLayerSettingsTooltipString["es"] = "Settings"; //FIXME
+layerOrderPanelLayerSettingsTooltipString["de"] = "Einstellungen";
+layerOrderPanelLayerSettingsTooltipString["fr"] = "Settings"; //FIXME
+layerOrderPanelLayerSettingsTooltipString["it"] = "Settings"; //FIXME
+layerOrderPanelLayerSettingsTooltipString["pt_PT"] = "Settings"; //FIXME
+layerOrderPanelLayerSettingsTooltipString["uk"] = "Settings"; //FIXME
+
+//tooltip of remove layer button in layer order panel
+var layerOrderPanelRemoveLayerTooltipString = new Array();
+layerOrderPanelRemoveLayerTooltipString["en"] = "Remove layer";
+layerOrderPanelRemoveLayerTooltipString["es"] = "Remove layer"; //FIXME
+layerOrderPanelRemoveLayerTooltipString["de"] = "Ebene entfernen";
+layerOrderPanelRemoveLayerTooltipString["fr"] = "Remove layer"; //FIXME
+layerOrderPanelRemoveLayerTooltipString["it"] = "Remove layer"; //FIXME
+layerOrderPanelRemoveLayerTooltipString["pt_PT"] = "Remove layer"; //FIXME
+layerOrderPanelRemoveLayerTooltipString["uk"] = "Remove layer"; //FIXME
+
+//text when dragging layer in layer order panel
+var layerOrderPanelMoveLayerTextString = new Array();
+layerOrderPanelMoveLayerTextString["en"] = "Move layer";
+layerOrderPanelMoveLayerTextString["es"] = "Move layer"; //FIXME
+layerOrderPanelMoveLayerTextString["de"] = "Ebene verschieben";
+layerOrderPanelMoveLayerTextString["fr"] = "Move layer"; //FIXME
+layerOrderPanelMoveLayerTextString["it"] = "Move layer"; //FIXME
+layerOrderPanelMoveLayerTextString["pt_PT"] = "Move layer"; //FIXME
+layerOrderPanelMoveLayerTextString["uk"] = "Move layer"; //FIXME
+
+//tooltip of transparency sliders in layer order panel
+var layerOrderPanelTransparencyTooltipString = new Array();
+layerOrderPanelTransparencyTooltipString["en"] = "Transparency {0}%";
+layerOrderPanelTransparencyTooltipString["es"] = "Transparency {0}%"; //FIXME
+layerOrderPanelTransparencyTooltipString["de"] = "Transparenz {0}%";
+layerOrderPanelTransparencyTooltipString["fr"] = "Transparency {0}%"; //FIXME
+layerOrderPanelTransparencyTooltipString["it"] = "Transparency {0}%"; //FIXME
+layerOrderPanelTransparencyTooltipString["pt_PT"] = "Transparency {0}%"; //FIXME
+layerOrderPanelTransparencyTooltipString["uk"] = "Transparency {0}%"; //FIXME
+
 //title of legend tab
 var legendTabTitleString = new Array();
 legendTabTitleString["en"] = "Legend";
@@ -339,16 +389,6 @@ legendTabTitleString["fr"] = "Légende";
 legendTabTitleString["it"] = "Legenda";
 legendTabTitleString["pt_PT"] = "Legenda";
 legendTabTitleString["uk"] = "Легенда";
-
-//title of legend tab
-var legendDisplayHowtoString = new Array();
-legendDisplayHowtoString["en"] = "Please select a group or layer in the map layer tree above to display its legend";
-legendDisplayHowtoString["es"] = "Por favor seleccione un grupo o capa en el árbol de capas de arriba para desplegar su leyenda";
-legendDisplayHowtoString["de"] = "Selektieren Sie eine Gruppe oder Ebene im obigen Kartenebenenbaum um die Legende anzuzeigen.";
-legendDisplayHowtoString["fr"] = "Sélectionnez un groupe ou une couche dans l'arbre des couches ci-dessus pour afficher sa légende";
-legendDisplayHowtoString["it"] = "Scegli un gruppo o un layer nell'albero dei layer della mappa, qui sopra, per visualizzare la sua legenda";
-legendDisplayHowtoString["pt_PT"] = "Por favor selecione um grupo ou layer na árvore acima para visualizar a sua legenda";
-legendDisplayHowtoString["uk"] = "Please select a group or layer in the map layer tree above to display it's legend"; //FIXME
 
 //title of metadata tab
 var metadataTabTitleString = new Array();

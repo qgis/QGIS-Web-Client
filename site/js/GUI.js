@@ -157,46 +157,17 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 								singleClickExpand: true
 							},
 							loader: {}
-						}, {
-							xtype: 'panel',
+						},
+						{
 							region: 'south',
-                            frame: false,
-                            border: false,
-							collapsible: true,
-							boxMinHeight: 275,
+							xtype: 'qgis_layerorderpanel',
+							id: 'LayerOrderTab',
 							split: true,
-							headerAsText: false,
-							id: 'ToolsPanel',
-							layout: 'fit',
-							items: [{
-                                
-								xtype: 'tabpanel',
-                                frame: false,
-                                border: false,
-								activeTab: 0,
-								id: 'ToolTabPanel',
-								items: [{
-									xtype: 'qgis_layerorderpanel',
-									id: 'LayerOrderTab',
-									autoScroll: true,
-									border: false
-								}
-/* LegendTab unused
-								,{
-									xtype: 'panel',
-                                    
-									title: legendTabTitleString[lang],
-									autoScroll: true,
-									id: 'LegendTab'
-								}, {
-									xtype: 'panel',
-									title: metadataTabTitleString[lang],
-									layout: 'fit',
-									id: 'SearchTab'
-								}
-*/
-								]
-							}]
+							collapsible: true,
+							autoScroll: true,
+							height: 200,
+							border: false,
+							frame: false
 						}] // map items
 					}] // accordion items
 				}] // left panel items
