@@ -22,6 +22,8 @@ var searchBoxGetGeomURL = null; // "/wsgi/getSearchGeom.wsgi";
 
 // do not show fields in ObjectIdentification results that have null values
 var suppressEmptyValues = false;
+// hide geometry in ObjectIdentification results
+var suppressInfoGeometry = true;
 
 //config for QGIS.SearchPanel
 var simpleWmsSearch = {
@@ -85,6 +87,18 @@ var mapThemeSwitcherActive = false;
 
 //first part of titlebar text
 var titleBarText = "GIS-Browser - "; // will be appended with project title
+
+// header logo image and link
+var headerLogoImg = null; // path to image, set null for no logo
+var headerLogoHeight = 60; // logo image height in pixels
+var headerLogoLink = ""; // logo links to this URL 
+var headerTermsOfUseText = null; // set null for no link
+var headerTermsOfUseLink = ""; // URL to terms of use
+
+// optional project title per map name
+var projectTitles = {
+  "helloworld": "Hello World"
+};
 
 //EPSG projection code
 var epsgcode = 900913;
@@ -155,13 +169,14 @@ var printCapabilities={
   "layouts":[]
 };
 
+/* LegendTab unused
 //var legend all at 
 //if legendAllAtOnceAtBegin is set to true, the legend image is loaded at project
 //load for all visible layers and whenever the visibility for a layer or group is
 //changed by the user; if set to false, it is not loaded at the begin, but only
 //if the user selects a group or layer in the layer tree
 var legendAllAtOnceAtBegin = false;
-
+*/
 // <------------ No changes should be needed below here ------------------>
 
 //new namespace for QGIS extensions

@@ -42,7 +42,7 @@ function showFeatureInfo(evt) {
 					var anAttributeValue = aFeatureInfo.childNodes[k];
 					var parts = anAttributeValue.attributes.text.split(":");
 					// condition 1: field name = tooltip, cond 2 fields with null values
-					if ((parts[0] === mapInfoFieldName) || (suppressEmptyValues && parts[1].replace(/^\s\s*/, '').replace(/\s\s*$/, '') === "")) {
+					if ((parts[0] === mapInfoFieldName) || (suppressInfoGeometry && parts[0] === 'geometry') || (suppressEmptyValues && parts[1].replace(/^\s\s*/, '').replace(/\s\s*$/, '') === "")) {
 						idsToRemove.push(anAttributeValue.id);
 					}
 				}
@@ -60,7 +60,7 @@ function showFeatureInfo(evt) {
 						var anAttributeValue = aFeatureInfo.childNodes[k];
 						var parts = anAttributeValue.attributes.text.split(":");
 						// condition 1: field name = tooltip, cond 2 fields with null values
-						if ((parts[0] === mapInfoFieldName) || (suppressEmptyValues && parts[1].replace(/^\s\s*/, '').replace(/\s\s*$/, '') === "")) {
+						if ((parts[0] === mapInfoFieldName) || (suppressInfoGeometry && parts[0] === 'geometry') || (suppressEmptyValues && parts[1].replace(/^\s\s*/, '').replace(/\s\s*$/, '') === "")) {
 							idsToRemove.push(anAttributeValue.id);
 						}
 					}
@@ -73,6 +73,39 @@ function showFeatureInfo(evt) {
 		for (var i = 0; i < idsToRemove.length; i++) {
 			AttributeDataTree.getRootNode().findChild("id", idsToRemove[i], true).remove();
 		}
+
+		// add hyperlinks for URLs in attribute values
+		AttributeDataTree.getRootNode().expandChildNodes(true);
+		AttributeDataTree.getRootNode().cascade(
+			function (n) {
+				if (n.isLeaf()) {
+					var parts = n.text.split(": ")
+					var url = parts[1];
+					if (url != '' && /http:\/\/.+\..+/i.test(url)) {
+						// add hyperlink
+						Ext.get(n.getUI().getAnchor()).first("span").replaceWith({
+							tag: 'span',
+							unselectable: 'on',
+							children: [
+								parts[0] + ": ",
+								{
+									tag: 'a',
+									href: url,
+									html: url,
+									target: '_blank',
+									style: 'color: blue; text-decoration: underline;'
+								}
+							]
+						});
+
+						// open link in new window on click
+					n.on('click', function(e) {
+							window.open(url, '_blank');
+						});
+					}
+				}
+			}
+		);
 	}
 }
 
@@ -179,7 +212,8 @@ function parseFeatureInfoResult(node) {
 		//leaf node
 		if (node.nodeName == "Attribute") {
 			lastFeature.appendChild(new Ext.tree.TreeNode({
-				text: node.getAttribute("name") + ": " + node.getAttribute("value")
+				text: node.getAttribute("name") + ": " + node.getAttribute("value"),
+				leaf: true
 			}));
 			if (node.getAttribute("name") == "geometry") {
 				highLightGeometry.push(node.getAttribute("value"));

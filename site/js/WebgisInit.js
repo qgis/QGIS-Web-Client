@@ -41,6 +41,8 @@ var identifyToolWasActive = false; //this state variable is used during theme sw
 var initialLoadDone = false; //a state variable defining if an initial project was loaded or not
 var themeChangeActive = false; //status to indicate if theme chang is active
 var layerTreeSelectionChangeHandlerFunction; //a reference to the handler function of the selection tree
+var layerOrderPanel = null;
+var visibleGroups = [];
 var help_active = false;
 var helpWin;
 
@@ -93,12 +95,15 @@ function loadWMSConfig() {
 	});
 	var root = new Ext.tree.AsyncTreeNode({
 		loader: wmsLoader,
+		allowDrop: false,
 		listeners: {
 			'load': function () {
 				postLoading();
+/* LegendTab unused
 				if (legendAllAtOnceAtBegin) {
 					showLegendImage();
 				}
+*/
 			}
 		}
 	});
@@ -111,13 +116,17 @@ layerTreeCheckChangeHandlerFunction = function (treeNode) {
   // if e.g. a group itself is (un)checked or a layer within a group is (un)checked;
   // listener will be (re)added in showLegendImage() 
   layerTree.removeListener("checkchange", layerTreeCheckChangeHandlerFunction);
+/* LegendTab unused
   // call this with a delay so all cascading checkchanges have happened
   setTimeout("showLegendImage()", 100);
+*/
 }
 
 layerTreeSelectionChangeHandlerFunction = function (selectionModel, treeNode) {
-	if (!themeChangeActive && !legendAllAtOnceAtBegin) {
+	if (!themeChangeActive /*&& !legendAllAtOnceAtBegin*/) {
+/* LegendTab unused
     showLegendImage(treeNode);
+*/
 		//change selected activated layers for GetFeatureInfo requests
 		layerTree.fireEvent("leafschange");
 	}
@@ -126,6 +135,7 @@ layerTreeSelectionChangeHandlerFunction = function (selectionModel, treeNode) {
 function postLoading() {
 	//set root node to active layer of layertree
 	layerTree.selectPath(layerTree.root.firstChild.getPath());
+/* LegendTab unused
 	var legendTab = Ext.getCmp('LegendTab');
 	if (!initialLoadDone) {
 		//add event listener to ToolsPanel panel
@@ -139,15 +149,56 @@ function postLoading() {
 		border: false,
 		frame: false
 	});
-	
+*/
+
+	applyPermalinkParams();
+
 	//now set all visible layers and document/toolbar title
 	var layerNode;
 	layerTree.suspendEvents();
 	if (layerTree.root.hasChildNodes()) {
 		//set titles in document and toolbar
 		var title = layerTree.root.firstChild.text;
+		if (title in projectTitles) {
+			title = projectTitles[title];
+		}
 		document.title = titleBarText + title;
-		Ext.getCmp('GisBrowserPanel').setTitle(document.title);
+		Ext.get('panel_header_title').update(document.title);
+
+		// set header logo and link
+		if (headerLogoImg != null) {
+			Ext.select('#panel_header_link a').replaceWith({
+				tag: 'a',
+				href: headerLogoLink,
+				target: '_blank',
+				children: [{
+					tag: 'img',
+					src: headerLogoImg,
+					height: headerLogoHeight
+				}]
+			});
+
+			// adjust title position
+			Ext.get('panel_header_title').setStyle('padding-left', '8px');
+			var paddingTop = (headerLogoHeight - 18) / 2;
+			Ext.get('panel_header_title').setStyle('padding-top', paddingTop + 'px');
+		}
+
+		// set terms of use link
+		if (headerTermsOfUseText != null) {
+			Ext.select('#panel_header_terms_of_use a').replaceWith({
+				tag: 'a',
+				href: headerTermsOfUseLink,
+				html: headerTermsOfUseText,
+				target: '_blank'
+			});
+
+			if (headerLogoImg != null) {
+				// adjust terms of use position
+				paddingTop = (headerLogoHeight - 12) / 2;
+				Ext.get('panel_header_terms_of_use').setStyle('padding-top', paddingTop + 'px');
+			}
+		}
 
 		if (visibleLayers == null) {
 			// show all layers if URL parameter 'visibleLayers' is missing
@@ -164,17 +215,28 @@ function postLoading() {
 			//in case the URL parameter 'visibleLayers' is provided we iterate it
 			layerTree.root.firstChild.expand(true, false);
 			for (var index = 0; index < visibleLayers.length; index++) {
-				layerTree.root.findChildBy(function () {
+				// expand all nodes in order to allow toggling checkboxes on deeper levels
+				layerTree.root.firstChild.findChildBy(function () {
 					if (this.isExpandable()) {
-						// expand node while traversing in order to allow toggling checkbox on deeper levels
 						this.expand(true, false);
-					}
-					if (wmsLoader.layerTitleNameMapping[this.attributes["text"]] == visibleLayers[index]) {
-						this.getUI().toggleCheck(true);
-						return true;
 					}
 					return false;
 				}, null, true);
+
+				// toggle checkboxes of visible layers
+				layerTree.root.firstChild.findChildBy(function () {
+					if (wmsLoader.layerTitleNameMapping[this.attributes["text"]] == visibleLayers[index]) {
+						this.getUI().toggleCheck(true);
+						// collect groups for layer order
+						if (this.isExpandable()) {
+							visibleGroups.push(wmsLoader.layerTitleNameMapping[this.attributes["text"]]);
+						}
+						// FIXME: never return true even if node is found to avoid TypeError
+//						return true;
+					}
+					return false;
+				}, null, true);
+
 				//test to see if we need to change to jpeg because checked
 				//layer is in array fullColorLayers
 				if (fullColorLayers.length > 0 && origFormat.match(/8bit/)) {
@@ -187,12 +249,20 @@ function postLoading() {
 				}
 			}
 		}
+
+		// add components to tree nodes while tree is expanded to match GUI layout
+
+		// legend in layer tree
+		addLegendToLayerTree();
+
 		//expand first level
 		layerTree.root.firstChild.collapseChildNodes(true);
 		layerTree.root.firstChild.expand(false, false);
 	}
 	layerTree.checkedLeafs = [];
 	layerTree.resumeEvents();
+
+	hideLegendInLayerTree();
 
 	if (!initialLoadDone) {
 		//deal with myTopToolbar (map tools)
@@ -305,6 +375,10 @@ function postLoading() {
 	// return input layers sorted by order defined in project settings
 	function layersInDrawingOrder(layers) {
 		var layerDrawingOrder = wmsLoader.projectSettings.capability.layerDrawingOrder;
+		if (layerOrderPanel != null) {
+			// override project settings (after first load)
+			layerDrawingOrder = layerOrderPanel.orderedLayers();
+		}
 		if (layerDrawingOrder != null) {
 			var orderedLayers = [];
 			for (var i = 0; i < layerDrawingOrder.length; i++) {
@@ -319,7 +393,18 @@ function postLoading() {
 			return layers.reverse();
 		}
 	}
-	
+
+	// return layer opacities sorted by input layers order
+	function layerOpacities(layers) {
+		var opacities = Array();
+		for (var i=0; i<layers.length; i++) {
+			opacities.push(wmsLoader.layerProperties[layers[i]].opacity);
+		}
+		return opacities;
+	}
+
+	setupLayerOrderPanel(selectedLayers);
+
 	//create new map panel with a single OL layer
 	selectedLayers = layersInDrawingOrder(selectedLayers);
 
@@ -336,6 +421,7 @@ function postLoading() {
 			thematicLayer = new OpenLayers.Layer.WMS(layerTree.root.firstChild.text,
 				wmsURI, {
 					layers: selectedLayers.join(","),
+					opacities: layerOpacities(selectedLayers),
 					format: format,
 					dpi: screenDpi
 				},
@@ -402,9 +488,8 @@ function postLoading() {
 		thematicLayer.name = layerTree.root.firstChild.text;
 		thematicLayer.url = wmsURI;
 		thematicLayer.mergeNewParams({
-			"LAYERS": selectedLayers.join(",")
-		});
-		thematicLayer.mergeNewParams({
+			"LAYERS": selectedLayers.join(","),
+			"OPACITIES": layerOpacities(selectedLayers),
 			"FORMAT": format
 		});
 	}
@@ -422,6 +507,13 @@ function postLoading() {
 			geoExtMap.setWidth(panel.getInnerWidth());
 			geoExtMap.setHeight(panel.getInnerHeight());
 		});
+
+		// selection from permalink
+		if (urlParams.selection) {
+			thematicLayer.mergeNewParams({
+				"SELECTION": urlParams.selection
+			});
+		}
 
 		//scale listener to write current scale to numberfield
 		geoExtMap.map.events.register('zoomend', this, function () {
@@ -839,6 +931,9 @@ function postLoading() {
 		thematicLayer.mergeNewParams({
 			format: format
 		});
+
+		updateLayerOrderPanel();
+
 		//change array order
 		selectedLayers = layersInDrawingOrder(selectedLayers);
 		selectedQueryableLayers = layersInDrawingOrder(selectedQueryableLayers);
@@ -862,7 +957,9 @@ function postLoading() {
 			selectedActiveQueryableLayers = layersInDrawingOrder(selectedActiveQueryableLayers);
 		}
 		thematicLayer.mergeNewParams({
-			layers: selectedLayers.join(",")
+			LAYERS: selectedLayers.join(","),
+			OPACITIES: layerOpacities(selectedLayers),
+			FORMAT: format
 		});
 		if (identificationMode != 'activeLayers') {
 			WMSGetFInfo.vendorParams = {
@@ -1117,7 +1214,7 @@ function getVisibleLayers(visibleLayers, currentNode){
   return visibleLayers;
 }
 
-
+/* LegendTab unused
 function showLegendImage(treeNode) {
   var visibleLayers = Array();
 
@@ -1153,7 +1250,7 @@ function showLegendImage(treeNode) {
     border: false
   });
 }
-
+*/
 function uniqueLayersInLegend(origArr) {
 	var newArr = [],
 	origLen = origArr.length,
@@ -1350,6 +1447,7 @@ function scrollToHelpItem(targetId) {
 function createPermalink(){
 	var visibleLayers = Array();
 	var permalink;
+	var permalinkParams = {};
 	visibleLayers = getVisibleLayers(visibleLayers, layerTree.root.firstChild);
 	visibleLayers = uniqueLayersInLegend(visibleLayers);
 	var startExtentArray = geoExtMap.map.getExtent().toArray();
@@ -1362,7 +1460,240 @@ function createPermalink(){
 		permalink = urlArray[0] + "?map=";
 		permalink = permalink + "/" + wmsMapName.replace("/", "") + "&";
 	}
-	
-	permalink = permalink + "visibleLayers=" + visibleLayers.toString() + "&startExtent=" + startExtent;
+
+	// extent
+	permalinkParams.startExtent = startExtent;
+
+	// visible layers and layer order
+	permalinkParams.visibleLayers = visibleLayers.toString();
+
+	// layer opacities as hash of <layername>: <opacity>
+	var opacities = null;
+	for (layer in wmsLoader.layerProperties) {
+		if (wmsLoader.layerProperties.hasOwnProperty(layer)) {
+			var opacity = wmsLoader.layerProperties[layer].opacity;
+			// collect only non-default values
+			if (opacity != 255) {
+				if (opacities == null) {
+					opacities = {};
+				}
+				opacities[layer] = opacity;
+			}
+		}
+	}
+	if (opacities != null) {
+		permalinkParams.opacities = Ext.util.JSON.encode(opacities);
+	}
+
+	// selection
+	permalinkParams.selection = thematicLayer.params.SELECTION;
+
+	permalink = permalink + Ext.urlEncode(permalinkParams);
+
 	return permalink;
 }
+
+function addLegendToLayerTree() {
+	layerTree.root.firstChild.cascade(
+		function (n) {
+			if (n.isLeaf()) {
+				// add legend
+				var legendUrl = wmsURI + Ext.urlEncode({
+					SERVICE: "WMS",
+					VERSION: "1.3.0",
+					REQUEST: "GetLegendGraphics",
+					FORMAT: "image/png",
+					EXCEPTIONS: "application/vnd.ogc.se_inimage",
+					BOXSPACE: 1,
+					LAYERSPACE: 2,
+					SYMBOLSPACE: 1,
+					SYMBOLHEIGHT: 2,
+					LAYERFONTSIZE: 8,
+					ITEMFONTSIZE: 8,
+					LAYERS: wmsLoader.layerTitleNameMapping[n.text],
+					DPI: screenDpi
+				});
+
+				var legendId = 'legend_' + n.id;
+				var legendEl = Ext.DomHelper.insertAfter(n.getUI().getAnchor(),
+					{
+						tag: 'div',
+						id: legendId,
+						style: 'margin-left: ' + 16 * (n.getDepth() + 1) + 'px;',
+					},
+					true
+				);
+				legendEl.setVisibilityMode(Ext.Element.DISPLAY);
+
+				// toggle button
+				var buttonId = 'layer_' + n.id;
+				Ext.DomHelper.insertBefore(n.getUI().getAnchor(), {
+					tag: 'b',
+					id: buttonId,
+					cls: 'layer-button x-tool custom-x-tool-down'
+				});
+
+				Ext.get(buttonId).on('click', function(e) {
+					if (legendEl.select('img').first() == null) {
+						// add legend image on first expand
+						legendEl.createChild({
+							tag: 'img',
+							src: legendUrl
+						});
+					}
+
+					this.toggleClass('custom-x-tool-down');
+					this.toggleClass('custom-x-tool-up');
+					legendEl.toggle();
+				});
+			}
+		}
+	);
+}
+
+function hideLegendInLayerTree() {
+	layerTree.root.firstChild.cascade(
+		function (n) {
+			if (n.isLeaf()) {
+				Ext.get('legend_' + n.id).hide();
+			}
+		}
+	);
+}
+
+function applyPermalinkParams() {
+	if (urlParams.opacities) {
+		// restore layer opacities from hash of <layername>: <opacity>
+		var opacities = Ext.util.JSON.decode(urlParams.opacities);
+		for (layer in opacities) {
+			if (opacities.hasOwnProperty(layer)) {
+				wmsLoader.layerProperties[layer].opacity = opacities[layer];
+			}
+		}
+	}
+}
+
+function setupLayerOrderPanel(selectedLayers) {
+	layerOrderPanel = Ext.getCmp('LayerOrderTab');
+
+	/* initial layer order: (highest priority on top)
+	 * - visibleLayers from permalink
+	 * - layerDrawingOrder from GetProjectSettings
+	 * - layer tree from GetCapabilities
+	 */
+	var targetLayerOrder = null;
+	if (visibleLayers != null) {
+		// use order from permalink
+		targetLayerOrder = [];
+		var layer = null;
+		for (var i=0; i<visibleLayers.length; i++) {
+			layer = visibleLayers[i];
+			if (visibleGroups.indexOf(layer) != -1) {
+				// get group layers from layer tree
+				var groupLayers = [];
+				layerTree.root.firstChild.findChildBy(function () {
+					if (wmsLoader.layerTitleNameMapping[this.attributes["text"]] == layer) {
+						this.cascade(
+							function (n) {
+								if (n.isLeaf() && n.attributes.checked) {
+									groupLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
+								}
+							}
+						);
+						return true;
+					}
+					return false;
+				}, null, true);
+
+				// add group layers in reverse order
+				groupLayers = groupLayers.reverse();
+				for (var j=0; j<groupLayers.length; j++) {
+					// override existing layer so it will only be used once
+					targetLayerOrder.remove(groupLayers[j]);
+					// add to ordered layers
+					targetLayerOrder.push(groupLayers[j]);
+				}
+			}
+			else {
+				// override existing layer so it will only be used once
+				targetLayerOrder.remove(layer);
+				// add to ordered layers
+				targetLayerOrder.push(layer);
+			}
+		}
+	}
+	else if (wmsLoader.projectSettings.capability.layerDrawingOrder != null) {
+		// use order from GetProjectSettings
+		targetLayerOrder = wmsLoader.projectSettings.capability.layerDrawingOrder
+	}
+	var orderedLayers = [];
+	if (targetLayerOrder != null) {
+		// apply order from permalink
+		var layer = null;
+		for (var i=0; i<targetLayerOrder.length; i++) {
+			layer = targetLayerOrder[i];
+			if (selectedLayers.indexOf(layer) != -1) {
+				orderedLayers.push(layer);
+			}
+		}
+	}
+	else {
+		// use order from GetCapabilities
+		orderedLayers = selectedLayers.reverse();
+	}
+
+	layerOrderPanel.clearLayers();
+	for (var i=0; i<orderedLayers.length; i++) {
+		layerOrderPanel.addLayer(orderedLayers[i], wmsLoader.layerProperties[orderedLayers[i]].opacity);
+	}
+
+	// handle layer order panel events
+	layerOrderPanel.on('layerremove', function(layer) {
+		// deactivate layer node in layer tree
+		layerTree.root.firstChild.findChildBy(function() {
+			if (wmsLoader.layerTitleNameMapping[this.attributes["text"]] == layer) {
+				this.getUI().toggleCheck(false);
+				// update active layers
+				layerTree.fireEvent("leafschange");
+				return true;
+			}
+			return false;
+		}, null, true);
+	});
+
+	layerOrderPanel.on('orderchange', function() {
+		// update layer order after drag and drop
+		layerTree.fireEvent("leafschange");
+	});
+
+	layerOrderPanel.on('opacitychange', function(layer, opacity) {
+		// update layer opacities after slider change
+		wmsLoader.layerProperties[layer].opacity = opacity;
+		layerTree.fireEvent("leafschange");
+	});
+}
+
+function updateLayerOrderPanel() {
+	// update layer order panel
+	var layersForOrderPanel = [];
+	layerTree.root.firstChild.cascade(
+		function (n) {
+			if (n.isLeaf()) {
+				var layer = wmsLoader.layerTitleNameMapping[n.text];
+				if (!n.attributes.checked && layerOrderPanel.hasLayer(layer)) {
+					// remove inactive layer
+					layerOrderPanel.removeLayer(layer);
+				}
+				else if (n.attributes.checked && !layerOrderPanel.hasLayer(layer)) {
+					// add active layer (in reverse order)
+					layersForOrderPanel.push(layer);
+				}
+			}
+		}
+	);
+	layersForOrderPanel = layersForOrderPanel.reverse();
+	for (var i=0; i<layersForOrderPanel.length; i++) {
+		layerOrderPanel.addLayer(layersForOrderPanel[i], wmsLoader.layerProperties[layersForOrderPanel[i]].opacity);
+	}
+}
+

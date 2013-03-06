@@ -46,14 +46,40 @@ objectIdentificationModes = Ext.extend(Ext.data.JsonStore, {
 new objectIdentificationModes();
 
 //definition of main GUI
+var layoutHeaderCfg = {
+	tag: 'div',
+	cls: 'x-panel-header',
+	children: [
+		{
+			tag: 'div',
+			id: 'panel_header_link',
+			html: '<a></a>'
+		},
+		{
+			tag: 'div',
+			id: 'panel_header_title',
+			html: 'GIS-Browser'
+		},
+		{
+			tag: 'div',
+			id: 'panel_header_terms_of_use',
+			html: '<a></a>'
+		}
+	]
+};
+if (headerLogoImg != null) {
+	// NOTE: header height must be fixed on creation or layout will not match
+	layoutHeaderCfg['style'] = 'height: ' + headerLogoHeight + 'px;';
+}
+
 MyViewportUi = Ext.extend(Ext.Viewport, {
 	layout: 'fit',
 	initComponent: function () {
 		this.items = [{
 			xtype: 'panel',
-			title: 'GIS-Browser',
 			layout: 'border',
 			id: 'GisBrowserPanel',
+			headerCfg: layoutHeaderCfg,
 			items: [{
 				xtype: 'panel',
                 margins: '3 0 3 3',
@@ -141,6 +167,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 							split: true,
 							headerAsText: false,
 							id: 'ToolsPanel',
+							layout: 'fit',
 							items: [{
                                 
 								xtype: 'tabpanel',
@@ -149,6 +176,13 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 								activeTab: 0,
 								id: 'ToolTabPanel',
 								items: [{
+									xtype: 'qgis_layerorderpanel',
+									id: 'LayerOrderTab',
+									autoScroll: true,
+									border: false
+								}
+/* LegendTab unused
+								,{
 									xtype: 'panel',
                                     
 									title: legendTabTitleString[lang],
@@ -159,7 +193,9 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 									title: metadataTabTitleString[lang],
 									layout: 'fit',
 									id: 'SearchTab'
-								}]
+								}
+*/
+								]
 							}]
 						}] // map items
 					}] // accordion items
