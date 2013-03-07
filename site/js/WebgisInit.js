@@ -223,8 +223,8 @@ function postLoading() {
 
 		// add components to tree nodes while tree is expanded to match GUI layout
 
-		// legend in layer tree
-		addLegendToLayerTree();
+		// info buttons in layer tree
+		addInfoButtonsToLayerTree();
 
 		//expand first level
 		layerTree.root.firstChild.collapseChildNodes(true);
@@ -232,8 +232,6 @@ function postLoading() {
 	}
 	layerTree.checkedLeafs = [];
 	layerTree.resumeEvents();
-
-	hideLegendInLayerTree();
 
 	if (!initialLoadDone) {
 		//deal with myTopToolbar (map tools)
@@ -1428,69 +1426,21 @@ function createPermalink(){
 	return permalink;
 }
 
-function addLegendToLayerTree() {
+function addInfoButtonsToLayerTree() {
 	layerTree.root.firstChild.cascade(
 		function (n) {
 			if (n.isLeaf()) {
-				// add legend
-				var legendUrl = wmsURI + Ext.urlEncode({
-					SERVICE: "WMS",
-					VERSION: "1.3.0",
-					REQUEST: "GetLegendGraphics",
-					FORMAT: "image/png",
-					EXCEPTIONS: "application/vnd.ogc.se_inimage",
-					BOXSPACE: 1,
-					LAYERSPACE: 2,
-					SYMBOLSPACE: 1,
-					SYMBOLHEIGHT: 2,
-					LAYERFONTSIZE: 8,
-					ITEMFONTSIZE: 8,
-					LAYERS: wmsLoader.layerTitleNameMapping[n.text],
-					DPI: screenDpi
-				});
-
-				var legendId = 'legend_' + n.id;
-				var legendEl = Ext.DomHelper.insertAfter(n.getUI().getAnchor(),
-					{
-						tag: 'div',
-						id: legendId,
-						style: 'margin-left: ' + 16 * (n.getDepth() + 1) + 'px;',
-					},
-					true
-				);
-				legendEl.setVisibilityMode(Ext.Element.DISPLAY);
-
-				// toggle button
+				// info button
 				var buttonId = 'layer_' + n.id;
 				Ext.DomHelper.insertBefore(n.getUI().getAnchor(), {
 					tag: 'b',
 					id: buttonId,
-					cls: 'layer-button x-tool custom-x-tool-down'
+					cls: 'layer-button x-tool custom-x-tool-info'
 				});
 
 				Ext.get(buttonId).on('click', function(e) {
-					if (legendEl.select('img').first() == null) {
-						// add legend image on first expand
-						legendEl.createChild({
-							tag: 'img',
-							src: legendUrl
-						});
-					}
-
-					this.toggleClass('custom-x-tool-down');
-					this.toggleClass('custom-x-tool-up');
-					legendEl.toggle();
+					showLegendAndMetadata(n.text);
 				});
-			}
-		}
-	);
-}
-
-function hideLegendInLayerTree() {
-	layerTree.root.firstChild.cascade(
-		function (n) {
-			if (n.isLeaf()) {
-				Ext.get('legend_' + n.id).hide();
 			}
 		}
 	);

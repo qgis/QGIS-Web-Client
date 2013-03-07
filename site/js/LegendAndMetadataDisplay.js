@@ -94,6 +94,9 @@ function setupLegendAndMetadataWindow() {
 			},
 			hide:function() {
 				legendMetadataWindow_active = false;
+			},
+			close: function() {
+				legendMetadataWindow = undefined;
 			}
 		}
 	});
