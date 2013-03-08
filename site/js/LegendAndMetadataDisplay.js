@@ -10,12 +10,13 @@
 */ 
 
 //scripts to display legend graphic and per layer metadata in a separate Ext window
-function showLegendAndMetadata(layername) {
+function showLegendAndMetadata(layertitle) {
+	var layername = wmsLoader.layerTitleNameMapping[layertitle];
 	//initialize Ext Window if undefined
 	if (legendMetadataWindow == undefined) {
 		setupLegendAndMetadataWindow();
 	}
-	legendMetadataWindow.setTitle(legendMetadataWindowTitleString[lang] + " '"+layername+"'");
+	legendMetadataWindow.setTitle(legendMetadataWindowTitleString[lang] + " '"+layertitle+"'");
 	if (legendMetadataWindow_active == false) {
 		legendMetadataWindow.show();
 	}
@@ -32,31 +33,58 @@ function showLegendAndMetadata(layername) {
 		SYMBOLHEIGHT: 2,
 		LAYERFONTSIZE: 8,
 		ITEMFONTSIZE: 8,
-		LAYERS: wmsLoader.layerTitleNameMapping[layername],
+		LAYERS: layername,
 		DPI: screenDpi
 	});
 	legendMetaTabPanel = Ext.getCmp('legendMetaTabPanel');
 	
 	//create metadata text
 	legendMetaTabPanel.activate(metadataTab);
-	var metadataText = '<div style="margin:1em;"><h1 style="margin-bottom:10px;">Metadata of Layer "'+layername+'"</h1>';
-	if (wmsLoader.layerProperties[wmsLoader.layerTitleNameMapping[layername]].abstract) {
-		metadataText += '<p><b>Abstract:</b><p><p>'+wmsLoader.layerProperties[wmsLoader.layerTitleNameMapping[layername]].abstract+'</p>';
+	var metadataText = '<style type="text/css">.even { background-color:rgb(240,240,240);border:none;} .mdCell {padding:0.3em;border:none;} .mdHeader {padding:0.3em;font-weight:bold;border:none;}</style>';
+	metadataText += '<div style="margin:1em;"><h1 style="margin-bottom:0.8em;font-size:+3;">Metadata of Layer "'+layertitle+'"</h1>';
+	//abstract
+	if (wmsLoader.layerProperties[layername].abstract) {
+		metadataText += '<p><b>Abstract:</b><p><p>'+wmsLoader.layerProperties[layername].abstract+'</p>';
 	}
+	//is layer queryable
 	metadataText += '<p style="margin-top:1em;">'+layerQueryable[lang];
-	if (wmsLoader.layerProperties[wmsLoader.layerTitleNameMapping[layername]].queryable) {
+	if (wmsLoader.layerProperties[layername].queryable) {
 		metadataText += yesString[lang];
 	}
 	else {
 		metadataText += noString[lang];
 	}
 	metadataText += '</p>';
-	metadataText += '<p style="margin-top:1em;">'+displayFieldString[lang]+": "+wmsLoader.layerProperties[wmsLoader.layerTitleNameMapping[layername]].displayField + '</p>';
-	if (wmsLoader.layerProperties[wmsLoader.layerTitleNameMapping[layername]].attributes) {
-		metadataText += '<p style="margin-top:1em"><b>'+attributesString [lang]+'</b></p><table style="margin-top:0.5em;border:1px solid gray;padding:2px;"><tr><th>Name</th><th>Type</th><th>Comment</th><th>Length</th><th>Precision</th></tr>';
-		for (var i=0;i<wmsLoader.layerProperties[wmsLoader.layerTitleNameMapping[layername]].attributes.length;i++) {
-			attribute = wmsLoader.layerProperties[wmsLoader.layerTitleNameMapping[layername]].attributes[i];
-			metadataText += '<tr><td>'+attribute.name+'</td><td>'+attribute.type+'</td><td>'+attribute.comment+'</td><td>'+attribute.length+'</td><td>'+attribute.precision+'</td></tr>';
+	//display field
+	if (wmsLoader.layerProperties[layername].queryable) {
+		metadataText += '<p style="margin-top:1em;"><b>'+displayFieldString[lang]+":</b> "+wmsLoader.layerProperties[layername].displayField + '</p>';
+	}
+	//coordinate systems
+	metadataText += '<p style="margin-top:1em;margin-bottom:0.4em;font-weight:bold;">'+coordinateSystemsString[lang]+"</p><ul>";
+	for (srs in wmsLoader.layerProperties[layername].srsList) {
+		metadataText += '<li style="list-style-type:square;list-style-position:inside;">'+srs+'</li>';
+	}
+	metadataText += '</ul>';
+	//geographic extent
+	metadataText += '<p style="margin-top:1em;margin-bottom:0.4em;font-weight:bold;">'+geographicExtentString[lang]+"</p><ul>";
+	metadataText += '<table style="margin-top:0.5em;border:none;border-collapse:collapse;"><tr class="even"><th class="mdHeader">'+westString[lang]+'</th><th class="mdHeader">'+southString[lang]+'</th><th class="mdHeader">'+eastString[lang]+'</th><th class="mdHeader">'+northString[lang]+'</th></tr>';
+	metadataText += '<tr><td class="mdCell">'+wmsLoader.layerProperties[layername].bbox[0]+'</td><td class="mdCell">'+wmsLoader.layerProperties[layername].bbox[1]+'</td><td class="mdCell">'+wmsLoader.layerProperties[layername].bbox[2]+'</td><td class="mdCell">'+wmsLoader.layerProperties[layername].bbox[3]+'</td></tr>';
+	metadataText += '</table>'
+	
+	//attributes/fields
+	if (wmsLoader.layerProperties[layername].attributes) {
+		metadataText += '<p style="margin-top:1em"><b>'+attributesString [lang]+'</b></p><table style="margin-top:0.5em;border:none;border-collapse:collapse;"><tr class="even"><th class="mdHeader">Name</th><th class="mdHeader">Type</th><th class="mdHeader">Comment</th><th class="mdHeader">Length</th><th class="mdHeader">Precision</th></tr>';
+		var rowCounter = 1;
+		for (var i=0;i<wmsLoader.layerProperties[layername].attributes.length;i++) {
+			attribute = wmsLoader.layerProperties[layername].attributes[i];
+			if (rowCounter % 2 == 0) {
+				metadataText += '<tr class="even">';
+			}
+			else {
+				metadataText += '<tr>';
+			}
+			metadataText += '<td class="mdCell">'+attribute.name+'</td><td class="mdCell">'+attribute.type+'</td><td class="mdCell">'+attribute.comment+'</td><td class="mdCell">'+attribute.length+'</td><td class="mdCell">'+attribute.precision+'</td></tr>';
+			rowCounter++;
 		}
 		metadataText += '</table>'
 	}
@@ -72,8 +100,8 @@ function showLegendAndMetadata(layername) {
 function setupLegendAndMetadataWindow() {
 	legendMetadataWindow = new Ext.Window({
 		title: legendMetadataWindowTitleString[lang],
-		width: geoExtMap.getWidth() * 0.5,
-		height: geoExtMap.getHeight() * 0.5,
+		width: geoExtMap.getWidth() * 0.4,
+		height: geoExtMap.getHeight() * 0.4,
 		autoScroll: true,
 		maximizable: true,
 		items: [{

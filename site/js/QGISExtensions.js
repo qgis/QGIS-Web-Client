@@ -203,7 +203,9 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
         queryable: layer.queryable,
         displayField: layer.displayField,
         nrChildLayers: layer.nestedLayers.length,
-				attributes: layer.attributes
+				attributes: layer.attributes,
+				srsList: layer.srs,
+				bbox: layer.llbbox
       };
 			this.layerTitleNameMapping[layer.title] = layer.name;
     }

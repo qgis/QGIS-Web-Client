@@ -430,6 +430,7 @@ layerQueryable["it"] = "This layer is queryable: "; //FIXME
 layerQueryable["pt_PT"] = "This layer is queryable: "; //FIXME
 layerQueryable["uk"] = "This layer is queryable: "; //FIXME
 
+//in case we need a yes
 var yesString = new Array();
 yesString["en"] = "yes";
 yesString["es"] = "yes"; //FIXME
@@ -439,6 +440,7 @@ yesString["it"] = "yes"; //FIXME
 yesString["pt_PT"] = "yes"; //FIXME
 yesString["uk"] = "yes"; //FIXME
 
+//in case we need a no
 var noString = new Array();
 noString["en"] = "no";
 noString["es"] = "no"; //FIXME
@@ -448,6 +450,7 @@ noString["it"] = "no"; //FIXME
 noString["pt_PT"] = "no"; //FIXME
 noString["uk"] = "no"; //FIXME
 
+//metadata: display field (for tooltips)
 var displayFieldString = new Array();
 displayFieldString["en"] = "Display-Field";
 displayFieldString["es"] = "Display-Field"; //FIXME
@@ -456,6 +459,66 @@ displayFieldString["fr"] = "Display-Field"; //FIXME
 displayFieldString["it"] = "Display-Field"; //FIXME
 displayFieldString["pt_PT"] = "Display-Field"; //FIXME
 displayFieldString["uk"] = "Display-Field"; //FIXME
+
+//metadata: coordinate systems
+var coordinateSystemsString = new Array();
+coordinateSystemsString["en"] = "Available Coordinate Systems";
+coordinateSystemsString["es"] = "Available Coordinate Systems"; //FIXME
+coordinateSystemsString["de"] = "Verfügbare Koordinatensysteme";
+coordinateSystemsString["fr"] = "Available Coordinate Systems"; //FIXME
+coordinateSystemsString["it"] = "Available Coordinate Systems"; //FIXME
+coordinateSystemsString["pt_PT"] = "Available Coordinate Systems"; //FIXME
+coordinateSystemsString["uk"] = "Available Coordinate Systems"; //FIXME
+
+//metadata: geographic extent
+var geographicExtentString = new Array();
+geographicExtentString["en"] = "Geographic Extent";
+geographicExtentString["es"] = "Geographic Extent"; //FIXME
+geographicExtentString["de"] = "Geographischer Ausschnitt";
+geographicExtentString["fr"] = "Geographic Extent"; //FIXME
+geographicExtentString["it"] = "Geographic Extent"; //FIXME
+geographicExtentString["pt_PT"] = "Geographic Extent"; //FIXME
+geographicExtentString["uk"] = "Geographic Extent"; //FIXME
+
+//metadata: geographic extent
+var westString = new Array();
+westString["en"] = "west";
+westString["es"] = "west"; //FIXME
+westString["de"] = "Westen";
+westString["fr"] = "ouest";
+westString["it"] = "west"; //FIXME
+westString["pt_PT"] = "west"; //FIXME
+westString["uk"] = "west"; //FIXME
+
+//metadata: geographic extent
+var eastString = new Array();
+eastString["en"] = "east";
+eastString["es"] = "east"; //FIXME
+eastString["de"] = "Osten";
+eastString["fr"] = "est";
+eastString["it"] = "east"; //FIXME
+eastString["pt_PT"] = "east"; //FIXME
+eastString["uk"] = "east"; //FIXME
+
+//metadata: geographic extent
+var northString = new Array();
+northString["en"] = "north";
+northString["es"] = "north"; //FIXME
+northString["de"] = "Norden";
+northString["fr"] = "nord";
+northString["it"] = "north"; //FIXME
+northString["pt_PT"] = "north"; //FIXME
+northString["uk"] = "north"; //FIXME
+
+//metadata: geographic extent
+var southString = new Array();
+southString["en"] = "south";
+southString["es"] = "south"; //FIXME
+southString["de"] = "Süden";
+southString["fr"] = "sud";
+southString["it"] = "south"; //FIXME
+southString["pt_PT"] = "south"; //FIXME
+southString["uk"] = "south"; //FIXME
 
 //title of attribute data tree
 var attributesString = new Array();
