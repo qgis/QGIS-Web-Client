@@ -6,6 +6,7 @@ var helpfile = "help_en.html";
 
 //Servername (optional) and path and name name of QGIS mapserver FCGI-file
 //either with or without server-name - without servername recommended for easier porting to other servers
+//do not add a ? or & after the .fcgi extension
 var serverAndCGI = "/cgi-bin/qgis_mapserv.fcgi";
 
 //Define whether you want to use the GetProjectSettings extension of QGIS Server
@@ -116,12 +117,13 @@ var MapOptions = {
 };
 
 // Options for the main map layer (OpenLayers.layer)
-//see http://dev.openlayers.org/releases/OpenLayers-2.10/doc/apidocs/files/OpenLayers/Layer-js.html
+//see http://dev.openlayers.org/releases/OpenLayers-2.12/doc/apidocs/files/OpenLayers/Layer-js.html
 var LayerOptions = {
   buffer:0,
   singleTile:true,
   ratio:1,
-  transitionEffect:"resize"
+  transitionEffect:"resize",
+	projection:"EPSG:"+epsgcode
 };
 
 //overview map settings - do not change variable names!
