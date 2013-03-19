@@ -1,8 +1,6 @@
 body {background: #fff url(../img/bg.png) top center repeat-y;}
-div.container{ background: white;}
-li.list-header{ 
+div.container { background: white;}
+li.list-header { 
   font-weight: bold;
   list-style: none; 
   margin-left:0px;  }
-
-

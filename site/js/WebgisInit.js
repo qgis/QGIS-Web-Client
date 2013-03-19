@@ -11,8 +11,9 @@
 
 var geoExtMap;
 var layerTree;
-var selectedLayers = "";
-var selectedQueryableLayers = "";
+var selectedLayers; //later an array containing all visible (selected) layers
+var selectedQueryableLayers; //later an array of all visible (selected and queryable) layers
+var allLayers; //later an array containing all leaf layers
 var thematicLayer, highlightLayer;
 var highLightGeometry = new Array();
 var WMSGetFInfo, WMSGetFInfoHover;
@@ -171,51 +172,44 @@ function postLoading() {
 			}
 		}
 
+		//now iterate 'visibleLayers'
 		if (visibleLayers == null) {
-			// show all layers if URL parameter 'visibleLayers' is missing
-			layerTree.root.firstChild.expand(true, false);
+			//in case the visible layers are not provided as URL parameter we read the visibility settings from the
+			//GetProjectSettings response - we need to adapt the drawing order from the project
+			visibleLayers = layersInDrawingOrder(wmsLoader.initialVisibleLayers);
+		}
+			
+		layerTree.root.firstChild.expand(true, false);
+		for (var index = 0; index < visibleLayers.length; index++) {
+			// expand all nodes in order to allow toggling checkboxes on deeper levels
 			layerTree.root.firstChild.findChildBy(function () {
 				if (this.isExpandable()) {
-					// expand node while traversing in order to allow toggling checkbox on deeper levels
 					this.expand(true, false);
 				}
-				this.getUI().toggleCheck(this.attributes.layer.visible);
 				return false;
 			}, null, true);
-		} else {
-			//in case the URL parameter 'visibleLayers' is provided we iterate it
-			layerTree.root.firstChild.expand(true, false);
-			for (var index = 0; index < visibleLayers.length; index++) {
-				// expand all nodes in order to allow toggling checkboxes on deeper levels
-				layerTree.root.firstChild.findChildBy(function () {
+
+			// toggle checkboxes of visible layers
+			layerTree.root.firstChild.findChildBy(function () {
+				if (wmsLoader.layerTitleNameMapping[this.attributes["text"]] == visibleLayers[index]) {
+					this.getUI().toggleCheck(true);
+					// collect groups for layer order
 					if (this.isExpandable()) {
-						this.expand(true, false);
+						visibleGroups.push(wmsLoader.layerTitleNameMapping[this.attributes["text"]]);
 					}
-					return false;
-				}, null, true);
+					// FIXME: never return true even if node is found to avoid TypeError
+					//				return true;
+				}
+				return false;
+			}, null, true);
 
-				// toggle checkboxes of visible layers
-				layerTree.root.firstChild.findChildBy(function () {
-					if (wmsLoader.layerTitleNameMapping[this.attributes["text"]] == visibleLayers[index]) {
-						this.getUI().toggleCheck(true);
-						// collect groups for layer order
-						if (this.isExpandable()) {
-							visibleGroups.push(wmsLoader.layerTitleNameMapping[this.attributes["text"]]);
-						}
-						// FIXME: never return true even if node is found to avoid TypeError
-//						return true;
-					}
-					return false;
-				}, null, true);
-
-				//test to see if we need to change to jpeg because checked
-				//layer is in array fullColorLayers
-				if (fullColorLayers.length > 0 && origFormat.match(/8bit/)) {
-					for (var i = 0; i < fullColorLayers.length; i++) {
-						if (fullColorLayers[i] == visibleLayers[index]) {
-							format = "image/jpeg";
-							break;
-						}
+			//test to see if we need to change to jpeg because checked
+			//layer is in array fullColorLayers
+			if (fullColorLayers.length > 0 && origFormat.match(/8bit/)) {
+				for (var i = 0; i < fullColorLayers.length; i++) {
+					if (fullColorLayers[i] == visibleLayers[index]) {
+						format = "image/jpeg";
+						break;
 					}
 				}
 			}
@@ -271,14 +265,18 @@ function postLoading() {
 	//now collect all selected layers (with checkbox enabled in tree)
 	selectedLayers = Array();
 	selectedQueryableLayers = Array();
+	allLayers = Array();
 	layerTree.root.firstChild.cascade(
 
 	function (n) {
-		if (n.isLeaf() && n.attributes.checked) {
-			selectedLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
-			if (wmsLoader.layerProperties[wmsLoader.layerTitleNameMapping[n.text]].queryable) {
-				selectedQueryableLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
+		if (n.isLeaf()) {
+			if (n.attributes.checked) {
+				selectedLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
+				if (wmsLoader.layerProperties[wmsLoader.layerTitleNameMapping[n.text]].queryable) {
+					selectedQueryableLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
+				}
 			}
+			allLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
 		}
 	});
 	mainStatusText.setText(mapLoadingString[lang]);
@@ -372,7 +370,7 @@ function postLoading() {
 		return opacities;
 	}
 
-	setupLayerOrderPanel(selectedLayers);
+	setupLayerOrderPanel();
 
 	//create new map panel with a single OL layer
 	selectedLayers = layersInDrawingOrder(selectedLayers);
@@ -1457,73 +1455,27 @@ function applyPermalinkParams() {
 	}
 }
 
-function setupLayerOrderPanel(selectedLayers) {
+function setupLayerOrderPanel() {
 	layerOrderPanel = Ext.getCmp('LayerOrderTab');
 
 	/* initial layer order: (highest priority on top)
-	 * - visibleLayers from permalink
+	 * - initialLayerOrder from permalink/URL param
 	 * - layerDrawingOrder from GetProjectSettings
 	 * - layer tree from GetCapabilities
 	 */
-	var targetLayerOrder = null;
-	if (visibleLayers != null) {
-		// use order from permalink
-		targetLayerOrder = [];
-		var layer = null;
-		for (var i=0; i<visibleLayers.length; i++) {
-			layer = visibleLayers[i];
-			if (visibleGroups.indexOf(layer) != -1) {
-				// get group layers from layer tree
-				var groupLayers = [];
-				layerTree.root.firstChild.findChildBy(function () {
-					if (wmsLoader.layerTitleNameMapping[this.attributes["text"]] == layer) {
-						this.cascade(
-							function (n) {
-								if (n.isLeaf() && n.attributes.checked) {
-									groupLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
-								}
-							}
-						);
-						return true;
-					}
-					return false;
-				}, null, true);
-
-				// add group layers in reverse order
-				groupLayers = groupLayers.reverse();
-				for (var j=0; j<groupLayers.length; j++) {
-					// override existing layer so it will only be used once
-					targetLayerOrder.remove(groupLayers[j]);
-					// add to ordered layers
-					targetLayerOrder.push(groupLayers[j]);
-				}
-			}
-			else {
-				// override existing layer so it will only be used once
-				targetLayerOrder.remove(layer);
-				// add to ordered layers
-				targetLayerOrder.push(layer);
-			}
-		}
+	var orderedLayers = [];
+	if (initialLayerOrder != null) {
+		// use order from permalink or URL parameter
+		orderedLayers = initialLayerOrder;
+		//TODO: we need to add additional layers if the initialLayerOrder is shorter than the layerDrawingOrder from the project
 	}
 	else if (wmsLoader.projectSettings.capability.layerDrawingOrder != null) {
 		// use order from GetProjectSettings
-		targetLayerOrder = wmsLoader.projectSettings.capability.layerDrawingOrder
-	}
-	var orderedLayers = [];
-	if (targetLayerOrder != null) {
-		// apply order from permalink
-		var layer = null;
-		for (var i=0; i<targetLayerOrder.length; i++) {
-			layer = targetLayerOrder[i];
-			if (selectedLayers.indexOf(layer) != -1) {
-				orderedLayers.push(layer);
-			}
-		}
+		orderedLayers = wmsLoader.projectSettings.capability.layerDrawingOrder;
 	}
 	else {
 		// use order from GetCapabilities
-		orderedLayers = selectedLayers.reverse();
+		orderedLayers = allLayers.reverse();
 	}
 
 	layerOrderPanel.clearLayers();
@@ -1531,50 +1483,44 @@ function setupLayerOrderPanel(selectedLayers) {
 		layerOrderPanel.addLayer(orderedLayers[i], wmsLoader.layerProperties[orderedLayers[i]].opacity);
 	}
 
-	// handle layer order panel events
-	layerOrderPanel.on('layerremove', function(layer) {
-		// deactivate layer node in layer tree
-		layerTree.root.firstChild.findChildBy(function() {
-			if (wmsLoader.layerTitleNameMapping[this.attributes["text"]] == layer) {
-				this.getUI().toggleCheck(false);
-				// update active layers
-				layerTree.fireEvent("leafschange");
-				return true;
+	if (!initialLoadDone) {
+		// handle layer order panel events
+		layerOrderPanel.on('layerVisibilityChange', function(layer) {
+			// deactivate layer node in layer tree
+			layerTree.root.firstChild.findChildBy(function() {
+				if (wmsLoader.layerTitleNameMapping[this.attributes["text"]] == layer) {
+					this.getUI().toggleCheck();
+					// update active layers
+					layerTree.fireEvent("leafschange");
+					return true;
+				}
+				return false;
+			}, null, true);
+		});
+
+		layerOrderPanel.on('orderchange', function() {
+			// update layer order after drag and drop
+			layerTree.fireEvent("leafschange");
+		});
+
+		layerOrderPanel.on('opacitychange', function(layer, opacity) {
+			// update layer opacities after slider change
+			wmsLoader.layerProperties[layer].opacity = opacity;
+			layerTree.fireEvent("leafschange");
+		});
+		//hack to set title of southern panel - normally it is hidden in ExtJS
+		Ext.layout.BorderLayout.Region.prototype.getCollapsedEl = Ext.layout.BorderLayout.Region.prototype.getCollapsedEl.createSequence(function() {
+			if ( ( this.position == 'south' ) && !this.collapsedEl.titleEl ) {
+				this.collapsedEl.titleEl = this.collapsedEl.createChild({cls: 'x-collapsed-title', cn: this.panel.title});
 			}
-			return false;
-		}, null, true);
-	});
-
-	layerOrderPanel.on('orderchange', function() {
-		// update layer order after drag and drop
-		layerTree.fireEvent("leafschange");
-	});
-
-	layerOrderPanel.on('opacitychange', function(layer, opacity) {
-		// update layer opacities after slider change
-		wmsLoader.layerProperties[layer].opacity = opacity;
-		layerTree.fireEvent("leafschange");
-	});
+		});
+		Ext.getCmp('leftPanelMap').layout.south.getCollapsedEl().titleEl.dom.innerHTML = layerOrderPanelTitleString[lang];
+	}
 }
 
 function updateLayerOrderPanel() {
 	// update layer order panel
 	var layersForOrderPanel = [];
-	layerTree.root.firstChild.cascade(
-		function (n) {
-			if (n.isLeaf()) {
-				var layer = wmsLoader.layerTitleNameMapping[n.text];
-				if (!n.attributes.checked && layerOrderPanel.hasLayer(layer)) {
-					// remove inactive layer
-					layerOrderPanel.removeLayer(layer);
-				}
-				else if (n.attributes.checked && !layerOrderPanel.hasLayer(layer)) {
-					// add active layer (in reverse order)
-					layersForOrderPanel.push(layer);
-				}
-			}
-		}
-	);
 	layersForOrderPanel = layersForOrderPanel.reverse();
 	for (var i=0; i<layersForOrderPanel.length; i++) {
 		layerOrderPanel.addLayer(layersForOrderPanel[i], wmsLoader.layerProperties[layersForOrderPanel[i]].opacity);

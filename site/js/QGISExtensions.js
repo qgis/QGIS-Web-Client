@@ -34,6 +34,7 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
   layerProperties: new Array(),
 	//this list holds a mapping between title and layer name - the tree shows the title, the WMS requests need names
 	layerTitleNameMapping: new Array(),
+	initialVisibleLayers: new Array(),
   getParams: function(node) {
     return {
       SERVICE: 'WMS',
@@ -199,6 +200,7 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
         name: layer.name,
         title: layer.title,
 				abstract: layer.abstract,
+				visible: layer.visible,
         opacity: 255,
         queryable: layer.queryable,
         displayField: layer.displayField,
@@ -208,6 +210,9 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
 				bbox: layer.llbbox
       };
 			this.layerTitleNameMapping[layer.title] = layer.name;
+			if (layer.visible) {
+				this.initialVisibleLayers.push(layer.name);
+			}
     }
 
     // defaults for GetCapabilities
@@ -929,17 +934,11 @@ QGIS.LayerOrderPanel = Ext.extend(Ext.Panel, {
   initComponent: function() {
     this.addEvents(
       /**
-       * @event layeradd
-       * fires after adding a layer
+       * @event layerVisibilityChange
+       * fires after changing the visilibity of a layer
        * @param {String} layer name
        */
-      'layeradd',
-      /**
-       * @event layerremove
-       * fires after removing a layer
-       * @param {String} layer name
-       */
-      'layerremove',
+      'layerVisibilityChange',
       /**
        * @event orderchange
        * fires after reordering rows
@@ -1003,12 +1002,22 @@ QGIS.LayerOrderPanel = Ext.extend(Ext.Panel, {
               scope: this
             },
             {
-              iconCls: 'action-icon action-close',
-              tooltip: layerOrderPanelRemoveLayerTooltipString[lang],
+              iconCls: 'action-icon action-visible',
+              tooltip: layerOrderPanelVisibilityChangeTooltipString[lang],
+              getClass: function(v, meta, rec) {
+                return 'layerOptions_' + this.escapeString(rec.get('layer'));
+              },
               handler: function(grid, rowIndex, colIndex) {
+                var layerId = this.escapeString(this.store.getAt(rowIndex).get('layer'));
+
+                // toggle icon
+                var buttonEl = Ext.select('img.layerOptions_' + layerId).first().next();
+                buttonEl.toggleClass('action-visible');
+                buttonEl.toggleClass('action-invisible');
+
                 var rec = this.store.getAt(rowIndex);
-                grid.store.remove(rec);
-                this.fireEvent('layerremove', rec.get('layer'));
+								//set sprite of button
+                this.fireEvent('layerVisibilityChange', rec.get('layer'));
               },
               scope: this
             }
@@ -1093,12 +1102,11 @@ QGIS.LayerOrderPanel = Ext.extend(Ext.Panel, {
     this.store.insert(0, rec);
     // add opacity slider
     this.addOpacitySlider(layer);
-
-    this.fireEvent('layeradd', layer);
-  },
-
-  removeLayer: function(layer) {
-    this.store.remove(this.store.getById(layer));
+		//set visibility
+		//TODO: deal with the various layer order and visibility from GetProjectSettings, projectListing, permaLink
+		if (wmsLoader.layerProperties[layer].visible == false) {
+			this.toggleLayerVisibility(layer);
+		}
   },
 
   clearLayers: function() {
@@ -1108,6 +1116,32 @@ QGIS.LayerOrderPanel = Ext.extend(Ext.Panel, {
   hasLayer: function(layer) {
     return this.store.getById(layer) != undefined;
   },
+	
+	toggleLayerVisibility: function(layer) {
+			// toggle icon
+			if (this.hasLayer(layer)) {
+				var layerId = this.escapeString(layer);
+				var buttonEl = Ext.select('img.layerOptions_' + layerId).first().next();
+				buttonEl.toggleClass('action-visible');
+				buttonEl.toggleClass('action-invisible');
+			}
+	},
+	
+	//return if a layer is visible (true) or not (false)
+	//TODO:
+	//maybe there is a more elegant solution to check the visibility of a layer in the layer order panel?
+	layerVisible: function(layer) {
+			var returnVal = undefined;
+			if (this.hasLayer(layer)) {
+				var layerId = this.escapeString(layer);
+				var buttonEl = Ext.select('img.layerOptions_' + layerId).first().next();
+				returnVal = true;
+				if (buttonEl.dom.className.match(/action-invisible/)) {
+					returnVal = false;
+				}
+			}
+			return returnVal;
+	},
 
   orderedLayers: function() {
     var layers = [];
@@ -1192,7 +1226,8 @@ Ext.override(Ext.dd.DragTracker, {
     if(!this.active){
       if(Math.abs(s[0]-xy[0]) > this.tolerance || Math.abs(s[1]-xy[1]) > this.tolerance){
         this.triggerStart(e);
-      }else{
+      }
+      else{
         return;
       }
     }

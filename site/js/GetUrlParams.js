@@ -21,7 +21,8 @@ var urlString = "";
 var format = "image/png"; //the default image format
 var origFormat = format; //the original default image format, format is temporarily changed
 var searchtables = null;
-var visibleLayers = null; //layers that are initially visible
+var visibleLayers = null; //later an array of layer names that are initially visible
+var initialLayerOrder = null; //later an array containing the initialLayerOrder
 var fullColorLayers = new Array(); //layers that should be displayed in 24bit (JPEG) instead of 8bit PNG, only relevant if the project format is 8bit
 
 if (document.documentURI) {

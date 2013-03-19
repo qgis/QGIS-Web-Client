@@ -4,10 +4,10 @@
     <mapcanvas>
         <units>degrees</units>
         <extent>
-            <xmin>-196.345185</xmin>
-            <ymin>-115.907384</ymin>
-            <xmax>196.345185</xmax>
-            <ymax>115.907384</ymax>
+            <xmin>-189.000000</xmin>
+            <ymin>-109.375860</ymin>
+            <xmax>189.000000</xmax>
+            <ymax>113.766822</ymax>
         </extent>
         <projections>0</projections>
         <destinationsrs>
@@ -24,14 +24,9 @@
         </destinationsrs>
     </mapcanvas>
     <legend updateDrawingOrder="false">
-        <legendlayer drawingOrder="0" open="false" checked="Qt::Checked" name="Geographic Features" showFeatureCount="0">
+        <legendlayer drawingOrder="0" open="false" checked="Qt::Unchecked" name="Geographic Features" showFeatureCount="0">
             <filegroup open="false" hidden="false">
-                <legendlayerfile isInOverview="0" layerid="ne_110m_geography_regions_elevation_points20121113085601074" visible="1"/>
-            </filegroup>
-        </legendlayer>
-        <legendlayer drawingOrder="1" open="false" checked="Qt::Checked" name="Rivers" showFeatureCount="0">
-            <filegroup open="false" hidden="false">
-                <legendlayerfile isInOverview="0" layerid="ne_110m_rivers_lake_centerlines20121113085601105" visible="1"/>
+                <legendlayerfile isInOverview="0" layerid="ne_110m_geography_regions_elevation_points20121113085601074" visible="0"/>
             </filegroup>
         </legendlayer>
         <legendlayer drawingOrder="2" open="false" checked="Qt::Checked" name="Glaciated Areas" showFeatureCount="0">
@@ -39,19 +34,26 @@
                 <legendlayerfile isInOverview="0" layerid="ne_110m_glaciated_areas20121113085601089" visible="1"/>
             </filegroup>
         </legendlayer>
-        <legendlayer drawingOrder="3" open="false" checked="Qt::Checked" name="Lakes" showFeatureCount="0">
-            <filegroup open="false" hidden="false">
-                <legendlayerfile isInOverview="0" layerid="ne_110m_lakes20121113085601093" visible="1"/>
-            </filegroup>
-        </legendlayer>
+        <legendgroup open="false" checked="Qt::Checked" name="Hydrology">
+            <legendlayer drawingOrder="1" open="false" checked="Qt::Checked" name="Rivers" showFeatureCount="0">
+                <filegroup open="false" hidden="false">
+                    <legendlayerfile isInOverview="0" layerid="ne_110m_rivers_lake_centerlines20121113085601105" visible="1"/>
+                </filegroup>
+            </legendlayer>
+            <legendlayer drawingOrder="3" open="false" checked="Qt::Checked" name="Lakes" showFeatureCount="0">
+                <filegroup open="false" hidden="false">
+                    <legendlayerfile isInOverview="0" layerid="ne_110m_lakes20121113085601093" visible="1"/>
+                </filegroup>
+            </legendlayer>
+            <legendlayer drawingOrder="5" open="true" checked="Qt::Checked" name="Ocean" showFeatureCount="0">
+                <filegroup open="true" hidden="false">
+                    <legendlayerfile isInOverview="0" layerid="ne_110m_ocean20121113085601101" visible="1"/>
+                </filegroup>
+            </legendlayer>
+        </legendgroup>
         <legendlayer drawingOrder="4" open="false" checked="Qt::Checked" name="Land" showFeatureCount="0">
             <filegroup open="false" hidden="false">
                 <legendlayerfile isInOverview="0" layerid="ne_110m_land20121113085601097" visible="1"/>
-            </filegroup>
-        </legendlayer>
-        <legendlayer drawingOrder="5" open="true" checked="Qt::Checked" name="Ocean" showFeatureCount="0">
-            <filegroup open="true" hidden="false">
-                <legendlayerfile isInOverview="0" layerid="ne_110m_ocean20121113085601101" visible="1"/>
             </filegroup>
         </legendlayer>
     </legend>
@@ -60,30 +62,32 @@
             <ComposerLabel valign="32" labelText="QGIS Server Demo - Natural Earth Data" htmlState="0" halign="1" margin="1">
                 <LabelFont description="Sans Serif,12,-1,5,75,0,0,0,0,0"/>
                 <FontColor red="0" blue="0" green="0"/>
-                <ComposerItem width="153.327" x="10" y="11.199" rotation="0" height="6.9" positionMode="0" frame="false" outlineWidth="0.3" zValue="4" lastValidViewScaleFactor="2.79195" id="" background="true" positionLock="true">
+                <ComposerItem width="153.327" x="10" y="11.199" rotation="0" height="6.9" positionMode="0" frame="false" outlineWidth="0.3" zValue="4" lastValidViewScaleFactor="2.79195" uuid="{0d52d3b9-7037-4e8d-995d-70f877e4bd3e}" id="" background="true" positionLock="true">
                     <FrameColor alpha="255" red="0" blue="0" green="0"/>
                     <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
                 </ComposerItem>
             </ComposerLabel>
             <ComposerScaleBar penColor="#000000" style="Numeric" numMapUnitsPerScaleBarUnit="1" alignment="1" brushColor="#000000" numSegments="4" segmentMillimeters="26.0034" fontColor="#000000" font="Sans Serif,10,-1,5,50,0,0,0,0,0" numUnitsPerSegment="9" units="1" labelBarSpace="3" outlineWidth="1" numSegmentsLeft="2" height="3" mapId="0" boxContentSpace="1" unitLabel="m">
-                <ComposerItem width="27" x="218.844" y="11.7476" rotation="0" height="2.90144" positionMode="0" frame="false" outlineWidth="0.3" zValue="3" lastValidViewScaleFactor="2.79195" id="" background="true" positionLock="false">
+                <ComposerItem width="27" x="218.844" y="11.7476" rotation="0" height="2.90144" positionMode="0" frame="false" outlineWidth="0.3" zValue="3" lastValidViewScaleFactor="2.79195" uuid="{db6d8992-aea3-401b-8146-a32a1a65756f}" id="" background="true" positionLock="false">
                     <FrameColor alpha="255" red="0" blue="0" green="0"/>
                     <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
                 </ComposerItem>
             </ComposerScaleBar>
             <ComposerPicture pictureWidth="25" file="./north-arrow_3_simple_symmetric_triangular.svg" pictureHeight="25" mapId="-1">
-                <ComposerItem width="25" x="262" y="2.14904" rotation="0" height="25" positionMode="0" frame="false" outlineWidth="0.3" zValue="2" lastValidViewScaleFactor="4.8255" id="" background="false" positionLock="false">
+                <ComposerItem width="25" x="262" y="2.14904" rotation="0" height="25" positionMode="0" frame="false" outlineWidth="0.3" zValue="2" lastValidViewScaleFactor="2.26066" uuid="{bb218641-25e4-4dae-9c13-7ed33572e063}" id="" background="false" positionLock="false">
                     <FrameColor alpha="255" red="0" blue="0" green="0"/>
                     <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
                 </ComposerItem>
             </ComposerPicture>
             <ComposerMap keepLayerSet="false" overviewFrameMap="-1" id="0" previewMode="Cache" drawCanvasItems="true">
                 <overviewFrame overviewFrameMap="-1">
-                    <symbol outputUnit="MM" alpha="0.3" type="fill" name="">
+                    <symbol alpha="0.3" type="fill" name="">
                         <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_unit" v="MM"/>
                             <prop k="color" v="255,0,0,125"/>
                             <prop k="color_border" v="0,0,0,255"/>
                             <prop k="offset" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
                             <prop k="style" v="solid"/>
                             <prop k="style_border" v="no"/>
                             <prop k="width_border" v="0.26"/>
@@ -93,21 +97,24 @@
                 <Extent ymin="-37.4204" xmin="36.0811" ymax="23.1485" xmax="131.953"/>
                 <LayerSet/>
                 <Grid gridStyle="0" crossLength="3" intervalX="0" offsetX="0" intervalY="0" offsetY="0" gridFrameStyle="0" gridFrameWidth="2" show="0">
-                    <symbol outputUnit="MM" alpha="1" type="line" name="">
+                    <symbol alpha="1" type="line" name="">
                         <layer pass="0" class="SimpleLine" locked="0">
                             <prop k="capstyle" v="flat"/>
                             <prop k="color" v="0,0,0,255"/>
                             <prop k="customdash" v="5;2"/>
+                            <prop k="customdash_unit" v="MM"/>
                             <prop k="joinstyle" v="bevel"/>
                             <prop k="offset" v="0"/>
+                            <prop k="offset_unit" v="MM"/>
                             <prop k="penstyle" v="solid"/>
                             <prop k="use_custom_dash" v="0"/>
                             <prop k="width" v="0.3"/>
+                            <prop k="width_unit" v="MM"/>
                         </layer>
                     </symbol>
                     <Annotation rightDirection="0" bottomDirection="0" format="0" topPosition="1" precision="3" leftDirection="0" rightPosition="1" bottomPosition="1" frameDistance="1" show="0" font="Sans Serif,9,-1,5,50,0,0,0,0,0" leftPosition="1" topDirection="0"/>
                 </Grid>
-                <ComposerItem width="277" x="10" y="25" rotation="0" height="175" positionMode="0" frame="false" outlineWidth="0.3" zValue="1" lastValidViewScaleFactor="4.8255" id="" background="true" positionLock="true">
+                <ComposerItem width="277" x="10" y="25" rotation="0" height="175" positionMode="0" frame="false" outlineWidth="0.3" zValue="1" lastValidViewScaleFactor="2.26066" uuid="{3bb4e2d3-6374-4a52-86ce-21263ffa81f0}" id="" background="true" positionLock="true">
                     <FrameColor alpha="255" red="0" blue="0" green="0"/>
                     <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
                 </ComposerItem>
@@ -117,13 +124,13 @@
     <Composer title="A4-Portrait" visible="0">
         <Composition printResolution="300" paperWidth="210" snapGridOffsetX="0" snapGridResolution="10" snapGridOffsetY="0" alignmentSnap="1" snapping="0" numPages="1" paperHeight="297" alignmentSnapTolerance="2" printAsRaster="0">
             <ComposerScaleBar penColor="#000000" style="Numeric" numMapUnitsPerScaleBarUnit="1" alignment="1" brushColor="#000000" numSegments="3" segmentMillimeters="14.7397" fontColor="#000000" font="Sans Serif,10,-1,5,50,0,0,0,0,0" numUnitsPerSegment="3" units="1" labelBarSpace="3" outlineWidth="1" numSegmentsLeft="2" height="0" mapId="0" boxContentSpace="1" unitLabel="m">
-                <ComposerItem width="27" x="137.538" y="15.6433" rotation="0" height="5.3" positionMode="0" frame="false" outlineWidth="0.3" zValue="5" lastValidViewScaleFactor="3.4698" id="" background="true" positionLock="false">
+                <ComposerItem width="27" x="137.538" y="15.6433" rotation="0" height="5.3" positionMode="0" frame="false" outlineWidth="0.3" zValue="5" lastValidViewScaleFactor="3.4698" uuid="{24eec344-0634-4df5-8937-923d1202e7ae}" id="" background="true" positionLock="false">
                     <FrameColor alpha="255" red="0" blue="0" green="0"/>
                     <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
                 </ComposerItem>
             </ComposerScaleBar>
             <ComposerPicture pictureWidth="25" file="./north-arrow_3_simple_symmetric_triangular.svg" pictureHeight="25" mapId="0">
-                <ComposerItem width="25" x="177" y="3.54327" rotation="0" height="25" positionMode="0" frame="false" outlineWidth="0.3" zValue="4" lastValidViewScaleFactor="3.4698" id="" background="false" positionLock="true">
+                <ComposerItem width="25" x="177" y="3.54327" rotation="0" height="25" positionMode="0" frame="false" outlineWidth="0.3" zValue="4" lastValidViewScaleFactor="3.4698" uuid="{c6d8ed70-6b5b-43d2-8f1b-d57253a802fc}" id="" background="false" positionLock="true">
                     <FrameColor alpha="255" red="0" blue="0" green="0"/>
                     <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
                 </ComposerItem>
@@ -131,18 +138,20 @@
             <ComposerLabel valign="32" labelText="QGIS Server Demo - Natural Earth Data" htmlState="0" halign="1" margin="1">
                 <LabelFont description="Sans Serif,12,-1,5,75,0,0,0,0,0"/>
                 <FontColor red="0" blue="0" green="0"/>
-                <ComposerItem width="126.793" x="12.7452" y="14.0433" rotation="0" height="6.9" positionMode="0" frame="false" outlineWidth="0.3" zValue="3" lastValidViewScaleFactor="3.4698" id="" background="true" positionLock="true">
+                <ComposerItem width="126.793" x="12.7452" y="14.0433" rotation="0" height="6.9" positionMode="0" frame="false" outlineWidth="0.3" zValue="3" lastValidViewScaleFactor="3.4698" uuid="{bb711de7-e7d7-4503-bfdd-6784ce304440}" id="" background="true" positionLock="true">
                     <FrameColor alpha="255" red="0" blue="0" green="0"/>
                     <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
                 </ComposerItem>
             </ComposerLabel>
             <ComposerMap keepLayerSet="false" overviewFrameMap="-1" id="0" previewMode="Cache" drawCanvasItems="true">
                 <overviewFrame overviewFrameMap="-1">
-                    <symbol outputUnit="MM" alpha="0.3" type="fill" name="">
+                    <symbol alpha="0.3" type="fill" name="">
                         <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_unit" v="MM"/>
                             <prop k="color" v="255,0,0,125"/>
                             <prop k="color_border" v="0,0,0,255"/>
                             <prop k="offset" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
                             <prop k="style" v="solid"/>
                             <prop k="style_border" v="no"/>
                             <prop k="width_border" v="0.26"/>
@@ -152,27 +161,30 @@
                 <Extent ymin="20.2794" xmin="86.5851" ymax="71.3659" xmax="124.035"/>
                 <LayerSet/>
                 <Grid gridStyle="0" crossLength="3" intervalX="10" offsetX="10" intervalY="10" offsetY="10" gridFrameStyle="0" gridFrameWidth="2" show="1">
-                    <symbol outputUnit="MM" alpha="1" type="line" name="">
+                    <symbol alpha="1" type="line" name="">
                         <layer pass="0" class="SimpleLine" locked="0">
                             <prop k="capstyle" v="flat"/>
                             <prop k="color" v="0,0,0,255"/>
                             <prop k="customdash" v="5;2"/>
+                            <prop k="customdash_unit" v="MM"/>
                             <prop k="joinstyle" v="bevel"/>
                             <prop k="offset" v="0"/>
+                            <prop k="offset_unit" v="MM"/>
                             <prop k="penstyle" v="solid"/>
                             <prop k="use_custom_dash" v="0"/>
                             <prop k="width" v="0.3"/>
+                            <prop k="width_unit" v="MM"/>
                         </layer>
                     </symbol>
                     <Annotation rightDirection="1" bottomDirection="0" format="1" topPosition="1" precision="0" leftDirection="1" rightPosition="1" bottomPosition="1" frameDistance="0.3" show="1" font="Sans Serif,6,-1,5,50,0,0,0,0,0" leftPosition="1" topDirection="0"/>
                 </Grid>
-                <ComposerItem width="184" x="13" y="33" rotation="0" height="251" positionMode="0" frame="false" outlineWidth="0.3" zValue="2" lastValidViewScaleFactor="3.4698" id="" background="true" positionLock="true">
+                <ComposerItem width="184" x="13" y="33" rotation="0" height="251" positionMode="0" frame="false" outlineWidth="0.3" zValue="2" lastValidViewScaleFactor="3.4698" uuid="{cdef1251-ef1c-4db9-9d6d-7ba82b1e24be}" id="" background="true" positionLock="true">
                     <FrameColor alpha="255" red="0" blue="0" green="0"/>
                     <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
                 </ComposerItem>
             </ComposerMap>
             <ComposerShape shapeType="1">
-                <ComposerItem width="190" x="10" y="30" rotation="0" height="257" positionMode="0" frame="true" outlineWidth="0.25" zValue="1" lastValidViewScaleFactor="3.4698" id="" background="false" positionLock="true">
+                <ComposerItem width="190" x="10" y="30" rotation="0" height="257" positionMode="0" frame="true" outlineWidth="0.25" zValue="1" lastValidViewScaleFactor="3.4698" uuid="{e36c8517-da3f-4586-aa52-0e02b917aec3}" id="" background="false" positionLock="true">
                     <FrameColor alpha="255" red="0" blue="0" green="0"/>
                     <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
                 </ComposerItem>
@@ -183,8 +195,8 @@
         <maplayer minimumScale="0" maximumScale="1e+08" geometry="Point" type="vector" hasScaleBasedVisibilityFlag="0">
             <id>ne_110m_geography_regions_elevation_points20121113085601074</id>
             <datasource>dbname='../data/naturalearth_110m_physical.sqlite' table="ne_110m_geography_regions_elevation_points" (geom) sql=</datasource>
-            <title></title>
-            <abstract></abstract>
+            <title>Geographic Features</title>
+            <abstract>mountains, mountain passes, depressions</abstract>
             <layername>Geographic Features</layername>
             <srs>
                 <spatialrefsys>
@@ -209,70 +221,84 @@
                     <category symbol="3" value="" label=""/>
                 </categories>
                 <symbols>
-                    <symbol outputUnit="MM" alpha="1" type="marker" name="0">
+                    <symbol alpha="1" type="marker" name="0">
                         <layer pass="0" class="SimpleMarker" locked="0">
                             <prop k="angle" v="90"/>
                             <prop k="color" v="247,251,255,255"/>
                             <prop k="color_border" v="0,0,0,255"/>
                             <prop k="name" v="arrowhead"/>
                             <prop k="offset" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
                             <prop k="scale_method" v="area"/>
                             <prop k="size" v="2"/>
+                            <prop k="size_unit" v="MM"/>
                         </layer>
                     </symbol>
-                    <symbol outputUnit="MM" alpha="1" type="marker" name="1">
+                    <symbol alpha="1" type="marker" name="1">
                         <layer pass="0" class="SimpleMarker" locked="0">
                             <prop k="angle" v="0"/>
                             <prop k="color" v="255,255,255,255"/>
                             <prop k="color_border" v="0,0,0,255"/>
                             <prop k="name" v="equilateral_triangle"/>
                             <prop k="offset" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
                             <prop k="scale_method" v="area"/>
                             <prop k="size" v="2"/>
+                            <prop k="size_unit" v="MM"/>
                         </layer>
                     </symbol>
-                    <symbol outputUnit="MM" alpha="1" type="marker" name="2">
+                    <symbol alpha="1" type="marker" name="2">
                         <layer pass="0" class="SvgMarker" locked="0">
                             <prop k="angle" v="0"/>
                             <prop k="fill" v="#000000"/>
                             <prop k="name" v="/abwasser/Vorflutereinlauf_Unbekannt.svg"/>
                             <prop k="offset" v="0,-0.7"/>
+                            <prop k="offset_unit" v="MM"/>
                             <prop k="outline" v="#000000"/>
                             <prop k="outline-width" v="1"/>
+                            <prop k="outline_width_unit" v="MM"/>
                             <prop k="size" v="4"/>
+                            <prop k="size_unit" v="MM"/>
                         </layer>
                         <layer pass="0" class="SvgMarker" locked="0">
                             <prop k="angle" v="180"/>
                             <prop k="fill" v="#000000"/>
                             <prop k="name" v="/abwasser/Vorflutereinlauf_Unbekannt.svg"/>
                             <prop k="offset" v="0,-0.7"/>
+                            <prop k="offset_unit" v="MM"/>
                             <prop k="outline" v="#000000"/>
                             <prop k="outline-width" v="1"/>
+                            <prop k="outline_width_unit" v="MM"/>
                             <prop k="size" v="4"/>
+                            <prop k="size_unit" v="MM"/>
                         </layer>
                     </symbol>
-                    <symbol outputUnit="MM" alpha="1" type="marker" name="3">
+                    <symbol alpha="1" type="marker" name="3">
                         <layer pass="0" class="SimpleMarker" locked="0">
                             <prop k="angle" v="0"/>
                             <prop k="color" v="8,48,107,255"/>
                             <prop k="color_border" v="0,0,0,255"/>
                             <prop k="name" v="circle"/>
                             <prop k="offset" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
                             <prop k="scale_method" v="area"/>
                             <prop k="size" v="2"/>
+                            <prop k="size_unit" v="MM"/>
                         </layer>
                     </symbol>
                 </symbols>
                 <source-symbol>
-                    <symbol outputUnit="MM" alpha="1" type="marker" name="0">
+                    <symbol alpha="1" type="marker" name="0">
                         <layer pass="0" class="SimpleMarker" locked="0">
                             <prop k="angle" v="0"/>
                             <prop k="color" v="176,236,232,255"/>
                             <prop k="color_border" v="0,0,0,255"/>
                             <prop k="name" v="circle"/>
                             <prop k="offset" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
                             <prop k="scale_method" v="area"/>
                             <prop k="size" v="2"/>
+                            <prop k="size_unit" v="MM"/>
                         </layer>
                     </symbol>
                 </source-symbol>
@@ -342,18 +368,26 @@
                 <property key="labeling/isExpression" value="false"/>
                 <property key="labeling/labelOffsetInMapUnits" value="true"/>
                 <property key="labeling/labelPerPart" value="false"/>
+                <property key="labeling/leftDirectionSymbol" value="&lt;"/>
+                <property key="labeling/limitNumLabels" value="false"/>
+                <property key="labeling/maxCurvedCharAngleIn" value="20"/>
+                <property key="labeling/maxCurvedCharAngleOut" value="-20"/>
+                <property key="labeling/maxNumLabels" value="2000"/>
                 <property key="labeling/mergeLines" value="false"/>
                 <property key="labeling/minFeatureSize" value="0"/>
                 <property key="labeling/multilineAlign" value="0"/>
                 <property key="labeling/multilineHeight" value="1"/>
                 <property key="labeling/namedStyle" value="Normal"/>
                 <property key="labeling/obstacle" value="true"/>
+                <property key="labeling/placeDirectionSymbol" value="0"/>
                 <property key="labeling/placement" value="0"/>
                 <property key="labeling/placementFlags" value="0"/>
                 <property key="labeling/plussign" value="true"/>
                 <property key="labeling/preserveRotation" value="true"/>
                 <property key="labeling/previewBkgrdColor" value="#ffffff"/>
                 <property key="labeling/priority" value="5"/>
+                <property key="labeling/reverseDirectionSymbol" value="false"/>
+                <property key="labeling/rightDirectionSymbol" value=">"/>
                 <property key="labeling/scaleMax" value="0"/>
                 <property key="labeling/scaleMin" value="0"/>
                 <property key="labeling/textColorB" value="0"/>
@@ -390,20 +424,20 @@
                 <selectedonly on=""/>
             </labelattributes>
             <edittypes>
-                <edittype type="0" name="comment"/>
-                <edittype type="0" name="elevation"/>
-                <edittype type="0" name="featurecla"/>
-                <edittype type="0" name="id"/>
-                <edittype type="0" name="lat_y"/>
-                <edittype type="0" name="long_x"/>
-                <edittype type="0" name="name"/>
-                <edittype type="0" name="name_alt"/>
-                <edittype type="0" name="nation1"/>
-                <edittype type="0" name="nation2"/>
-                <edittype type="0" name="note"/>
-                <edittype type="0" name="region"/>
-                <edittype type="0" name="scalerank"/>
-                <edittype type="0" name="subregion"/>
+                <edittype editable="1" type="0" name="comment"/>
+                <edittype editable="1" type="0" name="elevation"/>
+                <edittype editable="1" type="0" name="featurecla"/>
+                <edittype editable="1" type="0" name="id"/>
+                <edittype editable="1" type="0" name="lat_y"/>
+                <edittype editable="1" type="0" name="long_x"/>
+                <edittype editable="1" type="0" name="name"/>
+                <edittype editable="1" type="0" name="name_alt"/>
+                <edittype editable="1" type="0" name="nation1"/>
+                <edittype editable="1" type="0" name="nation2"/>
+                <edittype editable="1" type="0" name="note"/>
+                <edittype editable="1" type="0" name="region"/>
+                <edittype editable="1" type="0" name="scalerank"/>
+                <edittype editable="1" type="0" name="subregion"/>
             </edittypes>
             <editform>.</editform>
             <editforminit></editforminit>
@@ -436,11 +470,13 @@
             <vectorjoins/>
             <renderer-v2 symbollevels="0" type="singleSymbol">
                 <symbols>
-                    <symbol outputUnit="MM" alpha="1" type="fill" name="0">
+                    <symbol alpha="1" type="fill" name="0">
                         <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_unit" v="MM"/>
                             <prop k="color" v="218,233,255,255"/>
                             <prop k="color_border" v="97,147,207,255"/>
                             <prop k="offset" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
                             <prop k="style" v="solid"/>
                             <prop k="style_border" v="solid"/>
                             <prop k="width_border" v="0.26"/>
@@ -555,9 +591,9 @@
                 <selectedonly on=""/>
             </labelattributes>
             <edittypes>
-                <edittype type="0" name="featurecla"/>
-                <edittype type="0" name="id"/>
-                <edittype type="0" name="scalerank"/>
+                <edittype editable="1" type="0" name="featurecla"/>
+                <edittype editable="1" type="0" name="id"/>
+                <edittype editable="1" type="0" name="scalerank"/>
             </edittypes>
             <editform>.</editform>
             <editforminit></editforminit>
@@ -590,11 +626,13 @@
             <vectorjoins/>
             <renderer-v2 symbollevels="0" type="singleSymbol">
                 <symbols>
-                    <symbol outputUnit="MM" alpha="1" type="fill" name="0">
+                    <symbol alpha="1" type="fill" name="0">
                         <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_unit" v="MM"/>
                             <prop k="color" v="192,255,255,255"/>
                             <prop k="color_border" v="44,114,199,255"/>
                             <prop k="offset" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
                             <prop k="style" v="solid"/>
                             <prop k="style_border" v="solid"/>
                             <prop k="width_border" v="0.3"/>
@@ -709,12 +747,12 @@
                 <selectedonly on=""/>
             </labelattributes>
             <edittypes>
-                <edittype type="0" name="admin"/>
-                <edittype type="0" name="featurecla"/>
-                <edittype type="0" name="id"/>
-                <edittype type="0" name="name"/>
-                <edittype type="0" name="name_alt"/>
-                <edittype type="0" name="scalerank"/>
+                <edittype editable="1" type="0" name="admin"/>
+                <edittype editable="1" type="0" name="featurecla"/>
+                <edittype editable="1" type="0" name="id"/>
+                <edittype editable="1" type="0" name="name"/>
+                <edittype editable="1" type="0" name="name_alt"/>
+                <edittype editable="1" type="0" name="scalerank"/>
             </edittypes>
             <editform>.</editform>
             <editforminit></editforminit>
@@ -747,11 +785,13 @@
             <vectorjoins/>
             <renderer-v2 symbollevels="0" type="singleSymbol">
                 <symbols>
-                    <symbol outputUnit="MM" alpha="1" type="fill" name="0">
+                    <symbol alpha="1" type="fill" name="0">
                         <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_unit" v="MM"/>
                             <prop k="color" v="216,232,194,255"/>
                             <prop k="color_border" v="0,204,136,255"/>
                             <prop k="offset" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
                             <prop k="style" v="solid"/>
                             <prop k="style_border" v="solid"/>
                             <prop k="width_border" v="0.26"/>
@@ -874,9 +914,9 @@
                 <selectedonly on=""/>
             </labelattributes>
             <edittypes>
-                <edittype type="0" name="featurecla"/>
-                <edittype type="0" name="id"/>
-                <edittype type="0" name="scalerank"/>
+                <edittype editable="1" type="0" name="featurecla"/>
+                <edittype editable="1" type="0" name="id"/>
+                <edittype editable="1" type="0" name="scalerank"/>
             </edittypes>
             <editform>.</editform>
             <editforminit></editforminit>
@@ -909,11 +949,13 @@
             <vectorjoins/>
             <renderer-v2 symbollevels="0" type="singleSymbol">
                 <symbols>
-                    <symbol outputUnit="MM" alpha="1" type="fill" name="0">
+                    <symbol alpha="1" type="fill" name="0">
                         <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_unit" v="MM"/>
                             <prop k="color" v="191,217,255,255"/>
                             <prop k="color_border" v="0,0,0,255"/>
                             <prop k="offset" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
                             <prop k="style" v="solid"/>
                             <prop k="style_border" v="no"/>
                             <prop k="width_border" v="0.26"/>
@@ -1036,9 +1078,9 @@
                 <selectedonly on=""/>
             </labelattributes>
             <edittypes>
-                <edittype type="0" name="featurecla"/>
-                <edittype type="0" name="id"/>
-                <edittype type="0" name="scalerank"/>
+                <edittype editable="1" type="0" name="featurecla"/>
+                <edittype editable="1" type="0" name="id"/>
+                <edittype editable="1" type="0" name="scalerank"/>
             </edittypes>
             <editform>.</editform>
             <editforminit></editforminit>
@@ -1071,16 +1113,19 @@
             <vectorjoins/>
             <renderer-v2 symbollevels="0" type="singleSymbol">
                 <symbols>
-                    <symbol outputUnit="MM" alpha="1" type="line" name="0">
+                    <symbol alpha="1" type="line" name="0">
                         <layer pass="0" class="SimpleLine" locked="0">
                             <prop k="capstyle" v="square"/>
                             <prop k="color" v="44,114,199,255"/>
                             <prop k="customdash" v="5;2"/>
+                            <prop k="customdash_unit" v="MM"/>
                             <prop k="joinstyle" v="bevel"/>
                             <prop k="offset" v="0"/>
+                            <prop k="offset_unit" v="MM"/>
                             <prop k="penstyle" v="solid"/>
                             <prop k="use_custom_dash" v="0"/>
                             <prop k="width" v="0.35"/>
+                            <prop k="width_unit" v="MM"/>
                         </layer>
                     </symbol>
                 </symbols>
@@ -1192,11 +1237,11 @@
                 <selectedonly on=""/>
             </labelattributes>
             <edittypes>
-                <edittype type="0" name="featurecla"/>
-                <edittype type="0" name="id"/>
-                <edittype type="0" name="name"/>
-                <edittype type="0" name="name_alt"/>
-                <edittype type="0" name="scalerank"/>
+                <edittype editable="1" type="0" name="featurecla"/>
+                <edittype editable="1" type="0" name="id"/>
+                <edittype editable="1" type="0" name="name"/>
+                <edittype editable="1" type="0" name="name_alt"/>
+                <edittype editable="1" type="0" name="scalerank"/>
             </edittypes>
             <editform>.</editform>
             <editforminit></editforminit>

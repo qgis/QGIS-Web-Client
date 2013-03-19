@@ -351,14 +351,14 @@ layerOrderPanelLayerSettingsTooltipString["pt_PT"] = "Settings"; //FIXME
 layerOrderPanelLayerSettingsTooltipString["uk"] = "Settings"; //FIXME
 
 //tooltip of remove layer button in layer order panel
-var layerOrderPanelRemoveLayerTooltipString = new Array();
-layerOrderPanelRemoveLayerTooltipString["en"] = "Remove layer";
-layerOrderPanelRemoveLayerTooltipString["es"] = "Remove layer"; //FIXME
-layerOrderPanelRemoveLayerTooltipString["de"] = "Ebene entfernen";
-layerOrderPanelRemoveLayerTooltipString["fr"] = "Remove layer"; //FIXME
-layerOrderPanelRemoveLayerTooltipString["it"] = "Remove layer"; //FIXME
-layerOrderPanelRemoveLayerTooltipString["pt_PT"] = "Remove layer"; //FIXME
-layerOrderPanelRemoveLayerTooltipString["uk"] = "Remove layer"; //FIXME
+var layerOrderPanelVisibilityChangeTooltipString = new Array();
+layerOrderPanelVisibilityChangeTooltipString["en"] = "Change Layer Visibility";
+layerOrderPanelVisibilityChangeTooltipString["es"] = "Change Layer Visibility"; //FIXME
+layerOrderPanelVisibilityChangeTooltipString["de"] = "Ebenensichtbarkeit ändern";
+layerOrderPanelVisibilityChangeTooltipString["fr"] = "Change Layer Visibility"; //FIXME
+layerOrderPanelVisibilityChangeTooltipString["it"] = "Change Layer Visibility"; //FIXME
+layerOrderPanelVisibilityChangeTooltipString["pt_PT"] = "Change Layer Visibility"; //FIXME
+layerOrderPanelVisibilityChangeTooltipString["uk"] = "Change Layer Visibility"; //FIXME
 
 //text when dragging layer in layer order panel
 var layerOrderPanelMoveLayerTextString = new Array();

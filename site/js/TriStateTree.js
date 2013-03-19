@@ -125,26 +125,46 @@ Ext.override(Ext.tree.TreeNodeUI, {
       this.toggleCheck();
     }
     // Modified code, AN
-    var isChecked = this.node.attributes.checked == null ? false : !this.node.attributes.checked;
+    var wasChecked = this.node.attributes.checked == null ? false : !this.node.attributes.checked;
+		var isChecked = !wasChecked;
     var isParent  = !this.node.isLeaf();
-
+		
     if(isParent) {
-      if(isChecked && !this.node.isExpanded()) {
+      if(wasChecked && !this.node.isExpanded()) {
         this.node.expand(true, false, function(node) {
-            node.ownerTree.fireEvent('leafschange', this);
+					node.cascade(function(node) {
+						if (node.isLeaf() && layerOrderPanel != null) {
+							if (isChecked != layerOrderPanel.layerVisible(wmsLoader.layerTitleNameMapping[node.text])) {
+								layerOrderPanel.toggleLayerVisibility(wmsLoader.layerTitleNameMapping[node.text]);
+							}
+						}
+					}, this);
         });
+				this.node.ownerTree.fireEvent('leafschange');
         this.node.collapse(true,false);
       }
       else {
         var i = 0;
         this.node.cascade(function(node) {
-          if(i == this.node.childNodes.length) this.node.ownerTree.fireEvent('leafschange');
-          i++;
+					if (node.isLeaf() && layerOrderPanel != null) {
+						if (isChecked != layerOrderPanel.layerVisible(wmsLoader.layerTitleNameMapping[node.text])) {
+							layerOrderPanel.toggleLayerVisibility(wmsLoader.layerTitleNameMapping[node.text]);
+						}
+					}
+          if (i == this.node.childNodes.length) {
+						this.node.ownerTree.fireEvent('leafschange');
+					}
+					i++;
         }, this);
       }
     }
     else {
-      isChecked ? this.node.ownerTree.checkedLeafs.push(this.node) : this.node.ownerTree.checkedLeafs.remove(this.node);
+      wasChecked ? this.node.ownerTree.checkedLeafs.push(this.node) : this.node.ownerTree.checkedLeafs.remove(this.node);
+			if (layerOrderPanel != null) {
+				if (isChecked != layerOrderPanel.layerVisible(wmsLoader.layerTitleNameMapping[this.node.text])) {
+					layerOrderPanel.toggleLayerVisibility(wmsLoader.layerTitleNameMapping[this.node.text]);
+				}
+			}
       this.node.ownerTree.fireEvent('leafschange');
     }
     // End of Modified code, AN
