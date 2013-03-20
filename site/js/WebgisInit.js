@@ -895,15 +895,13 @@ function postLoading() {
 				}
 			}
 		});
-		thematicLayer.mergeNewParams({
-			format: format
-		});
-
 		updateLayerOrderPanel();
 
 		//change array order
 		selectedLayers = layersInDrawingOrder(selectedLayers);
 		selectedQueryableLayers = layersInDrawingOrder(selectedQueryableLayers);
+		
+		//special case if only active layers are queried for feature infos
 		if (identificationMode == 'activeLayers') {
 			//only collect selected layers that are active
 			var selectedActiveLayers = Array();
@@ -911,15 +909,15 @@ function postLoading() {
 			//need to find active layer
 			var activeNode = layerTree.getSelectionModel().getSelectedNode();
 			activeNode.cascade(
-
-			function (n) {
-				if (n.isLeaf() && n.attributes.checked) {
-					selectedActiveLayers.push(n.text);
-					if (wmsLoader.layerProperties[n.text].queryable) {
-						selectedActiveQueryableLayers.push(n.text);
+				function (n) {
+					if (n.isLeaf() && n.attributes.checked) {
+						selectedActiveLayers.push(n.text);
+						if (wmsLoader.layerProperties[n.text].queryable) {
+							selectedActiveQueryableLayers.push(n.text);
+						}
 					}
 				}
-			});
+			);
 			selectedActiveLayers = layersInDrawingOrder(selectedActiveLayers);
 			selectedActiveQueryableLayers = layersInDrawingOrder(selectedActiveQueryableLayers);
 		}
