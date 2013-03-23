@@ -73,6 +73,11 @@ if (urlArray.length > 1) {
 			visibleLayers = urlParams.visibleLayers.split(",");
 		}
 	}
+	if (urlParams.initialLayerOrder != null) {
+		if (urlParams.initialLayerOrder != "") {
+			initialLayerOrder = urlParams.initialLayerOrder.split(",");
+		}
+	}
 	if (urlParams.fullColorLayers != null) {
 		if (urlParams.fullColorLayers == "") {
 			fullColorLayers = [];

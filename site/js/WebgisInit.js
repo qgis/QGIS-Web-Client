@@ -43,7 +43,6 @@ var initialLoadDone = false; //a state variable defining if an initial project w
 var themeChangeActive = false; //status to indicate if theme chang is active
 var layerTreeSelectionChangeHandlerFunction; //a reference to the handler function of the selection tree
 var layerOrderPanel = null;
-var visibleGroups = [];
 var help_active = false; //help window is active or not
 var helpWin; //Ext window that will display the help file
 var legendMetadataWindow_active = false; //legend graphic and metadata window is active or not
@@ -56,6 +55,40 @@ Ext.onReady(function () {
 	//dpi detection
 	screenDpi = document.getElementById("dpiDetection").offsetHeight;
 	OpenLayers.DOTS_PER_INCH = screenDpi;
+	
+	//fix for IE <= 8, missing indexOf function
+	if (!Array.prototype.indexOf) {
+    Array.prototype.indexOf = function (searchElement /*, fromIndex */ ) {
+        "use strict";
+        if (this == null) {
+            throw new TypeError();
+        }
+        var t = Object(this);
+        var len = t.length >>> 0;
+        if (len === 0) {
+            return -1;
+        }
+        var n = 0;
+        if (arguments.length > 1) {
+            n = Number(arguments[1]);
+            if (n != n) { // shortcut for verifying if it's NaN
+                n = 0;
+            } else if (n != 0 && n != Infinity && n != -Infinity) {
+                n = (n > 0 || -1) * Math.floor(Math.abs(n));
+            }
+        }
+        if (n >= len) {
+            return -1;
+        }
+        var k = n >= 0 ? n : Math.max(len - Math.abs(n), 0);
+        for (; k < len; k++) {
+            if (k in t && t[k] === searchElement) {
+                return k;
+            }
+        }
+        return -1;
+    }
+	}
 
 	//some references
 	AttributeDataTree = Ext.getCmp('AttributeDataTree');
@@ -182,7 +215,7 @@ function postLoading() {
 		layerTree.root.firstChild.expand(true, false);
 		for (var index = 0; index < visibleLayers.length; index++) {
 			// expand all nodes in order to allow toggling checkboxes on deeper levels
-			layerTree.root.firstChild.findChildBy(function () {
+			layerTree.root.findChildBy(function () {
 				if (this.isExpandable()) {
 					this.expand(true, false);
 				}
@@ -190,13 +223,9 @@ function postLoading() {
 			}, null, true);
 
 			// toggle checkboxes of visible layers
-			layerTree.root.firstChild.findChildBy(function () {
+			layerTree.root.findChildBy(function () {
 				if (wmsLoader.layerTitleNameMapping[this.attributes["text"]] == visibleLayers[index]) {
 					this.getUI().toggleCheck(true);
-					// collect groups for layer order
-					if (this.isExpandable()) {
-						visibleGroups.push(wmsLoader.layerTitleNameMapping[this.attributes["text"]]);
-					}
 					// FIXME: never return true even if node is found to avoid TypeError
 					//				return true;
 				}
@@ -214,9 +243,11 @@ function postLoading() {
 				}
 			}
 		}
+		
+		//we need to get a flat list of visible layers so we can set the layerOrderPanel
+		getVisibleFlatLayers(layerTree.root.firstChild);
 
 		// add components to tree nodes while tree is expanded to match GUI layout
-
 		// info buttons in layer tree
 		addInfoButtonsToLayerTree();
 
@@ -1164,9 +1195,8 @@ function postLoading() {
 
 function getVisibleLayers(visibleLayers, currentNode){
   while (currentNode != null){
-    
     if (currentNode.attributes.checked) {
-      visibleLayers.push(currentNode.text);
+      visibleLayers.push(wmsLoader.layerTitleNameMapping[currentNode.text]);
     } else if (currentNode.attributes.checked == null) {
       // this node is partly checked, so it is a layer group with some layers visible
       // dive into this group for layer visibility
@@ -1177,6 +1207,15 @@ function getVisibleLayers(visibleLayers, currentNode){
     currentNode = currentNode.nextSibling;
   }
   return visibleLayers;
+}
+
+function getVisibleFlatLayers(currentNode) {
+  visibleLayers = [];
+	currentNode.cascade(function(node) {
+    if (node.isLeaf() && node.attributes.checked) {
+      visibleLayers.push(wmsLoader.layerTitleNameMapping[node.text]);
+    }
+	});
 }
 
 function uniqueLayersInLegend(origArr) {
@@ -1303,14 +1342,10 @@ function mapToolbarHandler(btn, evt) {
       help_active = true;
 	  //test if helpfile was specified, otherwise display default english help or language version if available
 	  if (typeof(helpfile) === 'undefined') {
-		helpfile = "help_en.html";
-		//we need to test if array.indexOf is available (IE <= version 8 do not support it)
-		//poor old IE users always get the english help, uneless specified in the GlobalOptions.js
-		if (availableHelpLanguages.indexOf()) {
+			helpfile = "help_en.html";
 			if (availableHelpLanguages.indexOf(lang) != -1) {
 				helpfile = "help_"+lang+".html";
 			}
-		}
 	  }
       helpWin = new Ext.Window({
         title: helpWindowTitleString[lang]
@@ -1386,7 +1421,12 @@ function createPermalink(){
 		permalink = permalink + "/" + wmsMapName.replace("/", "") + "?";
 	} else {
 		permalink = urlArray[0] + "?map=";
-		permalink = permalink + "/" + wmsMapName.replace("/", "") + "&";
+		permalink = permalink + "/" + wmsMapName.replace("/", "");
+		//add .qgs if it is missing
+		if (!permalink.match(/\.qgs$/)) {
+			permalink += ".qgs";
+		}
+		permalink += "&";
 	}
 
 	// extent
@@ -1412,6 +1452,9 @@ function createPermalink(){
 	if (opacities != null) {
 		permalinkParams.opacities = Ext.util.JSON.encode(opacities);
 	}
+	
+	//layer order
+	permalinkParams.initialLayerOrder = layerOrderPanel.orderedLayers().toString();
 
 	// selection
 	permalinkParams.selection = thematicLayer.params.SELECTION;
@@ -1466,6 +1509,38 @@ function setupLayerOrderPanel() {
 		// use order from permalink or URL parameter
 		orderedLayers = initialLayerOrder;
 		//TODO: we need to add additional layers if the initialLayerOrder is shorter than the layerDrawingOrder from the project
+		if (wmsLoader.projectSettings.capability.layerDrawingOrder != null) {
+			//case GetProjectSettings supported
+			if (initialLayerOrder.length < wmsLoader.projectSettings.capability.layerDrawingOrder.length) {
+				for (var i=0;i<wmsLoader.projectSettings.capability.layerDrawingOrder.length;i++) {
+					if (orderedLayers.indexOf(wmsLoader.projectSettings.capability.layerDrawingOrder[i]) == -1) {
+						var layerIndex = wmsLoader.projectSettings.capability.layerDrawingOrder.indexOf(wmsLoader.projectSettings.capability.layerDrawingOrder[i]);
+						if (layerIndex >= orderedLayers.length) {
+							orderedLayers.push(wmsLoader.projectSettings.capability.layerDrawingOrder[i]);
+						}
+						else {
+							orderedLayers.splice(layerIndex,0,wmsLoader.projectSettings.capability.layerDrawingOrder[i]);
+						}
+					}
+				}
+			}
+		}
+		else {
+			//only GetCapabilities is supported
+			if (initialLayerOrder.length < allLayers.length) {
+				for (var i=0;i<allLayers.length;i++) {
+					if (orderedLayers.indexOf(allLayers[i]) == -1) {
+						var layerIndex = allLayers.indexOf(allLayers[i]);
+						if (layerIndex >= orderedLayers.length) {
+							orderedLayers.push(allLayers[i]);
+						}
+						else {
+							orderedLayers.splice(layerIndex,0,allLayers[i]);
+						}
+					}
+				}
+			}
+		}
 	}
 	else if (wmsLoader.projectSettings.capability.layerDrawingOrder != null) {
 		// use order from GetProjectSettings
@@ -1485,7 +1560,7 @@ function setupLayerOrderPanel() {
 		// handle layer order panel events
 		layerOrderPanel.on('layerVisibilityChange', function(layer) {
 			// deactivate layer node in layer tree
-			layerTree.root.firstChild.findChildBy(function() {
+			layerTree.root.findChildBy(function() {
 				if (wmsLoader.layerTitleNameMapping[this.attributes["text"]] == layer) {
 					this.getUI().toggleCheck();
 					// update active layers

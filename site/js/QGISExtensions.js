@@ -1104,7 +1104,7 @@ QGIS.LayerOrderPanel = Ext.extend(Ext.Panel, {
     this.addOpacitySlider(layer);
 		//set visibility
 		//TODO: deal with the various layer order and visibility from GetProjectSettings, projectListing, permaLink
-		if (wmsLoader.layerProperties[layer].visible == false) {
+		if (visibleLayers.indexOf(layer) == -1) {
 			this.toggleLayerVisibility(layer);
 		}
   },
