@@ -1332,7 +1332,9 @@ function mapToolbarHandler(btn, evt) {
 	}
 	if (btn.id == "SendPermalink") {
 		var permalink = createPermalink();
-		window.open("mailto:?subject=Link&body=" + encodeURIComponent(permalink));
+		var mailToText = "mailto:?subject="+sendPermalinkLinkFromString[lang]+titleBarText+layerTree.root.firstChild.text+"&body="+encodeURIComponent(permalink);
+		var mailWindow = window.open(mailToText);
+		mailWindow.close();
 	}
   if (btn.id == "ShowHelp") {
     if (help_active == true){
@@ -1417,8 +1419,15 @@ function createPermalink(){
 	var startExtent = startExtentArray[0] + "," + startExtentArray[1] + "," + startExtentArray[2] + "," + startExtentArray[3];
 
 	if (!norewrite){
-		permalink = urlBaseArray.slice(0,-1).toString().replace(/,/g, "/");
-		permalink = permalink + "/" + wmsMapName.replace("/", "") + "?";
+		var servername = location.href.split(/\/+/)[1];
+		permalink = "http://"+servername;
+		if (gis_projects) {
+			permalink += gis_projects.path + "/";
+		}
+		else {
+			permalink += "/";
+		}
+		permalink += wmsMapName+"?";
 	} else {
 		permalink = urlArray[0] + "?map=";
 		permalink = permalink + "/" + wmsMapName.replace("/", "");
@@ -1460,7 +1469,7 @@ function createPermalink(){
 	permalinkParams.selection = thematicLayer.params.SELECTION;
 
 	permalink = permalink + Ext.urlEncode(permalinkParams);
-
+	
 	return permalink;
 }
 
@@ -1553,7 +1562,11 @@ function setupLayerOrderPanel() {
 
 	layerOrderPanel.clearLayers();
 	for (var i=0; i<orderedLayers.length; i++) {
-		layerOrderPanel.addLayer(orderedLayers[i], wmsLoader.layerProperties[orderedLayers[i]].opacity);
+		//because of a but in QGIS server we need to check if a layer from layerDrawingOrder actually really exists
+		//QGIS server is delivering invalid layer when linking to different projects
+		if (wmsLoader.layerProperties[orderedLayers[i]]) {
+			layerOrderPanel.addLayer(orderedLayers[i], wmsLoader.layerProperties[orderedLayers[i]].opacity);
+		}
 	}
 
 	if (!initialLoadDone) {

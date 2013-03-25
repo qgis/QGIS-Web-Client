@@ -884,6 +884,16 @@ sendPermalinkTooltipString["it"] = "Email a link to this map"; //FIXME
 sendPermalinkTooltipString["pt_PT"] = "Email a link to this map"; //FIXME
 sendPermalinkTooltipString["uk"] = "Email a link to this map"; //FIXME
 
+//Send permalink
+var sendPermalinkLinkFromString = new Array();
+sendPermalinkLinkFromString["en"] = "Link from ";
+sendPermalinkLinkFromString["es"] = "Link from "; //FIXME
+sendPermalinkLinkFromString["de"] = "Link von ";
+sendPermalinkLinkFromString["fr"] = "Link from "; //FIXME
+sendPermalinkLinkFromString["it"] = "Link from "; //FIXME
+sendPermalinkLinkFromString["pt_PT"] = "Link from "; //FIXME
+sendPermalinkLinkFromString["uk"] = "Link from "; //FIXME
+
 //Show Help
 var showHelpTooltipString = new Array();
 showHelpTooltipString["en"] = "Show Help";
