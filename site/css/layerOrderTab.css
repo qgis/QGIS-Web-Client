@@ -1,17 +1,5 @@
 /* this file contains styles for the layer order panel in the south-west */
 
-#panel_header_title {
-  float: left;
-  font-size: 18px;
-}
-#panel_header_link {
-  float: left;
-}
-#panel_header_terms_of_use {
-  float: right;
-  font-weight: normal;
-}
-
 .layer-button {
   float: inherit;
   padding: 1px 15px 1px 0;

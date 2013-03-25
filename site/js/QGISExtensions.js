@@ -1036,10 +1036,10 @@ QGIS.LayerOrderPanel = Ext.extend(Ext.Panel, {
         },
         render: function(grid) {
           // drop target for reordering grid rows
-          var ddrow = new Ext.dd.DropTarget(grid.container, {
+          var ddrow = new Ext.dd.DropTarget (grid.container, {
             ddGroup: 'layerorder',
             copy: false,
-            notifyDrop: function(dd, e, data) {
+            notifyDrop: function (dd, e, data) {
               var ds = grid.getStore();
               var sm = grid.getSelectionModel();
               var rows = sm.getSelections();
@@ -1058,7 +1058,7 @@ QGIS.LayerOrderPanel = Ext.extend(Ext.Panel, {
                   me.fireEvent('orderchange');
                 }
               }
-            },
+            }
           });
 
           // disable drag on actions and opacity slider elements
