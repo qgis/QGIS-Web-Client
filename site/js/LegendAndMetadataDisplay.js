@@ -41,7 +41,7 @@ function showLegendAndMetadata(layertitle) {
 	//create metadata text
 	legendMetaTabPanel.activate(metadataTab);
 	var metadataText = '<style type="text/css">.even { background-color:rgb(240,240,240);border:none;} .mdCell {padding:0.3em;border:none;} .mdHeader {padding:0.3em;font-weight:bold;border:none;}</style>';
-	metadataText += '<div style="margin:1em;"><h1 style="margin-bottom:0.8em;font-size:+3;">Metadata of Layer "'+layertitle+'"</h1>';
+	metadataText += '<div style="margin:1em;"><h1 style="margin-bottom:0.8em;font-size:+3;">'+metadataSectionTitleString[lang]+'"'+layertitle+'"</h1>';
 	//abstract
 	if (wmsLoader.layerProperties[layername].abstract) {
 		metadataText += '<p><b>Abstract:</b><p><p>'+wmsLoader.layerProperties[layername].abstract+'</p>';
@@ -73,7 +73,7 @@ function showLegendAndMetadata(layertitle) {
 	
 	//attributes/fields
 	if (wmsLoader.layerProperties[layername].attributes) {
-		metadataText += '<p style="margin-top:1em"><b>'+attributesString [lang]+'</b></p><table style="margin-top:0.5em;border:none;border-collapse:collapse;"><tr class="even"><th class="mdHeader">Name</th><th class="mdHeader">Type</th><th class="mdHeader">Comment</th><th class="mdHeader">Length</th><th class="mdHeader">Precision</th></tr>';
+		metadataText += '<p style="margin-top:1em"><b>'+attributesString [lang]+'</b></p><table style="margin-top:0.5em;border:none;border-collapse:collapse;"><tr class="even"><th class="mdHeader">'+attributeNameString[lang]+'</th><th class="mdHeader">'+attributeTypeString[lang]+'</th><th class="mdHeader">'+attributeCommentString[lang]+'</th><th class="mdHeader">'+attributeLengthString[lang]+'</th><th class="mdHeader">'+attributePrecisionString[lang]+'</th></tr>';
 		var rowCounter = 1;
 		for (var i=0;i<wmsLoader.layerProperties[layername].attributes.length;i++) {
 			attribute = wmsLoader.layerProperties[layername].attributes[i];
@@ -100,8 +100,8 @@ function showLegendAndMetadata(layertitle) {
 function setupLegendAndMetadataWindow() {
 	legendMetadataWindow = new Ext.Window({
 		title: legendMetadataWindowTitleString[lang],
-		width: geoExtMap.getWidth() * 0.4,
-		height: geoExtMap.getHeight() * 0.4,
+		width: geoExtMap.getWidth() * 0.5,
+		height: geoExtMap.getHeight() * 0.5,
 		autoScroll: true,
 		maximizable: true,
 		items: [{

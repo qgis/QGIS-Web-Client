@@ -420,6 +420,16 @@ legendMetadataWindowTitleString["it"] = "Legend and metadata information of laye
 legendMetadataWindowTitleString["pt_PT"] = "Legend and metadata information of layer"; //FIXME
 legendMetadataWindowTitleString["uk"] = "Legend and metadata information of layer"; //FIXME
 
+//title of metadata section
+var metadataSectionTitleString = new Array();
+metadataSectionTitleString["en"] = "Metadata of layer ";
+metadataSectionTitleString["es"] = "Metadata of layer "; //FIXME
+metadataSectionTitleString["de"] = "Metadaten der Ebene ";
+metadataSectionTitleString["fr"] = "Metadata of layer "; //FIXME
+metadataSectionTitleString["it"] = "Metadata of layer "; //FIXME
+metadataSectionTitleString["pt_PT"] = "Metadata of layer "; //FIXME
+metadataSectionTitleString["uk"] = "Metadata of layer "; //FIXME
+
 //title of legend and per layer metadata window
 var layerQueryable = new Array();
 layerQueryable["en"] = "This layer is queryable: ";
@@ -520,7 +530,7 @@ southString["it"] = "south"; //FIXME
 southString["pt_PT"] = "south"; //FIXME
 southString["uk"] = "south"; //FIXME
 
-//title of attribute data tree
+//attributes / fields
 var attributesString = new Array();
 attributesString["en"] = "Attributes / Fields";
 attributesString["es"] = "Atributos";
@@ -529,6 +539,56 @@ attributesString["fr"] = "Attributs";
 attributesString["it"] = "Attributi";
 attributesString["pt_PT"] = "Atributos";
 attributesString["uk"] = "Атрибути";
+
+//attribute name string
+var attributeNameString = new Array();
+attributeNameString["en"] = "Attribute name";
+attributeNameString["es"] = "Attribute name";
+attributeNameString["de"] = "Attributname";
+attributeNameString["fr"] = "Attribute name";
+attributeNameString["it"] = "Attribute name";
+attributeNameString["pt_PT"] = "Attribute name";
+attributeNameString["uk"] = "Attribute name";
+
+//attribute type string
+var attributeTypeString = new Array();
+attributeTypeString["en"] = "Type";
+attributeTypeString["es"] = "Type";
+attributeTypeString["de"] = "Typ";
+attributeTypeString["fr"] = "Type";
+attributeTypeString["it"] = "Type";
+attributeTypeString["pt_PT"] = "Type";
+attributeTypeString["uk"] = "Type";
+
+//attribute comment string
+var attributeCommentString = new Array();
+attributeCommentString["en"] = "Comment";
+attributeCommentString["es"] = "Comment";
+attributeCommentString["de"] = "Kommentar";
+attributeCommentString["fr"] = "Comment";
+attributeCommentString["it"] = "Comment";
+attributeCommentString["pt_PT"] = "Comment";
+attributeCommentString["uk"] = "Comment";
+
+//attribute length string
+var attributeLengthString = new Array();
+attributeLengthString["en"] = "Length";
+attributeLengthString["es"] = "Length";
+attributeLengthString["de"] = "Länge";
+attributeLengthString["fr"] = "Length";
+attributeLengthString["it"] = "Length";
+attributeLengthString["pt_PT"] = "Length";
+attributeLengthString["uk"] = "Length";
+
+//attribute length string
+var attributePrecisionString = new Array();
+attributePrecisionString["en"] = "Precision";
+attributePrecisionString["es"] = "Precision";
+attributePrecisionString["de"] = "Präzision";
+attributePrecisionString["fr"] = "Precision";
+attributePrecisionString["it"] = "Precision";
+attributePrecisionString["pt_PT"] = "Precision";
+attributePrecisionString["uk"] = "Precision";
 
 //label in main toolbar for object identification
 var objectIdentificationTextLabel = new Array();
@@ -560,7 +620,7 @@ attributeDataTreeTitleString["it"] = "Attributi";
 attributeDataTreeTitleString["pt_PT"] = "Atributos";
 attributeDataTreeTitleString["uk"] = "Атрибути";
 
-//
+//Feature info result
 var attributeFeatureWithString = new Array();
 attributeFeatureWithString["en"] = "Feature with ID:";
 attributeFeatureWithString["es"] = "Elemento con identificador:";
