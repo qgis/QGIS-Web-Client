@@ -312,29 +312,6 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 							id: 'ScaleNumberField'
 						}]
 					}
-				}, {
-					xtype: 'treepanel',
-                    margins: '0 0 0 0',
-                    cmargins: '0 0 0 3',                    
-					title: attributeDataTreeTitleString[lang],
-					rootVisible: false,
-					region: 'east',
-					collapsed: true,
-					boxMinWidth: 300,
-					boxMaxWidth: 600,
-					collapsible: true,
-					autoScroll: true,
-					split: true,
-					width: 300,
-					id: 'AttributeDataTree',
-					root: {
-						text: 'Tree Node',
-						expanded: true,
-						editable: false
-					},
-					loader: {
-
-					}
 				}]
 			}]
 		}];

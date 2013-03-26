@@ -14,20 +14,20 @@ var layerTree;
 var selectedLayers; //later an array containing all visible (selected) layers
 var selectedQueryableLayers; //later an array of all visible (selected and queryable) layers
 var allLayers; //later an array containing all leaf layers
-var thematicLayer, highlightLayer;
+var thematicLayer, highlightLayer, featureInfoHighlightLayer;
 var highLightGeometry = new Array();
 var WMSGetFInfo, WMSGetFInfoHover;
-var AttributeDataTree;
 var lastLayer, lastFeature;
 var featureInfoResultLayers;
 var measureControls;
 var mainStatusText, rightStatusText;
 var loadMask; //mask displayed during loading or longer operations
-var attribToolTip;
 var screenDpi;
 var qgisSearchCombo; //modified search combobox
 var wmsLoader; //modified WMSCapabilitiesLoader from GeoExt
 var xsiNamespace = "http://www.w3.org/2001/XMLSchema-instance";
+var hoverPopup = null;
+var clickPopup = null;
 var printWindow;
 var printProvider, printExtent;
 var ptTomm = 0.35277; //conversion pt to mm
@@ -91,7 +91,6 @@ Ext.onReady(function () {
 	}
 
 	//some references
-	AttributeDataTree = Ext.getCmp('AttributeDataTree');
 	layerTree = Ext.getCmp('LayerTree');
 	mainStatusText = Ext.getCmp('mainStatusText');
 	rightStatusText = Ext.getCmp('rightStatusText');
@@ -428,6 +427,10 @@ function postLoading() {
 			highlightLayer = new OpenLayers.Layer.Vector("attribHighLight", {
 				isBaseLayer: false,
 				styleMap: styleMapHighLightLayer
+			}),
+			featureInfoHighlightLayer = new OpenLayers.Layer.Vector("featureInfoHighlight", {
+				isBaseLayer: false,
+				styleMap: styleMapHighLightLayer
 			})],
 			map: MapOptions,
 			id: "geoExtMapPanel",
@@ -630,6 +633,8 @@ function postLoading() {
 		}
 	});
 	WMSGetFInfo.events.register("getfeatureinfo", this, showFeatureInfo);
+	WMSGetFInfo.events.register("beforegetfeatureinfo", this, onBeforeGetFeatureInfoClick);
+	WMSGetFInfo.events.register("nogetfeatureinfo", this, noFeatureInfoClick);
 	geoExtMap.map.addControl(WMSGetFInfo);
 
 	WMSGetFInfoHover = new OpenLayers.Control.WMSGetFeatureInfo({
@@ -643,31 +648,6 @@ function postLoading() {
 	});
 	WMSGetFInfoHover.events.register("getfeatureinfo", this, showFeatureInfoHover);
 	geoExtMap.map.addControl(WMSGetFInfoHover);
-		
-	if (!initialLoadDone) {
-		//initialize EXTJS attribute tooltip for feature info display
-		attribToolTip = new Ext.ToolTip({
-			target: geoExtMap.body,
-			html: '<p>Attributdaten-Tooltip</p>',
-			disabled: true,
-			trackMouse: true,
-			autoHide: false,
-			autoWidth: true,
-			autoHeight: true,
-			anchorToTarget: false,
-			listeners: {
-				'move': function (tt, x, y) {
-					//fixes disabled tooltip that still displays - not nice, but it works
-					if (!identifyToolActive) {
-						tt.disable();
-						tt.hide();
-					}
-				}
-			}
-		});
-		//the following line is due to a ExtJS bug - see http://www.sencha.com/forum/showthread.php?51702-Tooltip-targetXY-is-undefined
-		attribToolTip.targetXY = geoExtMap.getPosition();
-	}
 	
 	//overview map
 	if (!initialLoadDone) {
@@ -1241,23 +1221,15 @@ function mapToolbarHandler(btn, evt) {
 	if (btn.id == "IdentifyTool") {
 		if (btn.pressed) {
 			identifyToolActive = true;
-			WMSGetFInfo.activate();
-			WMSGetFInfoHover.activate();
-			attribToolTip.enable();
-			attribToolTip.show();
-			attribToolTip.update('<p>' + mapTipsNoResultString[lang] + '</p>');
+			activateGetFeatureInfo(true);
 			mainStatusText.setText(modeObjectIdentificationString[lang]);
-			changeCursorInMap("pointer");
 		} else {
 			identifyToolActive = false;
-			WMSGetFInfo.deactivate();
-			WMSGetFInfoHover.deactivate();
-			highlightLayer.removeAllFeatures();
-			attribToolTip.disable();
-			attribToolTip.hide();
-			//AttributeDataTree.collapse();
+			activateGetFeatureInfo(false);
+			if (hoverPopup) {removeHoverPopup();}
+			if (clickPopup) {removeClickPopup();}
+			featureInfoHighlightLayer.removeAllFeatures();
 			mainStatusText.setText(modeNavigationString[lang]);
-			changeCursorInMap("default");
 		}
 	}
 	if (btn.id == "measureDistance") {
@@ -1613,3 +1585,13 @@ function updateLayerOrderPanel() {
 	}
 }
 
+function activateGetFeatureInfo(doIt) {
+	// activate/deactivate FeatureInfo
+	if (doIt) {
+		WMSGetFInfo.activate();
+		WMSGetFInfoHover.activate();
+	} else {
+		WMSGetFInfo.deactivate();
+		WMSGetFInfoHover.deactivate();
+	}
+}
