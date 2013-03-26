@@ -430,6 +430,16 @@ metadataSectionTitleString["it"] = "Metadata of layer "; //FIXME
 metadataSectionTitleString["pt_PT"] = "Metadata of layer "; //FIXME
 metadataSectionTitleString["uk"] = "Metadata of layer "; //FIXME
 
+//Abstract
+var abstractString = new Array();
+abstractString["en"] = "Abstract:";
+abstractString["es"] = "Abstract:"; //FIXME
+abstractString["de"] = "Zusammenfassung:";
+abstractString["fr"] = "Abstract:"; //FIXME
+abstractString["it"] = "Abstract:"; //FIXME
+abstractString["pt_PT"] = "Abstract:"; //FIXME
+abstractString["uk"] = "Abstract:"; //FIXME
+
 //title of legend and per layer metadata window
 var layerQueryable = new Array();
 layerQueryable["en"] = "This layer is queryable: ";
