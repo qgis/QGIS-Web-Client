@@ -610,26 +610,6 @@ coordinateTextLabel["it"] = "Coordinate:";
 coordinateTextLabel["pt_PT"] = "Coordenadas:";
 coordinateTextLabel["uk"] = "Координати:";
 
-//title of attribute data tree
-var attributeDataTreeTitleString = new Array();
-attributeDataTreeTitleString["en"] = "Attribute Data";
-attributeDataTreeTitleString["es"] = "Atributos de datos";
-attributeDataTreeTitleString["de"] = "Attributdaten";
-attributeDataTreeTitleString["fr"] = "Attributs";
-attributeDataTreeTitleString["it"] = "Attributi";
-attributeDataTreeTitleString["pt_PT"] = "Atributos";
-attributeDataTreeTitleString["uk"] = "Атрибути";
-
-//Feature info result
-var attributeFeatureWithString = new Array();
-attributeFeatureWithString["en"] = "Feature with ID:";
-attributeFeatureWithString["es"] = "Elemento con identificador:";
-attributeFeatureWithString["de"] = "Feature mit ID:";
-attributeFeatureWithString["fr"] = "Entité avec l'identifiant ";//intentionally left with no colon
-attributeFeatureWithString["it"] = "Elemento con ID ";//intentionally left with no colon
-attributeFeatureWithString["pt_PT"] = "Elemento com identificador ";//intentionally left with no colon
-attributeFeatureWithString["uk"] = "Об'єкт з ID:";
-
 //search
 var searchFieldDefaultTextString = new Array();
 searchFieldDefaultTextString["en"] = "Search (addresses, parcel-nrs, names, etc.)";
@@ -710,16 +690,6 @@ searchErrorString["fr"] = "Erreur pendant la recherche";
 searchErrorString["it"] = "Errore durante la ricerca";
 searchErrorString["pt_PT"] = "Erro durante a pesquisa";
 searchErrorString["uk"] = "Помилка під час пошуку";
-
-//map tips no result
-var mapTipsNoResultString = new Array();
-mapTipsNoResultString["en"] = "No Result";
-mapTipsNoResultString["es"] = "Sin resultados";
-mapTipsNoResultString["de"] = "Kein Resultat";
-mapTipsNoResultString["fr"] = "Pas de résultat";
-mapTipsNoResultString["it"] = "Nessun risultato";
-mapTipsNoResultString["pt_PT"] = "Sem resultados";
-mapTipsNoResultString["uk"] = "Результат відсутній";
 
 //print settings toolbar title
 var printSettingsToolbarTitleString = new Array();
