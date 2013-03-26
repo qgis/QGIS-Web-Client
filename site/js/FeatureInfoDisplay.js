@@ -9,10 +9,16 @@
  *
 */ 
 
+var featureInfoPopupContents;
+
 function showFeatureInfo(evt) {
-	//empty previous result in attribute Tree
-	AttributeDataTree.getRootNode().removeAll();
 	if (identifyToolActive) {
+		var map = geoExtMap.map; // gets OL map object
+		if (hoverPopup) {removeHoverPopup();}
+		if (clickPopup) {
+			removeClickPopup();
+			activateGetFeatureInfo(true);
+		}
 		if (window.DOMParser) {
 			var parser = new DOMParser();
 			xmlDoc = parser.parseFromString(evt.text, "text/xml");
@@ -22,97 +28,56 @@ function showFeatureInfo(evt) {
 			xmlDoc.loadXML(evt.text);
 		}
 		// open AttributeTree panel
-		AttributeDataTree.expand();
 		featureInfoResultLayers = new Array();
 		highLightGeometry = new Array();
-		parseFeatureInfoResult(xmlDoc);
+		parseFIResult(xmlDoc);
 		featureInfoResultLayers.reverse();
 		highLightGeometry.reverse();
-		highlightLayer.removeAllFeatures();
-		var idsToRemove = new Array(); // array to store fields/attributes that should not be displayed
-		if (identificationMode == 'topMostHit' && featureInfoResultLayers.length > 0) {
-			var featureInfoResult = featureInfoResultLayers[0];
-			AttributeDataTree.getRootNode().appendChild(featureInfoResult);
-			var feature = new OpenLayers.Feature.Vector(OpenLayers.Geometry.fromWKT(highLightGeometry[0]));
-			highlightLayer.addFeatures([feature]);
-			// scan through the results and check if there are any to be suppressed
-			for (var j = 0; j < featureInfoResult.childNodes.length; j++) {
-				var aFeatureInfo = featureInfoResult.childNodes[j];
-				for (var k = 0; k < aFeatureInfo.childNodes.length; k++) {
-					var anAttributeValue = aFeatureInfo.childNodes[k];
-					var parts = anAttributeValue.attributes.text.split(":");
-					// condition 1: field name = tooltip, cond 2 fields with null values
-					if ((parts[0] === mapInfoFieldName) || (suppressInfoGeometry && parts[0] === 'geometry') || (suppressEmptyValues && parts[1].replace(/^\s\s*/, '').replace(/\s\s*$/, '') === "")) {
-						idsToRemove.push(anAttributeValue.id);
-					}
+		if (featureInfoResultLayers.length > 0) {
+			if (hoverPopup) {map.removePopup(hoverPopup);}
+			var text = ""; //'<div class=qgsFeatureInfoPopup>'
+			if (identificationMode == 'topMostHit') {
+				text += featureInfoResultLayers[0];
+				featureInfoHighlightLayer.addFeatures(highLightGeometry[0]);
+				//feature.geometry.getBounds().getCenterLonLat()
+			} else {
+				for (var i = 0; i < featureInfoResultLayers.length; i++) {
+					text += featureInfoResultLayers[i];
+					featureInfoHighlightLayer.addFeatures(highLightGeometry[i]);
 				}
 			}
-		} else if (identificationMode == 'allLayers' || identificationMode == 'activeLayers') {
-			var features = new Array();
-			for (var i = 0; i < featureInfoResultLayers.length; i++) {
-				var featureInfoResult = featureInfoResultLayers[i];
-				AttributeDataTree.getRootNode().appendChild(featureInfoResult);
-				features[i] = new OpenLayers.Feature.Vector(OpenLayers.Geometry.fromWKT(highLightGeometry[i]));
-				// scan through the results and check if there are any to be suppressed
-				for (var j = 0; j < featureInfoResult.childNodes.length; j++) {
-					var aFeatureInfo = featureInfoResult.childNodes[j];
-					for (var k = 0; k < aFeatureInfo.childNodes.length; k++) {
-						var anAttributeValue = aFeatureInfo.childNodes[k];
-						var parts = anAttributeValue.attributes.text.split(":");
-						// condition 1: field name = tooltip, cond 2 fields with null values
-						if ((parts[0] === mapInfoFieldName) || (suppressInfoGeometry && parts[0] === 'geometry') || (suppressEmptyValues && parts[1].replace(/^\s\s*/, '').replace(/\s\s*$/, '') === "")) {
-							idsToRemove.push(anAttributeValue.id);
-						}
-					}
-				}
-			}
-			highlightLayer.addFeatures(features);
+			//text += '</div>';
+			clickPopup = new OpenLayers.Popup.FramedCloud(
+				null, // id
+				map.getLonLatFromPixel(evt.xy), // lonlat
+				null, //new OpenLayers.Size(1,1), // contentSize
+				text, //contentHTML
+				null, // anchor
+				true,  // closeBox
+				onClickPopupClosed // closeBoxCallBackFunction
+				);
+			clickPopup.autoSize = true;
+			clickPopup.events.fallThrough = false;
+			//clickPopup.closeOnMove = true;
+			//hoverPopup.setBackgroundColor("#C8C8C8");
+			//hoverPopup.setOpacity(0.8);
+			map.addPopup(clickPopup); //*/
+			changeCursorInMap("default");
+		} else {
+			activateGetFeatureInfo(true);
 		}
-		AttributeDataTree.getRootNode().expandChildNodes(true);
-		// remove suppressed attributes
-		for (var i = 0; i < idsToRemove.length; i++) {
-			AttributeDataTree.getRootNode().findChild("id", idsToRemove[i], true).remove();
-		}
-
-		// add hyperlinks for URLs in attribute values
-		AttributeDataTree.getRootNode().expandChildNodes(true);
-		AttributeDataTree.getRootNode().cascade(
-			function (n) {
-				if (n.isLeaf()) {
-					var parts = n.text.split(": ")
-					var url = parts[1];
-					if (url != '' && /http:\/\/.+\..+/i.test(url)) {
-						// add hyperlink
-						Ext.get(n.getUI().getAnchor()).first("span").replaceWith({
-							tag: 'span',
-							unselectable: 'on',
-							children: [
-								parts[0] + ": ",
-								{
-									tag: 'a',
-									href: url,
-									html: url,
-									target: '_blank',
-									style: 'color: blue; text-decoration: underline;'
-								}
-							]
-						});
-
-						// open link in new window on click
-					n.on('click', function(e) {
-							window.open(url, '_blank');
-						});
-					}
-				}
-			}
-		);
 	}
 }
 
 function showFeatureInfoHover(evt) {
-	//highlightLayer leeren
-	highlightLayer.removeAllFeatures();
+	var map = geoExtMap.map; // gets OL map object
+	if (clickPopup) {
+		removeClickPopup();
+		activateGetFeatureInfo(true);
+	}
+	featureInfoHighlightLayer.removeAllFeatures();
 	if (identifyToolActive) {
+		if (hoverPopup) {removeHoverPopup();}
 		if (window.DOMParser) {
 			var parser = new DOMParser();
 			xmlDoc = parser.parseFromString(evt.text, "text/xml");
@@ -121,12 +86,8 @@ function showFeatureInfoHover(evt) {
 			xmlDoc.async = "false";
 			xmlDoc.loadXML(evt.text);
 		}
-		var tooltipText = "";
-		var nameText = "";
-		var ogc_fidText = "";
-		var gidText = "";
 		var layerNodes = xmlDoc.getElementsByTagName("Layer");
-		var text = '<p>';
+		var text = ''
 		var result = false;
 		for (var i = layerNodes.length - 1; i > -1; --i) {
 			var featureNodes = layerNodes[i].getElementsByTagName("Feature");
@@ -146,7 +107,7 @@ function showFeatureInfoHover(evt) {
 					} else {
 						if (attribNodes[k].getAttribute("name") == "geometry") {
 							var feature = new OpenLayers.Feature.Vector(OpenLayers.Geometry.fromWKT(attribNodes[k].getAttribute("value")));
-							highlightLayer.addFeatures([feature]);
+							featureInfoHighlightLayer.addFeatures([feature]);
 						}
 					}
 				}
@@ -155,12 +116,73 @@ function showFeatureInfoHover(evt) {
 				break;
 			}
 		}
+		
 		if (result == false) {
-			text += mapTipsNoResultString[lang];
+			changeCursorInMap("default");
+		} else {
+			changeCursorInMap("pointer");
+			text = text.substring(0, text.lastIndexOf("<br/>"));
+			hoverPopup = new OpenLayers.Popup(
+				null, // id
+				map.getLonLatFromPixel(evt.xy), // lonlat
+				null, //new OpenLayers.Size(1,1), // contentSize
+				text , //contentHTML
+				/*null, // anchor */
+				false // closeBox 
+				);
+			hoverPopup.autoSize = true;
+			//hoverPopup.setBackgroundColor("#C8C8C8");
+			hoverPopup.setOpacity(0.8);
+			hoverPopup.events.on({"click": onHoverPopupClick});
+			map.addPopup(hoverPopup); //*/
 		}
-		text += '</p>';
-		attribToolTip.update(text);
 	}
+}
+
+// disable all GetFeatureInfoRequest until we have a reponse
+function onBeforeGetFeatureInfoClick(evt){
+	activateGetFeatureInfo(false);
+}
+
+// reenable GetFeatureInfo
+function noFeatureInfoClick(evt){
+	activateGetFeatureInfo(true);
+}
+
+/* we need this function in order to pass through the click to the map events
+ * */
+function onHoverPopupClick(evt){
+	if (hoverPopup) {removeHoverPopup();}
+	var map = geoExtMap.map; // gets OL map object
+	evt.xy = map.events.getMousePosition(evt); // non api function of OpenLayers.Events
+	map.events.triggerEvent("click", evt);
+}
+
+function onClickPopupClosed(evt) {
+	removeClickPopup();
+	// enable the hover popup for the curent mosue position
+	WMSGetFInfoHover.activate();
+	var map = geoExtMap.map; // gets OL map object
+	evt.xy = map.events.getMousePosition(evt); // non api function of OpenLayers.Events
+	map.events.triggerEvent("mousemove", evt);
+	// we need a delay here otherwise click on the close button is interpreted as a new click on the map
+	setTimeout("activateGetFeatureInfo(true)", 500);
+	
+}
+
+function removeClickPopup() {
+	var map = geoExtMap.map; // gets OL map object
+	map.removePopup(clickPopup);
+	clickPopup.destroy();
+	clickPopup = null;
+	featureInfoHighlightLayer.removeAllFeatures();
+}
+
+function removeHoverPopup(){
+	var map = geoExtMap.map; // gets OL map object
+	map.removePopup(hoverPopup);
+	hoverPopup.destroy();
+	hoverPopup = null;
 }
 
 function showFeatureSelected(args) {
@@ -183,40 +205,93 @@ function clearFeatureSelected() {
 	});
 }
 
-function parseFeatureInfoResult(node) {
-	if (node.hasChildNodes()) {
-		if (node.nodeName == "Layer") {
-			featureInfoResultLayers.push(new Ext.tree.TreeNode({
-				text: node.getAttribute("name")
-			}));
-			//in case of a raster layer there is no "Feature" child - we need to create an "artificial feature"
-			if (node.getElementsByTagName("Feature").length == 0) {
-				lastFeature = new Ext.tree.TreeNode({
-					text: "Rasterzelle"
-				});
-				featureInfoResultLayers[featureInfoResultLayers.length - 1].appendChild(lastFeature);
+function parseFIResult(node) {
+	if (node.hasChildNodes) {
+		if (node.hasChildNodes && node.nodeName == "Layer") {
+			var hasAttributes = false;
+			var htmlText = "<h2>" + node.getAttribute("name") + "</h2>";
+			var geoms = new Array();
+			var featureNode = node.firstChild;
+			while (featureNode) {
+				if (featureNode.hasChildNodes && featureNode.nodeName == "Feature") {
+					htmlText += "\n <p></p>\n <table>\n  <tbody>";
+					var attributeNode = featureNode.firstChild;
+					while (attributeNode) {
+						if (attributeNode.nodeName == "Attribute") {
+							var attName = attributeNode.getAttribute("name");
+							var attValue = attributeNode.getAttribute("value");
+							if ((attName !== mapInfoFieldName) && (suppressEmptyValues && attValue.replace(/^\s\s*/, '').replace(/\s\s*$/, '') !== "")) {
+								if (attName === "geometry") {
+									var feature = new OpenLayers.Feature.Vector(OpenLayers.Geometry.fromWKT(attValue));
+									geoms.push(feature);
+									if (! suppressInfoGeometry) {
+										htmlText += "\n   <tr>";
+										if (showFieldNamesInClickPopup) {
+											htmlText += "<td>" + attName + ":</td>";
+										}
+										htmlText += "<td>" + attValue + "</td></tr>";
+										var hasAttributes = true;
+									}
+								} else {
+									htmlText += "\n   <tr>";
+									if (showFieldNamesInClickPopup) {
+										htmlText += "<td>" + attName + ":</td>";
+									}
+									// add hyperlinks for URLs in attribute values
+									if (attValue != '' && /http:\/\/.+\..+/i.test(attValue)) {
+										attValue = "<a class=\"popupLink\" href=\"" + attValue + "\" target=\"_blank\">" + attValue + "</a>";
+									}
+									htmlText += "<td>" + attValue + "</td></tr>";
+									var hasAttributes = true;
+								}
+							}
+						}
+						attributeNode = attributeNode.nextSibling;
+					}
+					htmlText += "\n  </tbody>\n </table>";
+					//htmlText += "\n  </ul>\n </li>";
+				}
+				featureNode = featureNode.nextSibling;
+			}
+			//htmlText += "\n</ul>";
+			if (hasAttributes) {
+				featureInfoResultLayers.push(htmlText);
+				highLightGeometry.push(geoms);
+			}
+		} else {
+			var child = node.firstChild;
+			while (child) {
+				parseFIResult(child);
+				child = child.nextSibling;
 			}
 		}
-		if (node.nodeName == "Feature") {
-			lastFeature = new Ext.tree.TreeNode({
-				text: attributeFeatureWithString[lang] + node.getAttribute("id")
-			});
-			featureInfoResultLayers[featureInfoResultLayers.length - 1].appendChild(lastFeature);
+	}
+}
+
+
+function listLayersWithFeatures(node) {
+	if (node.hasChildNodes()) {
+		if (node.nodeName == "Layer") {
+			featureInfoResultLayers.push(node.getAttribute("name"));
+		} else {
+			var child = node.firstChild;
+			while (child) {
+				listLayersWithFeatures(child);
+				child = child.nextSibling;
+			}
 		}
-		var child = node.firstChild;
-		while (child) {
-			parseFeatureInfoResult(child);
-			child = child.nextSibling;
-		}
-	} else {
-		//leaf node
-		if (node.nodeName == "Attribute") {
-			lastFeature.appendChild(new Ext.tree.TreeNode({
-				text: node.getAttribute("name") + ": " + node.getAttribute("value"),
-				leaf: true
-			}));
-			if (node.getAttribute("name") == "geometry") {
-				highLightGeometry.push(node.getAttribute("value"));
+	}
+}
+
+function getFeatures(layerName, node) {
+	if (node.hasChildNodes()) {
+		if (node.nodeName == "Layer" && node.getAttribute("name") == layerName) {
+			return node.firstChild;
+		} else {
+			var child = node.firstChild;
+			while (child) {
+				getFeatures(layerName, child);
+				child = child.nextSibling;
 			}
 		}
 	}

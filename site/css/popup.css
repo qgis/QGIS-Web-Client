@@ -1,0 +1,87 @@
+
+
+a:link, a:visited
+{
+	color: #FF6600;
+}
+
+h1, h2, h3, h4, h5
+{
+	color: #FF6600;
+}
+
+
+
+
+/* popup related styles */
+.olPopup
+{
+	overflow:inherit;
+}
+
+.olPopup *
+{
+	margin: 0px;
+	padding:0px;
+	font-size: 12px;
+}
+
+.olPopup a.close
+{
+	width: 14px;
+	height: 14px;
+	position: absolute;
+	top: 10px;
+	right: 28px;
+	background: url(../img/close.gif) no-repeat top left;
+	margin: 0px;
+	font-size: 1px;
+	padding: 0px;
+}
+
+.olPopup a.close:hover
+{
+	background: url(../img/close-hover.gif) no-repeat top left;
+}
+
+.olPopup .olFramedCloudPopupContent
+{
+	min-width:200px;
+	background-color: #ffffff !important;
+	padding: 1px !important;
+	margin: 0px !important;
+	font-size: 0.80em;
+}
+
+.olPopup .olFramedCloudPopupContent h2
+{
+	font-size: small;
+	text-align: center;
+	padding: 2px 0px 2px 0px;
+	margin: 0px 6px 0px 6px;
+}
+
+.olPopup .olFramedCloudPopupContent table
+{
+	border-collapse:collapse;
+	overflow: auto;
+	padding: 6px 0px;
+	width: 100%;
+}
+
+.olFramedCloudPopupContent table td
+{
+	padding: 4px;
+	border: 1px solid #cccccc;
+}
+
+.olPopup .olPopupCloseBox
+{
+	background: url(../img/close.gif) no-repeat top left;
+}
+
+.olPopup .olPopupCloseBox:hover
+{
+	background: url(../img/close-hover.gif) no-repeat top left;
+	cursor: pointer;
+}
