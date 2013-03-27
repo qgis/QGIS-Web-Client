@@ -14,6 +14,9 @@ var serverAndCGI = "/cgi-bin/qgis_mapserv.fcgi";
 //Set this to false to use GetCapabilities for older QGIS Server versions (<= 1.8).
 var useGetProjectSettings = true;
 
+// show the layerOrderTab in the GUI
+var showLayerOrderTab = true;
+
 //search box for queries while typing
 //enable to use GeoNames search
 var useGeoNamesSearchBox = true;

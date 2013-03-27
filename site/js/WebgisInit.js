@@ -1542,37 +1542,41 @@ function setupLayerOrderPanel() {
 	}
 
 	if (!initialLoadDone) {
-		// handle layer order panel events
-		layerOrderPanel.on('layerVisibilityChange', function(layer) {
-			// deactivate layer node in layer tree
-			layerTree.root.findChildBy(function() {
-				if (wmsLoader.layerTitleNameMapping[this.attributes["text"]] == layer) {
-					this.getUI().toggleCheck();
-					// update active layers
-					layerTree.fireEvent("leafschange");
-					return true;
+		if (showLayerOrderTab) {
+			// handle layer order panel events
+			layerOrderPanel.on('layerVisibilityChange', function(layer) {
+				// deactivate layer node in layer tree
+				layerTree.root.findChildBy(function() {
+					if (wmsLoader.layerTitleNameMapping[this.attributes["text"]] == layer) {
+						this.getUI().toggleCheck();
+						// update active layers
+						layerTree.fireEvent("leafschange");
+						return true;
+					}
+					return false;
+				}, null, true);
+			});
+
+			layerOrderPanel.on('orderchange', function() {
+				// update layer order after drag and drop
+				layerTree.fireEvent("leafschange");
+			});
+
+			layerOrderPanel.on('opacitychange', function(layer, opacity) {
+				// update layer opacities after slider change
+				wmsLoader.layerProperties[layer].opacity = opacity;
+				layerTree.fireEvent("leafschange");
+			});
+			//hack to set title of southern panel - normally it is hidden in ExtJS
+			Ext.layout.BorderLayout.Region.prototype.getCollapsedEl = Ext.layout.BorderLayout.Region.prototype.getCollapsedEl.createSequence(function() {
+				if ( ( this.position == 'south' ) && !this.collapsedEl.titleEl ) {
+					this.collapsedEl.titleEl = this.collapsedEl.createChild({cls: 'x-collapsed-title', cn: this.panel.title});
 				}
-				return false;
-			}, null, true);
-		});
-
-		layerOrderPanel.on('orderchange', function() {
-			// update layer order after drag and drop
-			layerTree.fireEvent("leafschange");
-		});
-
-		layerOrderPanel.on('opacitychange', function(layer, opacity) {
-			// update layer opacities after slider change
-			wmsLoader.layerProperties[layer].opacity = opacity;
-			layerTree.fireEvent("leafschange");
-		});
-		//hack to set title of southern panel - normally it is hidden in ExtJS
-		Ext.layout.BorderLayout.Region.prototype.getCollapsedEl = Ext.layout.BorderLayout.Region.prototype.getCollapsedEl.createSequence(function() {
-			if ( ( this.position == 'south' ) && !this.collapsedEl.titleEl ) {
-				this.collapsedEl.titleEl = this.collapsedEl.createChild({cls: 'x-collapsed-title', cn: this.panel.title});
-			}
-		});
-		Ext.getCmp('leftPanelMap').layout.south.getCollapsedEl().titleEl.dom.innerHTML = layerOrderPanelTitleString[lang];
+			});
+			Ext.getCmp('leftPanelMap').layout.south.getCollapsedEl().titleEl.dom.innerHTML = layerOrderPanelTitleString[lang];
+		} else {
+			Ext.getCmp('leftPanelMap').layout.south.getCollapsedEl().setVisible(showLayerOrderTab);
+		}
 	}
 }
 
