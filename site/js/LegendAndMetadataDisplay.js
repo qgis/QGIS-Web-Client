@@ -57,7 +57,10 @@ function showLegendAndMetadata(layertitle) {
 	metadataText += '</p>';
 	//display field
 	if (wmsLoader.layerProperties[layername].queryable) {
-		metadataText += '<p style="margin-top:1em;"><b>'+displayFieldString[lang]+":</b> "+wmsLoader.layerProperties[layername].displayField + '</p>';
+		// wmsLoader.layerProperties[layername].displayField is null if GetCapabilities is used
+		if (wmsLoader.layerProperties[layername].displayField) {
+			metadataText += '<p style="margin-top:1em;"><b>'+displayFieldString[lang]+":</b> "+wmsLoader.layerProperties[layername].displayField + '</p>';
+		}
 	}
 	//coordinate systems
 	metadataText += '<p style="margin-top:1em;margin-bottom:0.4em;font-weight:bold;">'+coordinateSystemsString[lang]+"</p><ul>";
