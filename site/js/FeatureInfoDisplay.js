@@ -9,73 +9,79 @@
  *
 */ 
 
+/* FeatureInfos are presented to the user in two ways using OpenLayers.Popup classes:
+ * If the mouse stops and GetFeatureInfo has results for this mouse position
+ * a small box presents the contents of the info field (GetProjectSettings) or the
+ * field named "toolbox" (GetCapabilities), this is called hoverPopup throughout this script.
+ * If the user clicks in the map the contents of all visible fields (and if activated the wkt geometry)
+ * is presented in a popup called clickPopup throughout this script.
+ * hoverPopups are disabled when a clickPopup is open, however clicking at another position in the map
+ * closes the currently opened clickPopup and opens a new one (if there is GetFeatureInfo response).
+ * If the cursor is at a position where there is GetFeatureInfo response it indicates the possibility
+ * to click by changing to "hand".
+*/
+
 var featureInfoPopupContents;
+var closePopupClick = false; // stores if the click results from closing a clickPopup
 
 function showFeatureInfo(evt) {
 	if (identifyToolActive) {
-		var map = geoExtMap.map; // gets OL map object
-		if (hoverPopup) {removeHoverPopup();}
-		if (clickPopup) {
-			removeClickPopup();
-			activateGetFeatureInfo(true);
-		}
-		if (window.DOMParser) {
-			var parser = new DOMParser();
-			xmlDoc = parser.parseFromString(evt.text, "text/xml");
-		} else {
-			xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
-			xmlDoc.async = "false";
-			xmlDoc.loadXML(evt.text);
-		}
-		// open AttributeTree panel
-		featureInfoResultLayers = new Array();
-		highLightGeometry = new Array();
-		parseFIResult(xmlDoc);
-		featureInfoResultLayers.reverse();
-		highLightGeometry.reverse();
-		if (featureInfoResultLayers.length > 0) {
-			if (hoverPopup) {map.removePopup(hoverPopup);}
-			var text = ""; //'<div class=qgsFeatureInfoPopup>'
-			if (identificationMode == 'topMostHit') {
-				text += featureInfoResultLayers[0];
-				featureInfoHighlightLayer.addFeatures(highLightGeometry[0]);
-				//feature.geometry.getBounds().getCenterLonLat()
+		if (!closePopupClick) {
+			var map = geoExtMap.map; // gets OL map object
+			if (window.DOMParser) {
+				var parser = new DOMParser();
+				xmlDoc = parser.parseFromString(evt.text, "text/xml");
 			} else {
-				for (var i = 0; i < featureInfoResultLayers.length; i++) {
-					text += featureInfoResultLayers[i];
-					featureInfoHighlightLayer.addFeatures(highLightGeometry[i]);
-				}
+				xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+				xmlDoc.async = "false";
+				xmlDoc.loadXML(evt.text);
 			}
-			//text += '</div>';
-			clickPopup = new OpenLayers.Popup.FramedCloud(
-				null, // id
-				map.getLonLatFromPixel(evt.xy), // lonlat
-				null, //new OpenLayers.Size(1,1), // contentSize
-				text, //contentHTML
-				null, // anchor
-				true,  // closeBox
-				onClickPopupClosed // closeBoxCallBackFunction
-				);
-			clickPopup.autoSize = true;
-			clickPopup.events.fallThrough = false;
-			//clickPopup.closeOnMove = true;
-			//hoverPopup.setBackgroundColor("#C8C8C8");
-			//hoverPopup.setOpacity(0.8);
-			map.addPopup(clickPopup); //*/
-			changeCursorInMap("default");
+			// open AttributeTree panel
+			featureInfoResultLayers = new Array();
+			highLightGeometry = new Array();
+			parseFIResult(xmlDoc);
+			featureInfoResultLayers.reverse();
+			highLightGeometry.reverse();
+			if (featureInfoResultLayers.length > 0) {
+				if (hoverPopup) {removeHoverPopup();}
+				if (clickPopup) {removeClickPopup();}
+				var text = "";
+				if (identificationMode == 'topMostHit') {
+					text += featureInfoResultLayers[0];
+					featureInfoHighlightLayer.addFeatures(highLightGeometry[0]);
+					//feature.geometry.getBounds().getCenterLonLat()
+				} else {
+					for (var i = 0; i < featureInfoResultLayers.length; i++) {
+						text += featureInfoResultLayers[i];
+						featureInfoHighlightLayer.addFeatures(highLightGeometry[i]);
+					}
+				}
+				clickPopup = new OpenLayers.Popup.FramedCloud(
+					null, // id
+					map.getLonLatFromPixel(evt.xy), // lonlat
+					null, //new OpenLayers.Size(1,1), // contentSize
+					text, //contentHTML
+					null, // anchor
+					true,  // closeBox
+					onClickPopupClosed // closeBoxCallBackFunction
+					);
+				clickPopup.autoSize = true;
+				clickPopup.events.fallThrough = false;
+				//clickPopup.closeOnMove = true;
+				//hoverPopup.setBackgroundColor("#C8C8C8");
+				//hoverPopup.setOpacity(0.8);
+				map.addPopup(clickPopup); //*/
+				changeCursorInMap("default");
+			}
 		} else {
-			activateGetFeatureInfo(true);
+			closePopupClick = false;
 		}
+		activateGetFeatureInfo(true);
 	}
 }
 
 function showFeatureInfoHover(evt) {
 	var map = geoExtMap.map; // gets OL map object
-	if (clickPopup) {
-		removeClickPopup();
-		activateGetFeatureInfo(true);
-	}
-	featureInfoHighlightLayer.removeAllFeatures();
 	if (identifyToolActive) {
 		if (hoverPopup) {removeHoverPopup();}
 		if (window.DOMParser) {
@@ -117,24 +123,28 @@ function showFeatureInfoHover(evt) {
 			}
 		}
 		
-		if (result == false) {
-			changeCursorInMap("default");
-		} else {
+		if (result) {
 			changeCursorInMap("pointer");
-			text = text.substring(0, text.lastIndexOf("<br/>"));
-			hoverPopup = new OpenLayers.Popup(
-				null, // id
-				map.getLonLatFromPixel(evt.xy), // lonlat
-				null, //new OpenLayers.Size(1,1), // contentSize
-				text , //contentHTML
-				/*null, // anchor */
-				false // closeBox 
-				);
-			hoverPopup.autoSize = true;
-			//hoverPopup.setBackgroundColor("#C8C8C8");
-			hoverPopup.setOpacity(0.8);
-			hoverPopup.events.on({"click": onHoverPopupClick});
-			map.addPopup(hoverPopup); //*/
+			if (!clickPopup) {
+				// only show hoverPopup if no clickPopup is open
+				featureInfoHighlightLayer.removeAllFeatures();
+				text = text.substring(0, text.lastIndexOf("<br/>"));
+				hoverPopup = new OpenLayers.Popup(
+					null, // id
+					map.getLonLatFromPixel(evt.xy), // lonlat
+					null, //new OpenLayers.Size(1,1), // contentSize
+					text , //contentHTML
+					/*null, // anchor */
+					false // closeBox 
+					);
+				hoverPopup.autoSize = true;
+				//hoverPopup.setBackgroundColor("#C8C8C8");
+				hoverPopup.setOpacity(0.8);
+				hoverPopup.events.on({"click": onHoverPopupClick});
+				map.addPopup(hoverPopup); //*/
+			}
+		} else {
+			changeCursorInMap("default");
 		}
 	}
 }
@@ -165,9 +175,7 @@ function onClickPopupClosed(evt) {
 	var map = geoExtMap.map; // gets OL map object
 	evt.xy = map.events.getMousePosition(evt); // non api function of OpenLayers.Events
 	map.events.triggerEvent("mousemove", evt);
-	// we need a delay here otherwise click on the close button is interpreted as a new click on the map
-	setTimeout("activateGetFeatureInfo(true)", 500);
-	
+	closePopupClick = true; // indicate to not open a new clickPopup
 }
 
 function removeClickPopup() {
