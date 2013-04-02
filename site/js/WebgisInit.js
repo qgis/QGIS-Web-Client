@@ -201,7 +201,7 @@ function postLoading() {
 		Ext.getCmp('measureDistance').toggleHandler = mapToolbarHandler;
 		Ext.getCmp('measureArea').toggleHandler = mapToolbarHandler;
 		Ext.getCmp('PrintMap').toggleHandler = mapToolbarHandler;
-		//Ext.getCmp('SendPermalink').handler = mapToolbarHandler;
+        //Ext.getCmp('SendPermalink').handler = mapToolbarHandler;
 		Ext.getCmp('ShowHelp').handler = mapToolbarHandler;
 		//combobox listeners
 		var ObjectIdentificationModeCombobox = Ext.getCmp('ObjectIdentificationModeCombo');
@@ -227,8 +227,6 @@ function postLoading() {
 			}
 		}
 	}
-    //SOGIS - EXTENT OF SO
-    //maxExtent = new OpenLayers.Bounds(566675,201071,663034,273618);
 	MapOptions.maxExtent = maxExtent;
 
 	//now collect all selected layers (with checkbox enabled in tree)
@@ -281,7 +279,7 @@ function postLoading() {
 	}
 	else {
 		printProvider = new QGIS.PrintProvider({
-			method: "GET", // "POST" recommended for production use
+			method: "POST", // "POST" recommended for production use
 			capabilities: printCapabilities, // from the info.json script in the html
 			url: printUri
 		});
@@ -578,6 +576,7 @@ function postLoading() {
 				}
 			}
 		});
+        
 		//the following line is due to a ExtJS bug - see http://www.sencha.com/forum/showthread.php?51702-Tooltip-targetXY-is-undefined
 		attribToolTip.targetXY = geoExtMap.getPosition();
 	}
@@ -590,8 +589,10 @@ function postLoading() {
 			minRatio: 16,
 			maxRatio: 64,
 			mapOptions: OverviewMapOptions,
+            maximized: true,
 			layers: [overviewLayer]
 		}));
+        
 	}
 	else {
 		//todo: find out how to change the max extent in the OverviewMap
@@ -652,7 +653,7 @@ function postLoading() {
 
         //SOGIS: Permalink
         addPermalinkToToolbar(myTopToolbar);
-
+ 
 		//add QGISSearchCombo
 		if (useGeoNamesSearchBox || searchBoxQueryURL != null) {
 			myTopToolbar.insert(myTopToolbar.items.length, new Ext.Toolbar.Fill());
@@ -970,7 +971,8 @@ function postLoading() {
 									printExtent.page.setScale(record);
 								}
 							}
-						}, {
+                        //SOGIS: No choice of printresolution
+						}, /*{
 							xtype: 'tbspacer'
 						}, {
 							xtype: 'combo',
@@ -999,7 +1001,7 @@ function postLoading() {
 									printProvider.setDpi(record);
 								}
 							}
-						}, {
+						}, */{
 							xtype: 'tbspacer'
 						}, {
 							xtype: 'tbspacer'
@@ -1070,7 +1072,9 @@ function postLoading() {
 			printLayoutsCombobox = Ext.getCmp('PrintLayoutsCombobox');
 			printLayoutsCombobox.setValue(printLayoutsCombobox.store.getAt(0).data.name);
 			var printDPICombobox = Ext.getCmp('PrintDPICombobox');
-			printDPICombobox.setValue("150");
+            //SOGIS 
+			//printDPICombobox.setValue("150");
+            printProvider.setDpi(300);
 			//need to manually fire the event, because .setValue doesn't; index omitted, not needed
 			printDPICombobox.fireEvent("select", printDPICombobox, printDPICombobox.findRecord(printDPICombobox.valueField, "150"));
 			printExtent.initialized = false;
@@ -1180,47 +1184,27 @@ function uniqueLayersInLegend(origArr) {
 	return newArr;
 }
 
-/* SOGIS -------------------------- */
-function addPermalinkToToolbar(toolbar) {
-        var shortUrlButton = new Ext.Button({
-            scale: 'medium',
-            icon: 'gis_icons/mActionPermalink.png',
-            tooltipType: 'qtip',
-            tooltip: "Permalink",
-            handler: updatePermalink
-        });
-        toolbar.addItem(shortUrlButton);
-        
-        var permalinkField = new Ext.form.TextField({
-            emptyText: "Permalink",
-            hidden: true,
-            readOnly: true,
-            width: 70,
-            selectOnFocus: true
-            
-        });
-        toolbar.addItem(permalinkField);
-        
-        function updatePermalink() {
-            var permalink = createPermalink();
-            permalinkField.setValue(encodeURI(permalink));
-            permalinkField.show();
-        }
-
-        function unsetPermalink() {
-            permalinkField.hide();
-        }
-        
-        geoExtMap.map.events.register('moveend', this, unsetPermalink);
-        geoExtMap.map.events.register('changelayer', this, unsetPermalink);
-        
-}
-/* END SOGIS ---------------------- */
-
 function mapToolbarHandler(btn, evt) {
-	if (btn.id == "IdentifyTool") {
+   	if (btn.id == "IdentifyTool") {
+        var sogisToolTip =  function (evt){
+        var xy = geoExtMap.map.events.getMousePosition(evt);
+        var geoxy = geoExtMap.map.getLonLatFromPixel(xy);
+        var nDeci = 0;
+		var currentScale = geoExtMap.map.getScale();
+			    if (currentScale <= 400) {
+			    	nDeci = 1;
+			    	if (currentScale <= 100) {
+			    		nDeci = 2;
+			    	}
+			    }
+                if ((btn.id == "IdentifyTool") && (btn.pressed)) {
+                    getTooltipHtml(geoxy.lon.toFixed(nDeci), geoxy.lat.toFixed(nDeci));
+                }
+            }
+
 		if (btn.pressed) {
 			identifyToolActive = true;
+            geoExtMap.map.events.register('click', this, sogisToolTip);
 			WMSGetFInfo.activate();
 			WMSGetFInfoHover.activate();
 			attribToolTip.enable();

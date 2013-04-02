@@ -102,4 +102,34 @@ body {
 	border: none;
 }
 
+.olControlOverviewMap {
+        /*background:#ff0000;*/
+        width:200px;
+        bottom: 0px;
+}
+
+.olControlOverviewMapElement {
+    /*background:#00ff00 !important;*/
+    border-top-style: solid !important;
+    border-radius: 1em 1em 1em 1em !important;
+    position: absolute;
+    height: 200px;
+    top: 100%;
+    margin-top: -240px;
+}
+
+.olControlOverviewMapMinimizeButton {
+    position: absolute;
+    height: 20px;
+    top: 100% !important;
+    margin-top: -228px;
+}
+
+.olControlOverviewMapMaximizeButton {
+    position: absolute;
+    height: 20px;
+    top: 100% !important;
+    margin-top: -228px;
+}
+
 

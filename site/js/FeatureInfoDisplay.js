@@ -10,6 +10,8 @@
 */ 
 
 function showFeatureInfo(evt) {
+    //SOGIS: FeatureInfo only active, if there is no SOGIS-Tooltip
+    if (!bolSOGISTooltip) {
 	//empty previous result in attribute Tree
 	AttributeDataTree.getRootNode().removeAll();
 	if (identifyToolActive) {
@@ -74,6 +76,7 @@ function showFeatureInfo(evt) {
 			AttributeDataTree.getRootNode().findChild("id", idsToRemove[i], true).remove();
 		}
 	}
+}
 }
 
 function showFeatureInfoHover(evt) {

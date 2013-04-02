@@ -1,3 +1,6 @@
+var bolSOGISTooltip = false; // Is there a SOGIS tooltip available?
+var strSOGISTooltipURL = 'http://srsofaioi12288.ktso.ch/sogis/qgis-web-tooltip/'; // URL to the SOGIS tooltip
+
 Ext.onReady(function () {
 	// Define header menu. Can be nested one level deep.
 	var sogis_menu = [
@@ -71,7 +74,7 @@ Ext.onReady(function () {
 	Ext.getCmp('GisBrowserPanel').setHeight(window.innerHeight);
     
     
-    
+   
 
 });
 
@@ -102,3 +105,97 @@ function provLayerSwitcher(strMapName){
             
     }
 }
+
+/**
+* @desc gets the html (usually a div with content) from the server
+* @param number x the latitude
+* @param number y the longitude
+* @property-write sets bolSOGISTooltip true, if the server sends htmls
+* @todo as apache makes a directory listening, only html without the tag <html> is being treated as a response. Better solution is welcome
+*/
+function getTooltipHtml(x,y){
+    Ext.Ajax.request({
+        url:  strSOGISTooltipURL + getProject() + '/', // URL to the SOGIS tooltip
+        params: {'x': x, //
+                 'y': y},
+        method: 'GET',
+        success: function(response){
+            if (response.responseText.split('<html>').length > 1){
+                this.bolSOGISTooltip = false;
+            } else { 
+                showTooltip(response.responseText);  
+                this.bolSOGISTooltip = true;
+            }
+        },
+        failure: function(response){
+            this.bolSOGISTooltip = false;
+        }
+    });
+}
+
+/**
+* @desc shows a window with html inside
+* @param string with html
+*/
+function showTooltip(str_html){
+    var str_message = str_html;
+        Ext.Msg.show({
+        minWidth: 400,
+        title: 'Tooltip ' + getProject(),
+        msg: str_message,
+        buttons: Ext.MessageBox.OK
+        //icon: Ext.MessageBox.INFO
+  });
+}
+
+/**
+* @desc gets the last part of a url. In this context ist is the project name
+* @return string with the project name
+*/
+function getProject(){
+      str_url = document.URL;
+      arr_url = str_url.split('/');
+      str_url = arr_url[arr_url.length -1];
+      arr_url = str_url.split('?');
+      str_url = arr_url[0];
+      return str_url;
+}
+
+/**
+* @desc adds a permalink-button to the toolbar (called in WebgisInit.js)
+*/
+function addPermalinkToToolbar(toolbar) {
+        var shortUrlButton = new Ext.Button({
+            scale: 'medium',
+            icon: 'gis_icons/mActionPermalink.png',
+            tooltipType: 'qtip',
+            tooltip: "Permalink",
+            handler: updatePermalink
+        });
+        toolbar.addItem(shortUrlButton);
+        
+        var permalinkField = new Ext.form.TextField({
+            emptyText: "Permalink",
+            hidden: true,
+            readOnly: true,
+            width: 70,
+            selectOnFocus: true
+            
+        });
+        toolbar.addItem(permalinkField);
+        
+        function updatePermalink() {
+            var permalink = createPermalink();
+            permalinkField.setValue(encodeURI(permalink));
+            permalinkField.show();
+        }
+
+        function unsetPermalink() {
+            permalinkField.hide();
+        }
+        
+        geoExtMap.map.events.register('moveend', this, unsetPermalink);
+        geoExtMap.map.events.register('changelayer', this, unsetPermalink);
+        
+}
+
