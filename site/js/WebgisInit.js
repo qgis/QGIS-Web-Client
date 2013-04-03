@@ -1076,7 +1076,7 @@ function postLoading() {
 			//printDPICombobox.setValue("150");
             printProvider.setDpi(300);
 			//need to manually fire the event, because .setValue doesn't; index omitted, not needed
-			printDPICombobox.fireEvent("select", printDPICombobox, printDPICombobox.findRecord(printDPICombobox.valueField, "150"));
+			//printDPICombobox.fireEvent("select", printDPICombobox, printDPICombobox.findRecord(printDPICombobox.valueField, "150"));
 			printExtent.initialized = false;
 			//bug in spinnerField: need to explicitly show/hide printWindow (toolbar)
 			printWindow.show();
@@ -1198,7 +1198,7 @@ function mapToolbarHandler(btn, evt) {
 			    	}
 			    }
                 if ((btn.id == "IdentifyTool") && (btn.pressed)) {
-                    getTooltipHtml(geoxy.lon.toFixed(nDeci), geoxy.lat.toFixed(nDeci));
+                    getTooltipHtml(geoxy.lon.toFixed(nDeci), geoxy.lat.toFixed(nDeci), Math.round(currentScale));
                 }
             }
 

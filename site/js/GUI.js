@@ -199,7 +199,8 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 							id: 'IdentifyTool'
 						}, {
 							xtype: 'tbtext',
-							text: objectIdentificationTextLabel[lang]
+							text: objectIdentificationTextLabel[lang],
+                            id: 'ObjectIdentificationTextID'
 						}, {
 							xtype: 'combo',
 							width: 120,

@@ -132,4 +132,7 @@ body {
     margin-top: -228px;
 }
 
+.olControlScaleLine {
+    opacity: .75;
+}
 

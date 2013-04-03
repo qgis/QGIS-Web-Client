@@ -73,9 +73,8 @@ Ext.onReady(function () {
 	Ext.get("ext-gen23").addClass('sogis-header-text').insertHtml('afterEnd', '<a href="http://www.so.ch/" class="sogis-header-logo" />');
 	Ext.getCmp('GisBrowserPanel').setHeight(window.innerHeight);
     
-    
-   
-
+    //FUN    
+    isTooltipSOGIS();
 });
 
 function provLayerSwitcher(strMapName){
@@ -107,23 +106,61 @@ function provLayerSwitcher(strMapName){
 }
 
 /**
+* @desc is the server sending a tooltip
+* @property-write sets bolSOGISTooltip true, if the server sends htmls
+* @return boolean if there is a tooltip or not
+* @todo as apache makes a directory listening, only html without the tag <html> is being treated as a response. Better solution is welcome
+*/
+function isTooltipSOGIS(){
+    Ext.Ajax.request({
+        url:  strSOGISTooltipURL + getProject() + '/', // URL to the SOGIS tooltip
+        params: {'x': 600000, //
+                 'y': 200000},
+        method: 'GET',
+        success: function(response){
+            if (response.responseText.split('<html>').length > 1){
+                this.bolSOGISTooltip = false;
+                Ext.getCmp("ObjectIdentificationTextID").setVisible(true);
+                Ext.getCmp("ObjectIdentificationModeCombo").setVisible(true);   
+                Ext.getCmp("AttributeDataTree").setVisible(true);   
+            } else { 
+                this.bolSOGISTooltip = true;
+                Ext.getCmp("ObjectIdentificationTextID").setVisible(false);
+                Ext.getCmp("ObjectIdentificationModeCombo").setVisible(false);   
+                Ext.getCmp("AttributeDataTree").setVisible(false);   
+            }
+        },
+        failure: function(response){
+            this.bolSOGISTooltip = false;
+        }
+    });
+}
+
+
+/**
 * @desc gets the html (usually a div with content) from the server
 * @param number x the latitude
 * @param number y the longitude
 * @property-write sets bolSOGISTooltip true, if the server sends htmls
 * @todo as apache makes a directory listening, only html without the tag <html> is being treated as a response. Better solution is welcome
 */
-function getTooltipHtml(x,y){
+function getTooltipHtml(x,y, scale){
     Ext.Ajax.request({
         url:  strSOGISTooltipURL + getProject() + '/', // URL to the SOGIS tooltip
         params: {'x': x, //
-                 'y': y},
+                 'y': y,
+                 'scale': scale},
         method: 'GET',
         success: function(response){
             if (response.responseText.split('<html>').length > 1){
                 this.bolSOGISTooltip = false;
+                Ext.getCmp("ObjectIdentificationTextID").setVisible(true);
+                Ext.getCmp("ObjectIdentificationModeCombo").setVisible(true);   
+
             } else { 
                 showTooltip(response.responseText);  
+                Ext.getCmp("ObjectIdentificationTextID").setVisible(false);
+                Ext.getCmp("ObjectIdentificationModeCombo").setVisible(false);   
                 this.bolSOGISTooltip = true;
             }
         },
@@ -158,6 +195,10 @@ function getProject(){
       str_url = arr_url[arr_url.length -1];
       arr_url = str_url.split('?');
       str_url = arr_url[0];
+      if (str_url.split('.qgs').length > 0){
+        arr_url = str_url.split('.qgs');
+        str_url = arr_url[0];
+      }
       return str_url;
 }
 
