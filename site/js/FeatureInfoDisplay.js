@@ -127,7 +127,6 @@ function showFeatureInfoHover(evt) {
 			changeCursorInMap("pointer");
 			if (!clickPopup) {
 				// only show hoverPopup if no clickPopup is open
-				featureInfoHighlightLayer.removeAllFeatures();
 				text = text.substring(0, text.lastIndexOf("<br/>"));
 				hoverPopup = new OpenLayers.Popup(
 					null, // id
@@ -191,6 +190,7 @@ function removeHoverPopup(){
 	map.removePopup(hoverPopup);
 	hoverPopup.destroy();
 	hoverPopup = null;
+	featureInfoHighlightLayer.removeAllFeatures();
 }
 
 function showFeatureSelected(args) {
@@ -228,7 +228,7 @@ function parseFIResult(node) {
 						if (attributeNode.nodeName == "Attribute") {
 							var attName = attributeNode.getAttribute("name");
 							var attValue = attributeNode.getAttribute("value");
-							if ((attName !== mapInfoFieldName) && (suppressEmptyValues && attValue.replace(/^\s\s*/, '').replace(/\s\s*$/, '') !== "")) {
+							if ((attName !== mapInfoFieldName) && ((suppressEmptyValues == true && attValue.replace(/^\s\s*/, '').replace(/\s\s*$/, '') !== "") || suppressEmptyValues == false)) {
 								if (attName === "geometry") {
 									var feature = new OpenLayers.Feature.Vector(OpenLayers.Geometry.fromWKT(attValue));
 									geoms.push(feature);
