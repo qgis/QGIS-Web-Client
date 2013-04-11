@@ -278,13 +278,13 @@ function postLoading() {
 	}
 	
 	//test if max extent was set from URL or project settings
-	//set map parameters
+	//if not, set map parameters from GetProjectSettings/GetCapabilities
 	//get values from first layer group (root) of project settings
 	if (maxExtent instanceof OpenLayers.Bounds == false) {
 		var boundingBox = wmsLoader.projectSettings.capability.nestedLayers[0].bbox;
+		maxExtent = OpenLayers.Bounds.fromArray(wmsLoader.projectSettings.capability.nestedLayers[0].llbbox);
 		for (var key in boundingBox) {
 			var bbox = boundingBox[key];
-			maxExtent = OpenLayers.Bounds.fromArray(bbox.bbox);
 			if (bbox.srs != MapOptions.projection.getCode()) {
 				maxExtent.transform(new OpenLayers.Projection(bbox.srs), MapOptions.projection);
 			}
@@ -499,7 +499,9 @@ function postLoading() {
 		if (urlParams.startExtent) {
 			var startExtentParams = urlParams.startExtent.split(",");
 			var startExtent = new OpenLayers.Bounds(parseFloat(startExtentParams[0]), parseFloat(startExtentParams[1]), parseFloat(startExtentParams[2]), parseFloat(startExtentParams[3]));
-			geoExtMap.map.zoomToExtent(startExtent);
+			//alert("startExtentOL="+startExtent.toString());
+			geoExtMap.map.zoomToExtent(startExtent,false);
+			//alert(geoExtMap.map.getExtent().toString());
 		} else {
 			geoExtMap.map.zoomToMaxExtent();
 		}
@@ -1304,9 +1306,21 @@ function mapToolbarHandler(btn, evt) {
 	}
 	if (btn.id == "SendPermalink") {
 		var permalink = createPermalink();
-		var mailToText = "mailto:?subject="+sendPermalinkLinkFromString[lang]+titleBarText+layerTree.root.firstChild.text+"&body="+encodeURIComponent(permalink);
-		var mailWindow = window.open(mailToText);
-		mailWindow.close();
+		if (permaLinkURLShortener) {
+			var servername = "http://"+location.href.split(/\/+/)[1];
+			Ext.Ajax.request({
+			  url: servername + permaLinkURLShortener,
+			  success: receiveShortPermalinkFromDB,
+			  failure: function ( result, request) {
+				alert("failed to get short URL from Python wsgi script.\n\nError Message:\n\n"+result.responseText);
+			  },
+			  method: 'GET',
+			  params: { longPermalink: permalink }
+			});
+		}
+		else {
+			openPermaLink(encodeURIComponent(permalink));
+		}
 	}
   if (btn.id == "ShowHelp") {
     if (help_active == true){
@@ -1438,9 +1452,13 @@ function createPermalink(){
 	permalinkParams.initialLayerOrder = layerOrderPanel.orderedLayers().toString();
 
 	// selection
-	permalinkParams.selection = thematicLayer.params.SELECTION;
-
-	permalink = permalink + Ext.urlEncode(permalinkParams);
+	permalinkParams.selection = thematicLayer.params.SELECTION;	
+	if (permaLinkURLShortener) {
+		permalink = encodeURIComponent(permalink + decodeURIComponent(Ext.urlEncode(permalinkParams)));
+	}
+	else {
+		permalink = permalink + Ext.urlEncode(permalinkParams);	
+	}
 	
 	return permalink;
 }
@@ -1598,4 +1616,15 @@ function activateGetFeatureInfo(doIt) {
 		WMSGetFInfo.deactivate();
 		WMSGetFInfoHover.deactivate();
 	}
+}
+
+function openPermaLink(permalink) {
+	var mailToText = "mailto:?subject="+sendPermalinkLinkFromString[lang]+titleBarText+layerTree.root.firstChild.text+"&body="+permalink;
+	var mailWindow = window.open(mailToText);
+	mailWindow.close();
+}
+
+function receiveShortPermalinkFromDB(result, request) {
+	var result = eval("("+result.responseText+")");
+	openPermaLink(result.shortUrl);
 }

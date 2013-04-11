@@ -187,6 +187,10 @@ var printCapabilities={
   "layouts":[]
 };
 
+//set to null if you do not want to use a URL shortener for your permalink function
+var permaLinkURLShortener = null;
+//var permaLinkURLShortener = "/wsgi/createShortPermalink.wsgi";
+
 // <------------ No changes should be needed below here ------------------>
 
 //new namespace for QGIS extensions
