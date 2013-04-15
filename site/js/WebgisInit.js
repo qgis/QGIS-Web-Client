@@ -1074,7 +1074,7 @@ function postLoading() {
 			var printDPICombobox = Ext.getCmp('PrintDPICombobox');
             //SOGIS 
 			//printDPICombobox.setValue("150");
-            printProvider.setDpi(300);
+            //printProvider.setDpi(300);
 			//need to manually fire the event, because .setValue doesn't; index omitted, not needed
 			//printDPICombobox.fireEvent("select", printDPICombobox, printDPICombobox.findRecord(printDPICombobox.valueField, "150"));
 			printExtent.initialized = false;

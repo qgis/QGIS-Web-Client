@@ -118,16 +118,18 @@ function isTooltipSOGIS(){
                  'y': 200000},
         method: 'GET',
         success: function(response){
-            if (response.responseText.split('<html>').length > 1){
+            if (response.responseText.indexOf('webgis') == -1){
                 this.bolSOGISTooltip = false;
-                Ext.getCmp("ObjectIdentificationTextID").setVisible(true);
-                Ext.getCmp("ObjectIdentificationModeCombo").setVisible(true);   
-                Ext.getCmp("AttributeDataTree").setVisible(true);   
+                Ext.getCmp("ObjectIdentificationTextID").show();
+                Ext.getCmp("ObjectIdentificationModeCombo").show();   
+                Ext.getCmp("AttributeDataTree").show(); 
+                Ext.getCmp("CenterPanel").doLayout();  
             } else { 
                 this.bolSOGISTooltip = true;
-                Ext.getCmp("ObjectIdentificationTextID").setVisible(false);
-                Ext.getCmp("ObjectIdentificationModeCombo").setVisible(false);   
-                Ext.getCmp("AttributeDataTree").setVisible(false);   
+                Ext.getCmp("ObjectIdentificationTextID").hide();
+                Ext.getCmp("ObjectIdentificationModeCombo").hide();   
+                Ext.getCmp("AttributeDataTree").hide(); 
+                Ext.getCmp("CenterPanel").doLayout();
             }
         },
         failure: function(response){
@@ -142,7 +144,7 @@ function isTooltipSOGIS(){
 * @param number x the latitude
 * @param number y the longitude
 * @property-write sets bolSOGISTooltip true, if the server sends htmls
-* @todo as apache makes a directory listening, only html without the tag <html> is being treated as a response. Better solution is welcome
+* @desc as apache makes a directory listening, only html without the tag <html> is being treated as a response. Better solution is welcome
 */
 function getTooltipHtml(x,y, scale){
     Ext.Ajax.request({
@@ -152,15 +154,18 @@ function getTooltipHtml(x,y, scale){
                  'scale': scale},
         method: 'GET',
         success: function(response){
-            if (response.responseText.split('<html>').length > 1){
+            if (response.responseText.indexOf('webgis') == -1){
                 this.bolSOGISTooltip = false;
-                Ext.getCmp("ObjectIdentificationTextID").setVisible(true);
-                Ext.getCmp("ObjectIdentificationModeCombo").setVisible(true);   
-
+                Ext.getCmp("ObjectIdentificationTextID").show();
+                Ext.getCmp("ObjectIdentificationModeCombo").show(); 
+                Ext.getCmp("AttributeDataTree").show(); 
+                Ext.getCmp("CenterPanel").doLayout();    
             } else { 
                 showTooltip(response.responseText);  
-                Ext.getCmp("ObjectIdentificationTextID").setVisible(false);
-                Ext.getCmp("ObjectIdentificationModeCombo").setVisible(false);   
+                Ext.getCmp("ObjectIdentificationTextID").hide();
+                Ext.getCmp("ObjectIdentificationModeCombo").hide(); 
+                Ext.getCmp("AttributeDataTree").hide(); 
+                Ext.getCmp("CenterPanel").doLayout();    
                 this.bolSOGISTooltip = true;
             }
         },
