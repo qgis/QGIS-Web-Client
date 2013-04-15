@@ -69,12 +69,16 @@ Ext.onReady(function () {
 		return menuString;
 	}
 
-	Ext.get("ext-gen20").addClass('sogis-header').insertHtml('beforeEnd', '<div class="sogis-headernav">'+getMenuString(sogis_menu)+'</div>');
-	Ext.get("ext-gen23").addClass('sogis-header-text').insertHtml('afterEnd', '<a href="http://www.so.ch/" class="sogis-header-logo" />');
+	Ext.get("ext-gen16").addClass('sogis-header').insertHtml('beforeEnd', '<div class="sogis-headernav">'+getMenuString(sogis_menu)+'</div>');
+	Ext.get("panel_header_title").addClass('sogis-header-text').insertHtml('afterEnd', '<a href="http://www.so.ch/" class="sogis-header-logo" />');
 	Ext.getCmp('GisBrowserPanel').setHeight(window.innerHeight);
     
-    //Tooltip    
+    //FUN    
     isTooltipSOGIS();
+
+    //Remove button SendEmail
+    Ext.getCmp("SendPermalink").hide();
+
 });
 
 function provLayerSwitcher(strMapName){
@@ -122,13 +126,13 @@ function isTooltipSOGIS(){
                 this.bolSOGISTooltip = false;
                 Ext.getCmp("ObjectIdentificationTextID").show();
                 Ext.getCmp("ObjectIdentificationModeCombo").show();   
-                Ext.getCmp("AttributeDataTree").show(); 
+                //Ext.getCmp("AttributeDataTree").show(); 
                 Ext.getCmp("CenterPanel").doLayout();  
             } else { 
                 this.bolSOGISTooltip = true;
                 Ext.getCmp("ObjectIdentificationTextID").hide();
                 Ext.getCmp("ObjectIdentificationModeCombo").hide();   
-                Ext.getCmp("AttributeDataTree").hide(); 
+                //Ext.getCmp("AttributeDataTree").hide(); 
                 Ext.getCmp("CenterPanel").doLayout();
             }
         },
@@ -158,13 +162,13 @@ function getTooltipHtml(x,y, scale){
                 this.bolSOGISTooltip = false;
                 Ext.getCmp("ObjectIdentificationTextID").show();
                 Ext.getCmp("ObjectIdentificationModeCombo").show(); 
-                Ext.getCmp("AttributeDataTree").show(); 
+                //Ext.getCmp("AttributeDataTree").show(); 
                 Ext.getCmp("CenterPanel").doLayout();    
             } else { 
                 showTooltip(response.responseText);  
                 Ext.getCmp("ObjectIdentificationTextID").hide();
                 Ext.getCmp("ObjectIdentificationModeCombo").hide(); 
-                Ext.getCmp("AttributeDataTree").hide(); 
+                //Ext.getCmp("AttributeDataTree").hide(); 
                 Ext.getCmp("CenterPanel").doLayout();    
                 this.bolSOGISTooltip = true;
             }
@@ -232,7 +236,7 @@ function addPermalinkToToolbar(toolbar) {
         
         function updatePermalink() {
             var permalink = createPermalink();
-            permalinkField.setValue(encodeURI(permalink));
+            permalinkField.setValue(permalink);
             permalinkField.show();
         }
 

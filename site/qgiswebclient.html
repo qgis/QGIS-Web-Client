@@ -2,12 +2,16 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<title>QGIS-Browser</title>
 	<link rel="stylesheet" type="text/css" href="libs/ext/resources/css/ext-all-notheme.css"/>
 	<link rel="stylesheet" type="text/css" href="libs/ext/resources/css/xtheme-gray.css"/>
 	<link rel="stylesheet" type="text/css" href="libs/ext/ux/css/ux-all.css" />
+	<!--<link rel="stylesheet" type="text/css" href="libs/opentip/opentip.css" />-->
 	<link rel="stylesheet" type="text/css" href="css/TriStateTreeAndCheckbox.css" />
 	<link rel="stylesheet" type="text/css" href="css/ThemeSwitcherDataView.css" />
+	<link rel="stylesheet" type="text/css" href="css/popup.css" /> 
+	<link rel="stylesheet" type="text/css" href="css/layerOrderTab.css" />
 	<script type="text/javascript" src="libs/ext/adapter/ext/ext-base.js"></script>
 	<!--<script type="text/javascript" src="libs/ext/adapter/ext/ext-base-debug.js"></script>-->
 	<script type="text/javascript" src="libs/ext/ext-all.js"></script>
@@ -16,6 +20,7 @@
 	<script type="text/javascript" src="libs/proj4js/proj4js-compressed.js"></script>
 	<script type="text/javascript" src="libs/openlayers/OpenLayers.js"></script>
 	<script type="text/javascript" src="libs/geoext/script/GeoExt.js"></script>
+	<!--<script type="text/javascript" src="libs/opentip/opentip-native-excanvas.js"></script>-->
 	<script type="text/javascript" src="js/Translations.js"></script>
 	<!-- before using QGIS Webclient you need to edit the GlobalOptions.js file-->
 	<!-- you can start from one of the templates -->
@@ -31,6 +36,7 @@
 	<script type="text/javascript" src="js/QGISExtensions.js"></script>
 	<script type="text/javascript" src="js/GeoNamesSearchCombo.js"></script>
 	<script type="text/javascript" src="js/FeatureInfoDisplay.js"></script>
+	<script type="text/javascript" src="js/LegendAndMetadataDisplay.js"></script>
 	<script type="text/javascript" src="js/WebgisInit.js"></script>
 	<script type="text/javascript" src="js/sogis.js"></script>
 </head>
@@ -43,6 +49,19 @@
   top: -100%;
   width: 1in;
 }
+ 
+#panel_header_title {
+  float: left;
+  font-size: 12px;
+}
+#panel_header_link {
+  float: left;
+}
+#panel_header_terms_of_use {
+  float: right;
+  font-weight: normal;
+}
+
 -->
 </style>
 <body>

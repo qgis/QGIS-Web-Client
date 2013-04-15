@@ -1,5 +1,5 @@
 var gis_projects = {
-	"path": "/site",
+	"path": "/map",
 	"mapserver": "/cgi-bin/qgis_mapserv.fcgi",
 	"thumbnails": "/thumbnails",
 	"title": "QGIS Mapserver demo",
@@ -10,7 +10,7 @@ var gis_projects = {
 			"projectpath": "/home/web/qgis-web-client/projects",
 			"projectfile": "helloworld",
 			"format": "image/png",
-			"visibleLayers": "Hello,Country",
+			"visibleLayers": "Country,Hello",
 			"updateInterval": "occasional",
 			"responsible": "The QGIS project",
 			"tags": "Hello World, beginner project"

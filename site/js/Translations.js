@@ -330,6 +330,56 @@ layerTreeTitleString["it"] = "Layer";
 layerTreeTitleString["pt_PT"] = "Temas";
 layerTreeTitleString["uk"] = "Шари мапи";
 
+//title of layer order panel
+var layerOrderPanelTitleString = new Array();
+layerOrderPanelTitleString["en"] = "Layer order";
+layerOrderPanelTitleString["es"] = "Layer order"; //FIXME
+layerOrderPanelTitleString["de"] = "Ebenenreihenfolge";
+layerOrderPanelTitleString["fr"] = "Layer order"; //FIXME
+layerOrderPanelTitleString["it"] = "Layer order"; //FIXME
+layerOrderPanelTitleString["pt_PT"] = "Layer order"; //FIXME
+layerOrderPanelTitleString["uk"] = "Layer order"; //FIXME
+
+//tooltip of layer settings button in layer order panel
+var layerOrderPanelLayerSettingsTooltipString = new Array();
+layerOrderPanelLayerSettingsTooltipString["en"] = "Settings";
+layerOrderPanelLayerSettingsTooltipString["es"] = "Settings"; //FIXME
+layerOrderPanelLayerSettingsTooltipString["de"] = "Einstellungen";
+layerOrderPanelLayerSettingsTooltipString["fr"] = "Settings"; //FIXME
+layerOrderPanelLayerSettingsTooltipString["it"] = "Settings"; //FIXME
+layerOrderPanelLayerSettingsTooltipString["pt_PT"] = "Settings"; //FIXME
+layerOrderPanelLayerSettingsTooltipString["uk"] = "Settings"; //FIXME
+
+//tooltip of remove layer button in layer order panel
+var layerOrderPanelVisibilityChangeTooltipString = new Array();
+layerOrderPanelVisibilityChangeTooltipString["en"] = "Change Layer Visibility";
+layerOrderPanelVisibilityChangeTooltipString["es"] = "Change Layer Visibility"; //FIXME
+layerOrderPanelVisibilityChangeTooltipString["de"] = "Ebenensichtbarkeit ändern";
+layerOrderPanelVisibilityChangeTooltipString["fr"] = "Change Layer Visibility"; //FIXME
+layerOrderPanelVisibilityChangeTooltipString["it"] = "Change Layer Visibility"; //FIXME
+layerOrderPanelVisibilityChangeTooltipString["pt_PT"] = "Change Layer Visibility"; //FIXME
+layerOrderPanelVisibilityChangeTooltipString["uk"] = "Change Layer Visibility"; //FIXME
+
+//text when dragging layer in layer order panel
+var layerOrderPanelMoveLayerTextString = new Array();
+layerOrderPanelMoveLayerTextString["en"] = "Move layer";
+layerOrderPanelMoveLayerTextString["es"] = "Move layer"; //FIXME
+layerOrderPanelMoveLayerTextString["de"] = "Ebene verschieben";
+layerOrderPanelMoveLayerTextString["fr"] = "Move layer"; //FIXME
+layerOrderPanelMoveLayerTextString["it"] = "Move layer"; //FIXME
+layerOrderPanelMoveLayerTextString["pt_PT"] = "Move layer"; //FIXME
+layerOrderPanelMoveLayerTextString["uk"] = "Move layer"; //FIXME
+
+//tooltip of transparency sliders in layer order panel
+var layerOrderPanelTransparencyTooltipString = new Array();
+layerOrderPanelTransparencyTooltipString["en"] = "Transparency {0}%";
+layerOrderPanelTransparencyTooltipString["es"] = "Transparency {0}%"; //FIXME
+layerOrderPanelTransparencyTooltipString["de"] = "Transparenz {0}%";
+layerOrderPanelTransparencyTooltipString["fr"] = "Transparency {0}%"; //FIXME
+layerOrderPanelTransparencyTooltipString["it"] = "Transparency {0}%"; //FIXME
+layerOrderPanelTransparencyTooltipString["pt_PT"] = "Transparency {0}%"; //FIXME
+layerOrderPanelTransparencyTooltipString["uk"] = "Transparency {0}%"; //FIXME
+
 //title of legend tab
 var legendTabTitleString = new Array();
 legendTabTitleString["en"] = "Legend";
@@ -339,16 +389,6 @@ legendTabTitleString["fr"] = "Légende";
 legendTabTitleString["it"] = "Legenda";
 legendTabTitleString["pt_PT"] = "Legenda";
 legendTabTitleString["uk"] = "Легенда";
-
-//title of legend tab
-var legendDisplayHowtoString = new Array();
-legendDisplayHowtoString["en"] = "Please select a group or layer in the map layer tree above to display its legend";
-legendDisplayHowtoString["es"] = "Por favor seleccione un grupo o capa en el árbol de capas de arriba para desplegar su leyenda";
-legendDisplayHowtoString["de"] = "Selektieren Sie eine Gruppe oder Ebene im obigen Kartenebenenbaum um die Legende anzuzeigen.";
-legendDisplayHowtoString["fr"] = "Sélectionnez un groupe ou une couche dans l'arbre des couches ci-dessus pour afficher sa légende";
-legendDisplayHowtoString["it"] = "Scegli un gruppo o un layer nell'albero dei layer della mappa, qui sopra, per visualizzare la sua legenda";
-legendDisplayHowtoString["pt_PT"] = "Por favor selecione um grupo ou layer na árvore acima para visualizar a sua legenda";
-legendDisplayHowtoString["uk"] = "Please select a group or layer in the map layer tree above to display it's legend"; //FIXME
 
 //title of metadata tab
 var metadataTabTitleString = new Array();
@@ -370,11 +410,201 @@ helpWindowTitleString["it"] = "Aiuto";
 helpWindowTitleString["pt_PT"] = "Ajuda";
 helpWindowTitleString["uk"] = "Довідка";
 
+//title of legend and per layer metadata window
+var legendMetadataWindowTitleString = new Array();
+legendMetadataWindowTitleString["en"] = "Legend and metadata information of layer";
+legendMetadataWindowTitleString["es"] = "Legend and metadata information of layer"; //FIXME
+legendMetadataWindowTitleString["de"] = "Legende und Metadaten der Ebene";
+legendMetadataWindowTitleString["fr"] = "Legend and metadata information of layer"; //FIXME
+legendMetadataWindowTitleString["it"] = "Legend and metadata information of layer"; //FIXME
+legendMetadataWindowTitleString["pt_PT"] = "Legend and metadata information of layer"; //FIXME
+legendMetadataWindowTitleString["uk"] = "Legend and metadata information of layer"; //FIXME
+
+//title of metadata section
+var metadataSectionTitleString = new Array();
+metadataSectionTitleString["en"] = "Metadata of layer ";
+metadataSectionTitleString["es"] = "Metadata of layer "; //FIXME
+metadataSectionTitleString["de"] = "Metadaten der Ebene ";
+metadataSectionTitleString["fr"] = "Metadata of layer "; //FIXME
+metadataSectionTitleString["it"] = "Metadata of layer "; //FIXME
+metadataSectionTitleString["pt_PT"] = "Metadata of layer "; //FIXME
+metadataSectionTitleString["uk"] = "Metadata of layer "; //FIXME
+
+//Abstract
+var abstractString = new Array();
+abstractString["en"] = "Abstract:";
+abstractString["es"] = "Abstract:"; //FIXME
+abstractString["de"] = "Zusammenfassung:";
+abstractString["fr"] = "Abstract:"; //FIXME
+abstractString["it"] = "Abstract:"; //FIXME
+abstractString["pt_PT"] = "Abstract:"; //FIXME
+abstractString["uk"] = "Abstract:"; //FIXME
+
+//title of legend and per layer metadata window
+var layerQueryable = new Array();
+layerQueryable["en"] = "This layer is queryable: ";
+layerQueryable["es"] = "This layer is queryable: "; //FIXME
+layerQueryable["de"] = "Diese Ebene ist abfragbar: ";
+layerQueryable["fr"] = "This layer is queryable: "; //FIXME
+layerQueryable["it"] = "This layer is queryable: "; //FIXME
+layerQueryable["pt_PT"] = "This layer is queryable: "; //FIXME
+layerQueryable["uk"] = "This layer is queryable: "; //FIXME
+
+//in case we need a yes
+var yesString = new Array();
+yesString["en"] = "yes";
+yesString["es"] = "yes"; //FIXME
+yesString["de"] = "ja";
+yesString["fr"] = "yes"; //FIXME
+yesString["it"] = "yes"; //FIXME
+yesString["pt_PT"] = "yes"; //FIXME
+yesString["uk"] = "yes"; //FIXME
+
+//in case we need a no
+var noString = new Array();
+noString["en"] = "no";
+noString["es"] = "no"; //FIXME
+noString["de"] = "nein";
+noString["fr"] = "no"; //FIXME
+noString["it"] = "no"; //FIXME
+noString["pt_PT"] = "no"; //FIXME
+noString["uk"] = "no"; //FIXME
+
+//metadata: display field (for tooltips)
+var displayFieldString = new Array();
+displayFieldString["en"] = "Display-Field";
+displayFieldString["es"] = "Display-Field"; //FIXME
+displayFieldString["de"] = "Anzeigefeld";
+displayFieldString["fr"] = "Display-Field"; //FIXME
+displayFieldString["it"] = "Display-Field"; //FIXME
+displayFieldString["pt_PT"] = "Display-Field"; //FIXME
+displayFieldString["uk"] = "Display-Field"; //FIXME
+
+//metadata: coordinate systems
+var coordinateSystemsString = new Array();
+coordinateSystemsString["en"] = "Available Coordinate Systems";
+coordinateSystemsString["es"] = "Available Coordinate Systems"; //FIXME
+coordinateSystemsString["de"] = "Verfügbare Koordinatensysteme";
+coordinateSystemsString["fr"] = "Available Coordinate Systems"; //FIXME
+coordinateSystemsString["it"] = "Available Coordinate Systems"; //FIXME
+coordinateSystemsString["pt_PT"] = "Available Coordinate Systems"; //FIXME
+coordinateSystemsString["uk"] = "Available Coordinate Systems"; //FIXME
+
+//metadata: geographic extent
+var geographicExtentString = new Array();
+geographicExtentString["en"] = "Geographic Extent";
+geographicExtentString["es"] = "Geographic Extent"; //FIXME
+geographicExtentString["de"] = "Geographischer Ausschnitt";
+geographicExtentString["fr"] = "Geographic Extent"; //FIXME
+geographicExtentString["it"] = "Geographic Extent"; //FIXME
+geographicExtentString["pt_PT"] = "Geographic Extent"; //FIXME
+geographicExtentString["uk"] = "Geographic Extent"; //FIXME
+
+//metadata: geographic extent
+var westString = new Array();
+westString["en"] = "west";
+westString["es"] = "west"; //FIXME
+westString["de"] = "Westen";
+westString["fr"] = "ouest";
+westString["it"] = "west"; //FIXME
+westString["pt_PT"] = "west"; //FIXME
+westString["uk"] = "west"; //FIXME
+
+//metadata: geographic extent
+var eastString = new Array();
+eastString["en"] = "east";
+eastString["es"] = "east"; //FIXME
+eastString["de"] = "Osten";
+eastString["fr"] = "est";
+eastString["it"] = "east"; //FIXME
+eastString["pt_PT"] = "east"; //FIXME
+eastString["uk"] = "east"; //FIXME
+
+//metadata: geographic extent
+var northString = new Array();
+northString["en"] = "north";
+northString["es"] = "north"; //FIXME
+northString["de"] = "Norden";
+northString["fr"] = "nord";
+northString["it"] = "north"; //FIXME
+northString["pt_PT"] = "north"; //FIXME
+northString["uk"] = "north"; //FIXME
+
+//metadata: geographic extent
+var southString = new Array();
+southString["en"] = "south";
+southString["es"] = "south"; //FIXME
+southString["de"] = "Süden";
+southString["fr"] = "sud";
+southString["it"] = "south"; //FIXME
+southString["pt_PT"] = "south"; //FIXME
+southString["uk"] = "south"; //FIXME
+
+//attributes / fields
+var attributesString = new Array();
+attributesString["en"] = "Attributes / Fields";
+attributesString["es"] = "Atributos";
+attributesString["de"] = "Attribute / Felder";
+attributesString["fr"] = "Attributs";
+attributesString["it"] = "Attributi";
+attributesString["pt_PT"] = "Atributos";
+attributesString["uk"] = "Атрибути";
+
+//attribute name string
+var attributeNameString = new Array();
+attributeNameString["en"] = "Attribute name";
+attributeNameString["es"] = "Attribute name";
+attributeNameString["de"] = "Attributname";
+attributeNameString["fr"] = "Attribute name";
+attributeNameString["it"] = "Attribute name";
+attributeNameString["pt_PT"] = "Attribute name";
+attributeNameString["uk"] = "Attribute name";
+
+//attribute type string
+var attributeTypeString = new Array();
+attributeTypeString["en"] = "Type";
+attributeTypeString["es"] = "Type";
+attributeTypeString["de"] = "Typ";
+attributeTypeString["fr"] = "Type";
+attributeTypeString["it"] = "Type";
+attributeTypeString["pt_PT"] = "Type";
+attributeTypeString["uk"] = "Type";
+
+//attribute comment string
+var attributeCommentString = new Array();
+attributeCommentString["en"] = "Comment";
+attributeCommentString["es"] = "Comment";
+attributeCommentString["de"] = "Kommentar";
+attributeCommentString["fr"] = "Comment";
+attributeCommentString["it"] = "Comment";
+attributeCommentString["pt_PT"] = "Comment";
+attributeCommentString["uk"] = "Comment";
+
+//attribute length string
+var attributeLengthString = new Array();
+attributeLengthString["en"] = "Length";
+attributeLengthString["es"] = "Length";
+attributeLengthString["de"] = "Länge";
+attributeLengthString["fr"] = "Length";
+attributeLengthString["it"] = "Length";
+attributeLengthString["pt_PT"] = "Length";
+attributeLengthString["uk"] = "Length";
+
+//attribute length string
+var attributePrecisionString = new Array();
+attributePrecisionString["en"] = "Precision";
+attributePrecisionString["es"] = "Precision";
+attributePrecisionString["de"] = "Präzision";
+attributePrecisionString["fr"] = "Precision";
+attributePrecisionString["it"] = "Precision";
+attributePrecisionString["pt_PT"] = "Precision";
+attributePrecisionString["uk"] = "Precision";
+
 //label in main toolbar for object identification
 var objectIdentificationTextLabel = new Array();
 objectIdentificationTextLabel["en"] = "Object identification: ";
 objectIdentificationTextLabel["es"] = "Identificación de objetos: ";
-objectIdentificationTextLabel["de"] = "Objektdentifikation: ";
+objectIdentificationTextLabel["de"] = "Objektidentifikation: ";
 objectIdentificationTextLabel["fr"] = "Identification d'entité: ";
 objectIdentificationTextLabel["it"] = "Identificazione oggetti: ";
 objectIdentificationTextLabel["pt_PT"] = "Identificação de objectos: ";
@@ -389,26 +619,6 @@ coordinateTextLabel["fr"] = "Coordonnées:";
 coordinateTextLabel["it"] = "Coordinate:";
 coordinateTextLabel["pt_PT"] = "Coordenadas:";
 coordinateTextLabel["uk"] = "Координати:";
-
-//title of attribute data tree
-var attributeDataTreeTitleString = new Array();
-attributeDataTreeTitleString["en"] = "Attribute Data";
-attributeDataTreeTitleString["es"] = "Atributos de datos";
-attributeDataTreeTitleString["de"] = "Attributdaten";
-attributeDataTreeTitleString["fr"] = "Attributs";
-attributeDataTreeTitleString["it"] = "Attributi";
-attributeDataTreeTitleString["pt_PT"] = "Atributos";
-attributeDataTreeTitleString["uk"] = "Атрибути";
-
-//
-var attributeFeatureWithString = new Array();
-attributeFeatureWithString["en"] = "Feature with ID:";
-attributeFeatureWithString["es"] = "Elemento con identificador:";
-attributeFeatureWithString["de"] = "Feature mit ID:";
-attributeFeatureWithString["fr"] = "Entité avec l'identifiant ";//intentionally left with no colon
-attributeFeatureWithString["it"] = "Elemento con ID ";//intentionally left with no colon
-attributeFeatureWithString["pt_PT"] = "Elemento com identificador ";//intentionally left with no colon
-attributeFeatureWithString["uk"] = "Об'єкт з ID:";
 
 //search
 var searchFieldDefaultTextString = new Array();
@@ -490,16 +700,6 @@ searchErrorString["fr"] = "Erreur pendant la recherche";
 searchErrorString["it"] = "Errore durante la ricerca";
 searchErrorString["pt_PT"] = "Erro durante a pesquisa";
 searchErrorString["uk"] = "Помилка під час пошуку";
-
-//map tips no result
-var mapTipsNoResultString = new Array();
-mapTipsNoResultString["en"] = "No Result";
-mapTipsNoResultString["es"] = "Sin resultados";
-mapTipsNoResultString["de"] = "Kein Resultat";
-mapTipsNoResultString["fr"] = "Pas de résultat";
-mapTipsNoResultString["it"] = "Nessun risultato";
-mapTipsNoResultString["pt_PT"] = "Sem resultados";
-mapTipsNoResultString["uk"] = "Результат відсутній";
 
 //print settings toolbar title
 var printSettingsToolbarTitleString = new Array();
@@ -723,6 +923,16 @@ sendPermalinkTooltipString["fr"] = "Email a link to this map"; //FIXME
 sendPermalinkTooltipString["it"] = "Email a link to this map"; //FIXME
 sendPermalinkTooltipString["pt_PT"] = "Email a link to this map"; //FIXME
 sendPermalinkTooltipString["uk"] = "Email a link to this map"; //FIXME
+
+//Send permalink
+var sendPermalinkLinkFromString = new Array();
+sendPermalinkLinkFromString["en"] = "Link from ";
+sendPermalinkLinkFromString["es"] = "Link from "; //FIXME
+sendPermalinkLinkFromString["de"] = "Link von ";
+sendPermalinkLinkFromString["fr"] = "Link from "; //FIXME
+sendPermalinkLinkFromString["it"] = "Link from "; //FIXME
+sendPermalinkLinkFromString["pt_PT"] = "Link from "; //FIXME
+sendPermalinkLinkFromString["uk"] = "Link from "; //FIXME
 
 //Show Help
 var showHelpTooltipString = new Array();

@@ -4,14 +4,18 @@ var lang = "en"; //for available codes see array availableLanguages in file Glob
 //Help file (must be a local file)
 var helpfile = "help_en.html";
 
-//Servername and name of CGI-file
-//Path must include the host name
-var serverAndCGI = "http://qgis-web-client.localhost/cgi-bin/qgis_mapserv.fcgi"; //URL mit Name des qgis mapserver cgi
+//Servername (optional) and path and name name of QGIS mapserver FCGI-file
+//either with or without server-name - without servername recommended for easier porting to other servers
+//do not add a ? or & after the .fcgi extension
+var serverAndCGI = "/cgi-bin/qgis_mapserv.fcgi";
 
 //Define whether you want to use the GetProjectSettings extension of QGIS Server
 //for more configuration options in the project.
 //Set this to false to use GetCapabilities for older QGIS Server versions (<= 1.8).
 var useGetProjectSettings = true;
+
+// show the layerOrderTab in the GUI
+var showLayerOrderTab = true;
 
 //search box for queries while typing
 //enable to use GeoNames search
@@ -21,7 +25,11 @@ var searchBoxQueryURL = null; // "/wsgi/search.wsgi?query=";
 var searchBoxGetGeomURL = null; // "/wsgi/getSearchGeom.wsgi";
 
 // do not show fields in ObjectIdentification results that have null values
-var suppressEmptyValues = false;
+var suppressEmptyValues = true;
+// hide geometry in ObjectIdentification results (should be only false if there is a good reason to do so)
+var suppressInfoGeometry = true;
+// do show field names in click-popup during object identification
+var showFieldNamesInClickPopup = true;
 
 //config for QGIS.SearchPanel
 var simpleWmsSearch = {
@@ -81,10 +89,22 @@ var mapSearchPanelConfigs = {
 //note that you have to also link a gis-project-listing.js file containing a valid
 //project listing structure - the root object is called 'gis_projects'
 //have a look at the template file and documentation for the correct json structure
-var mapThemeSwitcherActive = false;
+var mapThemeSwitcherActive = true;
 
 //first part of titlebar text
 var titleBarText = "GIS-Browser - "; // will be appended with project title
+
+// header logo image and link
+var headerLogoImg = null; // path to image, set null for no logo
+var headerLogoHeight = 60; // logo image height in pixels
+var headerLogoLink = ""; // logo links to this URL
+var headerTermsOfUseText = null; // set null for no link
+var headerTermsOfUseLink = ""; // URL to terms of use
+
+// optional project title per map name
+var projectTitles = {
+  "helloworld": "Hello World"
+};
 
 //EPSG projection code
 var epsgcode = 900913;
@@ -103,12 +123,13 @@ var MapOptions = {
 };
 
 // Options for the main map layer (OpenLayers.layer)
-//see http://dev.openlayers.org/releases/OpenLayers-2.10/doc/apidocs/files/OpenLayers/Layer-js.html
+//see http://dev.openlayers.org/releases/OpenLayers-2.12/doc/apidocs/files/OpenLayers/Layer-js.html
 var LayerOptions = {
   buffer:0,
   singleTile:true,
   ratio:1,
-  transitionEffect:"resize"
+  transitionEffect:"resize",
+	projection:"EPSG:"+epsgcode
 };
 
 //overview map settings - do not change variable names!
@@ -120,9 +141,9 @@ var OverviewMapOptions = {
   transitionEffect:"resize"
 };
 var OverviewMapSize = new OpenLayers.Size(200,200);
-var overviewLayer = new OpenLayers.Layer.WMS("Pixelkarte",
-  "/cgi-bin/mapserv?map=/path-to-map/.map",
-  {layers:"pk_kombiniert",format:"image/jpeg"},
+var overviewLayer = new OpenLayers.Layer.WMS("Overview-Map",
+  "/cgi-bin/qgis_mapserv.fcgi?map=/home/web/qgis-web-client/projects/naturalearth_110million.qgs",
+  {layers:"Land",format:"image/png"},
   {buffer:0,singleTile:true,transitionEffect:"resize"});
 
 
@@ -154,13 +175,6 @@ var printCapabilities={
   ],
   "layouts":[]
 };
-
-//var legend all at 
-//if legendAllAtOnceAtBegin is set to true, the legend image is loaded at project
-//load for all visible layers and whenever the visibility for a layer or group is
-//changed by the user; if set to false, it is not loaded at the begin, but only
-//if the user selects a group or layer in the layer tree
-var legendAllAtOnceAtBegin = false;
 
 // <------------ No changes should be needed below here ------------------>
 

@@ -267,6 +267,11 @@ ThemeSwitcher.prototype.filterThumbnails = function (listView, index, node, evt)
 //here we actually change the map theme
 ThemeSwitcher.prototype.changeTheme = function (dataView, index, node, evt) {
 	if (dataView.getSelectedRecords().length > 0) {
+		//close legend/metadata window if active
+		 if (legendMetadataWindow_active) {
+			legendMetadataWindow.close();
+		 }
+		
 		//switch off GetFeatureInfo if active
 		if (identifyToolActive) {
 			identifyToolWasActive = true;
@@ -289,7 +294,7 @@ ThemeSwitcher.prototype.changeTheme = function (dataView, index, node, evt) {
 			wmsURI = gis_projects.mapserver;
 		}
 		if (norewrite) {
-			wmsURI += "?map=" + projData.projectpath + "/" + projData.projectfile + ".qgs";
+			wmsURI += "?map=" + projData.projectpath + "/" + projData.projectfile + ".qgs&";
 		} else {
 			wmsURI += "/" + projData.projectpath + "/" + projData.projectfile + "?";
 		}

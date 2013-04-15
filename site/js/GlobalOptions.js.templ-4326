@@ -6,12 +6,16 @@ var helpfile = "help_en.html";
 
 //Servername (optional) and path and name name of QGIS mapserver FCGI-file
 //either with or without server-name - without servername recommended for easier porting to other servers
+//do not add a ? or & after the .fcgi extension
 var serverAndCGI = "/cgi-bin/qgis_mapserv.fcgi";
 
 //Define whether you want to use the GetProjectSettings extension of QGIS Server
 //for more configuration options in the project.
 //Set this to false to use GetCapabilities for older QGIS Server versions (<= 1.8).
 var useGetProjectSettings = true;
+
+// show the layerOrderTab in the GUI
+var showLayerOrderTab = true;
 
 //search box for queries while typing
 //enable to use GeoNames search
@@ -21,7 +25,11 @@ var searchBoxQueryURL = null; // "/wsgi/search.wsgi?query=";
 var searchBoxGetGeomURL = null; // "/wsgi/getSearchGeom.wsgi";
 
 // do not show fields in ObjectIdentification results that have null values
-var suppressEmptyValues = false;
+var suppressEmptyValues = true;
+// hide geometry in ObjectIdentification results (should be only false if there is a good reason to do so)
+var suppressInfoGeometry = true;
+// do show field names in click-popup during object identification
+var showFieldNamesInClickPopup = true;
 
 //config for QGIS.SearchPanel
 var simpleWmsSearch = {
@@ -86,6 +94,18 @@ var mapThemeSwitcherActive = true;
 //first part of titlebar text
 var titleBarText = "GIS-Browser - "; // will be appended with project title
 
+// header logo image and link
+var headerLogoImg = null; // path to image, set null for no logo
+var headerLogoHeight = 60; // logo image height in pixels
+var headerLogoLink = ""; // logo links to this URL
+var headerTermsOfUseText = null; // set null for no link
+var headerTermsOfUseLink = ""; // URL to terms of use
+
+// optional project title per map name
+var projectTitles = {
+  "helloworld": "Hello World"
+};
+
 //EPSG projection code
 var epsgcode = 4326;
 
@@ -102,12 +122,13 @@ var MapOptions = {
 };
 
 // Options for the main map layer (OpenLayers.layer)
-//see http://dev.openlayers.org/releases/OpenLayers-2.10/doc/apidocs/files/OpenLayers/Layer-js.html
+//see http://dev.openlayers.org/releases/OpenLayers-2.12/doc/apidocs/files/OpenLayers/Layer-js.html
 var LayerOptions = {
   buffer:0,
   singleTile:true,
   ratio:1,
-  transitionEffect:"resize"
+  transitionEffect:"resize",
+	projection:"EPSG:"+epsgcode
 };
 
 //overview map settings - do not change variable names!
@@ -166,12 +187,9 @@ var printCapabilities={
   "layouts":[]
 };
 
-//var legend all at 
-//if legendAllAtOnceAtBegin is set to true, the legend image is loaded at project
-//load for all visible layers and whenever the visibility for a layer or group is
-//changed by the user; if set to false, it is not loaded at the begin, but only
-//if the user selects a group or layer in the layer tree
-var legendAllAtOnceAtBegin = false;
+//set to null if you do not want to use a URL shortener for your permalink function
+var permaLinkURLShortener = null;
+//var permaLinkURLShortener = "/wsgi/createShortPermalink.wsgi";
 
 // <------------ No changes should be needed below here ------------------>
 
@@ -231,5 +249,3 @@ var sketchSymbolizersMeasureControls = {
     fillOpacity: 0.3
   }
 };
-
-

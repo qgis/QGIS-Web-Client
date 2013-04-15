@@ -2,7 +2,7 @@
  *
  * WebgisInit.js -- part of Quantum GIS Web Client
  *
- * Copyright (2010-2012), The QGIS Project All rights reserved.
+ * Copyright (2010-2013), The QGIS Project All rights reserved.
  * Quantum GIS Web Client is released under a BSD license. Please see
  * https://github.com/qgis/qgis-web-client/blob/master/README
  * for the full text of the license and the list of contributors.
@@ -11,22 +11,23 @@
 
 var geoExtMap;
 var layerTree;
-var selectedLayers = "";
-var selectedQueryableLayers = "";
-var thematicLayer, highlightLayer;
+var selectedLayers; //later an array containing all visible (selected) layers
+var selectedQueryableLayers; //later an array of all visible (selected and queryable) layers
+var allLayers; //later an array containing all leaf layers
+var thematicLayer, highlightLayer, featureInfoHighlightLayer;
 var highLightGeometry = new Array();
 var WMSGetFInfo, WMSGetFInfoHover;
-var AttributeDataTree;
 var lastLayer, lastFeature;
 var featureInfoResultLayers;
 var measureControls;
 var mainStatusText, rightStatusText;
 var loadMask; //mask displayed during loading or longer operations
-var attribToolTip;
 var screenDpi;
 var qgisSearchCombo; //modified search combobox
 var wmsLoader; //modified WMSCapabilitiesLoader from GeoExt
 var xsiNamespace = "http://www.w3.org/2001/XMLSchema-instance";
+var hoverPopup = null;
+var clickPopup = null;
 var printWindow;
 var printProvider, printExtent;
 var ptTomm = 0.35277; //conversion pt to mm
@@ -41,16 +42,55 @@ var identifyToolWasActive = false; //this state variable is used during theme sw
 var initialLoadDone = false; //a state variable defining if an initial project was loaded or not
 var themeChangeActive = false; //status to indicate if theme chang is active
 var layerTreeSelectionChangeHandlerFunction; //a reference to the handler function of the selection tree
-var help_active = false;
-var helpWin;
+var layerOrderPanel = null;
+var help_active = false; //help window is active or not
+var helpWin; //Ext window that will display the help file
+var legendMetadataWindow_active = false; //legend graphic and metadata window is active or not
+var legendMetadataWindow; //Ext window that will hold the legend and metatadata
+var legendMetaTabPanel; //a reference to the Ext tabpanel holding the tabs for legend graphic and metadata
+var legendTab; //a reference to the Ext tab holding the legend graphic
+var metadataTab; //a reference to the Ext tab holding the metadata information
 
 Ext.onReady(function () {
 	//dpi detection
 	screenDpi = document.getElementById("dpiDetection").offsetHeight;
 	OpenLayers.DOTS_PER_INCH = screenDpi;
+	
+	//fix for IE <= 8, missing indexOf function
+	if (!Array.prototype.indexOf) {
+    Array.prototype.indexOf = function (searchElement /*, fromIndex */ ) {
+        "use strict";
+        if (this == null) {
+            throw new TypeError();
+        }
+        var t = Object(this);
+        var len = t.length >>> 0;
+        if (len === 0) {
+            return -1;
+        }
+        var n = 0;
+        if (arguments.length > 1) {
+            n = Number(arguments[1]);
+            if (n != n) { // shortcut for verifying if it's NaN
+                n = 0;
+            } else if (n != 0 && n != Infinity && n != -Infinity) {
+                n = (n > 0 || -1) * Math.floor(Math.abs(n));
+            }
+        }
+        if (n >= len) {
+            return -1;
+        }
+        var k = n >= 0 ? n : Math.max(len - Math.abs(n), 0);
+        for (; k < len; k++) {
+            if (k in t && t[k] === searchElement) {
+                return k;
+            }
+        }
+        return -1;
+    }
+	}
 
 	//some references
-	AttributeDataTree = Ext.getCmp('AttributeDataTree');
 	layerTree = Ext.getCmp('LayerTree');
 	mainStatusText = Ext.getCmp('mainStatusText');
 	rightStatusText = Ext.getCmp('rightStatusText');
@@ -93,12 +133,10 @@ function loadWMSConfig() {
 	});
 	var root = new Ext.tree.AsyncTreeNode({
 		loader: wmsLoader,
+		allowDrop: false,
 		listeners: {
 			'load': function () {
 				postLoading();
-				if (legendAllAtOnceAtBegin) {
-					showLegendImage();
-				}
 			}
 		}
 	});
@@ -106,18 +144,8 @@ function loadWMSConfig() {
 	layerTree.setRootNode(root);	
 }
 
-layerTreeCheckChangeHandlerFunction = function (treeNode) {
-  // remove the handler so this function is not called for any cascading checkchanges,
-  // if e.g. a group itself is (un)checked or a layer within a group is (un)checked;
-  // listener will be (re)added in showLegendImage() 
-  layerTree.removeListener("checkchange", layerTreeCheckChangeHandlerFunction);
-  // call this with a delay so all cascading checkchanges have happened
-  setTimeout("showLegendImage()", 100);
-}
-
 layerTreeSelectionChangeHandlerFunction = function (selectionModel, treeNode) {
-	if (!themeChangeActive && !legendAllAtOnceAtBegin) {
-    showLegendImage(treeNode);
+	if (!themeChangeActive) {
 		//change selected activated layers for GetFeatureInfo requests
 		layerTree.fireEvent("leafschange");
 	}
@@ -126,67 +154,102 @@ layerTreeSelectionChangeHandlerFunction = function (selectionModel, treeNode) {
 function postLoading() {
 	//set root node to active layer of layertree
 	layerTree.selectPath(layerTree.root.firstChild.getPath());
-	var legendTab = Ext.getCmp('LegendTab');
-	if (!initialLoadDone) {
-		//add event listener to ToolsPanel panel
-		Ext.getCmp('ToolsPanel').on('resize', function (panel, w, h) {
-			var ToolTabPanel = Ext.getCmp('ToolTabPanel');
-			legendTab.setHeight(panel.getInnerHeight() - (ToolTabPanel.getHeight() - ToolTabPanel.getInnerHeight()));
-		});
-	}
-	legendTab.update({
-		html: '<p style="margin:0.4em;font-family:sans-serif;font-size:smaller;border-width:0px;border-style:none">'+legendDisplayHowtoString[lang]+'</p>',
-		border: false,
-		frame: false
-	});
-	
+
+	applyPermalinkParams();
+
 	//now set all visible layers and document/toolbar title
 	var layerNode;
 	layerTree.suspendEvents();
 	if (layerTree.root.hasChildNodes()) {
 		//set titles in document and toolbar
 		var title = layerTree.root.firstChild.text;
+		if (title in projectTitles) {
+			title = projectTitles[title];
+		}
 		document.title = titleBarText + title;
-		Ext.getCmp('GisBrowserPanel').setTitle(document.title);
+		Ext.get('panel_header_title').update(document.title);
 
+		// set header logo and link
+		if (headerLogoImg != null) {
+			Ext.select('#panel_header_link a').replaceWith({
+				tag: 'a',
+				href: headerLogoLink,
+				target: '_blank',
+				children: [{
+					tag: 'img',
+					src: headerLogoImg,
+					height: headerLogoHeight
+				}]
+			});
+
+			// adjust title position
+			Ext.get('panel_header_title').setStyle('padding-left', '8px');
+			var paddingTop = (headerLogoHeight - 18) / 2;
+			Ext.get('panel_header_title').setStyle('padding-top', paddingTop + 'px');
+		}
+
+		// set terms of use link
+		if (headerTermsOfUseText != null) {
+			Ext.select('#panel_header_terms_of_use a').replaceWith({
+				tag: 'a',
+				href: headerTermsOfUseLink,
+				html: headerTermsOfUseText,
+				target: '_blank'
+			});
+
+			if (headerLogoImg != null) {
+				// adjust terms of use position
+				paddingTop = (headerLogoHeight - 12) / 2;
+				Ext.get('panel_header_terms_of_use').setStyle('padding-top', paddingTop + 'px');
+			}
+		}
+
+		//now iterate 'visibleLayers'
 		if (visibleLayers == null) {
-			// show all layers if URL parameter 'visibleLayers' is missing
-			layerTree.root.firstChild.expand(true, false);
-			layerTree.root.firstChild.findChildBy(function () {
+			//in case the visible layers are not provided as URL parameter we read the visibility settings from the
+			//GetProjectSettings response - we need to adapt the drawing order from the project
+			visibleLayers = layersInDrawingOrder(wmsLoader.initialVisibleLayers);
+		}
+			
+		layerTree.root.firstChild.expand(true, false);
+		for (var index = 0; index < visibleLayers.length; index++) {
+			// expand all nodes in order to allow toggling checkboxes on deeper levels
+			layerTree.root.findChildBy(function () {
 				if (this.isExpandable()) {
-					// expand node while traversing in order to allow toggling checkbox on deeper levels
 					this.expand(true, false);
 				}
-				this.getUI().toggleCheck(this.attributes.layer.visible);
 				return false;
 			}, null, true);
-		} else {
-			//in case the URL parameter 'visibleLayers' is provided we iterate it
-			layerTree.root.firstChild.expand(true, false);
-			for (var index = 0; index < visibleLayers.length; index++) {
-				layerTree.root.findChildBy(function () {
-					if (this.isExpandable()) {
-						// expand node while traversing in order to allow toggling checkbox on deeper levels
-						this.expand(true, false);
-					}
-					if (wmsLoader.layerTitleNameMapping[this.attributes["text"]] == visibleLayers[index]) {
-						this.getUI().toggleCheck(true);
-						return true;
-					}
-					return false;
-				}, null, true);
-				//test to see if we need to change to jpeg because checked
-				//layer is in array fullColorLayers
-				if (fullColorLayers.length > 0 && origFormat.match(/8bit/)) {
-					for (var i = 0; i < fullColorLayers.length; i++) {
-						if (fullColorLayers[i] == visibleLayers[index]) {
-							format = "image/jpeg";
-							break;
-						}
+
+			// toggle checkboxes of visible layers
+			layerTree.root.findChildBy(function () {
+				if (wmsLoader.layerTitleNameMapping[this.attributes["text"]] == visibleLayers[index]) {
+					this.getUI().toggleCheck(true);
+					// FIXME: never return true even if node is found to avoid TypeError
+					//				return true;
+				}
+				return false;
+			}, null, true);
+
+			//test to see if we need to change to jpeg because checked
+			//layer is in array fullColorLayers
+			if (fullColorLayers.length > 0 && origFormat.match(/8bit/)) {
+				for (var i = 0; i < fullColorLayers.length; i++) {
+					if (fullColorLayers[i] == visibleLayers[index]) {
+						format = "image/jpeg";
+						break;
 					}
 				}
 			}
 		}
+		
+		//we need to get a flat list of visible layers so we can set the layerOrderPanel
+		getVisibleFlatLayers(layerTree.root.firstChild);
+
+		// add components to tree nodes while tree is expanded to match GUI layout
+		// info buttons in layer tree
+		addInfoButtonsToLayerTree();
+
 		//expand first level
 		layerTree.root.firstChild.collapseChildNodes(true);
 		layerTree.root.firstChild.expand(false, false);
@@ -215,13 +278,14 @@ function postLoading() {
 	}
 	
 	//test if max extent was set from URL or project settings
-	//set map parameters
+	//if not, set map parameters from GetProjectSettings/GetCapabilities
 	//get values from first layer group (root) of project settings
 	if (maxExtent instanceof OpenLayers.Bounds == false) {
 		var boundingBox = wmsLoader.projectSettings.capability.nestedLayers[0].bbox;
+		//maxExtent = OpenLayers.Bounds.fromArray(wmsLoader.projectSettings.capability.nestedLayers[0].llbbox);
+       maxExtent = new OpenLayers.Bounds(590000,210000,650000,270000);
 		for (var key in boundingBox) {
 			var bbox = boundingBox[key];
-			maxExtent = OpenLayers.Bounds.fromArray(bbox.bbox);
 			if (bbox.srs != MapOptions.projection.getCode()) {
 				maxExtent.transform(new OpenLayers.Projection(bbox.srs), MapOptions.projection);
 			}
@@ -232,14 +296,18 @@ function postLoading() {
 	//now collect all selected layers (with checkbox enabled in tree)
 	selectedLayers = Array();
 	selectedQueryableLayers = Array();
+	allLayers = Array();
 	layerTree.root.firstChild.cascade(
 
 	function (n) {
-		if (n.isLeaf() && n.attributes.checked) {
-			selectedLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
-			if (wmsLoader.layerProperties[wmsLoader.layerTitleNameMapping[n.text]].queryable) {
-				selectedQueryableLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
+		if (n.isLeaf()) {
+			if (n.attributes.checked) {
+				selectedLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
+				if (wmsLoader.layerProperties[wmsLoader.layerTitleNameMapping[n.text]].queryable) {
+					selectedQueryableLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
+				}
 			}
+			allLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
 		}
 	});
 	mainStatusText.setText(mapLoadingString[lang]);
@@ -305,6 +373,10 @@ function postLoading() {
 	// return input layers sorted by order defined in project settings
 	function layersInDrawingOrder(layers) {
 		var layerDrawingOrder = wmsLoader.projectSettings.capability.layerDrawingOrder;
+		if (layerOrderPanel != null) {
+			// override project settings (after first load)
+			layerDrawingOrder = layerOrderPanel.orderedLayers();
+		}
 		if (layerDrawingOrder != null) {
 			var orderedLayers = [];
 			for (var i = 0; i < layerDrawingOrder.length; i++) {
@@ -319,7 +391,18 @@ function postLoading() {
 			return layers.reverse();
 		}
 	}
-	
+
+	// return layer opacities sorted by input layers order
+	function layerOpacities(layers) {
+		var opacities = Array();
+		for (var i=0; i<layers.length; i++) {
+			opacities.push(wmsLoader.layerProperties[layers[i]].opacity);
+		}
+		return opacities;
+	}
+
+	setupLayerOrderPanel();
+
 	//create new map panel with a single OL layer
 	selectedLayers = layersInDrawingOrder(selectedLayers);
 
@@ -336,12 +419,17 @@ function postLoading() {
 			thematicLayer = new OpenLayers.Layer.WMS(layerTree.root.firstChild.text,
 				wmsURI, {
 					layers: selectedLayers.join(","),
+					opacities: layerOpacities(selectedLayers),
 					format: format,
 					dpi: screenDpi
 				},
 				LayerOptions
 			),
 			highlightLayer = new OpenLayers.Layer.Vector("attribHighLight", {
+				isBaseLayer: false,
+				styleMap: styleMapHighLightLayer
+			}),
+			featureInfoHighlightLayer = new OpenLayers.Layer.Vector("featureInfoHighlight", {
 				isBaseLayer: false,
 				styleMap: styleMapHighLightLayer
 			})],
@@ -402,9 +490,8 @@ function postLoading() {
 		thematicLayer.name = layerTree.root.firstChild.text;
 		thematicLayer.url = wmsURI;
 		thematicLayer.mergeNewParams({
-			"LAYERS": selectedLayers.join(",")
-		});
-		thematicLayer.mergeNewParams({
+			"LAYERS": selectedLayers.join(","),
+			"OPACITIES": layerOpacities(selectedLayers),
 			"FORMAT": format
 		});
 	}
@@ -413,7 +500,9 @@ function postLoading() {
 		if (urlParams.startExtent) {
 			var startExtentParams = urlParams.startExtent.split(",");
 			var startExtent = new OpenLayers.Bounds(parseFloat(startExtentParams[0]), parseFloat(startExtentParams[1]), parseFloat(startExtentParams[2]), parseFloat(startExtentParams[3]));
-			geoExtMap.map.zoomToExtent(startExtent);
+			//alert("startExtentOL="+startExtent.toString());
+			geoExtMap.map.zoomToExtent(startExtent,false);
+			//alert(geoExtMap.map.getExtent().toString());
 		} else {
 			geoExtMap.map.zoomToMaxExtent();
 		}
@@ -423,6 +512,13 @@ function postLoading() {
 			geoExtMap.setHeight(panel.getInnerHeight());
 
 		});
+
+		// selection from permalink
+		if (urlParams.selection) {
+			thematicLayer.mergeNewParams({
+				"SELECTION": urlParams.selection
+			});
+		}
 
 		//scale listener to write current scale to numberfield
 		geoExtMap.map.events.register('zoomend', this, function () {
@@ -541,6 +637,8 @@ function postLoading() {
 		}
 	});
 	WMSGetFInfo.events.register("getfeatureinfo", this, showFeatureInfo);
+	WMSGetFInfo.events.register("beforegetfeatureinfo", this, onBeforeGetFeatureInfoClick);
+	WMSGetFInfo.events.register("nogetfeatureinfo", this, noFeatureInfoClick);
 	geoExtMap.map.addControl(WMSGetFInfo);
 
 	WMSGetFInfoHover = new OpenLayers.Control.WMSGetFeatureInfo({
@@ -576,7 +674,6 @@ function postLoading() {
 				}
 			}
 		});
-        
 		//the following line is due to a ExtJS bug - see http://www.sencha.com/forum/showthread.php?51702-Tooltip-targetXY-is-undefined
 		attribToolTip.targetXY = geoExtMap.getPosition();
 	}
@@ -844,12 +941,13 @@ function postLoading() {
 				}
 			}
 		});
-		thematicLayer.mergeNewParams({
-			format: format
-		});
+		updateLayerOrderPanel();
+
 		//change array order
 		selectedLayers = layersInDrawingOrder(selectedLayers);
 		selectedQueryableLayers = layersInDrawingOrder(selectedQueryableLayers);
+		
+		//special case if only active layers are queried for feature infos
 		if (identificationMode == 'activeLayers') {
 			//only collect selected layers that are active
 			var selectedActiveLayers = Array();
@@ -857,20 +955,22 @@ function postLoading() {
 			//need to find active layer
 			var activeNode = layerTree.getSelectionModel().getSelectedNode();
 			activeNode.cascade(
-
-			function (n) {
-				if (n.isLeaf() && n.attributes.checked) {
-					selectedActiveLayers.push(n.text);
-					if (wmsLoader.layerProperties[n.text].queryable) {
-						selectedActiveQueryableLayers.push(n.text);
+				function (n) {
+					if (n.isLeaf() && n.attributes.checked) {
+						selectedActiveLayers.push(n.text);
+						if (wmsLoader.layerProperties[n.text].queryable) {
+							selectedActiveQueryableLayers.push(n.text);
+						}
 					}
 				}
-			});
+			);
 			selectedActiveLayers = layersInDrawingOrder(selectedActiveLayers);
 			selectedActiveQueryableLayers = layersInDrawingOrder(selectedActiveQueryableLayers);
 		}
 		thematicLayer.mergeNewParams({
-			layers: selectedLayers.join(",")
+			LAYERS: selectedLayers.join(","),
+			OPACITIES: layerOpacities(selectedLayers),
+			FORMAT: format
 		});
 		if (identificationMode != 'activeLayers') {
 			WMSGetFInfo.vendorParams = {
@@ -1098,7 +1198,7 @@ function postLoading() {
 		themeChangeActive = false;
 	}
 
-	//handle events for legend display
+	//handle selection events
   var selModel = layerTree.getSelectionModel();
   //add listeners to selection model
   selModel.addListener("selectionChange", layerTreeSelectionChangeHandlerFunction);
@@ -1113,9 +1213,8 @@ function postLoading() {
 
 function getVisibleLayers(visibleLayers, currentNode){
   while (currentNode != null){
-    
     if (currentNode.attributes.checked) {
-      visibleLayers.push(currentNode.text);
+      visibleLayers.push(wmsLoader.layerTitleNameMapping[currentNode.text]);
     } else if (currentNode.attributes.checked == null) {
       // this node is partly checked, so it is a layer group with some layers visible
       // dive into this group for layer visibility
@@ -1128,41 +1227,13 @@ function getVisibleLayers(visibleLayers, currentNode){
   return visibleLayers;
 }
 
-
-function showLegendImage(treeNode) {
-  var visibleLayers = Array();
-
-  if (legendAllAtOnceAtBegin) {
-    visibleLayers = getVisibleLayers(visibleLayers, layerTree.root.firstChild);
-    visibleLayers = uniqueLayersInLegend(visibleLayers);
-    visibleLayers.reverse(); // order layers as in tree
-    // (re)add checkchange listener
-    layerTree.addListener("checkchange", layerTreeCheckChangeHandlerFunction);
-  } else {
-    visibleLayers = treeNode.text;
-  }
-  
-  //update legend graphic
-  var legendTab = Ext.getCmp('LegendTab');
-  var ToolsPanel = Ext.getCmp('ToolsPanel');
-  var ToolTabPanel = Ext.getCmp('ToolTabPanel');
-  legendTab.setHeight(ToolsPanel.getInnerHeight() - (ToolTabPanel.getHeight() - ToolTabPanel.getInnerHeight()));
-  Ext.getCmp('ToolTabPanel').activate(legendTab);
-  
-  if (visibleLayers.length == 0) {
-    var legendImage = legendDisplayHowtoString[lang];
-  } else {
-    if ("&" != wmsURI.substr(wmsURI.length -1, 1)){
-      wmsURI = wmsURI + "&";
+function getVisibleFlatLayers(currentNode) {
+  visibleLayers = [];
+	currentNode.cascade(function(node) {
+    if (node.isLeaf() && node.attributes.checked) {
+      visibleLayers.push(wmsLoader.layerTitleNameMapping[node.text]);
     }
-    var imageUrl = wmsURI + 'SERVICE=WMS&VERSION=1.3&REQUEST=GetLegendGraphics&FORMAT=image/png&EXCEPTIONS=application/vnd.ogc.se_inimage&WIDTH=195&LAYERS=' + encodeURIComponent(visibleLayers) + '&dpi=' + screenDpi;
-    var legendImage = '<p><img src="' + imageUrl + '" alt="Legend of Layer ' + visibleLayers + '" /></p>';
-  }
-  
-  legendTab.update({
-    html: legendImage,
-    border: false
-  });
+	});
 }
 
 function uniqueLayersInLegend(origArr) {
@@ -1205,23 +1276,16 @@ function mapToolbarHandler(btn, evt) {
 		if (btn.pressed) {
 			identifyToolActive = true;
             geoExtMap.map.events.register('click', this, sogisToolTip);
-			WMSGetFInfo.activate();
-			WMSGetFInfoHover.activate();
-			attribToolTip.enable();
-			attribToolTip.show();
-			attribToolTip.update('<p>' + mapTipsNoResultString[lang] + '</p>');
+			activateGetFeatureInfo(true);
 			mainStatusText.setText(modeObjectIdentificationString[lang]);
-			changeCursorInMap("pointer");
+
 		} else {
 			identifyToolActive = false;
-			WMSGetFInfo.deactivate();
-			WMSGetFInfoHover.deactivate();
-			highlightLayer.removeAllFeatures();
-			attribToolTip.disable();
-			attribToolTip.hide();
-			//AttributeDataTree.collapse();
+			activateGetFeatureInfo(false);
+			if (hoverPopup) {removeHoverPopup();}
+			if (clickPopup) {removeClickPopup();}
+			featureInfoHighlightLayer.removeAllFeatures();
 			mainStatusText.setText(modeNavigationString[lang]);
-			changeCursorInMap("default");
 		}
 	}
 	if (btn.id == "measureDistance") {
@@ -1294,13 +1358,26 @@ function mapToolbarHandler(btn, evt) {
 			mainStatusText.setText(modeNavigationString[lang]);
 		}
 	}
-    /*
+    
 	if (btn.id == "SendPermalink") {
 		var permalink = createPermalink();
-		//window.open("mailto:?subject=Link&body=" + encodeURIComponent(permalink));
-        alert(permalink);
+		if (permaLinkURLShortener) {
+			var servername = "http://"+location.href.split(/\/+/)[1];
+			Ext.Ajax.request({
+			  url: servername + permaLinkURLShortener,
+			  success: receiveShortPermalinkFromDB,
+			  failure: function ( result, request) {
+				alert("failed to get short URL from Python wsgi script.\n\nError Message:\n\n"+result.responseText);
+			  },
+			  method: 'GET',
+			  params: { longPermalink: permalink }
+			});
+		}
+		else {
+			openPermaLink(encodeURIComponent(permalink));
+		}
 	}
-    */
+
   if (btn.id == "ShowHelp") {
     if (help_active == true){
       help_active = false;
@@ -1309,14 +1386,10 @@ function mapToolbarHandler(btn, evt) {
       help_active = true;
 	  //test if helpfile was specified, otherwise display default english help or language version if available
 	  if (typeof(helpfile) === 'undefined') {
-		helpfile = "help_en.html";
-		//we need to test if array.indexOf is available (IE <= version 8 do not support it)
-		//poor old IE users always get the english help, uneless specified in the GlobalOptions.js
-		if (availableHelpLanguages.indexOf()) {
+			helpfile = "help_en.html";
 			if (availableHelpLanguages.indexOf(lang) != -1) {
 				helpfile = "help_"+lang+".html";
 			}
-		}
 	  }
       helpWin = new Ext.Window({
         title: helpWindowTitleString[lang]
@@ -1381,19 +1454,234 @@ function scrollToHelpItem(targetId) {
 function createPermalink(){
 	var visibleLayers = Array();
 	var permalink;
+	var permalinkParams = {};
 	visibleLayers = getVisibleLayers(visibleLayers, layerTree.root.firstChild);
 	visibleLayers = uniqueLayersInLegend(visibleLayers);
 	var startExtentArray = geoExtMap.map.getExtent().toArray();
 	var startExtent = startExtentArray[0] + "," + startExtentArray[1] + "," + startExtentArray[2] + "," + startExtentArray[3];
 
+
 	if (!norewrite){
-		permalink = urlBaseArray.slice(0,-1).toString().replace(/,/g, "/");
-		permalink = permalink + "/" + wmsMapName.replace("/", "") + "?";
+		var servername = location.href.split(/\/+/)[1];
+		permalink = "http://"+servername;
+		if (gis_projects) {
+			permalink += gis_projects.path + "/";
+		}
+		else {
+			permalink += "/";
+		}
+		permalink += wmsMapName+"?";
 	} else {
 		permalink = urlArray[0] + "?map=";
-		permalink = permalink + "/" + wmsMapName.replace("/", "") + "&";
+		permalink = permalink + "/" + wmsMapName.replace("/", "");
+		//add .qgs if it is missing
+		if (!permalink.match(/\.qgs$/)) {
+			permalink += ".qgs";
+		}
+		permalink += "&";
+	}
+
+	// extent
+	permalinkParams.startExtent = startExtent;
+
+	// visible layers and layer order
+	permalinkParams.visibleLayers = visibleLayers.toString();
+
+	// layer opacities as hash of <layername>: <opacity>
+	var opacities = null;
+	for (layer in wmsLoader.layerProperties) {
+		if (wmsLoader.layerProperties.hasOwnProperty(layer)) {
+			var opacity = wmsLoader.layerProperties[layer].opacity;
+			// collect only non-default values
+			if (opacity != 255) {
+				if (opacities == null) {
+					opacities = {};
+				}
+				opacities[layer] = opacity;
+			}
+		}
+	}
+	if (opacities != null) {
+		permalinkParams.opacities = Ext.util.JSON.encode(opacities);
 	}
 	
-	permalink = permalink + "visibleLayers=" + visibleLayers.toString() + "&startExtent=" + startExtent;
+	//layer order
+	permalinkParams.initialLayerOrder = layerOrderPanel.orderedLayers().toString();
+
+	// selection
+	permalinkParams.selection = thematicLayer.params.SELECTION;	
+    if (false) {
+		permalink = encodeURIComponent(permalink + decodeURIComponent(Ext.urlEncode(permalinkParams)));
+	}
+	else {
+		permalink = permalink + Ext.urlEncode(permalinkParams);	
+	}
+	
 	return permalink;
+}
+
+function addInfoButtonsToLayerTree() {
+	layerTree.root.firstChild.cascade(
+		function (n) {
+			if (n.isLeaf()) {
+				// info button
+				var buttonId = 'layer_' + n.id;
+				Ext.DomHelper.insertBefore(n.getUI().getAnchor(), {
+					tag: 'b',
+					id: buttonId,
+					cls: 'layer-button x-tool custom-x-tool-info'
+				});
+
+				Ext.get(buttonId).on('click', function(e) {
+					showLegendAndMetadata(n.text);
+				});
+			}
+		}
+	);
+}
+
+function applyPermalinkParams() {
+	if (urlParams.opacities) {
+		// restore layer opacities from hash of <layername>: <opacity>
+		var opacities = Ext.util.JSON.decode(urlParams.opacities);
+		for (layer in opacities) {
+			if (opacities.hasOwnProperty(layer)) {
+				wmsLoader.layerProperties[layer].opacity = opacities[layer];
+			}
+		}
+	}
+}
+
+function setupLayerOrderPanel() {
+	layerOrderPanel = Ext.getCmp('LayerOrderTab');
+
+	/* initial layer order: (highest priority on top)
+	 * - initialLayerOrder from permalink/URL param
+	 * - layerDrawingOrder from GetProjectSettings
+	 * - layer tree from GetCapabilities
+	 */
+	var orderedLayers = [];
+	if (initialLayerOrder != null) {
+		// use order from permalink or URL parameter
+		orderedLayers = initialLayerOrder;
+		//TODO: we need to add additional layers if the initialLayerOrder is shorter than the layerDrawingOrder from the project
+		if (wmsLoader.projectSettings.capability.layerDrawingOrder != null) {
+			//case GetProjectSettings supported
+			if (initialLayerOrder.length < wmsLoader.projectSettings.capability.layerDrawingOrder.length) {
+				for (var i=0;i<wmsLoader.projectSettings.capability.layerDrawingOrder.length;i++) {
+					if (orderedLayers.indexOf(wmsLoader.projectSettings.capability.layerDrawingOrder[i]) == -1) {
+						var layerIndex = wmsLoader.projectSettings.capability.layerDrawingOrder.indexOf(wmsLoader.projectSettings.capability.layerDrawingOrder[i]);
+						if (layerIndex >= orderedLayers.length) {
+							orderedLayers.push(wmsLoader.projectSettings.capability.layerDrawingOrder[i]);
+						}
+						else {
+							orderedLayers.splice(layerIndex,0,wmsLoader.projectSettings.capability.layerDrawingOrder[i]);
+						}
+					}
+				}
+			}
+		}
+		else {
+			//only GetCapabilities is supported
+			if (initialLayerOrder.length < allLayers.length) {
+				for (var i=0;i<allLayers.length;i++) {
+					if (orderedLayers.indexOf(allLayers[i]) == -1) {
+						var layerIndex = allLayers.indexOf(allLayers[i]);
+						if (layerIndex >= orderedLayers.length) {
+							orderedLayers.push(allLayers[i]);
+						}
+						else {
+							orderedLayers.splice(layerIndex,0,allLayers[i]);
+						}
+					}
+				}
+			}
+		}
+	}
+	else if (wmsLoader.projectSettings.capability.layerDrawingOrder != null) {
+		// use order from GetProjectSettings
+		orderedLayers = wmsLoader.projectSettings.capability.layerDrawingOrder;
+	}
+	else {
+		// use order from GetCapabilities
+		orderedLayers = allLayers.reverse();
+	}
+
+	layerOrderPanel.clearLayers();
+	for (var i=0; i<orderedLayers.length; i++) {
+		//because of a but in QGIS server we need to check if a layer from layerDrawingOrder actually really exists
+		//QGIS server is delivering invalid layer when linking to different projects
+		if (wmsLoader.layerProperties[orderedLayers[i]]) {
+			layerOrderPanel.addLayer(orderedLayers[i], wmsLoader.layerProperties[orderedLayers[i]].opacity);
+		}
+	}
+
+	if (!initialLoadDone) {
+		if (showLayerOrderTab) {
+			// handle layer order panel events
+			layerOrderPanel.on('layerVisibilityChange', function(layer) {
+				// deactivate layer node in layer tree
+				layerTree.root.findChildBy(function() {
+					if (wmsLoader.layerTitleNameMapping[this.attributes["text"]] == layer) {
+						this.getUI().toggleCheck();
+						// update active layers
+						layerTree.fireEvent("leafschange");
+						return true;
+					}
+					return false;
+				}, null, true);
+			});
+
+			layerOrderPanel.on('orderchange', function() {
+				// update layer order after drag and drop
+				layerTree.fireEvent("leafschange");
+			});
+
+			layerOrderPanel.on('opacitychange', function(layer, opacity) {
+				// update layer opacities after slider change
+				wmsLoader.layerProperties[layer].opacity = opacity;
+				layerTree.fireEvent("leafschange");
+			});
+			//hack to set title of southern panel - normally it is hidden in ExtJS
+			Ext.layout.BorderLayout.Region.prototype.getCollapsedEl = Ext.layout.BorderLayout.Region.prototype.getCollapsedEl.createSequence(function() {
+				if ( ( this.position == 'south' ) && !this.collapsedEl.titleEl ) {
+					this.collapsedEl.titleEl = this.collapsedEl.createChild({cls: 'x-collapsed-title', cn: this.panel.title});
+				}
+			});
+			Ext.getCmp('leftPanelMap').layout.south.getCollapsedEl().titleEl.dom.innerHTML = layerOrderPanelTitleString[lang];
+		} else {
+			Ext.getCmp('leftPanelMap').layout.south.getCollapsedEl().setVisible(showLayerOrderTab);
+		}
+	}
+}
+
+function updateLayerOrderPanel() {
+	// update layer order panel
+	var layersForOrderPanel = [];
+	layersForOrderPanel = layersForOrderPanel.reverse();
+	for (var i=0; i<layersForOrderPanel.length; i++) {
+		layerOrderPanel.addLayer(layersForOrderPanel[i], wmsLoader.layerProperties[layersForOrderPanel[i]].opacity);
+	}
+}
+
+function activateGetFeatureInfo(doIt) {
+	// activate/deactivate FeatureInfo
+	if (doIt) {
+		WMSGetFInfo.activate();
+		WMSGetFInfoHover.activate();
+	} else {
+		WMSGetFInfo.deactivate();
+		WMSGetFInfoHover.deactivate();
+	}
+}
+
+function openPermaLink(permalink) {
+	var mailToText = "mailto:?subject="+sendPermalinkLinkFromString[lang]+titleBarText+layerTree.root.firstChild.text+"&body="+permalink;
+	var mailWindow = window.open(mailToText);
+	mailWindow.close();
+}
+
+function receiveShortPermalinkFromDB(result, request) {
+	var result = eval("("+result.responseText+")");
+	openPermaLink(result.shortUrl);
 }

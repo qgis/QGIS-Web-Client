@@ -15,6 +15,7 @@
 * QGIS.SearchComboBox
 * QGIS.SearchPanel
 * QGIS.FeatureInfoParser
+* QGIS.LayerOrderPanel
 */
 
 /* ************************** QGIS.WMSCapabilitiesLoader ************************** */
@@ -33,6 +34,7 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
   layerProperties: new Array(),
 	//this list holds a mapping between title and layer name - the tree shows the title, the WMS requests need names
 	layerTitleNameMapping: new Array(),
+	initialVisibleLayers: new Array(),
   getParams: function(node) {
     return {
       SERVICE: 'WMS',
@@ -197,11 +199,20 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
       this.layerProperties[layer.name] = {
         name: layer.name,
         title: layer.title,
+				abstract: layer.abstract,
+				visible: layer.visible,
+        opacity: 255,
         queryable: layer.queryable,
         displayField: layer.displayField,
-        nrChildLayers: layer.nestedLayers.length
+        nrChildLayers: layer.nestedLayers.length,
+				attributes: layer.attributes,
+				srsList: layer.srs,
+				bbox: layer.llbbox
       };
 			this.layerTitleNameMapping[layer.title] = layer.name;
+			if (layer.visible) {
+				this.initialVisibleLayers.push(layer.name);
+			}
     }
 
     // defaults for GetCapabilities
@@ -308,6 +319,9 @@ Ext.extend(QGIS.PrintProvider, GeoExt.data.PrintProvider, {
     }
 
     var printUrl = this.url+'&SRS=EPSG:'+epsgcode+'&DPI=300&TEMPLATE='+this.layout.get("name")+'&map0:extent='+printExtent.page.getPrintExtent(map).toBBOX(1,false)+'&map0:rotation='+(printExtent.page.rotation * -1)+'&map0:scale='+mapScale+'&map0:grid_interval_x='+grid_interval+'&map0:grid_interval_y='+grid_interval+'&LAYERS='+encodeURIComponent(thematicLayer.params.LAYERS);
+    if (thematicLayer.params.OPACITIES) {
+      printUrl += '&OPACITIES='+encodeURIComponent(thematicLayer.params.OPACITIES);
+    }
     if (thematicLayer.params.SELECTION) {
       printUrl += '&SELECTION='+encodeURIComponent(thematicLayer.params.SELECTION);
     }
@@ -901,4 +915,323 @@ Ext.override(Ext.ToolTip, {
           this.anchorEl.hide();
       }
    }
+});
+
+/* *************************** QGIS.LayerOrderPanel **************************** */
+// extends Ext.Panel with a list of the active layers that can be ordered by the user
+QGIS.LayerOrderPanel = Ext.extend(Ext.Panel, {
+  title: layerOrderPanelTitleString[lang],
+
+  store: null,
+  grid: null,
+
+  constructor: function (config) {
+    config = config || {};
+
+    QGIS.LayerOrderPanel.superclass.constructor.call(this, config);
+  },
+
+  initComponent: function() {
+    this.addEvents(
+      /**
+       * @event layerVisibilityChange
+       * fires after changing the visilibity of a layer
+       * @param {String} layer name
+       */
+      'layerVisibilityChange',
+      /**
+       * @event orderchange
+       * fires after reordering rows
+       */
+      'orderchange',
+      /**
+       * @event opacitychange
+       * fires after moving opacity slider
+       * @param {String} layer name
+       * @param {Number} layer opacity
+       */
+      'opacitychange'
+    );
+
+    this.store = new Ext.data.ArrayStore({
+      fields: [
+        {name: 'layer'}
+      ]
+    });
+
+    var me = this;
+    this.grid = new Ext.grid.GridPanel({
+      store: this.store,
+      columns: [
+        {
+          id: 'layer',
+          header: 'Ebene',
+          dataIndex: 'layer',
+          renderer: function(value, metadata, record, rowIndex, colIndex, store) {
+            // DOM element marker for inserting opacity sliders
+            var layer = record.get('layer');
+            return layer + "<el id='layerOrder_" + me.escapeString(layer) + "'></el>";
+          }
+        },
+        {
+          xtype: 'actioncolumn',
+          id: 'actions',
+          width: 40,
+          align: 'right',
+          items: [
+            {
+              iconCls: 'action-icon action-down',
+              tooltip: layerOrderPanelLayerSettingsTooltipString[lang],
+              getClass: function(v, meta, rec) {
+                return 'layerOptions_' + this.escapeString(rec.get('layer'));
+              },
+              handler: function(grid, rowIndex, colIndex, item) {
+                var layerId = this.escapeString(this.store.getAt(rowIndex).get('layer'));
+
+                // toggle icon
+                var buttonEl = Ext.select('img.layerOptions_' + layerId).first();
+                buttonEl.toggleClass('action-down');
+                buttonEl.toggleClass('action-up');
+
+                // toggle slider
+                Ext.select('#opacitySlider_' + layerId).first().parent('tr').toggle();
+
+                // resize slider
+                this.resizeOpacitySlider(layerId, grid.getWidth());
+              },
+              scope: this
+            },
+            {
+              iconCls: 'action-icon action-visible',
+              tooltip: layerOrderPanelVisibilityChangeTooltipString[lang],
+              getClass: function(v, meta, rec) {
+                return 'layerOptions_' + this.escapeString(rec.get('layer'));
+              },
+              handler: function(grid, rowIndex, colIndex) {
+                var layerId = this.escapeString(this.store.getAt(rowIndex).get('layer'));
+
+                // toggle icon
+                var buttonEl = Ext.select('img.layerOptions_' + layerId).first().next();
+                buttonEl.toggleClass('action-visible');
+                buttonEl.toggleClass('action-invisible');
+
+                var rec = this.store.getAt(rowIndex);
+								//set sprite of button
+                this.fireEvent('layerVisibilityChange', rec.get('layer'));
+              },
+              scope: this
+            }
+          ]
+        }
+      ],
+      listeners: {
+        resize: function(panel, adjWidth, adjHeight, rawWidth, rawHeight) {
+          panel.doLayout();
+
+          // resize opacity sliders
+          var records = this.getStore().getRange();
+          for (var i=0; i<records.length; i++) {
+            me.resizeOpacitySlider(me.escapeString(records[i].get('layer')), adjWidth);
+          }
+        },
+        render: function(grid) {
+          // drop target for reordering grid rows
+          var ddrow = new Ext.dd.DropTarget (grid.container, {
+            ddGroup: 'layerorder',
+            copy: false,
+            notifyDrop: function (dd, e, data) {
+              var ds = grid.getStore();
+              var sm = grid.getSelectionModel();
+              var rows = sm.getSelections();
+              if (dd.getDragData(e)) {
+                var rowIndex = dd.getDragData(e).rowIndex;
+                if (rowIndex != undefined) {
+                  for (var i=0; i<rows.length; i++) {
+                    ds.remove(ds.getById(rows[i].id));
+                  }
+                  ds.insert(rowIndex, data.selections);
+                  sm.clearSelections();
+
+                  // restore opacity slider
+                  me.addOpacitySlider(data.selections[0].get('layer'));
+
+                  me.fireEvent('orderchange');
+                }
+              }
+            }
+          });
+
+          // disable drag on actions and opacity slider elements
+          var dragZone = grid.getView().dragZone;
+          dragZone.addInvalidHandleClass('x-grid3-col-actions');
+          dragZone.addInvalidHandleClass('x-action-col-icon');
+          dragZone.addInvalidHandleClass('opacity-slider');
+          dragZone.addInvalidHandleClass('x-slider');
+          dragZone.addInvalidHandleClass('x-slider-end');
+          dragZone.addInvalidHandleClass('x-slider-inner');
+          dragZone.addInvalidHandleClass('x-slider-thumb');
+          dragZone.addInvalidHandleClass('x-slider-focus');
+        }
+      },
+      ddGroup: 'layerorder',
+      ddText: layerOrderPanelMoveLayerTextString[lang],
+      enableDragDrop: true,
+      sm: new Ext.grid.RowSelectionModel({singleSelect: true}),
+      hideHeaders: true,
+      autoExpandColumn: 'layer',
+      border: false
+    });
+
+    Ext.apply(this, {
+      layout: 'fit',
+      autoScroll: true,
+      border: false,
+      items: [
+        this.grid
+      ]
+    });
+
+    QGIS.LayerOrderPanel.superclass.initComponent.call(this);
+  },
+
+  addLayer: function(layer, opacity) {
+    var rec = new this.store.recordType({
+      layer: layer
+    }, layer);
+    // insert on top
+    this.store.insert(0, rec);
+    // add opacity slider
+    this.addOpacitySlider(layer);
+		//set visibility
+		if (visibleLayers.indexOf(layer) == -1) {
+			this.toggleLayerVisibility(layer);
+		}
+  },
+
+  clearLayers: function() {
+    this.store.removeAll();
+  },
+
+  hasLayer: function(layer) {
+    return this.store.getById(layer) != undefined;
+  },
+	
+	toggleLayerVisibility: function(layer) {
+			// toggle icon
+			if (this.hasLayer(layer)) {
+				var layerId = this.escapeString(layer);
+				var buttonEl = Ext.select('img.layerOptions_' + layerId).first().next();
+				buttonEl.toggleClass('action-visible');
+				buttonEl.toggleClass('action-invisible');
+			}
+	},
+	
+	//return if a layer is visible (true) or not (false)
+	//TODO:
+	//maybe there is a more elegant solution to check the visibility of a layer in the layer order panel?
+	layerVisible: function(layer) {
+			var returnVal = undefined;
+			if (this.hasLayer(layer)) {
+				var layerId = this.escapeString(layer);
+				var buttonEl = Ext.select('img.layerOptions_' + layerId).first().next();
+				returnVal = true;
+				if (buttonEl.dom.className.match(/action-invisible/)) {
+					returnVal = false;
+				}
+			}
+			return returnVal;
+	},
+
+  orderedLayers: function() {
+    var layers = [];
+    this.store.each(function(rec) {
+      layers.push(rec.get('layer'));
+    });
+
+    return layers.reverse();
+  },
+
+  addOpacitySlider: function(layer) {
+    // insert slider in second <tr>
+    var layerId = this.escapeString(layer);
+    var sliderId = 'opacitySlider_' + layerId;
+    var sliderEl = Ext.DomHelper.insertAfter(Ext.select("tr:has(#layerOrder_" + layerId + ")").first(),
+      {
+        tag: 'tr',
+        cls: 'opacity-slider',
+        children: [
+          {
+            tag: 'td',
+            colspan: 2,
+            id: sliderId
+          }
+        ]
+      },
+      true
+    );
+
+    var transparencySlider = new Ext.slider.SingleSlider({
+      renderTo: sliderId,
+      id: 'opacitySliderCmp_' + layerId,
+      minValue: 0,
+      maxValue: 255,
+      value: wmsLoader.layerProperties[layer].opacity,
+      plugins: new Ext.slider.Tip({
+        getText: function(thumb) {
+          return String.format(layerOrderPanelTransparencyTooltipString[lang], Math.round((255 - thumb.value) / 255 * 100));
+        }
+      })
+    });
+
+    transparencySlider.on('changecomplete', function(slider, newValue, thumb) {
+      this.fireEvent('opacitychange', layer, newValue);
+    }, this);
+
+    sliderEl.setVisibilityMode(Ext.Element.DISPLAY);
+    sliderEl.hide();
+  },
+
+  resizeOpacitySlider: function(layerId, gridWidth) {
+    var slider = Ext.ComponentMgr.get('opacitySliderCmp_' + layerId);
+    if (slider.getEl().parent('tr').isVisible()) {
+      slider.setWidth(gridWidth - 19); // NOTE: use hardcoded borders width
+    }
+  },
+
+  escapeString: function(string) {
+    return string.replace(/[^\w]/g, "_");
+  }
+});
+
+/** api: xtype = qgis_layerorderpanel */
+Ext.reg('qgis_layerorderpanel', QGIS.LayerOrderPanel);
+
+
+/* ***************************************************************************** */
+// fix for Ext.Slider in IE9
+Ext.override(Ext.dd.DragTracker, {
+  onMouseMove: function(e, target){
+    // HACK: IE hack to see if button was released outside of window. Resolved in IE9.
+    var ieCheck = Ext.isIE6 || Ext.isIE7 || Ext.isIE8;
+    if(this.active && ieCheck && !e.browserEvent.button){
+      e.preventDefault();
+      this.onMouseUp(e);
+      return;
+    }
+
+    e.preventDefault();
+    var xy = e.getXY(), s = this.startXY;
+    this.lastXY = xy;
+    if(!this.active){
+      if(Math.abs(s[0]-xy[0]) > this.tolerance || Math.abs(s[1]-xy[1]) > this.tolerance){
+        this.triggerStart(e);
+      }
+      else{
+        return;
+      }
+    }
+    this.fireEvent('mousemove', this, e);
+    this.onDrag(e);
+    this.fireEvent('drag', this, e);
+  }
 });

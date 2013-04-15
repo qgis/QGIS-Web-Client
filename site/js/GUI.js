@@ -46,14 +46,40 @@ objectIdentificationModes = Ext.extend(Ext.data.JsonStore, {
 new objectIdentificationModes();
 
 //definition of main GUI
+var layoutHeaderCfg = {
+	tag: 'div',
+	cls: 'x-panel-header',
+	children: [
+		{
+			tag: 'div',
+			id: 'panel_header_link',
+			html: '<a></a>'
+		},
+		{
+			tag: 'div',
+			id: 'panel_header_title',
+			html: 'GIS-Browser'
+		},
+		{
+			tag: 'div',
+			id: 'panel_header_terms_of_use',
+			html: '<a></a>'
+		}
+	]
+};
+if (headerLogoImg != null) {
+	// NOTE: header height must be fixed on creation or layout will not match
+	layoutHeaderCfg['style'] = 'height: ' + headerLogoHeight + 'px;';
+}
+
 MyViewportUi = Ext.extend(Ext.Viewport, {
 	layout: 'fit',
 	initComponent: function () {
 		this.items = [{
 			xtype: 'panel',
-			title: 'GIS-Browser',
 			layout: 'border',
 			id: 'GisBrowserPanel',
+			headerCfg: layoutHeaderCfg,
 			items: [{
 				xtype: 'panel',
                 margins: '3 0 3 3',
@@ -109,12 +135,13 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 						xtype: 'panel',
 						title: mapPanelTitleString[lang],
 						layout: 'border',
-                        border: false,
-                        frame: false,
+						id: 'leftPanelMap',
+						border: false,
+						frame: false,
 						items: [{
 							xtype: 'treepanel',
-                            border: false,
-                            frame: false,
+							border: false,
+							frame: false,
 							title: layerTreeTitleString[lang],
 							height: 159,
 							split: true,
@@ -131,36 +158,19 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 								singleClickExpand: true
 							},
 							loader: {}
-						}, {
-							xtype: 'panel',
+						},
+						{
 							region: 'south',
-                            frame: false,
-                            border: false,
-							collapsible: true,
-							boxMinHeight: 275,
+							xtype: 'qgis_layerorderpanel',
+							id: 'LayerOrderTab',
 							split: true,
-							headerAsText: false,
-							id: 'ToolsPanel',
-							items: [{
-                                
-								xtype: 'tabpanel',
-                                frame: false,
-                                border: false,
-								activeTab: 0,
-								id: 'ToolTabPanel',
-								items: [{
-									xtype: 'panel',
-                                    
-									title: legendTabTitleString[lang],
-									autoScroll: true,
-									id: 'LegendTab'
-								}/*, {
-									xtype: 'panel',
-									title: metadataTabTitleString[lang],
-									layout: 'fit',
-									id: 'SearchTab'
-								}*/]
-							}]
+							collapsible: true,
+							collapsed: true,
+							titleCollapse: false,
+							autoScroll: true,
+							height: 200,
+							border: false,
+							frame: false
 						}] // map items
 					}] // accordion items
 				}] // left panel items
@@ -249,14 +259,22 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 							enableToggle: false,
 							allowDepress: false,
 							scale: 'medium',
+							icon: 'gis_icons/mActionMailSend.png',
+							tooltipType: 'qtip',
+							tooltip: sendPermalinkTooltipString[lang],
+							id: 'SendPermalink'
+						}, {
+							xtype: 'tbseparator'
+						}, {
+							xtype: 'button',
+							enableToggle: false,
+							allowDepress: false,
+							scale: 'medium',
 							icon: 'gis_icons/mActionHelp.png',
 							tooltipType: 'qtip',
 							tooltip: showHelpTooltipString[lang],
 							id: 'ShowHelp'
-						}, {
-							xtype: 'tbseparator'
-						} 
-                        ]
+						}]
 					},
 					bbar: {
 						xtype: 'toolbar',
@@ -294,29 +312,6 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 							enableKeyEvents: true,
 							id: 'ScaleNumberField'
 						}]
-					}
-				}, {
-					xtype: 'treepanel',
-                    margins: '0 0 0 0',
-                    cmargins: '0 0 0 3',                    
-					title: attributeDataTreeTitleString[lang],
-					rootVisible: false,
-					region: 'east',
-					collapsed: true,
-					boxMinWidth: 300,
-					boxMaxWidth: 600,
-					collapsible: true,
-					autoScroll: true,
-					split: true,
-					width: 300,
-					id: 'AttributeDataTree',
-					root: {
-						text: 'Tree Node',
-						expanded: true,
-						editable: false
-					},
-					loader: {
-
 					}
 				}]
 			}]
