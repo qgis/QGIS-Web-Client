@@ -73,7 +73,7 @@ Ext.onReady(function () {
 	Ext.get("ext-gen23").addClass('sogis-header-text').insertHtml('afterEnd', '<a href="http://www.so.ch/" class="sogis-header-logo" />');
 	Ext.getCmp('GisBrowserPanel').setHeight(window.innerHeight);
     
-    //FUN    
+    //Tooltip    
     isTooltipSOGIS();
 });
 
