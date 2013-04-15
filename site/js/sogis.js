@@ -1,6 +1,7 @@
 var bolSOGISTooltip = false; // Is there a SOGIS tooltip available?
 var strSOGISTooltipURL = 'http://srsofaioi12288.ktso.ch/sogis/qgis-web-tooltip/'; // URL to the SOGIS tooltip
 
+
 Ext.onReady(function () {
 	// Define header menu. Can be nested one level deep.
 	var sogis_menu = [
