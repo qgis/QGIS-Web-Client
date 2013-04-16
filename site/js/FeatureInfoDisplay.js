@@ -29,7 +29,7 @@ function showFeatureInfo(evt) {
     if (true) {
     //if (!bolSOGISTooltip) {
 	//empty previous result in attribute Tree
-	AttributeDataTree.getRootNode().removeAll();
+	//AttributeDataTree.getRootNode().removeAll();
 	if (identifyToolActive) {
 		if (!closePopupClick) {
 			var map = geoExtMap.map; // gets OL map object
