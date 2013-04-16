@@ -1,0 +1,42 @@
+/* this file contains styles for the layer order panel in the south-west */
+
+.layer-button {
+  float: inherit;
+  padding: 1px 15px 1px 0;
+  cursor: pointer;
+}
+.custom-x-tool-info {
+  background-image: url("../img/info.png");
+  width: 15px;
+  height: 15px;
+}
+
+.action-icon {
+  background-image: url("../libs/ext/resources/images/gray/panel/tool-sprites.gif");
+  width: 15px;
+  height: 15px;
+}
+.action-down {
+  background-position: 0 -75px;
+}
+.action-up {
+  background-position: 0 -60px;
+}
+.action-visible {
+  background-position: 0 0;
+}
+.action-invisible {
+  background-position: 0 -30px;
+}
+
+.x-grid3-row tr {
+  cursor: move;
+}
+.opacity-slider {
+  cursor: default !important;
+}
+
+/* this style is for the title of the layer order tab*/
+.x-collapsed-title {color:#333333;font-size:11px;font-weight:bold;font-family:tahoma,arial,verdana,sans-serif;padding:4px 5px;}
+
+

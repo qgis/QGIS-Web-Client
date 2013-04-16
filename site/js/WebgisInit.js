@@ -652,31 +652,6 @@ function postLoading() {
 	});
 	WMSGetFInfoHover.events.register("getfeatureinfo", this, showFeatureInfoHover);
 	geoExtMap.map.addControl(WMSGetFInfoHover);
-		
-	if (!initialLoadDone) {
-		//initialize EXTJS attribute tooltip for feature info display
-		attribToolTip = new Ext.ToolTip({
-			target: geoExtMap.body,
-			html: '<p>Attributdaten-Tooltip</p>',
-			disabled: true,
-			trackMouse: true,
-			autoHide: false,
-			autoWidth: true,
-			autoHeight: true,
-			anchorToTarget: false,
-			listeners: {
-				'move': function (tt, x, y) {
-					//fixes disabled tooltip that still displays - not nice, but it works
-					if (!identifyToolActive) {
-						tt.disable();
-						tt.hide();
-					}
-				}
-			}
-		});
-		//the following line is due to a ExtJS bug - see http://www.sencha.com/forum/showthread.php?51702-Tooltip-targetXY-is-undefined
-		attribToolTip.targetXY = geoExtMap.getPosition();
-	}
 	
 	//overview map
 	if (!initialLoadDone) {
@@ -1278,7 +1253,6 @@ function mapToolbarHandler(btn, evt) {
             geoExtMap.map.events.register('click', this, sogisToolTip);
 			activateGetFeatureInfo(true);
 			mainStatusText.setText(modeObjectIdentificationString[lang]);
-
 		} else {
 			identifyToolActive = false;
 			activateGetFeatureInfo(false);
@@ -1511,7 +1485,8 @@ function createPermalink(){
 	// selection
 	permalinkParams.selection = thematicLayer.params.SELECTION;	
     if (false) {
-		permalink = encodeURIComponent(permalink + decodeURIComponent(Ext.urlEncode(permalinkParams)));
+	//if (permaLinkURLShortener) {
+	    permalink = encodeURIComponent(permalink + decodeURIComponent(Ext.urlEncode(permalinkParams)));
 	}
 	else {
 		permalink = permalink + Ext.urlEncode(permalinkParams);	

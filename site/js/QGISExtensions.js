@@ -318,8 +318,8 @@ Ext.extend(QGIS.PrintProvider, GeoExt.data.PrintProvider, {
       grid_interval = 2000;
     }
 
-    var printUrl = this.url+'&SRS=EPSG:'+epsgcode+'&DPI=300&TEMPLATE='+this.layout.get("name")+'&map0:extent='+printExtent.page.getPrintExtent(map).toBBOX(1,false)+'&map0:rotation='+(printExtent.page.rotation * -1)+'&map0:scale='+mapScale+'&map0:grid_interval_x='+grid_interval+'&map0:grid_interval_y='+grid_interval+'&LAYERS='+encodeURIComponent(thematicLayer.params.LAYERS);
-    if (thematicLayer.params.OPACITIES) {
+var printUrl = this.url+'&SRS=EPSG:'+epsgcode+'&DPI=300&TEMPLATE='+this.layout.get("name")+'&map0:extent='+printExtent.page.getPrintExtent(map).toBBOX(1,false)+'&map0:rotation='+(printExtent.page.rotation * -1)+'&map0:scale='+mapScale+'&map0:grid_interval_x='+grid_interval+'&map0:grid_interval_y='+grid_interval+'&LAYERS='+encodeURIComponent(thematicLayer.params.LAYERS);
+if (thematicLayer.params.OPACITIES) {
       printUrl += '&OPACITIES='+encodeURIComponent(thematicLayer.params.OPACITIES);
     }
     if (thematicLayer.params.SELECTION) {
