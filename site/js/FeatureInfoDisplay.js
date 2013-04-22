@@ -101,7 +101,7 @@ function showFeatureInfoHover(evt) {
 			var tooltipAttributeName = wmsLoader.layerProperties[layerNodes[i].getAttribute("name")].displayField || "tooltip";
 			for (var j = 0; j < featureNodes.length; ++j) {
 				if (j == 0) {
-					text += '<span style="font-weight:bold;">' + layerNodes[i].getAttribute("name") + '</span><br/>';
+					text += '<span style="font-weight:bold;">' + wmsLoader.layerProperties[layerNodes[i].getAttribute("name")].title + '</span><br/>';
 					result = true;
 				}
 				var attribNodes = featureNodes[j].getElementsByTagName("Attribute");
@@ -217,7 +217,8 @@ function parseFIResult(node) {
 	if (node.hasChildNodes) {
 		if (node.hasChildNodes && node.nodeName == "Layer") {
 			var hasAttributes = false;
-			var htmlText = "<h2>" + node.getAttribute("name") + "</h2>";
+			//var htmlText = "<h2>" + node.getAttribute("name") + "</h2>";
+			var htmlText = "<h2>" + wmsLoader.layerProperties[node.getAttribute("name")].title + "</h2>";
 			var geoms = new Array();
 			var featureNode = node.firstChild;
 			while (featureNode) {
