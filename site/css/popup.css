@@ -70,6 +70,17 @@ h1, h2, h3, h4, h5
 	font-family: sans-serif;
 }
 
+.hoverLayerTitle {
+	text-align: left !important;
+	padding: 0px !important;
+	margin: 0px !important;
+}
+
+.hrHoverLayer {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
 .olPopup .olFramedCloudPopupContent table
 {
 	border-collapse:collapse;
