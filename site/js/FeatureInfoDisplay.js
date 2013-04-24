@@ -67,9 +67,6 @@ function showFeatureInfo(evt) {
 					);
 				clickPopup.autoSize = true;
 				clickPopup.events.fallThrough = false;
-				//clickPopup.closeOnMove = true;
-				//hoverPopup.setBackgroundColor("#C8C8C8");
-				//hoverPopup.setOpacity(0.8);
 				map.addPopup(clickPopup); //*/
 				changeCursorInMap("default");
 			}
@@ -128,17 +125,18 @@ function showFeatureInfoHover(evt) {
 			if (!clickPopup) {
 				// only show hoverPopup if no clickPopup is open
 				text = text.substring(0, text.lastIndexOf("<br/>"));
-				hoverPopup = new OpenLayers.Popup(
+				hoverPopup = new OpenLayers.Popup.FramedCloud(
 					null, // id
 					map.getLonLatFromPixel(evt.xy), // lonlat
 					null, //new OpenLayers.Size(1,1), // contentSize
 					text , //contentHTML
-					/*null, // anchor */
-					false // closeBox 
+					null, // anchor */
+					false, // closeBox
+					null //closeBoxCallback
 					);
 				hoverPopup.autoSize = true;
-				//hoverPopup.setBackgroundColor("#C8C8C8");
-				hoverPopup.setOpacity(0.8);
+				hoverPopup.keepInMap = true;
+				hoverPopup.panMapIfOutOfView = false;
 				hoverPopup.events.on({"click": onHoverPopupClick});
 				map.addPopup(hoverPopup); //*/
 			}

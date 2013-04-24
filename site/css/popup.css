@@ -17,6 +17,7 @@ h1, h2, h3, h4, h5
 .olPopup
 {
 	overflow:inherit;
+	pointer-events: none;
 }
 
 .olPopup *
@@ -24,6 +25,7 @@ h1, h2, h3, h4, h5
 	margin: 0px;
 	padding:0px;
 	font-size: 12px;
+	font-family: sans-serif;
 }
 
 .olPopup a.close
@@ -37,6 +39,7 @@ h1, h2, h3, h4, h5
 	margin: 0px;
 	font-size: 1px;
 	padding: 0px;
+	pointer-events: auto;
 }
 
 .olPopup a.close:hover
@@ -51,6 +54,11 @@ h1, h2, h3, h4, h5
 	padding: 1px !important;
 	margin: 0px !important;
 	font-size: 0.80em;
+	font-family: sans-serif;
+}
+
+.olFramedCloudPopupContent {
+	pointer-events: auto;
 }
 
 .olPopup .olFramedCloudPopupContent h2
@@ -59,6 +67,7 @@ h1, h2, h3, h4, h5
 	text-align: center;
 	padding: 2px 0px 2px 0px;
 	margin: 0px 6px 0px 6px;
+	font-family: sans-serif;
 }
 
 .olPopup .olFramedCloudPopupContent table
@@ -78,6 +87,7 @@ h1, h2, h3, h4, h5
 .olPopup .olPopupCloseBox
 {
 	background: url(../img/close.gif) no-repeat top left;
+	pointer-events: auto;
 }
 
 .olPopup .olPopupCloseBox:hover
