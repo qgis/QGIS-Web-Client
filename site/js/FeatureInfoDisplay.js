@@ -248,7 +248,10 @@ function parseFIResult(node) {
 									}
 									// add hyperlinks for URLs in attribute values
 									if (attValue != '' && /http:\/\/.+\..+/i.test(attValue)) {
-										attValue = "<a class=\"popupLink\" href=\"" + attValue + "\" target=\"_blank\">" + attValue + "</a>";
+										if (! /\<a./i.test(attValue)) {
+											//do not reformat already formated tags
+											attValue = "<a class=\"popupLink\" href=\"" + attValue + "\" target=\"_blank\">" + attValue + "</a>";
+										}
 									}
 									htmlText += "<td>" + attValue + "</td></tr>";
 									var hasAttributes = true;
