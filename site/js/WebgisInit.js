@@ -437,52 +437,7 @@ function postLoading() {
 			width: MapPanelRef.getInnerWidth(),
 			height: MapPanelRef.getInnerHeight(),
 			renderTo: MapPanelRef.body,
-			plugins: [printExtent],
-			items: [{
-				xtype: "buttongroup",
-				x: 10,
-				y: 10,
-				columns: 1,
-				floating: true,
-				frame: false,
-				items: [{
-					xtype: "button",
-					scale: "medium",
-					icon: 'gis_icons/mActionZoomIn.png',
-					tooltip: zoomInTooltipString[lang],
-					listeners: {
-						'click': function () {
-							geoExtMap.map.zoomIn();
-						}
-					}
-				}]
-			}, {
-				xtype: "gx_zoomslider",
-				vertical: true,
-				aggressive: false,
-				height: 100,
-				x: 17,
-				y: 50,
-				plugins: new GeoExt.ZoomSliderTip()
-			}, {
-				xtype: "buttongroup",
-				x: 10,
-				y: 155,
-				columns: 1,
-				floating: true,
-				frame: false,
-				items: [{
-					xtype: "button",
-					scale: "medium",
-					icon: 'gis_icons/mActionZoomOut.png',
-					tooltip: zoomOutTooltipString[lang],
-					listeners: {
-						'click': function () {
-							geoExtMap.map.zoomOut();
-						}
-					}
-				}]
-			}]
+			plugins: [printExtent]
 		});
 	}
 	else {
@@ -571,6 +526,7 @@ function postLoading() {
 		geoExtMap.map.addControl(new OpenLayers.Control.Navigation());
 		//to hide miles/feet in the graphical scale bar we need to adapt "olControlScaleLineBottom" in file /OpenLayers/theme/default/style.css: display:none;
 		geoExtMap.map.addControl(new OpenLayers.Control.ScaleLine());
+		geoExtMap.map.addControl(new OpenLayers.Control.PanZoomBar({zoomWorldIcon:true,forceFixedZoomLevel:false}));
 
 		//coordinate display
 		coordinateTextField = Ext.getCmp('CoordinateTextField')
@@ -688,17 +644,6 @@ function postLoading() {
 		geoExtMap.map.zoomBoxActive = false;
 		Ext.getCmp('navZoomBoxButton').on('toggle', mapToolbarHandler);
 
-		//zoom full
-		var zoomToMaxExtentAction = new GeoExt.Action({
-			icon: 'gis_icons/mActionZoomFullExtent.png',
-			scale: 'medium',
-			control: new OpenLayers.Control.ZoomToMaxExtent(),
-			map: geoExtMap.map,
-			tooltip: zoomFullViewTooltipString[lang],
-			tooltipType: 'qtip'
-		});
-		myTopToolbar.insert(1, zoomToMaxExtentAction);
-		//zoom previous
 		var zoomToPreviousAction = new GeoExt.Action({
 			icon: 'gis_icons/mActionZoomLast.png',
 			scale: 'medium',
@@ -707,7 +652,7 @@ function postLoading() {
 			tooltip: navigationHistoryBackwardTooltipString[lang],
 			tooltipType: 'qtip'
 		});
-		myTopToolbar.insert(2, zoomToPreviousAction);
+		myTopToolbar.insert(1, zoomToPreviousAction);
 		//zoom next
 		var zoomToNextAction = new GeoExt.Action({
 			icon: 'gis_icons/mActionZoomNext.png',
@@ -717,7 +662,7 @@ function postLoading() {
 			tooltip: navigationHistoryForwardTooltipString[lang],
 			tooltipType: 'qtip'
 		});
-		myTopToolbar.insert(3, zoomToNextAction);
+		myTopToolbar.insert(2, zoomToNextAction);
 
 		//add QGISSearchCombo
 		if (useGeoNamesSearchBox || searchBoxQueryURL != null) {
