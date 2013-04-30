@@ -72,9 +72,6 @@ function showFeatureInfo(evt) {
 					);
 				clickPopup.autoSize = true;
 				clickPopup.events.fallThrough = false;
-				//clickPopup.closeOnMove = true;
-				//hoverPopup.setBackgroundColor("#C8C8C8");
-				//hoverPopup.setOpacity(0.8);
 				map.addPopup(clickPopup); //*/
 				changeCursorInMap("default");
 			}
@@ -107,15 +104,21 @@ function showFeatureInfoHover(evt) {
 			var tooltipAttributeName = wmsLoader.layerProperties[layerNodes[i].getAttribute("name")].displayField || "tooltip";
 			for (var j = 0; j < featureNodes.length; ++j) {
 				if (j == 0) {
-					text += '<span style="font-weight:bold;">' + wmsLoader.layerProperties[layerNodes[i].getAttribute("name")].title + '</span><br/>';
+					text += '<h2 class="hoverLayerTitle">' + wmsLoader.layerProperties[layerNodes[i].getAttribute("name")].title + '</h2>';
 					result = true;
 				}
 				var attribNodes = featureNodes[j].getElementsByTagName("Attribute");
 				for (var k = 0; k < attribNodes.length; ++k) {
 					if (attribNodes[k].getAttribute("name") == tooltipAttributeName) {
-						attribText = attribNodes[k].getAttribute("value").replace(/\n/, "<br/>");
-						attribText = attribText.replace("\n", "<br/>");
-						text += attribText + "<br/>";
+						if (attribNodes[k].getAttribute("value").match(/</)) {
+							text += attribNodes[k].getAttribute("value");
+						}
+						else {
+							attribText = '<p>' + attribNodes[k].getAttribute("value").replace(/\n/, "<br/>");
+							attribText = attribText.replace("\n", "<br/>");
+							text += attribText + '</p>';
+						}
+						text += '<hr class="hrHoverLayer"/>';
 					} else {
 						if (attribNodes[k].getAttribute("name") == "geometry") {
 							var feature = new OpenLayers.Feature.Vector(OpenLayers.Geometry.fromWKT(attribNodes[k].getAttribute("value")));
@@ -133,20 +136,22 @@ function showFeatureInfoHover(evt) {
 			changeCursorInMap("pointer");
 			if (!clickPopup) {
 				// only show hoverPopup if no clickPopup is open
-				text = text.substring(0, text.lastIndexOf("<br/>"));
-				hoverPopup = new OpenLayers.Popup(
+				//get rid of last <hr/>
+				text = text.replace(/<hr class="hrHoverLayer"\/>$/,'');
+				hoverPopup = new OpenLayers.Popup.FramedCloud(
 					null, // id
 					map.getLonLatFromPixel(evt.xy), // lonlat
-					null, //new OpenLayers.Size(1,1), // contentSize
+					null, // new OpenLayers.Size(1,1), // contentSize
 					text , //contentHTML
-					/*null, // anchor */
-					false // closeBox 
+					null, // anchor
+					false, // closeBox
+					null // closeBoxCallback
 					);
 				hoverPopup.autoSize = true;
-				//hoverPopup.setBackgroundColor("#C8C8C8");
-				hoverPopup.setOpacity(0.8);
+				hoverPopup.keepInMap = true;
+				hoverPopup.panMapIfOutOfView = false;
 				hoverPopup.events.on({"click": onHoverPopupClick});
-				map.addPopup(hoverPopup); //*/
+				map.addPopup(hoverPopup);
 			}
 		} else {
 			changeCursorInMap("default");
@@ -223,7 +228,6 @@ function parseFIResult(node) {
 	if (node.hasChildNodes) {
 		if (node.hasChildNodes && node.nodeName == "Layer") {
 			var hasAttributes = false;
-			//var htmlText = "<h2>" + node.getAttribute("name") + "</h2>";
 			var htmlText = "<h2>" + wmsLoader.layerProperties[node.getAttribute("name")].title + "</h2>";
 			var geoms = new Array();
 			var featureNode = node.firstChild;
@@ -254,7 +258,10 @@ function parseFIResult(node) {
 									}
 									// add hyperlinks for URLs in attribute values
 									if (attValue != '' && /http:\/\/.+\..+/i.test(attValue)) {
-										attValue = "<a class=\"popupLink\" href=\"" + attValue + "\" target=\"_blank\">" + attValue + "</a>";
+										if (! /\<a./i.test(attValue)) {
+											//do not reformat already formated tags
+											attValue = "<a class=\"popupLink\" href=\"" + attValue + "\" target=\"_blank\">" + attValue + "</a>";
+										}
 									}
 									htmlText += "<td>" + attValue + "</td></tr>";
 									var hasAttributes = true;
