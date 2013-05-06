@@ -337,6 +337,8 @@ ThemeSwitcher.prototype.changeTheme = function (dataView, index, node, evt) {
 				alert(errMessageExtentParamWrongPart1[lang] + "maxExtent" + errMessageExtentParamWrongPart2[lang]);
 			}
 		}
+		//set initialLayerOrder to null to avoid that layers from last project are used for the layer order tree
+		initialLayerOrder = null;
 		//now load the config of the new project
 		if (urlParamsOK) {
 			loadWMSConfig();
