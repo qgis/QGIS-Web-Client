@@ -50,6 +50,7 @@ var legendMetadataWindow; //Ext window that will hold the legend and metatadata
 var legendMetaTabPanel; //a reference to the Ext tabpanel holding the tabs for legend graphic and metadata
 var legendTab; //a reference to the Ext tab holding the legend graphic
 var metadataTab; //a reference to the Ext tab holding the metadata information
+var measurePopup;
 
 Ext.onReady(function () {
 	//dpi detection
@@ -1186,6 +1187,7 @@ function uniqueLayersInLegend(origArr) {
 }
 
 function mapToolbarHandler(btn, evt) {
+	removeMeasurePopup();
 	if (btn.id == "IdentifyTool") {
 		if (btn.pressed) {
 			identifyToolActive = true;
@@ -1208,7 +1210,6 @@ function mapToolbarHandler(btn, evt) {
 		} else {
 			measureControls["line"].deactivate();
 			mainStatusText.setText(modeNavigationString[lang]);
-			rightStatusText.setText("");
 			changeCursorInMap("default");
 		}
 	}
@@ -1220,7 +1221,6 @@ function mapToolbarHandler(btn, evt) {
 		} else {
 			measureControls["polygon"].deactivate();
 			mainStatusText.setText(modeNavigationString[lang]);
-			rightStatusText.setText("");
 			changeCursorInMap("default");
 		}
 	}
@@ -1335,6 +1335,15 @@ function mapToolbarHandler(btn, evt) {
   }
 }
 
+function removeMeasurePopup() {
+	var map = geoExtMap.map; // gets OL map object
+	if (measurePopup) {
+		map.removePopup(measurePopup);
+		measurePopup.destroy();
+		measurePopup = null;
+	}
+}
+
 function handleMeasurements(event) {
 	var geometry = event.geometry;
 	var units = event.units;
@@ -1342,11 +1351,27 @@ function handleMeasurements(event) {
 	var measure = event.measure;
 	var out = "";
 	if (order == 1) {
-		out += measureDistanceResultPrefixString[lang] + ": " + measure.toFixed(2) + units + " | ";
+		out += measureDistanceResultPrefixString[lang] + ": " + measure.toFixed(2) + units;
 	} else {
-		out += measureAreaResultPrefixString[lang] + ": " + measure.toFixed(2) + units + "<sup>2</sup> | ";
+		out += measureAreaResultPrefixString[lang] + ": " + measure.toFixed(2) + units + "<sup>2</sup>";
 	}
-	rightStatusText.setText(out);
+	var map = geoExtMap.map; // gets OL map object
+	removeMeasurePopup();
+	measurePopup = new OpenLayers.Popup.Anchored(
+		"measurePopup", // id
+		geometry.getBounds().getCenterLonLat(), // lonlat
+		null, // new OpenLayers.Size(1,1), // contentSize
+		out , //contentHTML
+		null, // anchor
+		false, // closeBox
+		null // closeBoxCallback
+		);
+	measurePopup.autoSize = true;
+	measurePopup.keepInMap = true;
+	measurePopup.panMapIfOutOfView = true;
+	map.addPopup(measurePopup);
+	//measurePopup.setBackgroundColor("gray");
+	measurePopup.setOpacity(0.8);
 }
 
 // function to display a loadMask during lengthy load operations
