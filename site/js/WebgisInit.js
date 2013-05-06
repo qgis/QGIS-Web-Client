@@ -282,11 +282,16 @@ function postLoading() {
 	//get values from first layer group (root) of project settings
 	if (maxExtent instanceof OpenLayers.Bounds == false) {
 		var boundingBox = wmsLoader.projectSettings.capability.nestedLayers[0].bbox;
-		maxExtent = OpenLayers.Bounds.fromArray(wmsLoader.projectSettings.capability.nestedLayers[0].llbbox);
+		//iterate over bbox - there should be only one entry
 		for (var key in boundingBox) {
-			var bbox = boundingBox[key];
-			if (bbox.srs != MapOptions.projection.getCode()) {
-				maxExtent.transform(new OpenLayers.Projection(bbox.srs), MapOptions.projection);
+			if (key.match(/^EPSG:*/)) {
+				var bboxArray = boundingBox[key].bbox;
+				var srs = boundingBox[key].srs;
+				maxExtent = OpenLayers.Bounds.fromArray(bboxArray);
+				//reproject if layer EPSG code is different from map EPSG code
+				if (srs != MapOptions.projection.getCode()) {
+					maxExtent.transform(new OpenLayers.Projection(bbox.srs), MapOptions.projection);
+				}
 			}
 		}
 	}
