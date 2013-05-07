@@ -339,6 +339,8 @@ ThemeSwitcher.prototype.changeTheme = function (dataView, index, node, evt) {
 		}
 		//set initialLayerOrder to null to avoid that layers from last project are used for the layer order tree
 		initialLayerOrder = null;
+		//set printLayoutsDefined to false - will be loaded after theme switch
+		printLayoutsDefined = false;
 		//now load the config of the new project
 		if (urlParamsOK) {
 			loadWMSConfig();
