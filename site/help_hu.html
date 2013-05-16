@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>QGIS Web Kliens Súgó</title>
+  <link type="text/css" href="css/help.css" rel="stylesheet" />
+  <meta charset="utf-8" />
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width; initial-scale=1.0" />
+</head>
+<body>
+<div id="help_page">
+<div id="help_wrapper">
+  <header>
+    <div id="help_caption">
+      <h1>Quantum GIS Web Client</h1>
+      <h2 class="SubCaption">Alapértelmezett Kliens Súgó</h2>
+    </div>
+  </header>
+ <hr/>
+  <nav>
+    <div id="help_logo">
+      <span class="logo_img"><a href="http://qgis.org"><img src="img/qgis-icon.png"/></a></span>
+    </div>
+    <ul class="ul_help">
+    <li class="list-header">Tartalomjegyzék
+      <ul class="ul_help">
+        <li><span class="linksim" onclick="scrollToHelpItem('help_generalUsage')">Általános használat</span>
+          <ul class="ul_help">
+            <li><span class="linksim" onclick="scrollToHelpItem('help_workingWithLayers')">Térkép rétegeiről</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_searching')">Keresés</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_navigating')">Navigáció</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_measuring')">Mérés</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_printing')">Nyomtatás</span></li>
+          </ul>
+        </li>
+        <li><span class="linksim" onclick="scrollToHelpItem('help_about')">QGIS Web Kliensről</span>
+          <ul class="ul_help">
+            <li><span class="linksim" onclick="scrollToHelpItem('help_license')">Licenc</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_moreHelp')">Több segítség</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_usefulLinks')">Hasznos linkek</span></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+   </ul>
+  </nav>
+  <div id="help_content">
+  <section id="help_general">
+    <article>
+      <h2 id="help_generalUsage">Általános használat</h2>
+      <p>Az alkalmazás ablaka két panelra van felosztva: az <i>Információk és Eszközök</i> panel a bal, a fő térkép panel egy gombsorral a tetején a jobb oldalon. A bal oldali panelt el lehet rejteni.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_workingWithLayers">Térkép rétegeiről</h3>
+      <p>Az <i>Információk és Eszközök</i> panelon minden térképi réteg fastruktúrában elérhető a <i>Térkép rétegei</i> alatt. Rétegek láthatóságát az előttük lévő kipipálható jelölő dobozokra klikkelve ki/be lehet kapcsolni.
+           A jelkulcs és metaadat információkat egy felugró ablak két füle tartalmazza amit a réteg neve előtti ikonra <img src="img/info.png" alt="info"/> kattintva lehet előhívni.
+      </p>
+      <p>Ha ráklikkelsz az egyik réteg nevére, akkor az lesz az <b>aktív réteg</b>.
+      </p>
+      <p>Használd ezt <img src="gis_icons/mActionIdentify.png" alt="identiy"/> a gombot a fő panel gombsorából, hogy térkép elemeiről bővebb információt kapjál.
+            Információk akkor lesznek láthatók, ha a térképi elem fölé mész és bal gombbal ráklikkelsz.
+            Azt hogy melyik lekérdezhető réteg(ek) lesznek elérhetők azt az <i>Elem azonosítás</i> legördülő listájából lehet kiválasztani.<br>
+            Legfelső találat: lekérdezhető rétegek közül a klikkelés helyén a legfelső lekérdezhető réteg elemének attribútumait adja vissza.<br>
+            Minden réteg: a klikkelés helyén található összes lekérdezhető réteg attribútumait adja vissza.<br>
+            Aktív réteg: az aktív réteg valamelyik elemére klikkelve mutatja meg attribútumait.<br>
+      </p>
+    </article>
+    <article>
+      <h3 id="help_searching">Keresés a térkép tartalmára</h3>
+      <p>A keresési mezőt a jobb oldali panel gombsorának jobb szélén találod. Ide tudod begépelni a keresett szöveget (cím, hely stb.)
+        Ezután egy eredmény listában minden keresési feltételnek megfelelő találat megjelenik, amiből klikkeléssel kiválasztható egy. A térkép automatikusan
+        a kiválasztott térképi helyre (elemre) fókuszál.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_navigating">Navigáció a térképen</h3>
+      <p>Navigációhoz a fő panel gombsorának navigációs gombjait használjuk <img src="gis_icons/mActionZoomBox.png" alt="ZoomBox"/>
+        <img src="gis_icons/mActionZoomFullExtent.png" alt="ZoomFullExtent"/>
+        <img src="gis_icons/mActionZoomLast.png" alt="ZoomLast"/> <img src="gis_icons/mActionZoomNext.png" alt="ZoomNext"/>.
+          Minden gomb felett buboréksúgó jelenik meg, ha az egérrel fölé mozgunk.
+      </p>
+      <p>Kicsinyíteni/nagyítani lehet még a térkép bal felső sarkában található interaktív eszközzel, jobb alsó sarokban található méretarány mező értékének megváltoztatásával és az egér görgő használatával is. 
+      </p>
+      <p>Térképet mozgatni lehet, ha az egér bal gombját a térkép felett lenyomva tartjuk és így mozgatjuk az egeret.
+      Jobb alsó sarokban található koordináta mező folyamatosan mutatja az egér aktuális pozícióját. Megadott koordinátákra is ugorhatunk, ha a kívánt értékeket koordináta mezőbe beírjuk.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_measuring">Távolság és terület mérés</h3>
+      <p>Használd a <img src="gis_icons/mActionMeasure.png" alt="Measure"/> és <img src="gis_icons/mActionMeasureArea.png" alt="MeasureArea"/> gombokat.
+        Bal klikkel lehet letenni a mérés kezdő pontját és egy dupla klikkel lehet befejezni a mérést. Mért érték folyamatosan megjelenik a térkép alatti státusz sorban.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_printing">Nyomtatás</h3>
+      <p>Ha nyomtatási nézet is tartozik a térképhez, akkor a nyomtatás 
+        <img src="gis_icons/mActionFilePrint.png" alt="FilePrint"/> gombra kattintva nyomtatás beállításai című ablak jelenik meg. Itt beállítható a nyomtatási terület nagysága, felbontása és ha szükséges a térkép el is forgatható.
+      </p>
+    </article>
+  </section>
+  <section id="help_about_qgis">
+    <article>
+      <h2 id="help_about">QGIS Web Kliensről</h2>
+      <p>QGIS vagy Quantum GIS Web Client egy OpenLayers, GeoExt és ExtJS alapokat felhasználó webgis kliens  ami a QGIS specifikált WMS kiterjesztését használja. Támogatja a térkép megjelenítést, feauture információk lekérését, grafikus jelkulcs megjelenítést, keresést és nyomtatást. Minden jelentősebb web böngészőn használható.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_license">Licenc</h3>
+      <p>A Quantum GIS Web Kliens BSD liszensszelésű. A licenc teljes szövegét a <a href="http://github.com/qgis/qgis-web-client/blob/master/README" target="_blank">README</a> állományban találod.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_moreHelp">További segítség</h3>
+      <p>Ha bármilyen problémát tapasztalsz ezzel a web alkalmazással kérem fordulj a webhely webmesteréhez! A Quantum GIS Web Client fejlesztő csapata nem tudja megoldani a problémákat az egyes oldalakon.
+    </p>
+    </article>
+    <article>
+      <h3 id="help_usefulLinks">Hasznos linkek</h3>
+      <ul>
+        <li><a href="http://github.com/qgis/qgis-web-client" target="_blank">Source Code of QGIS Web Client at Github</a></li>
+        <li><a href="http://www.openlayers.org" target="_blank">OpenLayers Home</a></li>
+        <li><a href="http://geoext.org" target="_blank">GeoExt Home</a></li>
+        <li><a href="http://www.sencha.com/products/extjs" target="_blank">Sencha Ext JS</a></li>
+        <li><a href="http://qgis.org" target="_blank">QGIS Home</a></li>
+  	 <li><a href="http://hub.qgis.org/projects/quantum-gis/wiki/QGIS_Server_Tutorial" target="_blank">QGIS Server Tutorial</a></li>
+      </ul>
+	</article>
+  </section>
+  </div>
+  <div style="Clear: both"></div>
+</div>
+</div>
+</body>
+</html>
