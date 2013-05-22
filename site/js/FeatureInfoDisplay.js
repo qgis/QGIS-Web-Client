@@ -25,11 +25,6 @@ var featureInfoPopupContents;
 var closePopupClick = false; // stores if the click results from closing a clickPopup
 
 function showFeatureInfo(evt) {
-    //SOGIS: FeatureInfo only active, if there is no SOGIS-Tooltip
-    if (true) {
-    //if (!bolSOGISTooltip) {
-	//empty previous result in attribute Tree
-	//AttributeDataTree.getRootNode().removeAll();
 	if (identifyToolActive) {
 		if (!closePopupClick) {
 			var map = geoExtMap.map; // gets OL map object
@@ -80,7 +75,6 @@ function showFeatureInfo(evt) {
 		}
 		activateGetFeatureInfo(true);
 	}
-    }
 }
 
 function showFeatureInfoHover(evt) {

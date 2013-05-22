@@ -1,5 +1,6 @@
 var bolSOGISTooltip = false; // Is there a SOGIS tooltip available?
-var strSOGISTooltipURL = 'http://srsofaioi12288.ktso.ch/sogis/qgis-web-tooltip/'; // URL to the SOGIS tooltip
+var servername = "http://"+location.href.split(/\/+/)[1];
+var strSOGISTooltipURL = servername + '/sogis/qgis-web-tooltip/'; // URL to the SOGIS tooltip
 
 Ext.onReady(function () {
 	// Define header menu. Can be nested one level deep.
@@ -73,7 +74,7 @@ Ext.onReady(function () {
 	Ext.get("panel_header_title").addClass('sogis-header-text').insertHtml('afterEnd', '<a href="http://www.so.ch/" class="sogis-header-logo" />');
 	Ext.getCmp('GisBrowserPanel').setHeight(window.innerHeight);
     
-    //FUN    
+    // first initialisation    
     isTooltipSOGIS();
 
     //Remove button SendEmail
@@ -126,13 +127,11 @@ function isTooltipSOGIS(){
                 this.bolSOGISTooltip = false;
                 Ext.getCmp("ObjectIdentificationTextID").show();
                 Ext.getCmp("ObjectIdentificationModeCombo").show();   
-                //Ext.getCmp("AttributeDataTree").show(); 
                 Ext.getCmp("CenterPanel").doLayout();  
             } else { 
                 this.bolSOGISTooltip = true;
                 Ext.getCmp("ObjectIdentificationTextID").hide();
                 Ext.getCmp("ObjectIdentificationModeCombo").hide();   
-                //Ext.getCmp("AttributeDataTree").hide(); 
                 Ext.getCmp("CenterPanel").doLayout();
             }
         },
@@ -159,23 +158,7 @@ function getTooltipHtml(x,y, scale, extent){
                  'extent': extent},
         method: 'GET',
         success: function(response){
-            if (response.responseText.indexOf('webgis') == -1){
-                this.bolSOGISTooltip = false;
-                Ext.getCmp("ObjectIdentificationTextID").show();
-                Ext.getCmp("ObjectIdentificationModeCombo").show(); 
-                //Ext.getCmp("AttributeDataTree").show(); 
-                Ext.getCmp("CenterPanel").doLayout();    
-            } else { 
                 showTooltip(response.responseText);  
-                Ext.getCmp("ObjectIdentificationTextID").hide();
-                Ext.getCmp("ObjectIdentificationModeCombo").hide(); 
-                //Ext.getCmp("AttributeDataTree").hide(); 
-                Ext.getCmp("CenterPanel").doLayout();    
-                this.bolSOGISTooltip = true;
-            }
-        },
-        failure: function(response){
-            this.bolSOGISTooltip = false;
         }
     });
 }
@@ -200,16 +183,7 @@ function showTooltip(str_html){
 * @return string with the project name
 */
 function getProject(){
-      str_url = document.URL;
-      arr_url = str_url.split('/');
-      str_url = arr_url[arr_url.length -1];
-      arr_url = str_url.split('?');
-      str_url = arr_url[0];
-      if (str_url.split('.qgs').length > 0){
-        arr_url = str_url.split('.qgs');
-        str_url = arr_url[0];
-      }
-      return str_url;
+    return wmsMapName.replace("/", "")
 }
 
 /**
@@ -249,4 +223,3 @@ function addPermalinkToToolbar(toolbar) {
         geoExtMap.map.events.register('changelayer', this, unsetPermalink);
         
 }
-

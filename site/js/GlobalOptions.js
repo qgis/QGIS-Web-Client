@@ -11,7 +11,7 @@ var serverAndCGI = "http://srsofaioi12288.ktso.ch/wms"; //URL mit Name des qgis 
 //Define whether you want to use the GetProjectSettings extension of QGIS Server
 //for more configuration options in the project.
 //Set this to false to use GetCapabilities for older QGIS Server versions (<= 1.8).
-var useGetProjectSettings = false;
+var useGetProjectSettings = true;
 
 // show the layerOrderTab in the GUI
 var showLayerOrderTab = true;
@@ -88,7 +88,7 @@ var mapSearchPanelConfigs = {
 //note that you have to also link a gis-project-listing.js file containing a valid
 //project listing structure - the root object is called 'gis_projects'
 //have a look at the template file and documentation for the correct json structure
-var mapThemeSwitcherActive = false;
+var mapThemeSwitcherActive = true;
 
 //first part of titlebar text
 var titleBarText = "SO!GIS-Browser - "; // will be appended with project title

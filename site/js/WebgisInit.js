@@ -1212,15 +1212,19 @@ function mapToolbarHandler(btn, evt) {
                     nDeci = 2;
                 }
             }
-            if ((btn.id == "IdentifyTool") && (btn.pressed)) {
+            if ((identifyToolActive == true) && (bolSOGISTooltip == true)) {
                     getTooltipHtml(geoxy.lon.toFixed(nDeci), geoxy.lat.toFixed(nDeci), Math.round(currentScale), strExtent);
             }
         }
         geoExtMap.map.events.register('click', this, sogisToolTip);
-		if ((btn.pressed) && (bolSOGISTooltip == false)) {
+		if (btn.pressed) {
+            isTooltipSOGIS();
 			identifyToolActive = true;
-            activateGetFeatureInfo(true);
-			mainStatusText.setText(modeObjectIdentificationString[lang]);
+            if (bolSOGISTooltip == false){
+                activateGetFeatureInfo(true);
+			    mainStatusText.setText(modeObjectIdentificationString[lang]);
+            }
+                      
 		} else {
 			identifyToolActive = false;
 			activateGetFeatureInfo(false);

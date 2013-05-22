@@ -299,33 +299,73 @@ Ext.extend(QGIS.PrintProvider, GeoExt.data.PrintProvider, {
     if (mapScale > 100 && mapScale <= 250) {
       grid_interval = 25;
     }
-    else if (mapScale > 250 && mapScale <= 1000) {
+    else if (mapScale > 250 && mapScale <= 500) {
       grid_interval = 50;
     }
-    else if (mapScale > 1000 && mapScale <= 2500) {
+    else if (mapScale > 500 && mapScale <= 1000) {
       grid_interval = 100;
+    }    
+    else if (mapScale > 1000 && mapScale <= 2500) {
+      grid_interval = 200;
     }
     else if (mapScale > 2500 && mapScale <= 5000) {
-      grid_interval = 250;
-    }
-    else if (mapScale > 5000 && mapScale <= 12000) {
       grid_interval = 500;
     }
-    else if (mapScale > 12000 && mapScale <= 25000) {
+    else if (mapScale > 5000 && mapScale <= 12000) {
       grid_interval = 1000;
     }
-    else if (mapScale > 25000) {
+    else if (mapScale > 12000 && mapScale <= 25000) {
       grid_interval = 2000;
     }
-
-var printUrl = this.url+'&SRS=EPSG:'+epsgcode+'&DPI=300&TEMPLATE='+this.layout.get("name")+'&map0:extent='+printExtent.page.getPrintExtent(map).toBBOX(1,false)+'&map0:rotation='+(printExtent.page.rotation * -1)+'&map0:scale='+mapScale+'&map0:grid_interval_x='+grid_interval+'&map0:grid_interval_y='+grid_interval+'&LAYERS='+encodeURIComponent(thematicLayer.params.LAYERS);
-if (thematicLayer.params.OPACITIES) {
-      printUrl += '&OPACITIES='+encodeURIComponent(thematicLayer.params.OPACITIES);
+    else if (mapScale > 25000) {
+      grid_interval = 4000;
     }
+
+    var printUrl = this.url+'&SRS=EPSG:'+epsgcode+'&DPI='+this.dpi.get("value")+'&TEMPLATE='+this.layout.get("name")+'&map0:extent='+printExtent.page.getPrintExtent(map).toBBOX(1,false)+'&map0:rotation='+(printExtent.page.rotation * -1)+'&map0:scale='+mapScale+'&map0:grid_interval_x='+grid_interval+'&map0:grid_interval_y='+grid_interval+'&LAYERS='+encodeURIComponent(thematicLayer.params.LAYERS);
     if (thematicLayer.params.SELECTION) {
       printUrl += '&SELECTION='+encodeURIComponent(thematicLayer.params.SELECTION);
     }
-    this.download(printUrl);
+
+    var lonlat = printExtent.page.getPrintExtent(map).getCenterLonLat();
+    var mapCenter = new OpenLayers.Geometry.Point(lonlat.lon, lonlat.lat);
+    
+    var myfilter = new OpenLayers.Filter.Comparison({
+        type: OpenLayers.Filter.Spatial.INTERSECTS,
+        value: mapCenter
+    });   
+    var protocol = new OpenLayers.Protocol.WFS({
+            url: servername + gis_projects.mapserver + '/'+ wmsMapName,
+            featureType: 'print',
+            //featureNS: 'http://www.so.ch',
+            geometryName: 'geometry',
+            srsName: "EPSG:21781",
+            filter: myfilter,
+            readWithPOST: true
+    });
+
+    protocol.read({
+        callback: function(response) {
+            if(response.features.length > 0) {                
+                attributes = response.features[0].attributes;
+                gemeinde = attributes.gemeinde;
+                lieferdatum = attributes.lieferdatum;
+                anschrift = attributes.anschrift;
+                kontakt = attributes.kontakt;
+                nfgeometer = attributes.nfgeometer;
+                
+                printUrl += '&gemeinde='+encodeURIComponent(gemeinde);
+                printUrl += '&lieferdatum='+encodeURIComponent(lieferdatum);
+                printUrl += '&anschrift='+encodeURIComponent(anschrift);
+                printUrl += '&kontakt='+kontakt; // encodeURIComponent macht hier Probleme!?
+                printUrl += '&nfgeometer='+encodeURIComponent(nfgeometer);                                    
+                this.download(printUrl);
+            } else {
+                printUrl += '&gemeinde='+encodeURIComponent("Amtliche Vermessung Kt. Solothurn");    
+                this.download(printUrl);
+            }
+        },
+        scope: this
+    });
   },
   download: function(url) {
     if (this.fireEvent("beforedownload", this, url) !== false) {

@@ -1,31 +1,67 @@
 var gis_projects = {
 	"path": "/map",
-	"mapserver": "/cgi-bin/qgis_mapserv.fcgi",
+	"mapserver": "/wms",
 	"thumbnails": "/thumbnails",
-	"title": "QGIS Mapserver demo",
+	"title": "SO!GIS",
 	"topic": [{
-		"name": "QGIS Hello World",
+		"name": "Amtliche Vermessung",
 		"project": [{
-			"name": "QGIS Hello World",
-			"projectpath": "/home/web/qgis-web-client/projects",
-			"projectfile": "helloworld",
+			"name": "Ortsplan",
+			"projectpath": "",
+			"projectfile": "ortsplan",
 			"format": "image/png",
-			"visibleLayers": "Country,Hello",
+			"visibleLayers": "Hoheitsgrenzen,Ortsplan",
 			"updateInterval": "occasional",
-			"responsible": "The QGIS project",
-			"tags": "Hello World, beginner project"
+			"responsible": "Amtliche Vermessung",
+			"tags": "Ortsplan"
 		}]
 	},{
-		"name": "Natural Earth",
+		"name": "Amt für Umwelt",
 		"project": [{
-			"name": "Physical Geography (Natural Earth)",
-			"projectpath": "/home/web/qgis-web-client/projects",
-			"projectfile": "naturalearth_110million",
-			"format": "image/png; mode=8bit",
-			"visibleLayers": "Ocean,Land,Lakes,Glaciated Areas,Rivers,Geographic Features",
+			"name": "Neophyten",
+			"projectpath": "",
+			"projectfile": "neophyten",
+			"format": "image/png",
+			"visibleLayers": "2013 Pflanzenliste,Gemeindegrenzen,Baisplan 1:5000 farbig",
 			"updateInterval": "occasional",
-			"responsible": "The QGIS project",
-			"tags": "Natural Earth,Physical Earth Map"
+			"responsible": "Amt für Umwelt",
+			"tags": "Neophyten"
 		}]	
-	}]
+	},{
+		"name": "Amt für Landwirtschaft",
+		"project": [{
+			"name": "Bienenstandorte",
+			"projectpath": "",
+			"projectfile": "bienenstandorte",
+			"format": "image/png",
+			"visibleLayers": "Bienenstandorte,Streptomycineinsatz,Feuerbrand Schutzobjekte,Basisplan AV 1:10000,Hintergrundkarte 1:1 Mio",
+			"updateInterval": "occasional",
+			"responsible": "Amt für Landwirtschaft",
+			"tags": "Bienenstandorte"
+		}]	
+	},{
+		"name": "Amt für Raumplanung",
+		"project": [{
+			"name": "Nutzungszonen",
+			"projectpath": "",
+			"projectfile": "nutzungszonen",
+			"format": "image/png",
+			"visibleLayers": "Nutzungszonen,Orthofoto,Gemeindegrenzen,Ortsplan",
+			"updateInterval": "occasional",
+			"responsible": "Amt für Raumplanung",
+			"tags": "Nutzungszonen"
+		}]
+    },{
+		"name": "Gemeinden",
+		"project": [{
+			"name": "Leitungskataster",
+			"projectpath": "",
+			"projectfile": "gemeindegis",
+			"format": "image/png",
+			"visibleLayers": "Amtliche Vermessung,Wasser,Abwasser,Elektro",
+			"updateInterval": "occasional",
+			"responsible": "Gemeinden Kanton SO",
+			"tags": "Leitungskataster,GemeindeGIS"
+		}]
+    }]
 };
