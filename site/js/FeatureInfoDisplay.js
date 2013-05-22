@@ -99,6 +99,7 @@ function showFeatureInfoHover(evt) {
 		var text = ''
 		var result = false;
 		for (var i = layerNodes.length - 1; i > -1; --i) {
+			//case vector layers
 			var featureNodes = layerNodes[i].getElementsByTagName("Feature");
 			// show layer display field or if missing, the attribute 'tooltip'
 			var tooltipAttributeName = wmsLoader.layerProperties[layerNodes[i].getAttribute("name")].displayField || "tooltip";
@@ -126,6 +127,23 @@ function showFeatureInfoHover(evt) {
 						}
 					}
 				}
+			}
+			//case raster layers
+			var rasterAttributeNodes = Array();
+			var rasterLayerChildNode = layerNodes[i].firstChild;
+			while (rasterLayerChildNode) {
+				if (rasterLayerChildNode.nodeName == "Attribute") {
+					rasterAttributeNodes.push(rasterLayerChildNode);
+				}
+				rasterLayerChildNode = rasterLayerChildNode.nextSibling;
+			}
+			for (var j = 0; j < rasterAttributeNodes.length; ++j) {
+				if (j == 0) {
+					text += '<h2 class="hoverLayerTitle">' + wmsLoader.layerProperties[layerNodes[i].getAttribute("name")].title + '</h2>';
+					result = true;
+				}
+				text += '<p>'+rasterAttributeNodes[j].getAttribute("name")+": "+rasterAttributeNodes[j].getAttribute("value")+'</p>';
+				text += '<hr class="hrHoverLayer"/>';
 			}
 			if (identificationMode == 'topMostHit' && result) {
 				break;
@@ -225,16 +243,18 @@ function clearFeatureSelected() {
 }
 
 function parseFIResult(node) {
-	if (node.hasChildNodes) {
-		if (node.hasChildNodes && node.nodeName == "Layer") {
+	if (node.hasChildNodes()) {
+		if (node.hasChildNodes() && node.nodeName == "Layer") {
 			var hasAttributes = false;
+			var rasterData = false;
 			var htmlText = "<h2>" + wmsLoader.layerProperties[node.getAttribute("name")].title + "</h2>";
 			var geoms = new Array();
-			var featureNode = node.firstChild;
-			while (featureNode) {
-				if (featureNode.hasChildNodes && featureNode.nodeName == "Feature") {
+			var layerChildNode = node.firstChild;
+			while (layerChildNode) {
+				if (layerChildNode.hasChildNodes() && layerChildNode.nodeName === "Feature") {
 					htmlText += "\n <p></p>\n <table>\n  <tbody>";
-					var attributeNode = featureNode.firstChild;
+					//case vector data
+					var attributeNode = layerChildNode.firstChild;
 					while (attributeNode) {
 						if (attributeNode.nodeName == "Attribute") {
 							var attName = attributeNode.getAttribute("name");
@@ -249,7 +269,7 @@ function parseFIResult(node) {
 											htmlText += "<td>" + attName + ":</td>";
 										}
 										htmlText += "<td>" + attValue + "</td></tr>";
-										var hasAttributes = true;
+										hasAttributes = true;
 									}
 								} else {
 									htmlText += "\n   <tr>";
@@ -264,19 +284,31 @@ function parseFIResult(node) {
 										}
 									}
 									htmlText += "<td>" + attValue + "</td></tr>";
-									var hasAttributes = true;
+									hasAttributes = true;
 								}
 							}
 						}
 						attributeNode = attributeNode.nextSibling;
 					}
 					htmlText += "\n  </tbody>\n </table>";
-					//htmlText += "\n  </ul>\n </li>";
 				}
-				featureNode = featureNode.nextSibling;
+				else if (layerChildNode.nodeName === "Attribute") {
+					//case raster data
+					if (rasterData == false) {
+						htmlText += "\n <p></p>\n <table>\n  <tbody>";
+					}
+					htmlText += '\n<tr><td>'+layerChildNode.getAttribute("name") + '</td><td>' + layerChildNode.getAttribute("value") + '</td></tr>';
+					hasAttributes = true;
+					rasterData = true;
+				}
+				layerChildNode = layerChildNode.nextSibling;
 			}
 			//htmlText += "\n</ul>";
 			if (hasAttributes) {
+				if (rasterData) {
+					htmlText += "\n  </tbody>\n </table>";
+				}
+				//alert(htmlText);
 				featureInfoResultLayers.push(htmlText);
 				highLightGeometry.push(geoms);
 			}

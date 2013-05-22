@@ -25,6 +25,10 @@ var searchBoxGetGeomURL = "/wsgi/getSearchGeom.wsgi";
 
 // do not show fields in ObjectIdentification results that have null values
 var suppressEmptyValues = false;
+// hide geometry in ObjectIdentification results (should be only false if there is a good reason to do so)
+var suppressInfoGeometry = true;
+// do show field names in click-popup during object identification
+var showFieldNamesInClickPopup = true;
 
 //config for QGIS.SearchPanel
 var simpleWmsSearch = {

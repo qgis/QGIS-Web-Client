@@ -50,6 +50,7 @@ var legendMetadataWindow; //Ext window that will hold the legend and metatadata
 var legendMetaTabPanel; //a reference to the Ext tabpanel holding the tabs for legend graphic and metadata
 var legendTab; //a reference to the Ext tab holding the legend graphic
 var metadataTab; //a reference to the Ext tab holding the metadata information
+var measurePopup;
 
 Ext.onReady(function () {
 	//dpi detection
@@ -285,9 +286,14 @@ function postLoading() {
 		//maxExtent = OpenLayers.Bounds.fromArray(wmsLoader.projectSettings.capability.nestedLayers[0].llbbox);
        maxExtent = new OpenLayers.Bounds(590000,210000,650000,270000);
 		for (var key in boundingBox) {
-			var bbox = boundingBox[key];
-			if (bbox.srs != MapOptions.projection.getCode()) {
-				maxExtent.transform(new OpenLayers.Projection(bbox.srs), MapOptions.projection);
+			if (key.match(/^EPSG:*/)) {
+				var bboxArray = boundingBox[key].bbox;
+				var srs = boundingBox[key].srs;
+				maxExtent = OpenLayers.Bounds.fromArray(bboxArray);
+				//reproject if layer EPSG code is different from map EPSG code
+				if (srs != MapOptions.projection.getCode()) {
+					maxExtent.transform(new OpenLayers.Projection(bbox.srs), MapOptions.projection);
+				}
 			}
 		}
 	}
@@ -353,11 +359,21 @@ function postLoading() {
 		});
 	}
 	
-	if (!initialLoadDone) {
+	if (!printExtent) {
 		printExtent = new GeoExt.plugins.PrintExtent({
 			printProvider: printProvider
 		});
+	}
+	else {
+		printExtent.printProvider = printProvider;
+	}
+	//set this to false, so that printExtent object will be re-initalized
+	if (!printExtent.initialized) {
+		printExtent.initialized = false;
+	}
 
+
+	if (!initialLoadDone) {
 		var styleHighLightLayer = new OpenLayers.Style();
 		styleHighLightLayer.addRules([
 		new OpenLayers.Rule({
@@ -918,7 +934,6 @@ function postLoading() {
 	//add listeners for layertree
 	layerTree.addListener('leafschange',leafsChangeFunction);
 
-	//printing initalization
 	if (!initialLoadDone) {
 		if (printLayoutsDefined == true) {
 			//create new window to hold printing toolbar
@@ -1089,45 +1104,48 @@ function postLoading() {
 					}
 				}]
 			});
-			printLayoutsCombobox = Ext.getCmp('PrintLayoutsCombobox');
-			printLayoutsCombobox.setValue(printLayoutsCombobox.store.getAt(0).data.name);
-			var printDPICombobox = Ext.getCmp('PrintDPICombobox');
-            //SOGIS 
-			//printDPICombobox.setValue("150");
-            //printProvider.setDpi(300);
-			//need to manually fire the event, because .setValue doesn't; index omitted, not needed
-			//printDPICombobox.fireEvent("select", printDPICombobox, printDPICombobox.findRecord(printDPICombobox.valueField, "150"));
-			printExtent.initialized = false;
-			//bug in spinnerField: need to explicitly show/hide printWindow (toolbar)
-			printWindow.show();
-			printWindow.hide();
-		} else {
+		}
+	}
+	else {
+		printLayoutsCombobox = Ext.getCmp('PrintLayoutsCombobox');
+		printLayoutsCombobox.store.removeAll();
+		printLayoutsCombobox.store.loadData(printCapabilities);
+	}
+	if (printLayoutsDefined == false) {
 			//need to disable printing because no print layouts are defined in
 			var printMapButton = Ext.getCmp('PrintMap');
 			printMapButton.disable();
 			printMapButton.setTooltip(printMapDisabledTooltipString[lang]);
-		}
-		printExtent.hide();
 	}
 	else {
+		printLayoutsCombobox = Ext.getCmp('PrintLayoutsCombobox');
+		printLayoutsCombobox.setValue(printLayoutsCombobox.store.getAt(0).data.name);
+		//need to manually fire the event, because .setValue doesn't; index omitted, not needed
+		//printDPICombobox.fireEvent("select", printDPICombobox, printDPICombobox.findRecord(printDPICombobox.valueField, "300"));
+		//bug in spinnerField: need to explicitly show/hide printWindow (toolbar)
+		printWindow.show();
+		printWindow.hide();
+	}
+	printExtent.hide();
+	
+	if (initialLoadDone) {
 		if (identifyToolWasActive) {
 			identifyToolWasActive = false;
 			Ext.getCmp('IdentifyTool').toggle(true);
 		}
-		//todo need to check whether printing needs some updates after project change
 		themeChangeActive = false;
 	}
-
+	
 	//handle selection events
-  var selModel = layerTree.getSelectionModel();
-  //add listeners to selection model
-  selModel.addListener("selectionChange", layerTreeSelectionChangeHandlerFunction);
+	var selModel = layerTree.getSelectionModel();
+	//add listeners to selection model
+	selModel.addListener("selectionChange", layerTreeSelectionChangeHandlerFunction);
 
 	//show that we are done with initializing the map
 	mainStatusText.setText(modeNavigationString[lang]);
-  if (loadMask) {
-    loadMask.hide();
-  }
+	if (loadMask) {
+		loadMask.hide();
+	}
 	initialLoadDone = true;
 }
 
@@ -1176,27 +1194,32 @@ function uniqueLayersInLegend(origArr) {
 }
 
 function mapToolbarHandler(btn, evt) {
-   	if (btn.id == "IdentifyTool") {
-        var sogisToolTip =  function (evt){
-        var xy = geoExtMap.map.events.getMousePosition(evt);
-        var geoxy = geoExtMap.map.getLonLatFromPixel(xy);
-        var nDeci = 0;
-		var currentScale = geoExtMap.map.getScale();
-			    if (currentScale <= 400) {
-			    	nDeci = 1;
-			    	if (currentScale <= 100) {
-			    		nDeci = 2;
-			    	}
-			    }
-                if ((btn.id == "IdentifyTool") && (btn.pressed)) {
-                    getTooltipHtml(geoxy.lon.toFixed(nDeci), geoxy.lat.toFixed(nDeci), Math.round(currentScale));
+	removeMeasurePopup();
+	if (btn.id == "IdentifyTool") {
+            var sogisToolTip = function (evt){
+            var xy = geoExtMap.map.events.getMousePosition(evt);
+            var geoxy = geoExtMap.map.getLonLatFromPixel(xy);
+            var nDeci = 0;
+            var left = Math.round(geoExtMap.map.getExtent().left)
+            var bottom = Math.round(geoExtMap.map.getExtent().bottom)
+            var right = Math.round(geoExtMap.map.getExtent().right)
+            var top = Math.round(geoExtMap.map.getExtent().top)
+            var strExtent = left + ',' + bottom + ',' + right + ',' + top;
+            var currentScale = geoExtMap.map.getScale();
+            if (currentScale <= 400) {
+                nDeci = 1;
+                if (currentScale <= 100) {
+                    nDeci = 2;
                 }
             }
-
-		if (btn.pressed) {
+            if ((btn.id == "IdentifyTool") && (btn.pressed)) {
+                    getTooltipHtml(geoxy.lon.toFixed(nDeci), geoxy.lat.toFixed(nDeci), Math.round(currentScale), strExtent);
+            }
+        }
+        geoExtMap.map.events.register('click', this, sogisToolTip);
+		if ((btn.pressed) && (bolSOGISTooltip == false)) {
 			identifyToolActive = true;
-            geoExtMap.map.events.register('click', this, sogisToolTip);
-			activateGetFeatureInfo(true);
+            activateGetFeatureInfo(true);
 			mainStatusText.setText(modeObjectIdentificationString[lang]);
 		} else {
 			identifyToolActive = false;
@@ -1215,7 +1238,6 @@ function mapToolbarHandler(btn, evt) {
 		} else {
 			measureControls["line"].deactivate();
 			mainStatusText.setText(modeNavigationString[lang]);
-			rightStatusText.setText("");
 			changeCursorInMap("default");
 		}
 	}
@@ -1227,7 +1249,6 @@ function mapToolbarHandler(btn, evt) {
 		} else {
 			measureControls["polygon"].deactivate();
 			mainStatusText.setText(modeNavigationString[lang]);
-			rightStatusText.setText("");
 			changeCursorInMap("default");
 		}
 	}
@@ -1237,7 +1258,7 @@ function mapToolbarHandler(btn, evt) {
 	if (btn.id == "PrintMap") {
 		if (btn.pressed) {
 			printWindow.show();
-			if (!printExtent.initialized) {
+			if (printExtent.initialized == false) {
 				printExtent.addPage();
 				printExtent.page.lastScale = Math.round(printExtent.page.scale.data.value);
 				printExtent.page.lastRotation = 0;
@@ -1254,6 +1275,13 @@ function mapToolbarHandler(btn, evt) {
 					}
 				});
 				printExtent.initialized = true;
+			}
+			//need to check if current page matches entry of PrintLayoutsCombobox
+			var printLayoutsCombobox = Ext.getCmp('PrintLayoutsCombobox');
+			var currentIndex = printLayoutsCombobox.store.findExact('name',printLayoutsCombobox.getValue());
+			var currentRecord = printLayoutsCombobox.store.getAt(currentIndex);
+			if (printProvider.layout.data.size.width != currentRecord.data.size.width || printProvider.layout.data.size.height != currentRecord.data.size.height) {
+				printProvider.setLayout(currentRecord);
 			}
 			printExtent.page.setRotation(0, true);
 			Ext.getCmp('PrintLayoutRotation').setValue(0);
@@ -1337,6 +1365,15 @@ function mapToolbarHandler(btn, evt) {
   }
 }
 
+function removeMeasurePopup() {
+	var map = geoExtMap.map; // gets OL map object
+	if (measurePopup) {
+		map.removePopup(measurePopup);
+		measurePopup.destroy();
+		measurePopup = null;
+	}
+}
+
 function handleMeasurements(event) {
 	var geometry = event.geometry;
 	var units = event.units;
@@ -1344,11 +1381,27 @@ function handleMeasurements(event) {
 	var measure = event.measure;
 	var out = "";
 	if (order == 1) {
-		out += measureDistanceResultPrefixString[lang] + ": " + measure.toFixed(2) + units + " | ";
+		out += measureDistanceResultPrefixString[lang] + ": " + measure.toFixed(2) + units;
 	} else {
-		out += measureAreaResultPrefixString[lang] + ": " + measure.toFixed(2) + units + "<sup>2</sup> | ";
+		out += measureAreaResultPrefixString[lang] + ": " + measure.toFixed(2) + units + "<sup>2</sup>";
 	}
-	rightStatusText.setText(out);
+	var map = geoExtMap.map; // gets OL map object
+	removeMeasurePopup();
+	measurePopup = new OpenLayers.Popup.Anchored(
+		"measurePopup", // id
+		geometry.getBounds().getCenterLonLat(), // lonlat
+		null, // new OpenLayers.Size(1,1), // contentSize
+		out , //contentHTML
+		null, // anchor
+		false, // closeBox
+		null // closeBoxCallback
+		);
+	measurePopup.autoSize = true;
+	measurePopup.keepInMap = true;
+	measurePopup.panMapIfOutOfView = true;
+	map.addPopup(measurePopup);
+	//measurePopup.setBackgroundColor("gray");
+	measurePopup.setOpacity(0.8);
 }
 
 // function to display a loadMask during lengthy load operations
