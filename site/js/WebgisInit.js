@@ -289,11 +289,16 @@ function postLoading() {
 			if (key.match(/^EPSG:*/)) {
 				var bboxArray = boundingBox[key].bbox;
 				var srs = boundingBox[key].srs;
-				maxExtent = OpenLayers.Bounds.fromArray(bboxArray);
-				//reproject if layer EPSG code is different from map EPSG code
-				if (srs != MapOptions.projection.getCode()) {
-					maxExtent.transform(new OpenLayers.Projection(bbox.srs), MapOptions.projection);
-				}
+				// dummyLayer is created only to check if reverseAxisOrder is true
+				var dummyLayer = new OpenLayers.Layer.WMS("dummy",
+					wmsURI, {
+						VERSION: "1.3.0"
+					},
+					LayerOptions
+				);
+				dummyLayer.projection = new OpenLayers.Projection("EPSG:"+epsgcode);
+				var reverseAxisOrder = dummyLayer.reverseAxisOrder(); 
+				maxExtent = OpenLayers.Bounds.fromArray(bboxArray, reverseAxisOrder);
 			}
 		}
 	}
@@ -437,7 +442,8 @@ function postLoading() {
 					layers: selectedLayers.join(","),
 					opacities: layerOpacities(selectedLayers),
 					format: format,
-					dpi: screenDpi
+					dpi: screenDpi,
+					VERSION: "1.3.0"
 				},
 				LayerOptions
 			),
