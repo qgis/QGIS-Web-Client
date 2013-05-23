@@ -283,8 +283,6 @@ function postLoading() {
 	//get values from first layer group (root) of project settings
 	if (maxExtent instanceof OpenLayers.Bounds == false) {
 		var boundingBox = wmsLoader.projectSettings.capability.nestedLayers[0].bbox;
-		//maxExtent = OpenLayers.Bounds.fromArray(wmsLoader.projectSettings.capability.nestedLayers[0].llbbox);
-       maxExtent = new OpenLayers.Bounds(590000,210000,650000,270000);
 		for (var key in boundingBox) {
 			if (key.match(/^EPSG:*/)) {
 				var bboxArray = boundingBox[key].bbox;

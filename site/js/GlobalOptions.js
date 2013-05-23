@@ -127,8 +127,13 @@ var LayerOptions = {
   singleTile:true,
   ratio:1,
   transitionEffect:"resize",
-  projection:"EPSG:"+epsgcode
+  projection:"EPSG:"+epsgcode,
+  yx:{"EPSG:21781":false}
 };
+
+OpenLayers.Projection.defaults['EPSG:21781'] = new OpenLayers.Projection('EPSG:21781');
+OpenLayers.Projection.defaults['EPSG:21781'].xy = false;
+
 
 //overview map settings - do not change variable names!
 var OverviewMapOptions = {
