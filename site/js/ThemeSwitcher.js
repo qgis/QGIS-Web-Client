@@ -271,12 +271,17 @@ ThemeSwitcher.prototype.changeTheme = function (dataView, index, node, evt) {
 		 if (legendMetadataWindow_active) {
 			legendMetadataWindow.close();
 		 }
-		
+
+        		
 		//switch off GetFeatureInfo if active
 		if (identifyToolActive) {
 			identifyToolWasActive = true;
 			Ext.getCmp('IdentifyTool').toggle(false);
 		}
+
+        //SOGIS
+        isTooltipSOGIS();
+
 		themeChangeActive = true;
 		var projData = dataView.getSelectedRecords()[0].data.data;
 		this.themeSearchField.reset();
