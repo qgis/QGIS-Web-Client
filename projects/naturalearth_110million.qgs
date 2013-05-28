@@ -4,10 +4,10 @@
     <mapcanvas>
         <units>degrees</units>
         <extent>
-            <xmin>-264.226415</xmin>
-            <ymin>-174.226415</ymin>
-            <xmax>264.226415</xmax>
-            <ymax>174.226415</ymax>
+            <xmin>-189.000000</xmin>
+            <ymin>-127.800828</ymin>
+            <xmax>189.000000</xmax>
+            <ymax>121.445958</ymax>
         </extent>
         <projections>0</projections>
         <destinationsrs>
@@ -1383,7 +1383,7 @@
         <Paths>
             <Absolute type="bool">false</Absolute>
         </Paths>
-        <WMSServiceTitle type="QString">World</WMSServiceTitle>
+        <WMSServiceTitle type="QString">Natural Earth View</WMSServiceTitle>
         <WFSLayers type="QStringList">
             <value>ne_110m_geography_regions_elevation_points20121113085601074</value>
             <value>ne_110m_glaciated_areas20121113085601089</value>
@@ -1398,9 +1398,10 @@
             <Automatic type="bool">true</Automatic>
             <DegreeFormat type="QString">D</DegreeFormat>
         </PositionPrecision>
-        <WMSContactPhone type="QString"></WMSContactPhone>
         <WMSServiceCapabilities type="bool">true</WMSServiceCapabilities>
-        <WMSServiceAbstract type="QString">Data Source: Natural Earth Data: </WMSServiceAbstract>
+        <WMSContactPhone type="QString"></WMSContactPhone>
+        <WMSServiceAbstract type="QString">Data Source: Natural Earth Data: 
+http://www.naturalearthdata.com/</WMSServiceAbstract>
         <WMSAddWktGeometry type="bool">true</WMSAddWktGeometry>
         <Measure>
             <Ellipsoid type="QString">NONE</Ellipsoid>

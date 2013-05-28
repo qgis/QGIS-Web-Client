@@ -1,13 +1,13 @@
 <!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
-<qgis projectname="QGIS Mapserver Hello World" version="1.9.0-Master">
-    <title>QGIS Mapserver Hello World</title>
+<qgis projectname="QGIS Server Hello World" version="1.9.0-Master">
+    <title>QGIS Server Hello World</title>
     <mapcanvas>
         <units>degrees</units>
         <extent>
             <xmin>-185.227042</xmin>
-            <ymin>-147.131640</ymin>
+            <ymin>-116.312297</ymin>
             <xmax>191.871959</xmax>
-            <ymax>163.159730</ymax>
+            <ymax>132.340387</ymax>
         </extent>
         <projections>1</projections>
         <destinationsrs>
@@ -23,7 +23,7 @@
             </spatialrefsys>
         </destinationsrs>
     </mapcanvas>
-    <legend updateDrawingOrder="true">
+    <legend updateDrawingOrder="true" activeLayer="country20110527130942817">
         <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="Hello" showFeatureCount="0">
             <filegroup open="true" hidden="false">
                 <legendlayerfile isInOverview="0" layerid="hello20110527130942841" visible="1"/>
@@ -36,30 +36,32 @@
         </legendlayer>
     </legend>
     <Composer title="Composer 1" visible="0">
-        <Composition printResolution="300" paperWidth="297" snapGridOffsetX="0" snapGridResolution="0" snapGridOffsetY="0" snapping="0" numPages="1" paperHeight="210" printAsRaster="0">
-            <ComposerLabel valign="32" labelText="Welcome to our world...." halign="1" margin="1">
+        <Composition printResolution="300" paperWidth="297" snapGridOffsetX="0" snapGridResolution="0" snapGridOffsetY="0" alignmentSnap="1" snapping="0" numPages="1" paperHeight="210" alignmentSnapTolerance="2" printAsRaster="0">
+            <ComposerLabel valign="32" labelText="Welcome to our world...." htmlState="0" halign="1" margin="1">
                 <LabelFont description="Ubuntu,12,-1,5,75,0,0,0,0,0"/>
                 <FontColor red="0" blue="0" green="0"/>
-                <ComposerItem width="64.3016" x="213.302" y="161.791" rotation="0" height="11.0626" frame="false" outlineWidth="0.3" zValue="3" lastValidViewScaleFactor="2.89262" id="" positionLock="false">
+                <ComposerItem width="64.3016" x="213.302" transparency="0" y="161.791" rotation="0" height="11.0626" positionMode="0" frame="false" outlineWidth="0.3" zValue="3" lastValidViewScaleFactor="2.89262" uuid="{36a704fb-278b-4f54-9f08-ee2517a0eef1}" id="" background="false" blendMode="0" positionLock="false">
                     <FrameColor alpha="255" red="0" blue="0" green="0"/>
                     <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
                 </ComposerItem>
             </ComposerLabel>
-            <ComposerLabel valign="32" labelText="Quantum GIS Mapserver" halign="1" margin="1">
+            <ComposerLabel valign="32" labelText="Quantum GIS Mapserver" htmlState="0" halign="1" margin="1">
                 <LabelFont description="Ubuntu,48,-1,5,75,0,0,0,0,0"/>
                 <FontColor red="0" blue="0" green="0"/>
-                <ComposerItem width="215.03" x="49.9838" y="9.33411" rotation="0" height="28.0023" frame="false" outlineWidth="0.3" zValue="2" lastValidViewScaleFactor="2.89262" id="" positionLock="false">
+                <ComposerItem width="215.03" x="49.9838" transparency="0" y="9.33411" rotation="0" height="28.0023" positionMode="0" frame="false" outlineWidth="0.3" zValue="2" lastValidViewScaleFactor="2.89262" uuid="{1684f77a-7a33-4839-8a95-a7d1fbd606d4}" id="" background="false" blendMode="0" positionLock="false">
                     <FrameColor alpha="255" red="0" blue="0" green="0"/>
                     <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
                 </ComposerItem>
             </ComposerLabel>
             <ComposerMap keepLayerSet="false" overviewFrameMap="-1" id="0" previewMode="Cache" drawCanvasItems="true">
-                <overviewFrame overviewFrameMap="-1">
-                    <symbol outputUnit="MM" alpha="0.3" type="fill" name="">
+                <overviewFrame overviewBlendMode="0" overviewFrameMap="-1" overviewInverted="false">
+                    <symbol alpha="0.3" type="fill" name="">
                         <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_unit" v="MM"/>
                             <prop k="color" v="255,0,0,125"/>
                             <prop k="color_border" v="0,0,0,255"/>
                             <prop k="offset" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
                             <prop k="style" v="solid"/>
                             <prop k="style_border" v="no"/>
                             <prop k="width_border" v="0.26"/>
@@ -68,10 +70,27 @@
                 </overviewFrame>
                 <Extent ymin="-92.8913" xmin="-185.227" ymax="121.09" xmax="191.872"/>
                 <LayerSet/>
-                <Grid gridStyle="0" crossLength="3" penColorRed="0" penColorBlue="0" intervalX="0" offsetX="0" intervalY="0" offsetY="0" gridFrameStyle="0" gridFrameWidth="2" show="0" penWidth="0" penColorGreen="0">
-                    <Annotation rightDirection="0" bottomDirection="0" format="0" topPosition="1" precision="3" leftDirection="0" rightPosition="1" bottomPosition="1" frameDistance="1" show="0" font="Ubuntu,10,-1,5,50,0,0,0,0,0" leftPosition="1" topDirection="0"/>
+                <Grid gridStyle="0" crossLength="3" intervalX="0" offsetX="0" intervalY="0" offsetY="0" gridFrameStyle="0" gridFrameWidth="2" gridBlendMode="0" show="0">
+                    <symbol alpha="1" type="line" name="">
+                        <layer pass="0" class="SimpleLine" locked="0">
+                            <prop k="capstyle" v="square"/>
+                            <prop k="color" v="0,0,0,255"/>
+                            <prop k="customdash" v="5;2"/>
+                            <prop k="customdash_unit" v="MM"/>
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="penstyle" v="solid"/>
+                            <prop k="use_custom_dash" v="0"/>
+                            <prop k="width" v="0"/>
+                            <prop k="width_unit" v="MM"/>
+                        </layer>
+                    </symbol>
+                    <Annotation rightDirection="0" bottomDirection="0" format="0" topPosition="1" precision="3" leftDirection="0" rightPosition="1" bottomPosition="1" frameDistance="1" show="0" font="Ubuntu,10,-1,5,50,0,0,0,0,0" leftPosition="1" topDirection="0">
+                        <fontColor red="0" blue="0" green="0"/>
+                    </Annotation>
                 </Grid>
-                <ComposerItem width="215" x="42.3933" y="36.8144" rotation="0" height="122" frame="false" outlineWidth="0.3" zValue="1" lastValidViewScaleFactor="4.71564" id="" positionLock="false">
+                <ComposerItem width="215" x="42.3933" transparency="0" y="36.8144" rotation="0" height="122" positionMode="0" frame="false" outlineWidth="0.3" zValue="1" lastValidViewScaleFactor="4.71564" uuid="{8d8ee8ba-2951-4f92-9e2f-129b6fb29a46}" id="" background="false" blendMode="0" positionLock="false">
                     <FrameColor alpha="255" red="0" blue="0" green="0"/>
                     <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
                 </ComposerItem>
@@ -79,7 +98,7 @@
         </Composition>
     </Composer>
     <projectlayers layercount="2">
-        <maplayer minimumScale="0" maximumScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0">
+        <maplayer minimumScale="0" maximumScale="1e+08" minLabelScale="1" maxLabelScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
             <id>country20110527130942817</id>
             <datasource>dbname='../data/helloworld.db' table="country" (geometry) sql=</datasource>
             <title></title>
@@ -97,24 +116,28 @@
                     <geographicflag>true</geographicflag>
                 </spatialrefsys>
             </srs>
-            <transparencyLevelInt>255</transparencyLevelInt>
             <provider encoding="UTF-8">spatialite</provider>
+            <previewExpression></previewExpression>
             <vectorjoins/>
             <renderer-v2 symbollevels="0" type="singleSymbol">
                 <symbols>
-                    <symbol outputUnit="MM" alpha="1" type="fill" name="0">
+                    <symbol alpha="1" type="fill" name="0">
                         <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_unit" v="MM"/>
                             <prop k="color" v="145,149,158,255"/>
                             <prop k="color_border" v="157,157,157,255"/>
                             <prop k="offset" v="2,2"/>
+                            <prop k="offset_unit" v="MM"/>
                             <prop k="style" v="solid"/>
                             <prop k="style_border" v="solid"/>
                             <prop k="width_border" v="0.26"/>
                         </layer>
                         <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_unit" v="MM"/>
                             <prop k="color" v="0,0,255,255"/>
                             <prop k="color_border" v="0,0,0,255"/>
                             <prop k="offset" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
                             <prop k="style" v="solid"/>
                             <prop k="style_border" v="solid"/>
                             <prop k="width_border" v="0.26"/>
@@ -125,7 +148,9 @@
                 <sizescale field="" scalemethod="area"/>
             </renderer-v2>
             <customproperties/>
-            <editorlayout>generatedlayout</editorlayout>
+            <blendMode>0</blendMode>
+            <featureBlendMode>0</featureBlendMode>
+            <layerTransparency>0</layerTransparency>
             <displayfield>name</displayfield>
             <label>0</label>
             <labelattributes>
@@ -149,16 +174,17 @@
                 <selectedonly on=""/>
             </labelattributes>
             <edittypes>
-                <edittype type="0" name="name"/>
+                <edittype editable="1" type="0" name="name"/>
             </edittypes>
             <editform>.</editform>
             <editforminit></editforminit>
             <annotationform>.</annotationform>
+            <editorlayout>generatedlayout</editorlayout>
             <excludeAttributesWMS/>
             <excludeAttributesWFS/>
             <attributeactions/>
         </maplayer>
-        <maplayer minimumScale="0" maximumScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0">
+        <maplayer minimumScale="0" maximumScale="1e+08" minLabelScale="1" maxLabelScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
             <id>hello20110527130942841</id>
             <datasource>dbname='../data/helloworld.db' table="hello" (geometry) sql=</datasource>
             <title></title>
@@ -176,24 +202,28 @@
                     <geographicflag>true</geographicflag>
                 </spatialrefsys>
             </srs>
-            <transparencyLevelInt>255</transparencyLevelInt>
             <provider encoding="UTF-8">spatialite</provider>
+            <previewExpression></previewExpression>
             <vectorjoins/>
             <renderer-v2 symbollevels="0" type="singleSymbol">
                 <symbols>
-                    <symbol outputUnit="MM" alpha="1" type="fill" name="0">
+                    <symbol alpha="1" type="fill" name="0">
                         <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_unit" v="MM"/>
                             <prop k="color" v="174,176,194,255"/>
                             <prop k="color_border" v="121,121,121,255"/>
                             <prop k="offset" v="2,2"/>
+                            <prop k="offset_unit" v="MM"/>
                             <prop k="style" v="solid"/>
                             <prop k="style_border" v="solid"/>
                             <prop k="width_border" v="0.26"/>
                         </layer>
                         <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_unit" v="MM"/>
                             <prop k="color" v="224,15,183,255"/>
                             <prop k="color_border" v="0,0,0,255"/>
                             <prop k="offset" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
                             <prop k="style" v="solid"/>
                             <prop k="style_border" v="solid"/>
                             <prop k="width_border" v="0.26"/>
@@ -204,7 +234,9 @@
                 <sizescale field="" scalemethod="area"/>
             </renderer-v2>
             <customproperties/>
-            <editorlayout>generatedlayout</editorlayout>
+            <blendMode>0</blendMode>
+            <featureBlendMode>0</featureBlendMode>
+            <layerTransparency>0</layerTransparency>
             <displayfield>pkuid</displayfield>
             <label>0</label>
             <labelattributes>
@@ -228,12 +260,13 @@
                 <selectedonly on=""/>
             </labelattributes>
             <edittypes>
-                <edittype type="0" name="colour"/>
-                <edittype type="0" name="pkuid"/>
+                <edittype editable="1" type="0" name="colour"/>
+                <edittype editable="1" type="0" name="pkuid"/>
             </edittypes>
             <editform>.</editform>
             <editforminit></editforminit>
             <annotationform>.</annotationform>
+            <editorlayout>generatedlayout</editorlayout>
             <excludeAttributesWMS/>
             <excludeAttributesWFS/>
             <attributeactions/>
@@ -267,7 +300,7 @@
         <Paths>
             <Absolute type="bool">false</Absolute>
         </Paths>
-        <WMSServiceTitle type="QString">QGIS Mapserver Hello World</WMSServiceTitle>
+        <WMSServiceTitle type="QString">QGIS Server Hello World</WMSServiceTitle>
         <WFSLayers type="QStringList">
             <value>country20110527130942817</value>
             <value>hello20110527130942841</value>
@@ -282,6 +315,9 @@
         <WMSContactPhone type="QString"></WMSContactPhone>
         <WMSServiceAbstract type="QString">Simple hello world app.</WMSServiceAbstract>
         <WMSAddWktGeometry type="bool">true</WMSAddWktGeometry>
+        <Measure>
+            <Ellipsoid type="QString">NONE</Ellipsoid>
+        </Measure>
         <WMSCrsList type="QStringList">
             <value>EPSG:4326</value>
         </WMSCrsList>

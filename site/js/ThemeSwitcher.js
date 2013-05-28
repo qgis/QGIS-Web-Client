@@ -22,17 +22,17 @@ function ThemeSwitcher(parentPanel) {
 	//create a new jsonstore holding the topic-listing data
 	if (gis_projects) {
 		//add a new record to json array
-		gis_projects.topic.unshift({
+		gis_projects.topics.unshift({
 			name: themeSwitcherAllThemesListViewString[lang],
-			project: []
+			projects: []
 		});
 		this.gisTopicListingStore = new Ext.data.JsonStore({
 			storeId: 'gisTopicListingStore',
 			data: gis_projects,
 			// reader configs
-			root: 'topic',
+			root: 'topics',
 			idProperty: 'name',
-			fields: ['name', 'project']
+			fields: ['name', 'projects']
 		});
 		//fill a new array store with all project records
 		//will be used to display a table of thumbnails
@@ -40,8 +40,8 @@ function ThemeSwitcher(parentPanel) {
 		var projListingArray = [];
 		for (var i = 0; i < this.gisTopicListingStore.getCount(); i++) {
 			var topicRec = this.gisTopicListingStore.getAt(i);
-			for (var j = 0; j < topicRec.data.project.length; j++) {
-				var projData = topicRec.data.project[j];
+			for (var j = 0; j < topicRec.data.projects.length; j++) {
+				var projData = topicRec.data.projects[j];
 				projData.topic = topicRec.data.name;
 				var tooltip = themeSwitcherTooltipMapThemeString[lang] + projData.name;
 				if (projData.tags) {

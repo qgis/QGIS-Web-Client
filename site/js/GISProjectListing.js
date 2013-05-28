@@ -3,10 +3,10 @@ var gis_projects = {
 	"mapserver": "/cgi-bin/qgis_mapserv.fcgi",
 	"thumbnails": "/thumbnails",
 	"title": "QGIS Mapserver demo",
-	"topic": [{
-		"name": "QGIS Hello World",
-		"project": [{
-			"name": "QGIS Hello World",
+	"topics": [{
+		"name": "QGIS Server Hello World",
+		"projects": [{
+			"name": "QGIS Server Hello World", //name needs to correspond with the project title (Project Properties --> General --> Project Title)
 			"projectpath": "/home/web/qgis-web-client/projects",
 			"projectfile": "helloworld",
 			"format": "image/png",
@@ -17,12 +17,13 @@ var gis_projects = {
 		}]
 	},{
 		"name": "Natural Earth",
-		"project": [{
-			"name": "Physical Geography (Natural Earth)",
+		"projects": [{
+			"name": "Natural Earth View", //name needs to correspond with the project title (Project Properties --> General --> Project Title)
 			"projectpath": "/home/web/qgis-web-client/projects",
 			"projectfile": "naturalearth_110million",
 			"format": "image/png; mode=8bit",
 			"visibleLayers": "Ocean,Land,Lakes,Glaciated Areas,Rivers,Geographic Features",
+			"opacities": {"Glaciated Areas":90,"Land":253},
 			"updateInterval": "occasional",
 			"responsible": "The QGIS project",
 			"tags": "Natural Earth,Physical Earth Map"
