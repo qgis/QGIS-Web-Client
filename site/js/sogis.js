@@ -90,21 +90,15 @@ function isTooltipSOGIS(){
             }
         }
     }
-    if ( bolHasToolTip != null ){
-        if ( bolHasToolTip == true ) {
-            Ext.getCmp("ObjectIdentificationTextID").hide();
-            Ext.getCmp("ObjectIdentificationModeCombo").hide();   
-            Ext.getCmp("CenterPanel").doLayout(); 
-        } else {
-            Ext.getCmp("ObjectIdentificationTextID").show();
-            Ext.getCmp("ObjectIdentificationModeCombo").show();   
-            Ext.getCmp("CenterPanel").doLayout(); 
-        }
-        return bolHasToolTip;
+    if ( bolHasToolTip == true ) {
+        Ext.getCmp("ObjectIdentificationTextID").hide();
+        Ext.getCmp("ObjectIdentificationModeCombo").hide();   
+        Ext.getCmp("CenterPanel").doLayout(); 
+        return true;
     } else {
         Ext.getCmp("ObjectIdentificationTextID").show();
         Ext.getCmp("ObjectIdentificationModeCombo").show();   
-        Ext.getCmp("CenterPanel").doLayout();  
+        Ext.getCmp("CenterPanel").doLayout(); 
         return false;
     }
 }
