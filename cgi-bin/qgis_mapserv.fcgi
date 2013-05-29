@@ -1,1 +1,1 @@
-/usr/local/bin/qgis_mapserv.fcgi
+/usr/lib/cgi-bin/qgis_mapserv.fcgi

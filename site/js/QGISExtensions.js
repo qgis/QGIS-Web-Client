@@ -1175,7 +1175,7 @@ QGIS.LayerOrderPanel = Ext.extend(Ext.Panel, {
       id: 'opacitySliderCmp_' + layerId,
       minValue: 0,
       maxValue: 255,
-      value: wmsLoader.layerProperties[layer].opacity,
+      value: wmsLoader.layerProperties[layer] ? wmsLoader.layerProperties[layer].opacity : 125,
       plugins: new Ext.slider.Tip({
         getText: function(thumb) {
           return String.format(layerOrderPanelTransparencyTooltipString[lang], Math.round((255 - thumb.value) / 255 * 100));

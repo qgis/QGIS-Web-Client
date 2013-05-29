@@ -51,6 +51,7 @@ var legendMetaTabPanel; //a reference to the Ext tabpanel holding the tabs for l
 var legendTab; //a reference to the Ext tab holding the legend graphic
 var metadataTab; //a reference to the Ext tab holding the metadata information
 var measurePopup;
+var baseLayers = [];
 
 Ext.onReady(function () {
 	//dpi detection
@@ -98,6 +99,15 @@ Ext.onReady(function () {
 
 	//set some status messsages
 	mainStatusText.setText(mapAppLoadingString[lang]);
+
+    if (enableCommercialMaps) {
+        var gsat = new OpenLayers.Layer.Google(
+            "Google Satellite",
+            {type: google.maps.MapTypeId.SATELLITE, numZoomLevels: 22}
+        );
+        baseLayers.push(gsat);
+
+    }
 	
 	if (urlParamsOK) {
 		loadWMSConfig();
@@ -461,6 +471,8 @@ function postLoading() {
 			renderTo: MapPanelRef.body,
 			plugins: [printExtent]
 		});
+
+        geoExtMap.map.addLayers(baseLayers);
 	}
 	else {
 		thematicLayer.name = layerTree.root.firstChild.text;
@@ -1561,6 +1573,11 @@ function setupLayerOrderPanel() {
 		if (wmsLoader.layerProperties[orderedLayers[i]]) {
 			layerOrderPanel.addLayer(orderedLayers[i], wmsLoader.layerProperties[orderedLayers[i]].opacity);
 		}
+        if (enableCommercialMaps && baseLayers.length > 0) {
+            for (var j=0; j<baseLayers.length; j++) {
+               layerOrderPanel.addLayer(baseLayers[j].name, 0.5);
+            }
+        }
 	}
 
 	if (!initialLoadDone) {
