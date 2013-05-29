@@ -13,7 +13,8 @@ var gis_projects = {
 			"visibleLayers": "Hoheitsgrenzen,Ortsplan",
 			"updateInterval": "occasional",
 			"responsible": "Amtliche Vermessung",
-			"tags": "Ortsplan"
+			"tags": "Ortsplan",
+            "sogistooltip": true
 		}]
 	},{
 		"name": "Amt für Umwelt",
@@ -25,7 +26,8 @@ var gis_projects = {
 			"visibleLayers": "2013 Pflanzenliste,Gemeindegrenzen,Baisplan 1:5000 farbig",
 			"updateInterval": "occasional",
 			"responsible": "Amt für Umwelt",
-			"tags": "Neophyten"
+			"tags": "Neophyten",
+            "sogistooltip": false
 		}]	
 	},{
 		"name": "Amt für Landwirtschaft",
@@ -37,7 +39,8 @@ var gis_projects = {
 			"visibleLayers": "Bienenstandorte,Streptomycineinsatz,Feuerbrand Schutzobjekte,Basisplan AV 1:10000,Hintergrundkarte 1:1 Mio",
 			"updateInterval": "occasional",
 			"responsible": "Amt für Landwirtschaft",
-			"tags": "Bienenstandorte"
+			"tags": "Bienenstandorte",
+            "sogistooltip": false
 		}]	
 	},{
 		"name": "Amt für Raumplanung",
@@ -49,7 +52,8 @@ var gis_projects = {
 			"visibleLayers": "Nutzungszonen,Orthofoto,Gemeindegrenzen,Ortsplan",
 			"updateInterval": "occasional",
 			"responsible": "Amt für Raumplanung",
-			"tags": "Nutzungszonen"
+			"tags": "Nutzungszonen",
+            "sogistooltip": false
 		}]
     },{
 		"name": "Gemeinden",
@@ -61,7 +65,8 @@ var gis_projects = {
 			"visibleLayers": "Amtliche Vermessung,Wasser,Abwasser,Elektro",
 			"updateInterval": "occasional",
 			"responsible": "Gemeinden Kanton SO",
-			"tags": "Leitungskataster,GemeindeGIS"
+			"tags": "Leitungskataster,GemeindeGIS",
+            "sogistooltip": true
 		}]
     }]
 };

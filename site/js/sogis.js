@@ -1,4 +1,3 @@
-var bolSOGISTooltip = false; // Is there a SOGIS tooltip available?
 var servername = "http://"+location.href.split(/\/+/)[1];
 var strSOGISTooltipURL = servername + '/sogis/qgis-web-tooltip/'; // URL to the SOGIS tooltip
 
@@ -12,12 +11,7 @@ Ext.onReady(function () {
             {'url': 'http://www.so.ch/departemente/bau-und-justiz/sogis.html', 'title': 'SO!GIS', 'target':'_blank'}
 		]},
 		{'url': 'http://www.so.ch/departemente/bau-und-justiz/sogis/interaktive-karten.html', 'title': 'Weitere Karten', 'target':'_blank', 'submenu' : [
-            {'url': 'javascript:provLayerSwitcher(\'ortsplan\');', 'title': 'Ortsplan', 'target':''},
-            {'url': 'javascript:provLayerSwitcher(\'nutzungszonen\');', 'title': 'Nutzungszonen', 'target':''},
-            {'url': 'javascript:provLayerSwitcher(\'gemeindegis\');', 'title': 'Gemeindegis', 'target':''},
-            {'url': 'javascript:provLayerSwitcher(\'grundbuch\');', 'title': 'Grundbuch', 'target':''},
-            {'url': 'http://www.so.ch/departemente/bau-und-justiz/sogis/interaktive-karten.html', 'title': 'Noch mehr Karten', 'target':'_blank'}
-        ]},
+                 ]},
         {'url': 'http://www.so.ch/departemente/bau-und-justiz/sogis/sogis-daten.html', 'title': 'Datenbezug', 'target':'_blank', 'submenu' : [
             {'url': 'http://www.sogis1.so.ch/sogis/OnLineData/php/index.php', 'title': 'Online Bezug', 'target':'_blank'},
             {'url': 'http://www.so.ch/departemente/bau-und-justiz/sogis/sogis-daten/sogis-downloads.html', 'title': 'Übersichtskarten', 'target':'_blank'},
@@ -73,72 +67,34 @@ Ext.onReady(function () {
 	Ext.get("ext-gen16").addClass('sogis-header').insertHtml('beforeEnd', '<div class="sogis-headernav">'+getMenuString(sogis_menu)+'</div>');
 	Ext.get("panel_header_title").addClass('sogis-header-text').insertHtml('afterEnd', '<a href="http://www.so.ch/" class="sogis-header-logo" />');
 	Ext.getCmp('GisBrowserPanel').setHeight(window.innerHeight);
-    
-    // first initialisation    
-    isTooltipSOGIS();
 
     //Remove button SendEmail
     Ext.getCmp("SendPermalink").hide();
+    
+    
+
 
 });
 
-function provLayerSwitcher(strMapName){
-    
-    var left = Math.round(geoExtMap.map.getExtent().left);
-    var right = Math.round(geoExtMap.map.getExtent().right);
-    var top = Math.round(geoExtMap.map.getExtent().top);
-    var bottom = Math.round(geoExtMap.map.getExtent().bottom);
-    var scale = Math.round(geoExtMap.map.getScale());
-    
-    switch(strMapName){
-        case 'ortsplan':
-            window.location = './ortsplan?startExtent='+left+','+bottom+','+right+','+top+'&visibleLayers=Gemeindegrenzen,Ortsplan';
-            break;
-        case 'nutzungszonen':
-            window.location = './nutzungszonen?startExtent='+left+','+bottom+','+right+','+top+'&visibleLayers=Gemeindegrenzen,Nutzungszonen,Orthofoto';
-            break;
-        case 'gemeindegis':
-            window.location = './gemeindegis?startExtent='+left+','+bottom+','+right+','+top+'&visibleLayers=Amtliche%20Vermessung,Wasser,Abwasser';
-            //window.location='./gemeindegis?startExtent=615200,257000,618400,260750&visibleLayers=Amtliche%20Vermessung,Wasser,Abwasser';
-            break;
-        case 'grundbuch':
-            window.open('http://www.sogis1.so.ch/sogis/internet/pmapper/somap.php?karte=grundbuch&extent='+left+','+bottom+','+right+','+top,'_new_tab');
-            break;
-        default:
-            // do nothing
-            
-    }
-}
-
 /**
 * @desc is the server sending a tooltip
-* @property-write sets bolSOGISTooltip true, if the server sends htmls
 * @return boolean if there is a tooltip or not
 * @todo as apache makes a directory listening, only html without the tag <html> is being treated as a response. Better solution is welcome
 */
 function isTooltipSOGIS(){
-    Ext.Ajax.request({
-        url:  strSOGISTooltipURL + getProject() + '/', // URL to the SOGIS tooltip
-        params: {'x': 600000, //
-                 'y': 200000},
-        method: 'GET',
-        success: function(response){
-            if (response.responseText.indexOf('webgis') == -1){
-                this.bolSOGISTooltip = false;
-                Ext.getCmp("ObjectIdentificationTextID").show();
-                Ext.getCmp("ObjectIdentificationModeCombo").show();   
-                Ext.getCmp("CenterPanel").doLayout();  
-            } else { 
-                this.bolSOGISTooltip = true;
-                Ext.getCmp("ObjectIdentificationTextID").hide();
-                Ext.getCmp("ObjectIdentificationModeCombo").hide();   
-                Ext.getCmp("CenterPanel").doLayout();
+    var bolHasToolTip = null;
+    for (var i=0;i<gis_projects.topic.length; i++){
+        for (var j=0;j<gis_projects.topic[i].project.length; j++){
+            if ( gis_projects.topic[i].project[j].projectfile == getProject() ){
+                bolHasToolTip = gis_projects.topic[i].project[j].sogistooltip;
             }
-        },
-        failure: function(response){
-            this.bolSOGISTooltip = false;
         }
-    });
+    }
+    if ( bolHasToolTip != null ){
+        return bolHasToolTip;
+    } else {
+        return false;
+    }
 }
 
 
@@ -146,7 +102,6 @@ function isTooltipSOGIS(){
 * @desc gets the html (usually a div with content) from the server
 * @param number x the latitude
 * @param number y the longitude
-* @property-write sets bolSOGISTooltip true, if the server sends htmls
 * @desc as apache makes a directory listening, only html without the tag <html> is being treated as a response. Better solution is welcome
 */
 function getTooltipHtml(x,y, scale, extent){
@@ -183,7 +138,7 @@ function showTooltip(str_html){
 * @return string with the project name
 */
 function getProject(){
-    return wmsMapName.replace("/", "")
+    return wmsMapName.replace("/", "");
 }
 
 /**
@@ -223,3 +178,4 @@ function addPermalinkToToolbar(toolbar) {
         geoExtMap.map.events.register('changelayer', this, unsetPermalink);
         
 }
+

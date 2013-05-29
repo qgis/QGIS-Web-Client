@@ -503,6 +503,29 @@ function postLoading() {
 				Ext.getCmp('navZoomBoxButton').toggle(false);
 			}
 		});
+        
+        //SOGIS
+        var sogisToolTip = function (evt){
+            var xy = geoExtMap.map.events.getMousePosition(evt);
+            var geoxy = geoExtMap.map.getLonLatFromPixel(xy);
+            var nDeci = 0;
+            var left = Math.round(geoExtMap.map.getExtent().left);
+            var bottom = Math.round(geoExtMap.map.getExtent().bottom);
+            var right = Math.round(geoExtMap.map.getExtent().right);
+            var top = Math.round(geoExtMap.map.getExtent().top);
+            var strExtent = left + ',' + bottom + ',' + right + ',' + top;
+            var currentScale = geoExtMap.map.getScale();
+            if (currentScale <= 400) {
+                nDeci = 1;
+                if (currentScale <= 100) {
+                    nDeci = 2;
+                }
+            }
+            if ((identifyToolActive == true) && (isTooltipSOGIS() == true)) {
+                    getTooltipHtml(geoxy.lon.toFixed(nDeci), geoxy.lat.toFixed(nDeci), Math.round(currentScale), strExtent);
+            }
+        }
+        geoExtMap.map.events.register('click', this, sogisToolTip);
 
 		// loading listeners
 		thematicLayer.events.register('loadstart', this, function() {
@@ -628,6 +651,8 @@ function postLoading() {
 	});
 	WMSGetFInfoHover.events.register("getfeatureinfo", this, showFeatureInfoHover);
 	geoExtMap.map.addControl(WMSGetFInfoHover);
+	
+	
 	
 	//overview map
 	if (!initialLoadDone) {
@@ -1200,35 +1225,10 @@ function uniqueLayersInLegend(origArr) {
 function mapToolbarHandler(btn, evt) {
 	removeMeasurePopup();
 	if (btn.id == "IdentifyTool") {
-            var sogisToolTip = function (evt){
-            var xy = geoExtMap.map.events.getMousePosition(evt);
-            var geoxy = geoExtMap.map.getLonLatFromPixel(xy);
-            var nDeci = 0;
-            var left = Math.round(geoExtMap.map.getExtent().left)
-            var bottom = Math.round(geoExtMap.map.getExtent().bottom)
-            var right = Math.round(geoExtMap.map.getExtent().right)
-            var top = Math.round(geoExtMap.map.getExtent().top)
-            var strExtent = left + ',' + bottom + ',' + right + ',' + top;
-            var currentScale = geoExtMap.map.getScale();
-            if (currentScale <= 400) {
-                nDeci = 1;
-                if (currentScale <= 100) {
-                    nDeci = 2;
-                }
-            }
-            if ((identifySOGISToolActive == true) && (bolSOGISTooltip == true)) {
-                    getTooltipHtml(geoxy.lon.toFixed(nDeci), geoxy.lat.toFixed(nDeci), Math.round(currentScale), strExtent);
-            }
-        }
-        geoExtMap.map.events.register('click', this, sogisToolTip);
 		if (btn.pressed) {
-            isTooltipSOGIS();
-			identifySOGISToolActive = true;
-            if (bolSOGISTooltip == false){
-                activateGetFeatureInfo(true);
-			    identifyToolActive = true;
-			    mainStatusText.setText(modeObjectIdentificationString[lang]);
-            }
+            activateGetFeatureInfo(true);
+			identifyToolActive = true;
+			mainStatusText.setText(modeObjectIdentificationString[lang]);
                       
 		} else {
 			identifyToolActive = false;

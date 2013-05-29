@@ -25,7 +25,7 @@ var featureInfoPopupContents;
 var closePopupClick = false; // stores if the click results from closing a clickPopup
 
 function showFeatureInfo(evt) {
-	if ((identifyToolActive) && (bolSOGISTooltip == false)) {
+	if ((identifyToolActive) && (isTooltipSOGIS() == false)) {
 		if (!closePopupClick) {
 			var map = geoExtMap.map; // gets OL map object
 			if (window.DOMParser) {

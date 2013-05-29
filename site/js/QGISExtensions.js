@@ -21,6 +21,7 @@
 /* ************************** QGIS.WMSCapabilitiesLoader ************************** */
 // parse GetProjectSettings from QGIS Mapserver
 // extends GeoExt.tree.WMSCapabilitiesLoader in order to expose the WMSCapabilities Tree to later read out settings from the tree
+
 QGIS.WMSCapabilitiesLoader = function(config) {
   Ext.apply(this, config);
   QGIS.WMSCapabilitiesLoader.superclass.constructor.call(this,config);
@@ -171,7 +172,7 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
             },
 
           "Attributes": function(node, obj) {
-            obj.attributes = []
+            obj.attributes = [];
             this.readChildNodes(node, obj.attributes);
           },
           "Attribute": function(node, obj) {
@@ -283,6 +284,7 @@ QGIS.PrintProvider = function(config) {
 };
 
 Ext.extend(QGIS.PrintProvider, GeoExt.data.PrintProvider, {
+    
   print: function(map, pages, options) {
     if (map instanceof GeoExt.MapPanel) {
         map = map.map;
@@ -345,30 +347,63 @@ Ext.extend(QGIS.PrintProvider, GeoExt.data.PrintProvider, {
 
     protocol.read({
         callback: function(response) {
-            if(response.features.length > 0) {                
-                attributes = response.features[0].attributes;
-                gemeinde = attributes.gemeinde;
-                lieferdatum = attributes.lieferdatum;
-                anschrift = attributes.anschrift;
-                kontakt = attributes.kontakt;
-                nfgeometer = attributes.nfgeometer;
-                
-                printUrl += '&gemeinde='+encodeURIComponent(gemeinde);
-                printUrl += '&lieferdatum='+encodeURIComponent(lieferdatum);
-                printUrl += '&anschrift='+encodeURIComponent(anschrift);
-                printUrl += '&kontakt='+kontakt; // encodeURIComponent macht hier Probleme!?
-                printUrl += '&nfgeometer='+encodeURIComponent(nfgeometer);                                    
-                this.download(printUrl);
+            // begin: especially grundbuch
+            if ( wmsMapName == 'grundbuchplan' ){          
+                if(response.features.length > 0) {
+                    attributes = response.features[0].attributes;
+                    gemeinde = attributes.gemeinde;
+                    lieferdatum = attributes.lieferdatum;
+                    anschrift = attributes.anschrift;
+                    kontakt = attributes.kontakt;
+                    nfgeometer = attributes.nfgeometer;
+    
+                    printUrl += '&gemeinde='+encodeURIComponent(gemeinde);
+                    printUrl += '&lieferdatum='+encodeURIComponent(lieferdatum);
+                    printUrl += '&anschrift='+encodeURIComponent(anschrift);
+                    printUrl += '&kontakt='+kontakt; // encodeURIComponent macht hier Probleme!?
+                    printUrl += '&nfgeometer='+encodeURIComponent(nfgeometer);                                   
+                } else {
+                    printUrl += '&gemeinde='+encodeURIComponent("Amtliche Vermessung Kt. Solothurn");    
+                }
+            // end: especially grundbuch
+            // other projects
             } else {
-                printUrl += '&gemeinde='+encodeURIComponent("Amtliche Vermessung Kt. Solothurn");    
-                this.download(printUrl);
+                if(response.features.length > 0) {
+                    attributes = response.features[0].attributes;
+                     for (key in attributes){
+                        printUrl += '&' + key + '=' + encodeURIComponent(attributes[key]);
+                    }
+                }
             }
+            this.download(printUrl);
         },
         scope: this
     });
   },
   download: function(url) {
     if (this.fireEvent("beforedownload", this, url) !== false) {
+      Ext.Ajax.request({
+        url : this.url,
+        method: 'POST',
+        //headers: { 'Content-Type': 'application/pdf' },                        
+        //params : { "test" : "testParam" },
+        success: function (response) {
+                      var winpdf1 = new Ext.Window({
+                        title: 'PDF Content',
+                        width: 420,
+                        height: 320,
+                        plain:true,
+                        html: '<iframe src="' + url + '" width="400" height="300" />'
+                    })
+            
+                    winpdf1.show();
+              },
+        failure: function (response) {
+                  //var jsonResp = Ext.util.JSON.decode(response.responseText);
+                  //Ext.Msg.alert("Error",jsonResp.error);
+            }
+      });
+      /*
       //because of an IE bug one has to do it in two steps
       var parentPanel = Ext.getCmp('geoExtMapPanel');
       var pdfWindow = new Ext.Window(
@@ -384,8 +419,9 @@ Ext.extend(QGIS.PrintProvider, GeoExt.data.PrintProvider, {
           html: '<object data="'+url+'" type="application/pdf" width="100%" height="100%"><p style="margin:5px;">'+printingObjectDataAlternativeString1[lang] + url + printingObjectDataAlternativeString2[lang]
         }
       );
-      pdfWindow.show();
+      pdfWindow.show();*/
     }
+    
     this.fireEvent("print", this, url);
   }
 }
