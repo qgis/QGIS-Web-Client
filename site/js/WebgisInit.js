@@ -107,6 +107,13 @@ Ext.onReady(function () {
         );
         baseLayers.push(gsat);
 
+        var bapiKey = "AqTGBsziZHIJYYxgivLBf0hVdrAk9mWO5cQcb8Yux8sW5M8c8opEC2lZqKR1ZZXf";
+        var bsat = new OpenLayers.Layer.Bing({
+            name: "Bing Satellite",
+            key: bapiKey,
+            type: "Aerial"
+        });
+        //baseLayers.push(bsat);
     }
 	
 	if (urlParamsOK) {
@@ -317,6 +324,7 @@ function postLoading() {
 	selectedLayers = Array();
 	selectedQueryableLayers = Array();
 	allLayers = Array();
+
 	layerTree.root.firstChild.cascade(
 
 	function (n) {
@@ -1575,7 +1583,7 @@ function setupLayerOrderPanel() {
 		}
         if (enableCommercialMaps && baseLayers.length > 0) {
             for (var j=0; j<baseLayers.length; j++) {
-               layerOrderPanel.addLayer(baseLayers[j].name, 0.5);
+               layerOrderPanel.addLayer(baseLayers[j].name, 1);
             }
         }
 	}
