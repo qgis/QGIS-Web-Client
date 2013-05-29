@@ -19,6 +19,7 @@ function ThemeSwitcher(parentPanel) {
 	this.activeTopicName = ""; //will hold the current topic filter later
 	this.titleAndTagFilter = ""; //will hold the current title or tag filter string later
 	me = this;
+    isTooltipSOGIS();
 	//create a new jsonstore holding the topic-listing data
 	if (gis_projects) {
 		//add a new record to json array
