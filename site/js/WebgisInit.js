@@ -1225,6 +1225,7 @@ function uniqueLayersInLegend(origArr) {
 function mapToolbarHandler(btn, evt) {
 	removeMeasurePopup();
 	if (btn.id == "IdentifyTool") {
+        isTooltipSOGIS();
 		if (btn.pressed) {
             activateGetFeatureInfo(true);
 			identifyToolActive = true;

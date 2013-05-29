@@ -19,7 +19,6 @@ function ThemeSwitcher(parentPanel) {
 	this.activeTopicName = ""; //will hold the current topic filter later
 	this.titleAndTagFilter = ""; //will hold the current title or tag filter string later
 	me = this;
-    isTooltipSOGIS();
 	//create a new jsonstore holding the topic-listing data
 	if (gis_projects) {
 		//add a new record to json array
@@ -280,9 +279,6 @@ ThemeSwitcher.prototype.changeTheme = function (dataView, index, node, evt) {
 			Ext.getCmp('IdentifyTool').toggle(false);
 		}
 
-        //SOGIS
-        isTooltipSOGIS();
-
 		themeChangeActive = true;
 		var projData = dataView.getSelectedRecords()[0].data.data;
 		this.themeSearchField.reset();
@@ -292,6 +288,7 @@ ThemeSwitcher.prototype.changeTheme = function (dataView, index, node, evt) {
 		this.themeSwitcherWindow.hide();
 		layerTree.removeListener("selectionChange",layerTreeSelectionChangeHandlerFunction);
 		urlParamsOK = true;
+        
 		//concatenate path for webserver and cgi
 		wmsURI = '';
 		if (projData.mapserver) {
@@ -305,6 +302,7 @@ ThemeSwitcher.prototype.changeTheme = function (dataView, index, node, evt) {
 			wmsURI += "/" + projData.projectpath + "/" + projData.projectfile + "?";
 		}
 		wmsMapName = projData.projectpath + "/" + projData.projectfile;
+        
 		//handle visible layers
 		if (projData.visibleLayers) {
 			visibleLayers = projData.visibleLayers.split(",");

@@ -383,20 +383,22 @@ Ext.extend(QGIS.PrintProvider, GeoExt.data.PrintProvider, {
   download: function(url) {
     if (this.fireEvent("beforedownload", this, url) !== false) {
       Ext.Ajax.request({
-        url : this.url,
-        method: 'POST',
-        //headers: { 'Content-Type': 'application/pdf' },                        
+        url : url,
+        method: 'POST',                  
         //params : { "test" : "testParam" },
         success: function (response) {
+                console.log(response);
+                /*
                       var winpdf1 = new Ext.Window({
                         title: 'PDF Content',
                         width: 420,
                         height: 320,
                         plain:true,
-                        html: '<iframe src="' + url + '" width="400" height="300" />'
+                        //html: '<iframe src="' + url + '" width="400" height="300" />'
                     })
             
                     winpdf1.show();
+                    */
               },
         failure: function (response) {
                   //var jsonResp = Ext.util.JSON.decode(response.responseText);

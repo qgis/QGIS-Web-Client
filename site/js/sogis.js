@@ -72,6 +72,9 @@ Ext.onReady(function () {
     Ext.getCmp("SendPermalink").hide();
     
     
+    isTooltipSOGIS();
+    
+    
 
 
 });
