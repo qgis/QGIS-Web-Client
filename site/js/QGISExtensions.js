@@ -334,13 +334,14 @@ Ext.extend(QGIS.PrintProvider, GeoExt.data.PrintProvider, {
       var pdfWindow = new Ext.Window(
         {
           title: printWindowTitleString[lang],
-          width: parentPanel.getInnerWidth() - 70,
-          height: parentPanel.getInnerHeight() - 20,
-          renderTo: "geoExtMapPanel",
+          width: Ext.getBody().getWidth() - 100,
+          height: Ext.getBody().getHeight() - 100,
           resizable: true,
           closable: true,
+          constrain: true,
+          constrainHeader: true,
           x:50,
-          y:10,
+          y:50,
           html: '<object data="'+url+'" type="application/pdf" width="100%" height="100%"><p style="margin:5px;">'+printingObjectDataAlternativeString1[lang] + url + printingObjectDataAlternativeString2[lang]
         }
       );
