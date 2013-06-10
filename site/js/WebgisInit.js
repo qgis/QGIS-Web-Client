@@ -15,6 +15,9 @@ var selectedLayers; //later an array containing all visible (selected) layers
 var selectedQueryableLayers; //later an array of all visible (selected and queryable) layers
 var allLayers; //later an array containing all leaf layers
 var thematicLayer, highlightLayer, featureInfoHighlightLayer;
+var googleStatelliteLayer, bingSatelliteLayer;
+var bingApiKey = "AqTGBsziZHIJYYxgivLBf0hVdrAk9mWO5cQcb8Yux8sW5M8c8opEC2lZqKR1ZZXf";
+var bgLayerRootNodeText = 'Hintergrundlayer';
 var highLightGeometry = new Array();
 var WMSGetFInfo, WMSGetFInfoHover;
 var lastLayer, lastFeature;
@@ -101,19 +104,18 @@ Ext.onReady(function () {
 	mainStatusText.setText(mapAppLoadingString[lang]);
 
     if (enableCommercialMaps) {
-        var gsat = new OpenLayers.Layer.Google(
+        googleStatelliteLayer = new OpenLayers.Layer.Google(
             "Google Satellite",
             {type: google.maps.MapTypeId.SATELLITE, numZoomLevels: 22}
         );
-        baseLayers.push(gsat);
+        baseLayers.push(googleStatelliteLayer);
 
-        var bapiKey = "AqTGBsziZHIJYYxgivLBf0hVdrAk9mWO5cQcb8Yux8sW5M8c8opEC2lZqKR1ZZXf";
-        var bsat = new OpenLayers.Layer.Bing({
+        bingSatelliteLayer = new OpenLayers.Layer.Bing({
             name: "Bing Satellite",
-            key: bapiKey,
+            key: bingApiKey,
             type: "Aerial"
         });
-        //baseLayers.push(bsat);
+        baseLayers.push(bingSatelliteLayer);
     }
 	
 	if (urlParamsOK) {
@@ -149,9 +151,19 @@ function loadWMSConfig() {
 			uiProvider: Ext.tree.TriStateNodeUI
 		}
 	});
+
+    var layerList = new Ext.tree.TreeNode({
+        leaf: false,
+        expanded: true
+    });
+
 	var root = new Ext.tree.AsyncTreeNode({
+        id: 'wmsNode',
+        text: 'WMS',
 		loader: wmsLoader,
 		allowDrop: false,
+        expanded: true,
+        expandChildNodes: true,
 		listeners: {
 			'load': function () {
 				postLoading();
@@ -159,7 +171,36 @@ function loadWMSConfig() {
 		}
 	});
 
-	layerTree.setRootNode(root);	
+    layerTree.setRootNode(layerList);	
+    layerList.appendChild(root);
+
+    if (enableCommercialMaps && baseLayers.length > 0) {
+        var bgnode0 = new GeoExt.tree.LayerNode({
+             layer: baseLayers[1],
+             leaf: true,
+             loader: {
+                baseAttrs: {
+                   radioGroup: 'baselayers',
+                   uiProvider: 'layernodeui'
+                }
+             }
+        });
+        var bgnode1 = new GeoExt.tree.LayerNode({
+             layer: baseLayers[0],
+             leaf: true,
+             checked: true,
+             loader: {
+                baseAttrs: {
+                   radioGroup: 'baselayers',
+                   uiProvider: 'layernodeui'
+                }
+             }
+        });
+
+        layerList.appendChild(bgnode0);
+        layerList.appendChild(bgnode1);
+    }
+
 }
 
 layerTreeSelectionChangeHandlerFunction = function (selectionModel, treeNode) {
@@ -471,7 +512,7 @@ function postLoading() {
 			featureInfoHighlightLayer = new OpenLayers.Layer.Vector("featureInfoHighlight", {
 				isBaseLayer: false,
 				styleMap: styleMapHighLightLayer
-			})],
+			})].concat(baseLayers),
 			map: MapOptions,
 			id: "geoExtMapPanel",
 			width: MapPanelRef.getInnerWidth(),
@@ -480,7 +521,6 @@ function postLoading() {
 			plugins: [printExtent]
 		});
 
-        geoExtMap.map.addLayers(baseLayers);
 	}
 	else {
 		thematicLayer.name = layerTree.root.firstChild.text;
@@ -1488,7 +1528,8 @@ function createPermalink(){
 }
 
 function addInfoButtonsToLayerTree() {
-	layerTree.root.firstChild.cascade(
+    var treeRoot = layerTree.getNodeById("wmsNode");
+	treeRoot.firstChild.cascade(
 		function (n) {
 			if (n.isLeaf()) {
 				// info button
@@ -1581,11 +1622,6 @@ function setupLayerOrderPanel() {
 		if (wmsLoader.layerProperties[orderedLayers[i]]) {
 			layerOrderPanel.addLayer(orderedLayers[i], wmsLoader.layerProperties[orderedLayers[i]].opacity);
 		}
-        if (enableCommercialMaps && baseLayers.length > 0) {
-            for (var j=0; j<baseLayers.length; j++) {
-               layerOrderPanel.addLayer(baseLayers[j].name, 1);
-            }
-        }
 	}
 
 	if (!initialLoadDone) {
