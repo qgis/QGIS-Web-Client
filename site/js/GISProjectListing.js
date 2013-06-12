@@ -4,9 +4,9 @@ var gis_projects = {
 	"mapserver": "/wms",
 	"thumbnails": "/thumbnails",
 	"title": "SO!GIS",
-	"topic": [{
+	"topics": [{
 		"name": "Amtliche Vermessung",
-		"project": [{
+		"projects": [{
 			"name": "Ortsplan",
 			"projectpath": "",
 			"projectfile": "ortsplan",
@@ -29,7 +29,7 @@ var gis_projects = {
 		}]
 	},{
 		"name": "Amt für Umwelt",
-		"project": [{
+		"projects": [{
 			"name": "Neophyten",
 			"projectpath": "",
 			"projectfile": "neophyten",
@@ -62,7 +62,7 @@ var gis_projects = {
 		}]	
 	},{
 		"name": "Amt für Landwirtschaft",
-		"project": [{
+		"projects": [{
 			"name": "Bienenstandorte",
 			"projectpath": "",
 			"projectfile": "bienenstandorte",
@@ -75,7 +75,7 @@ var gis_projects = {
 		}]	
 	},{
 		"name": "Amt für Raumplanung",
-		"project": [{
+		"projects": [{
 			"name": "Nutzungszonen",
 			"projectpath": "",
 			"projectfile": "nutzungszonen",
@@ -88,7 +88,7 @@ var gis_projects = {
 		}]
     },{
 		"name": "Gemeinden",
-		"project": [{
+		"projects": [{
 			"name": "Leitungskataster",
 			"projectpath": "",
 			"projectfile": "gemeindegis",

@@ -86,10 +86,10 @@ Ext.onReady(function () {
 */
 function isTooltipSOGIS(){
     var bolHasToolTip = null;
-    for (var i=0;i<gis_projects.topic.length; i++){
-        for (var j=0;j<gis_projects.topic[i].project.length; j++){
-            if ( gis_projects.topic[i].project[j].projectfile == getProject() ){
-                bolHasToolTip = gis_projects.topic[i].project[j].sogistooltip;
+    for (var i=0;i<gis_projects.topics.length; i++){
+        for (var j=0;j<gis_projects.topics[i].projects.length; j++){
+            if ( gis_projects.topics[i].projects[j].projectfile == getProject() ){
+                bolHasToolTip = gis_projects.topics[i].projects[j].sogistooltip;
             }
         }
     }

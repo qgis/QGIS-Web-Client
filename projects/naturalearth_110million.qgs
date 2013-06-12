@@ -5,9 +5,9 @@
         <units>degrees</units>
         <extent>
             <xmin>-189.000000</xmin>
-            <ymin>-109.375860</ymin>
+            <ymin>-127.800828</ymin>
             <xmax>189.000000</xmax>
-            <ymax>113.766822</ymax>
+            <ymax>121.445958</ymax>
         </extent>
         <projections>0</projections>
         <destinationsrs>
@@ -23,7 +23,7 @@
             </spatialrefsys>
         </destinationsrs>
     </mapcanvas>
-    <legend updateDrawingOrder="false">
+    <legend updateDrawingOrder="false" activeLayer="ne_110m_land20121113085601097">
         <legendlayer drawingOrder="0" open="false" checked="Qt::Unchecked" name="Geographic Features" showFeatureCount="0">
             <filegroup open="false" hidden="false">
                 <legendlayerfile isInOverview="0" layerid="ne_110m_geography_regions_elevation_points20121113085601074" visible="0"/>
@@ -51,36 +51,46 @@
                 </filegroup>
             </legendlayer>
         </legendgroup>
-        <legendlayer drawingOrder="4" open="false" checked="Qt::Checked" name="Land" showFeatureCount="0">
+        <legendlayer drawingOrder="4" open="false" checked="Qt::Unchecked" name="Land" showFeatureCount="0">
             <filegroup open="false" hidden="false">
-                <legendlayerfile isInOverview="0" layerid="ne_110m_land20121113085601097" visible="1"/>
+                <legendlayerfile isInOverview="0" layerid="ne_110m_land20121113085601097" visible="0"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="6" open="false" checked="Qt::Unchecked" name="Shaded Relief" showFeatureCount="0">
+            <filegroup open="false" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="SR_50M20130430075655550" visible="0"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="7" open="false" checked="Qt::Checked" name="Shaded Relief with Hypsometry" showFeatureCount="0">
+            <filegroup open="false" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="HYP_50M_SR_W20130501002616468" visible="1"/>
             </filegroup>
         </legendlayer>
     </legend>
-    <Composer title="A4-Landscape" visible="1">
+    <Composer title="A4-Landscape" visible="0">
         <Composition printResolution="300" paperWidth="297" snapGridOffsetX="0" snapGridResolution="10" snapGridOffsetY="0" alignmentSnap="1" snapping="0" numPages="1" paperHeight="210" alignmentSnapTolerance="2" printAsRaster="0">
             <ComposerLabel valign="32" labelText="QGIS Server Demo - Natural Earth Data" htmlState="0" halign="1" margin="1">
                 <LabelFont description="Sans Serif,12,-1,5,75,0,0,0,0,0"/>
                 <FontColor red="0" blue="0" green="0"/>
-                <ComposerItem width="153.327" x="10" y="11.199" rotation="0" height="6.9" positionMode="0" frame="false" outlineWidth="0.3" zValue="4" lastValidViewScaleFactor="2.79195" uuid="{0d52d3b9-7037-4e8d-995d-70f877e4bd3e}" id="" background="true" positionLock="true">
+                <ComposerItem width="153.327" x="10" transparency="0" y="11.199" rotation="0" height="6.9" positionMode="0" frame="false" outlineWidth="0.3" zValue="4" lastValidViewScaleFactor="2.79195" uuid="{0d52d3b9-7037-4e8d-995d-70f877e4bd3e}" id="" background="true" blendMode="0" positionLock="true">
                     <FrameColor alpha="255" red="0" blue="0" green="0"/>
                     <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
                 </ComposerItem>
             </ComposerLabel>
-            <ComposerScaleBar penColor="#000000" style="Numeric" numMapUnitsPerScaleBarUnit="1" alignment="1" brushColor="#000000" numSegments="4" segmentMillimeters="26.0034" fontColor="#000000" font="Sans Serif,10,-1,5,50,0,0,0,0,0" numUnitsPerSegment="9" units="1" labelBarSpace="3" outlineWidth="1" numSegmentsLeft="2" height="3" mapId="0" boxContentSpace="1" unitLabel="m">
-                <ComposerItem width="27" x="218.844" y="11.7476" rotation="0" height="2.90144" positionMode="0" frame="false" outlineWidth="0.3" zValue="3" lastValidViewScaleFactor="2.79195" uuid="{db6d8992-aea3-401b-8146-a32a1a65756f}" id="" background="true" positionLock="false">
+            <ComposerScaleBar penColor="#000000" style="Numeric" numMapUnitsPerScaleBarUnit="1" alignment="1" brushColor="#000000" numSegments="4" segmentMillimeters="18.0799" fontColor="#000000" font="Sans Serif,10,-1,5,50,0,0,0,0,0" numUnitsPerSegment="9" units="1" labelBarSpace="3" outlineWidth="1" numSegmentsLeft="2" height="3" mapId="0" boxContentSpace="1" unitLabel="m">
+                <ComposerItem width="27" x="218.844" transparency="0" y="11.7476" rotation="0" height="5.3" positionMode="0" frame="false" outlineWidth="0.3" zValue="3" lastValidViewScaleFactor="2.79195" uuid="{db6d8992-aea3-401b-8146-a32a1a65756f}" id="" background="true" blendMode="0" positionLock="false">
                     <FrameColor alpha="255" red="0" blue="0" green="0"/>
                     <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
                 </ComposerItem>
             </ComposerScaleBar>
             <ComposerPicture pictureWidth="25" file="./north-arrow_3_simple_symmetric_triangular.svg" pictureHeight="25" mapId="-1">
-                <ComposerItem width="25" x="262" y="2.14904" rotation="0" height="25" positionMode="0" frame="false" outlineWidth="0.3" zValue="2" lastValidViewScaleFactor="2.26066" uuid="{bb218641-25e4-4dae-9c13-7ed33572e063}" id="" background="false" positionLock="false">
+                <ComposerItem width="25" x="262" transparency="0" y="2.14904" rotation="0" height="25" positionMode="0" frame="false" outlineWidth="0.3" zValue="2" lastValidViewScaleFactor="1.83886" uuid="{bb218641-25e4-4dae-9c13-7ed33572e063}" id="" background="false" blendMode="0" positionLock="false">
                     <FrameColor alpha="255" red="0" blue="0" green="0"/>
                     <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
                 </ComposerItem>
             </ComposerPicture>
             <ComposerMap keepLayerSet="false" overviewFrameMap="-1" id="0" previewMode="Cache" drawCanvasItems="true">
-                <overviewFrame overviewFrameMap="-1">
+                <overviewFrame overviewBlendMode="0" overviewFrameMap="-1" overviewInverted="false">
                     <symbol alpha="0.3" type="fill" name="">
                         <layer pass="0" class="SimpleFill" locked="0">
                             <prop k="border_width_unit" v="MM"/>
@@ -94,9 +104,9 @@
                         </layer>
                     </symbol>
                 </overviewFrame>
-                <Extent ymin="-37.4204" xmin="36.0811" ymax="23.1485" xmax="131.953"/>
+                <Extent ymin="-20.1092" xmin="-46.895" ymax="67.004" xmax="90.9928"/>
                 <LayerSet/>
-                <Grid gridStyle="0" crossLength="3" intervalX="0" offsetX="0" intervalY="0" offsetY="0" gridFrameStyle="0" gridFrameWidth="2" show="0">
+                <Grid gridStyle="0" crossLength="3" intervalX="0" offsetX="0" intervalY="0" offsetY="0" gridFrameStyle="0" gridFrameWidth="2" gridBlendMode="0" show="0">
                     <symbol alpha="1" type="line" name="">
                         <layer pass="0" class="SimpleLine" locked="0">
                             <prop k="capstyle" v="flat"/>
@@ -112,9 +122,11 @@
                             <prop k="width_unit" v="MM"/>
                         </layer>
                     </symbol>
-                    <Annotation rightDirection="0" bottomDirection="0" format="0" topPosition="1" precision="3" leftDirection="0" rightPosition="1" bottomPosition="1" frameDistance="1" show="0" font="Sans Serif,9,-1,5,50,0,0,0,0,0" leftPosition="1" topDirection="0"/>
+                    <Annotation rightDirection="0" bottomDirection="0" format="0" topPosition="1" precision="3" leftDirection="0" rightPosition="1" bottomPosition="1" frameDistance="1" show="0" font="Sans Serif,9,-1,5,50,0,0,0,0,0" leftPosition="1" topDirection="0">
+                        <fontColor red="0" blue="0" green="0"/>
+                    </Annotation>
                 </Grid>
-                <ComposerItem width="277" x="10" y="25" rotation="0" height="175" positionMode="0" frame="false" outlineWidth="0.3" zValue="1" lastValidViewScaleFactor="2.26066" uuid="{3bb4e2d3-6374-4a52-86ce-21263ffa81f0}" id="" background="true" positionLock="true">
+                <ComposerItem width="277" x="10" transparency="0" y="25" rotation="0" height="175" positionMode="0" frame="false" outlineWidth="0.3" zValue="1" lastValidViewScaleFactor="1.83886" uuid="{3bb4e2d3-6374-4a52-86ce-21263ffa81f0}" id="" background="true" blendMode="0" positionLock="true">
                     <FrameColor alpha="255" red="0" blue="0" green="0"/>
                     <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
                 </ComposerItem>
@@ -124,13 +136,13 @@
     <Composer title="A4-Portrait" visible="0">
         <Composition printResolution="300" paperWidth="210" snapGridOffsetX="0" snapGridResolution="10" snapGridOffsetY="0" alignmentSnap="1" snapping="0" numPages="1" paperHeight="297" alignmentSnapTolerance="2" printAsRaster="0">
             <ComposerScaleBar penColor="#000000" style="Numeric" numMapUnitsPerScaleBarUnit="1" alignment="1" brushColor="#000000" numSegments="3" segmentMillimeters="14.7397" fontColor="#000000" font="Sans Serif,10,-1,5,50,0,0,0,0,0" numUnitsPerSegment="3" units="1" labelBarSpace="3" outlineWidth="1" numSegmentsLeft="2" height="0" mapId="0" boxContentSpace="1" unitLabel="m">
-                <ComposerItem width="27" x="137.538" y="15.6433" rotation="0" height="5.3" positionMode="0" frame="false" outlineWidth="0.3" zValue="5" lastValidViewScaleFactor="3.4698" uuid="{24eec344-0634-4df5-8937-923d1202e7ae}" id="" background="true" positionLock="false">
+                <ComposerItem width="27" x="137.538" transparency="0" y="15.6433" rotation="0" height="5.3" positionMode="0" frame="false" outlineWidth="0.3" zValue="5" lastValidViewScaleFactor="3.4698" uuid="{24eec344-0634-4df5-8937-923d1202e7ae}" id="" background="true" blendMode="0" positionLock="false">
                     <FrameColor alpha="255" red="0" blue="0" green="0"/>
                     <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
                 </ComposerItem>
             </ComposerScaleBar>
             <ComposerPicture pictureWidth="25" file="./north-arrow_3_simple_symmetric_triangular.svg" pictureHeight="25" mapId="0">
-                <ComposerItem width="25" x="177" y="3.54327" rotation="0" height="25" positionMode="0" frame="false" outlineWidth="0.3" zValue="4" lastValidViewScaleFactor="3.4698" uuid="{c6d8ed70-6b5b-43d2-8f1b-d57253a802fc}" id="" background="false" positionLock="true">
+                <ComposerItem width="25" x="177" transparency="0" y="3.54327" rotation="0" height="25" positionMode="0" frame="false" outlineWidth="0.3" zValue="4" lastValidViewScaleFactor="3.4698" uuid="{c6d8ed70-6b5b-43d2-8f1b-d57253a802fc}" id="" background="false" blendMode="0" positionLock="true">
                     <FrameColor alpha="255" red="0" blue="0" green="0"/>
                     <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
                 </ComposerItem>
@@ -138,13 +150,13 @@
             <ComposerLabel valign="32" labelText="QGIS Server Demo - Natural Earth Data" htmlState="0" halign="1" margin="1">
                 <LabelFont description="Sans Serif,12,-1,5,75,0,0,0,0,0"/>
                 <FontColor red="0" blue="0" green="0"/>
-                <ComposerItem width="126.793" x="12.7452" y="14.0433" rotation="0" height="6.9" positionMode="0" frame="false" outlineWidth="0.3" zValue="3" lastValidViewScaleFactor="3.4698" uuid="{bb711de7-e7d7-4503-bfdd-6784ce304440}" id="" background="true" positionLock="true">
+                <ComposerItem width="126.793" x="12.7452" transparency="0" y="14.0433" rotation="0" height="6.9" positionMode="0" frame="false" outlineWidth="0.3" zValue="3" lastValidViewScaleFactor="3.4698" uuid="{bb711de7-e7d7-4503-bfdd-6784ce304440}" id="" background="true" blendMode="0" positionLock="true">
                     <FrameColor alpha="255" red="0" blue="0" green="0"/>
                     <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
                 </ComposerItem>
             </ComposerLabel>
             <ComposerMap keepLayerSet="false" overviewFrameMap="-1" id="0" previewMode="Cache" drawCanvasItems="true">
-                <overviewFrame overviewFrameMap="-1">
+                <overviewFrame overviewBlendMode="0" overviewFrameMap="-1" overviewInverted="false">
                     <symbol alpha="0.3" type="fill" name="">
                         <layer pass="0" class="SimpleFill" locked="0">
                             <prop k="border_width_unit" v="MM"/>
@@ -160,7 +172,7 @@
                 </overviewFrame>
                 <Extent ymin="20.2794" xmin="86.5851" ymax="71.3659" xmax="124.035"/>
                 <LayerSet/>
-                <Grid gridStyle="0" crossLength="3" intervalX="10" offsetX="10" intervalY="10" offsetY="10" gridFrameStyle="0" gridFrameWidth="2" show="1">
+                <Grid gridStyle="0" crossLength="3" intervalX="10" offsetX="10" intervalY="10" offsetY="10" gridFrameStyle="0" gridFrameWidth="2" gridBlendMode="0" show="1">
                     <symbol alpha="1" type="line" name="">
                         <layer pass="0" class="SimpleLine" locked="0">
                             <prop k="capstyle" v="flat"/>
@@ -176,23 +188,94 @@
                             <prop k="width_unit" v="MM"/>
                         </layer>
                     </symbol>
-                    <Annotation rightDirection="1" bottomDirection="0" format="1" topPosition="1" precision="0" leftDirection="1" rightPosition="1" bottomPosition="1" frameDistance="0.3" show="1" font="Sans Serif,6,-1,5,50,0,0,0,0,0" leftPosition="1" topDirection="0"/>
+                    <Annotation rightDirection="1" bottomDirection="0" format="1" topPosition="1" precision="0" leftDirection="1" rightPosition="1" bottomPosition="1" frameDistance="0.3" show="1" font="Sans Serif,6,-1,5,50,0,0,0,0,0" leftPosition="1" topDirection="0">
+                        <fontColor red="0" blue="0" green="0"/>
+                    </Annotation>
                 </Grid>
-                <ComposerItem width="184" x="13" y="33" rotation="0" height="251" positionMode="0" frame="false" outlineWidth="0.3" zValue="2" lastValidViewScaleFactor="3.4698" uuid="{cdef1251-ef1c-4db9-9d6d-7ba82b1e24be}" id="" background="true" positionLock="true">
+                <ComposerItem width="184" x="13" transparency="0" y="33" rotation="0" height="251" positionMode="0" frame="false" outlineWidth="0.3" zValue="2" lastValidViewScaleFactor="3.4698" uuid="{cdef1251-ef1c-4db9-9d6d-7ba82b1e24be}" id="" background="true" blendMode="0" positionLock="true">
                     <FrameColor alpha="255" red="0" blue="0" green="0"/>
                     <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
                 </ComposerItem>
             </ComposerMap>
             <ComposerShape shapeType="1">
-                <ComposerItem width="190" x="10" y="30" rotation="0" height="257" positionMode="0" frame="true" outlineWidth="0.25" zValue="1" lastValidViewScaleFactor="3.4698" uuid="{e36c8517-da3f-4586-aa52-0e02b917aec3}" id="" background="false" positionLock="true">
+                <ComposerItem width="190" x="10" transparency="0" y="30" rotation="0" height="257" positionMode="0" frame="true" outlineWidth="0.25" zValue="1" lastValidViewScaleFactor="3.4698" uuid="{e36c8517-da3f-4586-aa52-0e02b917aec3}" id="" background="false" blendMode="0" positionLock="true">
                     <FrameColor alpha="255" red="0" blue="0" green="0"/>
                     <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
                 </ComposerItem>
             </ComposerShape>
         </Composition>
     </Composer>
-    <projectlayers layercount="6">
-        <maplayer minimumScale="0" maximumScale="1e+08" geometry="Point" type="vector" hasScaleBasedVisibilityFlag="0">
+    <projectlayers layercount="8">
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>HYP_50M_SR_W20130501002616468</id>
+            <datasource>../data/HYP_50M_SR_W.tif</datasource>
+            <title></title>
+            <abstract></abstract>
+            <layername>Shaded Relief with Hypsometry</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
+                    <srsid>3452</srsid>
+                    <srid>4326</srid>
+                    <authid>EPSG:4326</authid>
+                    <description>WGS 84</description>
+                    <projectionacronym>longlat</projectionacronym>
+                    <ellipsoidacronym>WGS84</ellipsoidacronym>
+                    <geographicflag>true</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <customproperties>
+                <property key="identify/format" value="Value"/>
+            </customproperties>
+            <provider>gdal</provider>
+            <pipe>
+                <rasterrenderer opacity="1" alphaBand="-1" blueBand="3" greenBand="2" type="multibandcolor" redBand="1">
+                    <rasterTransparency/>
+                </rasterrenderer>
+                <brightnesscontrast brightness="0" contrast="0"/>
+                <huesaturation colorizeGreen="128" colorizeOn="0" colorizeRed="255" colorizeBlue="128" grayscaleMode="0" saturation="0" colorizeStrength="100"/>
+                <rasterresampler maxOversampling="2" zoomedOutResampler="bilinear" zoomedInResampler="bilinear"/>
+            </pipe>
+            <blendMode>0</blendMode>
+        </maplayer>
+        <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>SR_50M20130430075655550</id>
+            <datasource>../data/SR_50M.tif</datasource>
+            <title></title>
+            <abstract></abstract>
+            <layername>Shaded Relief</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
+                    <srsid>3452</srsid>
+                    <srid>4326</srid>
+                    <authid>EPSG:4326</authid>
+                    <description>WGS 84</description>
+                    <projectionacronym>longlat</projectionacronym>
+                    <ellipsoidacronym>WGS84</ellipsoidacronym>
+                    <geographicflag>true</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <customproperties>
+                <property key="identify/format" value="Value"/>
+            </customproperties>
+            <provider>gdal</provider>
+            <pipe>
+                <rasterrenderer gradient="BlackToWhite" opacity="1" alphaBand="0" type="singlebandgray" grayBand="1">
+                    <rasterTransparency/>
+                    <contrastEnhancement>
+                        <minValue>178.301</minValue>
+                        <maxValue>218.145</maxValue>
+                        <algorithm>StretchToMinimumMaximum</algorithm>
+                    </contrastEnhancement>
+                </rasterrenderer>
+                <brightnesscontrast brightness="0" contrast="0"/>
+                <huesaturation colorizeGreen="128" colorizeOn="0" colorizeRed="255" colorizeBlue="128" grayscaleMode="0" saturation="0" colorizeStrength="100"/>
+                <rasterresampler maxOversampling="2" zoomedOutResampler="bilinear" zoomedInResampler="bilinear"/>
+            </pipe>
+            <blendMode>0</blendMode>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" minLabelScale="1" maxLabelScale="1e+08" geometry="Point" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
             <id>ne_110m_geography_regions_elevation_points20121113085601074</id>
             <datasource>dbname='../data/naturalearth_110m_physical.sqlite' table="ne_110m_geography_regions_elevation_points" (geom) sql=</datasource>
             <title>Geographic Features</title>
@@ -210,8 +293,8 @@
                     <geographicflag>true</geographicflag>
                 </spatialrefsys>
             </srs>
-            <transparencyLevelInt>255</transparencyLevelInt>
             <provider encoding="UTF-8">spatialite</provider>
+            <previewExpression></previewExpression>
             <vectorjoins/>
             <renderer-v2 attr="featurecla" symbollevels="0" type="categorizedSymbol">
                 <categories>
@@ -229,6 +312,8 @@
                             <prop k="name" v="arrowhead"/>
                             <prop k="offset" v="0,0"/>
                             <prop k="offset_unit" v="MM"/>
+                            <prop k="outline_width" v="0"/>
+                            <prop k="outline_width_unit" v="MM"/>
                             <prop k="scale_method" v="area"/>
                             <prop k="size" v="2"/>
                             <prop k="size_unit" v="MM"/>
@@ -242,6 +327,8 @@
                             <prop k="name" v="equilateral_triangle"/>
                             <prop k="offset" v="0,0"/>
                             <prop k="offset_unit" v="MM"/>
+                            <prop k="outline_width" v="0"/>
+                            <prop k="outline_width_unit" v="MM"/>
                             <prop k="scale_method" v="area"/>
                             <prop k="size" v="2"/>
                             <prop k="size_unit" v="MM"/>
@@ -281,6 +368,8 @@
                             <prop k="name" v="circle"/>
                             <prop k="offset" v="0,0"/>
                             <prop k="offset_unit" v="MM"/>
+                            <prop k="outline_width" v="0"/>
+                            <prop k="outline_width_unit" v="MM"/>
                             <prop k="scale_method" v="area"/>
                             <prop k="size" v="2"/>
                             <prop k="size_unit" v="MM"/>
@@ -296,6 +385,8 @@
                             <prop k="name" v="circle"/>
                             <prop k="offset" v="0,0"/>
                             <prop k="offset_unit" v="MM"/>
+                            <prop k="outline_width" v="0"/>
+                            <prop k="outline_width_unit" v="MM"/>
                             <prop k="scale_method" v="area"/>
                             <prop k="size" v="2"/>
                             <prop k="size_unit" v="MM"/>
@@ -401,6 +492,9 @@
                 <property key="labeling/yOffset" value="0"/>
                 <property key="labeling/yQuadOffset" value="0"/>
             </customproperties>
+            <blendMode>0</blendMode>
+            <featureBlendMode>0</featureBlendMode>
+            <layerTransparency>0</layerTransparency>
             <displayfield>name</displayfield>
             <label>0</label>
             <labelattributes>
@@ -447,7 +541,7 @@
             <excludeAttributesWFS/>
             <attributeactions/>
         </maplayer>
-        <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0">
+        <maplayer minimumScale="0" maximumScale="1e+08" minLabelScale="1" maxLabelScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
             <id>ne_110m_glaciated_areas20121113085601089</id>
             <datasource>dbname='../data/naturalearth_110m_physical.sqlite' table="ne_110m_glaciated_areas" (geom) sql=</datasource>
             <title></title>
@@ -465,8 +559,8 @@
                     <geographicflag>true</geographicflag>
                 </spatialrefsys>
             </srs>
-            <transparencyLevelInt>255</transparencyLevelInt>
             <provider encoding="UTF-8">spatialite</provider>
+            <previewExpression></previewExpression>
             <vectorjoins/>
             <renderer-v2 symbollevels="0" type="singleSymbol">
                 <symbols>
@@ -490,42 +584,26 @@
                 <property key="labeling" value="pal"/>
                 <property key="labeling/addDirectionSymbol" value="false"/>
                 <property key="labeling/angleOffset" value="0"/>
+                <property key="labeling/blendMode" value="0"/>
+                <property key="labeling/bufferBlendMode" value="0"/>
+                <property key="labeling/bufferColorA" value="255"/>
                 <property key="labeling/bufferColorB" value="255"/>
                 <property key="labeling/bufferColorG" value="255"/>
                 <property key="labeling/bufferColorR" value="255"/>
+                <property key="labeling/bufferDraw" value="true"/>
                 <property key="labeling/bufferJoinStyle" value="64"/>
                 <property key="labeling/bufferNoFill" value="false"/>
                 <property key="labeling/bufferSize" value="1"/>
                 <property key="labeling/bufferSizeInMapUnits" value="false"/>
                 <property key="labeling/bufferTransp" value="0"/>
                 <property key="labeling/centroidWhole" value="false"/>
-                <property key="labeling/dataDefined/AlwaysShow" value=""/>
-                <property key="labeling/dataDefined/Bold" value=""/>
-                <property key="labeling/dataDefined/BufferColor" value=""/>
-                <property key="labeling/dataDefined/BufferSize" value=""/>
-                <property key="labeling/dataDefined/BufferTransp" value=""/>
-                <property key="labeling/dataDefined/Color" value=""/>
-                <property key="labeling/dataDefined/Family" value=""/>
-                <property key="labeling/dataDefined/FontTransp" value=""/>
-                <property key="labeling/dataDefined/Hali" value=""/>
-                <property key="labeling/dataDefined/Italic" value=""/>
-                <property key="labeling/dataDefined/LabelDistance" value=""/>
-                <property key="labeling/dataDefined/MaxScale" value=""/>
-                <property key="labeling/dataDefined/MinScale" value=""/>
-                <property key="labeling/dataDefined/PositionX" value=""/>
-                <property key="labeling/dataDefined/PositionY" value=""/>
-                <property key="labeling/dataDefined/Rotation" value=""/>
-                <property key="labeling/dataDefined/Show" value=""/>
-                <property key="labeling/dataDefined/Size" value=""/>
-                <property key="labeling/dataDefined/Strikeout" value=""/>
-                <property key="labeling/dataDefined/Underline" value=""/>
-                <property key="labeling/dataDefined/Vali" value=""/>
                 <property key="labeling/decimals" value="0"/>
                 <property key="labeling/displayAll" value="false"/>
                 <property key="labeling/dist" value="0"/>
                 <property key="labeling/distInMapUnits" value="false"/>
                 <property key="labeling/enabled" value="false"/>
                 <property key="labeling/fieldName" value=""/>
+                <property key="labeling/fontBold" value="false"/>
                 <property key="labeling/fontCapitals" value="0"/>
                 <property key="labeling/fontFamily" value="Sans Serif"/>
                 <property key="labeling/fontItalic" value="false"/>
@@ -543,20 +621,74 @@
                 <property key="labeling/isExpression" value="false"/>
                 <property key="labeling/labelOffsetInMapUnits" value="true"/>
                 <property key="labeling/labelPerPart" value="false"/>
+                <property key="labeling/leftDirectionSymbol" value="&lt;"/>
+                <property key="labeling/limitNumLabels" value="false"/>
+                <property key="labeling/maxCurvedCharAngleIn" value="20"/>
+                <property key="labeling/maxCurvedCharAngleOut" value="-20"/>
+                <property key="labeling/maxNumLabels" value="2000"/>
                 <property key="labeling/mergeLines" value="false"/>
                 <property key="labeling/minFeatureSize" value="0"/>
                 <property key="labeling/multilineAlign" value="0"/>
                 <property key="labeling/multilineHeight" value="1"/>
                 <property key="labeling/namedStyle" value="Normal"/>
                 <property key="labeling/obstacle" value="true"/>
+                <property key="labeling/placeDirectionSymbol" value="0"/>
                 <property key="labeling/placement" value="0"/>
                 <property key="labeling/placementFlags" value="0"/>
-                <property key="labeling/plussign" value="true"/>
+                <property key="labeling/plussign" value="false"/>
                 <property key="labeling/preserveRotation" value="true"/>
                 <property key="labeling/previewBkgrdColor" value="#ffffff"/>
                 <property key="labeling/priority" value="5"/>
-                <property key="labeling/scaleMax" value="0"/>
-                <property key="labeling/scaleMin" value="0"/>
+                <property key="labeling/quadOffset" value="4"/>
+                <property key="labeling/reverseDirectionSymbol" value="false"/>
+                <property key="labeling/rightDirectionSymbol" value=">"/>
+                <property key="labeling/scaleMax" value="1"/>
+                <property key="labeling/scaleMin" value="1"/>
+                <property key="labeling/scaleVisibility" value="false"/>
+                <property key="labeling/shadowBlendMode" value="6"/>
+                <property key="labeling/shadowColorB" value="0"/>
+                <property key="labeling/shadowColorG" value="0"/>
+                <property key="labeling/shadowColorR" value="0"/>
+                <property key="labeling/shadowDraw" value="false"/>
+                <property key="labeling/shadowOffsetAngle" value="135"/>
+                <property key="labeling/shadowOffsetDist" value="1"/>
+                <property key="labeling/shadowOffsetGlobal" value="true"/>
+                <property key="labeling/shadowOffsetUnits" value="1"/>
+                <property key="labeling/shadowRadius" value="1.5"/>
+                <property key="labeling/shadowRadiusAlphaOnly" value="false"/>
+                <property key="labeling/shadowRadiusUnits" value="1"/>
+                <property key="labeling/shadowScale" value="100"/>
+                <property key="labeling/shadowTransparency" value="30"/>
+                <property key="labeling/shadowUnder" value="0"/>
+                <property key="labeling/shapeBlendMode" value="0"/>
+                <property key="labeling/shapeBorderColorA" value="255"/>
+                <property key="labeling/shapeBorderColorB" value="128"/>
+                <property key="labeling/shapeBorderColorG" value="128"/>
+                <property key="labeling/shapeBorderColorR" value="128"/>
+                <property key="labeling/shapeBorderWidth" value="0"/>
+                <property key="labeling/shapeBorderWidthUnits" value="1"/>
+                <property key="labeling/shapeDraw" value="false"/>
+                <property key="labeling/shapeFillColorA" value="255"/>
+                <property key="labeling/shapeFillColorB" value="255"/>
+                <property key="labeling/shapeFillColorG" value="255"/>
+                <property key="labeling/shapeFillColorR" value="255"/>
+                <property key="labeling/shapeJoinStyle" value="64"/>
+                <property key="labeling/shapeOffsetUnits" value="1"/>
+                <property key="labeling/shapeOffsetX" value="0"/>
+                <property key="labeling/shapeOffsetY" value="0"/>
+                <property key="labeling/shapeRadiiUnits" value="1"/>
+                <property key="labeling/shapeRadiiX" value="0"/>
+                <property key="labeling/shapeRadiiY" value="0"/>
+                <property key="labeling/shapeRotation" value="0"/>
+                <property key="labeling/shapeRotationType" value="0"/>
+                <property key="labeling/shapeSVGFile" value=""/>
+                <property key="labeling/shapeSizeType" value="0"/>
+                <property key="labeling/shapeSizeUnits" value="1"/>
+                <property key="labeling/shapeSizeX" value="0"/>
+                <property key="labeling/shapeSizeY" value="0"/>
+                <property key="labeling/shapeTransparency" value="0"/>
+                <property key="labeling/shapeType" value="0"/>
+                <property key="labeling/textColorA" value="255"/>
                 <property key="labeling/textColorB" value="0"/>
                 <property key="labeling/textColorG" value="0"/>
                 <property key="labeling/textColorR" value="0"/>
@@ -568,6 +700,9 @@
                 <property key="labeling/yOffset" value="0"/>
                 <property key="labeling/yQuadOffset" value="0"/>
             </customproperties>
+            <blendMode>8</blendMode>
+            <featureBlendMode>0</featureBlendMode>
+            <layerTransparency>35</layerTransparency>
             <displayfield>featurecla</displayfield>
             <label>0</label>
             <labelattributes>
@@ -603,7 +738,7 @@
             <excludeAttributesWFS/>
             <attributeactions/>
         </maplayer>
-        <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0">
+        <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" minLabelScale="1" maxLabelScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
             <id>ne_110m_lakes20121113085601093</id>
             <datasource>dbname='../data/naturalearth_110m_physical.sqlite' table="ne_110m_lakes" (geom) sql=</datasource>
             <title></title>
@@ -621,8 +756,8 @@
                     <geographicflag>true</geographicflag>
                 </spatialrefsys>
             </srs>
-            <transparencyLevelInt>255</transparencyLevelInt>
             <provider encoding="UTF-8">spatialite</provider>
+            <previewExpression></previewExpression>
             <vectorjoins/>
             <renderer-v2 symbollevels="0" type="singleSymbol">
                 <symbols>
@@ -655,27 +790,6 @@
                 <property key="labeling/bufferSizeInMapUnits" value="false"/>
                 <property key="labeling/bufferTransp" value="0"/>
                 <property key="labeling/centroidWhole" value="false"/>
-                <property key="labeling/dataDefined/AlwaysShow" value=""/>
-                <property key="labeling/dataDefined/Bold" value=""/>
-                <property key="labeling/dataDefined/BufferColor" value=""/>
-                <property key="labeling/dataDefined/BufferSize" value=""/>
-                <property key="labeling/dataDefined/BufferTransp" value=""/>
-                <property key="labeling/dataDefined/Color" value=""/>
-                <property key="labeling/dataDefined/Family" value=""/>
-                <property key="labeling/dataDefined/FontTransp" value=""/>
-                <property key="labeling/dataDefined/Hali" value=""/>
-                <property key="labeling/dataDefined/Italic" value=""/>
-                <property key="labeling/dataDefined/LabelDistance" value=""/>
-                <property key="labeling/dataDefined/MaxScale" value=""/>
-                <property key="labeling/dataDefined/MinScale" value=""/>
-                <property key="labeling/dataDefined/PositionX" value=""/>
-                <property key="labeling/dataDefined/PositionY" value=""/>
-                <property key="labeling/dataDefined/Rotation" value=""/>
-                <property key="labeling/dataDefined/Show" value=""/>
-                <property key="labeling/dataDefined/Size" value=""/>
-                <property key="labeling/dataDefined/Strikeout" value=""/>
-                <property key="labeling/dataDefined/Underline" value=""/>
-                <property key="labeling/dataDefined/Vali" value=""/>
                 <property key="labeling/decimals" value="0"/>
                 <property key="labeling/displayAll" value="false"/>
                 <property key="labeling/dist" value="0"/>
@@ -724,6 +838,9 @@
                 <property key="labeling/yOffset" value="0"/>
                 <property key="labeling/yQuadOffset" value="0"/>
             </customproperties>
+            <blendMode>0</blendMode>
+            <featureBlendMode>0</featureBlendMode>
+            <layerTransparency>0</layerTransparency>
             <displayfield>name</displayfield>
             <label>0</label>
             <labelattributes>
@@ -762,7 +879,7 @@
             <excludeAttributesWFS/>
             <attributeactions/>
         </maplayer>
-        <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0">
+        <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" minLabelScale="1" maxLabelScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
             <id>ne_110m_land20121113085601097</id>
             <datasource>dbname='../data/naturalearth_110m_physical.sqlite' table="ne_110m_land" (geom) sql=</datasource>
             <title>The land masses</title>
@@ -780,8 +897,8 @@
                     <geographicflag>true</geographicflag>
                 </spatialrefsys>
             </srs>
-            <transparencyLevelInt>255</transparencyLevelInt>
             <provider encoding="UTF-8">spatialite</provider>
+            <previewExpression></previewExpression>
             <vectorjoins/>
             <renderer-v2 symbollevels="0" type="singleSymbol">
                 <symbols>
@@ -805,42 +922,26 @@
                 <property key="labeling" value="pal"/>
                 <property key="labeling/addDirectionSymbol" value="false"/>
                 <property key="labeling/angleOffset" value="0"/>
+                <property key="labeling/blendMode" value="0"/>
+                <property key="labeling/bufferBlendMode" value="0"/>
+                <property key="labeling/bufferColorA" value="255"/>
                 <property key="labeling/bufferColorB" value="255"/>
                 <property key="labeling/bufferColorG" value="255"/>
                 <property key="labeling/bufferColorR" value="255"/>
+                <property key="labeling/bufferDraw" value="true"/>
                 <property key="labeling/bufferJoinStyle" value="64"/>
                 <property key="labeling/bufferNoFill" value="false"/>
                 <property key="labeling/bufferSize" value="1"/>
                 <property key="labeling/bufferSizeInMapUnits" value="false"/>
                 <property key="labeling/bufferTransp" value="0"/>
                 <property key="labeling/centroidWhole" value="false"/>
-                <property key="labeling/dataDefined/AlwaysShow" value=""/>
-                <property key="labeling/dataDefined/Bold" value=""/>
-                <property key="labeling/dataDefined/BufferColor" value=""/>
-                <property key="labeling/dataDefined/BufferSize" value=""/>
-                <property key="labeling/dataDefined/BufferTransp" value=""/>
-                <property key="labeling/dataDefined/Color" value=""/>
-                <property key="labeling/dataDefined/Family" value=""/>
-                <property key="labeling/dataDefined/FontTransp" value=""/>
-                <property key="labeling/dataDefined/Hali" value=""/>
-                <property key="labeling/dataDefined/Italic" value=""/>
-                <property key="labeling/dataDefined/LabelDistance" value=""/>
-                <property key="labeling/dataDefined/MaxScale" value=""/>
-                <property key="labeling/dataDefined/MinScale" value=""/>
-                <property key="labeling/dataDefined/PositionX" value=""/>
-                <property key="labeling/dataDefined/PositionY" value=""/>
-                <property key="labeling/dataDefined/Rotation" value=""/>
-                <property key="labeling/dataDefined/Show" value=""/>
-                <property key="labeling/dataDefined/Size" value=""/>
-                <property key="labeling/dataDefined/Strikeout" value=""/>
-                <property key="labeling/dataDefined/Underline" value=""/>
-                <property key="labeling/dataDefined/Vali" value=""/>
                 <property key="labeling/decimals" value="0"/>
                 <property key="labeling/displayAll" value="false"/>
                 <property key="labeling/dist" value="0"/>
                 <property key="labeling/distInMapUnits" value="false"/>
                 <property key="labeling/enabled" value="false"/>
                 <property key="labeling/fieldName" value=""/>
+                <property key="labeling/fontBold" value="false"/>
                 <property key="labeling/fontCapitals" value="0"/>
                 <property key="labeling/fontFamily" value="Sans Serif"/>
                 <property key="labeling/fontItalic" value="false"/>
@@ -872,14 +973,60 @@
                 <property key="labeling/placeDirectionSymbol" value="0"/>
                 <property key="labeling/placement" value="0"/>
                 <property key="labeling/placementFlags" value="0"/>
-                <property key="labeling/plussign" value="true"/>
+                <property key="labeling/plussign" value="false"/>
                 <property key="labeling/preserveRotation" value="true"/>
                 <property key="labeling/previewBkgrdColor" value="#ffffff"/>
                 <property key="labeling/priority" value="5"/>
+                <property key="labeling/quadOffset" value="4"/>
                 <property key="labeling/reverseDirectionSymbol" value="false"/>
                 <property key="labeling/rightDirectionSymbol" value=">"/>
-                <property key="labeling/scaleMax" value="0"/>
-                <property key="labeling/scaleMin" value="0"/>
+                <property key="labeling/scaleMax" value="1"/>
+                <property key="labeling/scaleMin" value="1"/>
+                <property key="labeling/scaleVisibility" value="false"/>
+                <property key="labeling/shadowBlendMode" value="6"/>
+                <property key="labeling/shadowColorB" value="0"/>
+                <property key="labeling/shadowColorG" value="0"/>
+                <property key="labeling/shadowColorR" value="0"/>
+                <property key="labeling/shadowDraw" value="false"/>
+                <property key="labeling/shadowOffsetAngle" value="135"/>
+                <property key="labeling/shadowOffsetDist" value="1"/>
+                <property key="labeling/shadowOffsetGlobal" value="true"/>
+                <property key="labeling/shadowOffsetUnits" value="1"/>
+                <property key="labeling/shadowRadius" value="1.5"/>
+                <property key="labeling/shadowRadiusAlphaOnly" value="false"/>
+                <property key="labeling/shadowRadiusUnits" value="1"/>
+                <property key="labeling/shadowScale" value="100"/>
+                <property key="labeling/shadowTransparency" value="30"/>
+                <property key="labeling/shadowUnder" value="0"/>
+                <property key="labeling/shapeBlendMode" value="0"/>
+                <property key="labeling/shapeBorderColorA" value="255"/>
+                <property key="labeling/shapeBorderColorB" value="128"/>
+                <property key="labeling/shapeBorderColorG" value="128"/>
+                <property key="labeling/shapeBorderColorR" value="128"/>
+                <property key="labeling/shapeBorderWidth" value="0"/>
+                <property key="labeling/shapeBorderWidthUnits" value="1"/>
+                <property key="labeling/shapeDraw" value="false"/>
+                <property key="labeling/shapeFillColorA" value="255"/>
+                <property key="labeling/shapeFillColorB" value="255"/>
+                <property key="labeling/shapeFillColorG" value="255"/>
+                <property key="labeling/shapeFillColorR" value="255"/>
+                <property key="labeling/shapeJoinStyle" value="64"/>
+                <property key="labeling/shapeOffsetUnits" value="1"/>
+                <property key="labeling/shapeOffsetX" value="0"/>
+                <property key="labeling/shapeOffsetY" value="0"/>
+                <property key="labeling/shapeRadiiUnits" value="1"/>
+                <property key="labeling/shapeRadiiX" value="0"/>
+                <property key="labeling/shapeRadiiY" value="0"/>
+                <property key="labeling/shapeRotation" value="0"/>
+                <property key="labeling/shapeRotationType" value="0"/>
+                <property key="labeling/shapeSVGFile" value=""/>
+                <property key="labeling/shapeSizeType" value="0"/>
+                <property key="labeling/shapeSizeUnits" value="1"/>
+                <property key="labeling/shapeSizeX" value="0"/>
+                <property key="labeling/shapeSizeY" value="0"/>
+                <property key="labeling/shapeTransparency" value="0"/>
+                <property key="labeling/shapeType" value="0"/>
+                <property key="labeling/textColorA" value="255"/>
                 <property key="labeling/textColorB" value="0"/>
                 <property key="labeling/textColorG" value="0"/>
                 <property key="labeling/textColorR" value="0"/>
@@ -891,6 +1038,9 @@
                 <property key="labeling/yOffset" value="0"/>
                 <property key="labeling/yQuadOffset" value="0"/>
             </customproperties>
+            <blendMode>0</blendMode>
+            <featureBlendMode>0</featureBlendMode>
+            <layerTransparency>60</layerTransparency>
             <displayfield>id</displayfield>
             <label>0</label>
             <labelattributes>
@@ -926,7 +1076,7 @@
             <excludeAttributesWFS/>
             <attributeactions/>
         </maplayer>
-        <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0">
+        <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" minLabelScale="1" maxLabelScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
             <id>ne_110m_ocean20121113085601101</id>
             <datasource>dbname='../data/naturalearth_110m_physical.sqlite' table="ne_110m_ocean" (geom) sql=</datasource>
             <title>The Oceans</title>
@@ -944,8 +1094,8 @@
                     <geographicflag>true</geographicflag>
                 </spatialrefsys>
             </srs>
-            <transparencyLevelInt>255</transparencyLevelInt>
             <provider encoding="UTF-8">spatialite</provider>
+            <previewExpression></previewExpression>
             <vectorjoins/>
             <renderer-v2 symbollevels="0" type="singleSymbol">
                 <symbols>
@@ -978,27 +1128,6 @@
                 <property key="labeling/bufferSizeInMapUnits" value="false"/>
                 <property key="labeling/bufferTransp" value="0"/>
                 <property key="labeling/centroidWhole" value="false"/>
-                <property key="labeling/dataDefined/AlwaysShow" value=""/>
-                <property key="labeling/dataDefined/Bold" value=""/>
-                <property key="labeling/dataDefined/BufferColor" value=""/>
-                <property key="labeling/dataDefined/BufferSize" value=""/>
-                <property key="labeling/dataDefined/BufferTransp" value=""/>
-                <property key="labeling/dataDefined/Color" value=""/>
-                <property key="labeling/dataDefined/Family" value=""/>
-                <property key="labeling/dataDefined/FontTransp" value=""/>
-                <property key="labeling/dataDefined/Hali" value=""/>
-                <property key="labeling/dataDefined/Italic" value=""/>
-                <property key="labeling/dataDefined/LabelDistance" value=""/>
-                <property key="labeling/dataDefined/MaxScale" value=""/>
-                <property key="labeling/dataDefined/MinScale" value=""/>
-                <property key="labeling/dataDefined/PositionX" value=""/>
-                <property key="labeling/dataDefined/PositionY" value=""/>
-                <property key="labeling/dataDefined/Rotation" value=""/>
-                <property key="labeling/dataDefined/Show" value=""/>
-                <property key="labeling/dataDefined/Size" value=""/>
-                <property key="labeling/dataDefined/Strikeout" value=""/>
-                <property key="labeling/dataDefined/Underline" value=""/>
-                <property key="labeling/dataDefined/Vali" value=""/>
                 <property key="labeling/decimals" value="0"/>
                 <property key="labeling/displayAll" value="false"/>
                 <property key="labeling/dist" value="0"/>
@@ -1055,6 +1184,9 @@
                 <property key="labeling/yOffset" value="0"/>
                 <property key="labeling/yQuadOffset" value="0"/>
             </customproperties>
+            <blendMode>0</blendMode>
+            <featureBlendMode>0</featureBlendMode>
+            <layerTransparency>0</layerTransparency>
             <displayfield>id</displayfield>
             <label>0</label>
             <labelattributes>
@@ -1090,7 +1222,7 @@
             <excludeAttributesWFS/>
             <attributeactions/>
         </maplayer>
-        <maplayer minimumScale="0" maximumScale="1e+08" geometry="Line" type="vector" hasScaleBasedVisibilityFlag="0">
+        <maplayer minimumScale="0" maximumScale="1e+08" minLabelScale="1" maxLabelScale="1e+08" geometry="Line" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
             <id>ne_110m_rivers_lake_centerlines20121113085601105</id>
             <datasource>dbname='../data/naturalearth_110m_physical.sqlite' table="ne_110m_rivers_lake_centerlines" (geom) sql=</datasource>
             <title></title>
@@ -1108,8 +1240,8 @@
                     <geographicflag>true</geographicflag>
                 </spatialrefsys>
             </srs>
-            <transparencyLevelInt>255</transparencyLevelInt>
             <provider encoding="UTF-8">spatialite</provider>
+            <previewExpression></previewExpression>
             <vectorjoins/>
             <renderer-v2 symbollevels="0" type="singleSymbol">
                 <symbols>
@@ -1145,27 +1277,6 @@
                 <property key="labeling/bufferSizeInMapUnits" value="false"/>
                 <property key="labeling/bufferTransp" value="0"/>
                 <property key="labeling/centroidWhole" value="false"/>
-                <property key="labeling/dataDefined/AlwaysShow" value=""/>
-                <property key="labeling/dataDefined/Bold" value=""/>
-                <property key="labeling/dataDefined/BufferColor" value=""/>
-                <property key="labeling/dataDefined/BufferSize" value=""/>
-                <property key="labeling/dataDefined/BufferTransp" value=""/>
-                <property key="labeling/dataDefined/Color" value=""/>
-                <property key="labeling/dataDefined/Family" value=""/>
-                <property key="labeling/dataDefined/FontTransp" value=""/>
-                <property key="labeling/dataDefined/Hali" value=""/>
-                <property key="labeling/dataDefined/Italic" value=""/>
-                <property key="labeling/dataDefined/LabelDistance" value=""/>
-                <property key="labeling/dataDefined/MaxScale" value=""/>
-                <property key="labeling/dataDefined/MinScale" value=""/>
-                <property key="labeling/dataDefined/PositionX" value=""/>
-                <property key="labeling/dataDefined/PositionY" value=""/>
-                <property key="labeling/dataDefined/Rotation" value=""/>
-                <property key="labeling/dataDefined/Show" value=""/>
-                <property key="labeling/dataDefined/Size" value=""/>
-                <property key="labeling/dataDefined/Strikeout" value=""/>
-                <property key="labeling/dataDefined/Underline" value=""/>
-                <property key="labeling/dataDefined/Vali" value=""/>
                 <property key="labeling/decimals" value="0"/>
                 <property key="labeling/displayAll" value="false"/>
                 <property key="labeling/dist" value="0"/>
@@ -1214,6 +1325,9 @@
                 <property key="labeling/yOffset" value="0"/>
                 <property key="labeling/yQuadOffset" value="0"/>
             </customproperties>
+            <blendMode>0</blendMode>
+            <featureBlendMode>0</featureBlendMode>
+            <layerTransparency>0</layerTransparency>
             <displayfield>name</displayfield>
             <label>0</label>
             <labelattributes>
@@ -1269,7 +1383,7 @@
         <Paths>
             <Absolute type="bool">false</Absolute>
         </Paths>
-        <WMSServiceTitle type="QString">World</WMSServiceTitle>
+        <WMSServiceTitle type="QString">Natural Earth View</WMSServiceTitle>
         <WFSLayers type="QStringList">
             <value>ne_110m_geography_regions_elevation_points20121113085601074</value>
             <value>ne_110m_glaciated_areas20121113085601089</value>
@@ -1284,9 +1398,10 @@
             <Automatic type="bool">true</Automatic>
             <DegreeFormat type="QString">D</DegreeFormat>
         </PositionPrecision>
-        <WMSContactPhone type="QString"></WMSContactPhone>
         <WMSServiceCapabilities type="bool">true</WMSServiceCapabilities>
-        <WMSServiceAbstract type="QString">Data Source: Natural Earth Data: </WMSServiceAbstract>
+        <WMSContactPhone type="QString"></WMSContactPhone>
+        <WMSServiceAbstract type="QString">Data Source: Natural Earth Data: 
+http://www.naturalearthdata.com/</WMSServiceAbstract>
         <WMSAddWktGeometry type="bool">true</WMSAddWktGeometry>
         <Measure>
             <Ellipsoid type="QString">NONE</Ellipsoid>
