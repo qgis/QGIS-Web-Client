@@ -1,3 +1,4 @@
+
 var gis_projects = {
 	"path": "/map",
 	"mapserver": "/wms",
@@ -15,6 +16,16 @@ var gis_projects = {
 			"responsible": "Amtliche Vermessung",
 			"tags": "Ortsplan",
             "sogistooltip": true
+		},{
+			"name": "Richtplan Stand Januar 2013",
+			"projectpath": "",
+			"projectfile": "richtplan",
+			"format": "image/png",
+			"visibleLayers": "Gemeindegrenzen,Übersichtsplan,Orthofoto 2006,Grundnutzung,Überlagerte Nutzung",
+			"updateInterval": "occasional",
+			"responsible": "Amtliche Vermessung",
+			"tags": "Richtplan",
+            "sogistooltip": true
 		}]
 	},{
 		"name": "Amt für Umwelt",
@@ -28,6 +39,26 @@ var gis_projects = {
 			"responsible": "Amt für Umwelt",
 			"tags": "Neophyten",
             "sogistooltip": false
+		},{
+			"name": "Baugrundklassen",
+			"projectpath": "",
+			"projectfile": "baugrundklassen",
+			"format": "image/png",
+			"visibleLayers": "Gemeindegrenze,Baugrundklassen,Übersichtsplan,Strassenkarte",
+			"updateInterval": "occasional",
+			"responsible": "Amt für Umwelt",
+			"tags": "Baugrundklassen",
+            "sogistooltip": true
+		},{
+			"name": "Naturgefahrenhinweiskarte",
+			"projectpath": "",
+			"projectfile": "natgef",
+			"format": "image/png",
+			"visibleLayers": "Gemeindegrenze,Baugrundklassen,Übersichtsplan,Strassenkarte mit Relief,Orthofoto 2006",
+			"updateInterval": "occasional",
+			"responsible": "Amt für Umwelt",
+			"tags": "Naturgefahrenhinweiskarte",
+            "sogistooltip": true
 		}]	
 	},{
 		"name": "Amt für Landwirtschaft",

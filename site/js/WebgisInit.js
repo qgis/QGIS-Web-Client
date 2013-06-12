@@ -348,8 +348,14 @@ function postLoading() {
 		}
 	}
 
-	// The printProvider that connects us to the print service
-	printUri = wmsURI + 'SERVICE=WMS&VERSION=1.3&REQUEST=GetPrint&FORMAT=pdf&EXCEPTIONS=application/vnd.ogc.se_inimage&TRANSPARENT=true';
+    // The printProvider that connects us to the print service
+    if ((printCapabilities.method == 'POST') && (printCapabilities.url_proxy != '')){
+        printUri = 'project=' + getProject() + '&';
+        printUri += 'SERVICE=WMS&VERSION=1.3&REQUEST=GetPrint&FORMAT=pdf&EXCEPTIONS=application/vnd.ogc.se_inimage&TRANSPARENT=true';
+    } else {
+        printUri = wmsURI + 'SERVICE=WMS&VERSION=1.3&REQUEST=GetPrint&FORMAT=pdf&EXCEPTIONS=application/vnd.ogc.se_inimage&TRANSPARENT=true';
+    }
+    
 	if (initialLoadDone) {
 		printProvider.capabilities = printCapabilities;
 		printProvider.url = printUri;

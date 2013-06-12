@@ -189,7 +189,9 @@ var printCapabilities={
     {"name":"1200 dpi","value":"1200"}
     */
   ],
-  "layouts":[]
+  "layouts":[],
+  "method": "POST", //POST or GET
+  "url_proxy": "http://srsofaioi12288.ktso.ch/wsgi/printpostget.wsgi?" // url to printpostget.wsgi
 };
 
 //var legend all at 

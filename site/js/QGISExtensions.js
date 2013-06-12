@@ -338,13 +338,14 @@ Ext.extend(QGIS.PrintProvider, GeoExt.data.PrintProvider, {
     var protocol = new OpenLayers.Protocol.WFS({
             url: servername + gis_projects.mapserver + '/'+ wmsMapName,
             featureType: 'print',
-            //featureNS: 'http://www.so.ch',
             geometryName: 'geometry',
             srsName: "EPSG:21781",
             filter: myfilter,
             readWithPOST: true
     });
-
+    
+    //printLoadMask.show();
+    Ext.getBody().mask(printLoadingString[lang], 'x-mask-loading');
     protocol.read({
         callback: function(response) {
             // begin: especially grundbuch
@@ -380,50 +381,52 @@ Ext.extend(QGIS.PrintProvider, GeoExt.data.PrintProvider, {
         scope: this
     });
   },
+
   download: function(url) {
     if (this.fireEvent("beforedownload", this, url) !== false) {
+      if ((printCapabilities.method == 'POST') && (printCapabilities.url_proxy != '')){
+          print_url = printCapabilities.url_proxy;
+      } else {
+          print_url = url;
+          img_src = url;
+      }
       Ext.Ajax.request({
-        url : url,
-        method: 'POST',                  
-        //params : { "test" : "testParam" },
+        isLoading: true,
+        url : printCapabilities.url_proxy,
+        method: printCapabilities.method,                  
+        params :  url,
         success: function (response) {
-                console.log(response);
-                /*
-                      var winpdf1 = new Ext.Window({
-                        title: 'PDF Content',
-                        width: 420,
-                        height: 320,
-                        plain:true,
-                        //html: '<iframe src="' + url + '" width="400" height="300" />'
-                    })
-            
-                    winpdf1.show();
-                    */
-              },
-        failure: function (response) {
-                  //var jsonResp = Ext.util.JSON.decode(response.responseText);
-                  //Ext.Msg.alert("Error",jsonResp.error);
-            }
-      });
-      /*
-      //because of an IE bug one has to do it in two steps
-      var parentPanel = Ext.getCmp('geoExtMapPanel');
-      var pdfWindow = new Ext.Window(
-        {
-          title: printWindowTitleString[lang],
-          width: parentPanel.getInnerWidth() - 70,
-          height: parentPanel.getInnerHeight() - 20,
-          renderTo: "geoExtMapPanel",
-          resizable: true,
-          closable: true,
-          x:50,
-          y:10,
-          html: '<object data="'+url+'" type="application/pdf" width="100%" height="100%"><p style="margin:5px;">'+printingObjectDataAlternativeString1[lang] + url + printingObjectDataAlternativeString2[lang]
+                        var jsonResp = Ext.util.JSON.decode(response.responseText); // GET URL from proxy
+                        if (jsonResp.url){ // lazy: if proxy, then jsonResp.url exists. Better test on printCapabilities.url_proxy
+                            img_src = jsonResp.url;
+                        }
+                        //because of an IE bug one has to do it in two steps
+                        var parentPanel = Ext.getCmp('geoExtMapPanel');
+                        Ext.getBody().unmask();
+                        var pdfWindow = new Ext.Window(
+                        {
+                            title: printWindowTitleString[lang],
+                            width: Ext.getBody().getWidth() - 100,
+                            height: Ext.getBody().getHeight() - 100,
+                            resizable: true,
+                            closable: true,
+                            constrain: false,
+                            constrainHeader: true,
+                            x:50,
+                            y:50,
+                            html: '<object data="'+img_src+'" type="application/pdf" width="100%" height="100%"><p style="margin:5px;">'+printingObjectDataAlternativeString1[lang] + img_src + printingObjectDataAlternativeString2[lang]
         }
       );
-      pdfWindow.show();*/
+      pdfWindow.show();
+
+              },
+        failure: function (response) {
+                  var jsonResp = Ext.util.JSON.decode(response.responseText);
+                  Ext.getBody().unmask();
+                  Ext.Msg.alert("Error",jsonResp.error);
+            }
+      });
     }
-    
     this.fireEvent("print", this, url);
   }
 }

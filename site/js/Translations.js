@@ -122,6 +122,17 @@ mapLoadingString["pt_PT"] = "Carregando o mapa...";
 mapLoadingString["uk"] = "Завантаження мапи...";
 mapLoadingString["hu"] = "Térkép betöltése folyamatban...";
 
+//indicating is waiting for print
+var printLoadingString = new Array();
+printLoadingString["en"] = "Printing initialised. Please wait...";
+printLoadingString["es"] = "Printing initialised. Please wait..."; //FIXME
+printLoadingString["de"] = "Der Druckauftrag ist erfolgt. Bitte etwas Geduld...";
+printLoadingString["fr"] = "Printing initialised. Please wait..."; //FIXME
+printLoadingString["it"] = "Printing initialised. Please wait..."; //FIXME
+printLoadingString["pt_PT"] = "Printing initialised. Please wait..."; //FIXME
+printLoadingString["uk"] = "Printing initialised. Please wait..."; //FIXME
+printLoadingString["hu"] = "Printing initialised. Please wait..."; //FIXME
+
 //mode string for navigation
 var modeNavigationString = new Array();
 modeNavigationString["en"] = "Mode: navigation. Shift/rectangle or mouse wheel for zooming.";
