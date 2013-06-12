@@ -7,6 +7,7 @@
  * https://github.com/qgis/qgis-web-client/blob/master/README
  * for the full text of the license and the list of contributors.
  *
+ *
 */ 
 
 var geoExtMap;
