@@ -1,5 +1,6 @@
 var servername = "http://"+location.href.split(/\/+/)[1];
 var strSOGISTooltipURL = servername + '/sogis/qgis-web-tooltip/'; // URL to the SOGIS tooltip
+var intSOGISTooltipWidth = 600;
 
 Ext.onReady(function () {
 	// Define header menu. Can be nested one level deep.
@@ -90,6 +91,7 @@ function isTooltipSOGIS(){
         for (var j=0;j<gis_projects.topics[i].projects.length; j++){
             if ( gis_projects.topics[i].projects[j].projectfile == getProject() ){
                 bolHasToolTip = gis_projects.topics[i].projects[j].sogistooltip;
+                intSOGISTooltipWidth = gis_projects.topics[i].projects[j].sogistooltipwidth;
             }
         }
     }
@@ -133,13 +135,43 @@ function getTooltipHtml(x,y, scale, extent){
 */
 function showTooltip(str_html){
     var str_message = str_html;
+        /*
         Ext.Msg.show({
         minWidth: 400,
         title: 'Tooltip ' + getProject(),
         msg: str_message,
-        buttons: Ext.MessageBox.OK
+        buttons: Ext.MessageBox.OK,
+        maxHeight: 5,
+        resizable: false,
+        autoScroll: true
         //icon: Ext.MessageBox.INFO
-  });
+        });
+   */ 
+        var x = new Ext.Window({
+            title: 'Tooltip ' + getProject(),
+            minWidth: intSOGISTooltipWidth,
+            width: intSOGISTooltipWidth,
+            minHeight: 300,
+            height: 300,
+            layout: 'auto',
+            bodyStyle: 'background:#ffffff;',
+            floating: true,
+            html: str_message,
+            modal: true,
+            renderTo: document.body,
+            buttonAlign: 'center',
+            buttons : [
+                {
+                text: 'OK',
+                handler: function(){
+                    x.close();
+                }                
+        }
+            ],
+            closable: true,
+            autoScroll: true,
+        });
+        x.show();
 }
 
 /**

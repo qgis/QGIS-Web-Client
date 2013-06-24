@@ -323,7 +323,7 @@ Ext.extend(QGIS.PrintProvider, GeoExt.data.PrintProvider, {
       grid_interval = 4000;
     }
 
-    var printUrl = this.url+'&SRS=EPSG:'+epsgcode+'&DPI='+this.dpi.get("value")+'&TEMPLATE='+this.layout.get("name")+'&map0:extent='+printExtent.page.getPrintExtent(map).toBBOX(1,false)+'&map0:rotation='+(printExtent.page.rotation * -1)+'&map0:scale='+mapScale+'&map0:grid_interval_x='+grid_interval+'&map0:grid_interval_y='+grid_interval+'&LAYERS='+encodeURIComponent(thematicLayer.params.LAYERS);
+    var printUrl = this.url+'&SRS=EPSG:'+epsgcode+'&DPI=300&TEMPLATE='+this.layout.get("name")+'&map0:extent='+printExtent.page.getPrintExtent(map).toBBOX(1,false)+'&map0:rotation='+(printExtent.page.rotation * -1)+'&map0:scale='+mapScale+'&map0:grid_interval_x='+grid_interval+'&map0:grid_interval_y='+grid_interval+'&LAYERS='+encodeURIComponent(thematicLayer.params.LAYERS); //SOGSI: Always 300 DPI
     if (thematicLayer.params.SELECTION) {
       printUrl += '&SELECTION='+encodeURIComponent(thematicLayer.params.SELECTION);
     }
@@ -348,34 +348,12 @@ Ext.extend(QGIS.PrintProvider, GeoExt.data.PrintProvider, {
     Ext.getBody().mask(printLoadingString[lang], 'x-mask-loading');
     protocol.read({
         callback: function(response) {
-            // begin: especially grundbuch
-            if ( wmsMapName == 'grundbuchplan' ){          
-                if(response.features.length > 0) {
-                    attributes = response.features[0].attributes;
-                    gemeinde = attributes.gemeinde;
-                    lieferdatum = attributes.lieferdatum;
-                    anschrift = attributes.anschrift;
-                    kontakt = attributes.kontakt;
-                    nfgeometer = attributes.nfgeometer;
-    
-                    printUrl += '&gemeinde='+encodeURIComponent(gemeinde);
-                    printUrl += '&lieferdatum='+encodeURIComponent(lieferdatum);
-                    printUrl += '&anschrift='+encodeURIComponent(anschrift);
-                    printUrl += '&kontakt='+kontakt; // encodeURIComponent macht hier Probleme!?
-                    printUrl += '&nfgeometer='+encodeURIComponent(nfgeometer);                                   
-                } else {
-                    printUrl += '&gemeinde='+encodeURIComponent("Amtliche Vermessung Kt. Solothurn");    
-                }
-            // end: especially grundbuch
-            // other projects
-            } else {
                 if(response.features.length > 0) {
                     attributes = response.features[0].attributes;
                      for (key in attributes){
                         printUrl += '&' + key + '=' + encodeURIComponent(attributes[key]);
                     }
                 }
-            }
             this.download(printUrl);
         },
         scope: this
@@ -399,31 +377,32 @@ Ext.extend(QGIS.PrintProvider, GeoExt.data.PrintProvider, {
                         var jsonResp = Ext.util.JSON.decode(response.responseText); // GET URL from proxy
                         if (jsonResp.url){ // lazy: if proxy, then jsonResp.url exists. Better test on printCapabilities.url_proxy
                             img_src = jsonResp.url;
+                        
+                            //because of an IE bug one has to do it in two steps
+                            var parentPanel = Ext.getCmp('geoExtMapPanel');
+                            Ext.getBody().unmask();
+                            var pdfWindow = new Ext.Window({
+                                title: printWindowTitleString[lang],
+                                width: Ext.getBody().getWidth() - 100,
+                                height: Ext.getBody().getHeight() - 100,
+                                resizable: true,
+                                closable: true,
+                                constrain: false,
+                                constrainHeader: true,
+                                x:50,
+                                y:50,
+                                html: '<object data="'+img_src+'" type="application/pdf" width="100%" height="100%"><p style="margin:5px;">'+printingObjectDataAlternativeString1[lang] + img_src + printingObjectDataAlternativeString2[lang]
+                            });
+                            pdfWindow.show();
+    
+                        } else {
+                            Ext.Msg.alert('Fehler beim Drucken','Leider hat der Druckauftrag einen Fehler verursacht!');
                         }
-                        //because of an IE bug one has to do it in two steps
-                        var parentPanel = Ext.getCmp('geoExtMapPanel');
-                        Ext.getBody().unmask();
-                        var pdfWindow = new Ext.Window(
-                        {
-                            title: printWindowTitleString[lang],
-                            width: Ext.getBody().getWidth() - 100,
-                            height: Ext.getBody().getHeight() - 100,
-                            resizable: true,
-                            closable: true,
-                            constrain: false,
-                            constrainHeader: true,
-                            x:50,
-                            y:50,
-                            html: '<object data="'+img_src+'" type="application/pdf" width="100%" height="100%"><p style="margin:5px;">'+printingObjectDataAlternativeString1[lang] + img_src + printingObjectDataAlternativeString2[lang]
-        }
-      );
-      pdfWindow.show();
-
               },
         failure: function (response) {
                   var jsonResp = Ext.util.JSON.decode(response.responseText);
                   Ext.getBody().unmask();
-                  Ext.Msg.alert("Error",jsonResp.error);
+                  Ext.Msg.alert("Fehler beim Drucken",'Leider hat der Druckauftrag einen Fehler verursacht! ' + jsonResp.error);
             }
       });
     }

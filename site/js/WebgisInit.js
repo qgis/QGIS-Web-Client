@@ -976,7 +976,7 @@ function postLoading() {
 			printWindow = new Ext.Window({
 				title: printSettingsToolbarTitleString[lang],
 				height: 67,
-				width: 495,
+				width: 440,
 				layout: "fit",
 				renderTo: "geoExtMapPanel",
 				resizable: false,

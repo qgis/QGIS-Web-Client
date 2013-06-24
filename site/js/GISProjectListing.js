@@ -15,7 +15,8 @@ var gis_projects = {
 			"updateInterval": "occasional",
 			"responsible": "Amtliche Vermessung",
 			"tags": "Ortsplan",
-            "sogistooltip": true
+            "sogistooltip": true,
+            "sogistooltipwidth" : "600"
 		},{
 			"name": "Richtplan Stand Januar 2013",
 			"projectpath": "",
@@ -25,7 +26,8 @@ var gis_projects = {
 			"updateInterval": "occasional",
 			"responsible": "Amtliche Vermessung",
 			"tags": "Richtplan",
-            "sogistooltip": true
+            "sogistooltip": true,
+            "sogistooltipwidth" : "600"
 		}]
 	},{
 		"name": "Amt für Umwelt",
@@ -38,7 +40,19 @@ var gis_projects = {
 			"updateInterval": "occasional",
 			"responsible": "Amt für Umwelt",
 			"tags": "Neophyten",
-            "sogistooltip": false
+            "sogistooltip": true,
+            "sogistooltipwidth" : "600"
+		},{
+			"name": "Grundwasserbewirtschaftung",
+			"projectpath": "",
+			"projectfile": "grundwasserbewirtschaftung",
+			"format": "image/png",
+			"visibleLayers": "Orthofoto Kt. Solothurn",
+			"updateInterval": "occasional",
+			"responsible": "Amt für Umwelt",
+			"tags": "Gewaesserbewirtschaftung",
+            "sogistooltip": true,
+            "sogistooltipwidth" : "1000"
 		},{
 			"name": "Baugrundklassen",
 			"projectpath": "",
@@ -48,17 +62,19 @@ var gis_projects = {
 			"updateInterval": "occasional",
 			"responsible": "Amt für Umwelt",
 			"tags": "Baugrundklassen",
-            "sogistooltip": true
+            "sogistooltip": true,
+            "sogistooltipwidth" : "600"
 		},{
 			"name": "Naturgefahrenhinweiskarte",
 			"projectpath": "",
 			"projectfile": "natgef",
 			"format": "image/png",
-			"visibleLayers": "Gemeindegrenze,Baugrundklassen,Übersichtsplan,Strassenkarte mit Relief,Orthofoto 2006",
+			"visibleLayers": "Überflutungsgebiete,sehr flache Talböden ausserhalb der modellierten Überflutungsbereiche: Überflutung kann nicht ausgeschlossen werden,Übersarung / Schwemmkegel,Murgang,bekannte Ereignisse ausserhalb des modellierten Steinschlaggebietes,Steinschlag,Doline,tatsächliche Ereignisse,Übersichtsplan,Strassenkarte mit Relief,Orthofoto",
 			"updateInterval": "occasional",
 			"responsible": "Amt für Umwelt",
 			"tags": "Naturgefahrenhinweiskarte",
-            "sogistooltip": true
+            "sogistooltip": true,
+            "sogistooltipwidth" : "600"
 		}]	
 	},{
 		"name": "Amt für Landwirtschaft",
@@ -71,7 +87,8 @@ var gis_projects = {
 			"updateInterval": "occasional",
 			"responsible": "Amt für Landwirtschaft",
 			"tags": "Bienenstandorte",
-            "sogistooltip": false
+            "sogistooltip": false,
+            "sogistooltipwidth" : ""
 		}]	
 	},{
 		"name": "Amt für Raumplanung",
@@ -84,7 +101,8 @@ var gis_projects = {
 			"updateInterval": "occasional",
 			"responsible": "Amt für Raumplanung",
 			"tags": "Nutzungszonen",
-            "sogistooltip": false
+            "sogistooltip": false,
+            "sogistooltipwidth" : ""
 		}]
     },{
 		"name": "Gemeinden",
@@ -97,7 +115,8 @@ var gis_projects = {
 			"updateInterval": "occasional",
 			"responsible": "Gemeinden Kanton SO",
 			"tags": "Leitungskataster,GemeindeGIS",
-            "sogistooltip": true
+            "sogistooltip": false,
+            "sogistooltipwidth" : ""
 		}]
     }]
 };
