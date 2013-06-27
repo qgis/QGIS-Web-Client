@@ -1455,10 +1455,10 @@ function createPermalink(){
 		permalink = "http://"+servername;
 		if (gis_projects) {
 			permalink += gis_projects.path + "/";
-		}
+		}/*
 		else {
 			permalink += "/";
-		}
+		}*/
 		permalink += wmsMapName+"?";
 	} else {
 		permalink = urlArray[0] + "?map=";

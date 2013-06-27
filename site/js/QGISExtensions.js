@@ -374,9 +374,15 @@ Ext.extend(QGIS.PrintProvider, GeoExt.data.PrintProvider, {
         method: printCapabilities.method,                  
         params :  url,
         success: function (response) {
-                        var jsonResp = Ext.util.JSON.decode(response.responseText); // GET URL from proxy
-                        if (jsonResp.url){ // lazy: if proxy, then jsonResp.url exists. Better test on printCapabilities.url_proxy
-                            img_src = jsonResp.url;
+            if (printCapabilities.method == 'POST') {
+                var jsonResp = Ext.util.JSON.decode(response.responseText); // GET URL from proxy
+                if (jsonResp.url) {
+                    img_src = jsonResp.url;
+                } else {
+                    Ext.getBody().unmask();
+                    Ext.Msg.alert('Fehler beim Drucken','Leider hat der Druckauftrag einen Fehler verursacht!');
+               }
+            }
                         
                             //because of an IE bug one has to do it in two steps
                             var parentPanel = Ext.getCmp('geoExtMapPanel');
@@ -394,13 +400,9 @@ Ext.extend(QGIS.PrintProvider, GeoExt.data.PrintProvider, {
                                 html: '<object data="'+img_src+'" type="application/pdf" width="100%" height="100%"><p style="margin:5px;">'+printingObjectDataAlternativeString1[lang] + img_src + printingObjectDataAlternativeString2[lang]
                             });
                             pdfWindow.show();
-    
-                        } else {
-                            Ext.Msg.alert('Fehler beim Drucken','Leider hat der Druckauftrag einen Fehler verursacht!');
-                        }
+
               },
         failure: function (response) {
-                  var jsonResp = Ext.util.JSON.decode(response.responseText);
                   Ext.getBody().unmask();
                   Ext.Msg.alert("Fehler beim Drucken",'Leider hat der Druckauftrag einen Fehler verursacht! ' + jsonResp.error);
             }
