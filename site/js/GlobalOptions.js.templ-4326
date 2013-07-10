@@ -30,6 +30,7 @@ var suppressEmptyValues = true;
 var suppressInfoGeometry = true;
 // do show field names in click-popup during object identification
 var showFieldNamesInClickPopup = true;
+// max-width and max-height of the feature-info popup can be controlled in site/css/popup.css
 
 //config for QGIS.SearchPanel
 var simpleWmsSearch = {

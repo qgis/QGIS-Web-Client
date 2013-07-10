@@ -246,7 +246,7 @@ function parseFIResult(node) {
 			var layerChildNode = node.firstChild;
 			while (layerChildNode) {
 				if (layerChildNode.hasChildNodes() && layerChildNode.nodeName === "Feature") {
-					htmlText += "\n <p></p>\n <table>\n  <tbody>";
+					htmlText += '\n <p></p>\n <table>\n  <tbody>';
 					//case vector data
 					var attributeNode = layerChildNode.firstChild;
 					while (attributeNode) {

@@ -1549,9 +1549,26 @@ function addInfoButtonsToLayerTree() {
 }
 
 function applyPermalinkParams() {
+	// restore layer opacities from hash of <layername>: <opacity>
+	var opacities = undefined;
+	//see if this comes in as a URL parameter
 	if (urlParams.opacities) {
-		// restore layer opacities from hash of <layername>: <opacity>
-		var opacities = Ext.util.JSON.decode(urlParams.opacities);
+		opacities = Ext.util.JSON.decode(urlParams.opacities);
+	}
+	else {
+		//see if project is defined in GIS ProjectListing
+		//and has an opacities property
+		if (gis_projects) {
+			for (var i=0;i<gis_projects.topics.length;i++) {
+				for (var j=0;j<gis_projects.topics[i].projects.length;j++) {
+					if (gis_projects.topics[i].projects[j].name == layerTree.root.firstChild.text) {
+						opacities = gis_projects.topics[i].projects[j].opacities;
+					}
+				}
+			}
+		}
+	}
+	if (opacities) {
 		for (layer in opacities) {
 			if (opacities.hasOwnProperty(layer)) {
 				wmsLoader.layerProperties[layer].opacity = opacities[layer];
