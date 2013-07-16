@@ -596,13 +596,9 @@ function postLoading() {
 		geoExtMap.map.removeControl(WMSGetFInfo);
 	}
 	var fiLayer = new OpenLayers.Layer.WMS(layerTree.root.firstChild.text, wmsURI, {
-		layers: []
-	}, {
-		buffer: 0,
-		singleTile: true,
-		ratio: 1,
-		projection: 'EPSG:'+epsgcode
-	});
+		layers: [],
+		VERSION: "1.3.0"
+	}, LayerOptions);
 
 	WMSGetFInfo = new OpenLayers.Control.WMSGetFeatureInfo({
 		layers: [fiLayer],
@@ -1642,7 +1638,9 @@ function activateGetFeatureInfo(doIt) {
 function openPermaLink(permalink) {
 	var mailToText = "mailto:?subject="+sendPermalinkLinkFromString[lang]+titleBarText+layerTree.root.firstChild.text+"&body="+permalink;
 	var mailWindow = window.open(mailToText);
-	mailWindow.close();
+	if (mailWindow){
+		mailWindow.close();
+	} // can be null, if e.g. popus are blocked
 }
 
 function receiveShortPermalinkFromDB(result, request) {
