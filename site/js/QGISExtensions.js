@@ -361,6 +361,7 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
   map: null,
   highlightLayerName: null,
   highlightLayer: null,
+  hasReverseAxisOrder: false,
 
   /** config
   */
@@ -368,7 +369,7 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
   geomUrl: searchBoxGetGeomURL,
 
   // default Ext.form.ComboBox config
-  hideTrigger: true,
+  hideTrigger: false,
   minChars: 2,
   queryDelay: 50,
   displayField: 'label',
@@ -378,7 +379,12 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
   initComponent: function() {
     // i18n
     this.emptyText = OpenLayers.i18n(searchFieldDefaultTextString[lang]);
-
+    this.triggerConfig = { // we use a default clear trigger here
+              tag: "img", src: Ext.BLANK_IMAGE_URL, cls:'x-form-trigger x-form-clear-trigger'
+            }; 
+    this.on("keyUp", this.keyUpHandler);
+    this.on("afterrender", this.afterrenderHandler);
+    this.on("beforeselect", this.beforeselectHandler);
     this.store = new Ext.data.JsonStore({
       proxy: new Ext.data.ScriptTagProxy({
         url: this.url,
@@ -415,21 +421,59 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
   },
 
   // private
+  afterrenderHandler: function() {
+    this.trigger["hide"]();
+  },
+
+  beforeselectHandler: function(combo,record,index) {
+    if (index > 0) { //user made a selection in combo
+      this.collapse();
+      // if index == 0: user pressed enter while entering search term
+    }
+  },
+  
+  keyUpHandler: function(cmp, e) {
+    //reset if user deleted last sign
+    this.checkTrigger();
+    if (Ext.isEmpty(this.getValue())) {
+      this.resetSearch();
+    }
+    //collapse if less than minChars are left
+    if (this.getValue().length < this.minChars) {
+      this.collapse();
+    }
+  },
+  
+  checkTrigger: function() {
+    // show trigger only if there is any input
+    if (this.rendered) {
+      this.trigger[!Ext.isEmpty(this.getValue()) ? 'show': 'hide']();
+    }
+  },
+    
+  onTriggerClick: function() {
+    // reimplements default onTriggerClick function (which does nothing)
+    this.resetSearch();
+    this.checkTrigger();
+    this.focus();
+  },
+  
   onSelect: function(record, index){
     if(this.fireEvent('beforeselect', this, record, index) !== false){
       if (record.get('searchtable') != null) {
         this.setValue(record.get('displaytext'));
-        this.collapse();
         this.fireEvent('select', this, record, index);
-      }
-      else {
-        this.collapse();
       }
     }
   },
-
+  
+  resetSearch: function(){
+    this.collapse();
+    this.clearSearchResult();
+  },
+  
   recordSelected: function(combo, record, index) {
-    var extent = OpenLayers.Bounds.fromArray(record.get('bbox'));
+    var extent = OpenLayers.Bounds.fromArray(record.get('bbox'), this.hasReverseAxisOrder);
     //make sure that map extent is not too small for point data
     //need to improve this for units other than "m", e.g. degrees
     var extWidth = extent.getWidth();

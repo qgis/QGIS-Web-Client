@@ -694,25 +694,25 @@ function postLoading() {
 					loadingText: geonamesLoadingString[lang],
 					emptyText: geonamesEmptyString[lang]
 				});
+				var emptySearchFieldButton = new Ext.Button({
+					scale: 'medium',
+					icon: 'gis_icons/mActionUndo.png',
+					tooltipType: 'qtip',
+					tooltip: resetSearchFieldTooltipString[lang],
+					id: 'EmptySearchField'
+				});
+				emptySearchFieldButton.handler = mapToolbarHandler;
+				myTopToolbar.insert(myTopToolbar.items.length, emptySearchFieldButton);
 			} else {
 				qgisSearchCombo = new QGIS.SearchComboBox({
 					map: geoExtMap.map,
 					highlightLayerName: 'attribHighLight',
+					hasReverseAxisOrder: thematicLayer.reverseAxisOrder(),
 					width: 300,
 					searchtables: searchtables
 				});
 			}
 			myTopToolbar.insert(myTopToolbar.items.length, qgisSearchCombo);
-
-			var emptySearchFieldButton = new Ext.Button({
-				scale: 'medium',
-				icon: 'gis_icons/mActionUndo.png',
-				tooltipType: 'qtip',
-				tooltip: resetSearchFieldTooltipString[lang],
-				id: 'EmptySearchField'
-			});
-			emptySearchFieldButton.handler = mapToolbarHandler;
-			myTopToolbar.insert(myTopToolbar.items.length, emptySearchFieldButton);
 		}
 
 		myTopToolbar.doLayout();
