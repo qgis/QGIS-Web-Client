@@ -22,7 +22,7 @@ Installation  and Configuration Guide
 % title pic stuff used to put a logo on the front page
 %! PostProc(tex): '\\documentclass{article}' '\\documentclass{scrartcl}\n\\setlength{\\parindent}{0pt}\n\\setlength{\\parskip}{2ex}'
 % use the color table and table packages so we can pimp the tables a little
-%! PostProc(tex): '\\usepackage{style.css}  % user defined' '\\usepackage{fancyvrb}\n\\usepackage{colortbl} \n\\usepackage [table]{xcolor}\n\\definecolor{tableShade}{HTML}{cecece}\n\\definecolor{qgis-green}{HTML}{0E7300}\n\\usepackage{wallpaper}\n\\LRCornerWallPaper{1}{WALLPAPER-IMAGE}\n\\usepackage{hyperref}\n\\hypersetup{linkcolor=qgis-green,urlcolor=qgis-green}\\renewcommand\\thesection{\\color{qgis-green}\\thechapter\\arabic{section}}'
+%! PostProc(tex): '\\usepackage{style.css}  % user defined' '\\usepackage{fancyvrb}\n\\usepackage{colortbl} \n\\usepackage[table]{xcolor}\n\\definecolor{tableShade}{HTML}{cecece}\n\\definecolor{qgis-green}{HTML}{0E7300}\n\\usepackage{wallpaper}\n\\LRCornerWallPaper{1}{WALLPAPER-IMAGE}\n\\usepackage{hyperref}\n\\hypersetup{linkcolor=qgis-green,urlcolor=qgis-green}\\renewcommand\\thesection{\\color{qgis-green}\\arabic{section}}'
 % Make the header row of tables have a dark background. light text
 %! PostProc(tex): '\\hline \\textbf' '\\hline \\rowcolor[rgb]{0,0,0} \\color{white} \\textbf'
 %! PostProc(tex): '& \\textbf' '& \\color{white} \\textbf'
@@ -640,20 +640,23 @@ containing the db connection strings. Search for the line
 conn = psycopg2.connect("host='yourhost' dbname='yourdb' port='5432' user='yourusername' password='yourpassword'")
 ```
 
-and adapt the parameters according to your server/db.
+and adapt the parameters according to your server/db. It is highly recommended to
+**connect with a database user having limited rights only** (e.g. select rights on relevant tables only).
 
 === Search type to be used ===
 
 The search can use PostgreSQL's tsvector data type. 
 "A tsvector value is a sorted list of distinct lexemes, which are words that have been normalized to
-merge different variants of the same word." [from the PostgreSQL doc at http://www.postgresql.org/docs/9.0/interactive/datatype-textsearch.html#DATATYPE-TSVECTOR]
+merge different variants of the same word."
+from the [PostgreSQL doc http://www.postgresql.org/docs/9.0/interactive/datatype-textsearch.html#DATATYPE-TSVECTOR].
 Thus tsvector skips all the fill words and reduces nouns to their single form, a behaviour useful
 for searching texts. However as we are normally dealing with **place names** here we want them to stay as they are.
 If you use a language where the single form is a lot different from the plural form but your name contains a plural
-you will not get a suitable result. If you want to use the tsvector search option you should activate the line
+you will not get a suitable result. If you want to use the tsvector search option you should activate the lines
 
 ```
-sql += "searchstring_tsvector @@ to_tsquery(\'not_your_language\', '"+querystrings[j]+":*')"
+sql += "searchstring_tsvector @@ to_tsquery(\'not_your_language\', %s)"
+data += (querystrings[j]+":*",)
 ```
 
 //not_your_language// is to be replaced with an entry e.g. //finnish// if you have German place names.
@@ -663,7 +666,8 @@ Be sure to fill the field //searchstring_tsvector// with ```to_tsvector('not_you
 The use of
 
 ```
-sql += "searchstring::tsvector @@ lower('"+querystrings[j]+":*')::tsquery"
+sql += "searchstring::tsvector @@ lower(%s)::tsquery"
+data += (querystrings[j]+":*",)
 ```
 
 is **discouraged** as it does not find a place name like //Stoke-sub-Hamden// when you enter //Stoke//.
@@ -672,7 +676,8 @@ If you do not want to use tsvector at all you can enable the full string compari
 (activated by default).
 
 ```
-sql += "searchstring ILIKE \'%"+querystrings[j]+"%\'"
+sql += "searchstring ILIKE %s"
+data += ("%" + querystrings[j] + "%",)
 ```
 
 This method however is slower than tsvector but not relevantly at least if you only have a couple 1000 datasets. 
@@ -696,7 +701,7 @@ CREATE TABLE cadastre.searchtable
 WITH (
   OIDS=FALSE
 );
-GRANT SELECT ON TABLE cadastre.searchtable TO alle;
+GRANT SELECT ON TABLE cadastre.searchtable TO qwc_user;
 
 -- Index: cadastre.in_cadastre_searchstring_tsvector_gin
 
@@ -707,8 +712,9 @@ CREATE INDEX in_cadastre_searchstring_tsvector_gin
 ```
 
 The above search table can also be a view or materialized view. One can combine
-several search tables by specifying the ```searchtables=searchtable1,searchtable2,searchtable3``` 
-parameter when requesting the //search.wsgi// script.
+several search tables by specifying the ```searchtables=searchtable1,searchtable_n``` 
+parameter when requesting the //search.wsgi// script. Any searchtable passed to //search.wsgi// may only contain
+the letters //A to Z, a to z// and the underscore.
 
 Using views is generally slower than properly indexed tables, check for yourself what works best.
 
