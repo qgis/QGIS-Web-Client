@@ -15,8 +15,9 @@ var selectedLayers; //later an array containing all visible (selected) layers
 var selectedQueryableLayers; //later an array of all visible (selected and queryable) layers
 var allLayers; //later an array containing all leaf layers
 var thematicLayer, highlightLayer, featureInfoHighlightLayer;
-var googleStatelliteLayer, bingSatelliteLayer;
-var bingApiKey = "AqTGBsziZHIJYYxgivLBf0hVdrAk9mWO5cQcb8Yux8sW5M8c8opEC2lZqKR1ZZXf";
+var googleStatelliteLayer;
+//var bingSatelliteLayer;
+//var bingApiKey = "AqTGBsziZHIJYYxgivLBf0hVdrAk9mWO5cQcb8Yux8sW5M8c8opEC2lZqKR1ZZXf";
 var bgLayerRootNodeText = 'Hintergrundlayer';
 var highLightGeometry = new Array();
 var WMSGetFInfo, WMSGetFInfoHover;
@@ -110,13 +111,13 @@ Ext.onReady(function () {
         );
         baseLayers.push(googleStatelliteLayer);
 
-        bingSatelliteLayer = new OpenLayers.Layer.Bing({
+/*        bingSatelliteLayer = new OpenLayers.Layer.Bing({
             name: "Bing Satellite",
             key: bingApiKey,
             type: "Aerial"
         });
         baseLayers.push(bingSatelliteLayer);
-    }
+*/    }
 	
 	if (urlParamsOK) {
 		loadWMSConfig();
@@ -176,7 +177,7 @@ function loadWMSConfig() {
 
     if (enableCommercialMaps && baseLayers.length > 0) {
         var bgnode0 = new GeoExt.tree.LayerNode({
-             layer: baseLayers[1],
+             layer: baseLayers[0],
              leaf: true,
              loader: {
                 baseAttrs: {
@@ -184,9 +185,9 @@ function loadWMSConfig() {
                    uiProvider: 'layernodeui'
                 }
              }
-        });
+        });/*
         var bgnode1 = new GeoExt.tree.LayerNode({
-             layer: baseLayers[0],
+             layer: baseLayers[1],
              leaf: true,
              checked: true,
              loader: {
@@ -196,9 +197,9 @@ function loadWMSConfig() {
                 }
              }
         });
-
+*/
         layerList.appendChild(bgnode0);
-        layerList.appendChild(bgnode1);
+//        layerList.appendChild(bgnode1);
     }
 
 }
