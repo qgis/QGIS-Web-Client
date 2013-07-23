@@ -13,13 +13,13 @@
 <DIV CLASS="header" ID="header">
 <H1>Quantum GIS (QGIS) Web Client</H1>
 <H2>Installation  and Configuration Guide</H2>
-<H3>Monday December 10, 2012</H3>
+<H3>Tuesday July 23, 2013</H3>
 </DIV>
 
 <DIV CLASS="body" ID="body">
 <P>
-Last Updated: Monday December 10, 2012
-Last Change : Monday December 10, 2012
+Last Updated: Tuesday July 23, 2013
+Last Change : Tuesday July 23, 2013
 </P>
 <DIV CLASS="toc">
 
@@ -779,7 +779,8 @@ conn = psycopg2.connect("host='yourhost' dbname='yourdb' port='5432' user='youru
 </PRE></div>
 
 <P>
-and adapt the parameters according to your server/db.
+and adapt the parameters according to your server/db. It is highly recommended to
+<B>connect with a database user having limited rights only</B> (e.g. select rights on relevant tables only).
 </P>
 
 <H3>6.2.2. Search type to be used</H3>
@@ -787,15 +788,17 @@ and adapt the parameters according to your server/db.
 <P>
 The search can use PostgreSQL's tsvector data type. 
 "A tsvector value is a sorted list of distinct lexemes, which are words that have been normalized to
-merge different variants of the same word." <A HREF="http://www.postgresql.org/docs/9.0/interactive/datatype-textsearch.html#DATATYPE-TSVECTOR">from the PostgreSQL doc at</A>
+merge different variants of the same word."
+from the <A HREF="http://www.postgresql.org/docs/9.0/interactive/datatype-textsearch.html#DATATYPE-TSVECTOR">PostgreSQL doc</A>.
 Thus tsvector skips all the fill words and reduces nouns to their single form, a behaviour useful
 for searching texts. However as we are normally dealing with <B>place names</B> here we want them to stay as they are.
 If you use a language where the single form is a lot different from the plural form but your name contains a plural
-you will not get a suitable result. If you want to use the tsvector search option you should activate the line
+you will not get a suitable result. If you want to use the tsvector search option you should activate the lines
 </P>
 
 <div class="code"><PRE>
-sql += "searchstring_tsvector @@ to_tsquery(\'not_your_language\', '"+querystrings[j]+":*')"
+sql += "searchstring_tsvector @@ to_tsquery(\'not_your_language\', %s)"
+data += (querystrings[j]+":*",)
 </PRE></div>
 
 <P>
@@ -808,7 +811,8 @@ The use of
 </P>
 
 <div class="code"><PRE>
-sql += "searchstring::tsvector @@ lower('"+querystrings[j]+":*')::tsquery"
+sql += "searchstring::tsvector @@ lower(%s)::tsquery"
+data += (querystrings[j]+":*",)
 </PRE></div>
 
 <P>
@@ -820,7 +824,8 @@ If you do not want to use tsvector at all you can enable the full string compari
 </P>
 
 <div class="code"><PRE>
-sql += "searchstring ILIKE \'%"+querystrings[j]+"%\'"
+sql += "searchstring ILIKE %s"
+data += ("%" + querystrings[j] + "%",)
 </PRE></div>
 
 <P>
@@ -846,7 +851,7 @@ CREATE TABLE cadastre.searchtable
 WITH (
   OIDS=FALSE
 );
-GRANT SELECT ON TABLE cadastre.searchtable TO alle;
+GRANT SELECT ON TABLE cadastre.searchtable TO qwc_user;
 
 -- Index: cadastre.in_cadastre_searchstring_tsvector_gin
 
@@ -858,8 +863,9 @@ CREATE INDEX in_cadastre_searchstring_tsvector_gin
 
 <P>
 The above search table can also be a view or materialized view. One can combine
-several search tables by specifying the <CODE>`searchtables=searchtable1,searchtable2,searchtable3`</CODE> 
-parameter when requesting the <I>search.wsgi</I> script.
+several search tables by specifying the <CODE>`searchtables=searchtable1,searchtable_n`</CODE> 
+parameter when requesting the <I>search.wsgi</I> script. Any searchtable passed to <I>search.wsgi</I> may only contain
+the letters <I>A to Z, a to z</I> and the underscore.
 </P>
 <P>
 Using views is generally slower than properly indexed tables, check for yourself what works best.

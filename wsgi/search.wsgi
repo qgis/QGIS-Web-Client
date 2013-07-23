@@ -20,7 +20,12 @@ def application(environ, start_response):
   if "searchtables" in request.params:
     searchtablesstring = request.params["searchtables"]
     if len(searchtablesstring) > 0:
-      searchtables.extend(searchtablesstring.split(','))
+      #sanitize
+      if re.search(r"[^A-Za-z,._]", searchtablesstring):
+        print >> environ['wsgi.errors'], "offending input: %s" % searchtablesstring
+        searchtables = [] # set empty to have no search table error returned
+      else:
+        searchtables.extend(searchtablesstring.split(','))
 
   querystring = request.params["query"]
   #strip away leading and trailing whitespaces
