@@ -14,8 +14,13 @@ def application(environ, start_response):
   request = Request(environ)
   searchtable = request.params["searchtable"]
   displaytext = request.params["displaytext"]
-  
-  sql = "SELECT ST_AsText(the_geom) AS geom FROM "+searchtable+" WHERE displaytext = %(displaytext)s;"
+
+  #sanitize
+  if re.search(r"[^A-Za-z,._]", searchtable):
+    print >> environ['wsgi.errors'], "offending input: %s" % searchtable
+    sql = ""
+  else:
+    sql = "SELECT ST_AsText(the_geom) AS geom FROM "+searchtable+" WHERE displaytext = %(displaytext)s;"
   
   errorText = ''
   try:
