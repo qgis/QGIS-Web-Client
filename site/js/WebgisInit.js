@@ -56,6 +56,7 @@ var legendTab; //a reference to the Ext tab holding the legend graphic
 var metadataTab; //a reference to the Ext tab holding the metadata information
 var measurePopup;
 var baseLayers = [];
+var enableCommercialMaps = true;
 
 Ext.onReady(function () {
 	//dpi detection
