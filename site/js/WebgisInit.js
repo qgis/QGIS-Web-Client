@@ -16,8 +16,8 @@ var selectedQueryableLayers; //later an array of all visible (selected and query
 var allLayers; //later an array containing all leaf layers
 var thematicLayer, highlightLayer, featureInfoHighlightLayer;
 var googleStatelliteLayer;
-//var bingSatelliteLayer;
-//var bingApiKey = "AqTGBsziZHIJYYxgivLBf0hVdrAk9mWO5cQcb8Yux8sW5M8c8opEC2lZqKR1ZZXf";
+var bingSatelliteLayer;
+var bingApiKey = "AqTGBsziZHIJYYxgivLBf0hVdrAk9mWO5cQcb8Yux8sW5M8c8opEC2lZqKR1ZZXf";
 var bgLayerRootNodeText = 'Hintergrundlayer';
 var highLightGeometry = new Array();
 var WMSGetFInfo, WMSGetFInfoHover;
@@ -108,17 +108,19 @@ Ext.onReady(function () {
     if (enableCommercialMaps) {
         googleStatelliteLayer = new OpenLayers.Layer.Google(
             "Google Satellite",
-            {type: google.maps.MapTypeId.SATELLITE, numZoomLevels: 22}
+            {type: google.maps.MapTypeId.SATELLITE, numZoomLevels: 22, isBaseLayer: true}
         );
         baseLayers.push(googleStatelliteLayer);
 
-/*        bingSatelliteLayer = new OpenLayers.Layer.Bing({
+        bingSatelliteLayer = new OpenLayers.Layer.Bing({
             name: "Bing Satellite",
             key: bingApiKey,
-            type: "Aerial"
+            type: "Aerial",
+            isBaseLayer: true,
+            visibility: false
         });
         baseLayers.push(bingSatelliteLayer);
-*/    }
+    }
 	
 	if (urlParamsOK) {
 		loadWMSConfig();
@@ -162,45 +164,37 @@ function loadWMSConfig() {
 	var root = new Ext.tree.AsyncTreeNode({
         id: 'wmsNode',
         text: 'WMS',
-		loader: wmsLoader,
-		allowDrop: false,
+		    loader: wmsLoader,
+		    allowDrop: false,
         expanded: true,
         expandChildNodes: true,
-		listeners: {
-			'load': function () {
-				postLoading();
-			}
-		}
+		    listeners: {
+			    'load': function () {
+				    postLoading();
+			    }
+		    }
 	});
 
     layerTree.setRootNode(layerList);	
     layerList.appendChild(root);
 
     if (enableCommercialMaps && baseLayers.length > 0) {
+        //todo use a more generic way to implement
         var bgnode0 = new GeoExt.tree.LayerNode({
              layer: baseLayers[0],
              leaf: true,
-             loader: {
-                baseAttrs: {
-                   radioGroup: 'baselayers',
-                   uiProvider: 'layernodeui'
-                }
-             }
-        });/*
+             checked: true,
+             uiProvider: Ext.tree.TriStateNodeUI
+        });
         var bgnode1 = new GeoExt.tree.LayerNode({
              layer: baseLayers[1],
              leaf: true,
-             checked: true,
-             loader: {
-                baseAttrs: {
-                   radioGroup: 'baselayers',
-                   uiProvider: 'layernodeui'
-                }
-             }
+             checked: false,
+             uiProvider: Ext.tree.TriStateNodeUI
         });
-*/
+
         layerList.appendChild(bgnode0);
-//        layerList.appendChild(bgnode1);
+        layerList.appendChild(bgnode1);
     }
 
 }
@@ -496,7 +490,7 @@ function postLoading() {
             frame: false,
             border: false,
 			zoom: 1.6,
-			layers: [
+			layers: baseLayers.concat([
 			thematicLayer = new OpenLayers.Layer.WMS(layerTree.root.firstChild.text,
 				wmsURI, {
 					layers: selectedLayers.join(","),
@@ -514,7 +508,7 @@ function postLoading() {
 			featureInfoHighlightLayer = new OpenLayers.Layer.Vector("featureInfoHighlight", {
 				isBaseLayer: false,
 				styleMap: styleMapHighLightLayer
-			})].concat(baseLayers),
+			})]),
 			map: MapOptions,
 			id: "geoExtMapPanel",
 			width: MapPanelRef.getInnerWidth(),
@@ -701,6 +695,8 @@ function postLoading() {
 			mapOptions: OverviewMapOptions,
 			layers: [overviewLayer]
 		}));
+//removeme
+    geoExtMap.map.addControl(new OpenLayers.Control.LayerSwitcher());
 	}
 	else {
 		//todo: find out how to change the max extent in the OverviewMap
