@@ -16,7 +16,8 @@ var gis_projects = {
 			"responsible": "Amtliche Vermessung",
 			"tags": "Ortsplan",
             "sogistooltip": true,
-            "sogistooltipwidth" : "600"
+            "sogistooltipwidth" : "600",
+            "sogistooltipheight" : "300"
 		},{
 			"name": "Richtplan Stand Januar 2013",
 			"projectpath": "",
@@ -27,7 +28,8 @@ var gis_projects = {
 			"responsible": "Amtliche Vermessung",
 			"tags": "Richtplan",
             "sogistooltip": true,
-            "sogistooltipwidth" : "600"
+            "sogistooltipwidth" : "600",
+            "sogistooltipheight" : "300"
 		}]
 	},{
 		"name": "Amt für Umwelt",
@@ -41,7 +43,8 @@ var gis_projects = {
 			"responsible": "Amt für Umwelt",
 			"tags": "Neophyten",
             "sogistooltip": true,
-            "sogistooltipwidth" : "600"
+            "sogistooltipwidth" : "600",
+            "sogistooltipheight" : "300"
 		},{
 			"name": "Grundwasserbewirtschaftung",
 			"projectpath": "",
@@ -52,7 +55,8 @@ var gis_projects = {
 			"responsible": "Amt für Umwelt",
 			"tags": "Gewaesserbewirtschaftung",
             "sogistooltip": true,
-            "sogistooltipwidth" : "1000"
+            "sogistooltipwidth" : "1000",
+            "sogistooltipheight" : "300"
 		},{
 			"name": "Baugrundklassen",
 			"projectpath": "",
@@ -63,7 +67,8 @@ var gis_projects = {
 			"responsible": "Amt für Umwelt",
 			"tags": "Baugrundklassen",
             "sogistooltip": true,
-            "sogistooltipwidth" : "600"
+            "sogistooltipwidth" : "600",
+            "sogistooltipheight" : "300"
 		},{
 			"name": "Naturgefahrenhinweiskarte",
 			"projectpath": "",
@@ -74,7 +79,8 @@ var gis_projects = {
 			"responsible": "Amt für Umwelt",
 			"tags": "Naturgefahrenhinweiskarte",
             "sogistooltip": true,
-            "sogistooltipwidth" : "600"
+            "sogistooltipwidth" : "600",
+            "sogistooltipheight" : "300"
 		}]	
 	},{
 		"name": "Amt für Landwirtschaft",
@@ -88,7 +94,44 @@ var gis_projects = {
 			"responsible": "Amt für Landwirtschaft",
 			"tags": "Bienenstandorte",
             "sogistooltip": false,
-            "sogistooltipwidth" : ""
+            "sogistooltipwidth" : "",
+            "sogistooltipheight" : "300"
+		},{
+			"name": "SOVOTE TEST",
+			"projectpath": "",
+			"projectfile": "ea_20130609_vorlage_1",
+			"format": "image/png",
+			"visibleLayers": "",
+			"updateInterval": "occasional",
+			"responsible": "Staatskanzlei AGI",
+			"tags": "SOVOTE TEST",
+            "sogistooltip": true,
+            "sogistooltipwidth" : "600",
+            "sogistooltipheight" : "300"
+		},{
+			"name": "SOVOTE TEST2",
+			"projectpath": "",
+			"projectfile": "ea_20130609_vorlage_2",
+			"format": "image/png",
+			"visibleLayers": "",
+			"updateInterval": "occasional",
+			"responsible": "Staatskanzlei AGI",
+			"tags": "SOVOTE TEST",
+            "sogistooltip": true,
+            "sogistooltipwidth" : "600",
+            "sogistooltipheight" : "300"
+		},{
+			"name": "SOVOTE TEST3",
+			"projectpath": "",
+			"projectfile": "ka_20130609_vorlage_1",
+			"format": "image/png",
+			"visibleLayers": "",
+			"updateInterval": "occasional",
+			"responsible": "Staatskanzlei AGI",
+			"tags": "SOVOTE TEST",
+            "sogistooltip": true,
+            "sogistooltipwidth" : "600",
+            "sogistooltipheight" : "300"
 		}]	
 	},{
 		"name": "Amt für Raumplanung",
@@ -102,7 +145,8 @@ var gis_projects = {
 			"responsible": "Amt für Raumplanung",
 			"tags": "Nutzungszonen",
             "sogistooltip": false,
-            "sogistooltipwidth" : ""
+            "sogistooltipwidth" : "",
+            "sogistooltipheight" : "300"
 		}]
     },{
 		"name": "Gemeinden",
@@ -115,8 +159,9 @@ var gis_projects = {
 			"updateInterval": "occasional",
 			"responsible": "Gemeinden Kanton SO",
 			"tags": "Leitungskataster,GemeindeGIS",
-            "sogistooltip": false,
-            "sogistooltipwidth" : ""
+            "sogistooltip": true,
+            "sogistooltipwidth" : "600",
+            "sogistooltipheight" : "300"
 		}]
     }]
 };
