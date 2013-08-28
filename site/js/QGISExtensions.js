@@ -21,6 +21,7 @@
 /* ************************** QGIS.WMSCapabilitiesLoader ************************** */
 // parse GetProjectSettings from QGIS Mapserver
 // extends GeoExt.tree.WMSCapabilitiesLoader in order to expose the WMSCapabilities Tree to later read out settings from the tree
+
 QGIS.WMSCapabilitiesLoader = function(config) {
   Ext.apply(this, config);
   QGIS.WMSCapabilitiesLoader.superclass.constructor.call(this,config);
@@ -171,7 +172,7 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
             },
 
           "Attributes": function(node, obj) {
-            obj.attributes = []
+            obj.attributes = [];
             this.readChildNodes(node, obj.attributes);
           },
           "Attribute": function(node, obj) {
@@ -283,6 +284,7 @@ QGIS.PrintProvider = function(config) {
 };
 
 Ext.extend(QGIS.PrintProvider, GeoExt.data.PrintProvider, {
+    
   print: function(map, pages, options) {
     if (map instanceof GeoExt.MapPanel) {
         map = map.map;
@@ -299,53 +301,112 @@ Ext.extend(QGIS.PrintProvider, GeoExt.data.PrintProvider, {
     if (mapScale > 100 && mapScale <= 250) {
       grid_interval = 25;
     }
-    else if (mapScale > 250 && mapScale <= 1000) {
+    else if (mapScale > 250 && mapScale <= 500) {
       grid_interval = 50;
     }
-    else if (mapScale > 1000 && mapScale <= 2500) {
+    else if (mapScale > 500 && mapScale <= 1000) {
       grid_interval = 100;
+    }    
+    else if (mapScale > 1000 && mapScale <= 2500) {
+      grid_interval = 200;
     }
     else if (mapScale > 2500 && mapScale <= 5000) {
-      grid_interval = 250;
-    }
-    else if (mapScale > 5000 && mapScale <= 12000) {
       grid_interval = 500;
     }
-    else if (mapScale > 12000 && mapScale <= 25000) {
+    else if (mapScale > 5000 && mapScale <= 12000) {
       grid_interval = 1000;
     }
-    else if (mapScale > 25000) {
+    else if (mapScale > 12000 && mapScale <= 25000) {
       grid_interval = 2000;
     }
-
-    var printUrl = this.url+'&SRS=EPSG:'+epsgcode+'&DPI='+this.dpi.get("value")+'&TEMPLATE='+this.layout.get("name")+'&map0:extent='+printExtent.page.getPrintExtent(map).toBBOX(1,false)+'&map0:rotation='+(printExtent.page.rotation * -1)+'&map0:scale='+mapScale+'&map0:grid_interval_x='+grid_interval+'&map0:grid_interval_y='+grid_interval+'&LAYERS='+encodeURIComponent(thematicLayer.params.LAYERS);
-    if (thematicLayer.params.OPACITIES) {
-      printUrl += '&OPACITIES='+encodeURIComponent(thematicLayer.params.OPACITIES);
+    else if (mapScale > 25000) {
+      grid_interval = 4000;
     }
+
+    var printUrl = this.url+'&SRS=EPSG:'+epsgcode+'&DPI=300&TEMPLATE='+this.layout.get("name")+'&map0:extent='+printExtent.page.getPrintExtent(map).toBBOX(1,false)+'&map0:rotation='+(printExtent.page.rotation * -1)+'&map0:scale='+mapScale+'&map0:grid_interval_x='+grid_interval+'&map0:grid_interval_y='+grid_interval+'&LAYERS='+encodeURIComponent(thematicLayer.params.LAYERS); //SOGSI: Always 300 DPI
     if (thematicLayer.params.SELECTION) {
       printUrl += '&SELECTION='+encodeURIComponent(thematicLayer.params.SELECTION);
     }
-    this.download(printUrl);
+
+    var lonlat = printExtent.page.getPrintExtent(map).getCenterLonLat();
+    var mapCenter = new OpenLayers.Geometry.Point(lonlat.lon, lonlat.lat);
+    
+    var myfilter = new OpenLayers.Filter.Comparison({
+        type: OpenLayers.Filter.Spatial.INTERSECTS,
+        value: mapCenter
+    });   
+    var protocol = new OpenLayers.Protocol.WFS({
+            url: servername + gis_projects.mapserver + '/'+ wmsMapName,
+            featureType: 'print',
+            geometryName: 'geometry',
+            srsName: "EPSG:21781",
+            filter: myfilter,
+            readWithPOST: true
+    });
+    
+    //printLoadMask.show();
+    Ext.getBody().mask(printLoadingString[lang], 'x-mask-loading');
+    protocol.read({
+        callback: function(response) {
+                if(response.features.length > 0) {
+                    attributes = response.features[0].attributes;
+                     for (key in attributes){
+                        printUrl += '&' + key + '=' + encodeURIComponent(attributes[key]);
+                    }
+                }
+            this.download(printUrl);
+        },
+        scope: this
+    });
   },
+
   download: function(url) {
     if (this.fireEvent("beforedownload", this, url) !== false) {
-      //because of an IE bug one has to do it in two steps
-      var parentPanel = Ext.getCmp('geoExtMapPanel');
-      var pdfWindow = new Ext.Window(
-        {
-          title: printWindowTitleString[lang],
-          width: Ext.getBody().getWidth() - 100,
-          height: Ext.getBody().getHeight() - 100,
-          resizable: true,
-          closable: true,
-          constrain: true,
-          constrainHeader: true,
-          x:50,
-          y:50,
-          html: '<object data="'+url+'" type="application/pdf" width="100%" height="100%"><p style="margin:5px;">'+printingObjectDataAlternativeString1[lang] + url + printingObjectDataAlternativeString2[lang]
-        }
-      );
-      pdfWindow.show();
+      if ((printCapabilities.method == 'POST') && (printCapabilities.url_proxy != '')){
+          print_url = printCapabilities.url_proxy;
+      } else {
+          print_url = url;
+          img_src = url;
+      }
+      Ext.Ajax.request({
+        isLoading: true,
+        url : printCapabilities.url_proxy,
+        method: printCapabilities.method,                  
+        params :  url,
+        success: function (response) {
+            if (printCapabilities.method == 'POST') {
+                var jsonResp = Ext.util.JSON.decode(response.responseText); // GET URL from proxy
+                if (jsonResp.url) {
+                    img_src = jsonResp.url;
+                } else {
+                    Ext.getBody().unmask();
+                    Ext.Msg.alert('Fehler beim Drucken','Leider hat der Druckauftrag einen Fehler verursacht!');
+               }
+            }
+                        
+                            //because of an IE bug one has to do it in two steps
+                            var parentPanel = Ext.getCmp('geoExtMapPanel');
+                            Ext.getBody().unmask();
+                            var pdfWindow = new Ext.Window({
+                                title: printWindowTitleString[lang],
+                                width: Ext.getBody().getWidth() - 100,
+                                height: Ext.getBody().getHeight() - 100,
+                                resizable: true,
+                                closable: true,
+                                constrain: false,
+                                constrainHeader: true,
+                                x:50,
+                                y:50,
+                                html: '<object data="'+img_src+'" type="application/pdf" width="100%" height="100%"><p style="margin:5px;">'+printingObjectDataAlternativeString1[lang] + img_src + printingObjectDataAlternativeString2[lang]
+                            });
+                            pdfWindow.show();
+
+              },
+        failure: function (response) {
+                  Ext.getBody().unmask();
+                  Ext.Msg.alert("Fehler beim Drucken",'Leider hat der Druckauftrag einen Fehler verursacht! ' + jsonResp.error);
+            }
+      });
     }
     this.fireEvent("print", this, url);
   }

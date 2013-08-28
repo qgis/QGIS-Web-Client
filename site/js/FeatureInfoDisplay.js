@@ -25,7 +25,7 @@ var featureInfoPopupContents;
 var closePopupClick = false; // stores if the click results from closing a clickPopup
 
 function showFeatureInfo(evt) {
-	if (identifyToolActive) {
+	if ((identifyToolActive) && (isTooltipSOGIS() == false)) {
 		if (!closePopupClick) {
 			var map = geoExtMap.map; // gets OL map object
 			if (window.DOMParser) {
@@ -79,7 +79,7 @@ function showFeatureInfo(evt) {
 
 function showFeatureInfoHover(evt) {
 	var map = geoExtMap.map; // gets OL map object
-	if (identifyToolActive) {
+	if (identifyToolActive && (isTooltipSOGIS() == false)) {
 		if (hoverPopup) {removeHoverPopup();}
 		if (window.DOMParser) {
 			var parser = new DOMParser();
