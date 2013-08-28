@@ -92,6 +92,7 @@ function isTooltipSOGIS(){
             if ( gis_projects.topics[i].projects[j].projectfile == getProject() ){
                 bolHasToolTip = gis_projects.topics[i].projects[j].sogistooltip;
                 intSOGISTooltipWidth = gis_projects.topics[i].projects[j].sogistooltipwidth;
+                intSOGISTooltipHeight = gis_projects.topics[i].projects[j].sogistooltipheight;
             }
         }
     }
@@ -121,7 +122,9 @@ function getTooltipHtml(x,y, scale, extent){
         params: {'x': x, //
                  'y': y,
                  'scale': scale,
-                 'extent': extent},
+                 'extent': extent,
+                 'visiblelayers': selectedLayers.toString(),
+                },
         method: 'GET',
         success: function(response){
                 showTooltip(response.responseText);  
@@ -151,8 +154,8 @@ function showTooltip(str_html){
             title: 'Tooltip ' + getProject(),
             minWidth: intSOGISTooltipWidth,
             width: intSOGISTooltipWidth,
-            minHeight: 300,
-            height: 300,
+            minHeight: intSOGISTooltipHeight,
+            height: intSOGISTooltipHeight,
             layout: 'auto',
             bodyStyle: 'background:#ffffff;',
             floating: true,
@@ -173,6 +176,13 @@ function showTooltip(str_html){
         });
         x.show();
 }
+
+function showVisibleLayers(){
+    visibleLayers = getVisibleLayers([],layerTree.root.firstChild);
+    visibleLayers = uniqueLayersInLegend(visibleLayers);
+    return visibleLayers;
+}
+
 
 /**
 * @desc gets the last part of a url. In this context ist is the project name
