@@ -56,7 +56,7 @@ var legendTab; //a reference to the Ext tab holding the legend graphic
 var metadataTab; //a reference to the Ext tab holding the metadata information
 var measurePopup;
 var baseLayers = [];
-var enableCommercialMaps = true;
+var enableCommercialMaps = false; // enable to use commercial Google and Bing layers (also enable in GlobalOption.js)
 
 Ext.onReady(function () {
 	//dpi detection
