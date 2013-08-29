@@ -15,6 +15,10 @@ var selectedLayers; //later an array containing all visible (selected) layers
 var selectedQueryableLayers; //later an array of all visible (selected and queryable) layers
 var allLayers; //later an array containing all leaf layers
 var thematicLayer, highlightLayer, featureInfoHighlightLayer;
+var googleStatelliteLayer;
+var bingSatelliteLayer;
+// var bingApiKey = "add Bing api key here"; // http://msdn.microsoft.com/en-us/library/ff428642.aspx
+var bgLayerRootNodeText = 'Hintergrundlayer';
 var highLightGeometry = new Array();
 var WMSGetFInfo, WMSGetFInfoHover;
 var lastLayer, lastFeature;
@@ -51,6 +55,7 @@ var legendMetaTabPanel; //a reference to the Ext tabpanel holding the tabs for l
 var legendTab; //a reference to the Ext tab holding the legend graphic
 var metadataTab; //a reference to the Ext tab holding the metadata information
 var measurePopup;
+var baseLayers = [];
 
 Ext.onReady(function () {
 	//dpi detection
@@ -98,6 +103,23 @@ Ext.onReady(function () {
 
 	//set some status messsages
 	mainStatusText.setText(mapAppLoadingString[lang]);
+
+    if (enableCommercialMaps) {
+        googleStatelliteLayer = new OpenLayers.Layer.Google(
+            "Google Satellite",
+            {type: google.maps.MapTypeId.SATELLITE, numZoomLevels: 22, isBaseLayer: true}
+        );
+        baseLayers.push(googleStatelliteLayer);
+
+        bingSatelliteLayer = new OpenLayers.Layer.Bing({
+            name: "Bing Satellite",
+            key: bingApiKey,
+            type: "Aerial",
+            isBaseLayer: true,
+            visibility: false
+        });
+        baseLayers.push(bingSatelliteLayer);
+    }
 	
 	if (urlParamsOK) {
 		loadWMSConfig();
@@ -132,17 +154,48 @@ function loadWMSConfig() {
 			uiProvider: Ext.tree.TriStateNodeUI
 		}
 	});
+
+    var layerList = new Ext.tree.TreeNode({
+        leaf: false,
+        expanded: true
+    });
+
 	var root = new Ext.tree.AsyncTreeNode({
-		loader: wmsLoader,
-		allowDrop: false,
-		listeners: {
-			'load': function () {
-				postLoading();
-			}
-		}
+        id: 'wmsNode',
+        text: 'WMS',
+		    loader: wmsLoader,
+		    allowDrop: false,
+        expanded: true,
+        expandChildNodes: true,
+		    listeners: {
+			    'load': function () {
+				    postLoading();
+			    }
+		    }
 	});
 
-	layerTree.setRootNode(root);	
+    layerTree.setRootNode(layerList);	
+    layerList.appendChild(root);
+
+    if (enableCommercialMaps && baseLayers.length > 0) {
+        //todo use a more generic way to implement
+        var bgnode0 = new GeoExt.tree.LayerNode({
+             layer: baseLayers[0],
+             leaf: true,
+             checked: true,
+             uiProvider: Ext.tree.TriStateNodeUI
+        });
+        var bgnode1 = new GeoExt.tree.LayerNode({
+             layer: baseLayers[1],
+             leaf: true,
+             checked: false,
+             uiProvider: Ext.tree.TriStateNodeUI
+        });
+
+        layerList.appendChild(bgnode0);
+        layerList.appendChild(bgnode1);
+    }
+
 }
 
 layerTreeSelectionChangeHandlerFunction = function (selectionModel, treeNode) {
@@ -307,6 +360,7 @@ function postLoading() {
 	selectedLayers = Array();
 	selectedQueryableLayers = Array();
 	allLayers = Array();
+
 	layerTree.root.firstChild.cascade(
 
 	function (n) {
@@ -435,7 +489,7 @@ function postLoading() {
             frame: false,
             border: false,
 			zoom: 1.6,
-			layers: [
+			layers: baseLayers.concat([
 			thematicLayer = new OpenLayers.Layer.WMS(layerTree.root.firstChild.text,
 				wmsURI, {
 					layers: selectedLayers.join(","),
@@ -453,7 +507,7 @@ function postLoading() {
 			featureInfoHighlightLayer = new OpenLayers.Layer.Vector("featureInfoHighlight", {
 				isBaseLayer: false,
 				styleMap: styleMapHighLightLayer
-			})],
+			})]),
 			map: MapOptions,
 			id: "geoExtMapPanel",
 			width: MapPanelRef.getInnerWidth(),
@@ -461,6 +515,7 @@ function postLoading() {
 			renderTo: MapPanelRef.body,
 			plugins: [printExtent]
 		});
+
 	}
 	else {
 		thematicLayer.name = layerTree.root.firstChild.text;
@@ -635,6 +690,7 @@ function postLoading() {
 			mapOptions: OverviewMapOptions,
 			layers: [overviewLayer]
 		}));
+
 	}
 	else {
 		//todo: find out how to change the max extent in the OverviewMap
@@ -1464,7 +1520,8 @@ function createPermalink(){
 }
 
 function addInfoButtonsToLayerTree() {
-	layerTree.root.firstChild.cascade(
+    var treeRoot = layerTree.getNodeById("wmsNode");
+	treeRoot.firstChild.cascade(
 		function (n) {
 			if (n.isLeaf()) {
 				// info button
