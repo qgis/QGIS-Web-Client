@@ -12,7 +12,7 @@ var serverAndCGI = "/cgi-bin/qgis_mapserv.fcgi";
 //Define whether you want to use the GetProjectSettings extension of QGIS Server
 //for more configuration options in the project.
 //Set this to false to use GetCapabilities for older QGIS Server versions (<= 1.8).
-var useGetProjectSettings = true;
+var useGetProjectSettings = false;
 
 // show the layerOrderTab in the GUI
 var showLayerOrderTab = true;
@@ -113,16 +113,17 @@ var projectTitles = {
 };
 
 //EPSG projection code of your QGIS project
-var epsgcode = 4326;
+var epsgcode = 3857;
 
 // OpenLayers global options
 // see http://dev.openlayers.org/releases/OpenLayers-2.10/doc/apidocs/files/OpenLayers/Map-js.html
 var MapOptions = {
   projection: new OpenLayers.Projection("EPSG:"+epsgcode),
-  units: "degrees",
-  maxScale:100000,
-  minScale:100000000,
-  fractionalZoom: true,
+  units: "m",
+//  maxScale:50,
+//  minScale:40000000,
+//  numZoomLevels:20,
+  fractionalZoom: enableCommercialMaps ? false : true,
   transitionEffect:"resize",
   controls: []
 };
@@ -134,18 +135,21 @@ var LayerOptions = {
   singleTile:true,
   ratio:1,
   transitionEffect:"resize",
+  isBaseLayer: false,
+  opacity: 0.3,
   projection:"EPSG:"+epsgcode,
-  yx: {"EPSG:4326": true}
+  yx: {"EPSG:900913": false}
   // If your projection is known to have an inverse axis order in WMS 1.3 compared to WMS 1.1 enter true for yx.
-  // For EPSG:4326 the entry is not necessary as OpenLayers knows it by default.
+  // For EPSG:900913 OpenLayers should know it by default but because of a bug in OL 2.12 we enter it here.
+	
 };
 
 //overview map settings - do not change variable names!
 var OverviewMapOptions = {
   projection: new OpenLayers.Projection("EPSG:"+epsgcode),
-  units: "degrees",
-  maxScale:100000,
-  minScale:800000000,
+  units: "m",
+  maxScale:50,
+  minScale:250000000,
   transitionEffect:"resize"
 };
 var OverviewMapSize = new OpenLayers.Size(200,200);
@@ -174,18 +178,11 @@ var printCapabilities={
     {"name":"1:25'000","value":"25000"},
     {"name":"1:30'000","value":"30000"},
     {"name":"1:50'000","value":"50000"},
+    {"name":"1:75'000","value":"75000"},
     {"name":"1:100'000","value":"100000"},
     {"name":"1:250'000","value":"250000"},
     {"name":"1:500'000","value":"500000"},
-    {"name":"1:1'000'000","value":"1000000"},
-    {"name":"1:2'00'000","value":"2000000"},
-    {"name":"1:4'000'000","value":"4000000"},
-    {"name":"1:8'000'000","value":"8000000"},
-    {"name":"1:16'000'000","value":"16000000"},
-    {"name":"1:30'000'000","value":"30000000"},
-    {"name":"1:60'000'000","value":"60000000"},
-    {"name":"1:90'000'000","value":"90000000"},
-    {"name":"1:100'000'000","value":"100000000"}
+    {"name":"1:1000'000","value":"1000000"}
   ],
   "dpis":[
     {"name":"150 dpi","value":"150"},
@@ -195,10 +192,6 @@ var printCapabilities={
   ],
   "layouts":[]
 };
-
-//set to null if you do not want to use a URL shortener for your permalink function
-var permaLinkURLShortener = null;
-//var permaLinkURLShortener = "/wsgi/createShortPermalink.wsgi";
 
 // <------------ No changes should be needed below here ------------------>
 
