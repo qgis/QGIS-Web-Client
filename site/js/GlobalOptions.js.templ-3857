@@ -24,7 +24,7 @@ var useGeoNamesSearchBox = true;
 var searchBoxQueryURL = null; // "/wsgi/search.wsgi?query=";
 var searchBoxGetGeomURL = null; // "/wsgi/getSearchGeom.wsgi";
 
-// enable to use commercial Google and Bing layers (also enable in WebgisInit.js)
+// enable to use commercial Google and Bing layers
 var enableCommercialMaps = true;
 
 // do not show fields in ObjectIdentification results that have null values
