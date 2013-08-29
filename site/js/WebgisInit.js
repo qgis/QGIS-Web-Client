@@ -652,13 +652,9 @@ function postLoading() {
 		geoExtMap.map.removeControl(WMSGetFInfo);
 	}
 	var fiLayer = new OpenLayers.Layer.WMS(layerTree.root.firstChild.text, wmsURI, {
-		layers: []
-	}, {
-		buffer: 0,
-		singleTile: true,
-		ratio: 1,
-		projection: 'EPSG:'+epsgcode
-	});
+		layers: [],
+		VERSION: "1.3.0"
+	}, LayerOptions);
 
 	WMSGetFInfo = new OpenLayers.Control.WMSGetFeatureInfo({
 		layers: [fiLayer],
@@ -755,25 +751,25 @@ function postLoading() {
 					loadingText: geonamesLoadingString[lang],
 					emptyText: geonamesEmptyString[lang]
 				});
+				var emptySearchFieldButton = new Ext.Button({
+					scale: 'medium',
+					icon: 'gis_icons/mActionUndo.png',
+					tooltipType: 'qtip',
+					tooltip: resetSearchFieldTooltipString[lang],
+					id: 'EmptySearchField'
+				});
+				emptySearchFieldButton.handler = mapToolbarHandler;
+				myTopToolbar.insert(myTopToolbar.items.length, emptySearchFieldButton);
 			} else {
 				qgisSearchCombo = new QGIS.SearchComboBox({
 					map: geoExtMap.map,
 					highlightLayerName: 'attribHighLight',
+					hasReverseAxisOrder: thematicLayer.reverseAxisOrder(),
 					width: 300,
 					searchtables: searchtables
 				});
 			}
 			myTopToolbar.insert(myTopToolbar.items.length, qgisSearchCombo);
-
-			var emptySearchFieldButton = new Ext.Button({
-				scale: 'medium',
-				icon: 'gis_icons/mActionUndo.png',
-				tooltipType: 'qtip',
-				tooltip: resetSearchFieldTooltipString[lang],
-				id: 'EmptySearchField'
-			});
-			emptySearchFieldButton.handler = mapToolbarHandler;
-			myTopToolbar.insert(myTopToolbar.items.length, emptySearchFieldButton);
 		}
 
 		myTopToolbar.doLayout();
@@ -1700,7 +1696,9 @@ function activateGetFeatureInfo(doIt) {
 function openPermaLink(permalink) {
 	var mailToText = "mailto:?subject="+sendPermalinkLinkFromString[lang]+titleBarText+layerTree.root.firstChild.text+"&body="+permalink;
 	var mailWindow = window.open(mailToText);
-	mailWindow.close();
+	if (mailWindow){
+		mailWindow.close();
+	} // can be null, if e.g. popus are blocked
 }
 
 function receiveShortPermalinkFromDB(result, request) {

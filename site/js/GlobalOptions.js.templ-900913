@@ -91,6 +91,8 @@ var mapSearchPanelConfigs = {
 //project listing structure - the root object is called 'gis_projects'
 //have a look at the template file and documentation for the correct json structure
 var mapThemeSwitcherActive = true;
+//you can provide an alternative template for the theme-switcher - see also file ThemeSwitcher.js (ThemeSwitcher.prototype.initialize)
+var themeSwitcherTemplate = null;
 
 //first part of titlebar text
 var titleBarText = "GIS-Browser - "; // will be appended with project title
