@@ -19,7 +19,7 @@ availableLanguages["es"] = {names:[], translator:"Samuel Mesa, Diana Galindo, Ge
 availableLanguages["de"] = {names:[], translator:"Andreas Neumann"}; //a(dot)neumann(at)carto(dot)net
 availableLanguages["fr"] = {names:[], translator:"Mayeul Kauffmann, Amandine Schloupt (Aguram)"}; //mayeul (dot) kauffmann (at) free (dot) fr, aschloupt (at) aguram (dot) org
 availableLanguages["it"] = {names:[], translator:"Paolo Cavallini (Faunalia), Giovanni Allegri (Gis3W)"}; //cavallini (at) faunalia (dot) it
-availableLanguages["pt_PT"] = {names:[], translator:"Nelson Silva"}; //nelson (dot) jgs (at) gmail (dot) com>
+availableLanguages["pt_PT"] = {names:[], translator:"Nelson Silva, Giovanni Manghi (Faunalia)"}; //nelson (dot) jgs (at) gmail (dot) com>, giovanni (dot) manghi (at) faunalia (dot) pt
 availableLanguages["uk"] = {names:[], translator:"Pavlo Taranov"}; //taranov (dot) pavel (at) gmail (dot) com>
 availableLanguages["hu"] = {names:[], translator:"Szilárd Lajcsik"}; //szilajinfo (at) gmail (dot) com>
 
@@ -379,7 +379,7 @@ layerOrderPanelTitleString["es"] = "Layer order"; //FIXME
 layerOrderPanelTitleString["de"] = "Ebenenreihenfolge";
 layerOrderPanelTitleString["fr"] = "Ordre des couches";
 layerOrderPanelTitleString["it"] = "Layer order"; //FIXME
-layerOrderPanelTitleString["pt_PT"] = "Layer order"; //FIXME
+layerOrderPanelTitleString["pt_PT"] = "Ordem e transparência camadas";
 layerOrderPanelTitleString["uk"] = "Layer order"; //FIXME
 layerOrderPanelTitleString["hu"] = "Réteg sorrend";
 
@@ -390,7 +390,7 @@ layerOrderPanelLayerSettingsTooltipString["es"] = "Settings"; //FIXME
 layerOrderPanelLayerSettingsTooltipString["de"] = "Einstellungen";
 layerOrderPanelLayerSettingsTooltipString["fr"] = "Réglages";
 layerOrderPanelLayerSettingsTooltipString["it"] = "Settings"; //FIXME
-layerOrderPanelLayerSettingsTooltipString["pt_PT"] = "Settings"; //FIXME
+layerOrderPanelLayerSettingsTooltipString["pt_PT"] = "Configurações";
 layerOrderPanelLayerSettingsTooltipString["uk"] = "Settings"; //FIXME
 layerOrderPanelLayerSettingsTooltipString["hu"] = "Beállítások";
 
@@ -401,7 +401,7 @@ layerOrderPanelVisibilityChangeTooltipString["es"] = "Change Layer Visibility"; 
 layerOrderPanelVisibilityChangeTooltipString["de"] = "Ebenensichtbarkeit ändern";
 layerOrderPanelVisibilityChangeTooltipString["fr"] = "Changer la visibilité de la couche";
 layerOrderPanelVisibilityChangeTooltipString["it"] = "Change Layer Visibility"; //FIXME
-layerOrderPanelVisibilityChangeTooltipString["pt_PT"] = "Change Layer Visibility"; //FIXME
+layerOrderPanelVisibilityChangeTooltipString["pt_PT"] = "Mudar visibilidade da camada";
 layerOrderPanelVisibilityChangeTooltipString["uk"] = "Change Layer Visibility"; //FIXME
 layerOrderPanelVisibilityChangeTooltipString["hu"] = "Réteg ki/be kapcsolása";
 
@@ -412,7 +412,7 @@ layerOrderPanelMoveLayerTextString["es"] = "Move layer"; //FIXME
 layerOrderPanelMoveLayerTextString["de"] = "Ebene verschieben";
 layerOrderPanelMoveLayerTextString["fr"] = "Supprimer la couche";
 layerOrderPanelMoveLayerTextString["it"] = "Move layer"; //FIXME
-layerOrderPanelMoveLayerTextString["pt_PT"] = "Move layer"; //FIXME
+layerOrderPanelMoveLayerTextString["pt_PT"] = "Deslocar camada";
 layerOrderPanelMoveLayerTextString["uk"] = "Move layer"; //FIXME
 layerOrderPanelMoveLayerTextString["hu"] = "Réteg mozgatása";
 
@@ -423,7 +423,7 @@ layerOrderPanelTransparencyTooltipString["es"] = "Transparency {0}%"; //FIXME
 layerOrderPanelTransparencyTooltipString["de"] = "Transparenz {0}%";
 layerOrderPanelTransparencyTooltipString["fr"] = "Transparence {0}%";
 layerOrderPanelTransparencyTooltipString["it"] = "Transparency {0}%"; //FIXME
-layerOrderPanelTransparencyTooltipString["pt_PT"] = "Transparency {0}%"; //FIXME
+layerOrderPanelTransparencyTooltipString["pt_PT"] = "Transparência {0}%";
 layerOrderPanelTransparencyTooltipString["uk"] = "Transparency {0}%"; //FIXME
 layerOrderPanelTransparencyTooltipString["hu"] = "Átlászóság {0}%";
 
@@ -467,7 +467,7 @@ legendMetadataWindowTitleString["es"] = "Legend and metadata information of laye
 legendMetadataWindowTitleString["de"] = "Legende und Metadaten der Ebene";
 legendMetadataWindowTitleString["fr"] = "Légende et métadonnée de la couche";
 legendMetadataWindowTitleString["it"] = "Legend and metadata information of layer"; //FIXME
-legendMetadataWindowTitleString["pt_PT"] = "Legend and metadata information of layer"; //FIXME
+legendMetadataWindowTitleString["pt_PT"] = "Legenda e metadados da camada";
 legendMetadataWindowTitleString["uk"] = "Legend and metadata information of layer"; //FIXME
 legendMetadataWindowTitleString["hu"] = "Jelkulcs és metaadat információ a következő rétegről: ";
 
@@ -478,7 +478,7 @@ metadataSectionTitleString["es"] = "Metadata of layer "; //FIXME
 metadataSectionTitleString["de"] = "Metadaten der Ebene ";
 metadataSectionTitleString["fr"] = "Métadonnée de la couche ";
 metadataSectionTitleString["it"] = "Metadata of layer "; //FIXME
-metadataSectionTitleString["pt_PT"] = "Metadata of layer "; //FIXME
+metadataSectionTitleString["pt_PT"] = "Metadados da camada ";
 metadataSectionTitleString["uk"] = "Metadata of layer "; //FIXME
 metadataSectionTitleString["hu"] = "Réteg neve: ";
 
@@ -489,7 +489,7 @@ abstractString["es"] = "Abstract:"; //FIXME
 abstractString["de"] = "Zusammenfassung:";
 abstractString["fr"] = "Résumé:";
 abstractString["it"] = "Abstract:"; //FIXME
-abstractString["pt_PT"] = "Abstract:"; //FIXME
+abstractString["pt_PT"] = "Resumo:";
 abstractString["uk"] = "Abstract:"; //FIXME
 abstractString["hu"] = "Absztrakt:";
 
@@ -500,7 +500,7 @@ layerQueryable["es"] = "This layer is queryable: "; //FIXME
 layerQueryable["de"] = "Diese Ebene ist abfragbar: ";
 layerQueryable["fr"] = "Cette couche est requêtable: ";
 layerQueryable["it"] = "This layer is queryable: "; //FIXME
-layerQueryable["pt_PT"] = "This layer is queryable: "; //FIXME
+layerQueryable["pt_PT"] = "A camada pode-se pesquisar: ";
 layerQueryable["uk"] = "This layer is queryable: "; //FIXME
 layerQueryable["hu"] = "Ez a réteg lekérdezhető: ";
 
@@ -511,7 +511,7 @@ yesString["es"] = "yes"; //FIXME
 yesString["de"] = "ja";
 yesString["fr"] = "oui";
 yesString["it"] = "yes"; //FIXME
-yesString["pt_PT"] = "yes"; //FIXME
+yesString["pt_PT"] = "sim";
 yesString["uk"] = "yes"; //FIXME
 yesString["hu"] = "igen";
 
@@ -522,7 +522,7 @@ noString["es"] = "no"; //FIXME
 noString["de"] = "nein";
 noString["fr"] = "non";
 noString["it"] = "no"; //FIXME
-noString["pt_PT"] = "no"; //FIXME
+noString["pt_PT"] = "não";
 noString["uk"] = "no"; //FIXME
 noString["hu"] = "nem";
 
@@ -533,7 +533,7 @@ displayFieldString["es"] = "Display-Field"; //FIXME
 displayFieldString["de"] = "Anzeigefeld";
 displayFieldString["fr"] = "Affichage";
 displayFieldString["it"] = "Display-Field"; //FIXME
-displayFieldString["pt_PT"] = "Display-Field"; //FIXME
+displayFieldString["pt_PT"] = "Atributo que será visualizado";
 displayFieldString["uk"] = "Display-Field"; //FIXME
 displayFieldString["hu"] = "Megjelenő-Mező";
 
@@ -544,7 +544,7 @@ coordinateSystemsString["es"] = "Available Coordinate Systems"; //FIXME
 coordinateSystemsString["de"] = "Verfügbare Koordinatensysteme";
 coordinateSystemsString["fr"] = "Système de coordonnées disponible";
 coordinateSystemsString["it"] = "Available Coordinate Systems"; //FIXME
-coordinateSystemsString["pt_PT"] = "Available Coordinate Systems"; //FIXME
+coordinateSystemsString["pt_PT"] = "Sistemas de coordenadas disponíveis";
 coordinateSystemsString["uk"] = "Available Coordinate Systems"; //FIXME
 coordinateSystemsString["hu"] = "Elérhető koordináta rendszerek";
 
@@ -555,7 +555,7 @@ geographicExtentString["es"] = "Geographic Extent"; //FIXME
 geographicExtentString["de"] = "Geographischer Ausschnitt";
 geographicExtentString["fr"] = "Etendue géographique";
 geographicExtentString["it"] = "Geographic Extent"; //FIXME
-geographicExtentString["pt_PT"] = "Geographic Extent"; //FIXME
+geographicExtentString["pt_PT"] = "Extensão geográfica";
 geographicExtentString["uk"] = "Geographic Extent"; //FIXME
 geographicExtentString["hu"] = "Földrajzi kiterjedés";
 
@@ -566,7 +566,7 @@ westString["es"] = "west"; //FIXME
 westString["de"] = "Westen";
 westString["fr"] = "ouest";
 westString["it"] = "west"; //FIXME
-westString["pt_PT"] = "west"; //FIXME
+westString["pt_PT"] = "oeste";
 westString["uk"] = "west"; //FIXME
 westString["hu"] = "nyugat";
 
@@ -577,7 +577,7 @@ eastString["es"] = "east"; //FIXME
 eastString["de"] = "Osten";
 eastString["fr"] = "est";
 eastString["it"] = "east"; //FIXME
-eastString["pt_PT"] = "east"; //FIXME
+eastString["pt_PT"] = "leste";
 eastString["uk"] = "east"; //FIXME
 eastString["hu"] = "kelet";
 
@@ -588,7 +588,7 @@ northString["es"] = "north"; //FIXME
 northString["de"] = "Norden";
 northString["fr"] = "nord";
 northString["it"] = "north"; //FIXME
-northString["pt_PT"] = "north"; //FIXME
+northString["pt_PT"] = "norte";
 northString["uk"] = "north"; //FIXME
 northString["hu"] = "észak";
 
@@ -599,7 +599,7 @@ southString["es"] = "south"; //FIXME
 southString["de"] = "Süden";
 southString["fr"] = "sud";
 southString["it"] = "south"; //FIXME
-southString["pt_PT"] = "south"; //FIXME
+southString["pt_PT"] = "sul";
 southString["uk"] = "south"; //FIXME
 southString["hu"] = "dél";
 
@@ -1021,7 +1021,7 @@ sendPermalinkTooltipString["es"] = "Email a link to this map"; //FIXME
 sendPermalinkTooltipString["de"] = "Einen Link auf diese Karte per Email verschicken";
 sendPermalinkTooltipString["fr"] = "Partager le lien de cette carte";
 sendPermalinkTooltipString["it"] = "Email a link to this map"; //FIXME
-sendPermalinkTooltipString["pt_PT"] = "Email a link to this map"; //FIXME
+sendPermalinkTooltipString["pt_PT"] = "Enviar mapa através E-Mail";
 sendPermalinkTooltipString["uk"] = "Email a link to this map"; //FIXME
 sendPermalinkTooltipString["hu"] = "Email egy linkkel erre a térképre";
 
@@ -1032,7 +1032,7 @@ sendPermalinkLinkFromString["es"] = "Link from "; //FIXME
 sendPermalinkLinkFromString["de"] = "Link von ";
 sendPermalinkLinkFromString["fr"] = "Lien de ";
 sendPermalinkLinkFromString["it"] = "Link from "; //FIXME
-sendPermalinkLinkFromString["pt_PT"] = "Link from "; //FIXME
+sendPermalinkLinkFromString["pt_PT"] = "Link de ";
 sendPermalinkLinkFromString["uk"] = "Link from "; //FIXME
 sendPermalinkLinkFromString["hu"] = "Link from ";
 
