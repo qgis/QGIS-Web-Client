@@ -17,7 +17,7 @@ var allLayers; //later an array containing all leaf layers
 var thematicLayer, highlightLayer, featureInfoHighlightLayer;
 var googleStatelliteLayer;
 var bingSatelliteLayer;
-var bingApiKey = "AqTGBsziZHIJYYxgivLBf0hVdrAk9mWO5cQcb8Yux8sW5M8c8opEC2lZqKR1ZZXf"; // http://www.microsoft.com/maps/create-a-bing-maps-key.aspx
+// var bingApiKey = "add Bing api key here"; // http://msdn.microsoft.com/en-us/library/ff428642.aspx
 var bgLayerRootNodeText = 'Hintergrundlayer';
 var highLightGeometry = new Array();
 var WMSGetFInfo, WMSGetFInfoHover;
@@ -56,7 +56,6 @@ var legendTab; //a reference to the Ext tab holding the legend graphic
 var metadataTab; //a reference to the Ext tab holding the metadata information
 var measurePopup;
 var baseLayers = [];
-var enableCommercialMaps = false; // enable to use commercial Google and Bing layers (also enable in GlobalOption.js)
 
 Ext.onReady(function () {
 	//dpi detection
