@@ -695,8 +695,7 @@ function postLoading() {
 			mapOptions: OverviewMapOptions,
 			layers: [overviewLayer]
 		}));
-//removeme
-    geoExtMap.map.addControl(new OpenLayers.Control.LayerSwitcher());
+
 	}
 	else {
 		//todo: find out how to change the max extent in the OverviewMap
