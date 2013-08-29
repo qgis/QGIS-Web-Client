@@ -17,7 +17,7 @@ var allLayers; //later an array containing all leaf layers
 var thematicLayer, highlightLayer, featureInfoHighlightLayer;
 var googleStatelliteLayer;
 var bingSatelliteLayer;
-var bingApiKey = "AqTGBsziZHIJYYxgivLBf0hVdrAk9mWO5cQcb8Yux8sW5M8c8opEC2lZqKR1ZZXf";
+var bingApiKey = "AqTGBsziZHIJYYxgivLBf0hVdrAk9mWO5cQcb8Yux8sW5M8c8opEC2lZqKR1ZZXf"; // http://www.microsoft.com/maps/create-a-bing-maps-key.aspx
 var bgLayerRootNodeText = 'Hintergrundlayer';
 var highLightGeometry = new Array();
 var WMSGetFInfo, WMSGetFInfoHover;
