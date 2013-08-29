@@ -103,22 +103,41 @@ function showFeatureInfoHover(evt) {
 					result = true;
 				}
 				var attribNodes = featureNodes[j].getElementsByTagName("Attribute");
+				var attributesDict = {};
 				for (var k = 0; k < attribNodes.length; ++k) {
-					if (attribNodes[k].getAttribute("name") == tooltipAttributeName) {
-						if (attribNodes[k].getAttribute("value").match(/</)) {
-							text += attribNodes[k].getAttribute("value");
-						}
-						else {
-							attribText = '<p>' + attribNodes[k].getAttribute("value").replace(/\n/, "<br/>");
-							attribText = attribText.replace("\n", "<br/>");
-							text += attribText + '</p>';
-						}
-						text += '<hr class="hrHoverLayer"/>';
-					} else {
-						if (attribNodes[k].getAttribute("name") == "geometry") {
-							var feature = new OpenLayers.Feature.Vector(OpenLayers.Geometry.fromWKT(attribNodes[k].getAttribute("value")));
-							featureInfoHighlightLayer.addFeatures([feature]);
-						}
+					attributesDict[attribNodes[k].getAttribute("name")] = attribNodes[k].getAttribute("value");
+				}
+				
+				tooltipFieldAvailable = attributesDict.hasOwnProperty(tooltipAttributeName)?true:false;
+				geometryFieldAvailable = attributesDict.hasOwnProperty('geometry')?true:false;
+
+				if (tooltipFieldAvailable) {
+					if (attribNodes[k].getAttribute("value").match(/</)) {
+						text += attribNodes[k].getAttribute("value");
+					}
+					else {
+						attribText = '<p>' + attribNodes[k].getAttribute("value").replace(/\n/, "<br/>");
+						attribText = attribText.replace("\n", "<br/>");
+						text += attribText + '</p>';
+					}
+					text += '<hr class="hrHoverLayer"/>';
+				} 
+				else if (tooltipTemplates && tooltipTemplates.hasOwnProperty(layerNodes[i].getAttribute("name"))){
+					templateText = tooltipTemplates[layerNodes[i].getAttribute("name")].template;
+					tooltipText = templateText.replace(/<%(\w*)%>/g,function(m,key){
+						var value = attributesDict.hasOwnProperty(key)?attributesDict[key]:"";
+						return value.replace(/&/g, "&amp;")
+									 .replace(/</g, "&lt;")
+									 .replace(/>/g, "&gt;")
+									 .replace(/"/g, "&quot;")
+									 .replace(/'/g, "&#039;");
+					})
+					text += tooltipText+"<br/>";
+				}
+				if (geometryFieldAvailable) {
+					if (attribNodes[k].getAttribute("name") == "geometry") {
+						var feature = new OpenLayers.Feature.Vector(OpenLayers.Geometry.fromWKT(attribNodes[k].getAttribute("value")));
+						featureInfoHighlightLayer.addFeatures([feature]);
 					}
 				}
 			}

@@ -89,6 +89,14 @@ var mapSearchPanelConfigs = {
   "helloworld": [simpleWmsSearch, urlRewriteSearch]
 };
 
+//templates to define tooltips for a layer, to be shown on hover identify. The layer fields must be wrapped inside <%%> special tags.
+//if a layers field is found with the name "tooltip" its content will have precedence over this configuration 
+var tooltipTemplates = {
+	'Country':{
+		template: "Look for the country on Google Search: <a href='http://www.google.it/#output=search&q=<%name%>' target='_blank'><%name%></a>"
+	},
+};
+
 //define whether you want to display a map theme switcher
 //note that you have to also link a gis-project-listing.js file containing a valid
 //project listing structure - the root object is called 'gis_projects'
