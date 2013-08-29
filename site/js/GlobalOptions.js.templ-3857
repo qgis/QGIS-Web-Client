@@ -24,6 +24,7 @@ var useGeoNamesSearchBox = true;
 var searchBoxQueryURL = null; // "/wsgi/search.wsgi?query=";
 var searchBoxGetGeomURL = null; // "/wsgi/getSearchGeom.wsgi";
 
+// enable to user commercial Google and Bing layers
 var enableCommercialMaps = true;
 
 // do not show fields in ObjectIdentification results that have null values
@@ -32,6 +33,7 @@ var suppressEmptyValues = true;
 var suppressInfoGeometry = true;
 // do show field names in click-popup during object identification
 var showFieldNamesInClickPopup = true;
+// max-width and max-height of the feature-info popup can be controlled in site/css/popup.css
 
 //config for QGIS.SearchPanel
 var simpleWmsSearch = {
@@ -92,6 +94,8 @@ var mapSearchPanelConfigs = {
 //project listing structure - the root object is called 'gis_projects'
 //have a look at the template file and documentation for the correct json structure
 var mapThemeSwitcherActive = true;
+//you can provide an alternative template for the theme-switcher - see also file ThemeSwitcher.js (ThemeSwitcher.prototype.initialize)
+var themeSwitcherTemplate = null;
 
 //first part of titlebar text
 var titleBarText = "GIS-Browser - "; // will be appended with project title
@@ -150,7 +154,7 @@ var OverviewMapOptions = {
 };
 var OverviewMapSize = new OpenLayers.Size(200,200);
 var overviewLayer = new OpenLayers.Layer.WMS("Overview-Map",
-  "/cgi-bin/qgis_mapserv.fcgi?map=/var/www/qgis-web-client/projects/naturalearth_110million.qgs",
+  "/cgi-bin/qgis_mapserv.fcgi?map=/home/web/qgis-web-client/projects/naturalearth_110million.qgs",
   {layers:"Land",format:"image/png"},
   {buffer:0,singleTile:true,transitionEffect:"resize"});
 
