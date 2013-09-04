@@ -15,9 +15,10 @@ var gis_projects = {
 			"updateInterval": "occasional",
 			"responsible": "Amtliche Vermessung",
 			"tags": "Ortsplan",
+            "switcher": true,
             "sogistooltip": true,
-            "sogistooltipwidth" : "600",
-            "sogistooltipheight" : "300"
+            "sogistooltipwidth" : "300",
+            "sogistooltipheight" : "400"
 		},{
 			"name": "Richtplan Stand Januar 2013",
 			"projectpath": "",
@@ -27,6 +28,7 @@ var gis_projects = {
 			"updateInterval": "occasional",
 			"responsible": "Amtliche Vermessung",
 			"tags": "Richtplan",
+            "switcher": true,
             "sogistooltip": true,
             "sogistooltipwidth" : "600",
             "sogistooltipheight" : "300"
@@ -42,9 +44,10 @@ var gis_projects = {
 			"updateInterval": "occasional",
 			"responsible": "Amt für Umwelt",
 			"tags": "Neophyten",
+            "switcher": true,
             "sogistooltip": true,
             "sogistooltipwidth" : "600",
-            "sogistooltipheight" : "300"
+            "sogistooltipheight" : "350"
 		},{
 			"name": "Grundwasserbewirtschaftung",
 			"projectpath": "",
@@ -54,6 +57,7 @@ var gis_projects = {
 			"updateInterval": "occasional",
 			"responsible": "Amt für Umwelt",
 			"tags": "Gewaesserbewirtschaftung",
+            "switcher": true,
             "sogistooltip": true,
             "sogistooltipwidth" : "1000",
             "sogistooltipheight" : "300"
@@ -66,6 +70,7 @@ var gis_projects = {
 			"updateInterval": "occasional",
 			"responsible": "Amt für Umwelt",
 			"tags": "Baugrundklassen",
+            "switcher": true,
             "sogistooltip": true,
             "sogistooltipwidth" : "600",
             "sogistooltipheight" : "300"
@@ -78,6 +83,7 @@ var gis_projects = {
 			"updateInterval": "occasional",
 			"responsible": "Amt für Umwelt",
 			"tags": "Naturgefahrenhinweiskarte",
+            "switcher": true,
             "sogistooltip": true,
             "sogistooltipwidth" : "600",
             "sogistooltipheight" : "300"
@@ -93,6 +99,7 @@ var gis_projects = {
 			"updateInterval": "occasional",
 			"responsible": "Amt für Landwirtschaft",
 			"tags": "Bienenstandorte",
+            "switcher": true,
             "sogistooltip": false,
             "sogistooltipwidth" : "",
             "sogistooltipheight" : "300"
@@ -105,6 +112,7 @@ var gis_projects = {
 			"updateInterval": "occasional",
 			"responsible": "Staatskanzlei AGI",
 			"tags": "SOVOTE TEST",
+            "switcher": true,
             "sogistooltip": true,
             "sogistooltipwidth" : "600",
             "sogistooltipheight" : "300"
@@ -117,6 +125,7 @@ var gis_projects = {
 			"updateInterval": "occasional",
 			"responsible": "Staatskanzlei AGI",
 			"tags": "SOVOTE TEST",
+            "switcher": false,
             "sogistooltip": true,
             "sogistooltipwidth" : "600",
             "sogistooltipheight" : "300"
@@ -129,6 +138,7 @@ var gis_projects = {
 			"updateInterval": "occasional",
 			"responsible": "Staatskanzlei AGI",
 			"tags": "SOVOTE TEST",
+            "switcher": false,
             "sogistooltip": true,
             "sogistooltipwidth" : "600",
             "sogistooltipheight" : "300"
@@ -144,6 +154,7 @@ var gis_projects = {
 			"updateInterval": "occasional",
 			"responsible": "Amt für Raumplanung",
 			"tags": "Nutzungszonen",
+            "switcher": true,
             "sogistooltip": false,
             "sogistooltipwidth" : "",
             "sogistooltipheight" : "300"
@@ -159,6 +170,23 @@ var gis_projects = {
 			"updateInterval": "occasional",
 			"responsible": "Gemeinden Kanton SO",
 			"tags": "Leitungskataster,GemeindeGIS",
+            "switcher": true,
+            "sogistooltip": true,
+            "sogistooltipwidth" : "600",
+            "sogistooltipheight" : "300"
+		}]
+    },{
+		"name": "Amt für Verkehr und Tiefbau",
+		"projects": [{
+			"name": "Verkehrsmodell 2010",
+			"projectpath": "",
+			"projectfile": "verkehrsmodell2010",
+			"format": "image/png",
+			"visibleLayers": "",
+			"updateInterval": "occasional",
+			"responsible": "Amt für Verkehr und Tiefbau",
+			"tags": "Meine Tags",
+            "switcher": true,
             "sogistooltip": true,
             "sogistooltipwidth" : "600",
             "sogistooltipheight" : "300"

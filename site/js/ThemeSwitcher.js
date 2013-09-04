@@ -42,6 +42,7 @@ function ThemeSwitcher(parentPanel) {
 			var topicRec = this.gisTopicListingStore.getAt(i);
 			for (var j = 0; j < topicRec.data.projects.length; j++) {
 				var projData = topicRec.data.projects[j];
+                if (projData.switcher == true){
 				projData.topic = topicRec.data.name;
 				var tooltip = themeSwitcherTooltipMapThemeString[lang] + projData.name;
 				if (projData.tags) {
@@ -66,6 +67,7 @@ function ThemeSwitcher(parentPanel) {
 				projListingArray.push([topicCounter + '_' + projData.projectfile, projData.name, projData.topic, projData.projectfile, projData.tags, pwprotected, tooltip, projData]);
 			}
 			topicCounter++;
+        }
 		}
 		//create a new json data store holding the project data
 		this.gisProjectListingStore = new Ext.data.ArrayStore({
