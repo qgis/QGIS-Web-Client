@@ -28,7 +28,7 @@ var gis_projects = {
 			"updateInterval": "occasional",
 			"responsible": "Amtliche Vermessung",
 			"tags": "Richtplan",
-            "switcher": true,
+            "switcher": false,
             "sogistooltip": true,
             "sogistooltipwidth" : "600",
             "sogistooltipheight" : "300"
@@ -56,11 +56,11 @@ var gis_projects = {
 			"visibleLayers": "Orthofoto Kt. Solothurn",
 			"updateInterval": "occasional",
 			"responsible": "Amt für Umwelt",
-			"tags": "Gewaesserbewirtschaftung",
-            "switcher": true,
+			"tags": "Grundwasserbewirtschaftung",
+            "switcher": false,
             "sogistooltip": true,
             "sogistooltipwidth" : "1000",
-            "sogistooltipheight" : "300"
+            "sogistooltipheight" : "350"
 		},{
 			"name": "Baugrundklassen",
 			"projectpath": "",
@@ -70,7 +70,7 @@ var gis_projects = {
 			"updateInterval": "occasional",
 			"responsible": "Amt für Umwelt",
 			"tags": "Baugrundklassen",
-            "switcher": true,
+            "switcher": false,
             "sogistooltip": true,
             "sogistooltipwidth" : "600",
             "sogistooltipheight" : "300"
@@ -83,7 +83,7 @@ var gis_projects = {
 			"updateInterval": "occasional",
 			"responsible": "Amt für Umwelt",
 			"tags": "Naturgefahrenhinweiskarte",
-            "switcher": true,
+            "switcher": false,
             "sogistooltip": true,
             "sogistooltipwidth" : "600",
             "sogistooltipheight" : "300"
@@ -103,46 +103,8 @@ var gis_projects = {
             "sogistooltip": false,
             "sogistooltipwidth" : "",
             "sogistooltipheight" : "300"
-		},{
-			"name": "SOVOTE TEST",
-			"projectpath": "",
-			"projectfile": "ea_20130609_vorlage_1",
-			"format": "image/png",
-			"visibleLayers": "",
-			"updateInterval": "occasional",
-			"responsible": "Staatskanzlei AGI",
-			"tags": "SOVOTE TEST",
-            "switcher": true,
-            "sogistooltip": true,
-            "sogistooltipwidth" : "600",
-            "sogistooltipheight" : "300"
-		},{
-			"name": "SOVOTE TEST2",
-			"projectpath": "",
-			"projectfile": "ea_20130609_vorlage_2",
-			"format": "image/png",
-			"visibleLayers": "",
-			"updateInterval": "occasional",
-			"responsible": "Staatskanzlei AGI",
-			"tags": "SOVOTE TEST",
-            "switcher": false,
-            "sogistooltip": true,
-            "sogistooltipwidth" : "600",
-            "sogistooltipheight" : "300"
-		},{
-			"name": "SOVOTE TEST3",
-			"projectpath": "",
-			"projectfile": "ka_20130609_vorlage_1",
-			"format": "image/png",
-			"visibleLayers": "",
-			"updateInterval": "occasional",
-			"responsible": "Staatskanzlei AGI",
-			"tags": "SOVOTE TEST",
-            "switcher": false,
-            "sogistooltip": true,
-            "sogistooltipwidth" : "600",
-            "sogistooltipheight" : "300"
-		}]	
+		}
+		]	
 	},{
 		"name": "Amt für Raumplanung",
 		"projects": [{
@@ -186,7 +148,7 @@ var gis_projects = {
 			"updateInterval": "occasional",
 			"responsible": "Amt für Verkehr und Tiefbau",
 			"tags": "Meine Tags",
-            "switcher": true,
+            "switcher": false,
             "sogistooltip": true,
             "sogistooltipwidth" : "600",
             "sogistooltipheight" : "300"

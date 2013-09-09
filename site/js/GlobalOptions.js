@@ -6,7 +6,7 @@ var helpfile = "help_de.html";
 
 //Servername and name of CGI-file
 //Path must include the host name
-var serverAndCGI = "http://srsofaioi12288.ktso.ch/wms"; //URL mit Name des qgis mapserver cgi
+var serverAndCGI = "http://srsofaioi12288.ktso.ch/wmstest"; //URL mit Name des qgis mapserver cgi
 
 //Define whether you want to use the GetProjectSettings extension of QGIS Server
 //for more configuration options in the project.

@@ -1,6 +1,5 @@
 var servername = "http://"+location.href.split(/\/+/)[1];
 var strSOGISTooltipURL = servername + '/sogis/qgis-web-tooltip/'; // URL to the SOGIS tooltip
-var intSOGISTooltipWidth = 600;
 
 Ext.onReady(function () {
 	// Define header menu. Can be nested one level deep.
@@ -93,9 +92,21 @@ function isTooltipSOGIS(){
                 bolHasToolTip = gis_projects.topics[i].projects[j].sogistooltip;
                 intSOGISTooltipWidth = gis_projects.topics[i].projects[j].sogistooltipwidth;
                 intSOGISTooltipHeight = gis_projects.topics[i].projects[j].sogistooltipheight;
+                strSOGISTooltipProject = getProject()
             }
         }
     }
+    /* Ausnahme SOVOTE */
+    if ((getProject().indexOf('ea_') != -1 ||
+        getProject().indexOf('ka_') != -1) &&
+        getProject().indexOf('_vorlage_') != -1){
+        bolHasToolTip = true 
+        strSOGISTooltipProject = 'ea_20130609_vorlage_1'
+        intSOGISTooltipWidth = 600
+        intSOGISTooltipHeight = 420
+    }
+
+
     if ( bolHasToolTip == true ) {
         Ext.getCmp("ObjectIdentificationTextID").hide();
         Ext.getCmp("ObjectIdentificationModeCombo").hide();   
@@ -118,7 +129,7 @@ function isTooltipSOGIS(){
 */
 function getTooltipHtml(x,y, scale, extent){
     Ext.Ajax.request({
-        url:  strSOGISTooltipURL + getProject() + '/', // URL to the SOGIS tooltip
+        url:  strSOGISTooltipURL + strSOGISTooltipProject + '/', // URL to the SOGIS tooltip
         params: {'x': x, //
                  'y': y,
                  'scale': scale,
@@ -154,6 +165,7 @@ function showTooltip(str_html){
             title: 'Tooltip ' + getProject(),
             minWidth: intSOGISTooltipWidth,
             width: intSOGISTooltipWidth,
+            minWidth: intSOGISTooltipWidth,
             minHeight: intSOGISTooltipHeight,
             height: intSOGISTooltipHeight,
             layout: 'auto',
