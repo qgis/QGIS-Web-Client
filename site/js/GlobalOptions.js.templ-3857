@@ -12,7 +12,7 @@ var serverAndCGI = "/cgi-bin/qgis_mapserv.fcgi";
 //Define whether you want to use the GetProjectSettings extension of QGIS Server
 //for more configuration options in the project.
 //Set this to false to use GetCapabilities for older QGIS Server versions (<= 1.8).
-var useGetProjectSettings = false;
+var useGetProjectSettings = true;
 
 // show the layerOrderTab in the GUI
 var showLayerOrderTab = true;
@@ -89,6 +89,14 @@ var mapSearchPanelConfigs = {
   "helloworld": [simpleWmsSearch, urlRewriteSearch]
 };
 
+//templates to define tooltips for a layer, to be shown on hover identify. The layer fields must be wrapped inside <%%> special tags.
+//if a layers field is found with the name "tooltip" its content will have precedence over this configuration 
+var tooltipTemplates = {
+	'Country':{
+		template: "Look for the country on Google Search: <a href='http://www.google.it/#output=search&q=<%name%>' target='_blank'><%name%></a>"
+	},
+};
+
 //define whether you want to display a map theme switcher
 //note that you have to also link a gis-project-listing.js file containing a valid
 //project listing structure - the root object is called 'gis_projects'
@@ -114,6 +122,10 @@ var projectTitles = {
 
 //EPSG projection code of your QGIS project
 var epsgcode = 3857;
+
+//background transparency for the QGIS server generated layer (commercial background layers not effected)
+//set to true if you want the background to be transparent, layer image will be bigger (32 vs 24bit)
+var qgisLayerTransparency = true;
 
 // OpenLayers global options
 // see http://dev.openlayers.org/releases/OpenLayers-2.10/doc/apidocs/files/OpenLayers/Map-js.html

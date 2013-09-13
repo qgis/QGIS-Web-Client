@@ -18,7 +18,6 @@ var thematicLayer, highlightLayer, featureInfoHighlightLayer;
 var googleStatelliteLayer;
 var bingSatelliteLayer;
 // var bingApiKey = "add Bing api key here"; // http://msdn.microsoft.com/en-us/library/ff428642.aspx
-var bgLayerRootNodeText = 'Hintergrundlayer';
 var highLightGeometry = new Array();
 var WMSGetFInfo, WMSGetFInfoHover;
 var lastLayer, lastFeature;
@@ -495,6 +494,7 @@ function postLoading() {
 					layers: selectedLayers.join(","),
 					opacities: layerOpacities(selectedLayers),
 					format: format,
+					transparent: qgisLayerTransparency,
 					dpi: screenDpi,
 					VERSION: "1.3.0"
 				},

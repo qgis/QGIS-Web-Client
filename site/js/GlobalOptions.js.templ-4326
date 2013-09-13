@@ -123,6 +123,10 @@ var projectTitles = {
 //EPSG projection code of your QGIS project
 var epsgcode = 4326;
 
+//background transparency for the QGIS server generated layer (commercial background layers not effected)
+//set to true if you want the background to be transparent, layer image will be bigger (32 vs 24bit)
+var qgisLayerTransparency = true;
+
 // OpenLayers global options
 // see http://dev.openlayers.org/releases/OpenLayers-2.10/doc/apidocs/files/OpenLayers/Map-js.html
 var MapOptions = {
