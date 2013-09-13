@@ -148,7 +148,6 @@ var LayerOptions = {
   ratio:1,
   transitionEffect:"resize",
   isBaseLayer: false,
-  opacity: 0.3,
   projection:"EPSG:"+epsgcode,
   yx: {"EPSG:900913": false}
   // If your projection is known to have an inverse axis order in WMS 1.3 compared to WMS 1.1 enter true for yx.
