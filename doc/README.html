@@ -13,13 +13,13 @@
 <DIV CLASS="header" ID="header">
 <H1>Quantum GIS (QGIS) Web Client</H1>
 <H2>Installation  and Configuration Guide</H2>
-<H3>Tuesday July 23, 2013</H3>
+<H3>Saturday September 14, 2013</H3>
 </DIV>
 
 <DIV CLASS="body" ID="body">
 <P>
-Last Updated: Tuesday July 23, 2013
-Last Change : Tuesday July 23, 2013
+Last Updated: Saturday September 14, 2013
+Last Change : Saturday September 14, 2013
 </P>
 <DIV CLASS="toc">
 
@@ -206,7 +206,9 @@ format
 
 <P>
 This optional parameter allows a per project definition of the file format. Valid values are
-'image/png', 'image/jpeg' and 'image/png;mode=8bit'. Defaults to 'image/png' if no format is given per project.
+'image/png', 'image/jpeg' and 'image/png;mode=8bit'. Defaults to 'image/png' if no format is given per project. 
+For correct specification of 'image/png;mode=8bit' in a URL please encode it correctly: 'image%2fpng%3b%20mode%3d8bit'.
+If you specify this in site/js/GISProjectListing.js you do not need to encode it.
 </P>
 
 <div class="code"><PRE>
@@ -216,7 +218,7 @@ fullColorLayers
 <P>
 An optional comma-separated list of layers that need to be in full color (24bit). This parameter is only
 relevant if the project default image format is set to 'image/png' or 'image/png;mode=8bit'.
-If any of the layers in the fullColorLayers parameter list is set visible, the format changes to 'image/jpeg'.
+If any of the layers in the fullColorLayers parameter list is set visible, the format changes to 'image/jpeg'. 
 </P>
 
 <div class="code"><PRE>

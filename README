@@ -1,10 +1,10 @@
 Quantum GIS (QGIS) Web Client
 Installation  and Configuration Guide
-Tuesday July 23, 2013
+Saturday September 14, 2013
 
 
-Last Updated: Tuesday July 23, 2013
-Last Change : Tuesday July 23, 2013
+Last Updated: Saturday September 14, 2013
+Last Change : Saturday September 14, 2013
 
 
   1. For the terminally lazy
@@ -129,13 +129,15 @@ A comma-separated list of layers that should be set visible on the project start
   format
 
 This optional parameter allows a per project definition of the file format. Valid values are
-'image/png', 'image/jpeg' and 'image/png;mode=8bit'. Defaults to 'image/png' if no format is given per project.
+'image/png', 'image/jpeg' and 'image/png;mode=8bit'. Defaults to 'image/png' if no format is given per project. 
+For correct specification of 'image/png;mode=8bit' in a URL please encode it correctly: 'image%2fpng%3b%20mode%3d8bit'.
+If you specify this in site/js/GISProjectListing.js you do not need to encode it.
 
   fullColorLayers
 
 An optional comma-separated list of layers that need to be in full color (24bit). This parameter is only
 relevant if the project default image format is set to 'image/png' or 'image/png;mode=8bit'.
-If any of the layers in the fullColorLayers parameter list is set visible, the format changes to 'image/jpeg'.
+If any of the layers in the fullColorLayers parameter list is set visible, the format changes to 'image/jpeg'. 
 
   maxExtent
 
