@@ -110,7 +110,7 @@ Ext.onReady(function () {
         );
         baseLayers.push(googleStatelliteLayer);
     }
-	if (enableBingCommercialMaps)
+	if (enableBingCommercialMaps) {
         bingSatelliteLayer = new OpenLayers.Layer.Bing({
             name: "Bing Satellite",
             key: bingApiKey,
