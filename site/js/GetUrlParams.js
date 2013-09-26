@@ -32,6 +32,8 @@ if (document.documentURI) {
 	//older IEs do not know document.documentURI
 	urlString = window.location.href;
 }
+// replace spaces encoded as '+'
+urlString = urlString.replace(/\+/g, ' ');
 var urlArray = urlString.split('?');
 //substr did not work on ie - patch from Noda
 var norewrite;
