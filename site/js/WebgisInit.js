@@ -103,13 +103,14 @@ Ext.onReady(function () {
 	//set some status messsages
 	mainStatusText.setText(mapAppLoadingString[lang]);
 
-    if (enableCommercialMaps) {
+    if (enableGoogleCommercialMaps) {
         googleStatelliteLayer = new OpenLayers.Layer.Google(
             "Google Satellite",
             {type: google.maps.MapTypeId.SATELLITE, numZoomLevels: 22, isBaseLayer: true}
         );
         baseLayers.push(googleStatelliteLayer);
-
+    }
+	if (enableBingCommercialMaps) {
         bingSatelliteLayer = new OpenLayers.Layer.Bing({
             name: "Bing Satellite",
             key: bingApiKey,
