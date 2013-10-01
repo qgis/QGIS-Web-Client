@@ -895,6 +895,8 @@ function postLoading() {
 				"measure": handleMeasurements,
 				"measurepartial": handleMeasurements
 			});
+			control.setImmediate(true);
+			control.geodesic = useGeodesicMeasurement;
 			geoExtMap.map.addControl(control);
 		}
 	}
