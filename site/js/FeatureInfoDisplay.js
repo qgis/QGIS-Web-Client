@@ -108,15 +108,16 @@ function showFeatureInfoHover(evt) {
 					attributesDict[attribNodes[k].getAttribute("name")] = attribNodes[k].getAttribute("value");
 				}
 				
-				tooltipFieldAvailable = attributesDict.hasOwnProperty(tooltipAttributeName)?true:false;
-				geometryFieldAvailable = attributesDict.hasOwnProperty('geometry')?true:false;
+				var tooltipFieldAvailable = attributesDict.hasOwnProperty(tooltipAttributeName)?true:false;
+				var geometryFieldAvailable = attributesDict.hasOwnProperty('geometry')?true:false;
 
 				if (tooltipFieldAvailable) {
-					if (attribNodes[k].getAttribute("value").match(/</)) {
-						text += attribNodes[k].getAttribute("value");
+					var aValue = attributesDict[tooltipAttributeName]
+					if (aValue.match(/</)) {
+						text += aValue;
 					}
 					else {
-						attribText = '<p>' + attribNodes[k].getAttribute("value").replace(/\n/, "<br/>");
+						attribText = '<p>' + aValue.replace(/\n/, "<br/>");
 						attribText = attribText.replace("\n", "<br/>");
 						text += attribText + '</p>';
 					}
@@ -135,10 +136,8 @@ function showFeatureInfoHover(evt) {
 					text += tooltipText+"<br/>";
 				}
 				if (geometryFieldAvailable) {
-					if (attribNodes[k].getAttribute("name") == "geometry") {
-						var feature = new OpenLayers.Feature.Vector(OpenLayers.Geometry.fromWKT(attribNodes[k].getAttribute("value")));
-						featureInfoHighlightLayer.addFeatures([feature]);
-					}
+					var feature = new OpenLayers.Feature.Vector(OpenLayers.Geometry.fromWKT(attributesDict["geometry"]));
+					featureInfoHighlightLayer.addFeatures([feature]);
 				}
 			}
 			//case raster layers
