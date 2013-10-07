@@ -7,7 +7,7 @@ var gis_projects = {
 		"name": "QGIS Server Hello World",
 		"projects": [{
 			"name": "QGIS Server Hello World", //name needs to correspond with the project title (Project Properties --> General --> Project Title)
-			"projectpath": "/var/www/qgis-web-client/projects",
+			"projectpath": "/home/www/qgis-web-client/projects",
 			"projectfile": "helloworld",
 			"format": "image/png",
 			"visibleLayers": "Country,Hello",
@@ -19,7 +19,7 @@ var gis_projects = {
 		"name": "Natural Earth",
 		"projects": [{
 			"name": "Natural Earth View", //name needs to correspond with the project title (Project Properties --> General --> Project Title)
-			"projectpath": "/var/www/qgis-web-client/projects",
+			"projectpath": "/home/www/qgis-web-client/projects",
 			"projectfile": "naturalearth_110million",
 			"format": "image/png; mode=8bit",
 			"visibleLayers": "Ocean,Land,Lakes,Glaciated Areas,Rivers,Geographic Features",
@@ -27,18 +27,6 @@ var gis_projects = {
 			"updateInterval": "occasional",
 			"responsible": "The QGIS project",
 			"tags": "Natural Earth,Physical Earth Map"
-		}]	
-	},{
-		"name": "QGIS Server Hello World",
-		"projects": [{
-			"name": "Natural Earth View", //name needs to correspond with the project title (Project Properties --> General --> Project Title)
-			"projectpath": "/var/www/qgis-web-client/projects",
-			"projectfile": "test",
-			"format": "image/png; mode=8bit",
-			"visibleLayers": "Bing maps",
-			"updateInterval": "occasional",
-			"responsible": "The QGIS project",
-			"tags": "WMS layer example"
 		}]	
 	}]
 };

@@ -28,10 +28,13 @@ var useGeoNamesSearchBox = true;
 var searchBoxQueryURL = null; // "/wsgi/search.wsgi?query=";
 var searchBoxGetGeomURL = null; // "/wsgi/getSearchGeom.wsgi";
 
-// enable to use commercial Google and Bing layers (also add BingApiKey in WebgisInit.js)
+// enable to use commercial Google and Bing layers (also add BingApiKey in WebgisInit.js)enab
 var enableBingCommercialMaps = false;
 var enableGoogleCommercialMaps = false;
-
+var enableBGMaps = false;
+if (enableBingCommercialMaps || enableGoogleCommercialMaps) {
+	enableBGMaps = true;
+}
 // do not show fields in ObjectIdentification results that have null values
 var suppressEmptyValues = true;
 // hide geometry in ObjectIdentification results (should be only false if there is a good reason to do so)

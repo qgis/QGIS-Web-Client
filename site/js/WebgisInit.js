@@ -177,7 +177,7 @@ function loadWMSConfig() {
     layerTree.setRootNode(layerList);	
     layerList.appendChild(root);
 
-    if (enableCommercialMaps && baseLayers.length > 0) {
+    if (enableBGMaps && baseLayers.length > 0) {
         //todo use a more generic way to implement
         var bgnode0 = new GeoExt.tree.LayerNode({
              layer: baseLayers[0],

@@ -31,6 +31,10 @@ var searchBoxGetGeomURL = null; // "/wsgi/getSearchGeom.wsgi";
 // enable to use commercial Google and Bing layers (also add BingApiKey in WebgisInit.js)
 var enableBingCommercialMaps = false;
 var enableGoogleCommercialMaps = false;
+var enableBGMaps = false;
+if (enableBingCommercialMaps || enableGoogleCommercialMaps) {
+	enableBGMaps = true;
+}
 
 // do not show fields in ObjectIdentification results that have null values
 var suppressEmptyValues = true;
@@ -140,7 +144,7 @@ var MapOptions = {
 //  maxScale:50,
 //  minScale:40000000,
 //  numZoomLevels:20,
-  fractionalZoom: enableCommercialMaps ? false : true,
+  fractionalZoom: enableBGMaps ? false : true,
   transitionEffect:"resize",
   controls: []
 };
