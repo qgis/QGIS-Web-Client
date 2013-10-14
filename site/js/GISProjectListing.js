@@ -1,3 +1,13 @@
+var default_buttons_seperators = ['measureDistance',
+                            'measureArea',
+                            'PrintMap',
+                            'permalink',
+                            'IdentifyTool',
+                            'ShowHelp',
+                            'navZoomBoxButton',
+                            'zoomNext',
+                            'zoomLast',    
+                            'separator'];
 
 var gis_projects = {
 	"path": "/map",
@@ -18,7 +28,9 @@ var gis_projects = {
             "switcher": true,
             "sogistooltip": true,
             "sogistooltipwidth" : "300",
-            "sogistooltipheight" : "400"
+            "sogistooltipheight" : "400",
+            "sogisbuttons" : default_buttons_seperators,
+            "sogisdefaultbutton" : ""
 		},{
 			"name": "Richtplan Stand Januar 2013",
 			"projectpath": "",
@@ -31,7 +43,9 @@ var gis_projects = {
             "switcher": false,
             "sogistooltip": true,
             "sogistooltipwidth" : "600",
-            "sogistooltipheight" : "300"
+            "sogistooltipheight" : "300",
+            "sogisbuttons" : default_buttons_seperators,
+            "sogisdefaultbutton" : ""
 		}]
 	},{
 		"name": "Amt für Umwelt",
@@ -47,7 +61,9 @@ var gis_projects = {
             "switcher": true,
             "sogistooltip": true,
             "sogistooltipwidth" : "600",
-            "sogistooltipheight" : "350"
+            "sogistooltipheight" : "350",
+            "sogisbuttons" : default_buttons_seperators,
+            "sogisdefaultbutton" : ""
 		},{
 			"name": "Grundwasserbewirtschaftung",
 			"projectpath": "",
@@ -60,7 +76,9 @@ var gis_projects = {
             "switcher": false,
             "sogistooltip": true,
             "sogistooltipwidth" : "1000",
-            "sogistooltipheight" : "350"
+            "sogistooltipheight" : "350",
+            "sogisbuttons" : default_buttons_seperators,
+            "sogisdefaultbutton" : ""
 		},{
 			"name": "Baugrundklassen",
 			"projectpath": "",
@@ -73,7 +91,9 @@ var gis_projects = {
             "switcher": false,
             "sogistooltip": true,
             "sogistooltipwidth" : "600",
-            "sogistooltipheight" : "300"
+            "sogistooltipheight" : "300",
+            "sogisbuttons" : default_buttons_seperators,
+            "sogisdefaultbutton" : ""
 		},{
 			"name": "Naturgefahrenhinweiskarte",
 			"projectpath": "",
@@ -86,7 +106,9 @@ var gis_projects = {
             "switcher": false,
             "sogistooltip": true,
             "sogistooltipwidth" : "600",
-            "sogistooltipheight" : "300"
+            "sogistooltipheight" : "300",
+            "sogisbuttons" : default_buttons_seperators,
+            "sogisdefaultbutton" : ""
 		}]	
 	},{
 		"name": "Amt für Landwirtschaft",
@@ -102,7 +124,9 @@ var gis_projects = {
             "switcher": true,
             "sogistooltip": false,
             "sogistooltipwidth" : "",
-            "sogistooltipheight" : "300"
+            "sogistooltipheight" : "300",
+            "sogisbuttons" : default_buttons_seperators,
+            "sogisdefaultbutton" : ""
 		}
 		]	
 	},{
@@ -119,7 +143,9 @@ var gis_projects = {
             "switcher": true,
             "sogistooltip": false,
             "sogistooltipwidth" : "",
-            "sogistooltipheight" : "300"
+            "sogistooltipheight" : "300",
+            "sogisbuttons" : default_buttons_seperators,
+            "sogisdefaultbutton" : ""
 		}]
     },{
 		"name": "Gemeinden",
@@ -135,7 +161,9 @@ var gis_projects = {
             "switcher": true,
             "sogistooltip": true,
             "sogistooltipwidth" : "600",
-            "sogistooltipheight" : "300"
+            "sogistooltipheight" : "300",
+            "sogisbuttons" : default_buttons_seperators,
+            "sogisdefaultbutton" : ""
 		}]
     },{
 		"name": "Amt für Verkehr und Tiefbau",
@@ -151,7 +179,9 @@ var gis_projects = {
             "switcher": false,
             "sogistooltip": true,
             "sogistooltipwidth" : "600",
-            "sogistooltipheight" : "300"
+            "sogistooltipheight" : "300",
+            "sogisbuttons" : default_buttons_seperators,
+            "sogisdefaultbutton" : ""
 		}]
     }]
 };

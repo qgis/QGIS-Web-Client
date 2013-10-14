@@ -42,7 +42,6 @@ function ThemeSwitcher(parentPanel) {
 			var topicRec = this.gisTopicListingStore.getAt(i);
 			for (var j = 0; j < topicRec.data.projects.length; j++) {
 				var projData = topicRec.data.projects[j];
-                if (projData.switcher == true){
 				projData.topic = topicRec.data.name;
 				var tooltip = themeSwitcherTooltipMapThemeString[lang] + projData.name;
 				if (projData.tags) {
@@ -67,7 +66,6 @@ function ThemeSwitcher(parentPanel) {
 				projListingArray.push([topicCounter + '_' + projData.projectfile, projData.name, projData.topic, projData.projectfile, projData.tags, pwprotected, tooltip, projData]);
 			}
 			topicCounter++;
-        }
 		}
 		//create a new json data store holding the project data
 		this.gisProjectListingStore = new Ext.data.ArrayStore({
@@ -105,11 +103,12 @@ ThemeSwitcher.prototype.openOrInitialize = function () {
 
 ThemeSwitcher.prototype.initialize = function () {
 	me = this;
+	var template = themeSwitcherTemplate?themeSwitcherTemplate:new Ext.XTemplate('<ul>', '<tpl for=".">', '<li class="project">', '<img width="300" height="200" class="thumbnail" src="thumbnails/{projectfile}.png" title="{tooltip}" />', '<tpl if="pwprotected==\'yes\'">', '<img class="pwProtected" src="gis_icons/lockIcon.png" width="32" height="32" />','</tpl>','<strong>{projname}', '<tpl if="pwprotected==\'yes\'">', ' - ' + themeSwitcherTooltipPwProtectedString[lang], '</tpl>', '</strong>', '</li>', '</tpl>', '</ul>');
 
 	//add data view for grid thumbnails view
 	this.projectDataView = new Ext.DataView({
 		store: this.gisProjectListingStore,
-		tpl: new Ext.XTemplate('<ul>', '<tpl for=".">', '<li class="project">', '<img width="300" height="200" class="thumbnail" src="thumbnails/{projectfile}.png" title="{tooltip}" />', '<tpl if="pwprotected==\'yes\'">', '<img class="pwProtected" src="gis_icons/lockIcon.png" width="32" height="32" />','</tpl>','<strong>{projname}', '<tpl if="pwprotected==\'yes\'">', ' - ' + themeSwitcherTooltipPwProtectedString[lang], '</tpl>', '</strong>', '</li>', '</tpl>', '</ul>'),
+		tpl: template,
 		id: 'projects',
 		itemSelector: 'li.project',
 		overClass: 'projects-hover',
@@ -273,14 +272,12 @@ ThemeSwitcher.prototype.changeTheme = function (dataView, index, node, evt) {
 		 if (legendMetadataWindow_active) {
 			legendMetadataWindow.close();
 		 }
-
-        		
+		
 		//switch off GetFeatureInfo if active
 		if (identifyToolActive) {
 			identifyToolWasActive = true;
 			Ext.getCmp('IdentifyTool').toggle(false);
 		}
-
 		themeChangeActive = true;
 		var projData = dataView.getSelectedRecords()[0].data.data;
 		this.themeSearchField.reset();
@@ -290,7 +287,6 @@ ThemeSwitcher.prototype.changeTheme = function (dataView, index, node, evt) {
 		this.themeSwitcherWindow.hide();
 		layerTree.removeListener("selectionChange",layerTreeSelectionChangeHandlerFunction);
 		urlParamsOK = true;
-        
 		//concatenate path for webserver and cgi
 		wmsURI = '';
 		if (projData.mapserver) {
@@ -304,7 +300,6 @@ ThemeSwitcher.prototype.changeTheme = function (dataView, index, node, evt) {
 			wmsURI += "/" + projData.projectpath + "/" + projData.projectfile + "?";
 		}
 		wmsMapName = projData.projectpath + "/" + projData.projectfile;
-        
 		//handle visible layers
 		if (projData.visibleLayers) {
 			visibleLayers = projData.visibleLayers.split(",");

@@ -20,7 +20,12 @@ def application(environ, start_response):
   if "searchtables" in request.params:
     searchtablesstring = request.params["searchtables"]
     if len(searchtablesstring) > 0:
-      searchtables.extend(searchtablesstring.split(','))
+      #sanitize
+      if re.search(r"[^A-Za-z,._]", searchtablesstring):
+        print >> environ['wsgi.errors'], "offending input: %s" % searchtablesstring
+        searchtables = [] # set empty to have no search table error returned
+      else:
+        searchtables.extend(searchtablesstring.split(','))
 
   querystring = request.params["query"]
   #strip away leading and trailing whitespaces
@@ -45,7 +50,7 @@ def application(environ, start_response):
 
     return [errorText]
 
-    
+  data = ()
   #for each table
   for i in range(searchtableLength):
     sql += "SELECT displaytext, '"+searchtables[i]+r"' AS searchtable, search_category, substring(search_category from 4) AS searchcat_trimmed, "
@@ -57,13 +62,17 @@ def application(environ, start_response):
     sql += "FROM "+searchtables[i]+" WHERE "
     #for each querystring
     for j in range(0, querystringsLength):
+      # to implement a search method uncomment the sql and its following data line
       # for tsvector issues see the docs, use whichever version works best for you
       # this search does not use the field searchstring_tsvector at all but converts searchstring into a tsvector, its use is discouraged!
-      #sql += "searchstring::tsvector @@ lower('"+querystrings[j]+":*')::tsquery"
+      #sql += "searchstring::tsvector @@ lower(%s)::tsquery"
+      #data += (querystrings[j]+":*",)
       # this search uses the searchstring_tsvector field, which _must_ have been filled with to_tsvector('not_your_language', 'yourstring')
-      #sql += "searchstring_tsvector @@ to_tsquery(\'not_your_language\', '"+querystrings[j]+":*')"
+      #sql += "searchstring_tsvector @@ to_tsquery(\'not_your_language\', %s)"
+      #data += (querystrings[j]+":*",)
       # if all tsvector stuff fails you can use this string comparison on the searchstring field
-      sql += "searchstring ILIKE \'%"+querystrings[j]+"%\'"
+      sql += "searchstring ILIKE %s"
+      data += ("%" + querystrings[j] + "%",)
       
       if j < querystringsLength - 1:
         sql += " AND "
@@ -88,7 +97,7 @@ def application(environ, start_response):
   cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     
   try:
-    cur.execute(sql)
+    cur.execute(sql, data)
   except:
     exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
     conn.close()

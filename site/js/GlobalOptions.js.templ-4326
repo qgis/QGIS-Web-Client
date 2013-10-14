@@ -17,6 +17,10 @@ var useGetProjectSettings = true;
 // show the layerOrderTab in the GUI
 var showLayerOrderTab = true;
 
+// use geodesic measures, i.e. not planar measures
+// this is useful if a projection with high distortion of length/area is used, eg.g. GoogleMercator
+var useGeodesicMeasurement = false;
+
 //search box for queries while typing
 //enable to use GeoNames search
 var useGeoNamesSearchBox = true;
@@ -24,6 +28,13 @@ var useGeoNamesSearchBox = true;
 var searchBoxQueryURL = null; // "/wsgi/search.wsgi?query=";
 var searchBoxGetGeomURL = null; // "/wsgi/getSearchGeom.wsgi";
 
+// enable to use commercial Google and Bing layers (also add BingApiKey in WebgisInit.js)enab
+var enableBingCommercialMaps = false;
+var enableGoogleCommercialMaps = false;
+var enableBGMaps = false;
+if (enableBingCommercialMaps || enableGoogleCommercialMaps) {
+	enableBGMaps = true;
+}
 // do not show fields in ObjectIdentification results that have null values
 var suppressEmptyValues = true;
 // hide geometry in ObjectIdentification results (should be only false if there is a good reason to do so)
@@ -86,11 +97,21 @@ var mapSearchPanelConfigs = {
   "helloworld": [simpleWmsSearch, urlRewriteSearch]
 };
 
+//templates to define tooltips for a layer, to be shown on hover identify. The layer fields must be wrapped inside <%%> special tags.
+//if a layers field is found with the name "tooltip" its content will have precedence over this configuration 
+var tooltipTemplates = {
+	'Country':{
+		template: "Look for the country on Google Search: <a href='http://www.google.it/#output=search&q=<%name%>' target='_blank'><%name%></a>"
+	},
+};
+
 //define whether you want to display a map theme switcher
 //note that you have to also link a gis-project-listing.js file containing a valid
 //project listing structure - the root object is called 'gis_projects'
 //have a look at the template file and documentation for the correct json structure
 var mapThemeSwitcherActive = true;
+//you can provide an alternative template for the theme-switcher - see also file ThemeSwitcher.js (ThemeSwitcher.prototype.initialize)
+var themeSwitcherTemplate = null;
 
 //first part of titlebar text
 var titleBarText = "GIS-Browser - "; // will be appended with project title
@@ -109,6 +130,10 @@ var projectTitles = {
 
 //EPSG projection code of your QGIS project
 var epsgcode = 4326;
+
+//background transparency for the QGIS server generated layer (commercial background layers not effected)
+//set to true if you want the background to be transparent, layer image will be bigger (32 vs 24bit)
+var qgisLayerTransparency = true;
 
 // OpenLayers global options
 // see http://dev.openlayers.org/releases/OpenLayers-2.10/doc/apidocs/files/OpenLayers/Map-js.html

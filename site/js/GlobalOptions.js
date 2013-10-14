@@ -4,9 +4,10 @@ var lang = "de"; //for available codes see array availableLanguages in file Glob
 //Help file (must be a local file)
 var helpfile = "help_de.html";
 
-//Servername and name of CGI-file
-//Path must include the host name
-var serverAndCGI = "http://srsofaioi12288.ktso.ch/wmstest"; //URL mit Name des qgis mapserver cgi
+//Servername (optional) and path and name name of QGIS mapserver FCGI-file
+//either with or without server-name - without servername recommended for easier porting to other servers
+//do not add a ? or & after the .fcgi extension
+var serverAndCGI = "http://srsofaioi12288.ktso.ch/wmstest";
 
 //Define whether you want to use the GetProjectSettings extension of QGIS Server
 //for more configuration options in the project.
@@ -14,7 +15,11 @@ var serverAndCGI = "http://srsofaioi12288.ktso.ch/wmstest"; //URL mit Name des q
 var useGetProjectSettings = true;
 
 // show the layerOrderTab in the GUI
-var showLayerOrderTab = true;
+var showLayerOrderTab = false;
+
+// use geodesic measures, i.e. not planar measures
+// this is useful if a projection with high distortion of length/area is used, eg.g. GoogleMercator
+var useGeodesicMeasurement = false;
 
 //search box for queries while typing
 //enable to use GeoNames search
@@ -23,12 +28,20 @@ var useGeoNamesSearchBox = false;
 var searchBoxQueryURL = "/wsgi/search.wsgi?query=";
 var searchBoxGetGeomURL = "/wsgi/getSearchGeom.wsgi";
 
+// enable to use commercial Google and Bing layers (also add BingApiKey in WebgisInit.js)enab
+var enableBingCommercialMaps = false;
+var enableGoogleCommercialMaps = false;
+var enableBGMaps = false;
+if (enableBingCommercialMaps || enableGoogleCommercialMaps) {
+	enableBGMaps = true;
+}
 // do not show fields in ObjectIdentification results that have null values
-var suppressEmptyValues = false;
+var suppressEmptyValues = true;
 // hide geometry in ObjectIdentification results (should be only false if there is a good reason to do so)
 var suppressInfoGeometry = true;
 // do show field names in click-popup during object identification
 var showFieldNamesInClickPopup = true;
+// max-width and max-height of the feature-info popup can be controlled in site/css/popup.css
 
 //config for QGIS.SearchPanel
 var simpleWmsSearch = {
@@ -84,14 +97,24 @@ var mapSearchPanelConfigs = {
   "helloworld": [simpleWmsSearch, urlRewriteSearch]
 };
 
+//templates to define tooltips for a layer, to be shown on hover identify. The layer fields must be wrapped inside <%%> special tags.
+//if a layers field is found with the name "tooltip" its content will have precedence over this configuration 
+var tooltipTemplates = {
+	'Country':{
+		template: "Look for the country on Google Search: <a href='http://www.google.it/#output=search&q=<%name%>' target='_blank'><%name%></a>"
+	},
+};
+
 //define whether you want to display a map theme switcher
 //note that you have to also link a gis-project-listing.js file containing a valid
 //project listing structure - the root object is called 'gis_projects'
 //have a look at the template file and documentation for the correct json structure
 var mapThemeSwitcherActive = true;
+//you can provide an alternative template for the theme-switcher - see also file ThemeSwitcher.js (ThemeSwitcher.prototype.initialize)
+var themeSwitcherTemplate = null;
 
 //first part of titlebar text
-var titleBarText = "SO!GIS-Browser - "; // will be appended with project title
+var titleBarText = "SOGIS-Browser - "; // will be appended with project title
 
 // header logo image and link
 var headerLogoImg = null; // path to image, set null for no logo
@@ -105,49 +128,52 @@ var projectTitles = {
   "helloworld": "Hello World"
 };
 
-//EPSG projection code
+//EPSG projection code of your QGIS project
 var epsgcode = 21781;
+
+//background transparency for the QGIS server generated layer (commercial background layers not effected)
+//set to true if you want the background to be transparent, layer image will be bigger (32 vs 24bit)
+var qgisLayerTransparency = true;
 
 // OpenLayers global options
 // see http://dev.openlayers.org/releases/OpenLayers-2.10/doc/apidocs/files/OpenLayers/Map-js.html
 var MapOptions = {
   projection: new OpenLayers.Projection("EPSG:"+epsgcode),
   units: "m",
-  maxScale:50,
-  minScale:500000,
+  maxScale: 50,
+  minScale: 500000 ,
   fractionalZoom: true,
   transitionEffect:"resize",
   controls: []
 };
 
 // Options for the main map layer (OpenLayers.layer)
-//see http://dev.openlayers.org/releases/OpenLayers-2.10/doc/apidocs/files/OpenLayers/Layer-js.html
+//see http://dev.openlayers.org/releases/OpenLayers-2.12/doc/apidocs/files/OpenLayers/Layer-js.html
 var LayerOptions = {
   buffer:0,
   singleTile:true,
   ratio:1,
   transitionEffect:"resize",
   projection:"EPSG:"+epsgcode,
-  yx:{"EPSG:21781":false}
+  yx: {"EPSG:4326": true}
+  // If your projection is known to have an inverse axis order in WMS 1.3 compared to WMS 1.1 enter true for yx.
+  // For EPSG:4326 the entry is not necessary as OpenLayers knows it by default.
 };
-
-OpenLayers.Projection.defaults['EPSG:21781'] = new OpenLayers.Projection('EPSG:21781');
-OpenLayers.Projection.defaults['EPSG:21781'].xy = false;
-
 
 //overview map settings - do not change variable names!
 var OverviewMapOptions = {
   projection: new OpenLayers.Projection("EPSG:"+epsgcode),
-  units: "m",
-  maxScale:50,
-  minScale:3000000,
+  units: "degrees",
+  maxScale:100000,
+  minScale:800000000,
   transitionEffect:"resize"
 };
 var OverviewMapSize = new OpenLayers.Size(200,200);
-var overviewLayer = new OpenLayers.Layer.WMS("Uebersicht",
-  "http://www.sogis1.so.ch/wms/strassenkarte",
-  {layers:"Strassenkarte",format:"image/png"},
+var overviewLayer = new OpenLayers.Layer.WMS("Overview-Map",
+  "/cgi-bin/qgis_mapserv.fcgi?map=/home/web/qgis-web-client/projects/naturalearth_110million.qgs",
+  {layers:"Land",format:"image/png"},
   {buffer:0,singleTile:true,transitionEffect:"resize"});
+
 
 //print options - scales and dpi
 var printCapabilities={
@@ -169,7 +195,7 @@ var printCapabilities={
     {"name":"1:30'000","value":"30000"},
     {"name":"1:50'000","value":"50000"},
     {"name":"1:100'000","value":"100000"},
-    {"name":"1:300'000","value":"300000"}/*,
+    {"name":"1:250'000","value":"250000"},
     {"name":"1:500'000","value":"500000"},
     {"name":"1:1'000'000","value":"1000000"},
     {"name":"1:2'00'000","value":"2000000"},
@@ -180,26 +206,19 @@ var printCapabilities={
     {"name":"1:60'000'000","value":"60000000"},
     {"name":"1:90'000'000","value":"90000000"},
     {"name":"1:100'000'000","value":"100000000"}
-    */
   ],
   "dpis":[
     {"name":"150 dpi","value":"150"},
-    {"name":"220 dpi","value":"220"}/*,
+    {"name":"300 dpi","value":"300"},
     {"name":"600 dpi","value":"600"},
     {"name":"1200 dpi","value":"1200"}
-    */
   ],
-  "layouts":[],
-  "method": "POST", //POST or GET
-  "url_proxy": "http://srsofaioi12288.ktso.ch/wsgi/printpostget.wsgi?" // url to printpostget.wsgi
+  "layouts":[]
 };
 
-//var legend all at 
-//if legendAllAtOnceAtBegin is set to true, the legend image is loaded at project
-//load for all visible layers and whenever the visibility for a layer or group is
-//changed by the user; if set to false, it is not loaded at the begin, but only
-//if the user selects a group or layer in the layer tree
-var legendAllAtOnceAtBegin = false;
+//set to null if you do not want to use a URL shortener for your permalink function
+var permaLinkURLShortener = null;
+//var permaLinkURLShortener = "/wsgi/createShortPermalink.wsgi";
 
 // <------------ No changes should be needed below here ------------------>
 
@@ -259,5 +278,3 @@ var sketchSymbolizersMeasureControls = {
     fillOpacity: 0.3
   }
 };
-
-
