@@ -43,6 +43,10 @@ var suppressInfoGeometry = true;
 var showFieldNamesInClickPopup = true;
 // max-width and max-height of the feature-info popup can be controlled in site/css/popup.css
 
+// when this variable is set, the user can't choose the print resolution output any more. 
+// the print resolution will be determinated to the given value (dpi).
+var fixedPrintResolution = "200"; // dpi
+
 //config for QGIS.SearchPanel
 var simpleWmsSearch = {
   title: "Search continent",
