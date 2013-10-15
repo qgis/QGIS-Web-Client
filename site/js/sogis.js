@@ -68,15 +68,8 @@ Ext.onReady(function () {
 	Ext.get("panel_header_title").addClass('sogis-header-text').insertHtml('afterEnd', '<a href="http://www.so.ch/" class="sogis-header-logo" />');
 	Ext.getCmp('GisBrowserPanel').setHeight(window.innerHeight);
 
-    //Remove button SendEmail
-    Ext.getCmp("SendPermalink").hide();
     
     
-    isTooltipSOGIS();
-    
-    
-
-
 });
 
 /**
@@ -92,18 +85,29 @@ function isTooltipSOGIS(){
                 bolHasToolTip = gis_projects.topics[i].projects[j].sogistooltip;
                 intSOGISTooltipWidth = gis_projects.topics[i].projects[j].sogistooltipwidth;
                 intSOGISTooltipHeight = gis_projects.topics[i].projects[j].sogistooltipheight;
-                strSOGISTooltipProject = getProject()
+                arr_SOGISButtons = gis_projects.topics[i].projects[j].sogisbuttons;
+                strSOGISDefaultButton = gis_projects.topics[i].projects[j].sogisdefaultbutton;
+                strSOGISTooltipProject = getProject();
             }
         }
     }
+
+    
     /* Ausnahme SOVOTE */
     if ((getProject().indexOf('ea_') != -1 ||
         getProject().indexOf('ka_') != -1) &&
         getProject().indexOf('_vorlage_') != -1){
         bolHasToolTip = true 
-        strSOGISTooltipProject = 'ea_20130609_vorlage_1'
+        strSOGISTooltipProject = getProject()
         intSOGISTooltipWidth = 600
         intSOGISTooltipHeight = 420
+        removeButtons();
+        addButtons(['navZoomBoxButton','zoomNext','zoomLast']);
+        setDefaultButton('navZoomBoxButton');
+    } else {
+        /* call add buttons */
+        addButtons(arr_SOGISButtons);
+        setDefaultButton(strSOGISDefaultButton);
     }
 
 
@@ -205,6 +209,50 @@ function getProject(){
 }
 
 /**
+* @desc removes all buttons from the map
+*
+*/
+function removeButtons(){
+arr_buttons_seperators = ['measureDistance',
+                            'measureArea',
+                            'PrintMap',
+                            'permalink',
+                            'IdentifyTool',
+                            'ShowHelp',
+                            'navZoomBoxButton',
+                            'zoomNext',
+                            'zoomLast',    
+                            'SendPermalink', // button SendEmail
+                            'separator'];
+    for (var i=0; i<arr_buttons_seperators.length; i++){
+        Ext.getCmp(arr_buttons_seperators[i]).hide();
+    }
+}
+
+/**
+* @desc adds buttons to the map
+*
+*/
+function addButtons(arr_buttons_seperators){
+    for (var i=0; i<arr_buttons_seperators.length; i++){
+        Ext.getCmp(arr_buttons_seperators[i]).show();
+    }
+
+}
+
+
+/**
+* @desc adds buttons to the map
+*
+*/
+function setDefaultButton(defaultButton){
+    if (defaultButton != ""){
+        Ext.getCmp(defaultButton).toggle();
+    }
+}
+
+
+/**
 * @desc adds a permalink-button to the toolbar (called in WebgisInit.js)
 */
 function addPermalinkToToolbar(toolbar) {
@@ -213,7 +261,8 @@ function addPermalinkToToolbar(toolbar) {
             icon: 'gis_icons/mActionPermalink.png',
             tooltipType: 'qtip',
             tooltip: "Permalink",
-            handler: updatePermalink
+            handler: updatePermalink,
+            id: 'permalink'
         });
         toolbar.addItem(shortUrlButton);
         

@@ -195,7 +195,8 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 						autoHeight: true,
 						id: 'myTopToolbar',
 						items: [{
-							xtype: 'tbseparator'
+							xtype: 'tbseparator',
+                            id: 'separator'
 						}, {
 							xtype: 'button',
 							tooltip: objIdentificationTooltipString[lang],
@@ -221,7 +222,8 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 							triggerAction: 'all',
 							id: 'ObjectIdentificationModeCombo'
 						}, {
-							xtype: 'tbseparator'
+							xtype: 'tbseparator',
+                            id: 'separator'
 						}, {
 							xtype: 'button',
 							enableToggle: true,
@@ -243,7 +245,8 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 							tooltip: measureAreaTooltipString[lang],
 							id: 'measureArea'
 						}, {
-							xtype: 'tbseparator'
+							xtype: 'tbseparator',
+                            id: 'separator'
 						}, {
 							xtype: 'button',
 							enableToggle: true,
@@ -264,7 +267,8 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 							tooltip: sendPermalinkTooltipString[lang],
 							id: 'SendPermalink'
 						}, {
-							xtype: 'tbseparator'
+							xtype: 'tbseparator',
+                            id: 'separator'
 						}, {
 							xtype: 'button',
 							enableToggle: false,

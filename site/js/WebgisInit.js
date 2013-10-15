@@ -706,7 +706,8 @@ function postLoading() {
 			control: navHistoryCtrl.previous,
 			disabled: true,
 			tooltip: navigationHistoryBackwardTooltipString[lang],
-			tooltipType: 'qtip'
+			tooltipType: 'qtip',
+            id: 'zoomLast'
 		});
 		myTopToolbar.insert(1, zoomToPreviousAction);
 		//zoom next
@@ -716,7 +717,8 @@ function postLoading() {
 			control: navHistoryCtrl.next,
 			disabled: true,
 			tooltip: navigationHistoryForwardTooltipString[lang],
-			tooltipType: 'qtip'
+			tooltipType: 'qtip',
+            id: 'zoomNext'
 		});
 		myTopToolbar.insert(2, zoomToNextAction);
 
@@ -1183,6 +1185,10 @@ function postLoading() {
 		loadMask.hide();
 	}
 	initialLoadDone = true;
+
+
+removeButtons();
+isTooltipSOGIS();
 }
 
 function getVisibleLayers(visibleLayers, currentNode){
