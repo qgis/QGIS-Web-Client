@@ -50,6 +50,7 @@ var gis_projects = {
 	},{
 		"name": "Amt für Umwelt",
 		"projects": [{
+<<<<<<< HEAD
 			"name": "Neophyten",
 			"projectpath": "",
 			"projectfile": "neophyten",
@@ -109,7 +110,29 @@ var gis_projects = {
             "sogistooltipheight" : "300",
             "sogisbuttons" : default_buttons_seperators,
             "sogisdefaultbutton" : ""
+||||||| merged common ancestors
+			"name": "Natural Earth View", //name needs to correspond with the project title (Project Properties --> General --> Project Title)
+			"projectpath": "/home/web/qgis-web-client/projects",
+			"projectfile": "naturalearth_110million",
+			"format": "image/png; mode=8bit",
+			"visibleLayers": "Ocean,Land,Lakes,Glaciated Areas,Rivers,Geographic Features",
+			"opacities": {"Glaciated Areas":90,"Land":253},
+			"updateInterval": "occasional",
+			"responsible": "The QGIS project",
+			"tags": "Natural Earth,Physical Earth Map"
+=======
+			"name": "Natural Earth View", //name needs to correspond with the project title (Project Properties --> General --> Project Title)
+			"projectpath": "/home/www/qgis-web-client/projects",
+			"projectfile": "naturalearth_110million",
+			"format": "image/png; mode=8bit",
+			"visibleLayers": "Ocean,Land,Lakes,Glaciated Areas,Rivers,Geographic Features",
+			"opacities": {"Glaciated Areas":90,"Land":253},
+			"updateInterval": "occasional",
+			"responsible": "The QGIS project",
+			"tags": "Natural Earth,Physical Earth Map"
+>>>>>>> upstream/master
 		}]	
+<<<<<<< HEAD
 	},{
 		"name": "Amt für Landwirtschaft",
 		"projects": [{
@@ -185,3 +208,10 @@ var gis_projects = {
 		}]
     }]
 };
+||||||| merged common ancestors
+	}]
+};
+=======
+	}]
+};
+>>>>>>> upstream/master
