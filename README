@@ -1,10 +1,10 @@
 Quantum GIS (QGIS) Web Client
 Installation  and Configuration Guide
-Saturday September 14, 2013
+Thursday October 24, 2013
 
 
-Last Updated: Saturday September 14, 2013
-Last Change : Saturday September 14, 2013
+Last Updated: Thursday October 24, 2013
+Last Change : Thursday October 24, 2013
 
 
   1. For the terminally lazy
@@ -608,7 +608,8 @@ This method however is slower than tsvector but not relevantly at least if you o
 The above search table can also be a view or materialized view. One can combine
 several search tables by specifying the `searchtables=searchtable1,searchtable_n` 
 parameter when requesting the search.wsgi script. Any searchtable passed to search.wsgi may only contain
-the letters A to Z, a to z and the underscore.
+the letters A to Z, a to z and the underscore. Double quoting the search table throws an error, thus searchtables' names must
+contain lower characters only.
 
 Using views is generally slower than properly indexed tables, check for yourself what works best.
 
