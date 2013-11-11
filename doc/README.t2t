@@ -716,7 +716,8 @@ CREATE INDEX in_cadastre_searchstring_tsvector_gin
 The above search table can also be a view or materialized view. One can combine
 several search tables by specifying the ```searchtables=searchtable1,searchtable_n``` 
 parameter when requesting the //search.wsgi// script. Any searchtable passed to //search.wsgi// may only contain
-the letters //A to Z, a to z// and the underscore.
+the letters //A to Z, a to z// and the underscore. Double quoting the search table throws an error, thus searchtables' names must
+contain lower characters only.
 
 Using views is generally slower than properly indexed tables, check for yourself what works best.
 

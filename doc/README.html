@@ -13,13 +13,13 @@
 <DIV CLASS="header" ID="header">
 <H1>Quantum GIS (QGIS) Web Client</H1>
 <H2>Installation  and Configuration Guide</H2>
-<H3>Saturday September 14, 2013</H3>
+<H3>Thursday October 24, 2013</H3>
 </DIV>
 
 <DIV CLASS="body" ID="body">
 <P>
-Last Updated: Saturday September 14, 2013
-Last Change : Saturday September 14, 2013
+Last Updated: Thursday October 24, 2013
+Last Change : Thursday October 24, 2013
 </P>
 <DIV CLASS="toc">
 
@@ -867,7 +867,8 @@ CREATE INDEX in_cadastre_searchstring_tsvector_gin
 The above search table can also be a view or materialized view. One can combine
 several search tables by specifying the <CODE>`searchtables=searchtable1,searchtable_n`</CODE> 
 parameter when requesting the <I>search.wsgi</I> script. Any searchtable passed to <I>search.wsgi</I> may only contain
-the letters <I>A to Z, a to z</I> and the underscore.
+the letters <I>A to Z, a to z</I> and the underscore. Double quoting the search table throws an error, thus searchtables' names must
+contain lower characters only.
 </P>
 <P>
 Using views is generally slower than properly indexed tables, check for yourself what works best.
