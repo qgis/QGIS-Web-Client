@@ -7,7 +7,7 @@ var gis_projects = {
 		"name": "QGIS Server Hello World",
 		"projects": [{
 			"name": "QGIS Server Hello World", //name needs to correspond with the project title (Project Properties --> General --> Project Title)
-			"projectpath": "/home/www/qgis-web-client/projects",
+			"projectpath": "/home/web/qgis-web-client/projects",
 			"projectfile": "helloworld",
 			"format": "image/png",
 			"visibleLayers": "Country,Hello",
@@ -19,7 +19,7 @@ var gis_projects = {
 		"name": "Natural Earth",
 		"projects": [{
 			"name": "Natural Earth View", //name needs to correspond with the project title (Project Properties --> General --> Project Title)
-			"projectpath": "/home/www/qgis-web-client/projects",
+			"projectpath": "/home/web/qgis-web-client/projects",
 			"projectfile": "naturalearth_110million",
 			"format": "image/png; mode=8bit",
 			"visibleLayers": "Ocean,Land,Lakes,Glaciated Areas,Rivers,Geographic Features",

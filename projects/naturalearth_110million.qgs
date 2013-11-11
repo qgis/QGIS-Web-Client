@@ -1,29 +1,29 @@
 <!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
-<qgis projectname="Natural Earth View" version="1.9.0-Master">
+<qgis projectname="Natural Earth View" version="2.0.1-Dufour">
     <title>Natural Earth View</title>
     <mapcanvas>
-        <units>degrees</units>
+        <units>meters</units>
         <extent>
-            <xmin>-189.000000</xmin>
-            <ymin>-127.800828</ymin>
-            <xmax>189.000000</xmax>
-            <ymax>121.445958</ymax>
+            <xmin>-28711512.97744624316692352</xmin>
+            <ymin>-20577256.13247217237949371</ymin>
+            <xmax>28710724.50901078432798386</xmax>
+            <ymax>19391643.38112752139568329</ymax>
         </extent>
-        <projections>0</projections>
+        <projections>1</projections>
         <destinationsrs>
             <spatialrefsys>
-                <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
-                <srsid>3452</srsid>
-                <srid>4326</srid>
-                <authid>EPSG:4326</authid>
-                <description>WGS 84</description>
-                <projectionacronym>longlat</projectionacronym>
+                <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs</proj4>
+                <srsid>3857</srsid>
+                <srid>3857</srid>
+                <authid>EPSG:3857</authid>
+                <description>WGS 84 / Pseudo Mercator</description>
+                <projectionacronym>merc</projectionacronym>
                 <ellipsoidacronym>WGS84</ellipsoidacronym>
-                <geographicflag>true</geographicflag>
+                <geographicflag>false</geographicflag>
             </spatialrefsys>
         </destinationsrs>
     </mapcanvas>
-    <legend updateDrawingOrder="false" activeLayer="ne_110m_land20121113085601097">
+    <legend updateDrawingOrder="true" activeLayer="HYP_50M_SR_W20131111115935301">
         <legendlayer drawingOrder="0" open="false" checked="Qt::Unchecked" name="Geographic Features" showFeatureCount="0">
             <filegroup open="false" hidden="false">
                 <legendlayerfile isInOverview="0" layerid="ne_110m_geography_regions_elevation_points20121113085601074" visible="0"/>
@@ -45,25 +45,15 @@
                     <legendlayerfile isInOverview="0" layerid="ne_110m_lakes20121113085601093" visible="1"/>
                 </filegroup>
             </legendlayer>
-            <legendlayer drawingOrder="5" open="true" checked="Qt::Checked" name="Ocean" showFeatureCount="0">
-                <filegroup open="true" hidden="false">
-                    <legendlayerfile isInOverview="0" layerid="ne_110m_ocean20121113085601101" visible="1"/>
-                </filegroup>
-            </legendlayer>
         </legendgroup>
-        <legendlayer drawingOrder="4" open="false" checked="Qt::Unchecked" name="Land" showFeatureCount="0">
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Checked" name="Land" showFeatureCount="0">
             <filegroup open="false" hidden="false">
-                <legendlayerfile isInOverview="0" layerid="ne_110m_land20121113085601097" visible="0"/>
+                <legendlayerfile isInOverview="0" layerid="ne_110m_land20131111112024526" visible="1"/>
             </filegroup>
         </legendlayer>
-        <legendlayer drawingOrder="6" open="false" checked="Qt::Unchecked" name="Shaded Relief" showFeatureCount="0">
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Checked" name="Shaded Relief" showFeatureCount="0">
             <filegroup open="false" hidden="false">
-                <legendlayerfile isInOverview="0" layerid="SR_50M20130430075655550" visible="0"/>
-            </filegroup>
-        </legendlayer>
-        <legendlayer drawingOrder="7" open="false" checked="Qt::Checked" name="Shaded Relief with Hypsometry" showFeatureCount="0">
-            <filegroup open="false" hidden="false">
-                <legendlayerfile isInOverview="0" layerid="HYP_50M_SR_W20130501002616468" visible="1"/>
+                <legendlayerfile isInOverview="0" layerid="HYP_50M_SR_W20131111115935301" visible="1"/>
             </filegroup>
         </legendlayer>
     </legend>
@@ -205,23 +195,26 @@
             </ComposerShape>
         </Composition>
     </Composer>
-    <projectlayers layercount="8">
+    <projectlayers layercount="7">
         <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
-            <id>HYP_50M_SR_W20130501002616468</id>
+            <id>HYP_50M_SR_W20131111115935301</id>
             <datasource>../data/HYP_50M_SR_W.tif</datasource>
             <title></title>
             <abstract></abstract>
-            <layername>Shaded Relief with Hypsometry</layername>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>Shaded Relief</layername>
             <srs>
                 <spatialrefsys>
-                    <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
-                    <srsid>3452</srsid>
-                    <srid>4326</srid>
-                    <authid>EPSG:4326</authid>
-                    <description>WGS 84</description>
-                    <projectionacronym>longlat</projectionacronym>
+                    <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs</proj4>
+                    <srsid>3857</srsid>
+                    <srid>3857</srid>
+                    <authid>EPSG:3857</authid>
+                    <description>WGS 84 / Pseudo Mercator</description>
+                    <projectionacronym>merc</projectionacronym>
                     <ellipsoidacronym>WGS84</ellipsoidacronym>
-                    <geographicflag>true</geographicflag>
+                    <geographicflag>false</geographicflag>
                 </spatialrefsys>
             </srs>
             <customproperties>
@@ -234,44 +227,7 @@
                 </rasterrenderer>
                 <brightnesscontrast brightness="0" contrast="0"/>
                 <huesaturation colorizeGreen="128" colorizeOn="0" colorizeRed="255" colorizeBlue="128" grayscaleMode="0" saturation="0" colorizeStrength="100"/>
-                <rasterresampler maxOversampling="2" zoomedOutResampler="bilinear" zoomedInResampler="bilinear"/>
-            </pipe>
-            <blendMode>0</blendMode>
-        </maplayer>
-        <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
-            <id>SR_50M20130430075655550</id>
-            <datasource>../data/SR_50M.tif</datasource>
-            <title></title>
-            <abstract></abstract>
-            <layername>Shaded Relief</layername>
-            <srs>
-                <spatialrefsys>
-                    <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
-                    <srsid>3452</srsid>
-                    <srid>4326</srid>
-                    <authid>EPSG:4326</authid>
-                    <description>WGS 84</description>
-                    <projectionacronym>longlat</projectionacronym>
-                    <ellipsoidacronym>WGS84</ellipsoidacronym>
-                    <geographicflag>true</geographicflag>
-                </spatialrefsys>
-            </srs>
-            <customproperties>
-                <property key="identify/format" value="Value"/>
-            </customproperties>
-            <provider>gdal</provider>
-            <pipe>
-                <rasterrenderer gradient="BlackToWhite" opacity="1" alphaBand="0" type="singlebandgray" grayBand="1">
-                    <rasterTransparency/>
-                    <contrastEnhancement>
-                        <minValue>178.301</minValue>
-                        <maxValue>218.145</maxValue>
-                        <algorithm>StretchToMinimumMaximum</algorithm>
-                    </contrastEnhancement>
-                </rasterrenderer>
-                <brightnesscontrast brightness="0" contrast="0"/>
-                <huesaturation colorizeGreen="128" colorizeOn="0" colorizeRed="255" colorizeBlue="128" grayscaleMode="0" saturation="0" colorizeStrength="100"/>
-                <rasterresampler maxOversampling="2" zoomedOutResampler="bilinear" zoomedInResampler="bilinear"/>
+                <rasterresampler maxOversampling="2"/>
             </pipe>
             <blendMode>0</blendMode>
         </maplayer>
@@ -280,17 +236,20 @@
             <datasource>dbname='../data/naturalearth_110m_physical.sqlite' table="ne_110m_geography_regions_elevation_points" (geom) sql=</datasource>
             <title>Geographic Features</title>
             <abstract>mountains, mountain passes, depressions</abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
             <layername>Geographic Features</layername>
             <srs>
                 <spatialrefsys>
-                    <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
-                    <srsid>3452</srsid>
-                    <srid>4326</srid>
-                    <authid>EPSG:4326</authid>
-                    <description>WGS 84</description>
-                    <projectionacronym>longlat</projectionacronym>
+                    <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs</proj4>
+                    <srsid>3857</srsid>
+                    <srid>3857</srid>
+                    <authid>EPSG:3857</authid>
+                    <description>WGS 84 / Pseudo Mercator</description>
+                    <projectionacronym>merc</projectionacronym>
                     <ellipsoidacronym>WGS84</ellipsoidacronym>
-                    <geographicflag>true</geographicflag>
+                    <geographicflag>false</geographicflag>
                 </spatialrefsys>
             </srs>
             <provider encoding="UTF-8">spatialite</provider>
@@ -518,20 +477,20 @@
                 <selectedonly on=""/>
             </labelattributes>
             <edittypes>
-                <edittype editable="1" type="0" name="comment"/>
-                <edittype editable="1" type="0" name="elevation"/>
-                <edittype editable="1" type="0" name="featurecla"/>
-                <edittype editable="1" type="0" name="id"/>
-                <edittype editable="1" type="0" name="lat_y"/>
-                <edittype editable="1" type="0" name="long_x"/>
-                <edittype editable="1" type="0" name="name"/>
-                <edittype editable="1" type="0" name="name_alt"/>
-                <edittype editable="1" type="0" name="nation1"/>
-                <edittype editable="1" type="0" name="nation2"/>
-                <edittype editable="1" type="0" name="note"/>
-                <edittype editable="1" type="0" name="region"/>
-                <edittype editable="1" type="0" name="scalerank"/>
-                <edittype editable="1" type="0" name="subregion"/>
+                <edittype labelontop="0" editable="1" type="0" name="comment"/>
+                <edittype labelontop="0" editable="1" type="0" name="elevation"/>
+                <edittype labelontop="0" editable="1" type="0" name="featurecla"/>
+                <edittype labelontop="0" editable="1" type="0" name="id"/>
+                <edittype labelontop="0" editable="1" type="0" name="lat_y"/>
+                <edittype labelontop="0" editable="1" type="0" name="long_x"/>
+                <edittype labelontop="0" editable="1" type="0" name="name"/>
+                <edittype labelontop="0" editable="1" type="0" name="name_alt"/>
+                <edittype labelontop="0" editable="1" type="0" name="nation1"/>
+                <edittype labelontop="0" editable="1" type="0" name="nation2"/>
+                <edittype labelontop="0" editable="1" type="0" name="note"/>
+                <edittype labelontop="0" editable="1" type="0" name="region"/>
+                <edittype labelontop="0" editable="1" type="0" name="scalerank"/>
+                <edittype labelontop="0" editable="1" type="0" name="subregion"/>
             </edittypes>
             <editform>.</editform>
             <editforminit></editforminit>
@@ -546,17 +505,20 @@
             <datasource>dbname='../data/naturalearth_110m_physical.sqlite' table="ne_110m_glaciated_areas" (geom) sql=</datasource>
             <title></title>
             <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
             <layername>Glaciated Areas</layername>
             <srs>
                 <spatialrefsys>
-                    <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
-                    <srsid>3452</srsid>
-                    <srid>4326</srid>
-                    <authid>EPSG:4326</authid>
-                    <description>WGS 84</description>
-                    <projectionacronym>longlat</projectionacronym>
+                    <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs</proj4>
+                    <srsid>3857</srsid>
+                    <srid>3857</srid>
+                    <authid>EPSG:3857</authid>
+                    <description>WGS 84 / Pseudo Mercator</description>
+                    <projectionacronym>merc</projectionacronym>
                     <ellipsoidacronym>WGS84</ellipsoidacronym>
-                    <geographicflag>true</geographicflag>
+                    <geographicflag>false</geographicflag>
                 </spatialrefsys>
             </srs>
             <provider encoding="UTF-8">spatialite</provider>
@@ -726,9 +688,9 @@
                 <selectedonly on=""/>
             </labelattributes>
             <edittypes>
-                <edittype editable="1" type="0" name="featurecla"/>
-                <edittype editable="1" type="0" name="id"/>
-                <edittype editable="1" type="0" name="scalerank"/>
+                <edittype labelontop="0" editable="1" type="0" name="featurecla"/>
+                <edittype labelontop="0" editable="1" type="0" name="id"/>
+                <edittype labelontop="0" editable="1" type="0" name="scalerank"/>
             </edittypes>
             <editform>.</editform>
             <editforminit></editforminit>
@@ -743,17 +705,20 @@
             <datasource>dbname='../data/naturalearth_110m_physical.sqlite' table="ne_110m_lakes" (geom) sql=</datasource>
             <title></title>
             <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
             <layername>Lakes</layername>
             <srs>
                 <spatialrefsys>
-                    <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
-                    <srsid>3452</srsid>
-                    <srid>4326</srid>
-                    <authid>EPSG:4326</authid>
-                    <description>WGS 84</description>
-                    <projectionacronym>longlat</projectionacronym>
+                    <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs</proj4>
+                    <srsid>3857</srsid>
+                    <srid>3857</srid>
+                    <authid>EPSG:3857</authid>
+                    <description>WGS 84 / Pseudo Mercator</description>
+                    <projectionacronym>merc</projectionacronym>
                     <ellipsoidacronym>WGS84</ellipsoidacronym>
-                    <geographicflag>true</geographicflag>
+                    <geographicflag>false</geographicflag>
                 </spatialrefsys>
             </srs>
             <provider encoding="UTF-8">spatialite</provider>
@@ -864,12 +829,12 @@
                 <selectedonly on=""/>
             </labelattributes>
             <edittypes>
-                <edittype editable="1" type="0" name="admin"/>
-                <edittype editable="1" type="0" name="featurecla"/>
-                <edittype editable="1" type="0" name="id"/>
-                <edittype editable="1" type="0" name="name"/>
-                <edittype editable="1" type="0" name="name_alt"/>
-                <edittype editable="1" type="0" name="scalerank"/>
+                <edittype labelontop="0" editable="1" type="0" name="admin"/>
+                <edittype labelontop="0" editable="1" type="0" name="featurecla"/>
+                <edittype labelontop="0" editable="1" type="0" name="id"/>
+                <edittype labelontop="0" editable="1" type="0" name="name"/>
+                <edittype labelontop="0" editable="1" type="0" name="name_alt"/>
+                <edittype labelontop="0" editable="1" type="0" name="scalerank"/>
             </edittypes>
             <editform>.</editform>
             <editforminit></editforminit>
@@ -879,22 +844,101 @@
             <excludeAttributesWFS/>
             <attributeactions/>
         </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
+            <id>ne_110m_land20131111111951112</id>
+            <datasource>dbname='../data/naturalearth_110m_physical.sqlite' table="ne_110m_land" (GEOMETRY) sql=</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
+            <layername>ne_110m_land</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs</proj4>
+                    <srsid>3857</srsid>
+                    <srid>3857</srid>
+                    <authid>EPSG:3857</authid>
+                    <description>WGS 84 / Pseudo Mercator</description>
+                    <projectionacronym>merc</projectionacronym>
+                    <ellipsoidacronym>WGS84</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <provider encoding="UTF-8">spatialite</provider>
+            <previewExpression></previewExpression>
+            <vectorjoins/>
+            <renderer-v2 symbollevels="0" type="singleSymbol">
+                <symbols>
+                    <symbol alpha="1" type="fill" name="0">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="border_width_unit" v="MM"/>
+                            <prop k="color" v="92,94,149,255"/>
+                            <prop k="color_border" v="0,0,0,255"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="style" v="solid"/>
+                            <prop k="style_border" v="solid"/>
+                            <prop k="width_border" v="0.26"/>
+                        </layer>
+                    </symbol>
+                </symbols>
+                <rotation field=""/>
+                <sizescale field="" scalemethod="area"/>
+            </renderer-v2>
+            <customproperties/>
+            <blendMode>0</blendMode>
+            <featureBlendMode>0</featureBlendMode>
+            <layerTransparency>0</layerTransparency>
+            <displayfield>OGC_FID</displayfield>
+            <label>0</label>
+            <labelattributes>
+                <label fieldname="" text="Label"/>
+                <family fieldname="" name="Sans Serif"/>
+                <size fieldname="" units="pt" value="12"/>
+                <bold fieldname="" on="0"/>
+                <italic fieldname="" on="0"/>
+                <underline fieldname="" on="0"/>
+                <strikeout fieldname="" on="0"/>
+                <color fieldname="" red="0" blue="0" green="0"/>
+                <x fieldname=""/>
+                <y fieldname=""/>
+                <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
+                <angle fieldname="" value="0" auto="0"/>
+                <alignment fieldname="" value="center"/>
+                <buffercolor fieldname="" red="255" blue="255" green="255"/>
+                <buffersize fieldname="" units="pt" value="1"/>
+                <bufferenabled fieldname="" on=""/>
+                <multilineenabled fieldname="" on=""/>
+                <selectedonly on=""/>
+            </labelattributes>
+            <editform>.</editform>
+            <editforminit></editforminit>
+            <annotationform>.</annotationform>
+            <editorlayout>generatedlayout</editorlayout>
+            <excludeAttributesWMS/>
+            <excludeAttributesWFS/>
+            <attributeactions/>
+        </maplayer>
         <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" minLabelScale="1" maxLabelScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
-            <id>ne_110m_land20121113085601097</id>
-            <datasource>dbname='../data/naturalearth_110m_physical.sqlite' table="ne_110m_land" (geom) sql=</datasource>
-            <title>The land masses</title>
-            <abstract>This layer contains all the land masses, generalized for the map scale of 1:100 Million.</abstract>
+            <id>ne_110m_land20131111112024526</id>
+            <datasource>dbname='../data/naturalearth_110m_physical.sqlite' table="ne_110m_land" (GEOMETRY) sql=</datasource>
+            <title></title>
+            <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
             <layername>Land</layername>
             <srs>
                 <spatialrefsys>
-                    <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
-                    <srsid>3452</srsid>
-                    <srid>4326</srid>
-                    <authid>EPSG:4326</authid>
-                    <description>WGS 84</description>
-                    <projectionacronym>longlat</projectionacronym>
+                    <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs</proj4>
+                    <srsid>3857</srsid>
+                    <srid>3857</srid>
+                    <authid>EPSG:3857</authid>
+                    <description>WGS 84 / Pseudo Mercator</description>
+                    <projectionacronym>merc</projectionacronym>
                     <ellipsoidacronym>WGS84</ellipsoidacronym>
-                    <geographicflag>true</geographicflag>
+                    <geographicflag>false</geographicflag>
                 </spatialrefsys>
             </srs>
             <provider encoding="UTF-8">spatialite</provider>
@@ -1064,155 +1108,11 @@
                 <selectedonly on=""/>
             </labelattributes>
             <edittypes>
-                <edittype editable="1" type="0" name="featurecla"/>
-                <edittype editable="1" type="0" name="id"/>
-                <edittype editable="1" type="0" name="scalerank"/>
-            </edittypes>
-            <editform>.</editform>
-            <editforminit></editforminit>
-            <annotationform>.</annotationform>
-            <editorlayout>generatedlayout</editorlayout>
-            <excludeAttributesWMS/>
-            <excludeAttributesWFS/>
-            <attributeactions/>
-        </maplayer>
-        <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" minLabelScale="1" maxLabelScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
-            <id>ne_110m_ocean20121113085601101</id>
-            <datasource>dbname='../data/naturalearth_110m_physical.sqlite' table="ne_110m_ocean" (geom) sql=</datasource>
-            <title>The Oceans</title>
-            <abstract></abstract>
-            <layername>Ocean</layername>
-            <srs>
-                <spatialrefsys>
-                    <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
-                    <srsid>3452</srsid>
-                    <srid>4326</srid>
-                    <authid>EPSG:4326</authid>
-                    <description>WGS 84</description>
-                    <projectionacronym>longlat</projectionacronym>
-                    <ellipsoidacronym>WGS84</ellipsoidacronym>
-                    <geographicflag>true</geographicflag>
-                </spatialrefsys>
-            </srs>
-            <provider encoding="UTF-8">spatialite</provider>
-            <previewExpression></previewExpression>
-            <vectorjoins/>
-            <renderer-v2 symbollevels="0" type="singleSymbol">
-                <symbols>
-                    <symbol alpha="1" type="fill" name="0">
-                        <layer pass="0" class="SimpleFill" locked="0">
-                            <prop k="border_width_unit" v="MM"/>
-                            <prop k="color" v="191,217,255,255"/>
-                            <prop k="color_border" v="0,0,0,255"/>
-                            <prop k="offset" v="0,0"/>
-                            <prop k="offset_unit" v="MM"/>
-                            <prop k="style" v="solid"/>
-                            <prop k="style_border" v="no"/>
-                            <prop k="width_border" v="0.26"/>
-                        </layer>
-                    </symbol>
-                </symbols>
-                <rotation field=""/>
-                <sizescale field="" scalemethod="area"/>
-            </renderer-v2>
-            <customproperties>
-                <property key="labeling" value="pal"/>
-                <property key="labeling/addDirectionSymbol" value="false"/>
-                <property key="labeling/angleOffset" value="0"/>
-                <property key="labeling/bufferColorB" value="255"/>
-                <property key="labeling/bufferColorG" value="255"/>
-                <property key="labeling/bufferColorR" value="255"/>
-                <property key="labeling/bufferJoinStyle" value="64"/>
-                <property key="labeling/bufferNoFill" value="false"/>
-                <property key="labeling/bufferSize" value="1"/>
-                <property key="labeling/bufferSizeInMapUnits" value="false"/>
-                <property key="labeling/bufferTransp" value="0"/>
-                <property key="labeling/centroidWhole" value="false"/>
-                <property key="labeling/decimals" value="0"/>
-                <property key="labeling/displayAll" value="false"/>
-                <property key="labeling/dist" value="0"/>
-                <property key="labeling/distInMapUnits" value="false"/>
-                <property key="labeling/enabled" value="false"/>
-                <property key="labeling/fieldName" value=""/>
-                <property key="labeling/fontCapitals" value="0"/>
-                <property key="labeling/fontFamily" value="Sans Serif"/>
-                <property key="labeling/fontItalic" value="false"/>
-                <property key="labeling/fontLetterSpacing" value="0"/>
-                <property key="labeling/fontLimitPixelSize" value="false"/>
-                <property key="labeling/fontMaxPixelSize" value="10000"/>
-                <property key="labeling/fontMinPixelSize" value="3"/>
-                <property key="labeling/fontSize" value="9"/>
-                <property key="labeling/fontSizeInMapUnits" value="false"/>
-                <property key="labeling/fontStrikeout" value="false"/>
-                <property key="labeling/fontUnderline" value="false"/>
-                <property key="labeling/fontWeight" value="50"/>
-                <property key="labeling/fontWordSpacing" value="0"/>
-                <property key="labeling/formatNumbers" value="false"/>
-                <property key="labeling/isExpression" value="false"/>
-                <property key="labeling/labelOffsetInMapUnits" value="true"/>
-                <property key="labeling/labelPerPart" value="false"/>
-                <property key="labeling/leftDirectionSymbol" value="&lt;"/>
-                <property key="labeling/limitNumLabels" value="false"/>
-                <property key="labeling/maxCurvedCharAngleIn" value="20"/>
-                <property key="labeling/maxCurvedCharAngleOut" value="-20"/>
-                <property key="labeling/maxNumLabels" value="2000"/>
-                <property key="labeling/mergeLines" value="false"/>
-                <property key="labeling/minFeatureSize" value="0"/>
-                <property key="labeling/multilineAlign" value="0"/>
-                <property key="labeling/multilineHeight" value="1"/>
-                <property key="labeling/namedStyle" value="Normal"/>
-                <property key="labeling/obstacle" value="true"/>
-                <property key="labeling/placeDirectionSymbol" value="0"/>
-                <property key="labeling/placement" value="0"/>
-                <property key="labeling/placementFlags" value="0"/>
-                <property key="labeling/plussign" value="true"/>
-                <property key="labeling/preserveRotation" value="true"/>
-                <property key="labeling/previewBkgrdColor" value="#ffffff"/>
-                <property key="labeling/priority" value="5"/>
-                <property key="labeling/reverseDirectionSymbol" value="false"/>
-                <property key="labeling/rightDirectionSymbol" value=">"/>
-                <property key="labeling/scaleMax" value="0"/>
-                <property key="labeling/scaleMin" value="0"/>
-                <property key="labeling/textColorB" value="0"/>
-                <property key="labeling/textColorG" value="0"/>
-                <property key="labeling/textColorR" value="0"/>
-                <property key="labeling/textTransp" value="0"/>
-                <property key="labeling/upsidedownLabels" value="0"/>
-                <property key="labeling/wrapChar" value=""/>
-                <property key="labeling/xOffset" value="0"/>
-                <property key="labeling/xQuadOffset" value="0"/>
-                <property key="labeling/yOffset" value="0"/>
-                <property key="labeling/yQuadOffset" value="0"/>
-            </customproperties>
-            <blendMode>0</blendMode>
-            <featureBlendMode>0</featureBlendMode>
-            <layerTransparency>0</layerTransparency>
-            <displayfield>id</displayfield>
-            <label>0</label>
-            <labelattributes>
-                <label fieldname="" text="Label"/>
-                <family fieldname="" name="Sans Serif"/>
-                <size fieldname="" units="pt" value="12"/>
-                <bold fieldname="" on="0"/>
-                <italic fieldname="" on="0"/>
-                <underline fieldname="" on="0"/>
-                <strikeout fieldname="" on="0"/>
-                <color fieldname="" red="0" blue="0" green="0"/>
-                <x fieldname=""/>
-                <y fieldname=""/>
-                <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
-                <angle fieldname="" value="0" auto="0"/>
-                <alignment fieldname="" value="center"/>
-                <buffercolor fieldname="" red="255" blue="255" green="255"/>
-                <buffersize fieldname="" units="pt" value="1"/>
-                <bufferenabled fieldname="" on=""/>
-                <multilineenabled fieldname="" on=""/>
-                <selectedonly on=""/>
-            </labelattributes>
-            <edittypes>
-                <edittype editable="1" type="0" name="featurecla"/>
-                <edittype editable="1" type="0" name="id"/>
-                <edittype editable="1" type="0" name="scalerank"/>
+                <edittype labelontop="0" editable="1" type="0" name="OGC_FID"/>
+                <edittype labelontop="0" editable="1" type="0" name="featurecla"/>
+                <edittype labelontop="0" editable="1" type="0" name="id"/>
+                <edittype labelontop="0" editable="1" type="0" name="pk"/>
+                <edittype labelontop="0" editable="1" type="0" name="scalerank"/>
             </edittypes>
             <editform>.</editform>
             <editforminit></editforminit>
@@ -1227,17 +1127,20 @@
             <datasource>dbname='../data/naturalearth_110m_physical.sqlite' table="ne_110m_rivers_lake_centerlines" (geom) sql=</datasource>
             <title></title>
             <abstract></abstract>
+            <keywordList>
+                <value></value>
+            </keywordList>
             <layername>Rivers</layername>
             <srs>
                 <spatialrefsys>
-                    <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
-                    <srsid>3452</srsid>
-                    <srid>4326</srid>
-                    <authid>EPSG:4326</authid>
-                    <description>WGS 84</description>
-                    <projectionacronym>longlat</projectionacronym>
+                    <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs</proj4>
+                    <srsid>3857</srsid>
+                    <srid>3857</srid>
+                    <authid>EPSG:3857</authid>
+                    <description>WGS 84 / Pseudo Mercator</description>
+                    <projectionacronym>merc</projectionacronym>
                     <ellipsoidacronym>WGS84</ellipsoidacronym>
-                    <geographicflag>true</geographicflag>
+                    <geographicflag>false</geographicflag>
                 </spatialrefsys>
             </srs>
             <provider encoding="UTF-8">spatialite</provider>
@@ -1351,11 +1254,11 @@
                 <selectedonly on=""/>
             </labelattributes>
             <edittypes>
-                <edittype editable="1" type="0" name="featurecla"/>
-                <edittype editable="1" type="0" name="id"/>
-                <edittype editable="1" type="0" name="name"/>
-                <edittype editable="1" type="0" name="name_alt"/>
-                <edittype editable="1" type="0" name="scalerank"/>
+                <edittype labelontop="0" editable="1" type="0" name="featurecla"/>
+                <edittype labelontop="0" editable="1" type="0" name="id"/>
+                <edittype labelontop="0" editable="1" type="0" name="name"/>
+                <edittype labelontop="0" editable="1" type="0" name="name_alt"/>
+                <edittype labelontop="0" editable="1" type="0" name="scalerank"/>
             </edittypes>
             <editform>.</editform>
             <editforminit></editforminit>
@@ -1371,15 +1274,16 @@
         <WMSOnlineResource type="QString"></WMSOnlineResource>
         <WMSContactOrganization type="QString">QGIS Project</WMSContactOrganization>
         <WMSExtent type="QStringList">
-            <value>-180</value>
-            <value>-90</value>
-            <value>180</value>
-            <value>90</value>
+            <value>-21039383.75992870330810547</value>
+            <value>-12246179.5174070056527853</value>
+            <value>21039383.75992871075868607</value>
+            <value>12246179.5174070131033659</value>
         </WMSExtent>
         <WMSKeywordList type="QStringList">
             <value>earth</value>
             <value>physical geography</value>
         </WMSKeywordList>
+        <WFSUrl type="QString"></WFSUrl>
         <Paths>
             <Absolute type="bool">false</Absolute>
         </Paths>
@@ -1388,8 +1292,7 @@
             <value>ne_110m_geography_regions_elevation_points20121113085601074</value>
             <value>ne_110m_glaciated_areas20121113085601089</value>
             <value>ne_110m_lakes20121113085601093</value>
-            <value>ne_110m_land20121113085601097</value>
-            <value>ne_110m_ocean20121113085601101</value>
+            <value>ne_110m_land20131111112024526</value>
             <value>ne_110m_rivers_lake_centerlines20121113085601105</value>
         </WFSLayers>
         <WMSContactMail type="QString"></WMSContactMail>
@@ -1407,7 +1310,7 @@ http://www.naturalearthdata.com/</WMSServiceAbstract>
             <Ellipsoid type="QString">NONE</Ellipsoid>
         </Measure>
         <WMSCrsList type="QStringList">
-            <value>EPSG:4326</value>
+            <value>EPSG:3857</value>
             <value>EPSG:900913</value>
         </WMSCrsList>
         <WFSTLayers>
@@ -1424,10 +1327,54 @@ http://www.naturalearthdata.com/</WMSServiceAbstract>
             <SelectionColorGreenPart type="int">255</SelectionColorGreenPart>
             <CanvasColorBluePart type="int">255</CanvasColorBluePart>
         </Gui>
+        <Digitizing>
+            <LayerSnappingList type="QStringList">
+                <value>ne_110m_geography_regions_elevation_points20121113085601074</value>
+                <value>ne_110m_glaciated_areas20121113085601089</value>
+                <value>ne_110m_lakes20121113085601093</value>
+                <value>ne_110m_rivers_lake_centerlines20121113085601105</value>
+                <value>ne_110m_land20131111111951112</value>
+                <value>ne_110m_land20131111112024526</value>
+            </LayerSnappingList>
+            <LayerSnappingEnabledList type="QStringList">
+                <value>disabled</value>
+                <value>enabled</value>
+                <value>disabled</value>
+                <value>disabled</value>
+                <value>disabled</value>
+                <value>disabled</value>
+            </LayerSnappingEnabledList>
+            <AvoidIntersectionsList type="QStringList"/>
+            <LayerSnappingToleranceUnitList type="QStringList">
+                <value>1</value>
+                <value>1</value>
+                <value>1</value>
+                <value>1</value>
+                <value>1</value>
+                <value>1</value>
+            </LayerSnappingToleranceUnitList>
+            <LayerSnapToList type="QStringList">
+                <value>to_vertex_and_segment</value>
+                <value>to_vertex_and_segment</value>
+                <value>to_vertex_and_segment</value>
+                <value>to_vertex_and_segment</value>
+                <value>to_vertex_and_segment</value>
+                <value>to_vertex_and_segment</value>
+            </LayerSnapToList>
+            <LayerSnappingToleranceList type="QStringList">
+                <value>10.000000</value>
+                <value>10.000000</value>
+                <value>10.000000</value>
+                <value>10.000000</value>
+                <value>10.000000</value>
+                <value>10.000000</value>
+            </LayerSnappingToleranceList>
+        </Digitizing>
         <Identify>
             <disabledLayers type="QStringList">
-                <value>ne_110m_land20121113085601097</value>
-                <value>ne_110m_ocean20121113085601101</value>
+                <value>HYP_50M_SR_W20131111115935301</value>
+                <value>ne_110m_land20131111111951112</value>
+                <value>ne_110m_land20131111112024526</value>
             </disabledLayers>
         </Identify>
         <Macros>
@@ -1435,10 +1382,10 @@ http://www.naturalearthdata.com/</WMSServiceAbstract>
         </Macros>
         <WMSAccessConstraints type="QString">none</WMSAccessConstraints>
         <SpatialRefSys>
-            <ProjectCRSProj4String type="QString">+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0</ProjectCRSProj4String>
+            <ProjectCRSProj4String type="QString">+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs</ProjectCRSProj4String>
             <ProjectCrs type="QString">EPSG:21781</ProjectCrs>
             <ProjectCRSID type="int">3452</ProjectCRSID>
-            <ProjectionsEnabled type="int">0</ProjectionsEnabled>
+            <ProjectionsEnabled type="int">1</ProjectionsEnabled>
         </SpatialRefSys>
         <DefaultStyles>
             <Fill type="QString"></Fill>
