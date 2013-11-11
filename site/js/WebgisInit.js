@@ -103,23 +103,23 @@ Ext.onReady(function () {
 	//set some status messsages
 	mainStatusText.setText(mapAppLoadingString[lang]);
 
-    if (enableGoogleCommercialMaps) {
-        googleStatelliteLayer = new OpenLayers.Layer.Google(
-            "Google Satellite",
-            {type: google.maps.MapTypeId.SATELLITE, numZoomLevels: 22, isBaseLayer: true}
-        );
-        baseLayers.push(googleStatelliteLayer);
-    }
+	if (enableGoogleCommercialMaps) {
+		googleStatelliteLayer = new OpenLayers.Layer.Google(
+			"Google Satellite",
+			{type: google.maps.MapTypeId.SATELLITE, numZoomLevels: 22, isBaseLayer: true}
+		);
+		baseLayers.push(googleStatelliteLayer);
+	}
 	if (enableBingCommercialMaps) {
-        bingSatelliteLayer = new OpenLayers.Layer.Bing({
-            name: "Bing Satellite",
-            key: bingApiKey,
-            type: "Aerial",
-            isBaseLayer: true,
-            visibility: false
-        });
-        baseLayers.push(bingSatelliteLayer);
-    }
+		bingSatelliteLayer = new OpenLayers.Layer.Bing({
+			name: "Bing Satellite",
+			key: bingApiKey,
+			type: "Aerial",
+			isBaseLayer: true,
+			visibility: false
+		});
+		baseLayers.push(bingSatelliteLayer);
+	}
 	
 	if (urlParamsOK) {
 		loadWMSConfig();
@@ -155,11 +155,6 @@ function loadWMSConfig() {
 		}
 	});
 
-    var layerList = new Ext.tree.TreeNode({
-        leaf: false,
-        expanded: true
-    });
-
 	var root = new Ext.tree.AsyncTreeNode({
         id: 'wmsNode',
         text: 'WMS',
@@ -174,27 +169,7 @@ function loadWMSConfig() {
 		    }
 	});
 
-    layerTree.setRootNode(layerList);	
-    layerList.appendChild(root);
-
-    if (enableBGMaps && baseLayers.length > 0) {
-        //todo use a more generic way to implement
-        var bgnode0 = new GeoExt.tree.LayerNode({
-             layer: baseLayers[0],
-             leaf: true,
-             checked: true,
-             uiProvider: Ext.tree.TriStateNodeUI
-        });
-        var bgnode1 = new GeoExt.tree.LayerNode({
-             layer: baseLayers[1],
-             leaf: true,
-             checked: false,
-             uiProvider: Ext.tree.TriStateNodeUI
-        });
-
-        layerList.appendChild(bgnode0);
-        layerList.appendChild(bgnode1);
-    }
+	layerTree.setRootNode(root);	
 
 }
 
@@ -986,6 +961,36 @@ function postLoading() {
 	}
 	//add listeners for layertree
 	layerTree.addListener('leafschange',leafsChangeFunction);
+	
+	//deal with commercial external bg layers
+	if (enableBGMaps) {
+		var BgLayerList = new Ext.tree.TreeNode({
+			leaf: false,
+			expanded: true,
+			text: "Background Layers"
+		});
+
+		layerTree.root.appendChild(BgLayerList);
+
+		if (enableBGMaps && baseLayers.length > 0) {
+			//todo use a more generic way to implement
+			var bgnode0 = new GeoExt.tree.LayerNode({
+				layer: baseLayers[0],
+				leaf: true,
+				checked: true,
+				uiProvider: Ext.tree.TriStateNodeUI
+			});
+			var bgnode1 = new GeoExt.tree.LayerNode({
+				layer: baseLayers[1],
+				leaf: true,
+				checked: false,
+				uiProvider: Ext.tree.TriStateNodeUI
+			});
+
+			BgLayerList.appendChild(bgnode0);
+			BgLayerList.appendChild(bgnode1);
+		}	
+	}
 
 	if (!initialLoadDone) {
 		if (printLayoutsDefined == true) {
@@ -1523,8 +1528,8 @@ function createPermalink(){
 }
 
 function addInfoButtonsToLayerTree() {
-    var treeRoot = layerTree.getNodeById("wmsNode");
-	treeRoot.firstChild.cascade(
+		var treeRoot = layerTree.getNodeById("wmsNode");
+		treeRoot.firstChild.cascade(
 		function (n) {
 			if (n.isLeaf()) {
 				// info button
