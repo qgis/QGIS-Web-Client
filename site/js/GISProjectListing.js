@@ -22,7 +22,7 @@ var gis_projects = {
 			"projectpath": "/home/web/qgis-web-client/projects",
 			"projectfile": "naturalearth_110million",
 			"format": "image/png; mode=8bit",
-			"visibleLayers": "Ocean,Land,Lakes,Glaciated Areas,Rivers,Geographic Features",
+			"visibleLayers": "Land,Lakes,Glaciated Areas,Rivers,Shaded Relief",
 			"opacities": {"Glaciated Areas":90,"Land":253},
 			"updateInterval": "occasional",
 			"responsible": "The QGIS project",
