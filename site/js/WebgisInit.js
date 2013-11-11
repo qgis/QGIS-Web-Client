@@ -1040,7 +1040,7 @@ function postLoading() {
 						}, {
 							xtype: 'combo',
 							id: 'PrintScaleCombobox',
-							width: 75,
+							width: 95,
 							mode: 'local',
 							triggerAction: 'all',
 							store: new Ext.data.JsonStore({

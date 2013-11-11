@@ -4,9 +4,9 @@
     <mapcanvas>
         <units>meters</units>
         <extent>
-            <xmin>-28711512.97744624316692352</xmin>
-            <ymin>-20577256.13247217237949371</ymin>
-            <xmax>28710724.50901078432798386</xmax>
+            <xmin>-28711512.9774462953209877</xmin>
+            <ymin>-20577256.13247221708297729</ymin>
+            <xmax>28710724.50901079922914505</xmax>
             <ymax>19391643.38112752139568329</ymax>
         </extent>
         <projections>1</projections>
@@ -23,7 +23,7 @@
             </spatialrefsys>
         </destinationsrs>
     </mapcanvas>
-    <legend updateDrawingOrder="true" activeLayer="HYP_50M_SR_W20131111115935301">
+    <legend updateDrawingOrder="true" activeLayer="ne_110m_land20131111112024526">
         <legendlayer drawingOrder="0" open="false" checked="Qt::Unchecked" name="Geographic Features" showFeatureCount="0">
             <filegroup open="false" hidden="false">
                 <legendlayerfile isInOverview="0" layerid="ne_110m_geography_regions_elevation_points20121113085601074" visible="0"/>
@@ -59,32 +59,20 @@
     </legend>
     <Composer title="A4-Landscape" visible="0">
         <Composition printResolution="300" paperWidth="297" snapGridOffsetX="0" snapGridResolution="10" snapGridOffsetY="0" alignmentSnap="1" snapping="0" numPages="1" paperHeight="210" alignmentSnapTolerance="2" printAsRaster="0">
-            <ComposerLabel valign="32" labelText="QGIS Server Demo - Natural Earth Data" htmlState="0" halign="1" margin="1">
-                <LabelFont description="Sans Serif,12,-1,5,75,0,0,0,0,0"/>
-                <FontColor red="0" blue="0" green="0"/>
-                <ComposerItem width="153.327" x="10" transparency="0" y="11.199" rotation="0" height="6.9" positionMode="0" frame="false" outlineWidth="0.3" zValue="4" lastValidViewScaleFactor="2.79195" uuid="{0d52d3b9-7037-4e8d-995d-70f877e4bd3e}" id="" background="true" blendMode="0" positionLock="true">
-                    <FrameColor alpha="255" red="0" blue="0" green="0"/>
-                    <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
-                </ComposerItem>
-            </ComposerLabel>
-            <ComposerScaleBar penColor="#000000" style="Numeric" numMapUnitsPerScaleBarUnit="1" alignment="1" brushColor="#000000" numSegments="4" segmentMillimeters="18.0799" fontColor="#000000" font="Sans Serif,10,-1,5,50,0,0,0,0,0" numUnitsPerSegment="9" units="1" labelBarSpace="3" outlineWidth="1" numSegmentsLeft="2" height="3" mapId="0" boxContentSpace="1" unitLabel="m">
-                <ComposerItem width="27" x="218.844" transparency="0" y="11.7476" rotation="0" height="5.3" positionMode="0" frame="false" outlineWidth="0.3" zValue="3" lastValidViewScaleFactor="2.79195" uuid="{db6d8992-aea3-401b-8146-a32a1a65756f}" id="" background="true" blendMode="0" positionLock="false">
+            <SnapLine y1="0" x1="182.146" y2="210" x2="182.146"/>
+            <SnapLine y1="16.3116" x1="0" y2="16.3116" x2="297"/>
+            <ComposerScaleBar penColor="#000000" style="Numeric" numMapUnitsPerScaleBarUnit="1000" alignment="2" brushColor="#000000" numSegments="4" segmentMillimeters="57.42" fontColor="#000000" font="Sans Serif,10,-1,5,50,0,0,0,0,0" numUnitsPerSegment="2.871e+06" units="1" labelBarSpace="3" outlineWidth="1" numSegmentsLeft="2" height="3" mapId="0" boxContentSpace="1" unitLabel="km">
+                <ComposerItem width="36.3717" x="226.069" transparency="0" y="11.944" rotation="0" height="8.31008" positionMode="0" frame="false" outlineWidth="0.3" zValue="7" lastValidViewScaleFactor="4.78188" uuid="{faceb3b3-1c9a-4aa3-a944-668428fce8ab}" id="" background="true" blendMode="0" positionLock="false">
                     <FrameColor alpha="255" red="0" blue="0" green="0"/>
                     <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
                 </ComposerItem>
             </ComposerScaleBar>
-            <ComposerPicture pictureWidth="25" file="./north-arrow_3_simple_symmetric_triangular.svg" pictureHeight="25" mapId="-1">
-                <ComposerItem width="25" x="262" transparency="0" y="2.14904" rotation="0" height="25" positionMode="0" frame="false" outlineWidth="0.3" zValue="2" lastValidViewScaleFactor="1.83886" uuid="{bb218641-25e4-4dae-9c13-7ed33572e063}" id="" background="false" blendMode="0" positionLock="false">
-                    <FrameColor alpha="255" red="0" blue="0" green="0"/>
-                    <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
-                </ComposerItem>
-            </ComposerPicture>
             <ComposerMap keepLayerSet="false" overviewFrameMap="-1" id="0" previewMode="Cache" drawCanvasItems="true">
                 <overviewFrame overviewBlendMode="0" overviewFrameMap="-1" overviewInverted="false">
                     <symbol alpha="0.3" type="fill" name="">
                         <layer pass="0" class="SimpleFill" locked="0">
                             <prop k="border_width_unit" v="MM"/>
-                            <prop k="color" v="255,0,0,125"/>
+                            <prop k="color" v="255,0,0,255"/>
                             <prop k="color_border" v="0,0,0,255"/>
                             <prop k="offset" v="0,0"/>
                             <prop k="offset_unit" v="MM"/>
@@ -94,9 +82,9 @@
                         </layer>
                     </symbol>
                 </overviewFrame>
-                <Extent ymin="-20.1092" xmin="-46.895" ymax="67.004" xmax="90.9928"/>
+                <Extent ymin="323289" xmin="-2.39031e+06" ymax="8.52329e+06" xmax="1.11597e+07"/>
                 <LayerSet/>
-                <Grid gridStyle="0" crossLength="3" intervalX="0" offsetX="0" intervalY="0" offsetY="0" gridFrameStyle="0" gridFrameWidth="2" gridBlendMode="0" show="0">
+                <Grid gridStyle="0" crossLength="3" intervalX="5e+06" offsetX="0" intervalY="5e+06" offsetY="0" gridFrameStyle="0" gridFrameWidth="2" gridBlendMode="0" show="1">
                     <symbol alpha="1" type="line" name="">
                         <layer pass="0" class="SimpleLine" locked="0">
                             <prop k="capstyle" v="flat"/>
@@ -112,15 +100,35 @@
                             <prop k="width_unit" v="MM"/>
                         </layer>
                     </symbol>
-                    <Annotation rightDirection="0" bottomDirection="0" format="0" topPosition="1" precision="3" leftDirection="0" rightPosition="1" bottomPosition="1" frameDistance="1" show="0" font="Sans Serif,9,-1,5,50,0,0,0,0,0" leftPosition="1" topDirection="0">
+                    <Annotation rightDirection="1" bottomDirection="0" format="0" topPosition="1" precision="0" leftDirection="1" rightPosition="1" bottomPosition="1" frameDistance="0.7" show="1" font="Sans Serif,6,-1,5,50,0,0,0,0,0" leftPosition="1" topDirection="0">
                         <fontColor red="0" blue="0" green="0"/>
                     </Annotation>
                 </Grid>
-                <ComposerItem width="277" x="10" transparency="0" y="25" rotation="0" height="175" positionMode="0" frame="false" outlineWidth="0.3" zValue="1" lastValidViewScaleFactor="1.83886" uuid="{3bb4e2d3-6374-4a52-86ce-21263ffa81f0}" id="" background="true" blendMode="0" positionLock="true">
+                <ComposerItem width="271" x="13" transparency="0" y="33" rotation="0" height="164" positionMode="0" frame="true" outlineWidth="0.2" zValue="6" lastValidViewScaleFactor="4.78188" uuid="{813748ac-82c7-43a0-9405-0a2a9fbfd1e5}" id="" background="true" blendMode="0" positionLock="false">
                     <FrameColor alpha="255" red="0" blue="0" green="0"/>
                     <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
                 </ComposerItem>
             </ComposerMap>
+            <ComposerLabel valign="32" labelText="QGIS Server Demo - Natural Earth Data" htmlState="0" halign="1" margin="1">
+                <LabelFont description="Sans Serif,12,-1,5,75,0,0,0,0,0"/>
+                <FontColor red="0" blue="0" green="0"/>
+                <ComposerItem width="153.327" x="9" transparency="0" y="11.199" rotation="0" height="6.9" positionMode="0" frame="false" outlineWidth="0.3" zValue="5" lastValidViewScaleFactor="4.83893" uuid="{0d52d3b9-7037-4e8d-995d-70f877e4bd3e}" id="" background="true" blendMode="0" positionLock="true">
+                    <FrameColor alpha="255" red="0" blue="0" green="0"/>
+                    <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
+                </ComposerItem>
+            </ComposerLabel>
+            <ComposerPicture pictureWidth="29" file="./north-arrow_3_simple_symmetric_triangular.svg" pictureHeight="29" mapId="0">
+                <ComposerItem width="29" x="263.441" transparency="0" y="2" rotation="0" height="29" positionMode="0" frame="false" outlineWidth="0.3" zValue="3" lastValidViewScaleFactor="4.78188" uuid="{bb218641-25e4-4dae-9c13-7ed33572e063}" id="" background="false" blendMode="0" positionLock="false">
+                    <FrameColor alpha="255" red="0" blue="0" green="0"/>
+                    <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
+                </ComposerItem>
+            </ComposerPicture>
+            <ComposerShape shapeType="1">
+                <ComposerItem width="277" x="10" transparency="0" y="30" rotation="0" height="170" positionMode="0" frame="true" outlineWidth="0.3" zValue="1" lastValidViewScaleFactor="4.83893" uuid="{2cda9d48-38b3-4b2e-8ac8-30f3f44e1628}" id="" background="false" blendMode="0" positionLock="false">
+                    <FrameColor alpha="255" red="0" blue="0" green="0"/>
+                    <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
+                </ComposerItem>
+            </ComposerShape>
         </Composition>
     </Composer>
     <Composer title="A4-Portrait" visible="0">
@@ -1274,10 +1282,10 @@
         <WMSOnlineResource type="QString"></WMSOnlineResource>
         <WMSContactOrganization type="QString">QGIS Project</WMSContactOrganization>
         <WMSExtent type="QStringList">
-            <value>-21039383.75992870330810547</value>
-            <value>-12246179.5174070056527853</value>
-            <value>21039383.75992871075868607</value>
-            <value>12246179.5174070131033659</value>
+            <value>-28711512.9774462953209877</value>
+            <value>-20577256.13247221708297729</value>
+            <value>28710724.50901079922914505</value>
+            <value>19391643.38112752139568329</value>
         </WMSExtent>
         <WMSKeywordList type="QStringList">
             <value>earth</value>
@@ -1384,7 +1392,7 @@ http://www.naturalearthdata.com/</WMSServiceAbstract>
         <SpatialRefSys>
             <ProjectCRSProj4String type="QString">+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs</ProjectCRSProj4String>
             <ProjectCrs type="QString">EPSG:21781</ProjectCrs>
-            <ProjectCRSID type="int">3452</ProjectCRSID>
+            <ProjectCRSID type="int">3857</ProjectCRSID>
             <ProjectionsEnabled type="int">1</ProjectionsEnabled>
         </SpatialRefSys>
         <DefaultStyles>
