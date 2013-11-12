@@ -1189,6 +1189,7 @@ function postLoading() {
 
 removeButtons();
 isTooltipSOGIS();
+setDefaultButton(strSOGISDefaultButton);
 }
 
 function getVisibleLayers(visibleLayers, currentNode){

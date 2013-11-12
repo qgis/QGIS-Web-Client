@@ -158,11 +158,11 @@ var gis_projects = {
 			"responsible": "Gemeinden Kanton SO",
 			"tags": "Leitungskataster,GemeindeGIS",
             "switcher": true,
-            "sogistooltip": true,
+            "sogistooltip": false,
             "sogistooltipwidth" : "600",
             "sogistooltipheight" : "300",
             "sogisbuttons" : default_buttons_seperators,
-            "sogisdefaultbutton" : ""
+            "sogisdefaultbutton" : "IdentifyTool"
 		}]
     },{
 		"name": "Amt für Verkehr und Tiefbau",
@@ -171,11 +171,11 @@ var gis_projects = {
 			"projectpath": "",
 			"projectfile": "verkehrsmodell2010",
 			"format": "image/png",
-			"visibleLayers": "",
+			"visibleLayers": "Gemeindegrenzen",
 			"updateInterval": "occasional",
 			"responsible": "Amt für Verkehr und Tiefbau",
 			"tags": "Meine Tags",
-            "switcher": false,
+            "switcher": true,
             "sogistooltip": true,
             "sogistooltipwidth" : "600",
             "sogistooltipheight" : "300",

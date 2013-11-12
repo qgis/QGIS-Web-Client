@@ -1,5 +1,6 @@
 var servername = "http://"+location.href.split(/\/+/)[1];
 var strSOGISTooltipURL = servername + '/sogis/qgis-web-tooltip/'; // URL to the SOGIS tooltip
+var strSOGISDefaultButton = ""; // default button
 
 Ext.onReady(function () {
 	// Define header menu. Can be nested one level deep.
@@ -102,12 +103,11 @@ function isTooltipSOGIS(){
         intSOGISTooltipWidth = 600
         intSOGISTooltipHeight = 420
         removeButtons();
-        addButtons(['navZoomBoxButton','zoomNext','zoomLast']);
-        setDefaultButton('navZoomBoxButton');
+        addButtons(['navZoomBoxButton','zoomNext','zoomLast','IdentifyTool']);
+        strSOGISDefaultButton = 'IdentifyTool';
     } else {
         /* call add buttons */
         addButtons(arr_SOGISButtons);
-        setDefaultButton(strSOGISDefaultButton);
     }
 
 
