@@ -100,8 +100,8 @@ var gis_projects = {
 			"responsible": "Amt für Landwirtschaft",
 			"tags": "Bienenstandorte",
             "switcher": true,
-            "sogistooltip": false,
-            "sogistooltipwidth" : "",
+            "sogistooltip": true,
+            "sogistooltipwidth" : "600",
             "sogistooltipheight" : "300"
 		}
 		]	
@@ -133,7 +133,7 @@ var gis_projects = {
 			"responsible": "Gemeinden Kanton SO",
 			"tags": "Leitungskataster,GemeindeGIS",
             "switcher": true,
-            "sogistooltip": true,
+            "sogistooltip": false,
             "sogistooltipwidth" : "600",
             "sogistooltipheight" : "300"
 		}]
@@ -148,7 +148,7 @@ var gis_projects = {
 			"updateInterval": "occasional",
 			"responsible": "Amt für Verkehr und Tiefbau",
 			"tags": "Meine Tags",
-            "switcher": false,
+            "switcher": true,
             "sogistooltip": true,
             "sogistooltipwidth" : "600",
             "sogistooltipheight" : "300"
