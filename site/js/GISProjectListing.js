@@ -24,7 +24,7 @@ var gis_projects = {
 			"updateInterval": "occasional",
 			"responsible": "Amtliche Vermessung",
 			"tags": "Ortsplan",
-            "switcher": true,
+            "switcher": false,
             "sogistooltip": true,
             "sogistooltipwidth" : "300",
             "sogistooltipheight" : "400",
@@ -53,14 +53,14 @@ var gis_projects = {
 			"projectpath": "",
 			"projectfile": "neophyten",
 			"format": "image/png",
-			"visibleLayers": "2013 Pflanzenliste,Gemeindegrenzen,Baisplan 1:5000 farbig",
+			"visibleLayers": "2013 Pflanzenliste,Gemeindegrenzen,Grundkarte",
 			"updateInterval": "occasional",
 			"responsible": "Amt für Umwelt",
 			"tags": "Neophyten",
             "switcher": true,
             "sogistooltip": true,
             "sogistooltipwidth" : "600",
-            "sogistooltipheight" : "350",
+            "sogistooltipheight" : "400",
             "sogisbuttons" : default_buttons_seperators,
             "sogisdefaultbutton" : ""
 		},{
@@ -116,13 +116,13 @@ var gis_projects = {
 			"projectpath": "",
 			"projectfile": "bienenstandorte",
 			"format": "image/png",
-			"visibleLayers": "Bienenstandorte,Streptomycineinsatz,Feuerbrand Schutzobjekte,Basisplan AV 1:10000,Hintergrundkarte 1:1 Mio",
+			"visibleLayers": "Bienenstandorte,Streptomycineinsatz,Feuerbrand Schutzobjekte,Gemeindegrenzen,Grundkarte",
 			"updateInterval": "occasional",
 			"responsible": "Amt für Landwirtschaft",
 			"tags": "Bienenstandorte",
             "switcher": true,
-            "sogistooltip": false,
-            "sogistooltipwidth" : "",
+            "sogistooltip": true,
+            "sogistooltipwidth" : "400",
             "sogistooltipheight" : "300",
             "sogisbuttons" : default_buttons_seperators,
             "sogisdefaultbutton" : ""
@@ -139,7 +139,7 @@ var gis_projects = {
 			"updateInterval": "occasional",
 			"responsible": "Amt für Raumplanung",
 			"tags": "Nutzungszonen",
-            "switcher": true,
+            "switcher": false,
             "sogistooltip": false,
             "sogistooltipwidth" : "",
             "sogistooltipheight" : "300",
@@ -162,7 +162,7 @@ var gis_projects = {
             "sogistooltipwidth" : "600",
             "sogistooltipheight" : "300",
             "sogisbuttons" : default_buttons_seperators,
-            "sogisdefaultbutton" : "IdentifyTool"
+            "sogisdefaultbutton" : ""
 		}]
     },{
 		"name": "Amt für Verkehr und Tiefbau",
@@ -171,14 +171,14 @@ var gis_projects = {
 			"projectpath": "",
 			"projectfile": "verkehrsmodell2010",
 			"format": "image/png",
-			"visibleLayers": "Gemeindegrenzen",
+			"visibleLayers": "Gemeindegrenzen,Grundkarte",
 			"updateInterval": "occasional",
 			"responsible": "Amt für Verkehr und Tiefbau",
 			"tags": "Meine Tags",
             "switcher": true,
             "sogistooltip": true,
-            "sogistooltipwidth" : "600",
-            "sogistooltipheight" : "300",
+            "sogistooltipwidth" : "450",
+            "sogistooltipheight" : "400",
             "sogisbuttons" : default_buttons_seperators,
             "sogisdefaultbutton" : ""
 		}]

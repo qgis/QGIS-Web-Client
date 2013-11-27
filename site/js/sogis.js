@@ -11,33 +11,33 @@ Ext.onReady(function () {
 			{'url': 'http://www.so.ch/departemente/bau-und-justiz/amt-fuer-geoinformation.html', 'title': 'Amt f&uuml;r Geoinformation', 'target':'_blank'},
             {'url': 'http://www.so.ch/departemente/bau-und-justiz/sogis.html', 'title': 'SO!GIS', 'target':'_blank'}
 		]},
-		{'url': 'http://www.so.ch/departemente/bau-und-justiz/sogis/interaktive-karten.html', 'title': 'Weitere Karten', 'target':'_blank', 'submenu' : [
+		{'url': 'http://www.so.ch/departemente/bau-und-justiz/amt-fuer-geoinformation/sogis-koordination/interaktive-karten.html', 'title': 'Weitere Karten', 'target':'_blank', 'submenu' : [
                  ]},
-        {'url': 'http://www.so.ch/departemente/bau-und-justiz/sogis/sogis-daten.html', 'title': 'Datenbezug', 'target':'_blank', 'submenu' : [
+        {'url': 'http://www.sogis1.so.ch/sogis/OnLineData/php/index.php', 'title': 'Datenbezug', 'target':'_blank', 'submenu' : [
             {'url': 'http://www.sogis1.so.ch/sogis/OnLineData/php/index.php', 'title': 'Online Bezug', 'target':'_blank'},
-            {'url': 'http://www.so.ch/departemente/bau-und-justiz/sogis/sogis-daten/sogis-downloads.html', 'title': 'Übersichtskarten', 'target':'_blank'},
+            {'url': 'http://www.so.ch/departemente/bau-und-justiz/amt-fuer-geoinformation/sogis-koordination/kartenvorlagen.html', 'title': 'Übersichtskarten', 'target':'_blank'},
             {'url': 'http://www.sogis1.so.ch/sogis/OnLineData/php/datenbeschreibung_auswahl.php', 'title': 'Datenbeschreibung', 'target':'_blank'}
             
         ]},
-        {'url': 'http://www.so.ch/departemente/bau-und-justiz/sogis/web-map-services-wms.html', 'title': 'WMS', 'target':'_blank', 'submenu' : [
-            {'url': 'http://www.so.ch/departemente/bau-und-justiz/sogis/web-map-services-wms/wms-geologie.html', 'title': 'WMS Geologie', 'target':'_blank'},
-            {'url': 'http://www.so.ch/departemente/bau-und-justiz/sogis/web-map-services-wms/wms-gewaesser.html', 'title': 'WMS Gewässer', 'target':'_blank'},
-            {'url': 'http://www.so.ch/departemente/bau-und-justiz/sogis/web-map-services-wms/wms-naturgefahren.html', 'title': 'WMS Naturgefahren', 'target':'_blank'},
-            {'url': 'http://www.so.ch/departemente/bau-und-justiz/sogis/web-map-services-wms/wms-oekomorphologie.html', 'title': 'WMS Ökomorphologie', 'target':'_blank'},
-            {'url': 'http://www.so.ch/departemente/bau-und-justiz/sogis/web-map-services-wms/wms-richtplankarte.html', 'title': 'WMS Richtplankarte', 'target':'_blank'},
-            {'url': 'http://www.so.ch/departemente/bau-und-justiz/sogis/web-map-services-wms/wms-verkehr.html', 'title': 'WMS Verkehr', 'target':'_blank'},
-            {'url': 'http://www.so.ch/departemente/bau-und-justiz/sogis/web-map-services-wms/wms-relief-und-wanderwege.html', 'title': 'WMS Wanderwege', 'target':'_blank'},
-            {'url': 'http://www.so.ch/departemente/bau-und-justiz/sogis/web-map-services-wms/wms-ortsplan.html', 'title': 'WMS Ortsplan', 'target':'_blank'},
-            {'url': 'http://www.so.ch/departemente/bau-und-justiz/sogis/web-map-services-wms/wms-plan-der-amtlichen-vermessung.html', 'title': 'WMS Plan der AV', 'target':'_blank'},
-            {'url': 'http://www.so.ch/departemente/bau-und-justiz/sogis/web-map-services-wms/wms-uebersichtsplan.html', 'title': 'WMS Übersichtsplan', 'target':'_blank'},
-            {'url': 'http://www.so.ch/departemente/bau-und-justiz/sogis/web-map-services-wms/wms-strassenkarte.html', 'title': 'WMS Strassenkarte', 'target':'_blank'},
-            {'url': 'http://www.so.ch/departemente/bau-und-justiz/sogis/web-map-services-wms/wms-orthofoto.html', 'title': 'WMS Orthofoto', 'target':'_blank'},
-            {'url': 'http://www.so.ch/departemente/bau-und-justiz/sogis/web-map-services-wms/wms-dtm-dom.html', 'title': 'WMS DTM/DOM', 'target':'_blank'},
-            {'url': 'http://www.so.ch/departemente/bau-und-justiz/sogis/web-map-services-wms/av-wms.html', 'title': 'AV WMS', 'target':'_blank'}
+        {'url': 'http://www.so.ch/departemente/bau-und-justiz/amt-fuer-geoinformation/sogis-koordination/web-map-services-wms.html', 'title': 'WMS', 'target':'_blank', 'submenu' : [
+            {'url': 'http://www.so.ch/departemente/bau-und-justiz/amt-fuer-geoinformation/sogis-koordination/web-map-services-wms/wms-geologie.html', 'title': 'WMS Geologie', 'target':'_blank'},
+            {'url': 'http://www.so.ch/departemente/bau-und-justiz/amt-fuer-geoinformation/sogis-koordination/web-map-services-wms/wms-gewaesser.html', 'title': 'WMS Gewässer', 'target':'_blank'},
+            {'url': 'http://www.so.ch/departemente/bau-und-justiz/amt-fuer-geoinformation/sogis-koordination/web-map-services-wms/wms-naturgefahren.html', 'title': 'WMS Naturgefahren', 'target':'_blank'},
+            {'url': 'http://www.so.ch/departemente/bau-und-justiz/amt-fuer-geoinformation/sogis-koordination/web-map-services-wms/wms-oekomorphologie.html', 'title': 'WMS Ökomorphologie', 'target':'_blank'},
+            {'url': 'http://www.so.ch/departemente/bau-und-justiz/amt-fuer-geoinformation/sogis-koordination/web-map-services-wms/wms-richtplankarte.html', 'title': 'WMS Richtplankarte', 'target':'_blank'},
+            {'url': 'http://www.so.ch/departemente/bau-und-justiz/amt-fuer-geoinformation/sogis-koordination/web-map-services-wms/wms-verkehr.html', 'title': 'WMS Verkehr', 'target':'_blank'},
+            {'url': 'http://www.so.ch/departemente/bau-und-justiz/amt-fuer-geoinformation/sogis-koordination/web-map-services-wms/wms-relief-und-wanderwege.html', 'title': 'WMS Wanderwege', 'target':'_blank'},
+            {'url': 'http://www.so.ch/departemente/bau-und-justiz/amt-fuer-geoinformation/sogis-koordination/web-map-services-wms/wms-ortsplan.html', 'title': 'WMS Ortsplan', 'target':'_blank'},
+            {'url': 'http://www.so.ch/departemente/bau-und-justiz/amt-fuer-geoinformation/sogis-koordination/web-map-services-wms/wms-plan-der-amtlichen-vermessung.html', 'title': 'WMS Plan der AV', 'target':'_blank'},
+            {'url': 'http://www.so.ch/departemente/bau-und-justiz/amt-fuer-geoinformation/sogis-koordination/web-map-services-wms/wms-uebersichtsplan.html', 'title': 'WMS Übersichtsplan', 'target':'_blank'},
+            {'url': 'http://www.so.ch/departemente/bau-und-justiz/amt-fuer-geoinformation/sogis-koordination/web-map-services-wms/wms-strassenkarte.html', 'title': 'WMS Strassenkarte', 'target':'_blank'},
+            {'url': 'http://www.so.ch/departemente/bau-und-justiz/amt-fuer-geoinformation/sogis-koordination/web-map-services-wms/wms-orthofoto.html', 'title': 'WMS Orthofoto', 'target':'_blank'},
+            {'url': 'http://www.so.ch/departemente/bau-und-justiz/amt-fuer-geoinformation/sogis-koordination/web-map-services-wms/wms-dtm-dom.html', 'title': 'WMS DTM/DOM', 'target':'_blank'},
+            {'url': 'http://www.so.ch/departemente/bau-und-justiz/amt-fuer-geoinformation/sogis-koordination/web-map-services-wms/av-wms.html', 'title': 'AV WMS', 'target':'_blank'}
             
             
         ]},
-	  {'url': 'http://www.so.ch/departemente/bau-und-justiz/sogis/rechtliche-hinweise.html', 'title': 'Rechtliche Hinweise', 'target':'_blank'}
+	  {'url': 'http://www.so.ch/departemente/bau-und-justiz/amt-fuer-geoinformation/sogis-koordination/rechtliche-hinweise.html', 'title': 'Rechtliche Hinweise', 'target':'_blank'}
 
 	
 	];
@@ -103,7 +103,7 @@ function isTooltipSOGIS(){
         intSOGISTooltipWidth = 600
         intSOGISTooltipHeight = 420
         removeButtons();
-        addButtons(['navZoomBoxButton','zoomNext','zoomLast','IdentifyTool']);
+        addButtons(['navZoomBoxButton','zoomNext','zoomLast','IdentifyTool','PrintMap']);
         strSOGISDefaultButton = 'IdentifyTool';
     } else {
         /* call add buttons */
@@ -205,7 +205,20 @@ function showVisibleLayers(){
 * @return string with the project name
 */
 function getProject(){
-    return wmsMapName.replace("/", "");
+    str_return = wmsMapName.replace("/", "");
+    if (str_return == "gempen" || 
+	str_return == "zuchwil" ||
+	str_return == "grindel" ||
+	str_return == "haerkingen" ||
+	str_return == "langendorf" ||
+	str_return == "oberdorf" ||
+	str_return == "selzach" ||
+	str_return == "obergerlafingen" ||
+	str_return == "schnottwil" ||
+	str_return == "dulliken"){
+        str_return = "gemeindegis";
+    }    
+    return str_return;
 }
 
 /**
