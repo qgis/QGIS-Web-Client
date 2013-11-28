@@ -56,6 +56,9 @@ var metadataTab; //a reference to the Ext tab holding the metadata information
 var measurePopup;
 var baseLayers = [];
 
+// Call custom Init in Customizations.js
+customInit();
+
 Ext.onReady(function () {
 	//dpi detection
 	screenDpi = document.getElementById("dpiDetection").offsetHeight;
@@ -181,6 +184,10 @@ layerTreeSelectionChangeHandlerFunction = function (selectionModel, treeNode) {
 }
 
 function postLoading() {
+
+	// run the function from Customizations.js
+	customBeforeMapInit();
+
 	//set root node to active layer of layertree
 	layerTree.selectPath(layerTree.root.firstChild.getPath());
 
@@ -295,6 +302,10 @@ function postLoading() {
 		Ext.getCmp('PrintMap').toggleHandler = mapToolbarHandler;
 		Ext.getCmp('SendPermalink').handler = mapToolbarHandler;
 		Ext.getCmp('ShowHelp').handler = mapToolbarHandler;
+		
+		// Add custom buttons (Customizations.js)
+		customToolbarLoad();
+
 		//combobox listeners
 		var ObjectIdentificationModeCombobox = Ext.getCmp('ObjectIdentificationModeCombo');
 		ObjectIdentificationModeCombobox.setValue("topMostHit");
@@ -1206,6 +1217,9 @@ function postLoading() {
 		loadMask.hide();
 	}
 	initialLoadDone = true;
+
+	// run the function in the Customizations.js
+	customAfterMapInit();
 }
 
 function getVisibleLayers(visibleLayers, currentNode){
@@ -1254,6 +1268,10 @@ function uniqueLayersInLegend(origArr) {
 
 function mapToolbarHandler(btn, evt) {
 	removeMeasurePopup();
+
+	// Call custom toolbar handler in Customizations.js
+	customMapToolbarHandler(btn, evt);
+
 	if (btn.id == "IdentifyTool") {
 		if (btn.pressed) {
 			identifyToolActive = true;
