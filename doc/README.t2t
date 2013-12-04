@@ -269,7 +269,6 @@ REQUEST=GetFeatureInfo&LAYERS=Country&QUERY_LAYERS=Country&
 FEATURE_COUNT=10&INFO_FORMAT=text/xml&SRS=EPSG:4326&
 FILTER=Country:"name"+=+'africa'``
 
-
 === Using URL Rewriting ===
 
 For security and neatness, you may prefer to use rewritten URLs (so that your
@@ -395,7 +394,6 @@ your thumbnail should be called 'helloworld.png'.
 In addition you need to make entries for topics and projects in the file
 'site/js/GISProjectListing.js'. Please use the given file as a template.
 The file is in JSON format and starts with a few central parameters.
-
 
 === Central theme switcher parameters ===
 
@@ -555,6 +553,10 @@ tags
 Optional. Tags or keywords displayed in the tooltips in the theme switcher.
 The tags are also used in the search filter used in the theme switcher.
 
+== Extending the interface ==
+
+You can add buttons to implements additional functions (editing, advanced identify, etc.).
+See the example in site/js/Customizations.js.
 
 = URL Rewriting =
 

@@ -4,7 +4,7 @@ Wednesday December 04, 2013
 
 
 Last Updated: Wednesday December 04, 2013
-Last Change : Monday November 11, 2013
+Last Change : Wednesday December 04, 2013
 
 
   1. For the terminally lazy
@@ -14,6 +14,7 @@ Last Change : Monday November 11, 2013
     4.1. Per Project Startup Options
     4.2. Configuration of search panels
     4.3. Configuration of the theme switcher
+    4.4. Extending the interface
   5. URL Rewriting
   6. Configuration of search python script
     6.1. Configuration of mod_wsgi
@@ -452,6 +453,13 @@ If not specified the extent from the GetProjectSettings is used.
 
 Optional. Tags or keywords displayed in the tooltips in the theme switcher.
 The tags are also used in the search filter used in the theme switcher.
+
+
+  4.4. Extending the interface
+  ============================
+
+You can add buttons to implements additional functions (editing, advanced identify, etc.).
+See the example in site/js/Customizations.js.
 
 
   5. URL Rewriting

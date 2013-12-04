@@ -19,7 +19,7 @@
 <DIV CLASS="body" ID="body">
 <P>
 Last Updated: Wednesday December 04, 2013
-Last Change : Monday November 11, 2013
+Last Change : Wednesday December 04, 2013
 </P>
 <DIV CLASS="toc">
 
@@ -32,17 +32,18 @@ Last Change : Monday November 11, 2013
     <LI><A HREF="#toc5">4.1. Per Project Startup Options</A>
     <LI><A HREF="#toc6">4.2. Configuration of search panels</A>
     <LI><A HREF="#toc7">4.3. Configuration of the theme switcher</A>
+    <LI><A HREF="#toc8">4.4. Extending the interface</A>
     </UL>
-  <LI><A HREF="#toc8">URL Rewriting</A>
-  <LI><A HREF="#toc9">Configuration of search python script</A>
+  <LI><A HREF="#toc9">URL Rewriting</A>
+  <LI><A HREF="#toc10">Configuration of search python script</A>
     <UL>
-    <LI><A HREF="#toc10">6.1. Configuration of mod_wsgi</A>
-    <LI><A HREF="#toc11">6.2. Adaption of the wsgi scripts to your settings and needs</A>
+    <LI><A HREF="#toc11">6.1. Configuration of mod_wsgi</A>
+    <LI><A HREF="#toc12">6.2. Adaption of the wsgi scripts to your settings and needs</A>
     </UL>
-  <LI><A HREF="#toc12">PostgreSQL table setup for searching</A>
-  <LI><A HREF="#toc13">License</A>
-  <LI><A HREF="#toc14">Developers and Contributors</A>
-  <LI><A HREF="#toc15">Acknowledgements</A>
+  <LI><A HREF="#toc13">PostgreSQL table setup for searching</A>
+  <LI><A HREF="#toc14">License</A>
+  <LI><A HREF="#toc15">Developers and Contributors</A>
+  <LI><A HREF="#toc16">Acknowledgements</A>
   </OL>
 
 </DIV>
@@ -662,6 +663,14 @@ The tags are also used in the search filter used in the theme switcher.
 </P>
 
 <A NAME="toc8"></A>
+<H2>4.4. Extending the interface</H2>
+
+<P>
+You can add buttons to implements additional functions (editing, advanced identify, etc.).
+See the example in site/js/Customizations.js.
+</P>
+
+<A NAME="toc9"></A>
 <H1>5. URL Rewriting</H1>
 
 <P>
@@ -736,7 +745,7 @@ RewriteRule ^/maps-protected/([^\.]+)$ /qgis-web-client/site/qgiswebclient.html 
 RewriteRule ^/maps-protected/(.*) /qgis-web-client/site/$1 [PT]
 </PRE></div>
 
-<A NAME="toc9"></A>
+<A NAME="toc10"></A>
 <H1>6. Configuration of search python script</H1>
 
 <P>
@@ -748,7 +757,7 @@ install the wsgi scripts in a separate directory, e.g. /home/www/wsgi, a place
 that is not reachable by regular web traffic.
 </P>
 
-<A NAME="toc10"></A>
+<A NAME="toc11"></A>
 <H2>6.1. Configuration of mod_wsgi</H2>
 
 <P>
@@ -766,7 +775,7 @@ WSGIScriptAlias /wsgi/ /home/www/wsgi/
 WSGIScriptAliasMatch ^/wsgi/([^/]+) /home/www/wsgi/$1.wsgi
 </PRE></div>
 
-<A NAME="toc11"></A>
+<A NAME="toc12"></A>
 <H2>6.2. Adaption of the wsgi scripts to your settings and needs</H2>
 
 <H3>6.2.1. DB connection</H3>
@@ -834,7 +843,7 @@ data += ("%" + querystrings[j] + "%",)
 This method however is slower than tsvector but not relevantly at least if you only have a couple 1000 datasets. 
 </P>
 
-<A NAME="toc12"></A>
+<A NAME="toc13"></A>
 <H1>7. PostgreSQL table setup for searching</H1>
 
 <div class="code"><PRE>
@@ -874,7 +883,7 @@ contain lower characters only.
 Using views is generally slower than properly indexed tables, check for yourself what works best.
 </P>
 
-<A NAME="toc13"></A>
+<A NAME="toc14"></A>
 <H1>8. License</H1>
 
 <P>
@@ -905,7 +914,7 @@ HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABI
 THE POSSIBILITY OF SUCH DAMAGE.
 </UL>
 
-<A NAME="toc14"></A>
+<A NAME="toc15"></A>
 <H1>9. Developers and Contributors</H1>
 
 <P>
@@ -939,7 +948,7 @@ Translators:
 <LI>Pavlo Taranov
 </UL>
 
-<A NAME="toc15"></A>
+<A NAME="toc16"></A>
 <H1>10. Acknowledgements</H1>
 
 <P>
