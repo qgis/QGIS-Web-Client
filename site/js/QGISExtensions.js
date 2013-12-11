@@ -314,8 +314,32 @@ Ext.extend(QGIS.PrintProvider, GeoExt.data.PrintProvider, {
     else if (mapScale > 12000 && mapScale <= 25000) {
       grid_interval = 1000;
     }
-    else if (mapScale > 25000) {
+    else if (mapScale > 25000 && mapScale <= 50000) {
       grid_interval = 2000;
+    }
+    else if (mapScale > 50000 && mapScale <= 100000) {
+      grid_interval = 5000;
+    }
+    else if (mapScale > 100000 && mapScale <= 500000) {
+      grid_interval = 10000;
+    }
+    else if (mapScale > 500000 && mapScale <= 1000000) {
+      grid_interval = 50000;
+    }
+    else if (mapScale > 1000000 && mapScale <= 5000000) {
+      grid_interval = 100000;
+    }
+    else if (mapScale > 5000000 && mapScale <= 10000000) {
+      grid_interval = 250000;
+    }
+    else if (mapScale > 10000000 && mapScale <= 50000000) {
+      grid_interval = 2500000;
+    }
+    else if (mapScale > 50000000 && mapScale <= 100000000) {
+      grid_interval = 5000000;
+    }
+    else if (mapScale > 100000000) {
+      grid_interval = 10000000;
     }
 
     //if the var fixedPrintResolution of GlobalOptions.js is set, the print resolution will be this value 

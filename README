@@ -1,10 +1,10 @@
 Quantum GIS (QGIS) Web Client
 Installation  and Configuration Guide
-Saturday September 14, 2013
+Wednesday December 04, 2013
 
 
-Last Updated: Saturday September 14, 2013
-Last Change : Saturday September 14, 2013
+Last Updated: Wednesday December 04, 2013
+Last Change : Wednesday December 04, 2013
 
 
   1. For the terminally lazy
@@ -14,6 +14,7 @@ Last Change : Saturday September 14, 2013
     4.1. Per Project Startup Options
     4.2. Configuration of search panels
     4.3. Configuration of the theme switcher
+    4.4. Extending the interface
   5. URL Rewriting
   6. Configuration of search python script
     6.1. Configuration of mod_wsgi
@@ -454,6 +455,13 @@ Optional. Tags or keywords displayed in the tooltips in the theme switcher.
 The tags are also used in the search filter used in the theme switcher.
 
 
+  4.4. Extending the interface
+  ============================
+
+You can add buttons to implements additional functions (editing, advanced identify, etc.).
+See the example in site/js/Customizations.js.
+
+
   5. URL Rewriting
   ================
 
@@ -608,7 +616,8 @@ This method however is slower than tsvector but not relevantly at least if you o
 The above search table can also be a view or materialized view. One can combine
 several search tables by specifying the `searchtables=searchtable1,searchtable_n` 
 parameter when requesting the search.wsgi script. Any searchtable passed to search.wsgi may only contain
-the letters A to Z, a to z and the underscore.
+the letters A to Z, a to z and the underscore. Double quoting the search table throws an error, thus searchtables' names must
+contain lower characters only.
 
 Using views is generally slower than properly indexed tables, check for yourself what works best.
 

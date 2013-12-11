@@ -56,6 +56,9 @@ var metadataTab; //a reference to the Ext tab holding the metadata information
 var measurePopup;
 var baseLayers = [];
 
+// Call custom Init in Customizations.js
+customInit();
+
 Ext.onReady(function () {
 	//dpi detection
 	screenDpi = document.getElementById("dpiDetection").offsetHeight;
@@ -103,23 +106,23 @@ Ext.onReady(function () {
 	//set some status messsages
 	mainStatusText.setText(mapAppLoadingString[lang]);
 
-    if (enableGoogleCommercialMaps) {
-        googleStatelliteLayer = new OpenLayers.Layer.Google(
-            "Google Satellite",
-            {type: google.maps.MapTypeId.SATELLITE, numZoomLevels: 22, isBaseLayer: true}
-        );
-        baseLayers.push(googleStatelliteLayer);
-    }
+	if (enableGoogleCommercialMaps) {
+		googleStatelliteLayer = new OpenLayers.Layer.Google(
+			"Google Satellite",
+			{type: google.maps.MapTypeId.SATELLITE, numZoomLevels: 22, isBaseLayer: true}
+		);
+		baseLayers.push(googleStatelliteLayer);
+	}
 	if (enableBingCommercialMaps) {
-        bingSatelliteLayer = new OpenLayers.Layer.Bing({
-            name: "Bing Satellite",
-            key: bingApiKey,
-            type: "Aerial",
-            isBaseLayer: true,
-            visibility: false
-        });
-        baseLayers.push(bingSatelliteLayer);
-    }
+		bingSatelliteLayer = new OpenLayers.Layer.Bing({
+			name: "Bing Satellite",
+			key: bingApiKey,
+			type: "Aerial",
+			isBaseLayer: true,
+			visibility: false
+		});
+		baseLayers.push(bingSatelliteLayer);
+	}
 	
 	if (urlParamsOK) {
 		loadWMSConfig();
@@ -155,11 +158,6 @@ function loadWMSConfig() {
 		}
 	});
 
-    var layerList = new Ext.tree.TreeNode({
-        leaf: false,
-        expanded: true
-    });
-
 	var root = new Ext.tree.AsyncTreeNode({
         id: 'wmsNode',
         text: 'WMS',
@@ -174,27 +172,7 @@ function loadWMSConfig() {
 		    }
 	});
 
-    layerTree.setRootNode(layerList);	
-    layerList.appendChild(root);
-
-    if (enableBGMaps && baseLayers.length > 0) {
-        //todo use a more generic way to implement
-        var bgnode0 = new GeoExt.tree.LayerNode({
-             layer: baseLayers[0],
-             leaf: true,
-             checked: true,
-             uiProvider: Ext.tree.TriStateNodeUI
-        });
-        var bgnode1 = new GeoExt.tree.LayerNode({
-             layer: baseLayers[1],
-             leaf: true,
-             checked: false,
-             uiProvider: Ext.tree.TriStateNodeUI
-        });
-
-        layerList.appendChild(bgnode0);
-        layerList.appendChild(bgnode1);
-    }
+	layerTree.setRootNode(root);	
 
 }
 
@@ -206,6 +184,10 @@ layerTreeSelectionChangeHandlerFunction = function (selectionModel, treeNode) {
 }
 
 function postLoading() {
+
+	// run the function from Customizations.js
+	customBeforeMapInit();
+
 	//set root node to active layer of layertree
 	layerTree.selectPath(layerTree.root.firstChild.getPath());
 
@@ -320,6 +302,10 @@ function postLoading() {
 		Ext.getCmp('PrintMap').toggleHandler = mapToolbarHandler;
 		Ext.getCmp('SendPermalink').handler = mapToolbarHandler;
 		Ext.getCmp('ShowHelp').handler = mapToolbarHandler;
+		
+		// Add custom buttons (Customizations.js)
+		customToolbarLoad();
+
 		//combobox listeners
 		var ObjectIdentificationModeCombobox = Ext.getCmp('ObjectIdentificationModeCombo');
 		ObjectIdentificationModeCombobox.setValue("topMostHit");
@@ -986,6 +972,36 @@ function postLoading() {
 	}
 	//add listeners for layertree
 	layerTree.addListener('leafschange',leafsChangeFunction);
+	
+	//deal with commercial external bg layers
+	if (enableBGMaps) {
+		var BgLayerList = new Ext.tree.TreeNode({
+			leaf: false,
+			expanded: true,
+			text: "Background Layers"
+		});
+
+		layerTree.root.appendChild(BgLayerList);
+
+		if (enableBGMaps && baseLayers.length > 0) {
+			//todo use a more generic way to implement
+			var bgnode0 = new GeoExt.tree.LayerNode({
+				layer: baseLayers[0],
+				leaf: true,
+				checked: true,
+				uiProvider: Ext.tree.TriStateNodeUI
+			});
+			var bgnode1 = new GeoExt.tree.LayerNode({
+				layer: baseLayers[1],
+				leaf: true,
+				checked: false,
+				uiProvider: Ext.tree.TriStateNodeUI
+			});
+
+			BgLayerList.appendChild(bgnode0);
+			BgLayerList.appendChild(bgnode1);
+		}	
+	}
 
 	if (!initialLoadDone) {
 		if (printLayoutsDefined == true) {
@@ -1035,7 +1051,7 @@ function postLoading() {
 						}, {
 							xtype: 'combo',
 							id: 'PrintScaleCombobox',
-							width: 75,
+							width: 95,
 							mode: 'local',
 							triggerAction: 'all',
 							store: new Ext.data.JsonStore({
@@ -1206,6 +1222,9 @@ function postLoading() {
 		loadMask.hide();
 	}
 	initialLoadDone = true;
+
+	// run the function in the Customizations.js
+	customAfterMapInit();
 }
 
 function getVisibleLayers(visibleLayers, currentNode){
@@ -1254,6 +1273,10 @@ function uniqueLayersInLegend(origArr) {
 
 function mapToolbarHandler(btn, evt) {
 	removeMeasurePopup();
+
+	// Call custom toolbar handler in Customizations.js
+	customMapToolbarHandler(btn, evt);
+
 	if (btn.id == "IdentifyTool") {
 		if (btn.pressed) {
 			identifyToolActive = true;
@@ -1528,8 +1551,8 @@ function createPermalink(){
 }
 
 function addInfoButtonsToLayerTree() {
-    var treeRoot = layerTree.getNodeById("wmsNode");
-	treeRoot.firstChild.cascade(
+		var treeRoot = layerTree.getNodeById("wmsNode");
+		treeRoot.firstChild.cascade(
 		function (n) {
 			if (n.isLeaf()) {
 				// info button
