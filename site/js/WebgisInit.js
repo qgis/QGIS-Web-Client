@@ -198,7 +198,7 @@ function postLoading() {
 	layerTree.suspendEvents();
 	if (layerTree.root.hasChildNodes()) {
 		//set titles in document and toolbar
-		var title = layerTree.root.firstChild.text;
+		var title = layerTree.root.firstChild.firstChild.text;
 		if (title in projectTitles) {
 			title = projectTitles[title];
 		}
@@ -1192,6 +1192,11 @@ function postLoading() {
 		printDPICombobox.setValue("300");
 		//need to manually fire the event, because .setValue doesn't; index omitted, not needed
 		printDPICombobox.fireEvent("select", printDPICombobox, printDPICombobox.findRecord(printDPICombobox.valueField, "300"));
+        //if the var fixedPrintResolution in GlobalOptions.js is set, the printLayoutsCombobox will be hidden
+        if (fixedPrintResolution != "" && parseInt(fixedPrintResolution) > 0){
+            printDPICombobox.hide()
+            printWindow.setWidth(430);
+        }
 		//bug in spinnerField: need to explicitly show/hide printWindow (toolbar)
 		printWindow.show();
 		printWindow.hide();

@@ -1,13 +1,13 @@
 //default language code, can be overwritten with lang parameter in URL
-var lang = "de"; //for available codes see array availableLanguages in file GlobalOptions.js
+var lang = "en"; //for available codes see array availableLanguages in file GlobalOptions.js
 
 //Help file (must be a local file)
-var helpfile = "help_de.html";
+var helpfile = "help_en.html";
 
 //Servername (optional) and path and name name of QGIS mapserver FCGI-file
 //either with or without server-name - without servername recommended for easier porting to other servers
 //do not add a ? or & after the .fcgi extension
-var serverAndCGI = "http://srsofaioi12288.ktso.ch/wmstest";
+var serverAndCGI = "/cgi-bin/qgis_mapserv.fcgi";
 
 //Define whether you want to use the GetProjectSettings extension of QGIS Server
 //for more configuration options in the project.
@@ -15,7 +15,7 @@ var serverAndCGI = "http://srsofaioi12288.ktso.ch/wmstest";
 var useGetProjectSettings = true;
 
 // show the layerOrderTab in the GUI
-var showLayerOrderTab = false;
+var showLayerOrderTab = true;
 
 // use geodesic measures, i.e. not planar measures
 // this is useful if a projection with high distortion of length/area is used, eg.g. GoogleMercator
@@ -23,10 +23,10 @@ var useGeodesicMeasurement = false;
 
 //search box for queries while typing
 //enable to use GeoNames search
-var useGeoNamesSearchBox = false;
+var useGeoNamesSearchBox = true;
 //URL for custom search scripts
-var searchBoxQueryURL = "/wsgi/search.wsgi?query=";
-var searchBoxGetGeomURL = "/wsgi/getSearchGeom.wsgi";
+var searchBoxQueryURL = null; // "/wsgi/search.wsgi?query=";
+var searchBoxGetGeomURL = null; // "/wsgi/getSearchGeom.wsgi";
 
 // enable to use commercial Google and Bing layers (also add BingApiKey in WebgisInit.js)enab
 var enableBingCommercialMaps = false;
@@ -42,10 +42,6 @@ var suppressInfoGeometry = true;
 // do show field names in click-popup during object identification
 var showFieldNamesInClickPopup = true;
 // max-width and max-height of the feature-info popup can be controlled in site/css/popup.css
-
-// when this variable is set, the user can't choose the print resolution output any more. 
-// the print resolution will be determinated to the given value (dpi).
-var fixedPrintResolution = "200"; // dpi
 
 //config for QGIS.SearchPanel
 var simpleWmsSearch = {
@@ -118,7 +114,7 @@ var mapThemeSwitcherActive = true;
 var themeSwitcherTemplate = null;
 
 //first part of titlebar text
-var titleBarText = "SOGIS-Browser - "; // will be appended with project title
+var titleBarText = "GIS-Browser - "; // will be appended with project title
 
 // header logo image and link
 var headerLogoImg = null; // path to image, set null for no logo
@@ -133,7 +129,7 @@ var projectTitles = {
 };
 
 //EPSG projection code of your QGIS project
-var epsgcode = 21781;
+var epsgcode = 4326;
 
 //background transparency for the QGIS server generated layer (commercial background layers not effected)
 //set to true if you want the background to be transparent, layer image will be bigger (32 vs 24bit)
@@ -143,9 +139,9 @@ var qgisLayerTransparency = true;
 // see http://dev.openlayers.org/releases/OpenLayers-2.10/doc/apidocs/files/OpenLayers/Map-js.html
 var MapOptions = {
   projection: new OpenLayers.Projection("EPSG:"+epsgcode),
-  units: "m",
-  maxScale: 50,
-  minScale: 500000 ,
+  units: "degrees",
+  maxScale:100000,
+  minScale:100000000,
   fractionalZoom: true,
   transitionEffect:"resize",
   controls: []
@@ -178,6 +174,9 @@ var overviewLayer = new OpenLayers.Layer.WMS("Overview-Map",
   {layers:"Land",format:"image/png"},
   {buffer:0,singleTile:true,transitionEffect:"resize"});
 
+// when this variable is set, the user can't choose the print resolution output any more. 
+// the print resolution will be determinated to the given value (dpi).
+var fixedPrintResolution = "200"; // dpi
 
 //print options - scales and dpi
 var printCapabilities={
