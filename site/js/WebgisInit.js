@@ -16,6 +16,9 @@ var selectedLayers; //later an array containing all visible (selected) layers
 var selectedQueryableLayers; //later an array of all visible (selected and queryable) layers
 var allLayers; //later an array containing all leaf layers
 var thematicLayer, highlightLayer, featureInfoHighlightLayer;
+var googleStatelliteLayer;
+var bingSatelliteLayer;
+// var bingApiKey = "add Bing api key here"; // http://msdn.microsoft.com/en-us/library/ff428642.aspx
 var highLightGeometry = new Array();
 var WMSGetFInfo, WMSGetFInfoHover;
 var lastLayer, lastFeature;
@@ -52,6 +55,10 @@ var legendMetaTabPanel; //a reference to the Ext tabpanel holding the tabs for l
 var legendTab; //a reference to the Ext tab holding the legend graphic
 var metadataTab; //a reference to the Ext tab holding the metadata information
 var measurePopup;
+var baseLayers = [];
+
+// Call custom Init in Customizations.js
+customInit();
 
 Ext.onReady(function () {
 	//dpi detection
@@ -99,6 +106,24 @@ Ext.onReady(function () {
 
 	//set some status messsages
 	mainStatusText.setText(mapAppLoadingString[lang]);
+
+	if (enableGoogleCommercialMaps) {
+		googleStatelliteLayer = new OpenLayers.Layer.Google(
+			"Google Satellite",
+			{type: google.maps.MapTypeId.SATELLITE, numZoomLevels: 22, isBaseLayer: true}
+		);
+		baseLayers.push(googleStatelliteLayer);
+	}
+	if (enableBingCommercialMaps) {
+		bingSatelliteLayer = new OpenLayers.Layer.Bing({
+			name: "Bing Satellite",
+			key: bingApiKey,
+			type: "Aerial",
+			isBaseLayer: true,
+			visibility: false
+		});
+		baseLayers.push(bingSatelliteLayer);
+	}
 	
 	if (urlParamsOK) {
 		loadWMSConfig();
@@ -133,17 +158,23 @@ function loadWMSConfig() {
 			uiProvider: Ext.tree.TriStateNodeUI
 		}
 	});
+
 	var root = new Ext.tree.AsyncTreeNode({
-		loader: wmsLoader,
-		allowDrop: false,
-		listeners: {
-			'load': function () {
-				postLoading();
-			}
-		}
+        id: 'wmsNode',
+        text: 'WMS',
+		    loader: wmsLoader,
+		    allowDrop: false,
+        expanded: true,
+        expandChildNodes: true,
+		    listeners: {
+			    'load': function () {
+				    postLoading();
+			    }
+		    }
 	});
 
 	layerTree.setRootNode(root);	
+
 }
 
 layerTreeSelectionChangeHandlerFunction = function (selectionModel, treeNode) {
@@ -154,6 +185,10 @@ layerTreeSelectionChangeHandlerFunction = function (selectionModel, treeNode) {
 }
 
 function postLoading() {
+
+	// run the function from Customizations.js
+	customBeforeMapInit();
+
 	//set root node to active layer of layertree
 	layerTree.selectPath(layerTree.root.firstChild.getPath());
 
@@ -268,6 +303,10 @@ function postLoading() {
 		Ext.getCmp('PrintMap').toggleHandler = mapToolbarHandler;
         //Ext.getCmp('SendPermalink').handler = mapToolbarHandler;
 		Ext.getCmp('ShowHelp').handler = mapToolbarHandler;
+		
+		// Add custom buttons (Customizations.js)
+		customToolbarLoad();
+
 		//combobox listeners
 		var ObjectIdentificationModeCombobox = Ext.getCmp('ObjectIdentificationModeCombo');
 		ObjectIdentificationModeCombobox.setValue("topMostHit");
@@ -307,6 +346,7 @@ function postLoading() {
 	selectedLayers = Array();
 	selectedQueryableLayers = Array();
 	allLayers = Array();
+
 	layerTree.root.firstChild.cascade(
 
 	function (n) {
@@ -441,12 +481,13 @@ function postLoading() {
             frame: false,
             border: false,
 			zoom: 1.6,
-			layers: [
+			layers: baseLayers.concat([
 			thematicLayer = new OpenLayers.Layer.WMS(layerTree.root.firstChild.text,
 				wmsURI, {
 					layers: selectedLayers.join(","),
 					opacities: layerOpacities(selectedLayers),
 					format: format,
+					transparent: qgisLayerTransparency,
 					dpi: screenDpi,
 					VERSION: "1.3.0"
 				},
@@ -459,7 +500,7 @@ function postLoading() {
 			featureInfoHighlightLayer = new OpenLayers.Layer.Vector("featureInfoHighlight", {
 				isBaseLayer: false,
 				styleMap: styleMapHighLightLayer
-			})],
+			})]),
 			map: MapOptions,
 			id: "geoExtMapPanel",
 			width: MapPanelRef.getInnerWidth(),
@@ -467,6 +508,7 @@ function postLoading() {
 			renderTo: MapPanelRef.body,
 			plugins: [printExtent]
 		});
+
 	}
 	else {
 		thematicLayer.name = layerTree.root.firstChild.text;
@@ -626,13 +668,9 @@ function postLoading() {
 		geoExtMap.map.removeControl(WMSGetFInfo);
 	}
 	var fiLayer = new OpenLayers.Layer.WMS(layerTree.root.firstChild.text, wmsURI, {
-		layers: []
-	}, {
-		buffer: 0,
-		singleTile: true,
-		ratio: 1,
-		projection: 'EPSG:'+epsgcode
-	});
+		layers: [],
+		VERSION: "1.3.0"
+	}, LayerOptions);
 
 	WMSGetFInfo = new OpenLayers.Control.WMSGetFeatureInfo({
 		layers: [fiLayer],
@@ -672,7 +710,7 @@ function postLoading() {
             maximized: true,
 			layers: [overviewLayer]
 		}));
-        
+
 	}
 	else {
 		//todo: find out how to change the max extent in the OverviewMap
@@ -737,25 +775,25 @@ function postLoading() {
 					loadingText: geonamesLoadingString[lang],
 					emptyText: geonamesEmptyString[lang]
 				});
+				var emptySearchFieldButton = new Ext.Button({
+					scale: 'medium',
+					icon: 'gis_icons/mActionUndo.png',
+					tooltipType: 'qtip',
+					tooltip: resetSearchFieldTooltipString[lang],
+					id: 'EmptySearchField'
+				});
+				emptySearchFieldButton.handler = mapToolbarHandler;
+				myTopToolbar.insert(myTopToolbar.items.length, emptySearchFieldButton);
 			} else {
 				qgisSearchCombo = new QGIS.SearchComboBox({
 					map: geoExtMap.map,
 					highlightLayerName: 'attribHighLight',
+					hasReverseAxisOrder: thematicLayer.reverseAxisOrder(),
 					width: 300,
 					searchtables: searchtables
 				});
 			}
 			myTopToolbar.insert(myTopToolbar.items.length, qgisSearchCombo);
-
-			var emptySearchFieldButton = new Ext.Button({
-				scale: 'medium',
-				icon: 'gis_icons/mActionUndo.png',
-				tooltipType: 'qtip',
-				tooltip: resetSearchFieldTooltipString[lang],
-				id: 'EmptySearchField'
-			});
-			emptySearchFieldButton.handler = mapToolbarHandler;
-			myTopToolbar.insert(myTopToolbar.items.length, emptySearchFieldButton);
 		}
 
 
@@ -883,6 +921,8 @@ function postLoading() {
 				"measure": handleMeasurements,
 				"measurepartial": handleMeasurements
 			});
+			control.setImmediate(true);
+			control.geodesic = useGeodesicMeasurement;
 			geoExtMap.map.addControl(control);
 		}
 	}
@@ -971,6 +1011,36 @@ function postLoading() {
 	}
 	//add listeners for layertree
 	layerTree.addListener('leafschange',leafsChangeFunction);
+	
+	//deal with commercial external bg layers
+	if (enableBGMaps) {
+		var BgLayerList = new Ext.tree.TreeNode({
+			leaf: false,
+			expanded: true,
+			text: "Background Layers"
+		});
+
+		layerTree.root.appendChild(BgLayerList);
+
+		if (enableBGMaps && baseLayers.length > 0) {
+			//todo use a more generic way to implement
+			var bgnode0 = new GeoExt.tree.LayerNode({
+				layer: baseLayers[0],
+				leaf: true,
+				checked: true,
+				uiProvider: Ext.tree.TriStateNodeUI
+			});
+			var bgnode1 = new GeoExt.tree.LayerNode({
+				layer: baseLayers[1],
+				leaf: true,
+				checked: false,
+				uiProvider: Ext.tree.TriStateNodeUI
+			});
+
+			BgLayerList.appendChild(bgnode0);
+			BgLayerList.appendChild(bgnode1);
+		}	
+	}
 
 	if (!initialLoadDone) {
 		if (printLayoutsDefined == true) {
@@ -1020,7 +1090,7 @@ function postLoading() {
 						}, {
 							xtype: 'combo',
 							id: 'PrintScaleCombobox',
-							width: 75,
+							width: 95,
 							mode: 'local',
 							triggerAction: 'all',
 							store: new Ext.data.JsonStore({
@@ -1186,10 +1256,11 @@ function postLoading() {
 	}
 	initialLoadDone = true;
 
-
 removeButtons();
 isTooltipSOGIS();
 setDefaultButton(strSOGISDefaultButton);
+// run the function in the Customizations.js
+customAfterMapInit();
 }
 
 function getVisibleLayers(visibleLayers, currentNode){
@@ -1238,6 +1309,10 @@ function uniqueLayersInLegend(origArr) {
 
 function mapToolbarHandler(btn, evt) {
 	removeMeasurePopup();
+
+	// Call custom toolbar handler in Customizations.js
+	customMapToolbarHandler(btn, evt);
+
 	if (btn.id == "IdentifyTool") {
         isTooltipSOGIS();
 		if (btn.pressed) {
@@ -1518,7 +1593,8 @@ function createPermalink(){
 }
 
 function addInfoButtonsToLayerTree() {
-	layerTree.root.firstChild.cascade(
+		var treeRoot = layerTree.getNodeById("wmsNode");
+		treeRoot.firstChild.cascade(
 		function (n) {
 			if (n.isLeaf()) {
 				// info button
@@ -1692,7 +1768,9 @@ function activateGetFeatureInfo(doIt) {
 function openPermaLink(permalink) {
 	var mailToText = "mailto:?subject="+sendPermalinkLinkFromString[lang]+titleBarText+layerTree.root.firstChild.text+"&body="+permalink;
 	var mailWindow = window.open(mailToText);
-	mailWindow.close();
+	if (mailWindow){
+		mailWindow.close();
+	} // can be null, if e.g. popus are blocked
 }
 
 function receiveShortPermalinkFromDB(result, request) {
