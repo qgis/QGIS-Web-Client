@@ -28,6 +28,9 @@ var useGeoNamesSearchBox = true;
 var searchBoxQueryURL = null; // "/wsgi/search.wsgi?query=";
 var searchBoxGetGeomURL = null; // "/wsgi/getSearchGeom.wsgi";
 
+//use a URL shortener for your permalink function
+var permaLinkURLShortener = null; // "/wsgi/createShortPermalink.wsgi";
+
 // enable to use commercial Google and Bing layers (also add BingApiKey in WebgisInit.js)
 var enableBingCommercialMaps = false;
 var enableGoogleCommercialMaps = true;
