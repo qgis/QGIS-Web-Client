@@ -99,7 +99,9 @@ function showFeatureInfoHover(evt) {
 			var tooltipAttributeName = wmsLoader.layerProperties[layerNodes[i].getAttribute("name")].displayField || "tooltip";
 			for (var j = 0; j < featureNodes.length; ++j) {
 				if (j == 0) {
-					text += '<h2 class="hoverLayerTitle">' + wmsLoader.layerProperties[layerNodes[i].getAttribute("name")].title + '</h2>';
+					if (showHoverLayerTitle) {
+						text += '<h2 class="hoverLayerTitle">' + wmsLoader.layerProperties[layerNodes[i].getAttribute("name")].title + '</h2>';
+					}
 					result = true;
 				}
 				var attribNodes = featureNodes[j].getElementsByTagName("Attribute");
@@ -151,7 +153,9 @@ function showFeatureInfoHover(evt) {
 			}
 			for (var j = 0; j < rasterAttributeNodes.length; ++j) {
 				if (j == 0) {
-					text += '<h2 class="hoverLayerTitle">' + wmsLoader.layerProperties[layerNodes[i].getAttribute("name")].title + '</h2>';
+					if (showHoverLayerTitle) {
+						text += '<h2 class="hoverLayerTitle">' + wmsLoader.layerProperties[layerNodes[i].getAttribute("name")].title + '</h2>';
+					}
 					result = true;
 				}
 				text += '<p>'+rasterAttributeNodes[j].getAttribute("name")+": "+rasterAttributeNodes[j].getAttribute("value")+'</p>';
