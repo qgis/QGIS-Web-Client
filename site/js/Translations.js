@@ -7,7 +7,7 @@
  * https://github.com/qgis/qgis-web-client/blob/master/README
  * for the full text of the license and the list of contributors.
  *
-*/ 
+*/
 
 //indicating which of the help files have been translated already
 var availableHelpLanguages = Array("en","de","hu");
@@ -28,7 +28,7 @@ availableLanguages["ro"] = {names:[], translator:"Tudor Bărăscu"}; //tudorbara
 // first language index is fixed, second variable
 // The string is the name of the first language translated in the second language.
 
-//English; 
+//English;
 availableLanguages["en"].names["en"] = "English";
 availableLanguages["en"].names["de"] = "Englisch";
 availableLanguages["en"].names["es"] = "Inglés";
@@ -150,7 +150,7 @@ modeNavigationString["en"] = "Mode: navigation. Shift/rectangle or mouse wheel f
 modeNavigationString["es"] = "Modo: navegación. Shift/rectángulo o rueda del ratón que desea zoom.";
 modeNavigationString["de"] = "Modus: Navigation. Shift/Rechteck aufziehen oder Mausrad zum zoomen.";
 modeNavigationString["fr"] = "Mode: navigation. Majuscule+tracer un rectangle ou roulette de la souris pour zoomer.";
-modeNavigationString["it"] = "Modalità: navigazione. Shift+rettangolo o rotella del mouse per zommare.";
+modeNavigationString["it"] = "Modalità: navigazione. Shift+rettangolo o rotella del mouse per zoomare.";
 modeNavigationString["pt_PT"] = "Modo: navegação. Shift+rectângulo ou roda do rato para efectuar zoom.";
 modeNavigationString["uk"] = "Режим: навігація. Shift/прямокутне виділення або колесо миші для зміни масштабу.";
 modeNavigationString["hu"] = "Mód: navigáció. Shift / téglalappal vagy egér görgővel lehet nagyítani.";
@@ -259,7 +259,7 @@ searchPanelTitleString["ro"] = "Căutare";
 //text of theme Switcher button
 var mapThemeButtonTitleString = new Array();
 mapThemeButtonTitleString["en"] = "Map themes";
-mapThemeButtonTitleString["es"] = "Temas de mapas"; 
+mapThemeButtonTitleString["es"] = "Temas de mapas";
 mapThemeButtonTitleString["de"] = "Kartenthemen";
 mapThemeButtonTitleString["fr"] = "Modèles de carte";
 mapThemeButtonTitleString["it"] = "Temi della mappa";
@@ -271,7 +271,7 @@ mapThemeButtonTitleString["ro"] = "Tematici hărti";
 //theme switcher window title
 var themeSwitcherWindowTitleString = new Array();
 themeSwitcherWindowTitleString["en"] = "Map theme choice";
-themeSwitcherWindowTitleString["es"] = "Elección de tema de mapa"; 
+themeSwitcherWindowTitleString["es"] = "Elección de tema de mapa";
 themeSwitcherWindowTitleString["de"] = "Kartenthemenwechsel";
 themeSwitcherWindowTitleString["fr"] = "Choix des modèles de carte";
 themeSwitcherWindowTitleString["it"] = "Scelta del tema della mappa";
@@ -283,7 +283,7 @@ themeSwitcherWindowTitleString["ro"] = "Alegere tematică hartă";
 //theme switcher filter label string
 var themeSwitcherFilterLabelString = new Array();
 themeSwitcherFilterLabelString["en"] = "Filter by map title: ";
-themeSwitcherFilterLabelString["es"] = "Filtrar por título de mapa: "; 
+themeSwitcherFilterLabelString["es"] = "Filtrar por título de mapa: ";
 themeSwitcherFilterLabelString["de"] = "Filterung nach Kartentitel: ";
 themeSwitcherFilterLabelString["fr"] = "Filtrer par titre de carte: ";
 themeSwitcherFilterLabelString["it"] = "Filtra sul titolo della mappa: ";
@@ -295,18 +295,18 @@ themeSwitcherFilterLabelString["ro"] = "Filtrează harta dupa titlu: ";
 //theme switcher all themes string in list view
 var themeSwitcherAllThemesListViewString = new Array();
 themeSwitcherAllThemesListViewString["en"] = "All map themes";
-themeSwitcherAllThemesListViewString["es"] = "Todos los temas de mapas"; 
+themeSwitcherAllThemesListViewString["es"] = "Todos los temas de mapas";
 themeSwitcherAllThemesListViewString["de"] = "Alle Kartenthemen";
 themeSwitcherAllThemesListViewString["fr"] = "Tous les modèles de carte";
 themeSwitcherAllThemesListViewString["it"] = "Tutti i temi della mappa";
-themeSwitcherAllThemesListViewString["pt_PT"] = "Todos os temas de mapa"; 
+themeSwitcherAllThemesListViewString["pt_PT"] = "Todos os temas de mapa";
 themeSwitcherAllThemesListViewString["uk"] = "Усі теми мап";
 themeSwitcherAllThemesListViewString["hu"] = "Összes tematikus térkép";
 themeSwitcherAllThemesListViewString["ro"] = "Toate tematicile hărtilor";
 
 var themeSwitcherTooltipResponsibleString = new Array();
 themeSwitcherTooltipResponsibleString["en"] = "Responsible: ";
-themeSwitcherTooltipResponsibleString["es"] = "Responsable: "; 
+themeSwitcherTooltipResponsibleString["es"] = "Responsable: ";
 themeSwitcherTooltipResponsibleString["de"] = "Verantwortlich: ";
 themeSwitcherTooltipResponsibleString["fr"] = "Responsable: ";
 themeSwitcherTooltipResponsibleString["it"] = "Responsabile: ";
@@ -317,7 +317,7 @@ themeSwitcherTooltipResponsibleString["ro"] = "Responsabil: ";
 //either tags or keywords
 var themeSwitcherTooltipTagString = new Array();
 themeSwitcherTooltipTagString["en"] = "Tags: ";
-themeSwitcherTooltipTagString["es"] = "Etiquetas: "; 
+themeSwitcherTooltipTagString["es"] = "Etiquetas: ";
 themeSwitcherTooltipTagString["de"] = "Stichwörter: ";
 themeSwitcherTooltipTagString["fr"] = "Etiquettes: ";
 themeSwitcherTooltipTagString["it"] = "Etichette: ";
@@ -344,13 +344,13 @@ themeSwitcherTooltipUpdateString["de"] = "Aktualisierung: ";
 themeSwitcherTooltipUpdateString["fr"] = "Intervalle de mise à jour: ";
 themeSwitcherTooltipUpdateString["it"] = "Update interval: "; //FIXME
 themeSwitcherTooltipUpdateString["pt_PT"] = "Intervalo de atualização: ";
-themeSwitcherTooltipUpdateString["uk"] = "Час оновлення: "; 
-themeSwitcherTooltipUpdateString["hu"] = "Frissítés intervalluma: "; 
+themeSwitcherTooltipUpdateString["uk"] = "Час оновлення: ";
+themeSwitcherTooltipUpdateString["hu"] = "Frissítés intervalluma: ";
 themeSwitcherTooltipUpdateString["ro"] = "Intervalul de actualizare: ";
 
 var themeSwitcherTooltipLastUpdateString = new Array();
 themeSwitcherTooltipLastUpdateString["en"] = "Last update: ";
-themeSwitcherTooltipLastUpdateString["es"] = "Última actualización: "; 
+themeSwitcherTooltipLastUpdateString["es"] = "Última actualización: ";
 themeSwitcherTooltipLastUpdateString["de"] = "Letze Aktualisierung: ";
 themeSwitcherTooltipLastUpdateString["fr"] = "Dernière mise à jour ";
 themeSwitcherTooltipLastUpdateString["it"] = "Utimo aggiornamento: ";
@@ -361,7 +361,7 @@ themeSwitcherTooltipLastUpdateString["ro"] = "Ultima actualizare: ";
 
 var themeSwitcherTooltipPwProtectedString = new Array();
 themeSwitcherTooltipPwProtectedString["en"] = "password protected";
-themeSwitcherTooltipPwProtectedString["es"] = "protegido por contraseña"; 
+themeSwitcherTooltipPwProtectedString["es"] = "protegido por contraseña";
 themeSwitcherTooltipPwProtectedString["de"] = "passwortgeschützt";
 themeSwitcherTooltipPwProtectedString["fr"] = "protégé par mot de passe";
 themeSwitcherTooltipPwProtectedString["it"] = "protetto tramite password";
@@ -372,7 +372,7 @@ themeSwitcherTooltipPwProtectedString["ro"] = "protejat cu parolă";
 
 var emptyThemeSearchFieldString = new Array();
 emptyThemeSearchFieldString["en"] = "Insert filter string";
-emptyThemeSearchFieldString["es"] = "Inserte el texto para filtrar"; 
+emptyThemeSearchFieldString["es"] = "Inserte el texto para filtrar";
 emptyThemeSearchFieldString["de"] = "Filtertext eingeben";
 emptyThemeSearchFieldString["fr"] = "Entrer le texte pour filtrer";
 emptyThemeSearchFieldString["it"] = "Inserire stringa di filtro";
@@ -383,7 +383,7 @@ emptyThemeSearchFieldString["ro"] = "Introduceți textul de filtrare";
 
 var resetThemeSearchFieldTooltipString = new Array();
 resetThemeSearchFieldTooltipString["en"] = "Reset map theme search filter";
-resetThemeSearchFieldTooltipString["es"] = "Borrar el filtro de búsqueda de temas de mapa"; 
+resetThemeSearchFieldTooltipString["es"] = "Borrar el filtro de búsqueda de temas de mapa";
 resetThemeSearchFieldTooltipString["de"] = "Kartenthemenfilter zurücksetzen";
 resetThemeSearchFieldTooltipString["fr"] = "Réinitialiser le filtre de recherche pour le modèle de carte";
 resetThemeSearchFieldTooltipString["it"] = "Resetta il filtro per la ricerca del tema della mappa";
@@ -503,7 +503,7 @@ metadataTabTitleString["ro"] = "Metadate";
 //title of help window
 var helpWindowTitleString = new Array();
 helpWindowTitleString["en"] = "Help";
-helpWindowTitleString["es"] = "Ayuda"; 
+helpWindowTitleString["es"] = "Ayuda";
 helpWindowTitleString["de"] = "Hilfe";
 helpWindowTitleString["fr"] = "Aide";
 helpWindowTitleString["it"] = "Aiuto";
@@ -1143,7 +1143,7 @@ sendPermalinkLinkFromString["ro"] = "Link de la ";
 //Show Help
 var showHelpTooltipString = new Array();
 showHelpTooltipString["en"] = "Show Help";
-showHelpTooltipString["es"] = "Mostrar ayuda"; 
+showHelpTooltipString["es"] = "Mostrar ayuda";
 showHelpTooltipString["de"] = "Hilfe öffnen";
 showHelpTooltipString["fr"] = "Afficher l'aide";
 showHelpTooltipString["it"] = "Mostra l'aiuto";
@@ -1188,7 +1188,7 @@ resetSearchFieldTooltipString["uk"] = "Очистити поле пошуку";
 resetSearchFieldTooltipString["hu"] = "Kereső mező törlése";
 resetSearchFieldTooltipString["ro"] = "Resetează/golește câmpul de căutare";
 
-//print window title 
+//print window title
 var printWindowTitleString = new Array();
 printWindowTitleString["en"] = "The server is generating a PDF file. For correct up to scale printing please deactivate the option 'Fit to Page'!";
 printWindowTitleString["es"] = "El servidor está generando un archivo PDF. Para corregir la escala de impresión desactive la opción 'Ajustar a la página'!";
@@ -1255,7 +1255,7 @@ var mapThemeButtonTooltipString = new Array();
 mapThemeButtonTooltipString["en"] = "Click to choose a new map theme";
 mapThemeButtonTooltipString["es"] = "Haga click para escoger un nuevo tema de mapa";
 mapThemeButtonTooltipString["de"] = "Klicken Sie um das Kartenthema zu wechseln";
-mapThemeButtonTooltipString["fr"] = "Cliquer pour choisir un nouveau modèle de carte"; 
+mapThemeButtonTooltipString["fr"] = "Cliquer pour choisir un nouveau modèle de carte";
 mapThemeButtonTooltipString["it"] = "Click per scegliere un nuovo tema di mappa";
 mapThemeButtonTooltipString["pt_PT"] = "Clique para escolher um novo tema de mapa";
 mapThemeButtonTooltipString["uk"] = "Клацніть щоб обрати нову тему мапи";
