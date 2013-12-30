@@ -124,7 +124,8 @@ function showFeatureInfoHover(evt) {
                         text += attribText + '</p>';
                     }
                     text += '<hr class="hrHoverLayer"/>';
-                } else if (tooltipTemplates && tooltipTemplates.hasOwnProperty(layerNodes[i].getAttribute("name"))){
+                }
+                else if (tooltipTemplates && tooltipTemplates.hasOwnProperty(layerNodes[i].getAttribute("name"))){
                     templateText = tooltipTemplates[layerNodes[i].getAttribute("name")].template;
                     tooltipText = templateText.replace(/<%(\w*)%>/g,function(m,key){
                         var value = attributesDict.hasOwnProperty(key)?attributesDict[key]:"";
