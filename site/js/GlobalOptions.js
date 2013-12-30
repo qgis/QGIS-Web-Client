@@ -135,7 +135,7 @@ var projectTitles = {
 };
 
 //EPSG projection code of your QGIS project
-var epsgcode = 3857;
+var authid = "EPSG"+3857;
 
 //background transparency for the QGIS server generated layer (commercial background layers not effected)
 //set to true if you want the background to be transparent, layer image will be bigger (32 vs 24bit)
@@ -144,7 +144,7 @@ var qgisLayerTransparency = true;
 // OpenLayers global options
 // see http://dev.openlayers.org/releases/OpenLayers-2.10/doc/apidocs/files/OpenLayers/Map-js.html
 var MapOptions = {
-  projection: new OpenLayers.Projection("EPSG:"+epsgcode),
+  projection: new OpenLayers.Projection(authid),
   units: "m",
 //  maxScale:50,
 //  minScale:40000000,
@@ -162,7 +162,7 @@ var LayerOptions = {
   ratio:1,
   transitionEffect:"resize",
   isBaseLayer: false,
-  projection:"EPSG:"+epsgcode,
+  projection:authid,
   yx: {"EPSG:900913": false}
   // If your projection is known to have an inverse axis order in WMS 1.3 compared to WMS 1.1 enter true for yx.
   // For EPSG:900913 OpenLayers should know it by default but because of a bug in OL 2.12 we enter it here.
@@ -171,7 +171,7 @@ var LayerOptions = {
 
 //overview map settings - do not change variable names!
 var OverviewMapOptions = {
-  projection: new OpenLayers.Projection("EPSG:"+epsgcode),
+  projection: new OpenLayers.Projection(authid),
   units: "m",
   maxScale:50,
   minScale:300000000,

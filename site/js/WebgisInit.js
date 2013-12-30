@@ -334,7 +334,7 @@ function postLoading() {
 					},
 					LayerOptions
 				);
-				dummyLayer.projection = new OpenLayers.Projection("EPSG:"+epsgcode);
+				dummyLayer.projection = new OpenLayers.Projection(authid);
 				var reverseAxisOrder = dummyLayer.reverseAxisOrder(); 
 				maxExtent = OpenLayers.Bounds.fromArray(bboxArray, reverseAxisOrder);
 			}
