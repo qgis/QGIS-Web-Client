@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>QGIS Web Client Help</title>
+  <link type="text/css" href="css/help.css" rel="stylesheet" />
+  <meta charset="utf-8" />
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width; initial-scale=1.0" />
+</head>
+<body>
+<div id="help_page">
+<div id="help_wrapper">
+  <header>
+    <div id="help_caption">
+      <h1>Quantum GIS Web Client</h1>
+      <h2 class="SubCaption">Informazioni sull'uso del programma</h2>
+    </div>
+  </header>
+ <hr/>
+  <nav>
+    <div id="help_logo">
+      <span class="logo_img"><a href="http://qgis.org"><img src="img/qgis-icon.png"/></a></span>
+    </div>
+    <ul class="ul_help">
+    <li class="list-header">Indice
+      <ul class="ul_help">
+        <li><span class="linksim" onclick="scrollToHelpItem('help_generalUsage')">Utilizzare l'applicativo</span>
+          <ul class="ul_help">
+            <li><span class="linksim" onclick="scrollToHelpItem('help_workingWithLayers')">Livelli della mappa (layer)</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_searching')">Cercare</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_navigating')">Navigare nella mappa</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_measuring')">Misurare</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_printing')">Stampare</span></li>
+          </ul>
+        </li>
+        <li><span class="linksim" onclick="scrollToHelpItem('help_about')">A proposito di QGIS Web Client</span>
+          <ul class="ul_help">
+            <li><span class="linksim" onclick="scrollToHelpItem('help_license')">Licenza</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_moreHelp')">Ulteriori informazioni</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_usefulLinks')">Link utili</span></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+   </ul>
+  </nav>
+  <div id="help_content">
+  <section id="help_general">
+    <article>
+      <h2 id="help_generalUsage">Utilizzare l'applicativo</h2>
+      <p>La finestra dell'applicazione è suddivisa in tre pannelli: il pannello <i>Info e strumenti</i> a sinistra, il pannello principale della mappa con una pulsantiera in alto e il pannello <i>Attributi</i> sulla destra. A seconda della fase in cui si utilizza l'applicazione, i pannelli sinistro e destro potrebbero non essere visibili.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_workingWithLayers">Lavorare con i livelli</h3>
+      <p>Nel pannello <i>Info e strumenti</i> tutti i livelli disponibili sono elencati nel riquadro <i>Layer</i>. È possibile selezionare o deselezionare individualmente ogni singolo layer per modificare la sua visibilità.
+            La legenda e ulteriori informazioni su ciascun layer sono disponibili in una finestra attivabile tramite l'icona <b>i</b> di fianco al nome del layer.
+      </p>
+      <p>Facendo clic sul nome del layer questo diventa il <b>layer attivo</b>.
+      </p>
+      <p>Usa il pulsante <img src="gis_icons/mActionIdentify.png" alt="identiy"/> nella barra dei pulsanti del pannello principale per ottenere informazioni su qualsiasi oggetto nella mappa.
+            Le informazioni possono essere visualizzate muovendo il mouse su un oggetto e/o mostrate nel pannello <i>Attributi</i> facendo clic sull'oggetto. È possibile selezionare quale layer interrogare scegliendo un'opzionde dalla tendina <i>Identificazione oggetto</i>.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_searching">Cercare</h3>
+      <p>A seconda della configurazione dell'applicativo, è possibile inserire una stringa di testo (o parte di essa) nella casella di ricerca in alto a destra nel pannello della mappa per cercare un termine all'interno degli attributi dei livelli. Ogni contenuto corrispondente al testo inserito viene mostrato in una lista, facendo clic sull'oggetto la mappa viene automaticamente centrata e zoomata sull'oggetto selezionato e questo viene evidenziato con il colore e il tratto configurato.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_navigating">Navigare nella mappa</h3>
+      <p>La mappa può essere ingrandita e centrata utilizzando i pulsanti <img src="gis_icons/mActionZoomBox.png" alt="ZoomBox"/>
+        <img src="gis_icons/mActionZoomFullExtent.png" alt="ZoomFullExtent"/>
+        <img src="gis_icons/mActionZoomLast.png" alt="ZoomLast"/> e <img src="gis_icons/mActionZoomNext.png" alt="ZoomNext"/> presenti nella barra di pulsanti.
+          Tutti i pulsanti hanno dei suggerimenti che compaiono quando il pulsante del mouse viene spostato sul pulsante.
+      </p>
+      <p>Il livello di zoom della mappa può anche essere impostato interattivamente tramite la barra di zoom presente nell'angolo superiore sinistrao del pannello della mappa o inserendo un valore specifico di scala nella casella presente nella parte inferiore destra del pannello della mappa. Se state usando un mouse dotato di rotellina, il livello di zoom può anche essere modificato ruotando la rotellina.
+      </p>
+      <p>Lo spostamento della mappa può essere eseguito trascinando il conenuto della finestra della mappa con il mouse dopo aver premuto il tasto sinistro. È anche possibile impostare il centro della mappa inserendo i valori specifici nel riquadro delle coordinate presente nell'angolo inferiore destro.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_measuring">Misurare distanze e aree</h3>
+      <p>La modalità di misura viene attivata usando i pulsanti <img src="gis_icons/mActionMeasure.png" alt="Measure"/> e <img src="gis_icons/mActionMeasureArea.png" alt="MeasureArea"/> nella barra dei pulsanti.
+        Un clic sinistro del mouse imposta un punto della linea o dell'area da misurare, un clic doppio finisce la misura. Il risultato della misura viene costantemente aggiornato man mano che vengono aggiunti i punti.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_printing">Stampare</h3>
+      <p>I modelli di stampa impostati nel progetto vengonon resi disponibili facendo clic sul pulsante
+        <img src="gis_icons/mActionFilePrint.png" alt="FilePrint"/>. Il riquadro che compare nel pannello della mappa permette di impostare l'area che verrà stampata. È possibile spostare e zoomare il riquadro per definire esattamente la zona che verrà stampata.
+      </p>
+    </article>
+  </section>
+  <section id="help_about_qgis">
+    <article>
+      <h2 id="help_about">A proposito di QGIS Web Client</h2>
+      <p>QGIS or Quantum GIS Web Client è un applicativo webgis basato su OpenLayers, GeoExt e ExtJS che sfrutta le estensioni specifiche di QGIS per i servizi WMS. Supporta la visualizzazione della mappa, le informazioni sugli oggetti, la legenda dei livelli, la ricerca e la stampa delle mappe. Tutti i principali browser dovrebbero essere compatibili.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_license">Licenze</h3>
+      <p>Quantum GIS Web Client è distribuito con licenza BSD. Vedasi il file
+        <a href="http://github.com/qgis/qgis-web-client/blob/master/README" target="_blank">README</a> per il testo completo della licenza.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_moreHelp">Ottenere aiuto</h3>
+      <p>Nel caso incontraste un problema nell'utilizzo dell'applicativo, dovreste contattare l'amministratore del sito che state visitando: il team di sviluppo di Quantum GIS Web Client non è in grado di intervenire nella risoluzione di problemi sui singoli siti.</p>
+    </article>
+    <article>
+      <h3 id="help_usefulLinks">Link utili</h3>
+      <ul>
+        <li><a href="http://github.com/qgis/qgis-web-client" target="_blank">Codice sorgente di QGIS Web Client su Github</a></li>
+        <li><a href="http://www.openlayers.org" target="_blank">OpenLayers Home</a></li>
+        <li><a href="http://geoext.org" target="_blank">GeoExt Home</a></li>
+        <li><a href="http://www.sencha.com/products/extjs" target="_blank">Sencha Ext JS</a></li>
+        <li><a href="http://qgis.org" target="_blank">QGIS Home</a></li>
+         <li><a href="http://hub.qgis.org/projects/quantum-gis/wiki/QGIS_Server_Tutorial" target="_blank">Tutorial su QGIS Server</a></li>
+      </ul>
+    </article>
+  </section>
+  </div>
+  <div style="Clear: both"></div>
+</div>
+</div>
+</body>
+</html>
