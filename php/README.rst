@@ -47,7 +47,7 @@ Configuration for the services is stored in  `config.php`.
 
 Example:
 
-:: sourcecode: php
+.. code-block: php
 
     // Configuration for searchable layers
     $searchlayers_config = array(
@@ -75,7 +75,7 @@ query string, the file where this parameters are set is
 `GlobalOptions.js` see the example below:
 
 
-:: sourcecode: php
+.. code-block: javascript
 
     // Adds project_map, read value from query string
     var project_map = Ext.urlDecode(window.location.search.substring(1)).map;
