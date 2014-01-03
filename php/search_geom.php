@@ -49,5 +49,4 @@ if(count($row)){
     header('Content-length: ' . strlen($result));
     echo $result;
 }
-exit;
-
+?>

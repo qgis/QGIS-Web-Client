@@ -1,8 +1,8 @@
 <?php
 /**
-    PROJECT - MODULE
+    QGIS-WEB-CLIENT - SEARCH CONFIGURATION
 
-    DESCRIPTION
+    Configuration for the search scripts
 
     @copyright: 2013 by Alessandro Pasotti - ItOpen (http://www.itopen.it) <apasotti@gmail.com>
     @license: GNU AGPL, see COPYING for details.
