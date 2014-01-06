@@ -19,8 +19,8 @@
 
 
 /*****************************
-/* Functions
-*/
+ * Functions
+ */
 
 function err500($msg){
     header('Internal server error', true, 500);
@@ -56,6 +56,7 @@ function get_pg_layer_info($layer, $project){
     }
     // Datasource
     $datasource = (string)$layer->datasource;
+
     if(array_key_exists($datasource, $pg_layer_infos)){
         return $pg_layer_infos[$datasource];
     }
@@ -63,6 +64,11 @@ function get_pg_layer_info($layer, $project){
 
     // Parse datasource
     $ds_parms = array();
+    // First extract sql=
+    if(preg_match('/sql=(.*)/', $datasource, $matches)){
+        $datasource = str_replace($matches[0], '', $datasource);
+        $ds_parms['sql'] = $matches[1];
+    }
     foreach(explode(' ', $datasource) as $token){
         $kv = explode('=', $token);
         if(count($kv) == 2){
