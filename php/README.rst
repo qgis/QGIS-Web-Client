@@ -89,7 +89,6 @@ query string, the file where this parameters are set is
 TODO
 ----
 
-* Take sql filter into account in `search.php`.
 * Permalinks.
 
 
