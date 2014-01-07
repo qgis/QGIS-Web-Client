@@ -42,7 +42,7 @@ foreach($_querystrings as $qs){
 /**
  * Build SQL query, here also searchtable is layer name
  */
-function build_search_query($dbtable, $search_column, $geom_column, $layername, $querystrings){
+function build_search_query($dbtable, $search_column, $geom_column, $layername, $querystrings, $sql_filter){
     $sql = "SELECT $search_column as displaytext, '$layername' AS searchtable, '$layername' as search_category, ";
     # the following line is responsible for zooming in to the features
     # this is supposed to work in PostgreSQL since version 9.0
@@ -50,6 +50,10 @@ function build_search_query($dbtable, $search_column, $geom_column, $layername, 
     # if the above line does not work for you, deactivate it and uncomment the next line
     #sql += "'['||replace(regexp_replace(BOX2D(the_geom)::text,'BOX[(]|[)]','','g'),' ',',')||']'::text AS bbox "
     $sql .= "FROM ".$dbtable." WHERE ";
+    // Add sql filter if any
+    if($sql_filter){
+        $sql .= $sql_filter . ' AND ';
+    }
     #for each querystring
     for($j = 0; $j < count($querystrings); $j++){
       # to implement a search method uncomment the sql and its following data line
@@ -78,7 +82,11 @@ foreach($searchlayers as $layername){
     if(array_key_exists($layername, $searchlayers_config)){
         $sql[] = build_search_query($ds_params['table'],
                 $searchlayers_config[$layername]['search_column'],
-                $ds_params['geom_column'], $layername, $querystrings);
+                $ds_params['geom_column'],
+                $layername,
+                $querystrings,
+                $ds_params['sql']
+            );
     } else {
         // Silently skip...
     }
