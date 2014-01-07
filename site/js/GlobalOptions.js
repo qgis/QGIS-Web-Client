@@ -135,7 +135,7 @@ var projectTitles = {
 };
 
 //EPSG projection code of your QGIS project
-var authid = "EPSG"+3857;
+var authid = "EPSG:"+3857;
 
 //background transparency for the QGIS server generated layer (commercial background layers not effected)
 //set to true if you want the background to be transparent, layer image will be bigger (32 vs 24bit)
