@@ -198,7 +198,7 @@ mapSearchPanelConfigs[project_map] = [CatastoFabbricatiSearch, CatastoParticelle
 // by default, search results will be shown in left panel, under the
 // search form. Sometimes this is not desired, here you can choose to
 // show the results in one of the other panels, like BottomPanel and
-// RightPanel. Those additional panels are hidden by default because
+// RightPanel. These additional panels are hidden by default because
 // their expansion and collapse trigger a map resize->reload cycle that
 // can slow down the application.
 var mapSearchPanelOutputRegion = 'popup' ; // Possible values: default,right,bottom,popup
