@@ -1,13 +1,13 @@
 //default language code, can be overwritten with lang parameter in URL
-var lang = "en"; //for available codes see array availableLanguages in file GlobalOptions.js
+var lang = "it"; //for available codes see array availableLanguages in file GlobalOptions.js
 
 //Help file (must be a local file)
-var helpfile = "help_en.html";
+var helpfile = "help_it.html";
 
 //Servername (optional) and path and name name of QGIS mapserver FCGI-file
 //either with or without server-name - without servername recommended for easier porting to other servers
 //do not add a ? or & after the .fcgi extension
-var serverAndCGI = "/cgi-bin/qgis_mapserv.fcgi";
+var serverAndCGI = "../cgi-bin/qgis_mapserv.fcgi";
 
 //Define whether you want to use the GetProjectSettings extension of QGIS Server
 //for more configuration options in the project.
@@ -23,20 +23,21 @@ var useGeodesicMeasurement = true;
 
 //search box for queries while typing
 //enable to use GeoNames search
-var useGeoNamesSearchBox = true;
+var useGeoNamesSearchBox = false;
 //URL for custom search scripts
-var searchBoxQueryURL = null; // "/wsgi/search.wsgi?query=";
-var searchBoxGetGeomURL = null; // "/wsgi/getSearchGeom.wsgi";
-
-//use a URL shortener for your permalink function
-var permaLinkURLShortener = null; // "/wsgi/createShortPermalink.wsgi";
+//var searchBoxQueryURL = "/wsgi/search.wsgi?query="; // null
+//var searchBoxGetGeomURL = "/wsgi/getSearchGeom.wsgi"; // null
+// ABP: added project_map
+var project_map = Ext.urlDecode(window.location.search.substring(1)).map;
+var searchBoxQueryURL = '../php/search.php?map=' + project_map;
+var searchBoxGetGeomURL = '../php/search_geom.php?map=' + project_map;
 
 // enable to use commercial Google and Bing layers (also add BingApiKey in WebgisInit.js)
 var enableBingCommercialMaps = false;
-var enableGoogleCommercialMaps = true;
+var enableGoogleCommercialMaps = false;
 var enableBGMaps = false;
 if (enableBingCommercialMaps || enableGoogleCommercialMaps) {
-	enableBGMaps = true;
+    enableBGMaps = true;
 }
 
 // do not show fields in ObjectIdentification results that have null values
@@ -45,9 +46,11 @@ var suppressEmptyValues = true;
 var suppressInfoGeometry = true;
 // do show field names in click-popup during object identification
 var showFieldNamesInClickPopup = true;
-// do show the layer title in the hover popup
+// max-width and max-height of the feature-info popup can be controlled in site/css/popup.css
+
 var showHoverLayerTitle = true;
 // max-width and max-height of the feature-info popup can be controlled in site/css/popup.css
+
 
 //config for QGIS.SearchPanel
 var simpleWmsSearch = {
@@ -98,44 +101,143 @@ var urlRewriteSearch = {
   selectionZoom: 1
 };
 
+/* ABP: configurazione ricerca catasto per Asti */
+var CatastoFabbricatiSearch = {
+  title: "Cerca fabbricati",
+  query: 'simpleWmsSearch',
+  useWmsRequest: true,
+  queryLayer: "Catasto fabbricati",
+  formItems: [
+    {
+      xtype: 'textfield',
+      name: 'sezione',
+      fieldLabel: "Sezione",
+      allowBlank: false,
+      blankText: "Inserisci la sezione",
+      filterOp: "="
+    },
+    {
+      xtype: 'textfield',
+      name: 'foglio',
+      fieldLabel: "Foglio",
+      allowBlank: true,
+      blankText: "Inserisci il foglio",
+      filterOp: "="
+    },
+    {
+      xtype: 'textfield',
+      name: 'mappale',
+      fieldLabel: "Mappale",
+      allowBlank: true,
+      blankText: "Inserisci il mappale",
+      filterOp: "="
+    }
+  ],
+  gridColumns: [
+    {header: 'Sezione', dataIndex: 'sezione', menuDisabled: 'true'},
+    {header: 'Foglio', dataIndex: 'foglio', menuDisabled: 'true'},
+    {header: 'Mappale', dataIndex: 'mappale', menuDisabled: 'true'},
+    {header: 'ID Particella', dataIndex: 'gid', menuDisabled: 'false'}
+  ],
+  selectionLayer: 'Catasto fabbricati',
+  selectionZoom: 9,
+  doZoomToExtent: true
+};
+
+var CatastoParticelleSearch = {
+  title: "Cerca particelle",
+  query: 'simpleWmsSearch',
+  useWmsRequest: true,
+  queryLayer: "Catasto particelle",
+  formItems: [
+    {
+      xtype: 'textfield',
+      name: 'sezione',
+      fieldLabel: "Sezione",
+      allowBlank: false,
+      blankText: "Inserisci la sezione",
+      filterOp: "="
+    },
+    {
+      xtype: 'textfield',
+      name: 'foglio',
+      fieldLabel: "Foglio",
+      allowBlank: true,
+      blankText: "Inserisci il foglio",
+      filterOp: "="
+    },
+    {
+      xtype: 'textfield',
+      name: 'mappale',
+      fieldLabel: "Mappale",
+      allowBlank: true,
+      blankText: "Inserisci il mappale",
+      filterOp: "="
+    }
+  ],
+  gridColumns: [
+    {header: 'Sezione', dataIndex: 'sezione', menuDisabled: 'true'},
+    {header: 'Foglio', dataIndex: 'foglio', menuDisabled: 'true'},
+    {header: 'Mappale', dataIndex: 'mappale', menuDisabled: 'true'},
+    {header: 'ID Particella', dataIndex: 'gid', menuDisabled: 'false'}
+  ],
+  selectionLayer: 'Catasto particelle',
+  selectionZoom: 9,
+  doZoomToExtent: true
+};
+
 //list of configs for QGIS.SearchPanel per map name
 var mapSearchPanelConfigs = {
   "helloworld": [simpleWmsSearch, urlRewriteSearch]
 };
 
+// ABP: dynamic
+mapSearchPanelConfigs[project_map] = [CatastoFabbricatiSearch, CatastoParticelleSearch];
+
+// SearchPanel search results output configuration
+// by default, search results will be shown in left panel, under the
+// search form. Sometimes this is not desired, here you can choose to
+// show the results in one of the other panels, like BottomPanel and
+// RightPanel. Those additional panels are hidden by default because
+// their expansion and collapse trigger a map resize->reload cycle that
+// can slow down the application.
+var mapSearchPanelOutputRegion = 'popup' ; // Possible values: default,right,bottom,popup
+
+
 //templates to define tooltips for a layer, to be shown on hover identify. The layer fields must be wrapped inside <%%> special tags.
-//if a layers field is found with the name "tooltip" its content will have precedence over this configuration 
+//if a layers field is found with the name "tooltip" its content will have precedence over this configuration
 var tooltipTemplates = {
-	'Country':{
-		template: "Look for the country on Google Search: <a href='http://www.google.it/#output=search&q=<%name%>' target='_blank'><%name%></a>"
-	},
+    'Country':{
+        template: "Look for the country on Google Search: <a href='http://www.google.it/#output=search&q=<%name%>' target='_blank'><%name%></a>"
+    },
 };
 
 //define whether you want to display a map theme switcher
 //note that you have to also link a gis-project-listing.js file containing a valid
 //project listing structure - the root object is called 'gis_projects'
 //have a look at the template file and documentation for the correct json structure
-var mapThemeSwitcherActive = true;
+var mapThemeSwitcherActive = false;
 //you can provide an alternative template for the theme-switcher - see also file ThemeSwitcher.js (ThemeSwitcher.prototype.initialize)
 var themeSwitcherTemplate = null;
 
 //first part of titlebar text
-var titleBarText = "GIS-Browser - "; // will be appended with project title
+var titleBarText = "SIT Comune di Asti - "; // will be appended with project title
 
 // header logo image and link
-var headerLogoImg = null; // path to image, set null for no logo
+var headerLogoImg = 'custom/logo.gif'; // path to image, set null for no logo
 var headerLogoHeight = 60; // logo image height in pixels
-var headerLogoLink = ""; // logo links to this URL
-var headerTermsOfUseText = null; // set null for no link
-var headerTermsOfUseLink = ""; // URL to terms of use
+var headerLogoLink = "http://www.comune.asti.it"; // logo links to this URL
+var headerTermsOfUseText = 'Condizioni d\'uso del servizio'; // set null for no link
+var headerTermsOfUseLink = "http://www.comune.asti.it"; // URL to terms of use
 
 // optional project title per map name
 var projectTitles = {
+  "asti": "PRG Comune di Asti",
   "helloworld": "Hello World"
 };
 
 //EPSG projection code of your QGIS project
-var epsgcode = 3857;
+var epsgcode = "32632";
 
 //background transparency for the QGIS server generated layer (commercial background layers not effected)
 //set to true if you want the background to be transparent, layer image will be bigger (32 vs 24bit)
@@ -146,8 +248,8 @@ var qgisLayerTransparency = true;
 var MapOptions = {
   projection: new OpenLayers.Projection("EPSG:"+epsgcode),
   units: "m",
-//  maxScale:50,
-//  minScale:40000000,
+  maxScale:50,
+  minScale:100000,
 //  numZoomLevels:20,
   fractionalZoom: enableBGMaps ? false : true,
   transitionEffect:"resize",
@@ -166,7 +268,7 @@ var LayerOptions = {
   yx: {"EPSG:900913": false}
   // If your projection is known to have an inverse axis order in WMS 1.3 compared to WMS 1.1 enter true for yx.
   // For EPSG:900913 OpenLayers should know it by default but because of a bug in OL 2.12 we enter it here.
-	
+
 };
 
 //overview map settings - do not change variable names!
@@ -177,10 +279,14 @@ var OverviewMapOptions = {
   minScale:300000000,
   transitionEffect:"resize"
 };
+
+// ABP: get from map
+// ABP: TODO: there must be a way to set reference map layers from the server...
+// ABP: Now in Customization
 var OverviewMapSize = new OpenLayers.Size(200,200);
 var overviewLayer = new OpenLayers.Layer.WMS("Overview-Map",
-  "/cgi-bin/qgis_mapserv.fcgi?map=/home/web/qgis-web-client/projects/naturalearth_110million.qgs",
-  {layers:"Land",format:"image/png"},
+  "/cgi-bin/qgis_mapserv.fcgi?map=" +  project_map,
+  {layers:"asti",format:"image/png"},
   {buffer:0,singleTile:true,transitionEffect:"resize"});
 
 
@@ -261,9 +367,10 @@ var symbolizersHighLightLayer = {
     strokeDashstyle: "dash"
   },
   "Polygon": {
-    strokeWidth: 2,
+    strokeWidth: 3,
     strokeColor: "#FF8C00",
-    fillColor: "none"
+    fillColor: "none",
+    strokeDashstyle: "dash"
   }
 };
 

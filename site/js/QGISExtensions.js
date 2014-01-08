@@ -595,6 +595,7 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
   * zoom level for feature selection
   */
   selectionZoom: 4,
+  
 
   constructor: function (config) {
     config = config || {};
@@ -606,6 +607,7 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
     if (config.selectionZoom == null) {
       config.selectionZoom = 4;
     }
+    this.addEvents(['beforesearchdataloaded', 'aftersearchdataloaded', 'searchformsubmitted']);
 
     QGIS.SearchPanel.superclass.constructor.call(this, config);
   },
@@ -669,6 +671,7 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
         this.resultsGrid.hide();
     }
     this.fireEvent("featureselectioncleared");
+    this.fireEvent("searchformsubmitted");
     this.el.mask(pleaseWaitString[lang], 'x-mask-loading');
     if (this.useWmsRequest) {
       this.submitGetFeatureInfo();
@@ -758,32 +761,17 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
           fields: storeFields
         });
 
-        // create and add results grid
-        this.resultsGrid = new Ext.grid.GridPanel({
-          title: searchResultString[lang],
-          collapsible: true,
-          collapsed: true,
-          store: this.store,
-          columns: this.gridColumns,
-          autoHeight: true,
-          viewConfig: {
-            forceFit: true
-          }
-        });
-        this.resultsGrid.on('rowclick', this.onRowClick, this);
-        this.add(this.resultsGrid);
-        this.doLayout();
       }
 
-      // show results
+      // show results, firing events: see Wegbisinit.js
+      this.fireEvent('beforesearchdataloaded', this, features);
       this.store.loadData(features, false);
-      this.resultsGrid.show();
-      this.resultsGrid.expand(true);
       this.el.unmask();
 
       if (destroyStore) {
         this.store = null;
       }
+      this.fireEvent('aftersearchdataloaded', this);
     }
     else {
       // ServiceException

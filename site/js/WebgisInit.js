@@ -809,6 +809,72 @@ function postLoading() {
 			};
 		};
 
+        /*
+         * Show search panel results
+         */ 
+        function showSearchPanelResults(searchPanelInstance, features){
+            if(features.length){
+                // Here we select where to show the search results
+                var targetComponent = null;
+                if(typeof(mapSearchPanelOutputRegion) == 'undefined'){
+                   mapSearchPanelOutputRegion = 'default';
+                }
+                switch(mapSearchPanelOutputRegion){
+                    case 'right':
+                        targetComponent = Ext.getCmp('RightPanel');
+                    break;
+                    case 'bottom':
+                        targetComponent = Ext.getCmp('BottomPanel');
+                    break;
+                    case 'popup':
+                        if(typeof(Ext.getCmp('SearchResultsPopUp')) == 'undefined'){
+                            targetComponent =  new Ext.Window(
+                            {
+                                id: 'SearchResultsPopUp',
+                                layout: 'fit',
+                                width: "80%",
+                                height: 300,
+                                modal: false,
+                                closeAction: 'hide'
+                            });
+                        }
+                        targetComponent = Ext.getCmp('SearchResultsPopUp');
+                    break;
+                    case 'default':
+                    default:
+                        targetComponent = searchPanelInstance;
+                    break;
+                }
+                // Make sure it's shown and expanded
+                targetComponent.show();
+                targetComponent.collapsible && targetComponent.expand();
+                if(!searchPanelInstance.resultsGrid){
+                    searchPanelInstance.resultsGrid = new Ext.grid.GridPanel({
+                      id: 'SearchPanelResultsGrid',
+                      title: searchResultString[lang],
+                      collapsible: true,
+                      collapsed: false,
+                      store: searchPanelInstance.store,
+                      columns: searchPanelInstance.gridColumns,
+                      autoHeight: true,
+                      viewConfig: {
+                        forceFit: true
+                      }
+                    });
+                    searchPanelInstance.resultsGrid.on('rowclick', searchPanelInstance.onRowClick, searchPanelInstance);
+                    targetComponent.add(searchPanelInstance.resultsGrid);
+                    targetComponent.doLayout();
+                }                
+                // Always make sure it's shown and expanded
+                searchPanelInstance.resultsGrid.show();
+                searchPanelInstance.resultsGrid.collapsible && searchPanelInstance.resultsGrid.expand();
+            } else {
+                // No features: shouldn't we warn the user?
+                Ext.MessageBox.alert(searchPanelTitleString[lang], searchNoRecordsFoundString[lang]);                
+            }
+            return true;
+        }
+        
 		//search panel and URL search parameters
 		var searchPanelConfigs = [];
 		if (wmsMapName in mapSearchPanelConfigs) {
@@ -821,6 +887,9 @@ function postLoading() {
 				var panel = new QGIS.SearchPanel(searchPanelConfigs[i]);
 				panel.on("featureselected", showFeatureSelected);
 				panel.on("featureselectioncleared", clearFeatureSelected);
+				panel.on("beforesearchdataloaded", showSearchPanelResults);
+                // Just for debugging...
+				// panel.on("afterdsearchdataloaded", function(e){console.log(e);});
 				searchTabPanel.add(panel);
 			}
 			searchTabPanel.setActiveTab(0);
