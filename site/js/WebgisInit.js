@@ -282,6 +282,9 @@ function postLoading() {
 		//we need to get a flat list of visible layers so we can set the layerOrderPanel
 		getVisibleFlatLayers(layerTree.root.firstChild);
 
+		// add abstracts to project node and group nodes
+		addAbstractToLayerGroups();
+		
 		// add components to tree nodes while tree is expanded to match GUI layout
 		// info buttons in layer tree
 		addInfoButtonsToLayerTree();
@@ -1551,21 +1554,35 @@ function createPermalink(){
 }
 
 function addInfoButtonsToLayerTree() {
-		var treeRoot = layerTree.getNodeById("wmsNode");
-		treeRoot.firstChild.cascade(
+	var treeRoot = layerTree.getNodeById("wmsNode");
+	treeRoot.firstChild.cascade(
 		function (n) {
-			if (n.isLeaf()) {
-				// info button
-				var buttonId = 'layer_' + n.id;
-				Ext.DomHelper.insertBefore(n.getUI().getAnchor(), {
-					tag: 'b',
-					id: buttonId,
-					cls: 'layer-button x-tool custom-x-tool-info'
-				});
+			// info button
+			var buttonId = 'layer_' + n.id;
+			Ext.DomHelper.insertBefore(n.getUI().getAnchor(), {
+				tag: 'b',
+				id: buttonId,
+				cls: 'layer-button x-tool custom-x-tool-info'
+			});
 
-				Ext.get(buttonId).on('click', function(e) {
-					showLegendAndMetadata(n.text);
-				});
+			Ext.get(buttonId).on('click', function(e) {
+				showLegendAndMetadata(n.text);
+			});
+		}
+	);
+}
+
+function addAbstractToLayerGroups() {
+	var treeRoot = layerTree.getNodeById("wmsNode");
+	treeRoot.firstChild.cascade(
+		function (n) {
+			if (! n.isLeaf()) {
+				if (n == treeRoot.firstChild) {
+					var thisAbstract = wmsLoader.projectSettings.service.abstract;
+				} else {
+					var thisAbstract = layerGroupString[lang]+ ' "' + n.text + '"';
+				}
+				wmsLoader.layerProperties[n.text].abstract = thisAbstract;
 			}
 		}
 	);

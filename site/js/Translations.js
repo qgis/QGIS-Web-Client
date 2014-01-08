@@ -584,6 +584,18 @@ noString["uk"] = "no"; //FIXME
 noString["hu"] = "nem";
 noString["ro"] = "nu";
 
+//metadata: layer group
+var layerGroupString = new Array();
+layerGroupString["en"] = "Layer group";
+layerGroupString["es"] = "Layer group"; //FIXME
+layerGroupString["de"] = "Ebenengruppe";
+layerGroupString["fr"] = "Layer group"; //FIXME
+layerGroupString["it"] = "Layer group"; //FIXME
+layerGroupString["pt_PT"] = "Layer group"; //FIXME
+layerGroupString["uk"] = "Layer group"; //FIXME
+layerGroupString["hu"] = "Layer group"; //FIXME
+layerGroupString["ro"] = "Layer group"; //FIXME
+
 //metadata: display field (for tooltips)
 var displayFieldString = new Array();
 displayFieldString["en"] = "Display-Field";
