@@ -724,6 +724,74 @@ contain lower characters only.
 Using views is generally slower than properly indexed tables, check for yourself what works best.
 
 
+= Configuration of search PHP script =
+
+As an alternative to python-wsgi scripts, a set of PHP scripts is available
+under ``php`` folder. PHP scripts are similar in scope to python-wsgi scripts
+but should require less configuration and should work out of the box 
+with just a few lines of configuration. The DB table structure must not be altered
+in order to use PHP search scripts.
+
+
+== Differences with python-wsi scripts ==
+
+The main difference is that there are no hardcoded values and much less
+configuration is needed because all needed informations are read from
+the project file.
+
+Another notable difference is that layer names are used instead of
+table names, this in order to not disclose internal DB details.
+
+
+== The configuration file ==
+
+Configuration for the services is stored in  `config.php`.
+
+Example:
+
+```
+// Configuration for searchable layers
+$searchlayers_config = array(
+    // Key is layer name
+    'Catasto fabbricati' => array(
+        // SQL for text search: where to search
+        'search_column' => 'sezione || \' \' || foglio || \' \' || mappale'
+    ),
+    'Catasto particelle' => array(
+        // SQL for text search: where to search
+        'search_column' => 'sezione || \' \' || foglio || \' \' || particella'
+    )
+);
+
+// Default search tables
+define('DEFAULT_SEARCH_LAYERS', 'Catasto fabbricati,Catasto particelle');
+// Limit search results
+define('SEARCH_LIMIT', 100);
+```
+
+QGIS Web Client needs to know where to find the scripts, since most
+configuration is read from the project file, this must be passed in the
+query string, the file where this parameters are set is
+``GlobalOptions.js`` see the example below:
+
+
+```
+// Adds project_map, read value from query string
+var project_map = Ext.urlDecode(window.location.search.substring(1)).map;
+
+var searchBoxQueryURL = '../php/search.php?map=' + project_map;
+var searchBoxGetGeomURL = '../php/search_geom.php?map=' + project_map;
+```
+
+
+
+== TODO ==
+
+Permalinks: the permalinks script.
+
+
+
+
 = License =
 
 The QGIS web client is released under a BSD license.
@@ -756,6 +824,7 @@ Developers:
 - Marco Hugentobler
 - Pirmin Kalberer
 - Andreas Neumann
+- Alessandro Pasotti
 - Niccolo Rigacci
 - Denis Rouzaud
 - Bernhard Ströbl
@@ -770,6 +839,7 @@ Translators:
 - Diana Galindo
 - Mayeul Kauffmann
 - Samuel Mesa
+- Alessandro Pasotti
 - Nelson Silva
 - Pavlo Taranov
 
