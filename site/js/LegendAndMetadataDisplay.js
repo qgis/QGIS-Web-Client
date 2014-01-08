@@ -16,7 +16,7 @@ function showLegendAndMetadata(layertitle) {
 	if (legendMetadataWindow == undefined) {
 		setupLegendAndMetadataWindow();
 	}
-	legendMetadataWindow.setTitle(legendMetadataWindowTitleString[lang] + " '"+layertitle+"'");
+	legendMetadataWindow.setTitle(legendMetadataWindowTitleString[lang] + ' "'+layertitle+'"');
 	if (legendMetadataWindow_active == false) {
 		legendMetadataWindow.show();
 	}
@@ -41,7 +41,7 @@ function showLegendAndMetadata(layertitle) {
 	//create metadata text
 	legendMetaTabPanel.activate(metadataTab);
 	var metadataText = '<style type="text/css">.even { background-color:rgb(240,240,240);border:none;} .mdCell {padding:0.3em;border:none;} .mdHeader {padding:0.3em;font-weight:bold;border:none;}</style>';
-	metadataText += '<div style="margin:1em;"><h1 style="margin-bottom:0.8em;">'+metadataSectionTitleString[lang]+'"'+layertitle+'"</h1>';
+	metadataText += '<div style="margin:1em;"><h1 style="margin-bottom:0.8em;">'+metadataSectionTitleString[lang]+' "'+layertitle+'"</h1>';
 	//abstract
 	if (wmsLoader.layerProperties[layername].abstract) {
 		metadataText += '<p><b>'+abstractString[lang]+'</b><p><p>'+wmsLoader.layerProperties[layername].abstract+'</p>';

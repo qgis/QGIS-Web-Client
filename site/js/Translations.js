@@ -526,15 +526,15 @@ legendMetadataWindowTitleString["ro"] = "Legenda și informațiile tip metadate 
 
 //title of metadata section
 var metadataSectionTitleString = new Array();
-metadataSectionTitleString["en"] = "Metadata of layer ";
-metadataSectionTitleString["es"] = "Metadata of layer "; //FIXME
-metadataSectionTitleString["de"] = "Metadaten der Ebene ";
-metadataSectionTitleString["fr"] = "Métadonnée de la couche ";
-metadataSectionTitleString["it"] = "Metadati del layer ";
-metadataSectionTitleString["pt_PT"] = "Metadados da camada ";
-metadataSectionTitleString["uk"] = "Metadata of layer "; //FIXME
-metadataSectionTitleString["hu"] = "Réteg neve: ";
-metadataSectionTitleString["ro"] = "Metadatele stratului ";
+metadataSectionTitleString["en"] = "Metadata of layer";
+metadataSectionTitleString["es"] = "Metadata of layer"; //FIXME
+metadataSectionTitleString["de"] = "Metadaten der Ebene";
+metadataSectionTitleString["fr"] = "Métadonnée de la couche";
+metadataSectionTitleString["it"] = "Metadati del layer";
+metadataSectionTitleString["pt_PT"] = "Metadados da camada";
+metadataSectionTitleString["uk"] = "Metadata of layer"; //FIXME
+metadataSectionTitleString["hu"] = "Réteg neve:";
+metadataSectionTitleString["ro"] = "Metadatele stratului";
 
 //Abstract
 var abstractString = new Array();
