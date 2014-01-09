@@ -9,19 +9,10 @@
 */
 
 
-/****************************
- * Configuration
+
+/**
+ * Return 500 errro
  */
-// Prefix map name with path
-#define('MAP_PATH_REWRITE', '/home/ale/public_html/QGIS-Web-Client/projects/');
-// Append .qgs to the map name
-#define('MAP_PATH_APPEND_QGS', true);
-
-
-/*****************************
- * Functions
- */
-
 function err500($msg){
     header('Internal server error', true, 500);
     echo "<h1>Internal server error (QGIS Client)</h1><p>$msg</p>";
@@ -142,4 +133,83 @@ function get_connection($layer, $project){
         err500('db error: ' . $e->getMessage());
     }
     return $dbh;
+}
+
+/**
+ * Return current base URL
+ */ 
+function get_current_base_url() {
+    $pageURL = 'http';
+    if (@$_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
+    $pageURL .= "://";
+    if ($_SERVER["SERVER_PORT"] != "80") {
+        $pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
+    } else {
+        $pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+    }
+    // Strip query string
+    $pageURL = substr($pageURL, 0, - (2 + strlen($_SERVER['QUERY_STRING']) + strlen(basename($_SERVER['PHP_SELF']))));
+    return $pageURL;
+}
+
+/**
+ * Returns WMS endpoint
+ */
+function get_wms_online_resource($mapname){
+    $wms = defined('WMS_ONLINE_RESOURCE') && WMS_ONLINE_RESOURCE ? WMS_ONLINE_RESOURCE : get_current_base_url() . '/../cgi-bin/qgis_mapserv.fcgi?';
+    // Add map
+    $wms .= 'map='.$mapname.'&';
+    return $wms;
+}
+
+/**
+ * Returns legend data, querying WMS GetStyles and GetLegendGraphics
+ */ 
+function get_legend($mapname, $layername){
+    // Check cache
+    if(defined('GET_LEGEND_CACHE_EXPIRY') && GET_LEGEND_CACHE_EXPIRY){
+        // Check cache folder
+        $cache_folder = defined('GET_LEGEND_CACHE_DIRECTORY') && GET_LEGEND_CACHE_DIRECTORY ? GET_LEGEND_CACHE_DIRECTORY : dirname(__FILE__) . '/legend_cache/';
+        if(!is_dir($cache_folder) && !@mkdir($cache_folder)){
+            err500('Cannot create cache folder, check permissions and configuration.');
+        }
+        $cache_file = $cache_folder.'/'.md5($mapname.$layername);
+        $filemtime = @filemtime($cache_file);  // returns FALSE if file does not exist
+        if (!$filemtime or (time() - $filemtime >= GET_LEGEND_CACHE_EXPIRY)){
+            file_put_contents($cache_file, serialize(build_legend($mapname, $layername)));
+        }
+        return unserialize(file_get_contents($cache_file));                
+    }
+    return build_legend($mapname, $layername);
+}
+
+/**
+ * Build the legend
+ */
+function build_legend($mapname, $layername){
+    // First, get layer styles
+    $wms = get_wms_online_resource($mapname);
+    $wms_base_call = $wms.'VERSION=1.1.1&SERVICE=WMS&LAYERS='.$layername.'&REQUEST=';
+    $styles = simplexml_load_file($wms_base_call.'GetStyles');
+    if($styles === false){
+        err500('Cannot fetch legend styles');
+    }
+    $results = array();
+    // For each style, get legend string and image
+    foreach($styles->xpath('//se:Rule') as $rule){
+        $name = $rule->xpath('se:Name');
+        $filter = $rule->xpath('ogc:Filter/*');
+        $filter = preg_replace('/>\s+</', '><', str_replace(array("\n", 'ogc:'), '', (string)$filter[0]->asXML()));
+        $image = file_get_contents($wms_base_call.'GetLegendGraphic&FORMAT=image/png&RULE='.(string)$name[0]);
+        if($image === false){
+            err500('Cannot fetch legend image');
+        }
+        $results[] = array(
+            'name' => (string)$name[0],
+            'ogc_filter' => $filter,
+            'image' => base64_encode($image)
+        );
+        
+    }
+    return $results;
 }

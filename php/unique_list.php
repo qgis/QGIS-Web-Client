@@ -38,9 +38,10 @@ try {
     while ($row = $stmt->fetchColumn()) {
         $result[] = $row;
     }
+    $json_result = json_encode($result);
     header('Content-type: application/json');
-    header('Content-length: ' . strlen($result));
-    echo json_encode($result);
+    header('Content-length: ' . strlen($json_result));
+    echo $json_result;
     exit;
 
 } catch (PDOException $e) {
