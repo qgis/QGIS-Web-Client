@@ -45,6 +45,21 @@ var gis_projects = {
             "sogistooltipheight" : "300",
             "sogisbuttons" : default_buttons_seperators,
             "sogisdefaultbutton" : ""
+		},{
+			"name": "Mocheckso Error/Warning",
+			"projectpath": "",
+			"projectfile": "mocheckso",
+			"format": "image/png",
+			"visibleLayers": "Gemeindegrenzen",
+			"updateInterval": "occasional",
+			"responsible": "Amtliche Vermessung",
+			"tags": "mocheckso",
+            "switcher": false,
+            "sogistooltip": false,
+            "sogistooltipwidth" : "600",
+            "sogistooltipheight" : "300",
+            "sogisbuttons" : default_buttons_seperators,
+            "sogisdefaultbutton" : ""
 		}]
 	},{
 		"name": "Amt für Umwelt",
