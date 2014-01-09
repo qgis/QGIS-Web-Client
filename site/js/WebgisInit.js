@@ -1009,7 +1009,7 @@ function postLoading() {
 			printWindow = new Ext.Window({
 				title: printSettingsToolbarTitleString[lang],
 				height: 67,
-				width: 495,
+				width: 530,
 				layout: "fit",
 				renderTo: "geoExtMapPanel",
 				resizable: false,
@@ -1192,6 +1192,11 @@ function postLoading() {
 		printDPICombobox.setValue("300");
 		//need to manually fire the event, because .setValue doesn't; index omitted, not needed
 		printDPICombobox.fireEvent("select", printDPICombobox, printDPICombobox.findRecord(printDPICombobox.valueField, "300"));
+        //if the var fixedPrintResolution in GlobalOptions.js is set, the printLayoutsCombobox will be hidden
+        if (fixedPrintResolution != null && parseInt(fixedPrintResolution) > 0){
+            printDPICombobox.hide(); // hide dpi combobox
+            printWindow.setWidth(printWindow.width - 80); // reduce the legth of the print window
+        }
 		//bug in spinnerField: need to explicitly show/hide printWindow (toolbar)
 		printWindow.show();
 		printWindow.hide();
