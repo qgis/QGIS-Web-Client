@@ -183,6 +183,9 @@ var overviewLayer = new OpenLayers.Layer.WMS("Overview-Map",
   {layers:"Land",format:"image/png"},
   {buffer:0,singleTile:true,transitionEffect:"resize"});
 
+// prevent the user from choosing a print resolution
+// if fixedPrintResolution = null, the user is allowed to choose the print resolution. 
+var fixedPrintResolution = null // for a fixed resolution of 200dpi fill 200
 
 //print options - scales and dpi
 var printCapabilities={
