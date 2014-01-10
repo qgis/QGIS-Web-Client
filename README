@@ -11,10 +11,11 @@ Last Change : Wednesday December 04, 2013
   2. Purpose
   3. Installation
   4. Configuration of Client
-    4.1. Per Project Startup Options
-    4.2. Configuration of search panels
-    4.3. Configuration of the theme switcher
-    4.4. Extending the interface
+    4.1. General Configuration
+    4.2. Per Project Startup Options
+    4.3. Configuration of search panels
+    4.4. Configuration of the theme switcher
+    4.5. Extending the interface
   5. URL Rewriting
   6. Configuration of search python script
     6.1. Configuration of mod_wsgi
@@ -110,7 +111,37 @@ Thumbnails for individual projects (if you take the index.xml route):
   thumbnails/projectname.png
 
 
-  4.1. Per Project Startup Options
+  4.1. General Configuration
+  ==========================
+
+    4.1.1. Global Configuration in GlobalOptions.js
+    ===============================================
+
+Global configurations can be set in the file GlobalOptions.js
+
+  var lang
+
+The default language code can be overwritten with lang parameter in URL.
+
+  var helpfile
+
+The language of the helpfile can be set. Right now helpfiles in the languages German, English and Hungarian are available.
+It is important that the language correspond with a exisiting helpfile (ex. help_en.html).
+
+  var serverAndCGI
+
+Servername (optional) and path and name name of QGIS mapserver FCGI-file either with or without server-name
+- without servername recommended for easier porting to other servers. It is important not add a ? or & after the .fcgi extension.
+
+...
+
+  var fixedPrintResolution
+
+When a value is set (an integer instead of null), the user is prevented from choosing a print resolution. For a fixed resolution of 200dpi fill 200.
+If null is set, the user can choose between the resolutions defined in the variable printCapabilities.
+
+
+  4.2. Per Project Startup Options
   ================================
 
 These options are usually defined in the file site/index.xml. The stylesheet then generates
@@ -159,7 +190,7 @@ These additional search tables will be used for the search field at the top-righ
 The default search tables are hard-coded in the file 'wsgi/search.wsgi', in the 'searchtables' array.
 
 
-  4.2. Configuration of search panels
+  4.3. Configuration of search panels
   ===================================
 
 There are two types of search panels supported, using a direct WMS
@@ -168,7 +199,7 @@ GetFeatureInfo request or using URL rewriting with a much shorter search URL.
 The search panels are configured in 'site/js/GlobalOptions.js'. 
 
 
-    4.2.1. Using WMS GetFeatureInfo
+    4.3.1. Using WMS GetFeatureInfo
     ===============================
 
   var simpleWmsSearch = {
@@ -218,7 +249,7 @@ FEATURE_COUNT=10&INFO_FORMAT=text/xml&SRS=EPSG:4326&
 FILTER=Country:"name"+=+'africa'``
 
 
-    4.2.2. Using URL Rewriting
+    4.3.2. Using URL Rewriting
     ==========================
 
 For security and neatness, you may prefer to use rewritten URLs (so that your
@@ -285,7 +316,7 @@ Request URL:
 http://localhost/wms/helloworld?query=samplesearch&colour=orange
 
 
-    4.2.3. Add search panels to projects
+    4.3.3. Add search panels to projects
     ====================================
 
 In order for your search panel to appear in the web UI, you must
@@ -315,7 +346,7 @@ then your mapSearchPanelConfigs should reflect ../projects/helloworld.qgs as
 the key for the search list.
 
 
-  4.3. Configuration of the theme switcher
+  4.4. Configuration of the theme switcher
   ========================================
 
 The theme switcher allows to change to a diffent QGIS project (or map theme)
@@ -335,7 +366,7 @@ In addition you need to make entries for topics and projects in the file
 The file is in JSON format and starts with a few central parameters.
 
 
-    4.3.1. Central theme switcher parameters
+    4.4.1. Central theme switcher parameters
     ========================================
 
   path
@@ -361,7 +392,7 @@ of your project, separated by a dash. It appears in the title bar of the browser
 window and in the title bar of the web application.
 
 
-    4.3.2. Per topic theme switcher parameters
+    4.4.2. Per topic theme switcher parameters
     ==========================================
 
 You can group your projects into topics. A topic only has a single parameter
@@ -373,7 +404,7 @@ entries in a JSON array called project.
 The name of the topic.
 
 
-    4.3.3. Per project theme switcher parameters
+    4.4.3. Per project theme switcher parameters
     ============================================
 
 In a topic you can have several project entries. A project can overwrite the global
@@ -455,7 +486,7 @@ Optional. Tags or keywords displayed in the tooltips in the theme switcher.
 The tags are also used in the search filter used in the theme switcher.
 
 
-  4.4. Extending the interface
+  4.5. Extending the interface
   ============================
 
 You can add buttons to implements additional functions (editing, advanced identify, etc.).
