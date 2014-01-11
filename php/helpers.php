@@ -158,7 +158,7 @@ function get_current_base_url() {
 function get_wms_online_resource($mapname){
     $wms = defined('WMS_ONLINE_RESOURCE') && WMS_ONLINE_RESOURCE ? WMS_ONLINE_RESOURCE : get_current_base_url() . '/../cgi-bin/qgis_mapserv.fcgi?';
     // Add map
-    $wms .= 'map='.$mapname.'&';
+    $wms .= 'map='.urlencode($mapname).'&';
     return $wms;
 }
 
@@ -183,33 +183,41 @@ function get_legend($mapname, $layername){
     return build_legend($mapname, $layername);
 }
 
+
 /**
  * Build the legend
  */
 function build_legend($mapname, $layername){
     // First, get layer styles
     $wms = get_wms_online_resource($mapname);
-    $wms_base_call = $wms.'VERSION=1.1.1&SERVICE=WMS&LAYERS='.$layername.'&REQUEST=';
+    $wms_base_call = $wms.'VERSION=1.1.1&SERVICE=WMS&LAYERS='.urlencode($layername).'&REQUEST=';
     $styles = simplexml_load_file($wms_base_call.'GetStyles');
     if($styles === false){
         err500('Cannot fetch legend styles');
     }
     $results = array();
     // For each style, get legend string and image
-    foreach($styles->xpath('//se:Rule') as $rule){
+    foreach($styles->xpath('//se:Rule') as $rule){        
         $name = $rule->xpath('se:Name');
-        $filter = $rule->xpath('ogc:Filter/*');
-        $filter = preg_replace('/>\s+</', '><', str_replace(array("\n", 'ogc:'), '', (string)$filter[0]->asXML()));
-        $image = file_get_contents($wms_base_call.'GetLegendGraphic&FORMAT=image/png&RULE='.(string)$name[0]);
-        if($image === false){
-            err500('Cannot fetch legend image');
-        }
-        $results[] = array(
-            'name' => (string)$name[0],
-            'ogc_filter' => $filter,
-            'image' => base64_encode($image)
-        );
-        
+        // FIXME: temporary workaround for http://hub.qgis.org/issues/9321
+        if((string)$name[0]){
+            $filter = $rule->xpath('ogc:Filter/*');
+            if(count($filter)){
+                $filter = preg_replace('/>\s+</', '><', str_replace(array("\n", 'ogc:'), '', (string)$filter[0]->asXML()));
+            } else {
+                $filter = '';
+            }
+            $wms_image_call = $wms_base_call.'GetLegendGraphic&FORMAT=image/png&RULE='.urlencode((string)$name[0]);
+            $image_data = file_get_contents($wms_image_call);
+            if(!$image_data){
+                err500('Cannot fetch legend image');
+            }
+            $results[] = array(
+                'name' => (string)$name[0],
+                'ogc_filter' => $filter,
+                'image' => base64_encode($image_data)
+            );
+        }        
     }
     return $results;
 }

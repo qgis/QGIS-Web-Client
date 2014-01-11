@@ -1,10 +1,10 @@
 Quantum GIS (QGIS) Web Client
 Installation  and Configuration Guide
-Wednesday December 04, 2013
+Wednesday January 08, 2014
 
 
-Last Updated: Wednesday December 04, 2013
-Last Change : Wednesday December 04, 2013
+Last Updated: Wednesday January 08, 2014
+Last Change : Wednesday January 08, 2014
 
 
   1. For the terminally lazy
@@ -20,9 +20,13 @@ Last Change : Wednesday December 04, 2013
     6.1. Configuration of mod_wsgi
     6.2. Adaption of the wsgi scripts to your settings and needs
   7. PostgreSQL table setup for searching
-  8. License
-  9. Developers and Contributors
-  10. Acknowledgements
+  8. Configuration of search PHP script
+    8.1. Differences with python-wsi scripts
+    8.2. The configuration file
+    8.3. TODO
+  9. License
+  10. Developers and Contributors
+  11. Acknowledgements
 
 
   1. For the terminally lazy
@@ -622,7 +626,71 @@ contain lower characters only.
 Using views is generally slower than properly indexed tables, check for yourself what works best.
 
 
-  8. License
+  8. Configuration of search PHP script
+  =====================================
+
+As an alternative to python-wsgi scripts, a set of PHP scripts is available
+under php folder. PHP scripts are similar in scope to python-wsgi scripts
+but should require less configuration and should work out of the box 
+with just a few lines of configuration. The DB table structure must not be altered
+in order to use PHP search scripts.
+
+
+  8.1. Differences with python-wsi scripts
+  ========================================
+
+The main difference is that there are no hardcoded values and much less
+configuration is needed because all needed informations are read from
+the project file.
+
+Another notable difference is that layer names are used instead of
+table names, this in order to not disclose internal DB details.
+
+
+  8.2. The configuration file
+  ===========================
+
+Configuration for the services is stored in  `config.php`.
+
+Example:
+
+  // Configuration for searchable layers
+  $searchlayers_config = array(
+      // Key is layer name
+      'Catasto fabbricati' => array(
+          // SQL for text search: where to search
+          'search_column' => 'sezione || \' \' || foglio || \' \' || mappale'
+      ),
+      'Catasto particelle' => array(
+          // SQL for text search: where to search
+          'search_column' => 'sezione || \' \' || foglio || \' \' || particella'
+      )
+  );
+  
+  // Default search tables
+  define('DEFAULT_SEARCH_LAYERS', 'Catasto fabbricati,Catasto particelle');
+  // Limit search results
+  define('SEARCH_LIMIT', 100);
+
+QGIS Web Client needs to know where to find the scripts, since most
+configuration is read from the project file, this must be passed in the
+query string, the file where this parameters are set is
+GlobalOptions.js see the example below:
+
+  // Adds project_map, read value from query string
+  var project_map = Ext.urlDecode(window.location.search.substring(1)).map;
+  
+  var searchBoxQueryURL = '../php/search.php?map=' + project_map;
+  var searchBoxGetGeomURL = '../php/search_geom.php?map=' + project_map;
+
+
+  8.3. TODO
+  =========
+
+Permalinks: the permalinks script.
+
+
+  9. License
   ==========
 
 The QGIS web client is released under a BSD license.
@@ -648,8 +716,8 @@ HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABI
 THE POSSIBILITY OF SUCH DAMAGE.
 
 
-  9. Developers and Contributors
-  ==============================
+  10. Developers and Contributors
+  ===============================
 
 Developers:
 
@@ -677,7 +745,7 @@ Translators:
 - Pavlo Taranov
 
 
-  10. Acknowledgements
+  11. Acknowledgements
   ====================
 
 We'd like to thank the OpenLayers, GeoExt and ExtJS teams for providing their base libraries
