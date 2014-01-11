@@ -488,6 +488,19 @@ legendTabTitleString["uk"] = "Легенда";
 legendTabTitleString["hu"] = "Jelkulcs";
 legendTabTitleString["ro"] = "Legendă";
 
+//legend loading message in legend tab
+var legendTabLoadingString = new Array();
+legendTabLoadingString["en"] = "Loading legend, please wait...";
+legendTabLoadingString["es"] = "Leyenda"; //FIXME
+legendTabLoadingString["de"] = "Legende"; //FIXME
+legendTabLoadingString["fr"] = "Légende"; //FIXME
+legendTabLoadingString["it"] = "Legenda in caricamento, attendere prego...";
+legendTabLoadingString["pt_PT"] = "Legenda"; //FIXME
+legendTabLoadingString["uk"] = "Легенда"; //FIXME 
+legendTabLoadingString["hu"] = "Jelkulcs"; //FIXME
+legendTabLoadingString["ro"] = "Legendă"; //FIXME
+ 
+
 //title of metadata tab
 var metadataTabTitleString = new Array();
 metadataTabTitleString["en"] = "Metadata";

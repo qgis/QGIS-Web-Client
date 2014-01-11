@@ -203,6 +203,9 @@ mapSearchPanelConfigs[project_map] = [CatastoFabbricatiSearch, CatastoParticelle
 // can slow down the application.
 var mapSearchPanelOutputRegion = 'popup' ; // Possible values: default,right,bottom,popup
 
+// Interactive legend. This is based on PHP get_legend.php script.
+// You can define here an alternate URL for this service
+var interactiveLegendGetLegendURL = '../php/get_legend.php?map=' + project_map + '&';
 
 //templates to define tooltips for a layer, to be shown on hover identify. The layer fields must be wrapped inside <%%> special tags.
 //if a layers field is found with the name "tooltip" its content will have precedence over this configuration

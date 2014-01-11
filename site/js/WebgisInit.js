@@ -300,7 +300,12 @@ function postLoading() {
 		Ext.getCmp('measureDistance').toggleHandler = mapToolbarHandler;
 		Ext.getCmp('measureArea').toggleHandler = mapToolbarHandler;
 		Ext.getCmp('PrintMap').toggleHandler = mapToolbarHandler;
-		Ext.getCmp('SendPermalink').handler = mapToolbarHandler;
+        // Remove permaLinkURLShortener if not defined
+        if(typeof(permaLinkURLShortener) == 'undefined'){
+            Ext.getCmp('SendPermalink').destroy();
+        } else {
+            Ext.getCmp('SendPermalink').handler = mapToolbarHandler;
+        }
 		Ext.getCmp('ShowHelp').handler = mapToolbarHandler;
 		
 		// Add custom buttons (Customizations.js)
@@ -1628,7 +1633,11 @@ function addInfoButtonsToLayerTree() {
 				});
 
 				Ext.get(buttonId).on('click', function(e) {
-					showLegendAndMetadata(n.text);
+                    if(typeof('interactiveLegendGetLegendURL') == 'undefined'){
+                        showLegendAndMetadata(n.text);
+                    } else {
+                        showInteractiveLegendAndMetadata(n.text);
+                    }
 				});
 			}
 		}
