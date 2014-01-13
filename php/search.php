@@ -40,15 +40,15 @@ foreach($_querystrings as $qs){
 }
 
 /**
- * Build SQL query, here also searchtable is layer name
+ * Build postgis SQL query, here also searchtable is layer name
  */
-function build_search_query($dbtable, $search_column, $geom_column, $layername, $querystrings, $sql_filter){
+function build_postgis_search_query($dbtable, $search_column, $geom_column, $layername, $querystrings, $sql_filter){
     $sql = "SELECT $search_column as displaytext, '$layername' AS searchtable, '$layername' as search_category, ";
     # the following line is responsible for zooming in to the features
     # this is supposed to work in PostgreSQL since version 9.0
     $sql .= "'['||replace(regexp_replace(BOX2D($geom_column)::text,'BOX\(|\)','','g'),' ',',')||']'::text AS bbox ";
     # if the above line does not work for you, deactivate it and uncomment the next line
-    #sql += "'['||replace(regexp_replace(BOX2D(the_geom)::text,'BOX[(]|[)]','','g'),' ',',')||']'::text AS bbox "
+    #sql .= "'['||replace(regexp_replace(BOX2D(the_geom)::text,'BOX[(]|[)]','','g'),' ',',')||']'::text AS bbox ";
     $sql .= "FROM ".$dbtable." WHERE ";
     // Add sql filter if any
     if($sql_filter){
@@ -56,16 +56,36 @@ function build_search_query($dbtable, $search_column, $geom_column, $layername, 
     }
     #for each querystring
     for($j = 0; $j < count($querystrings); $j++){
-      # to implement a search method uncomment the sql and its following data line
-      # for tsvector issues see the docs, use whichever version works best for you
-      # this search does not use the field searchstring_tsvector at all but converts searchstring into a tsvector, its use is discouraged!
-      #sql += "searchstring::tsvector @@ lower(%s)::tsquery"
-      #data += (querystrings[j]+":*",)
-      # this search uses the searchstring_tsvector field, which _must_ have been filled with to_tsvector('not_your_language', 'yourstring')
-      #sql += "searchstring_tsvector @@ to_tsquery(\'not_your_language\', %s)"
-      #data += (querystrings[j]+":*",)
-      # if all tsvector stuff fails you can use this string comparison on the searchstring field
+      
       $sql .= "$search_column ILIKE '%" . $querystrings[$j] . "%'";
+
+      if ($j < count($querystrings) - 1){
+        $sql .= " AND ";
+      }
+    }
+    return $sql;
+}
+
+
+/**
+ * Build spatialite SQL query, here also searchtable is layer name
+ */
+function build_spatialite_search_query($dbtable, $search_column, $geom_column, $layername, $querystrings, $sql_filter){
+    $sql = "SELECT load_extension('libspatialite.so'); PRAGMA case_sensitive_like=OFF; SELECT $search_column as displaytext, '$layername' AS searchtable, '$layername' as search_category, ";
+    # the following line is responsible for zooming in to the features
+    # this is supposed to work in PostgreSQL since version 9.0
+    $sql .= "'['||replace(regexp_replace(envelope($geom_column),'BOX\(|\)','','g'),' ',',')||']' AS bbox ";
+    # if the above line does not work for you, deactivate it and uncomment the next line
+    #sql .= "'['||replace(regexp_replace(BOX2D(the_geom)::text,'BOX[(]|[)]','','g'),' ',',')||']'::text AS bbox ";
+    $sql .= "FROM ".$dbtable." WHERE ";
+    // Add sql filter if any
+    if($sql_filter){
+        $sql .= $sql_filter . ' AND ';
+    }
+    #for each querystring
+    for($j = 0; $j < count($querystrings); $j++){
+      
+      $sql .= "$search_column LIKE '%" . $querystrings[$j] . "%'";
 
       if ($j < count($querystrings) - 1){
         $sql .= " AND ";
@@ -78,15 +98,26 @@ $sql = array();
 foreach($searchlayers as $layername){
     // Get layer
     $layer = get_layer($layername, $project);
-    $ds_params = get_pg_layer_info($layer, $project);
+    $ds_params = get_layer_info($layer, $project);
     if(array_key_exists($layername, $searchlayers_config)){
-        $sql[] = build_search_query($ds_params['table'],
+        if($ds_params == 'postgis'){
+            $sql[] = build_postgis_search_query($ds_params['table'],
                 $searchlayers_config[$layername]['search_column'],
                 $ds_params['geom_column'],
                 $layername,
                 $querystrings,
                 $ds_params['sql']
             );
+        } else {
+            // Spatialite
+            $sql[] = build_spatialite_search_query($ds_params['table'],
+                $searchlayers_config[$layername]['search_column'],
+                $ds_params['geom_column'],
+                $layername,
+                $querystrings,
+                $ds_params['sql']
+            );
+        }
     } else {
         // Silently skip...
     }
@@ -101,7 +132,7 @@ if(count($sql)){
     $sql .= ';';
     //die($sql);
     // Get connection from the last layer
-    $dbh = get_connection($layer, $project);
+    $dbh = get_connection($layer, $project, $map);
     $stmt = $dbh->prepare($sql);
     $stmt->execute();
 

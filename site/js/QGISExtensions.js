@@ -342,7 +342,7 @@ Ext.extend(QGIS.PrintProvider, GeoExt.data.PrintProvider, {
       grid_interval = 10000000;
     }
 
-    var printUrl = this.url+'&SRS=EPSG:'+epsgcode+'&DPI='+this.dpi.get("value")+'&TEMPLATE='+this.layout.get("name")+'&map0:extent='+printExtent.page.getPrintExtent(map).toBBOX(1,false)+'&map0:rotation='+(printExtent.page.rotation * -1)+'&map0:scale='+mapScale+'&map0:grid_interval_x='+grid_interval+'&map0:grid_interval_y='+grid_interval+'&LAYERS='+encodeURIComponent(thematicLayer.params.LAYERS);
+    var printUrl = this.url+'&SRS='+authid+'&DPI='+this.dpi.get("value")+'&TEMPLATE='+this.layout.get("name")+'&map0:extent='+printExtent.page.getPrintExtent(map).toBBOX(1,false)+'&map0:rotation='+(printExtent.page.rotation * -1)+'&map0:scale='+mapScale+'&map0:grid_interval_x='+grid_interval+'&map0:grid_interval_y='+grid_interval+'&LAYERS='+encodeURIComponent(thematicLayer.params.LAYERS);
     if (thematicLayer.params.OPACITIES) {
       printUrl += '&OPACITIES='+encodeURIComponent(thematicLayer.params.OPACITIES);
     }
@@ -682,28 +682,27 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
   },
 
   submitGetFeatureInfo: function() {
-    var filter = this.queryLayer + ":";
+    var filter = [];
     var fieldValues = this.form.getForm().getFieldValues();
     var fieldsValidate = true;
-    var addAnd = false;
     for (var key in fieldValues) {
-      if (addAnd) {
-        filter += " AND ";
-      }
       var field = this.form.getForm().findField(key);
-      var filterOp = field.initialConfig.filterOp?field.initialConfig.filterOp:"=";
-      if (field.isXType('numberfield') || field.isXType('combo')) {
-        valueQuotes = "";
+      // Only add if not blank
+      if(fieldValues[key]){
+        var filterOp = field.initialConfig.filterOp ? field.initialConfig.filterOp : "=";
+        if (field.isXType('numberfield') || field.isXType('combo')) {
+          valueQuotes = "";
+        }
+        else {
+          valueQuotes = "'"
+        }
+        filter.push("\"" + key + "\" "+ filterOp +" " + valueQuotes + fieldValues[key] + valueQuotes);
+        fieldsValidate &= field.validate();
       }
-      else {
-        valueQuotes = "'"
-      }
-      filter += "\"" + key + "\" "+ filterOp +" " + valueQuotes + fieldValues[key] + valueQuotes;
-      fieldsValidate &= field.validate();
-      addAnd = true;
-    }
+    }    
 
     if (fieldsValidate) {
+      filter = this.queryLayer + ":" + filter.join(' AND ');
       Ext.Ajax.request({
         url: wmsURI,
         params: {
@@ -714,7 +713,7 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
           'QUERY_LAYERS': this.queryLayer,
           'FEATURE_COUNT': 10,
           'INFO_FORMAT': 'text/xml',
-          'SRS': 'EPSG:' + epsgcode,
+          'SRS': authid,
           'FILTER': filter
         },
         method: 'GET',

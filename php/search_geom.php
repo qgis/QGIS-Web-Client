@@ -34,7 +34,7 @@ $displaytext = preg_replace('/[^A-z0-9_-]\s/', '', $displaytext);
 // Get layer
 $layer = get_layer($layername, $project);
 
-$ds_params = get_pg_layer_info($layer, $project);
+$ds_params = get_layer_info($layer, $project);
 
 $sql = "SELECT ST_AsText(${ds_params['geom_column']}) AS geom FROM " . $ds_params['table'] . " WHERE ${layer_config['search_column']} = ?";
 $dbh = get_connection($layer, $project);

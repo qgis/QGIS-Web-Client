@@ -301,7 +301,7 @@ function postLoading() {
 		Ext.getCmp('measureArea').toggleHandler = mapToolbarHandler;
 		Ext.getCmp('PrintMap').toggleHandler = mapToolbarHandler;
         // Remove permaLinkURLShortener if not defined
-        if(typeof(permaLinkURLShortener) == 'undefined'){
+        if(typeof(permaLinkURLShortener) == 'undefined' || ! permaLinkURLShortener){
             Ext.getCmp('SendPermalink').destroy();
         } else {
             Ext.getCmp('SendPermalink').handler = mapToolbarHandler;
@@ -339,7 +339,7 @@ function postLoading() {
 					},
 					LayerOptions
 				);
-				dummyLayer.projection = new OpenLayers.Projection("EPSG:"+epsgcode);
+				dummyLayer.projection = new OpenLayers.Projection(authid);
 				var reverseAxisOrder = dummyLayer.reverseAxisOrder(); 
 				maxExtent = OpenLayers.Bounds.fromArray(bboxArray, reverseAxisOrder);
 			}

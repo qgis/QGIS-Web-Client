@@ -12,3 +12,8 @@ README.toc
 index.xml
 qgis-web-client.conf
 *.swp
+
+site/js/Customizations.js
+site/js/GlobalOptions.js
+.gitignore
+

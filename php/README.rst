@@ -43,7 +43,8 @@ table names, this in order to not disclose internal DB details.
 Configuration
 -------------
 
-Configuration for the services is stored in  `config.php`.
+Configuration for the services is stored in  `config.php`. You can use
+the provided `config.php.tpl` as a starting point.
 
 Example:
 

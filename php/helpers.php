@@ -36,14 +36,14 @@ function get_project($map){
 }
 
 /**
- * Get postgis layer connection and geom info
+ * Get layer connection and geom info
  */
-function get_pg_layer_info($layer, $project){
+function get_layer_info($layer, $project){
     // Cache
     static $pg_layer_infos = array();
 
-    if(!$layer->provider == 'postgis'){
-        err500('not a postgis layer');
+    if((string)$layer->provider != 'postgis' && (string)$layer->provider != 'spatialite'){
+        err500('only postgis or spatialite layers are supported');
     }
     // Datasource
     $datasource = (string)$layer->datasource;
@@ -52,9 +52,10 @@ function get_pg_layer_info($layer, $project){
         return $pg_layer_infos[$datasource];
     }
 
-
     // Parse datasource
-    $ds_parms = array();
+    $ds_parms = array(
+        'provider' => (string)$layer->provider
+    );
     // First extract sql=
     if(preg_match('/sql=(.*)/', $datasource, $matches)){
         $datasource = str_replace($matches[0], '', $datasource);
@@ -121,16 +122,31 @@ function get_categories($layer){
 /**
  * Get connection from layer
  */
-function get_connection($layer, $project){
+function get_connection($layer, $project, $map_path){
 
-    $ds_parms = get_pg_layer_info($layer, $project);
-    $PDO_DSN="pgsql:host=${ds_parms['host']};port=${ds_parms['port']};dbname=${ds_parms['dbname']}";
+    $ds_parms = get_layer_info($layer, $project);
+    if($ds_parms['provider'] == 'postgis') {
+        $PDO_DSN="pgsql:host=${ds_parms['host']};port=${ds_parms['port']};dbname=${ds_parms['dbname']}";
+    } else { // Spatialite
+        // Calculate directory
+        $dbpath = preg_replace("/'?([^']+)'?/", '\1', $ds_parms['dbname']);        
+        if($dbpath[0] != DIRECTORY_SEPARATOR){
+            $dbpath = dirname($map_path) . DIRECTORY_SEPARATOR . $dbpath;
+        }
+        if(!file_exists($dbpath)){
+            err500('sqlite fle not found.');
+        }
+        $PDO_DSN="sqlite:$dbpath";
+    }
 
     try {
-        $dbh = new PDO($PDO_DSN, $ds_parms['user'], $ds_parms['password']);
+        $dbh = new PDO($PDO_DSN, @$ds_parms['user'], @$ds_parms['password']);
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     } catch (PDOException $e) {
         err500('db error: ' . $e->getMessage());
+    }
+    if($ds_parms['provider'] == 'sqlite') {
+        $dbh->loadExtension('libspatialite.so');
     }
     return $dbh;
 }
