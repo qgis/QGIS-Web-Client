@@ -15,7 +15,7 @@ var selectedLayers; //later an array containing all visible (selected) layers
 var selectedQueryableLayers; //later an array of all visible (selected and queryable) layers
 var allLayers; //later an array containing all leaf layers
 var thematicLayer, highlightLayer, featureInfoHighlightLayer;
-var googleStatelliteLayer;
+var googleSatelliteLayer;
 var bingSatelliteLayer;
 // var bingApiKey = "add Bing api key here"; // http://msdn.microsoft.com/en-us/library/ff428642.aspx
 var highLightGeometry = new Array();
@@ -107,11 +107,11 @@ Ext.onReady(function () {
 	mainStatusText.setText(mapAppLoadingString[lang]);
 
 	if (enableGoogleCommercialMaps) {
-		googleStatelliteLayer = new OpenLayers.Layer.Google(
+		googleSatelliteLayer = new OpenLayers.Layer.Google(
 			"Google Satellite",
 			{type: google.maps.MapTypeId.SATELLITE, numZoomLevels: 22, isBaseLayer: true}
 		);
-		baseLayers.push(googleStatelliteLayer);
+		baseLayers.push(googleSatelliteLayer);
 	}
 	if (enableBingCommercialMaps) {
 		bingSatelliteLayer = new OpenLayers.Layer.Bing({
