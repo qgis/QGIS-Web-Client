@@ -71,7 +71,7 @@ function build_postgis_search_query($dbtable, $search_column, $geom_column, $lay
  * Build spatialite SQL query, here also searchtable is layer name
  */
 function build_spatialite_search_query($dbtable, $search_column, $geom_column, $layername, $querystrings, $sql_filter){
-    $sql = "SELECT load_extension('libspatialite.so'); PRAGMA case_sensitive_like=OFF; SELECT $search_column as displaytext, '$layername' AS searchtable, '$layername' as search_category, ";
+    $sql = "PRAGMA case_sensitive_like=OFF; SELECT $search_column as displaytext, '$layername' AS searchtable, '$layername' as search_category, ";
     # the following line is responsible for zooming in to the features
     # this is supposed to work in PostgreSQL since version 9.0
     $sql .= "'['||replace(regexp_replace(envelope($geom_column),'BOX\(|\)','','g'),' ',',')||']' AS bbox ";

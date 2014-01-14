@@ -144,9 +144,15 @@ function get_connection($layer, $project, $map_path){
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     } catch (PDOException $e) {
         err500('db error: ' . $e->getMessage());
-    }
-    if($ds_parms['provider'] == 'sqlite') {
-        $dbh->loadExtension('libspatialite.so');
+    }    
+    if($ds_parms['provider'] == 'spatialite') {
+        try {
+            $sql = "SELECT load_extension('libspatialite.so');";
+            $stmt = $dbh->prepare($sql);
+            $stmt->execute();
+        } catch (PDOException $e) {
+            err500('db error loading spatialite: ' . $e->getMessage());
+        }     
     }
     return $dbh;
 }
