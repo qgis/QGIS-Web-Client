@@ -136,7 +136,7 @@ function showFeatureInfoHover(evt) {
                                      .replace(/'/g, "&#039;");
                     })
                     text += tooltipText+"<br/>";
-                } else if (tooltipAttributeName.contains('[%')){ // Look into displayField for template tags...
+                } else if (tooltipAttributeName.indexOf('[%') !== -1){ // Look into displayField for template tags...
                     var tooltipText = tooltipAttributeName;
                     var re = new RegExp(/\[%[^"]*"(.*?)"[^"]*%\]/g);
                     var ttmatch;
