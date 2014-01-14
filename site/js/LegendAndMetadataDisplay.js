@@ -21,7 +21,7 @@ function showInteractiveLegendAndMetadata(layertitle) {
 		legendMetadataWindow.show();
 	}
 	//create legend URI from GlobalOptions.js interactiveLegendGetLegendURL
-    if (typeof('interactiveLegendGetLegendURL') == 'undefined'){
+    if (typeof(interactiveLegendGetLegendURL) == 'undefined'){
         Ext.MessageBox.alert('Configuration error', 'interactiveLegendGetLegendURL is not defined. Set it in GlobalOptions.js');
         return;
     }

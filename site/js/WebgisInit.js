@@ -1633,7 +1633,7 @@ function addInfoButtonsToLayerTree() {
 				});
 
 				Ext.get(buttonId).on('click', function(e) {
-                    if(typeof('interactiveLegendGetLegendURL') == 'undefined'){
+                    if(typeof(interactiveLegendGetLegendURL) == 'undefined'){
                         showLegendAndMetadata(n.text);
                     } else {
                         showInteractiveLegendAndMetadata(n.text);

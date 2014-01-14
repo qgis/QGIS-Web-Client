@@ -132,6 +132,10 @@ var tooltipTemplates = {
 // can slow down the application.
 var mapSearchPanelOutputRegion = 'popup' ; // Possible values: default,right,bottom,popup
 
+// Interactive legend. This is based on PHP get_legend.php script.
+// You can define here an alternate URL for this service
+//var interactiveLegendGetLegendURL = '../php/get_legend.php?map=' + project_map + '&';
+
 
 //define whether you want to display a map theme switcher
 //note that you have to also link a gis-project-listing.js file containing a valid
