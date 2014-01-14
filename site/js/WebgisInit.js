@@ -853,23 +853,25 @@ function postLoading() {
                 // Make sure it's shown and expanded
                 targetComponent.show();
                 targetComponent.collapsible && targetComponent.expand();
-                if(!searchPanelInstance.resultsGrid){
-                    searchPanelInstance.resultsGrid = new Ext.grid.GridPanel({
-                      id: 'SearchPanelResultsGrid',
-                      title: searchResultString[lang],
-                      collapsible: true,
-                      collapsed: false,
-                      store: searchPanelInstance.store,
-                      columns: searchPanelInstance.gridColumns,
-                      autoHeight: true,
-                      viewConfig: {
-                        forceFit: true
-                      }
-                    });
-                    searchPanelInstance.resultsGrid.on('rowclick', searchPanelInstance.onRowClick, searchPanelInstance);
-                    targetComponent.add(searchPanelInstance.resultsGrid);
-                    targetComponent.doLayout();
-                }                
+                // Delete and re-create
+                if(searchPanelInstance.resultsGrid){
+                    Ext.getCmp('SearchPanelResultsGrid').destroy();
+                }
+                searchPanelInstance.resultsGrid = new Ext.grid.GridPanel({
+                  id: 'SearchPanelResultsGrid',
+                  title: searchResultString[lang],
+                  collapsible: true,
+                  collapsed: false,
+                  store: searchPanelInstance.store,
+                  columns: searchPanelInstance.gridColumns,
+                  autoHeight: true,
+                  viewConfig: {
+                    forceFit: true
+                  }
+                });
+                searchPanelInstance.resultsGrid.on('rowclick', searchPanelInstance.onRowClick, searchPanelInstance);
+                targetComponent.add(searchPanelInstance.resultsGrid);
+                targetComponent.doLayout();
                 // Always make sure it's shown and expanded
                 searchPanelInstance.resultsGrid.show();
                 searchPanelInstance.resultsGrid.collapsible && searchPanelInstance.resultsGrid.expand();
