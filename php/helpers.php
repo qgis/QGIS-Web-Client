@@ -42,8 +42,8 @@ function get_layer_info($layer, $project){
     // Cache
     static $pg_layer_infos = array();
 
-    if((string)$layer->provider != 'postgis' && (string)$layer->provider != 'spatialite'){
-        err500('only postgis or spatialite layers are supported');
+    if((string)$layer->provider != 'postgres' && (string)$layer->provider != 'spatialite'){
+        err500('only postgis or spatialite layers are supported' . (string)$layer->provider);
     }
     // Datasource
     $datasource = (string)$layer->datasource;
@@ -125,7 +125,7 @@ function get_categories($layer){
 function get_connection($layer, $project, $map_path){
 
     $ds_parms = get_layer_info($layer, $project);
-    if($ds_parms['provider'] == 'postgis') {
+    if($ds_parms['provider'] == 'postgres') {
         $PDO_DSN="pgsql:host=${ds_parms['host']};port=${ds_parms['port']};dbname=${ds_parms['dbname']}";
     } else { // Spatialite
         // Calculate directory
