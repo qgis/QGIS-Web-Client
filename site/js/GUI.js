@@ -49,6 +49,7 @@ new objectIdentificationModes();
 var layoutHeaderCfg = {
 	tag: 'div',
 	cls: 'x-panel-header',
+	id: 'panel_header',
 	children: [
 		{
 			tag: 'div',

@@ -15,7 +15,7 @@ var selectedLayers; //later an array containing all visible (selected) layers
 var selectedQueryableLayers; //later an array of all visible (selected and queryable) layers
 var allLayers; //later an array containing all leaf layers
 var thematicLayer, highlightLayer, featureInfoHighlightLayer;
-var googleStatelliteLayer;
+var googleSatelliteLayer;
 var bingSatelliteLayer;
 // var bingApiKey = "add Bing api key here"; // http://msdn.microsoft.com/en-us/library/ff428642.aspx
 var highLightGeometry = new Array();
@@ -107,11 +107,11 @@ Ext.onReady(function () {
 	mainStatusText.setText(mapAppLoadingString[lang]);
 
 	if (enableGoogleCommercialMaps) {
-		googleStatelliteLayer = new OpenLayers.Layer.Google(
+		googleSatelliteLayer = new OpenLayers.Layer.Google(
 			"Google Satellite",
 			{type: google.maps.MapTypeId.SATELLITE, numZoomLevels: 22, isBaseLayer: true}
 		);
-		baseLayers.push(googleStatelliteLayer);
+		baseLayers.push(googleSatelliteLayer);
 	}
 	if (enableBingCommercialMaps) {
 		bingSatelliteLayer = new OpenLayers.Layer.Bing({
@@ -282,6 +282,9 @@ function postLoading() {
 		//we need to get a flat list of visible layers so we can set the layerOrderPanel
 		getVisibleFlatLayers(layerTree.root.firstChild);
 
+		// add abstracts to project node and group nodes
+		addAbstractToLayerGroups();
+		
 		// add components to tree nodes while tree is expanded to match GUI layout
 		// info buttons in layer tree
 		addInfoButtonsToLayerTree();
@@ -1085,7 +1088,7 @@ function postLoading() {
 			printWindow = new Ext.Window({
 				title: printSettingsToolbarTitleString[lang],
 				height: 67,
-				width: 495,
+				width: 530,
 				layout: "fit",
 				renderTo: "geoExtMapPanel",
 				resizable: false,
@@ -1268,6 +1271,11 @@ function postLoading() {
 		printDPICombobox.setValue("300");
 		//need to manually fire the event, because .setValue doesn't; index omitted, not needed
 		printDPICombobox.fireEvent("select", printDPICombobox, printDPICombobox.findRecord(printDPICombobox.valueField, "300"));
+        //if the var fixedPrintResolution in GlobalOptions.js is set, the printLayoutsCombobox will be hidden
+        if (fixedPrintResolution != null && parseInt(fixedPrintResolution) > 0){
+            printDPICombobox.hide(); // hide dpi combobox
+            printWindow.setWidth(printWindow.width - 80); // reduce the legth of the print window
+        }
 		//bug in spinnerField: need to explicitly show/hide printWindow (toolbar)
 		printWindow.show();
 		printWindow.hide();
@@ -1622,25 +1630,38 @@ function createPermalink(){
 }
 
 function addInfoButtonsToLayerTree() {
-		var treeRoot = layerTree.getNodeById("wmsNode");
-		treeRoot.firstChild.cascade(
+	var treeRoot = layerTree.getNodeById("wmsNode");
+	treeRoot.firstChild.cascade(
 		function (n) {
-			if (n.isLeaf()) {
-				// info button
-				var buttonId = 'layer_' + n.id;
-				Ext.DomHelper.insertBefore(n.getUI().getAnchor(), {
-					tag: 'b',
-					id: buttonId,
-					cls: 'layer-button x-tool custom-x-tool-info'
-				});
+			// info button
+			var buttonId = 'layer_' + n.id;
+			Ext.DomHelper.insertBefore(n.getUI().getAnchor(), {
+				tag: 'b',
+				id: buttonId,
+				cls: 'layer-button x-tool custom-x-tool-info'
+			});
+            Ext.get(buttonId).on('click', function(e) {
+                if(typeof(interactiveLegendGetLegendURL) == 'undefined'){
+                    showLegendAndMetadata(n.text);
+                } else {
+                    showInteractiveLegendAndMetadata(n.text);
+                }
+            });
+		}
+	);
+}
 
-				Ext.get(buttonId).on('click', function(e) {
-                    if(typeof(interactiveLegendGetLegendURL) == 'undefined'){
-                        showLegendAndMetadata(n.text);
-                    } else {
-                        showInteractiveLegendAndMetadata(n.text);
-                    }
-				});
+function addAbstractToLayerGroups() {
+	var treeRoot = layerTree.getNodeById("wmsNode");
+	treeRoot.firstChild.cascade(
+		function (n) {
+			if (! n.isLeaf()) {
+				if (n == treeRoot.firstChild) {
+					var thisAbstract = wmsLoader.projectSettings.service.abstract;
+				} else {
+					var thisAbstract = layerGroupString[lang]+ ' "' + n.text + '"';
+				}
+				wmsLoader.layerProperties[n.text].abstract = thisAbstract;
 			}
 		}
 	);

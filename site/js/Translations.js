@@ -539,15 +539,15 @@ legendMetadataWindowTitleString["ro"] = "Legenda și informațiile tip metadate 
 
 //title of metadata section
 var metadataSectionTitleString = new Array();
-metadataSectionTitleString["en"] = "Metadata of layer ";
-metadataSectionTitleString["es"] = "Metadata of layer "; //FIXME
-metadataSectionTitleString["de"] = "Metadaten der Ebene ";
-metadataSectionTitleString["fr"] = "Métadonnée de la couche ";
-metadataSectionTitleString["it"] = "Metadati del layer ";
-metadataSectionTitleString["pt_PT"] = "Metadados da camada ";
-metadataSectionTitleString["uk"] = "Metadata of layer "; //FIXME
-metadataSectionTitleString["hu"] = "Réteg neve: ";
-metadataSectionTitleString["ro"] = "Metadatele stratului ";
+metadataSectionTitleString["en"] = "Metadata of layer";
+metadataSectionTitleString["es"] = "Metadata of layer"; //FIXME
+metadataSectionTitleString["de"] = "Metadaten der Ebene";
+metadataSectionTitleString["fr"] = "Métadonnée de la couche";
+metadataSectionTitleString["it"] = "Metadati del layer";
+metadataSectionTitleString["pt_PT"] = "Metadados da camada";
+metadataSectionTitleString["uk"] = "Metadata of layer"; //FIXME
+metadataSectionTitleString["hu"] = "Réteg neve:";
+metadataSectionTitleString["ro"] = "Metadatele stratului";
 
 //Abstract
 var abstractString = new Array();
@@ -596,6 +596,18 @@ noString["pt_PT"] = "não";
 noString["uk"] = "no"; //FIXME
 noString["hu"] = "nem";
 noString["ro"] = "nu";
+
+//metadata: layer group
+var layerGroupString = new Array();
+layerGroupString["en"] = "Layer group";
+layerGroupString["es"] = "Layer group"; //FIXME
+layerGroupString["de"] = "Ebenengruppe";
+layerGroupString["fr"] = "Layer group"; //FIXME
+layerGroupString["it"] = "Layer group"; //FIXME
+layerGroupString["pt_PT"] = "Layer group"; //FIXME
+layerGroupString["uk"] = "Layer group"; //FIXME
+layerGroupString["hu"] = "Layer group"; //FIXME
+layerGroupString["ro"] = "Layer group"; //FIXME
 
 //metadata: display field (for tooltips)
 var displayFieldString = new Array();

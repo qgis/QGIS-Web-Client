@@ -119,7 +119,7 @@ mapSearchPanelConfigs[project_map] = [simpleWmsSearch, urlRewriteSearch];
 var tooltipTemplates = {
 	'Country':{
 		template: "Look for the country on Google Search: <a href='http://www.google.it/#output=search&q=<%name%>' target='_blank'><%name%></a>"
-	},
+	}
 };
 
 
@@ -211,7 +211,7 @@ var overviewLayer = new OpenLayers.Layer.WMS("Overview-Map",
 
 // prevent the user from choosing a print resolution
 // if fixedPrintResolution = null, the user is allowed to choose the print resolution. 
-var fixedPrintResolution = null // for a fixed resolution of 200dpi fill 200
+var fixedPrintResolution = null; // for a fixed resolution of 200dpi fill 200
 
 //print options - scales and dpi
 var printCapabilities={
