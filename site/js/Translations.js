@@ -488,6 +488,19 @@ legendTabTitleString["uk"] = "Легенда";
 legendTabTitleString["hu"] = "Jelkulcs";
 legendTabTitleString["ro"] = "Legendă";
 
+//legend loading message in legend tab
+var legendTabLoadingString = new Array();
+legendTabLoadingString["en"] = "Loading legend, please wait...";
+legendTabLoadingString["es"] = "Leyenda"; //FIXME
+legendTabLoadingString["de"] = "Legende"; //FIXME
+legendTabLoadingString["fr"] = "Légende"; //FIXME
+legendTabLoadingString["it"] = "Legenda in caricamento, attendere prego...";
+legendTabLoadingString["pt_PT"] = "Legenda"; //FIXME
+legendTabLoadingString["uk"] = "Легенда"; //FIXME 
+legendTabLoadingString["hu"] = "Jelkulcs"; //FIXME
+legendTabLoadingString["ro"] = "Legendă"; //FIXME
+ 
+
 //title of metadata tab
 var metadataTabTitleString = new Array();
 metadataTabTitleString["en"] = "Metadata";
@@ -871,6 +884,18 @@ searchErrorString["pt_PT"] = "Erro durante a pesquisa";
 searchErrorString["uk"] = "Помилка під час пошуку";
 searchErrorString["hu"] = "Hiba a keresés alatt";
 searchErrorString["ro"] = "Eroare în timpul căutarii";
+
+//search no records found
+var searchNoRecordsFoundString = new Array();
+searchNoRecordsFoundString["en"] = "No records found"; 
+searchNoRecordsFoundString["es"] = "Error en la búsqueda"; // FIXME
+searchNoRecordsFoundString["de"] = "Fehler bei Suche"; // FIXME
+searchNoRecordsFoundString["fr"] = "Erreur pendant la recherche"; // FIXME
+searchNoRecordsFoundString["it"] = "Nessun risultato";
+searchNoRecordsFoundString["pt_PT"] = "Erro durante a pesquisa"; // FIXME
+searchNoRecordsFoundString["uk"] = "Помилка під час пошуку"; // FIXME
+searchNoRecordsFoundString["hu"] = "Hiba a keresés alatt"; // FIXME
+searchNoRecordsFoundString["ro"] = "Eroare în timpul căutarii"; // FIXME
 
 //print settings toolbar title
 var printSettingsToolbarTitleString = new Array();

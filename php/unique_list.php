@@ -29,8 +29,8 @@ $layer = get_layer($layername, $project);
 
 
 try {
-    $dbh = get_connection($layer, $project);
-    $ds_parms = get_pg_layer_info($layer, $project);
+    $dbh = get_connection($layer, $project, $map);
+    $ds_parms = get_layer_info($layer, $project);
     $_field = preg_replace('/[^A-z0-9_-]]/','',$field);
     $stmt = $dbh->prepare("SELECT DISTINCT $_field FROM ${ds_parms['table']} ORDER BY $_field");
     $stmt->execute();
@@ -38,9 +38,10 @@ try {
     while ($row = $stmt->fetchColumn()) {
         $result[] = $row;
     }
+    $json_result = json_encode($result);
     header('Content-type: application/json');
-    header('Content-length: ' . strlen($result));
-    echo json_encode($result);
+    header('Content-length: ' . strlen($json_result));
+    echo $json_result;
     exit;
 
 } catch (PDOException $e) {

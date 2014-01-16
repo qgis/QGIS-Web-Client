@@ -128,7 +128,7 @@ function showFeatureInfoHover(evt) {
                 else if (tooltipTemplates && tooltipTemplates.hasOwnProperty(layerNodes[i].getAttribute("name"))){
                     templateText = tooltipTemplates[layerNodes[i].getAttribute("name")].template;
                     tooltipText = templateText.replace(/<%(\w*)%>/g,function(m,key){
-                        var value = attributesDict.hasOwnProperty(key)?attributesDict[key]:"";
+                        var value = attributesDict.hasOwnProperty(key) ? attributesDict[key] : "";
                         return value.replace(/&/g, "&amp;")
                                      .replace(/</g, "&lt;")
                                      .replace(/>/g, "&gt;")
@@ -136,13 +136,13 @@ function showFeatureInfoHover(evt) {
                                      .replace(/'/g, "&#039;");
                     })
                     text += tooltipText+"<br/>";
-                } else if (tooltipAttributeName.contains('[%')){ // Look into displayField for template tags...
+                } else if (tooltipAttributeName.indexOf('[%') !== -1){ // Look into displayField for template tags...
                     var tooltipText = tooltipAttributeName;
                     var re = new RegExp(/\[%[^"]*"(.*?)"[^"]*%\]/g);
                     var ttmatch;
                     while(ttmatch = re.exec(tooltipAttributeName)){
                         var key = ttmatch[1];
-                        var val = attributesDict.hasOwnProperty(key)?attributesDict[key]:"";
+                        var val = attributesDict.hasOwnProperty(key) ? attributesDict[key] : "";
                         tooltipText = tooltipText.replace(ttmatch[0], val);
                     }
                     text += tooltipText+"<br/>";

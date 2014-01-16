@@ -23,10 +23,18 @@ var useGeodesicMeasurement = true;
 
 //search box for queries while typing
 //enable to use GeoNames search
-var useGeoNamesSearchBox = true;
+var useGeoNamesSearchBox = false;
 //URL for custom search scripts
 var searchBoxQueryURL = null; // "/wsgi/search.wsgi?query=";
 var searchBoxGetGeomURL = null; // "/wsgi/getSearchGeom.wsgi";
+
+// Used to dynamically determine the project.
+var project_map = Ext.urlDecode(window.location.search.substring(1)).map;
+
+// PHP based search scripts (postgis layers only)
+//var searchBoxQueryURL = '../php/search.php?map=' + project_map;
+//var searchBoxGetGeomURL = '../php/search_geom.php?map=' + project_map;
+
 
 //use a URL shortener for your permalink function
 var permaLinkURLShortener = null; // "/wsgi/createShortPermalink.wsgi";
@@ -103,6 +111,9 @@ var mapSearchPanelConfigs = {
   "helloworld": [simpleWmsSearch, urlRewriteSearch]
 };
 
+// ABP: needed for helloworld if no rewrite
+mapSearchPanelConfigs[project_map] = [simpleWmsSearch, urlRewriteSearch];
+
 //templates to define tooltips for a layer, to be shown on hover identify. The layer fields must be wrapped inside <%%> special tags.
 //if a layers field is found with the name "tooltip" its content will have precedence over this configuration 
 var tooltipTemplates = {
@@ -110,6 +121,21 @@ var tooltipTemplates = {
 		template: "Look for the country on Google Search: <a href='http://www.google.it/#output=search&q=<%name%>' target='_blank'><%name%></a>"
 	}
 };
+
+
+// SearchPanel search results output configuration
+// by default, search results will be shown in left panel, under the
+// search form. Sometimes this is not desired, here you can choose to
+// show the results in one of the other panels, like BottomPanel and
+// RightPanel. These additional panels are hidden by default because
+// their expansion and collapse trigger a map resize->reload cycle that
+// can slow down the application.
+var mapSearchPanelOutputRegion = 'popup' ; // Possible values: default,right,bottom,popup
+
+// Interactive legend. This is based on PHP get_legend.php script.
+// You can define here an alternate URL for this service
+//var interactiveLegendGetLegendURL = '../php/get_legend.php?map=' + project_map + '&';
+
 
 //define whether you want to display a map theme switcher
 //note that you have to also link a gis-project-listing.js file containing a valid

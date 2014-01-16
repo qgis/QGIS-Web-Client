@@ -73,6 +73,28 @@ if (headerLogoImg != null) {
 	layoutHeaderCfg['style'] = 'height: ' + headerLogoHeight + 'px;';
 }
 
+
+/*
+ * The main application viewport.
+ *
+ * It contains the following regions:
+ *
+ *  +++++++++++++++++++++++++++++++++++
+ *  +           toolbar               +
+ *  +++++++++++++++++++++++++++++++++++
+ *  +       +                +        +
+ *  + Left  + CenterPanel    + Right  +
+ *  + Panel +                + Panel  +
+ *  +       +                +        +
+ *  +++++++++++++++++++++++++++++++++++
+ *  +         BottomPanel             +
+ *  +++++++++++++++++++++++++++++++++++
+ *
+ * Right and Bottom panel are hidden by default but can be enabled on
+ * request, see an example in Customizations.js: function
+ * customAfterMapInit()
+ * 
+ */ 
 MyViewportUi = Ext.extend(Ext.Viewport, {
 	layout: 'fit',
 	initComponent: function () {
@@ -314,7 +336,27 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 						}]
 					}
 				}]
-			}]
+			},
+            {
+                xtype: 'panel',
+                id: 'RightPanel',
+                region: 'east',                
+                split: true,
+                collapsible: true,
+                collapsed: true,    
+                hidden: true,
+                width: 200
+            },
+            {
+                xtype: 'panel',
+                id: 'BottomPanel',        
+                region: 'south',
+                split: true,
+                collapsible: true,
+                collapsed: true,    
+                hidden: true,
+                height: 100 
+            }]
 		}];
 
 		// Appends custom buttons from customizations.js
