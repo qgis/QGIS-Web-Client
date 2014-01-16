@@ -107,9 +107,11 @@ function setupLegendAndMetadataWindow() {
 		height: geoExtMap.getHeight() * 0.5,
 		autoScroll: true,
 		maximizable: true,
+		layout: 'fit',
 		items: [{
 			xtype: 'tabpanel',
 			activeTab: 0,
+			defaults: {autoScroll: true},
 			id: 'legendMetaTabPanel',
 			items: [{
 				title: legendTabTitleString[lang],

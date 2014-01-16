@@ -1,10 +1,10 @@
 Quantum GIS (QGIS) Web Client
 Installation  and Configuration Guide
-Monday December 10, 2012
+Wednesday December 04, 2013
 
 
-Last Updated: Monday December 10, 2012
-Last Change : Monday December 10, 2012
+Last Updated: Wednesday December 04, 2013
+Last Change : Wednesday December 04, 2013
 
 
   1. For the terminally lazy
@@ -14,6 +14,7 @@ Last Change : Monday December 10, 2012
     4.1. Per Project Startup Options
     4.2. Configuration of search panels
     4.3. Configuration of the theme switcher
+    4.4. Extending the interface
   5. URL Rewriting
   6. Configuration of search python script
     6.1. Configuration of mod_wsgi
@@ -129,13 +130,15 @@ A comma-separated list of layers that should be set visible on the project start
   format
 
 This optional parameter allows a per project definition of the file format. Valid values are
-'image/png', 'image/jpeg' and 'image/png;mode=8bit'. Defaults to 'image/png' if no format is given per project.
+'image/png', 'image/jpeg' and 'image/png;mode=8bit'. Defaults to 'image/png' if no format is given per project. 
+For correct specification of 'image/png;mode=8bit' in a URL please encode it correctly: 'image%2fpng%3b%20mode%3d8bit'.
+If you specify this in site/js/GISProjectListing.js you do not need to encode it.
 
   fullColorLayers
 
 An optional comma-separated list of layers that need to be in full color (24bit). This parameter is only
 relevant if the project default image format is set to 'image/png' or 'image/png;mode=8bit'.
-If any of the layers in the fullColorLayers parameter list is set visible, the format changes to 'image/jpeg'.
+If any of the layers in the fullColorLayers parameter list is set visible, the format changes to 'image/jpeg'. 
 
   maxExtent
 
@@ -452,6 +455,13 @@ Optional. Tags or keywords displayed in the tooltips in the theme switcher.
 The tags are also used in the search filter used in the theme switcher.
 
 
+  4.4. Extending the interface
+  ============================
+
+You can add buttons to implements additional functions (editing, advanced identify, etc.).
+See the example in site/js/Customizations.js.
+
+
   5. URL Rewriting
   ================
 
@@ -537,7 +547,8 @@ containing the db connection strings. Search for the line
 
   conn = psycopg2.connect("host='yourhost' dbname='yourdb' port='5432' user='yourusername' password='yourpassword'")
 
-and adapt the parameters according to your server/db.
+and adapt the parameters according to your server/db. It is highly recommended to
+connect with a database user having limited rights only (e.g. select rights on relevant tables only).
 
 
     6.2.2. Search type to be used
@@ -545,13 +556,15 @@ and adapt the parameters according to your server/db.
 
 The search can use PostgreSQL's tsvector data type. 
 "A tsvector value is a sorted list of distinct lexemes, which are words that have been normalized to
-merge different variants of the same word." from the PostgreSQL doc at (http://www.postgresql.org/docs/9.0/interactive/datatype-textsearch.html#DATATYPE-TSVECTOR)
+merge different variants of the same word."
+from the PostgreSQL doc (http://www.postgresql.org/docs/9.0/interactive/datatype-textsearch.html#DATATYPE-TSVECTOR).
 Thus tsvector skips all the fill words and reduces nouns to their single form, a behaviour useful
 for searching texts. However as we are normally dealing with place names here we want them to stay as they are.
 If you use a language where the single form is a lot different from the plural form but your name contains a plural
-you will not get a suitable result. If you want to use the tsvector search option you should activate the line
+you will not get a suitable result. If you want to use the tsvector search option you should activate the lines
 
-  sql += "searchstring_tsvector @@ to_tsquery(\'not_your_language\', '"+querystrings[j]+":*')"
+  sql += "searchstring_tsvector @@ to_tsquery(\'not_your_language\', %s)"
+  data += (querystrings[j]+":*",)
 
 not_your_language is to be replaced with an entry e.g. finnish if you have German place names.
 Thus plural forms and fillwords are kept as they are. Be aware of side effects!
@@ -559,14 +572,16 @@ Be sure to fill the field searchstring_tsvector with `to_tsvector('not_your_lang
 
 The use of
 
-  sql += "searchstring::tsvector @@ lower('"+querystrings[j]+":*')::tsquery"
+  sql += "searchstring::tsvector @@ lower(%s)::tsquery"
+  data += (querystrings[j]+":*",)
 
 is discouraged as it does not find a place name like Stoke-sub-Hamden when you enter Stoke.
 
 If you do not want to use tsvector at all you can enable the full string comparison on the field searchstring
 (activated by default).
 
-  sql += "searchstring ILIKE \'%"+querystrings[j]+"%\'"
+  sql += "searchstring ILIKE %s"
+  data += ("%" + querystrings[j] + "%",)
 
 This method however is slower than tsvector but not relevantly at least if you only have a couple 1000 datasets. 
 
@@ -589,7 +604,7 @@ This method however is slower than tsvector but not relevantly at least if you o
   WITH (
     OIDS=FALSE
   );
-  GRANT SELECT ON TABLE cadastre.searchtable TO alle;
+  GRANT SELECT ON TABLE cadastre.searchtable TO qwc_user;
   
   -- Index: cadastre.in_cadastre_searchstring_tsvector_gin
   
@@ -599,8 +614,10 @@ This method however is slower than tsvector but not relevantly at least if you o
     (searchstring_tsvector);
 
 The above search table can also be a view or materialized view. One can combine
-several search tables by specifying the `searchtables=searchtable1,searchtable2,searchtable3` 
-parameter when requesting the search.wsgi script.
+several search tables by specifying the `searchtables=searchtable1,searchtable_n` 
+parameter when requesting the search.wsgi script. Any searchtable passed to search.wsgi may only contain
+the letters A to Z, a to z and the underscore. Double quoting the search table throws an error, thus searchtables' names must
+contain lower characters only.
 
 Using views is generally slower than properly indexed tables, check for yourself what works best.
 
