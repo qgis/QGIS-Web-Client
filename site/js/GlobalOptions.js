@@ -7,7 +7,7 @@ var helpfile = "help_de.html";
 //Servername (optional) and path and name name of QGIS mapserver FCGI-file
 //either with or without server-name - without servername recommended for easier porting to other servers
 //do not add a ? or & after the .fcgi extension
-var serverAndCGI = "http://srsofaioi12288.ktso.ch/wmstest";
+var serverAndCGI = "http://www.sogis1.so.ch/wms";
 
 //Define whether you want to use the GetProjectSettings extension of QGIS Server
 //for more configuration options in the project.
@@ -200,7 +200,8 @@ var printCapabilities={
     {"name":"1:50'000","value":"50000"},
     {"name":"1:75'000","value":"75000"},
     {"name":"1:100'000","value":"100000"},
-    {"name":"1:250'000","value":"250000"},
+    {"name":"1:250'000","value":"250000"}
+    /*
     {"name":"1:500'000","value":"500000"},
     {"name":"1:750'000","value":"750000"},
     {"name":"1:1'000'000","value":"1000000"},
@@ -211,13 +212,16 @@ var printCapabilities={
     {"name":"1:15'000'000","value":"15000000"},
     {"name":"1:20'000'000","value":"20000000"},
     {"name":"1:25'000'000","value":"25000000"},
-    {"name":"1:30'000'000","value":"30000000"}
+    {"name":"1:30'000'000","value":"30000000"} 
+    */
  ],
   "dpis":[
     {"name":"150 dpi","value":"150"},
     {"name":"220 dpi","value":"220"},
   ],
-  "layouts":[]
+  "layouts":[],
+  "method":"POST", // POST or GET,
+  "url_proxy": "http://www.sogis1.so.ch/wsgi/printpostget.wsgi?" // url to printpostget.wsgi
 };
 
 // <------------ No changes should be needed below here ------------------>
