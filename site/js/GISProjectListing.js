@@ -182,5 +182,23 @@ var gis_projects = {
             "sogisbuttons" : default_buttons_seperators,
             "sogisdefaultbutton" : ""
 		}]
+    },{ 
+	  	"name": "mocheckso",
+		"projects": [{
+			"name": "mocheckso",
+			"projectpath": "",
+			"projectfile": "mocheckso",
+			"format": "image/png",
+			"visibleLayers": "",
+			"updateInterval": "occasional",
+			"responsible": "Amtliche Vermessung",
+			"tags": "Meine Tags",
+            "switcher": false,
+            "sogistooltip": false,
+            "sogistooltipwidth" : "450",
+            "sogistooltipheight" : "400",
+            "sogisbuttons" : default_buttons_seperators,
+            "sogisdefaultbutton" : ""
+		}]
     }]
 };
