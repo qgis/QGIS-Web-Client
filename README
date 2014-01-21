@@ -15,6 +15,7 @@ Last Change : Thursday January 16, 2014
     4.2. Configuration of search panels
     4.3. Configuration of the theme switcher
     4.4. Extending the interface
+    4.5. Configuration of spatial printing
   5. URL Rewriting
   6. Configuration of search python script
     6.1. Configuration of mod_wsgi
@@ -465,6 +466,18 @@ The tags are also used in the search filter used in the theme switcher.
 
 You can add buttons to implements additional functions (editing, advanced identify, etc.).
 See the example in site/js/Customizations.js.
+
+  4.5. Configuration of spatial printing
+  ======================================
+
+It is possible to add a polygone-layer in QGIS, which is queried in the Web-Client for spatial related printing-information. You could e.g. add a layer with regional information as name of the region, phone number and other contact details of the responsible administration. To do this, follow-up these steps in QGIS:
+1. The layer providing spatial related printing-information has to be named 'print'
+2. The polygone-geometry field of the layer has to be named 'geometry'
+2. Use the attribute-title of the layer in the print template as 'Item ID' (de: 'Elementkennung')
+3. To hide the layer 'print', you could exclude it from the WMS-Capabilities (QGIS: project-settings->ows server-> WMS-Capabilities)
+4. The layer has to be published in the WFS-Capabilities
+
+Now the QGIS-client sends the spatial information (attribute-titles of the layer 'print') to the server and there the corresponding item will be filled in when generating a .pdf-document. For the spatial query, the center of the map is being used. 
 
 
   5. URL Rewriting
