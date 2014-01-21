@@ -123,6 +123,21 @@ var gis_projects = {
           "sogistooltipheight" : "300",
           "sogisbuttons" : default_buttons_seperators,
           "sogisdefaultbutton" : ""
+    },{
+          "name": "Naturgefahren",
+          "projectpath": "",
+          "projectfile": "naturgefahren",
+          "format": "image/png",
+          "visibleLayers": "Naturgefahren",
+          "updateInterval": "occasional",
+          "responsible": "Amt für Umwelt",
+          "tags": "Naturgefahren",
+          "switcher": false,
+          "sogistooltip": true,
+          "sogistooltipwidth" : "600",
+          "sogistooltipheight" : "400",
+          "sogisbuttons" : default_buttons_seperators,
+          "sogisdefaultbutton" : ""
     }]  
   },{
     "name": "Amt für Landwirtschaf",
