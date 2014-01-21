@@ -228,6 +228,18 @@ modePrintingString["uk"] = "Режим: друк. Обаріть ділянку 
 modePrintingString["hu"] = "Mód: nyomtatás. Mozgatható, forgatható a nyomtatási terület.";
 modePrintingString["ro"] =  "Mod: tipărire/print. Suprafața hărtii se poate mișca sau roti. Când ești gata apasă butonul 'Print'";
 
+//indicating is waiting for print
+var printLoadingString = new Array();
+printLoadingString["en"] = "Printing initialised. Please wait...";
+printLoadingString["es"] = "Printing initialised. Please wait..."; //FIXME
+printLoadingString["de"] = "Der Druckauftrag ist erfolgt. Bitte haben sie etwas Geduld...";
+printLoadingString["fr"] = "Printing initialised. Please wait..."; //FIXME
+printLoadingString["it"] = "Printing initialised. Please wait..."; //FIXME
+printLoadingString["pt_PT"] = "Printing initialised. Please wait..."; //FIXME
+printLoadingString["uk"] = "Printing initialised. Please wait..."; //FIXME
+printLoadingString["hu"] = "Printing initialised. Please wait..."; //FIXME
+printLoadingString["ro"] = "Printing initialised. Please wait..."; //FIXME
+
 /***********************
 GUI stuff
 ***********************/

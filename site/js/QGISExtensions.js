@@ -342,7 +342,7 @@ Ext.extend(QGIS.PrintProvider, GeoExt.data.PrintProvider, {
       grid_interval = 10000000;
     }
 
-    //if the var fixedPrintResolution of GlobalOptions.js is set, the print resolution will be this value
+    // if the var fixedPrintResolution of GlobalOptions.js is set, the print resolution will be this value
     if (fixedPrintResolution != null && parseInt(fixedPrintResolution) > 0){
         printResolution = fixedPrintResolution;
     } else {
@@ -356,7 +356,37 @@ Ext.extend(QGIS.PrintProvider, GeoExt.data.PrintProvider, {
     if (thematicLayer.params.SELECTION) {
       printUrl += '&SELECTION='+encodeURIComponent(thematicLayer.params.SELECTION);
     }
-    this.download(printUrl);
+
+    // makes spatial query from map to use the attributes in the print template (more in README chap 4.5)
+    var lonlat = printExtent.page.getPrintExtent(map).getCenterLonLat();
+    var mapCenter = new OpenLayers.Geometry.Point(lonlat.lon, lonlat.lat);
+    var myfilter = new OpenLayers.Filter.Comparison({
+        type: OpenLayers.Filter.Spatial.INTERSECTS,
+        value: mapCenter
+    });
+    Ext.getBody().mask(printLoadingString[lang], 'x-mask-loading');
+    var protocol = new OpenLayers.Protocol.WFS({
+            url: serverAndCGI + '/'+ wmsMapName,
+            featureType: 'print',
+            geometryName: 'geometry',
+            srsName: authid,
+            filter: myfilter,
+            readWithPOST: true
+    });
+
+    protocol.read({
+        callback: function(response) {
+                if(response.features.length > 0) {
+                    attributes = response.features[0].attributes;
+                     for (key in attributes){
+                        printUrl += '&' + key + '=' + encodeURIComponent(attributes[key]);
+                    }
+                }
+            this.download(printUrl);
+        },
+        scope: this
+    });
+
   },
   download: function(url) {
     if (this.fireEvent("beforedownload", this, url) !== false) {
@@ -377,6 +407,7 @@ Ext.extend(QGIS.PrintProvider, GeoExt.data.PrintProvider, {
         }
       );
       pdfWindow.show();
+      Ext.getBody().unmask();
     }
     this.fireEvent("print", this, url);
   }
