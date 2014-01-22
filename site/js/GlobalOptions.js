@@ -7,7 +7,7 @@ var helpfile = "help_en.html";
 //Servername (optional) and path and name name of QGIS mapserver FCGI-file
 //either with or without server-name - without servername recommended for easier porting to other servers
 //do not add a ? or & after the .fcgi extension
-var serverAndCGI = "/cgi-bin/qgis_mapserv.fcgi";
+var serverAndCGI = "http://srsofaioi12288.ktso.ch/wms";
 
 //Define whether you want to use the GetProjectSettings extension of QGIS Server
 //for more configuration options in the project.
@@ -25,8 +25,8 @@ var useGeodesicMeasurement = true;
 //enable to use GeoNames search
 var useGeoNamesSearchBox = false;
 //URL for custom search scripts
-var searchBoxQueryURL = null; // "/wsgi/search.wsgi?query=";
-var searchBoxGetGeomURL = null; // "/wsgi/getSearchGeom.wsgi";
+var searchBoxQueryURL = "/wsgi/search.wsgi?query=";
+var searchBoxGetGeomURL = "/wsgi/getSearchGeom.wsgi";
 
 // Used to dynamically determine the project.
 var project_map = Ext.urlDecode(window.location.search.substring(1)).map;
@@ -41,7 +41,7 @@ var permaLinkURLShortener = null; // "/wsgi/createShortPermalink.wsgi";
 
 // enable to use commercial Google and Bing layers (also add BingApiKey in WebgisInit.js)
 var enableBingCommercialMaps = false;
-var enableGoogleCommercialMaps = true;
+var enableGoogleCommercialMaps = false;
 var enableBGMaps = false;
 if (enableBingCommercialMaps || enableGoogleCommercialMaps) {
 	enableBGMaps = true;
@@ -161,7 +161,7 @@ var projectTitles = {
 };
 
 //EPSG projection code of your QGIS project
-var authid = "EPSG:"+3857;
+var authid = "EPSG:"+21781;
 
 //background transparency for the QGIS server generated layer (commercial background layers not effected)
 //set to true if you want the background to be transparent, layer image will be bigger (32 vs 24bit)
