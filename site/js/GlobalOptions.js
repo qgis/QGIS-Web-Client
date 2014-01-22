@@ -1,8 +1,8 @@
 //default language code, can be overwritten with lang parameter in URL
-var lang = "en"; //for available codes see array availableLanguages in file GlobalOptions.js
+var lang = "de"; //for available codes see array availableLanguages in file GlobalOptions.js
 
 //Help file (must be a local file)
-var helpfile = "help_en.html";
+var helpfile = "help_de.html";
 
 //Servername (optional) and path and name name of QGIS mapserver FCGI-file
 //either with or without server-name - without servername recommended for easier porting to other servers
@@ -200,18 +200,18 @@ var OverviewMapOptions = {
   projection: new OpenLayers.Projection(authid),
   units: "m",
   maxScale:50,
-  minScale:300000000,
+  minScale:1500000,
   transitionEffect:"resize"
 };
 var OverviewMapSize = new OpenLayers.Size(200,200);
-var overviewLayer = new OpenLayers.Layer.WMS("Overview-Map",
-  "/cgi-bin/qgis_mapserv.fcgi?map=/home/web/qgis-web-client/projects/naturalearth_110million.qgs",
-  {layers:"Land",format:"image/png"},
+var overviewLayer = new OpenLayers.Layer.WMS("Uebersicht",
+  "http://www.sogis1.so.ch/wms/strassenkarte",
+  {layers:"Strassenkarte",format:"image/png"},
   {buffer:0,singleTile:true,transitionEffect:"resize"});
 
 // prevent the user from choosing a print resolution
 // if fixedPrintResolution = null, the user is allowed to choose the print resolution. 
-var fixedPrintResolution = null; // for a fixed resolution of 200dpi fill 200
+var fixedPrintResolution = 220; // for a fixed resolution of 200dpi fill 200
 
 //print options - scales and dpi
 var printCapabilities={
@@ -238,7 +238,8 @@ var printCapabilities={
     {"name":"1:500'000","value":"500000"},
     {"name":"1:750'000","value":"750000"},
     {"name":"1:1'000'000","value":"1000000"},
-    {"name":"1:2'500'000","value":"2500000"},
+    {"name":"1:2'500'000","value":"3000000"}
+    /*
     {"name":"1:5'000'000","value":"5000000"},
     {"name":"1:7'500'000","value":"7500000"},
     {"name":"1:10'000'000","value":"10000000"},
@@ -253,6 +254,7 @@ var printCapabilities={
     {"name":"1:100'000'000","value":"100000000"},
     {"name":"1:125'000'000","value":"125000000"},
     {"name":"1:150'000'000","value":"150000000"}
+    */
  ],
   "dpis":[
     {"name":"150 dpi","value":"150"},

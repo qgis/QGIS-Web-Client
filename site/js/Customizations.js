@@ -45,6 +45,8 @@ function customAfterMapInit() {
 //     });
 // 
 //     geoExtMap.map.addControl(openlayersClickEvent);
+    removeButtons();
+    isTooltipSOGIS();
 }
 
 // new buttons for the toolbar
@@ -86,4 +88,9 @@ function customMapToolbarHandler(btn, evt) {
 //              openlayersClickEvent.deactivate();
 //         }
 //     }
+}
+
+function customPostLoading() { 
+    loadSOGISHeader();
+
 }

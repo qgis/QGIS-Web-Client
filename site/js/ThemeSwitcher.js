@@ -42,30 +42,32 @@ function ThemeSwitcher(parentPanel) {
 			var topicRec = this.gisTopicListingStore.getAt(i);
 			for (var j = 0; j < topicRec.data.projects.length; j++) {
 				var projData = topicRec.data.projects[j];
-				projData.topic = topicRec.data.name;
-				var tooltip = themeSwitcherTooltipMapThemeString[lang] + projData.name;
-				if (projData.tags) {
-					tooltip += "\n" + themeSwitcherTooltipTagString[lang] + projData.tags;
-				}
-				if (projData.responsible) {
-					tooltip += "\n" + themeSwitcherTooltipResponsibleString[lang] + projData.responsible;
-				}
-				if (projData.updateInterval) {
-					tooltip += "\n" + themeSwitcherTooltipUpdateString[lang] + projData.updateInterval;
-				}
-				if (projData.lastUpdate) {
-					tooltip += "\n" + themeSwitcherTooltipLastUpdateString[lang] + projData.lastUpdate;
-				}
-				var pwprotected = "no";
-				if (projData.pwProtected) {
-					if (projData.pwProtected == "yes") {
-						pwprotected = "yes";
-						tooltip += "\n\n" + themeSwitcherTooltipPwProtectedString[lang] + ": " + projData.pwMessage;
-					}
-				}
-				projListingArray.push([topicCounter + '_' + projData.projectfile, projData.name, projData.topic, projData.projectfile, projData.tags, pwprotected, tooltip, projData]);
+                if (projData.switcher == true){
+				    projData.topic = topicRec.data.name;
+				    var tooltip = themeSwitcherTooltipMapThemeString[lang] + projData.name;
+				    if (projData.tags) {
+				    	tooltip += "\n" + themeSwitcherTooltipTagString[lang] + projData.tags;
+				    }
+				    if (projData.responsible) {
+				    	tooltip += "\n" + themeSwitcherTooltipResponsibleString[lang] + projData.responsible;
+				    }
+				    if (projData.updateInterval) {
+				    	tooltip += "\n" + themeSwitcherTooltipUpdateString[lang] + projData.updateInterval;
+				    }
+				    if (projData.lastUpdate) {
+				    	tooltip += "\n" + themeSwitcherTooltipLastUpdateString[lang] + projData.lastUpdate;
+				    }
+				    var pwprotected = "no";
+				    if (projData.pwProtected) {
+				    	if (projData.pwProtected == "yes") {
+				    		pwprotected = "yes";
+				    		tooltip += "\n\n" + themeSwitcherTooltipPwProtectedString[lang] + ": " + projData.pwMessage;
+				    	}
+				    }
+				    projListingArray.push([topicCounter + '_' + projData.projectfile, projData.name, projData.topic, projData.projectfile, projData.tags, pwprotected, tooltip, projData]);
 			}
 			topicCounter++;
+            }
 		}
 		//create a new json data store holding the project data
 		this.gisProjectListingStore = new Ext.data.ArrayStore({
