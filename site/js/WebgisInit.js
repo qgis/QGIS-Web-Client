@@ -129,6 +129,7 @@ Ext.onReady(function () {
 	} else {
 		alert(errMessageStartupNotAllParamsFoundString[lang]);
 	}
+    customPostLoading(); //in Customizations.js
 });
 
 function loadWMSConfig() {
@@ -683,6 +684,7 @@ function postLoading() {
 			minRatio: 16,
 			maxRatio: 64,
 			mapOptions: OverviewMapOptions,
+            maximized: OverviewMapMaximized,
 			layers: [overviewLayer]
 		}));
 
@@ -719,7 +721,8 @@ function postLoading() {
 			control: navHistoryCtrl.previous,
 			disabled: true,
 			tooltip: navigationHistoryBackwardTooltipString[lang],
-			tooltipType: 'qtip'
+			tooltipType: 'qtip',
+            id: 'zoomLast'
 		});
 		myTopToolbar.insert(1, zoomToPreviousAction);
 		//zoom next
@@ -729,7 +732,8 @@ function postLoading() {
 			control: navHistoryCtrl.next,
 			disabled: true,
 			tooltip: navigationHistoryForwardTooltipString[lang],
-			tooltipType: 'qtip'
+			tooltipType: 'qtip',
+            id: 'zoomNext'
 		});
 		myTopToolbar.insert(2, zoomToNextAction);
 
