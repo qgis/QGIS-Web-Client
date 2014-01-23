@@ -204,6 +204,7 @@ var OverviewMapOptions = {
   transitionEffect:"resize"
 };
 var OverviewMapSize = new OpenLayers.Size(200,200);
+var OverviewMapMaximized = false; // is the overview map opend or closed by default
 var overviewLayer = new OpenLayers.Layer.WMS("Overview-Map",
   "/cgi-bin/qgis_mapserv.fcgi?map=/home/web/qgis-web-client/projects/naturalearth_110million.qgs",
   {layers:"Land",format:"image/png"},

@@ -47,6 +47,12 @@ function customAfterMapInit() {
 //     geoExtMap.map.addControl(openlayersClickEvent);
 }
 
+// called when DOM is ready (Ext.onReady in WebgisInit.js)
+function customPostLoading() {
+//    Ext.get("panel_header").addClass('sogis-header').insertHtml('beforeEnd', '<div style="float: right; width: 250px;">hello world</div>');
+}
+
+
 // new buttons for the toolbar
 var customButtons = [ 
    

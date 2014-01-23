@@ -218,7 +218,8 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 						autoHeight: true,
 						id: 'myTopToolbar',
 						items: [{
-							xtype: 'tbseparator'
+							xtype: 'tbseparator',
+                            id: 'separator1'
 						}, {
 							xtype: 'button',
 							tooltip: objIdentificationTooltipString[lang],
@@ -232,7 +233,8 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 							id: 'IdentifyTool'
 						}, {
 							xtype: 'tbtext',
-							text: objectIdentificationTextLabel[lang]
+							text: objectIdentificationTextLabel[lang],
+                            id: 'ObjectIdentificationText'
 						}, {
 							xtype: 'combo',
 							width: 120,
@@ -243,7 +245,8 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 							triggerAction: 'all',
 							id: 'ObjectIdentificationModeCombo'
 						}, {
-							xtype: 'tbseparator'
+							xtype: 'tbseparator',
+                            id: 'separator2'
 						}, {
 							xtype: 'button',
 							enableToggle: true,
@@ -265,7 +268,8 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 							tooltip: measureAreaTooltipString[lang],
 							id: 'measureArea'
 						}, {
-							xtype: 'tbseparator'
+							xtype: 'tbseparator',
+                            id: 'separator3'
 						}, {
 							xtype: 'button',
 							enableToggle: true,
@@ -286,7 +290,8 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 							tooltip: sendPermalinkTooltipString[lang],
 							id: 'SendPermalink'
 						}, {
-							xtype: 'tbseparator'
+							xtype: 'tbseparator',
+                            id: 'separator4'
 						}, {
 							xtype: 'button',
 							enableToggle: false,
