@@ -100,7 +100,7 @@ foreach($searchlayers as $layername){
     $layer = get_layer($layername, $project);
     $ds_params = get_layer_info($layer, $project);
     if(array_key_exists($layername, $searchlayers_config)){
-        if($ds_params == 'postgis'){
+        if($ds_params['provider'] == 'postgres'){
             $sql[] = build_postgis_search_query($ds_params['table'],
                 $searchlayers_config[$layername]['search_column'],
                 $ds_params['geom_column'],
