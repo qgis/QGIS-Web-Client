@@ -129,7 +129,7 @@ Ext.onReady(function () {
 	} else {
 		alert(errMessageStartupNotAllParamsFoundString[lang]);
 	}
-    customPostLoading();
+    customPostLoading(); //in Customizations.js
 });
 
 function loadWMSConfig() {
@@ -684,7 +684,7 @@ function postLoading() {
 			minRatio: 16,
 			maxRatio: 64,
 			mapOptions: OverviewMapOptions,
-            maximized: true,
+            maximized: OverviewMapMaximized,
 			layers: [overviewLayer]
 		}));
 

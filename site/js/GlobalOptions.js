@@ -204,6 +204,7 @@ var OverviewMapOptions = {
   transitionEffect:"resize"
 };
 var OverviewMapSize = new OpenLayers.Size(200,200);
+var OverviewMapMaximized = true; // is the overview map opend or closed by default
 var overviewLayer = new OpenLayers.Layer.WMS("Uebersicht",
   "http://www.sogis1.so.ch/wms/strassenkarte",
   {layers:"Strassenkarte",format:"image/png"},
