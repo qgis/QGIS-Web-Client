@@ -70,7 +70,7 @@ function loadSOGISHeader(){
 
 	Ext.get("panel_header").addClass('sogis-header').insertHtml('beforeEnd', '<div class="sogis-headernav">'+getMenuString(sogis_menu)+'</div>');
 	Ext.get("panel_header_title").addClass('sogis-header-text').insertHtml('afterEnd', '<a href="http://www.so.ch/" class="sogis-header-logo" />');
-	Ext.getCmp('GisBrowserPanel').setHeight(window.innerHeight);
+	//Ext.getCmp('GisBrowserPanel').setHeight(window.innerHeight);
 
     
     
@@ -141,7 +141,7 @@ function getTooltipHtml(x,y, scale, extent){
                  'y': y,
                  'scale': scale,
                  'extent': extent,
-                 'visiblelayers': selectedLayers.toString(),
+                 'visiblelayers': selectedLayers.toString()
                 },
         method: 'GET',
         success: function(response){
@@ -191,7 +191,7 @@ function showTooltip(str_html){
         }
             ],
             closable: true,
-            autoScroll: true,
+            autoScroll: true
         });
         x.show();
 }
@@ -254,7 +254,9 @@ arr_buttons_seperators = ['measureDistance',
 */
 function addButtons(arr_buttons_seperators){
     for (var i=0; i<arr_buttons_seperators.length; i++){
-        Ext.getCmp(arr_buttons_seperators[i]).show();
+        if (Ext.getCmp(arr_buttons_seperators[i])) {
+          Ext.getCmp(arr_buttons_seperators[i]).show();
+        }
     }
 
 }
