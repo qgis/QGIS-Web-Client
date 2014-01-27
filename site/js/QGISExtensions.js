@@ -364,7 +364,7 @@ Ext.extend(QGIS.PrintProvider, GeoExt.data.PrintProvider, {
         type: OpenLayers.Filter.Spatial.INTERSECTS,
         value: mapCenter
     });
-    Ext.getBody().mask(printLoadingString[lang], 'x-mask-loading');
+
     var protocol = new OpenLayers.Protocol.WFS({
             url: serverAndCGI + '/'+ wmsMapName,
             featureType: 'print',
@@ -374,6 +374,8 @@ Ext.extend(QGIS.PrintProvider, GeoExt.data.PrintProvider, {
             readWithPOST: true
     });
 
+    //printLoadMask.show();
+    Ext.getBody().mask(printLoadingString[lang], 'x-mask-loading');
     protocol.read({
         callback: function(response) {
                 if(response.features.length > 0) {
@@ -386,28 +388,54 @@ Ext.extend(QGIS.PrintProvider, GeoExt.data.PrintProvider, {
         },
         scope: this
     });
-
   },
+
   download: function(url) {
     if (this.fireEvent("beforedownload", this, url) !== false) {
-      //because of an IE bug one has to do it in two steps
-      var parentPanel = Ext.getCmp('geoExtMapPanel');
-      var pdfWindow = new Ext.Window(
-        {
-          title: printWindowTitleString[lang],
-          width: Ext.getBody().getWidth() - 100,
-          height: Ext.getBody().getHeight() - 100,
-          resizable: true,
-          closable: true,
-          constrain: true,
-          constrainHeader: true,
-          x:50,
-          y:50,
-          html: '<object data="'+url+'" type="application/pdf" width="100%" height="100%"><p style="margin:5px;">'+printingObjectDataAlternativeString1[lang] + url + printingObjectDataAlternativeString2[lang]
-        }
-      );
-      pdfWindow.show();
-      Ext.getBody().unmask();
+      img_src = '';
+      if ((printCapabilities.method == 'POST') && (printCapabilities.url_proxy != '')){
+        Ext.Ajax.request({
+        isLoading: true,
+        url : printCapabilities.url,
+        method: 'POST',                  
+        params :  url,
+        success: function (response) {
+            console.log(url);
+            var jsonResp = Ext.util.JSON.decode(response.responseText); // GET URL from proxy
+            if (jsonResp.url) {
+                img_src = jsonResp.url;
+            } else {
+                Ext.getBody().unmask();
+                Ext.Msg.alert('Fehler beim Drucken','Leider hat der Druckauftrag einen Fehler verursacht Haaa!');
+            }
+        },
+        failure: function (response) {
+                  Ext.getBody().unmask();
+                  Ext.Msg.alert("Fehler beim Drucken",'Leider hat der Druckauftrag einen Fehler verursacht! ' + jsonResp.error);
+            }
+        });
+      } else {
+          print_url = url;
+          img_src = url;
+      }
+      if (img_src != '') {         
+                //because of an IE bug one has to do it in two steps
+                var parentPanel = Ext.getCmp('geoExtMapPanel');
+                Ext.getBody().unmask();
+                var pdfWindow = new Ext.Window({
+                    title: printWindowTitleString[lang],
+                    width: Ext.getBody().getWidth() - 100,
+                    height: Ext.getBody().getHeight() - 100,
+                    resizable: true,
+                    closable: true,
+                    constrain: false,
+                    constrainHeader: true,
+                    x:50,
+                    y:50,
+                    html: '<object data="'+img_src+'" type="application/pdf" width="100%" height="100%"><p style="margin:5px;">'+printingObjectDataAlternativeString1[lang] + img_src + printingObjectDataAlternativeString2[lang]
+                });
+                pdfWindow.show();
+            }
     }
     this.fireEvent("print", this, url);
   }
