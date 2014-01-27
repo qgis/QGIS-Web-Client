@@ -80,6 +80,7 @@ Ext.onReady(function () {
 */
 function isTooltipSOGIS(){
     var bolHasToolTip = null;
+    var arr_SOGISButtons = null;
     for (var i=0;i<gis_projects.topics.length; i++){
         for (var j=0;j<gis_projects.topics[i].projects.length; j++){
             if ( gis_projects.topics[i].projects[j].projectfile == getProject() ){
@@ -92,7 +93,7 @@ function isTooltipSOGIS(){
             }
         }
     }
-
+    
     
     /* Ausnahme SOVOTE */
     if ((getProject().indexOf('ea_') != -1 ||
@@ -107,7 +108,11 @@ function isTooltipSOGIS(){
         strSOGISDefaultButton = 'IdentifyTool';
     } else {
         /* call add buttons */
-        addButtons(arr_SOGISButtons);
+        if (arr_SOGISButtons) {
+            addButtons(arr_SOGISButtons);
+        } else {
+            addButtons(default_buttons_seperators);
+        }
     }
 
 
@@ -138,7 +143,7 @@ function getTooltipHtml(x,y, scale, extent){
                  'y': y,
                  'scale': scale,
                  'extent': extent,
-                 'visiblelayers': selectedLayers.toString(),
+                 'visiblelayers': selectedLayers.toString()
                 },
         method: 'GET',
         success: function(response){
@@ -188,7 +193,7 @@ function showTooltip(str_html){
         }
             ],
             closable: true,
-            autoScroll: true,
+            autoScroll: true
         });
         x.show();
 }
