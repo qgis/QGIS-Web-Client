@@ -1,0 +1,312 @@
+body {
+	background-image: url(../img/contbg.gif);
+	background-repeat: repeat-x;
+}
+
+.sogis-header {
+	padding-left: 0;
+	overflow: visible;
+	height: 108px;
+	border: none;
+	background-image: url(../img/keyvisual_global.jpg);
+	background-repeat: no-repeat;
+	background-position: center 14px ;
+}
+
+.sogis-header-logo {
+	background-image: url(../img/logo_so.gif);
+	width: 190px;
+	height: 21px;
+	left: 20px;
+	top: 30px;
+	position: absolute;
+}
+
+.sogis-header-text {
+	right: 36px;
+	top: 98px;
+	position: absolute;
+}
+
+.sogis-headernav {
+	margin-top: 85px;
+	padding: 0px 15px;
+	clear: both;
+	height: 27px;
+	background: url(../img/headnavbg.gif) repeat-x bottom;
+}
+
+.sogis-headernav ul li {
+	margin: 0px;
+	padding: 0px;
+	float: left;
+	list-style-type: none;
+	height: 100%;
+	position: relative;
+    z-index: 2;
+}
+
+.sogis-headernav ul a {
+	border-right: 1px solid #CCC;
+	display: block;
+	padding: 5px 10px 3px;
+	margin-top: 3px;
+	border-right: 1px solid #CCC;
+	color: #333;
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 11px;
+	font-family: tahoma,arial,verdana,sans-serif;
+	background: url(../img/white.gif) repeat-y;
+}
+
+.sogis-headernav ul a.sogis-first {
+	border-left: 1px solid #CCC;
+}
+
+.sogis-headernav ul a.sogis-aktiv {
+	color: #C00;
+	border-top: 1px solid #CCC;
+	background-color: #fff;
+	margin-top: 0;
+	padding-top: 7px;
+}
+
+.sogis-headernav ul ul { 
+	position: absolute; 
+	z-index: 2; 
+	display: none; 
+	left: -1px;
+	top: 26px;
+}
+
+.sogis-headernav ul li:hover ul { 
+	display: block; 
+}
+
+.sogis-headernav ul ul li {
+	border: 1px solid #CCC;
+	background-color: white;
+	float: none;
+	border-width: 0px 1px 1px;
+	white-space: nowrap;
+    	width: 190px;
+}
+
+.sogis-headernav ul ul a.sogis-first {
+	border-top: 1px solid #CCC;
+}
+
+.sogis-headernav ul ul a {
+	margin: 0;
+	border: none;
+}
+
+.olControlOverviewMap {
+        /*background:#ff0000;*/
+        margin-top: 450px;
+        width:  200px;
+        bottom: 0px;
+}
+
+.olControlOverviewMapElement {
+    /*background:#00ff00 !important;*/
+    border-top-style: solid !important;
+    border-radius: 1em 1em 1em 1em !important;
+    position: absolute;
+    height: 200px;
+    top: 100%;
+    margin-top: -240px;
+}
+
+.olControlOverviewMapMinimizeButton {
+    position: absolute;
+    height: 20px;
+    top: 100% !important;
+    margin-top: -228px;
+}
+
+.olControlOverviewMapMaximizeButton {
+    position: absolute;
+    height: 20px;
+    top: 100% !important;
+    margin-top: -228px;
+}
+
+.olControlScaleLine {
+    opacity: .75;
+}
+
+/* SOGIS TOOLTIP */
+.sogisTooltip h3 {
+   	font-size : 11pt;
+	font-family : Verdana, Arial, Helvetica;
+	font-weight: bold;
+	color : #000000;
+	line-height: 1.5;
+}
+
+.sogisTooltip h1 {
+	font-size : 15pt;
+	font-family : Verdana, Arial, Helvetica;
+	font-weight: bold;
+	color : #000000;
+	line-height: 1.5;
+}
+
+.sogisTooltip h2 {
+	font-size : 13pt;
+	font-family : Verdana, Arial, Helvetica;
+	color : #000000;
+	line-height: 1.5;
+}
+
+.sogisTooltip h4 {
+	font-size : 11pt;
+	font-family : Verdana, Arial, Helvetica;
+	color : #000000;
+	line-height: 1.5;
+}
+
+.sogisTooltip h5 {
+	font-size : 9pt;
+	font-family : Verdana, Arial, Helvetica;
+	font-weight: bold;
+	color : #000000;
+	line-height: 1.5;
+}
+
+.sogisTooltip h6 {
+	font-size : 9pt;
+	font-family : Verdana, Arial, Helvetica;
+	color : #000000;
+	line-height: 1.5;
+}
+
+.sogisTooltip small {
+	font-size : 7pt;
+}
+
+.sogisTooltip p {
+	font-size : 8pt;
+	font-family : Verdana, Arial, Helvetica; 
+	color : #000000;
+	line-height: 1.5;
+}
+
+.sogisTooltip a:link {  
+	font-family : Verdana, Arial, Helvetica;
+	color: #0000FF; text-decoration: none;
+}
+
+.sogisTooltip a:visited {
+  font-family : Verdana, Arial, Helvetica;
+	text-decoration	:	none; 
+  color		:	#0000FF; 
+}
+
+.sogisTooltip a:hover { 
+  font-family : Verdana, Arial, Helvetica;
+	text-decoration	:	underline; 
+	color		:	#FF0000;
+}
+		
+.sogisTooltip a:active {
+	font-family : Verdana, Arial, Helvetica;	
+	text-decoration	:	none;
+	color		:	#0000FF;
+}
+
+
+.sogisTooltip all.ATAB {
+	font-size : 8pt;
+	font-family : Verdana, Arial, Helvetica; 
+	color : #000000;
+	text-decoration : none;
+}
+
+.sogisTooltip A.ATAB {
+	color: red;
+	font-size : 8pt;
+	font-family : Verdana, Arial, Helvetica; 
+	text-decoration : none;
+}
+
+.sogisTooltip strong {
+	font-family : Verdana, Arial, Helvetica;
+	font-weight : bold;
+}
+
+.sogisTooltip ul {
+	font-size: 8pt; 
+	font-family : Verdana, Arial, Helvetica; 
+	color :  #000000;
+	line-height: 1.5;
+}
+
+.sogisTooltip li {
+	font-size: 8pt; 
+	font-family : Verdana, Arial, Helvetica; 
+	color :  #000000;
+	line-height: 1.5;
+}
+
+.sogisTooltip caption	{
+	font-size: 8pt; 
+	font-family : Verdana, Arial, Helvetica; 
+	color: #F5F5F5;
+	font-style : italic;
+}
+
+.sogisTooltip td {
+	font-size: 8pt;
+	font-family : Verdana, Arial, Helvetica; 
+	color : #000000;
+}
+
+.sogisTooltip th {
+	font-family : Verdana, Arial, Helvetica;
+	font-size: 10pt;
+	color : #000000; 
+}
+
+.dark {
+	font-family : Verdana, Arial, Helvetica;
+	color :  Black;
+}
+
+.sogisTooltip input {
+	FONT-FAMILY : Verdana, Arial, Helvetica;
+	FONT-SIZE: 11px;
+	color : #000000;
+}
+
+.sogisTooltip input[type=submit] {
+  background-color : #EBEBEB;
+	width: 100px;
+	border-color : #003366;
+	border-style : solid;
+	border-width : 1px;
+	font-size : 11px;
+	}
+
+.sogisTooltip input[type=button] {
+  background-color : #EBEBEB;
+	width: 100px;
+	border-color : #003366;
+	border-style : solid;
+	border-width : 1px;
+	font-size : 11px;
+	}
+
+.sogisTooltip textarea {
+	FONT-FAMILY : Verdana, Arial, Helvetica; 
+	FONT-SIZE: 11px;
+	color : #000000;
+}
+
+.sogisTooltip select {
+	FONT-FAMILY : Verdana, Arial, Helvetica; 
+	FONT-SIZE: 11px;
+	WIDTH:120px;
+}
