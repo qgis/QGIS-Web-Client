@@ -103,7 +103,7 @@ var mapSearchPanelConfigs = {
 var tooltipTemplates = {
 	'Country':{
 		template: "Look for the country on Google Search: <a href='http://www.google.it/#output=search&q=<%name%>' target='_blank'><%name%></a>"
-	},
+	}
 };
 
 //define whether you want to display a map theme switcher
