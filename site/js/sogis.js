@@ -67,7 +67,7 @@ Ext.onReady(function () {
 
 	Ext.get("ext-gen16").addClass('sogis-header').insertHtml('beforeEnd', '<div class="sogis-headernav">'+getMenuString(sogis_menu)+'</div>');
 	Ext.get("panel_header_title").addClass('sogis-header-text').insertHtml('afterEnd', '<a href="http://www.so.ch/" class="sogis-header-logo" />');
-	Ext.getCmp('GisBrowserPanel').setHeight(window.innerHeight);
+	//Ext.getCmp('GisBrowserPanel').setHeight(window.innerHeight);
 
     
     
