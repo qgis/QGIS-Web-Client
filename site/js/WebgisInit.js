@@ -272,15 +272,14 @@ function postLoading() {
 		}
 			
 		layerTree.root.firstChild.expand(true, false);
+		// expand all nodes in order to allow toggling checkboxes on deeper levels
+		layerTree.root.findChildBy(function () {
+			if (this.isExpandable()) {
+				this.expand(true, false);
+			}
+			return false;
+		}, null, true);
 		for (var index = 0; index < visibleLayers.length; index++) {
-			// expand all nodes in order to allow toggling checkboxes on deeper levels
-			layerTree.root.findChildBy(function () {
-				if (this.isExpandable()) {
-					this.expand(true, false);
-				}
-				return false;
-			}, null, true);
-
 			// toggle checkboxes of visible layers
 			layerTree.root.findChildBy(function () {
 				if (wmsLoader.layerTitleNameMapping[this.attributes["text"]] == visibleLayers[index]) {
