@@ -138,7 +138,7 @@ var mapSearchPanelOutputRegion = 'popup' ; // Possible values: default,right,bot
 
 
 //define whether you want to display a map theme switcher
-//note that you have to also link a gis-project-listing.js file containing a valid
+//note that you have to also link a GISProjectListing.js file containing a valid
 //project listing structure - the root object is called 'gis_projects'
 //have a look at the template file and documentation for the correct json structure
 var mapThemeSwitcherActive = true;
