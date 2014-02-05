@@ -1410,3 +1410,27 @@ errMessageSearchComboNetworkRequestFailureString["pt_PT"] = "O pedido de rede pa
 errMessageSearchComboNetworkRequestFailureString["uk"] = "Не вдалося виконати запит геометрії для результатів пошуку:\n";
 errMessageSearchComboNetworkRequestFailureString["hu"] = "Hálozati kérés a keresett geometriára sikertelen:\n";
 errMessageSearchComboNetworkRequestFailureString["ro"] = "Cererea de rețea pentru geometria rezultatului căutarii a eșuat:\n";
+
+//error message of print title
+var errMessagePrintCrashedTitleString = new Array();
+errMessagePrintCrashedTitleString["en"] = "Print request failed"; 
+errMessagePrintCrashedTitleString["es"] = "Print request failed"; //FIXME
+errMessagePrintCrashedTitleString["de"] = "Fehler beim Drucken";
+errMessagePrintCrashedTitleString["fr"] = "Print request failed"; //FIXME
+errMessagePrintCrashedTitleString["it"] = "Print request failed"; //FIXME
+errMessagePrintCrashedTitleString["pt_PT"] = "Print request failed"; //FIXME
+errMessagePrintCrashedTitleString["uk"] = "Print request failed"; //FIXME
+errMessagePrintCrashedTitleString["hu"] = "Print request failed"; //FIXME
+errMessagePrintCrashedTitleString["ro"] = "Print request failed"; //FIXME
+
+//error message of print 
+var errMessagePrintCrashedString = new Array();
+errMessagePrintCrashedString["en"] = "Regrettably, we are for a moment uanble to fulfill the print request";
+errMessagePrintCrashedString["es"] = "Der Druckauftrag hat einen Fehler verursacht"; //FIXME
+errMessagePrintCrashedString["de"] = "Regrettably, we are for a moment uanble to fulfill the print request";
+errMessagePrintCrashedString["fr"] = "Regrettably, we are for a moment uanble to fulfill the print request"; //FIXME
+errMessagePrintCrashedString["it"] = "Regrettably, we are for a moment uanble to fulfill the print request"; //FIXME
+errMessagePrintCrashedString["pt_PT"] = "Regrettably, we are for a moment uanble to fulfill the print request"; //FIXME
+errMessagePrintCrashedString["uk"] = "Regrettably, we are for a moment uanble to fulfill the print request"; //FIXME
+errMessagePrintCrashedString["hu"] = "Regrettably, we are for a moment uanble to fulfill the print request"; //FIXME
+errMessagePrintCrashedString["ro"] = "Regrettably, we are for a moment uanble to fulfill the print request"; //FIXME

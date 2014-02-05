@@ -138,7 +138,7 @@ var mapSearchPanelOutputRegion = 'popup' ; // Possible values: default,right,bot
 
 
 //define whether you want to display a map theme switcher
-//note that you have to also link a gis-project-listing.js file containing a valid
+//note that you have to also link a GISProjectListing.js file containing a valid
 //project listing structure - the root object is called 'gis_projects'
 //have a look at the template file and documentation for the correct json structure
 var mapThemeSwitcherActive = true;
@@ -159,6 +159,22 @@ var headerTermsOfUseLink = ""; // URL to terms of use
 var projectTitles = {
   "helloworld": "Hello World"
 };
+
+// Optional list of layers that should be displayed in a different image format,
+// if the default image format is 8bit.
+// The formats are applied in the order of the list, from highest to lowest priority.
+/*
+var layerImageFormats = [
+  {
+    format: "image/png",
+    layers: ["Country"]
+  },
+  {
+    format: "image/jpeg",
+    layers: ["Shaded Relief"]
+  }
+];
+*/
 
 //EPSG projection code of your QGIS project
 var authid = "EPSG:"+21781;
@@ -263,7 +279,22 @@ var printCapabilities={
     {"name":"600 dpi","value":"600"},
     {"name":"1200 dpi","value":"1200"}
   ],
-  "layouts":[]
+  "layouts":[],
+  //
+  // configuration of the proxy printpostget.wsgi
+  //
+  // WTH - why use a postget-proxy for printing? 
+  // 1. the maximal URL-length of IE is 2083 signs (http://support.microsoft.com/kb/208427/en)
+  // 2. sometimes giant QGIS-project with a lot of layers are realised (print-URL-length > 2083 signs)
+  // 3. apache dicards POST data on redirect
+  //
+  // if once in a blue moon it comes to this rare case, there is a solution: 
+  // a. configure printpost.wsgi 
+  // b. set "method":"POST"
+  // c. fill in the URL to the proxy "url_proxy":"http://www.urltoproxy/printpostget.wsgi?
+  //
+  "method":"POST", // POST or GET
+  "url_proxy": "http://srsofaioi12288.ktso.ch/wsgi/printpostget.wsgi" // url to printpostget.wsgi  http://www.urltoproxy/printpostget.wsgi?
 };
 
 // <------------ No changes should be needed below here ------------------>

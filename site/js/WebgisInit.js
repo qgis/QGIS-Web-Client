@@ -55,6 +55,7 @@ var legendTab; //a reference to the Ext tab holding the legend graphic
 var metadataTab; //a reference to the Ext tab holding the metadata information
 var measurePopup;
 var baseLayers = [];
+var layerImageFormats = layerImageFormats || []; // use config from GlobalOptions if any
 
 // Call custom Init in Customizations.js
 customInit();
@@ -129,6 +130,28 @@ Ext.onReady(function () {
 	} else {
 		alert(errMessageStartupNotAllParamsFoundString[lang]);
 	}
+
+	if (fullColorLayers.length > 0) {
+		// add fullColorLayers to layerImageFormats
+		var fullColorLayersAppended = false;
+		for (var i = 0; i < layerImageFormats.length; i++) {
+			var layerImageFormat = layerImageFormats[i];
+			if (layerImageFormat.format == "image/jpeg") {
+				// append fullColorLayers to jpeg format
+				layerImageFormat.layers = layerImageFormat.layers.concat(fullColorLayers);
+				fullColorLayersAppended = true;
+				break;
+			}
+		}
+		if (!fullColorLayersAppended) {
+			// add new jpeg config with fullColorLayers
+			layerImageFormats.push({
+				format: "image/jpeg",
+				layers: fullColorLayers
+			});
+		}
+	}
+
     customPostLoading(); //in Customizations.js
 });
 
@@ -249,15 +272,14 @@ function postLoading() {
 		}
 			
 		layerTree.root.firstChild.expand(true, false);
+		// expand all nodes in order to allow toggling checkboxes on deeper levels
+		layerTree.root.findChildBy(function () {
+			if (this.isExpandable()) {
+				this.expand(true, false);
+			}
+			return false;
+		}, null, true);
 		for (var index = 0; index < visibleLayers.length; index++) {
-			// expand all nodes in order to allow toggling checkboxes on deeper levels
-			layerTree.root.findChildBy(function () {
-				if (this.isExpandable()) {
-					this.expand(true, false);
-				}
-				return false;
-			}, null, true);
-
 			// toggle checkboxes of visible layers
 			layerTree.root.findChildBy(function () {
 				if (wmsLoader.layerTitleNameMapping[this.attributes["text"]] == visibleLayers[index]) {
@@ -267,17 +289,6 @@ function postLoading() {
 				}
 				return false;
 			}, null, true);
-
-			//test to see if we need to change to jpeg because checked
-			//layer is in array fullColorLayers
-			if (fullColorLayers.length > 0 && origFormat.match(/8bit/)) {
-				for (var i = 0; i < fullColorLayers.length; i++) {
-					if (fullColorLayers[i] == visibleLayers[index]) {
-						format = "image/jpeg";
-						break;
-					}
-				}
-			}
 		}
 		
 		//we need to get a flat list of visible layers so we can set the layerOrderPanel
@@ -370,6 +381,7 @@ function postLoading() {
 		}
 	});
 	mainStatusText.setText(mapLoadingString[lang]);
+	format = imageFormatForLayers(selectedLayers);
 
 	if (initialLoadDone) {
 		printCapabilities.layouts = [];
@@ -978,7 +990,6 @@ function postLoading() {
 		//now collect all selected queryable layers for WMS request
 		selectedLayers = Array();
 		selectedQueryableLayers = Array();
-		format = origFormat;
 		layerTree.root.firstChild.cascade(
 
 		function (n) {
@@ -987,18 +998,9 @@ function postLoading() {
 				if (wmsLoader.layerProperties[wmsLoader.layerTitleNameMapping[n.text]].queryable) {
 					selectedQueryableLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
 				}
-				//test to see if we need to change to jpeg because checked
-				//layer is in array fullColorLayers
-				if (fullColorLayers.length > 0 && origFormat.match(/8bit/)) {
-					for (var i = 0; i < fullColorLayers.length; i++) {
-						if (fullColorLayers[i] == n.text) {
-							format = "image/jpeg";
-							break;
-						}
-					}
-				}
 			}
 		});
+		format = imageFormatForLayers(selectedLayers);
 		updateLayerOrderPanel();
 
 		//change array order
@@ -1834,4 +1836,24 @@ function openPermaLink(permalink) {
 function receiveShortPermalinkFromDB(result, request) {
 	var result = eval("("+result.responseText+")");
 	openPermaLink(result.shortUrl);
+}
+
+// get best image format for a list of layers
+function imageFormatForLayers(layers) {
+	var format = origFormat;
+	if (layerImageFormats.length > 0 && origFormat.match(/8bit/)) {
+		for (var f = 0; f < layerImageFormats.length; f++) {
+			var layerImageFormat = layerImageFormats[f];
+			for (var l = 0; l < layerImageFormat.layers.length; l++) {
+				if (layers.indexOf(layerImageFormat.layers[l]) != -1) {
+					format = layerImageFormat.format;
+					break;
+				}
+			}
+			if (format != origFormat) {
+				break;
+			}
+		}
+	}
+	return format;
 }
