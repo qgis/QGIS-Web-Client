@@ -9,6 +9,7 @@ var gis_projects = {
 			"name": "QGIS Server Hello World", //name needs to correspond with the project title (Project Properties --> General --> Project Title)
 			"projectpath": "/home/web/qgis-web-client/projects",
 			"projectfile": "helloworld",
+			"thumbnail": "helloworld.png",
 			"format": "image/png",
 			"visibleLayers": "Country,Hello",
 			"updateInterval": "occasional",

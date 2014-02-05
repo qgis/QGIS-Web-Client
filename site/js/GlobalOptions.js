@@ -138,7 +138,7 @@ var mapSearchPanelOutputRegion = 'popup' ; // Possible values: default,right,bot
 
 
 //define whether you want to display a map theme switcher
-//note that you have to also link a gis-project-listing.js file containing a valid
+//note that you have to also link a GISProjectListing.js file containing a valid
 //project listing structure - the root object is called 'gis_projects'
 //have a look at the template file and documentation for the correct json structure
 var mapThemeSwitcherActive = true;
@@ -159,6 +159,22 @@ var headerTermsOfUseLink = ""; // URL to terms of use
 var projectTitles = {
   "helloworld": "Hello World"
 };
+
+// Optional list of layers that should be displayed in a different image format,
+// if the default image format is 8bit.
+// The formats are applied in the order of the list, from highest to lowest priority.
+/*
+var layerImageFormats = [
+  {
+    format: "image/png",
+    layers: ["Country"]
+  },
+  {
+    format: "image/jpeg",
+    layers: ["Shaded Relief"]
+  }
+];
+*/
 
 //EPSG projection code of your QGIS project
 var authid = "EPSG:"+3857;
