@@ -277,7 +277,22 @@ var printCapabilities={
     {"name":"600 dpi","value":"600"},
     {"name":"1200 dpi","value":"1200"}
   ],
-  "layouts":[]
+  "layouts":[],
+  //
+  // configuration of the proxy printpostget.wsgi
+  //
+  // WTH - why use a postget-proxy for printing? 
+  // 1. the maximal URL-length of IE is 2083 signs (http://support.microsoft.com/kb/208427/en)
+  // 2. sometimes giant QGIS-project with a lot of layers are realised (print-URL-length > 2083 signs)
+  // 3. apache dicards POST data on redirect
+  //
+  // if once in a blue moon it comes to this rare case, there is a solution: 
+  // a. configure printpost.wsgi 
+  // b. set "method":"POST"
+  // c. fill in the URL to the proxy "url_proxy":"http://www.urltoproxy/printpostget.wsgi?
+  //
+  "method":"GET", // POST or GET
+  "url_proxy": "" // url to printpostget.wsgi  http://www.urltoproxy/printpostget.wsgi?
 };
 
 // <------------ No changes should be needed below here ------------------>
