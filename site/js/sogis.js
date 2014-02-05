@@ -1,6 +1,8 @@
 var servername = "http://"+location.href.split(/\/+/)[1];
 var strSOGISTooltipURL = servername + '/sogis/qgis-web-tooltip/'; // URL to the SOGIS tooltip
 var strSOGISDefaultButton = ""; // default button
+var bolHasToolTip = false;
+var customButtons = [];
 
 /**
 * @desc load the header of so
@@ -77,44 +79,30 @@ function loadSOGISHeader(){
 };
 
 /**
-* @desc is the server sending a tooltip
-* @return boolean if there is a tooltip or not
-* @todo as apache makes a directory listening, only html without the tag <html> is being treated as a response. Better solution is welcome
+* @desc initialises the individual sogis projects
+* 
 */
-function isTooltipSOGIS(){
-    var bolHasToolTip = null;
-    for (var i=0;i<gis_projects.topics.length; i++){
-        for (var j=0;j<gis_projects.topics[i].projects.length; j++){
-            if ( gis_projects.topics[i].projects[j].projectfile == getProject() ){
-                bolHasToolTip = gis_projects.topics[i].projects[j].sogistooltip;
-                intSOGISTooltipWidth = gis_projects.topics[i].projects[j].sogistooltipwidth;
-                intSOGISTooltipHeight = gis_projects.topics[i].projects[j].sogistooltipheight;
-                arr_SOGISButtons = gis_projects.topics[i].projects[j].sogisbuttons;
-                strSOGISDefaultButton = gis_projects.topics[i].projects[j].sogisdefaultbutton;
-                strSOGISTooltipProject = getProject();
-            }
-        }
-    }
-
-    removeButtons();    
-    /* Ausnahme SOVOTE */
+function initSOGISProjects(){
+    
+    removeButtons(); // remove all buttons
+    
+    /* EXCEPTION SOVOTE */
     if ((getProject().indexOf('ea_') != -1 ||
         getProject().indexOf('ka_') != -1) &&
         getProject().indexOf('_vorlage_') != -1){
-        bolHasToolTip = true 
-        strSOGISTooltipProject = getProject()
         intSOGISTooltipWidth = 600
         intSOGISTooltipHeight = 420
-        addButtons(['navZoomBoxButton','zoomNext','zoomLast','IdentifyTool','PrintMap']);
-        setDefaultButton('IdentifyTool');
+        addButtons(['sogistooltip','PrintMap']);
+        strSOGISDefaultButton = 'sogistooltip';
+        setDefaultButton(strSOGISDefaultButton);
+    /* all regular projects */
     } else {
-        /* call add buttons */
+        //handle buttons
         addButtons(arr_SOGISButtons);
         setDefaultButton(strSOGISDefaultButton);
     }
 
-
-    if ( bolHasToolTip == true ) {
+    if ( strSOGISDefaultButton == "sogistooltip") {
         Ext.getCmp("ObjectIdentificationText").hide();
         Ext.getCmp("ObjectIdentificationModeCombo").hide();   
         Ext.getCmp("CenterPanel").doLayout(); 
@@ -127,31 +115,8 @@ function isTooltipSOGIS(){
     }
 }
 
-
 /**
-* @desc gets the html (usually a div with content) from the server
-* @param number x the latitude
-* @param number y the longitude
-* @desc as apache makes a directory listening, only html without the tag <html> is being treated as a response. Better solution is welcome
-*/
-function getTooltipHtml(x,y, scale, extent){
-    Ext.Ajax.request({
-        url:  strSOGISTooltipURL + strSOGISTooltipProject + '/', // URL to the SOGIS tooltip
-        params: {'x': x, //
-                 'y': y,
-                 'scale': scale,
-                 'extent': extent,
-                 'visiblelayers': selectedLayers.toString()
-                },
-        method: 'GET',
-        success: function(response){
-                showTooltip(response.responseText);  
-        }
-    });
-}
-
-/**
-* @desc shows a window with html inside
+* @desc shows a window with html inside, used for sogis tooltip
 * @param string with html
 */
 function showTooltip(str_html){
@@ -167,7 +132,7 @@ function showTooltip(str_html){
         autoScroll: true
         //icon: Ext.MessageBox.INFO
         });
-   */ 
+        */ 
         var x = new Ext.Window({
             title: 'Tooltip ' + getProject(),
             minWidth: intSOGISTooltipWidth,
@@ -196,6 +161,11 @@ function showTooltip(str_html){
         x.show();
 }
 
+/**
+* @desc returns a comma-separated string with the visible layers
+* @return string with the visible layers
+* 
+*/
 function showVisibleLayers(){
     visibleLayers = getVisibleLayers([],layerTree.root.firstChild);
     visibleLayers = uniqueLayersInLegend(visibleLayers);
@@ -209,6 +179,7 @@ function showVisibleLayers(){
 */
 function getProject(){
     str_return = wmsMapName.replace("/", "");
+    /* EXCEPTION legacy communes  */
     if (str_return == "gempen" || 
 	str_return == "zuchwil" ||
 	str_return == "grindel" ||
@@ -226,7 +197,6 @@ function getProject(){
 
 /**
 * @desc removes all buttons from the map
-*
 */
 function removeButtons(){
 arr_buttons_seperators = ['measureDistance',
@@ -242,7 +212,9 @@ arr_buttons_seperators = ['measureDistance',
                             'separator1',
                             'separator2',
                             'separator3',
-                            'separator4'];
+                            'separator4',
+                            'separator5',
+                            'sogistooltip'];
     for (var i=0; i<arr_buttons_seperators.length; i++){
         Ext.getCmp(arr_buttons_seperators[i]).hide();
     }
@@ -250,7 +222,7 @@ arr_buttons_seperators = ['measureDistance',
 
 /**
 * @desc adds buttons to the map
-*
+* 
 */
 function addButtons(arr_buttons_seperators){
     for (var i=0; i<arr_buttons_seperators.length; i++){

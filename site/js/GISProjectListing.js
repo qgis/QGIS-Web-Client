@@ -1,13 +1,19 @@
-var default_buttons_seperators = ['measureDistance',
+var default_buttons_seperators = [
+                            'sogistooltip',
+                            'measureDistance',
                             'measureArea',
                             'PrintMap',
                             //'permalink',
-                            'IdentifyTool',
                             'ShowHelp',
                             //'navZoomBoxButton',
                             //'zoomNext',
                             //'zoomLast'
                             ];
+                            
+var intSOGISTooltipWidth;
+var intSOGISTooltipHeight;
+var arr_SOGISButtons;
+var strSOGISDefaultButton;
 
 var gis_projects = {
   "path": "/map",
@@ -26,11 +32,10 @@ var gis_projects = {
           "responsible": "Amtliche Vermessung",
           "tags": "Ortsplan",
           "switcher": false,
-          "sogistooltip": true,
           "sogistooltipwidth" : "300",
           "sogistooltipheight" : "400",
           "sogisbuttons" : default_buttons_seperators,
-          "sogisdefaultbutton" : "IdentifyTool"
+          "sogisdefaultbutton" : "sogistooltip"
     },{
           "name": "Richtplan Stand Januar 2013",
           "projectpath": "",
@@ -41,11 +46,10 @@ var gis_projects = {
           "responsible": "Amtliche Vermessung",
           "tags": "Richtplan",
           "switcher": false,
-          "sogistooltip": true,
           "sogistooltipwidth" : "600",
           "sogistooltipheight" : "300",
           "sogisbuttons" : default_buttons_seperators,
-          "sogisdefaultbutton" : "IdentifyTool"
+          "sogisdefaultbutton" : "sogistooltip"
    },{
           "name": "Mocheckso Error/Warning",
           "projectpath": "",
@@ -56,10 +60,9 @@ var gis_projects = {
           "responsible": "Amtliche Vermessung",
           "tags": "mocheckso",
           "switcher": false,
-          "sogistooltip": false,
           "sogistooltipwidth" : "600",
           "sogistooltipheight" : "300",
-          "sogisbuttons" : default_buttons_seperators,
+          "sogisbuttons" : ['measureDistance','measureArea','PrintMap','IdentifyTool'],
           "sogisdefaultbutton" : "IdentifyTool"
     }]
   },{
@@ -74,11 +77,10 @@ var gis_projects = {
           "responsible": "Amt für Umwel",
           "tags": "Neophyten",
           "switcher": true,
-          "sogistooltip": true,
           "sogistooltipwidth" : "600",
           "sogistooltipheight" : "400",
           "sogisbuttons" : default_buttons_seperators,
-          "sogisdefaultbutton" : "IdentifyTool"
+          "sogisdefaultbutton" : "sogistooltip"
     },{
           "name": "Grundwasserbewirtschaftung",
           "projectpath": "",
@@ -89,11 +91,10 @@ var gis_projects = {
           "responsible": "Amt für Umwelt",
           "tags": "Grundwasserbewirtschaftung",
           "switcher": false,
-          "sogistooltip": true,
           "sogistooltipwidth" : "1000",
           "sogistooltipheight" : "350",
           "sogisbuttons" : default_buttons_seperators,
-          "sogisdefaultbutton" : "IdentifyTool"
+          "sogisdefaultbutton" : "sogistooltip"
     },{
           "name": "Baugrundklassen",
           "projectpath": "",
@@ -104,11 +105,10 @@ var gis_projects = {
           "responsible": "Amt für Umwelt",
           "tags": "Baugrundklassen",
           "switcher": false,
-          "sogistooltip": true,
           "sogistooltipwidth" : "600",
           "sogistooltipheight" : "300",
           "sogisbuttons" : default_buttons_seperators,
-          "sogisdefaultbutton" : "IdentifyTool"
+          "sogisdefaultbutton" : "sogistooltip"
     },{
           "name": "Naturgefahrenhinweiskarte",
           "projectpath": "",
@@ -119,11 +119,10 @@ var gis_projects = {
           "responsible": "Amt für Umwelt",
           "tags": "Naturgefahrenhinweiskarte",
           "switcher": false,
-          "sogistooltip": true,
           "sogistooltipwidth" : "600",
           "sogistooltipheight" : "300",
           "sogisbuttons" : default_buttons_seperators,
-          "sogisdefaultbutton" : "IdentifyTool"
+          "sogisdefaultbutton" : "sogistooltip"
     },{
           "name": "Naturgefahren",
           "projectpath": "",
@@ -134,11 +133,10 @@ var gis_projects = {
           "responsible": "Amt für Umwelt",
           "tags": "Naturgefahren",
           "switcher": false,
-          "sogistooltip": true,
           "sogistooltipwidth" : "600",
           "sogistooltipheight" : "400",
           "sogisbuttons" : default_buttons_seperators,
-          "sogisdefaultbutton" : "IdentifyTool"
+          "sogisdefaultbutton" : "sogistooltip"
     }]  
   },{
     "name": "Amt für Landwirtschaf",
@@ -152,11 +150,10 @@ var gis_projects = {
           "responsible": "Amt für Landwirtschaf",
           "tags": "Bienenstandorte",
           "switcher": true,
-          "sogistooltip": true,
           "sogistooltipwidth" : "400",
           "sogistooltipheight" : "300",
           "sogisbuttons" : default_buttons_seperators,
-          "sogisdefaultbutton" : "IdentifyTool"
+          "sogisdefaultbutton" : "sogistooltip"
     }]  
   },{
     "name": "Amt für Raumplanung",
@@ -170,11 +167,10 @@ var gis_projects = {
           "responsible": "Amt für Raumplanung",
           "tags": "Nutzungszonen",
           "switcher": false,
-          "sogistooltip": false,
           "sogistooltipwidth" : "",
           "sogistooltipheight" : "300",
-          "sogisbuttons" : default_buttons_seperators,
-          "sogisdefaultbutton" : "IdentifyTool"
+          "sogisbuttons" : ['measureDistance','measureArea','PrintMap','IdentifyTool'],
+          "sogisdefaultbutton" : "IdentifyTool" 
     }]
   },{
     "name": "Gemeinden",
@@ -188,11 +184,10 @@ var gis_projects = {
           "responsible": "Gemeinden Kanton SO",
           "tags": "Leitungskataster,GemeindeGIS",
           "switcher": true,
-          "sogistooltip": false,
           "sogistooltipwidth" : "600",
           "sogistooltipheight" : "300",
           "sogisbuttons" : default_buttons_seperators,
-          "sogisdefaultbutton" : "IdentifyTool"
+          "sogisdefaultbutton" : "sogistooltip"
     }]
   },{
     "name": "Amt für Verkehr und Tiefbau",
@@ -206,11 +201,10 @@ var gis_projects = {
           "responsible": "Amt für Verkehr und Tiefbau",
           "tags": "Meine Tags",
           "switcher": true,
-          "sogistooltip": true,
           "sogistooltipwidth" : "450",
           "sogistooltipheight" : "400",
           "sogisbuttons" : default_buttons_seperators,
-          "sogisdefaultbutton" : "IdentifyTool"
+          "sogisdefaultbutton" : "sogistooltip"
     }]
  }]
 };

@@ -129,11 +129,12 @@ ThemeSwitcher.prototype.initialize = function () {
 		title: themeSwitcherWindowTitleString[lang],
 		width: this.parentPanel.getInnerWidth() - 10,
 		height: this.parentPanel.getInnerHeight() - 10,
-		renderTo: "geoExtMapPanel",
 		resizable: true,
 		closable: true,
 		maximizable: true,
 		layout: 'border',
+        constrain: false,
+        constrainHead: true,
 		listeners: {
 			"close": function (myWindow) {
 				me.themeSearchField.reset();
@@ -143,8 +144,8 @@ ThemeSwitcher.prototype.initialize = function () {
 				me.themeSwitcherWindow = undefined;
 			}
 		},
-		x: 5,
-		y: 5,
+		x: Ext.getCmp('geoExtMapPanel').getBox().x + 5,
+		y: Ext.getCmp('geoExtMapPanel').getBox().y + 5,
 		items: [{
 			xtype: 'panel',
 			region: 'west',
