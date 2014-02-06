@@ -128,12 +128,11 @@ function showTooltip(str_html){
             width: intSOGISTooltipWidth,
             minHeight: intSOGISTooltipHeight,
             height: intSOGISTooltipHeight,
-            layout: 'auto',
-            bodyStyle: 'background:#ffffff;',
+            bodyStyle: 'background:#ffffff;height:' + intSOGISTooltipHeight + 'px;',
             floating: true,
             html: str_message,
-            modal: true,
             renderTo: document.body,
+            /*
             buttonAlign: 'center',
             buttons : [
                 {
@@ -143,6 +142,7 @@ function showTooltip(str_html){
                 }                
         }
             ],
+            */
             closable: true,
             autoScroll: true
         });
@@ -269,7 +269,6 @@ function openPermaLink(permalink) {
         bodyStyle: 'background:#ffffff;',
         floating: true,
         items: [formPanel],
-        modal: true,
         renderTo: document.body,
         buttonAlign: 'center',
         html: '<p align="center" style="color:#888888;vertical-align:bottom;"><br/>Mit diesem Link kann die jetzige Kartenansicht jederzeit wieder hergestellt werden. <br/>Kopieren: Ctrl+C</p>',
