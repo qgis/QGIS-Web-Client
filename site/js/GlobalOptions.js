@@ -7,7 +7,7 @@ var helpfile = "help_de.html";
 //Servername (optional) and path and name name of QGIS mapserver FCGI-file
 //either with or without server-name - without servername recommended for easier porting to other servers
 //do not add a ? or & after the .fcgi extension
-var serverAndCGI = "http://srsofaioi12288.ktso.ch/wms";
+var serverAndCGI = "http://srsofaioi12288.ktso.ch/wmstest";
 
 //Define whether you want to use the GetProjectSettings extension of QGIS Server
 //for more configuration options in the project.
@@ -15,11 +15,11 @@ var serverAndCGI = "http://srsofaioi12288.ktso.ch/wms";
 var useGetProjectSettings = true;
 
 // show the layerOrderTab in the GUI
-var showLayerOrderTab = true;
+var showLayerOrderTab = false;
 
 // use geodesic measures, i.e. not planar measures
 // this is useful if a projection with high distortion of length/area is used, eg.g. GoogleMercator
-var useGeodesicMeasurement = true;
+var useGeodesicMeasurement = false
 
 //search box for queries while typing
 //enable to use GeoNames search
@@ -37,7 +37,7 @@ var project_map = Ext.urlDecode(window.location.search.substring(1)).map;
 
 
 //use a URL shortener for your permalink function
-var permaLinkURLShortener = null; // "/wsgi/createShortPermalink.wsgi";
+var permaLinkURLShortener = "/wsgi/createShortPermalink.wsgi";
 
 // enable to use commercial Google and Bing layers (also add BingApiKey in WebgisInit.js)
 var enableBingCommercialMaps = false;

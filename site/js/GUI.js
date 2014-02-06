@@ -365,7 +365,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 		}];
 
 		// Appends custom buttons from customizations.js
-		this.items[0].items[1].items[0].tbar.items = this.items[0].items[1].items[0].tbar.items.concat ( customButtons ) ;
+		this.items[0].items[1].items[0].tbar.items = customButtons.concat( this.items[0].items[1].items[0].tbar.items );
 
 		MyViewportUi.superclass.initComponent.call(this);
 	}

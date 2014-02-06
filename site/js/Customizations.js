@@ -12,8 +12,8 @@ function customInit() {
         }
     }
 
-// I create a new control click event class
-     OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {
+    // I create a new control click event class
+    OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {
          defaultHandlerOptions: {
                  'single': true,
                  'double': false,
@@ -78,7 +78,7 @@ function customAfterMapInit() {
      initSOGISProjects(); /* INIT SOGIS PROJECT */
 }
 
-function customPostLoading() { 
+function customPostLoading() {
     loadSOGISHeader(); // sogis header on top of the map
 }
 
@@ -95,7 +95,7 @@ customButtons = [
         scale: 'medium',
         icon: 'gis_icons/mActionIdentify.png',
         tooltipType: 'qtip',
-        tooltip: "Test button - click on the map",
+        tooltip: "Tooltip - Zum Abfragen auf Kartenobjekt klicken",
         id: 'sogistooltip'
         }
 ];  

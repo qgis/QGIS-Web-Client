@@ -3,20 +3,21 @@ var default_buttons_seperators = [
                             'measureDistance',
                             'measureArea',
                             'PrintMap',
-                            //'permalink',
+                            'SendPermalink',
                             'ShowHelp',
                             //'navZoomBoxButton',
                             //'zoomNext',
                             //'zoomLast'
                             ];
                             
-var intSOGISTooltipWidth;
-var intSOGISTooltipHeight;
-var arr_SOGISButtons;
-var strSOGISDefaultButton;
+// default values when project is not yet configured in this document
+var intSOGISTooltipWidth = 300;
+var intSOGISTooltipHeight = 400;
+var arr_SOGISButtons = ['measureDistance','measureArea','PrintMap','SendPermalink','ShowHelp','IdentifyTool'];
+var strSOGISDefaultButton = 'IdentifyTool';
 
 var gis_projects = {
-  "path": "/map",
+  "path": "/maptest", /* DEPLOY !!! */
   "mapserver": "/wms",
   "thumbnails": "/thumbnails",
   "title": "SO!GIS",
@@ -64,6 +65,20 @@ var gis_projects = {
           "sogistooltipheight" : "300",
           "sogisbuttons" : ['measureDistance','measureArea','PrintMap','IdentifyTool'],
           "sogisdefaultbutton" : "IdentifyTool"
+    },{
+          "name": "Grundbuchplan",
+          "projectpath": "",
+          "projectfile": "grundbuchplan",
+          "format": "image/png",
+          "visibleLayers": "Baulinien,Amtliche Vermessung (schwarz-weiss),Strassenkarte",
+          "updateInterval": "occasional",
+          "responsible": "Amtliche Vermessung",
+          "tags": "Grundbuchplan",
+          "switcher": true,
+          "sogistooltipwidth" : "400",
+          "sogistooltipheight" : "300",
+          "sogisbuttons" : default_buttons_seperators,
+          "sogisdefaultbutton" : "sogistooltip"
     }]
   },{
     "name": "Amt für Umwelt",
@@ -186,8 +201,8 @@ var gis_projects = {
           "switcher": true,
           "sogistooltipwidth" : "600",
           "sogistooltipheight" : "300",
-          "sogisbuttons" : default_buttons_seperators,
-          "sogisdefaultbutton" : "sogistooltip"
+          "sogisbuttons" : ['measureDistance','measureArea','PrintMap','IdentifyTool'],
+          "sogisdefaultbutton" : "IdentifyTool"
     }]
   },{
     "name": "Amt für Verkehr und Tiefbau",

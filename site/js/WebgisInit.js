@@ -547,8 +547,7 @@ function postLoading() {
 		}
 		//add listener to adapt map on panel resize (only needed because of IE)
 		MapPanelRef.on('resize', function (panel, w, h) {
-			geoExtMap.setWidth(panel.getInnerWidth());
-			geoExtMap.setHeight(panel.getInnerHeight());
+			geoExtMap.setSize(panel.getInnerWidth(),panel.getInnerHeight());
 		});
 
 		// selection from permalink
@@ -1825,13 +1824,14 @@ function activateGetFeatureInfo(doIt) {
 	}
 }
 
-function openPermaLink(permalink) {
-	var mailToText = "mailto:?subject="+sendPermalinkLinkFromString[lang]+titleBarText+layerTree.root.firstChild.text+"&body="+permalink;
-	var mailWindow = window.open(mailToText);
-	if (mailWindow){
-		mailWindow.close();
-	} // can be null, if e.g. popus are blocked
-}
+/* SOGIS: This function has been reimpelented in sogis.js */
+//function openPermaLink(permalink) {
+//	var mailToText = "mailto:?subject="+sendPermalinkLinkFromString[lang]+titleBarText+layerTree.root.firstChild.text+"&body="+permalink;
+//	var mailWindow = window.open(mailToText);
+//	if (mailWindow){
+//		mailWindow.close();
+//	} // can be null, if e.g. popus are blocked
+//}
 
 function receiveShortPermalinkFromDB(result, request) {
 	var result = eval("("+result.responseText+")");
