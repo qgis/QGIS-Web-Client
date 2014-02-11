@@ -122,6 +122,10 @@ function showTooltip(str_html){
         //icon: Ext.MessageBox.INFO
         });
         */ 
+        if (typeof(Ext.getCmp('tooltipWindow')) != 'undefined'){
+            Ext.getCmp('tooltipWindow').destroy();
+        }
+
         var tooltipWindow = new Ext.Window({
             title: 'Tooltip ' + getProject(),
             minWidth: intSOGISTooltipWidth,
@@ -131,6 +135,7 @@ function showTooltip(str_html){
             bodyStyle: 'background:#ffffff;height:' + intSOGISTooltipHeight + 'px;',
             floating: true,
             html: str_message,
+            id: 'tooltipWindow',
             renderTo: document.body,
             /*
             buttonAlign: 'center',
@@ -258,21 +263,26 @@ function openPermaLink(permalink) {
             }
         ]
     };
+
+    if (typeof(Ext.getCmp('permalinkWindow')) != 'undefined'){
+        Ext.getCmp('permalinkWindow').destroy();
+    }
     
     var permalinkWindow = new Ext.Window({
         title: 'Permalink',
         minWidth: 615,
         width: 615,
-        minHeight: 140,
-        height: 140,
+        minHeight: 120,
+        height: 120,
         layout: 'auto',
         bodyStyle: 'background:#ffffff;',
         floating: true,
+        id: 'permalinkWindow',
         items: [formPanel],
         renderTo: document.body,
         buttonAlign: 'center',
         html: '<p align="center" style="color:#888888;vertical-align:bottom;"><br/>Mit diesem Link kann die jetzige Kartenansicht jederzeit wieder hergestellt werden. <br/>Kopieren: Ctrl+C</p>',
-        buttons : [
+        /*buttons : [
             {
                 text: 'OK',
                 handler: function(){
@@ -280,6 +290,7 @@ function openPermaLink(permalink) {
                 }
             }
         ],
+        */
         closable: true,
         autoScroll: true
     });
@@ -287,7 +298,7 @@ function openPermaLink(permalink) {
     Ext.getCmp('permalinkfield').focus(false, 100);
 }
 
-//Send permalink
+//Send permalink. Overwrite from Translation.js
 var sendPermalinkTooltipString = new Array();
 sendPermalinkTooltipString["en"] = "Permalink";
 sendPermalinkTooltipString["es"] = "Permalink"; //FIXME

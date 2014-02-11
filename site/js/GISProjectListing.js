@@ -64,7 +64,7 @@ var gis_projects = {
           "switcher": false,
           "sogistooltipwidth" : "600",
           "sogistooltipheight" : "300",
-          "sogisbuttons" : ['measureDistance','measureArea','PrintMap','IdentifyTool'],
+          "sogisbuttons" : ['measureDistance','measureArea','SendPermalink','PrintMap','IdentifyTool'],
           "sogisdefaultbutton" : "IdentifyTool"
     },{
           "name": "Grundbuchplan",
@@ -185,7 +185,7 @@ var gis_projects = {
           "switcher": false,
           "sogistooltipwidth" : "",
           "sogistooltipheight" : "300",
-          "sogisbuttons" : ['measureDistance','measureArea','PrintMap','IdentifyTool'],
+          "sogisbuttons" : ['measureDistance','measureArea','SendPermalink','PrintMap','IdentifyTool'],
           "sogisdefaultbutton" : "IdentifyTool" 
     }]
   },{
@@ -202,7 +202,7 @@ var gis_projects = {
           "switcher": true,
           "sogistooltipwidth" : "600",
           "sogistooltipheight" : "300",
-          "sogisbuttons" : ['measureDistance','measureArea','PrintMap','IdentifyTool'],
+          "sogisbuttons" : ['measureDistance','measureArea','SendPermalink','PrintMap','IdentifyTool'],
           "sogisdefaultbutton" : "IdentifyTool"
     }]
   },{
