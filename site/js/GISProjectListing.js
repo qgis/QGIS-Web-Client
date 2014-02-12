@@ -27,8 +27,8 @@ var gis_projects = {
           "name": "Ortsplan",
           "projectpath": "",
           "projectfile": "ortsplan",
-          "format": "image/png; mode=8bit",
-          //"fullColorLayers" : "Orthofoto",
+          //"format": "image/png; mode=8bit", //only active after switching, initial def in GetUrlParams.js
+          //"fullColorLayers" : "Orthofoto", //obsolete
           "visibleLayers": "Hoheitsgrenzen,Ortsplan",
           "updateInterval": "occasional",
           "responsible": "Amtliche Vermessung",
@@ -42,7 +42,8 @@ var gis_projects = {
           "name": "Richtplan Stand Januar 2013",
           "projectpath": "",
           "projectfile": "richtplan",
-          "format": "image/png",
+          //"format": "image/png; mode=8bit", //only active after switching, initial def in GetUrlParams.js
+          //"fullColorLayers" : "Orthofoto", //obsolete
           "visibleLayers": "Gemeindegrenzen,Übersichtsplan,Orthofoto 2006,Grundnutzung,Überlagerte Nutzung",
           "updateInterval": "occasional",
           "responsible": "Amtliche Vermessung",
@@ -56,7 +57,8 @@ var gis_projects = {
           "name": "Mocheckso Error/Warning",
           "projectpath": "",
           "projectfile": "mocheckso",
-          "format": "image/png",
+          //"format": "image/png; mode=8bit", //only active after switching, initial def in GetUrlParams.js
+          //"fullColorLayers" : "Orthofoto", //obsolete
           "visibleLayers": "Gemeindegrenzen",
           "updateInterval": "occasional",
           "responsible": "Amtliche Vermessung",
@@ -70,7 +72,8 @@ var gis_projects = {
           "name": "Grundbuchplan",
           "projectpath": "",
           "projectfile": "grundbuchplan",
-          "format": "image/png",
+          //"format": "image/png; mode=8bit", //only active after switching, initial def in GetUrlParams.js
+          //"fullColorLayers" : "Orthofoto", //obsolete
           "visibleLayers": "Baulinien,Amtliche Vermessung (schwarz-weiss),Strassenkarte",
           "updateInterval": "occasional",
           "responsible": "Amtliche Vermessung",
@@ -87,8 +90,11 @@ var gis_projects = {
           "name": "Neophyten",
           "projectpath": "",
           "projectfile": "neophyten",
-          "format": "image/png",
+          //"format": "image/png; mode=8bit", //only active after switching, initial def in GetUrlParams.js
+          //"fullColorLayers" : "Orthofoto", //obsolete
           "visibleLayers": "2013 Pflanzenliste,Gemeindegrenzen,Grundkarte",
+          "format": "image/png; mode=8bit",
+          "fullColorLayers" : "Orthofoto",
           "updateInterval": "occasional",
           "responsible": "Amt für Umwel",
           "tags": "Neophyten",
@@ -101,7 +107,8 @@ var gis_projects = {
           "name": "Grundwasserbewirtschaftung",
           "projectpath": "",
           "projectfile": "grundwasserbewirtschaftung",
-          "format": "image/png",
+          //"format": "image/png; mode=8bit", //only active after switching, initial def in GetUrlParams.js
+          //"fullColorLayers" : "Orthofoto", //obsolete
           "visibleLayers": "Orthofoto Kt. Solothurn",
           "updateInterval": "occasional",
           "responsible": "Amt für Umwelt",
@@ -115,7 +122,8 @@ var gis_projects = {
           "name": "Baugrundklassen",
           "projectpath": "",
           "projectfile": "baugrundklassen",
-          "format": "image/png",
+          //"format": "image/png; mode=8bit", //only active after switching, initial def in GetUrlParams.js
+          //"fullColorLayers" : "Orthofoto", //obsolete
           "visibleLayers": "Gemeindegrenze,Baugrundklassen,Übersichtsplan,Strassenkarte",
           "updateInterval": "occasional",
           "responsible": "Amt für Umwelt",
@@ -129,7 +137,8 @@ var gis_projects = {
           "name": "Naturgefahrenhinweiskarte",
           "projectpath": "",
           "projectfile": "natgef",
-          "format": "image/png",
+          //"format": "image/png; mode=8bit", //only active after switching, initial def in GetUrlParams.js
+          //"fullColorLayers" : "Orthofoto", //obsolete
           "visibleLayers": "Überflutungsgebiete,sehr flache Talböden ausserhalb der modellierten Überflutungsbereiche: Überflutung kann nicht ausgeschlossen werden,Übersarung / Schwemmkegel,Murgang,bekannte Ereignisse ausserhalb des modellierten Steinschlaggebietes,Steinschlag,Doline,tatsächliche Ereignisse,Übersichtsplan,Strassenkarte mit Relief,Orthofoto",
           "updateInterval": "occasional",
           "responsible": "Amt für Umwelt",
@@ -143,7 +152,8 @@ var gis_projects = {
           "name": "Naturgefahren",
           "projectpath": "",
           "projectfile": "naturgefahren",
-          "format": "image/png",
+          //"format": "image/png; mode=8bit", //only active after switching, initial def in GetUrlParams.js
+          //"fullColorLayers" : "Orthofoto", //obsolete
           "visibleLayers": "Naturgefahren",
           "updateInterval": "occasional",
           "responsible": "Amt für Umwelt",
@@ -160,7 +170,8 @@ var gis_projects = {
           "name": "Bienenstandorte",
           "projectpath": "",
           "projectfile": "bienenstandorte",
-          "format": "image/png",
+          //"format": "image/png; mode=8bit", //only active after switching, initial def in GetUrlParams.js
+          //"fullColorLayers" : "Orthofoto", //obsolete
           "visibleLayers": "Bienenstandorte,Streptomycineinsatz,Feuerbrand Schutzobjekte,Gemeindegrenzen,Grundkarte",
           "updateInterval": "occasional",
           "responsible": "Amt für Landwirtschaf",
@@ -177,7 +188,8 @@ var gis_projects = {
           "name": "Nutzungszonen",
           "projectpath": "",
           "projectfile": "nutzungszonen",
-          "format": "image/png",
+          //"format": "image/png; mode=8bit", //only active after switching, initial def in GetUrlParams.js
+          //"fullColorLayers" : "Orthofoto", //obsolete
           "visibleLayers": "Nutzungszonen,Orthofoto,Gemeindegrenzen,Ortsplan",
           "updateInterval": "occasional",
           "responsible": "Amt für Raumplanung",
@@ -194,7 +206,8 @@ var gis_projects = {
           "name": "Leitungskataster",
           "projectpath": "",
           "projectfile": "gemeindegis",
-          "format": "image/png",
+          //"format": "image/png; mode=8bit", //only active after switching, initial def in GetUrlParams.js
+          //"fullColorLayers" : "Orthofoto", //obsolete
           "visibleLayers": "Amtliche Vermessung,Wasser,Abwasser,Elektro",
           "updateInterval": "occasional",
           "responsible": "Gemeinden Kanton SO",
@@ -211,7 +224,8 @@ var gis_projects = {
           "name": "Verkehrsmodell 2010",
           "projectpath": "",
           "projectfile": "verkehrsmodell2010",
-          "format": "image/png",
+          //"format": "image/png; mode=8bit", //only active after switching, initial def in GetUrlParams.js
+          //"fullColorLayers" : "Orthofoto", //obsolete
           "visibleLayers": "Gemeindegrenzen,Grundkarte",
           "updateInterval": "occasional",
           "responsible": "Amt für Verkehr und Tiefbau",

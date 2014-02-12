@@ -163,18 +163,16 @@ var projectTitles = {
 // Optional list of layers that should be displayed in a different image format,
 // if the default image format is 8bit.
 // The formats are applied in the order of the list, from highest to lowest priority.
-/*
 var layerImageFormats = [
   {
     format: "image/png",
-    layers: ["Country"]
-  },
+    layers: ["Orthofoto"]
+  }/*,
   {
     format: "image/jpeg",
-    layers: ["Shaded Relief"]
-  }
+    layers: ["Orthofoto"]
+  }*/
 ];
-*/
 
 //EPSG projection code of your QGIS project
 var authid = "EPSG:"+21781;

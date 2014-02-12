@@ -299,20 +299,23 @@ Ext.extend(QGIS.PrintProvider, GeoExt.data.PrintProvider, {
     if (mapScale > 100 && mapScale <= 250) {
       grid_interval = 25;
     }
-    else if (mapScale > 250 && mapScale <= 1000) {
+    else if (mapScale > 250 && mapScale <= 500) {
       grid_interval = 50;
     }
-    else if (mapScale > 1000 && mapScale <= 2500) {
+    else if (mapScale > 500 && mapScale <= 1000) {
       grid_interval = 100;
+    }    
+    else if (mapScale > 1000 && mapScale <= 2500) {
+      grid_interval = 200;
     }
     else if (mapScale > 2500 && mapScale <= 5000) {
-      grid_interval = 250;
-    }
-    else if (mapScale > 5000 && mapScale <= 12000) {
       grid_interval = 500;
     }
-    else if (mapScale > 12000 && mapScale <= 25000) {
+    else if (mapScale > 5000 && mapScale <= 12000) {
       grid_interval = 1000;
+    }
+    else if (mapScale > 12000 && mapScale <= 25000) {
+      grid_interval = 2000;
     }
     else if (mapScale > 25000 && mapScale <= 50000) {
       grid_interval = 2000;
