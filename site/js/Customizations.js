@@ -2,7 +2,7 @@
 function customInit() {
 
     //set project settings 
-    setSOGISProjectSettings();
+    //setSOGISProjectSettings();
 
     // I create a new control click event class
     OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {
@@ -71,7 +71,6 @@ function customAfterMapInit() {
 }
 
 function customPostLoading() {
-    loadSOGISHeader(); // sogis header on top of the map
 }
 
 customButtons = [ 

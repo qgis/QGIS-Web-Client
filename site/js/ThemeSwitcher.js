@@ -324,7 +324,7 @@ ThemeSwitcher.prototype.changeTheme = function (dataView, index, node, evt) {
 		if (projData.searchtables) {
 			searchtables = projData.searchtables;
 		}
-        setSOGISProjectSettings();
+        //SOGIS has individual projects
         initSOGISProjects();
 
 		//handle max extent
