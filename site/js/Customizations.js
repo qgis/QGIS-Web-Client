@@ -1,16 +1,8 @@
 // customInit() is called before any map initialization
 function customInit() {
-    //get sogis settings
-    for (var i=0;i<gis_projects.topics.length; i++){
-        for (var j=0;j<gis_projects.topics[i].projects.length; j++){
-            if ( gis_projects.topics[i].projects[j].projectfile == getProject() ){
-                intSOGISTooltipWidth = gis_projects.topics[i].projects[j].sogistooltipwidth;
-                intSOGISTooltipHeight = gis_projects.topics[i].projects[j].sogistooltipheight;
-                arr_SOGISButtons = gis_projects.topics[i].projects[j].sogisbuttons;
-                strSOGISDefaultButton = gis_projects.topics[i].projects[j].sogisdefaultbutton;
-            }
-        }
-    }
+
+    //set project settings 
+    setSOGISProjectSettings();
 
     // I create a new control click event class
     OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {

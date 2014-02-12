@@ -174,13 +174,14 @@ var gis_projects = {
           //"fullColorLayers" : "Orthofoto", //obsolete
           "visibleLayers": "Bienenstandorte,Streptomycineinsatz,Feuerbrand Schutzobjekte,Gemeindegrenzen,Grundkarte",
           "updateInterval": "occasional",
+          "searchtables": "qwebclient.search_bienenstnr",
           "responsible": "Amt für Landwirtschaf",
           "tags": "Bienenstandorte",
           "switcher": true,
           "sogistooltipwidth" : "400",
           "sogistooltipheight" : "300",
-          "sogisbuttons" : default_buttons_seperators,
-          "sogisdefaultbutton" : "sogistooltip"
+          "sogisbuttons" : ['measureDistance','measureArea','SendPermalink','PrintMap','IdentifyTool'],
+          "sogisdefaultbutton" : "IdentifyTool"
     }]  
   },{
     "name": "Amt für Raumplanung",

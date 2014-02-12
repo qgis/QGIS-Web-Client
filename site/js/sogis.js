@@ -63,8 +63,24 @@ function loadSOGISHeader(){
     }
     Ext.get("panel_header").addClass('sogis-header').insertHtml('beforeEnd', '<div class="sogis-headernav">'+getMenuString(sogis_menu)+'</div>');
     Ext.get("panel_header_title").addClass('sogis-header-text').insertHtml('afterEnd', '<a href="http://www.so.ch/" class="sogis-header-logo" />');
-    //Ext.getCmp('GisBrowserPanel').setHeight(window.innerHeight);
+    //Ext.getCmp('GisBrowserPanel').setSize(window.innerHeight, window.innerWidth);
+    Ext.getCmp('GisBrowserPanel').setHeight(innerHeight);
 };
+
+function setSOGISProjectSettings(){
+    //get sogis settings
+    for (var i=0;i<gis_projects.topics.length; i++){
+        for (var j=0;j<gis_projects.topics[i].projects.length; j++){
+            if ( gis_projects.topics[i].projects[j].projectfile == getProject() ){
+                intSOGISTooltipWidth = gis_projects.topics[i].projects[j].sogistooltipwidth;
+                intSOGISTooltipHeight = gis_projects.topics[i].projects[j].sogistooltipheight;
+                arr_SOGISButtons = gis_projects.topics[i].projects[j].sogisbuttons;
+                strSOGISDefaultButton = gis_projects.topics[i].projects[j].sogisdefaultbutton;
+            }
+        }
+    }
+}
+
 
 /**
 * @desc initialises the individual sogis projects
@@ -73,6 +89,7 @@ function loadSOGISHeader(){
 function initSOGISProjects(){
     
     removeButtons(); // remove all buttons
+
     
     /* EXCEPTION SOVOTE */
     if ((getProject().indexOf('ea_') != -1 ||
@@ -309,4 +326,17 @@ sendPermalinkTooltipString["pt_PT"] = "Permalink";
 sendPermalinkTooltipString["uk"] = "Permalink"; //FIXME
 sendPermalinkTooltipString["hu"] = "Permalink";
 sendPermalinkTooltipString["ro"] = "Permalink";
+
+//mode string for attribute data detailed
+var modeObjectIdentificationString = new Array();
+modeObjectIdentificationString["en"] = "Mode: object identification. Move the mouse over an object to identify it, click it to view its attribute data.";
+modeObjectIdentificationString["es"] = "Modo: Identificación de objeto. Mueva el cursor sobre un objeto para identificarlo, haga click sobre él para ver sus atributos.";
+modeObjectIdentificationString["de"] = "Bewegen Sie die Maus über das Objekt, um es zu identifizeren, klicken Sie es an, um seine Attributdaten anzuzeigen.";
+modeObjectIdentificationString["fr"] = "Mode: identification d'objets. Déplacez la souris sur un objet pour l'identifier, cliquez dessus pour afficher les attributs.";
+modeObjectIdentificationString["it"] = "Modalità: identificazione di elementi. Identificare un elemento tramite il click.";
+modeObjectIdentificationString["pt_PT"] = "Modo: identificação do elemento. Ver atributos dos dados por meio de um clique do rato.";
+modeObjectIdentificationString["uk"] = "Режим: вибір об'єкта. Клацніть лівою кнопкою щоб побачити атрибути об'єкта.";
+modeObjectIdentificationString["hu"] = "Mód: térképi elem azonosítás. Mozgasd az egeret a kívánt térképi elem fölé, klikkelj rá.";
+modeObjectIdentificationString["ro"] = "Mod: identificare obiect. Pentru aceasta se pune mouse-ul pe el; se poate da click pentru a-i vizualiza atributele";
+
 
