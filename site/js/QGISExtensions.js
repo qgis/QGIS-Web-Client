@@ -171,7 +171,7 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
             },
 
           "Attributes": function(node, obj) {
-            obj.attributes = []
+            obj.attributes = [];
             this.readChildNodes(node, obj.attributes);
           },
           "Attribute": function(node, obj) {
