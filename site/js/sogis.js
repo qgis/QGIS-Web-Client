@@ -179,7 +179,7 @@ function addButtons(arr_buttons_seperators){
 */
 function setDefaultButton(defaultButton){
     if (defaultButton != ""){
-        Ext.getCmp(defaultButton).toggle();
+        Ext.getCmp(defaultButton).toggle(true);
     }
 }
 
