@@ -66,7 +66,7 @@ var gis_projects = {
           "switcher": false,
           "sogistooltipwidth" : "600",
           "sogistooltipheight" : "300",
-          "sogisbuttons" : ['measureDistance','measureArea','SendPermalink','PrintMap','IdentifyTool'],
+          "sogisbuttons" : ['measureDistance','measureArea','SendPermalink','PrintMap','IdentifyTool','ShowHelp'],
           "sogisdefaultbutton" : "IdentifyTool"
     },{
           "name": "Grundbuchplan",
@@ -78,7 +78,7 @@ var gis_projects = {
           "updateInterval": "occasional",
           "responsible": "Amtliche Vermessung",
           "tags": "Grundbuchplan",
-          "switcher": true,
+          "switcher": false,
           "sogistooltipwidth" : "400",
           "sogistooltipheight" : "300",
           "sogisbuttons" : default_buttons_seperators,
@@ -180,7 +180,7 @@ var gis_projects = {
           "switcher": true,
           "sogistooltipwidth" : "400",
           "sogistooltipheight" : "300",
-          "sogisbuttons" : ['measureDistance','measureArea','SendPermalink','PrintMap','IdentifyTool'],
+          "sogisbuttons" : ['measureDistance','measureArea','SendPermalink','PrintMap','IdentifyTool','ShowHelp'],
           "sogisdefaultbutton" : "IdentifyTool"
     }]  
   },{
@@ -198,7 +198,7 @@ var gis_projects = {
           "switcher": false,
           "sogistooltipwidth" : "",
           "sogistooltipheight" : "300",
-          "sogisbuttons" : ['measureDistance','measureArea','SendPermalink','PrintMap','IdentifyTool'],
+          "sogisbuttons" : ['measureDistance','measureArea','SendPermalink','PrintMap','IdentifyTool','ShowHelp'],
           "sogisdefaultbutton" : "IdentifyTool" 
     }]
   },{
@@ -216,7 +216,7 @@ var gis_projects = {
           "switcher": true,
           "sogistooltipwidth" : "600",
           "sogistooltipheight" : "300",
-          "sogisbuttons" : ['measureDistance','measureArea','SendPermalink','PrintMap','IdentifyTool'],
+          "sogisbuttons" : ['measureDistance','measureArea','SendPermalink','PrintMap','IdentifyTool','ShowHelp'],
           "sogisdefaultbutton" : "IdentifyTool"
     }]
   },{

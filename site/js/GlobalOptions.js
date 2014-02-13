@@ -7,7 +7,7 @@ var helpfile = "help_de.html";
 //Servername (optional) and path and name name of QGIS mapserver FCGI-file
 //either with or without server-name - without servername recommended for easier porting to other servers
 //do not add a ? or & after the .fcgi extension
-var serverAndCGI = "http://srsofaioi12288.ktso.ch/wms";
+var serverAndCGI = "http://www.sogis1.so.ch/wms";
 
 //Define whether you want to use the GetProjectSettings extension of QGIS Server
 //for more configuration options in the project.
@@ -292,7 +292,7 @@ var printCapabilities={
   // c. fill in the URL to the proxy "url_proxy":"http://www.urltoproxy/printpostget.wsgi?
   //
   "method":"POST", // POST or GET
-  "url_proxy": "http://srsofaioi12288.ktso.ch/wsgi/printpostget.wsgi" // url to printpostget.wsgi  http://www.urltoproxy/printpostget.wsgi?
+  "url_proxy": "http://www.sogis1.so.ch/wsgi/printpostget.wsgi" // url to printpostget.wsgi  http://www.urltoproxy/printpostget.wsgi?
 };
 
 // <------------ No changes should be needed below here ------------------>
