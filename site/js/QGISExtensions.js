@@ -319,32 +319,66 @@ Ext.extend(QGIS.PrintProvider, GeoExt.data.PrintProvider, {
     else if (mapScale > 12000 && mapScale <= 25000) {
       grid_interval = 2000;
     }
-    else if (mapScale > 25000) {
-      grid_interval = 4000;
+    else if (mapScale > 25000 && mapScale <= 50000) {
+      grid_interval = 2000;
+    }
+    else if (mapScale > 50000 && mapScale <= 100000) {
+      grid_interval = 5000;
+    }
+    else if (mapScale > 100000 && mapScale <= 500000) {
+      grid_interval = 10000;
+    }
+    else if (mapScale > 500000 && mapScale <= 1000000) {
+      grid_interval = 50000;
+    }
+    else if (mapScale > 1000000 && mapScale <= 5000000) {
+      grid_interval = 100000;
+    }
+    else if (mapScale > 5000000 && mapScale <= 10000000) {
+      grid_interval = 250000;
+    }
+    else if (mapScale > 10000000 && mapScale <= 50000000) {
+      grid_interval = 2500000;
+    }
+    else if (mapScale > 50000000 && mapScale <= 100000000) {
+      grid_interval = 5000000;
+    }
+    else if (mapScale > 100000000) {
+      grid_interval = 10000000;
     }
 
-    var printUrl = this.url+'&SRS=EPSG:'+epsgcode+'&DPI=300&TEMPLATE='+this.layout.get("name")+'&map0:extent='+printExtent.page.getPrintExtent(map).toBBOX(1,false)+'&map0:rotation='+(printExtent.page.rotation * -1)+'&map0:scale='+mapScale+'&map0:grid_interval_x='+grid_interval+'&map0:grid_interval_y='+grid_interval+'&LAYERS='+encodeURIComponent(thematicLayer.params.LAYERS); //SOGSI: Always 300 DPI
+    // if the var fixedPrintResolution of GlobalOptions.js is set, the print resolution will be this value
+    if (fixedPrintResolution != null && parseInt(fixedPrintResolution) > 0){
+        printResolution = fixedPrintResolution;
+    } else {
+        printResolution = this.dpi.get("value");
+    }
+
+    var printUrl = this.url+'&SRS='+authid+'&DPI='+printResolution+'&TEMPLATE='+this.layout.get("name")+'&map0:extent='+printExtent.page.getPrintExtent(map).toBBOX(1,false)+'&map0:rotation='+(printExtent.page.rotation * -1)+'&map0:scale='+mapScale+'&map0:grid_interval_x='+grid_interval+'&map0:grid_interval_y='+grid_interval+'&LAYERS='+encodeURIComponent(thematicLayer.params.LAYERS);
+    if (thematicLayer.params.OPACITIES) {
+      printUrl += '&OPACITIES='+encodeURIComponent(thematicLayer.params.OPACITIES);
+    }
     if (thematicLayer.params.SELECTION) {
       printUrl += '&SELECTION='+encodeURIComponent(thematicLayer.params.SELECTION);
     }
 
+    // makes spatial query from map to use the attributes in the print template (more in README chap 4.5)
     var lonlat = printExtent.page.getPrintExtent(map).getCenterLonLat();
     var mapCenter = new OpenLayers.Geometry.Point(lonlat.lon, lonlat.lat);
-    
     var myfilter = new OpenLayers.Filter.Comparison({
         type: OpenLayers.Filter.Spatial.INTERSECTS,
         value: mapCenter
-    });   
+    });
+
     var protocol = new OpenLayers.Protocol.WFS({
-            url: servername + gis_projects.mapserver + '/'+ wmsMapName,
+            url: serverAndCGI + '/'+ wmsMapName,
             featureType: 'print',
             geometryName: 'geometry',
-            srsName: "EPSG:21781",
+            srsName: authid,
             filter: myfilter,
             readWithPOST: true
     });
-    
-    //printLoadMask.show();
+
     Ext.getBody().mask(printLoadingString[lang], 'x-mask-loading');
     protocol.read({
         callback: function(response) {
@@ -371,8 +405,8 @@ Ext.extend(QGIS.PrintProvider, GeoExt.data.PrintProvider, {
       Ext.Ajax.request({
         isLoading: true,
         url : printCapabilities.url_proxy,
-        method: printCapabilities.method,                  
-        params :  url,
+        method: printCapabilities.method,
+        params :  url + '&project=' + wmsMapName,
         success: function (response) {
             if (printCapabilities.method == 'POST') {
                 var jsonResp = Ext.util.JSON.decode(response.responseText); // GET URL from proxy
@@ -383,25 +417,24 @@ Ext.extend(QGIS.PrintProvider, GeoExt.data.PrintProvider, {
                     Ext.Msg.alert('Fehler beim Drucken','Leider hat der Druckauftrag einen Fehler verursacht!');
                }
             }
-                        
-                            //because of an IE bug one has to do it in two steps
-                            var parentPanel = Ext.getCmp('geoExtMapPanel');
-                            Ext.getBody().unmask();
-                            var pdfWindow = new Ext.Window({
-                                title: printWindowTitleString[lang],
-                                width: Ext.getBody().getWidth() - 100,
-                                height: Ext.getBody().getHeight() - 100,
-                                resizable: true,
-                                closable: true,
-                                constrain: false,
-                                constrainHeader: true,
-                                x:50,
-                                y:50,
-                                html: '<object data="'+img_src+'" type="application/pdf" width="100%" height="100%"><p style="margin:5px;">'+printingObjectDataAlternativeString1[lang] + img_src + printingObjectDataAlternativeString2[lang]
-                            });
-                            pdfWindow.show();
 
-              },
+            //because of an IE bug one has to do it in two steps
+            var parentPanel = Ext.getCmp('geoExtMapPanel');
+            Ext.getBody().unmask();
+            var pdfWindow = new Ext.Window({
+                title: printWindowTitleString[lang],
+                width: Ext.getBody().getWidth() - 100,
+                height: Ext.getBody().getHeight() - 100,
+                resizable: true,
+                closable: true,
+                constrain: false,
+                constrainHeader: true,
+                x:50,
+                y:50,
+                html: '<object data="'+img_src+'" type="application/pdf" width="100%" height="100%"><p style="margin:5px;">'+printingObjectDataAlternativeString1[lang] + img_src + printingObjectDataAlternativeString2[lang]
+            });
+            pdfWindow.show();
+        },
         failure: function (response) {
                   Ext.getBody().unmask();
                   Ext.Msg.alert("Fehler beim Drucken",'Leider hat der Druckauftrag einen Fehler verursacht! ' + jsonResp.error);
@@ -422,6 +455,7 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
   map: null,
   highlightLayerName: null,
   highlightLayer: null,
+  hasReverseAxisOrder: false,
 
   /** config
   */
@@ -429,7 +463,7 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
   geomUrl: searchBoxGetGeomURL,
 
   // default Ext.form.ComboBox config
-  hideTrigger: true,
+  hideTrigger: false,
   minChars: 2,
   queryDelay: 50,
   displayField: 'label',
@@ -439,7 +473,12 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
   initComponent: function() {
     // i18n
     this.emptyText = OpenLayers.i18n(searchFieldDefaultTextString[lang]);
-
+    this.triggerConfig = { // we use a default clear trigger here
+              tag: "img", src: Ext.BLANK_IMAGE_URL, cls:'x-form-trigger x-form-clear-trigger'
+            }; 
+    this.on("keyUp", this.keyUpHandler);
+    this.on("afterrender", this.afterrenderHandler);
+    this.on("beforeselect", this.beforeselectHandler);
     this.store = new Ext.data.JsonStore({
       proxy: new Ext.data.ScriptTagProxy({
         url: this.url,
@@ -476,21 +515,59 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
   },
 
   // private
+  afterrenderHandler: function() {
+    this.trigger["hide"]();
+  },
+
+  beforeselectHandler: function(combo,record,index) {
+    if (index > 0) { //user made a selection in combo
+      this.collapse();
+      // if index == 0: user pressed enter while entering search term
+    }
+  },
+  
+  keyUpHandler: function(cmp, e) {
+    //reset if user deleted last sign
+    this.checkTrigger();
+    if (Ext.isEmpty(this.getValue())) {
+      this.resetSearch();
+    }
+    //collapse if less than minChars are left
+    if (this.getValue().length < this.minChars) {
+      this.collapse();
+    }
+  },
+  
+  checkTrigger: function() {
+    // show trigger only if there is any input
+    if (this.rendered) {
+      this.trigger[!Ext.isEmpty(this.getValue()) ? 'show': 'hide']();
+    }
+  },
+    
+  onTriggerClick: function() {
+    // reimplements default onTriggerClick function (which does nothing)
+    this.resetSearch();
+    this.checkTrigger();
+    this.focus();
+  },
+  
   onSelect: function(record, index){
     if(this.fireEvent('beforeselect', this, record, index) !== false){
       if (record.get('searchtable') != null) {
         this.setValue(record.get('displaytext'));
-        this.collapse();
         this.fireEvent('select', this, record, index);
-      }
-      else {
-        this.collapse();
       }
     }
   },
-
+  
+  resetSearch: function(){
+    this.collapse();
+    this.clearSearchResult();
+  },
+  
   recordSelected: function(combo, record, index) {
-    var extent = OpenLayers.Bounds.fromArray(record.get('bbox'));
+    var extent = OpenLayers.Bounds.fromArray(record.get('bbox'), this.hasReverseAxisOrder);
     //make sure that map extent is not too small for point data
     //need to improve this for units other than "m", e.g. degrees
     var extWidth = extent.getWidth();
@@ -588,6 +665,7 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
   * zoom level for feature selection
   */
   selectionZoom: 4,
+  
 
   constructor: function (config) {
     config = config || {};
@@ -599,6 +677,7 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
     if (config.selectionZoom == null) {
       config.selectionZoom = 4;
     }
+    this.addEvents(['beforesearchdataloaded', 'aftersearchdataloaded', 'searchformsubmitted']);
 
     QGIS.SearchPanel.superclass.constructor.call(this, config);
   },
@@ -662,6 +741,7 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
         this.resultsGrid.hide();
     }
     this.fireEvent("featureselectioncleared");
+    this.fireEvent("searchformsubmitted");
     this.el.mask(pleaseWaitString[lang], 'x-mask-loading');
     if (this.useWmsRequest) {
       this.submitGetFeatureInfo();
@@ -672,28 +752,27 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
   },
 
   submitGetFeatureInfo: function() {
-    var filter = this.queryLayer + ":";
+    var filter = [];
     var fieldValues = this.form.getForm().getFieldValues();
     var fieldsValidate = true;
-    var addAnd = false;
     for (var key in fieldValues) {
-      if (addAnd) {
-        filter += " AND ";
-      }
       var field = this.form.getForm().findField(key);
-      var filterOp = field.initialConfig.filterOp?field.initialConfig.filterOp:"=";
-      if (field.isXType('numberfield') || field.isXType('combo')) {
-        valueQuotes = "";
+      // Only add if not blank
+      if(fieldValues[key]){
+        var filterOp = field.initialConfig.filterOp ? field.initialConfig.filterOp : "=";
+        if (field.isXType('numberfield') || field.isXType('combo')) {
+          valueQuotes = "";
+        }
+        else {
+          valueQuotes = "'"
+        }
+        filter.push("\"" + key + "\" "+ filterOp +" " + valueQuotes + fieldValues[key] + valueQuotes);
+        fieldsValidate &= field.validate();
       }
-      else {
-        valueQuotes = "'"
-      }
-      filter += "\"" + key + "\" "+ filterOp +" " + valueQuotes + fieldValues[key] + valueQuotes;
-      fieldsValidate &= field.validate();
-      addAnd = true;
-    }
+    }    
 
     if (fieldsValidate) {
+      filter = this.queryLayer + ":" + filter.join(' AND ');
       Ext.Ajax.request({
         url: wmsURI,
         params: {
@@ -704,7 +783,7 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
           'QUERY_LAYERS': this.queryLayer,
           'FEATURE_COUNT': 10,
           'INFO_FORMAT': 'text/xml',
-          'SRS': 'EPSG:' + epsgcode,
+          'SRS': authid,
           'FILTER': filter
         },
         method: 'GET',
@@ -751,32 +830,17 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
           fields: storeFields
         });
 
-        // create and add results grid
-        this.resultsGrid = new Ext.grid.GridPanel({
-          title: searchResultString[lang],
-          collapsible: true,
-          collapsed: true,
-          store: this.store,
-          columns: this.gridColumns,
-          autoHeight: true,
-          viewConfig: {
-            forceFit: true
-          }
-        });
-        this.resultsGrid.on('rowclick', this.onRowClick, this);
-        this.add(this.resultsGrid);
-        this.doLayout();
       }
 
-      // show results
+      // show results, firing events: see Wegbisinit.js
+      this.fireEvent('beforesearchdataloaded', this, features);
       this.store.loadData(features, false);
-      this.resultsGrid.show();
-      this.resultsGrid.expand(true);
       this.el.unmask();
 
       if (destroyStore) {
         this.store = null;
       }
+      this.fireEvent('aftersearchdataloaded', this);
     }
     else {
       // ServiceException

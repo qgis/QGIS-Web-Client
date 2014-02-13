@@ -19,8 +19,8 @@
 __autor__   = "Tobias Reber"
 __email__   = "tobias.reber@bd.so.ch"
 __license__ = "GPL"
-__version__ = "0.1"
-__status__  = "test"
+__version__ = "1.0"
+__status__  = "prod"
 
 from wsgiref.simple_server import make_server
 import urllib

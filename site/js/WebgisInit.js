@@ -7,7 +7,6 @@
  * https://github.com/qgis/qgis-web-client/blob/master/README
  * for the full text of the license and the list of contributors.
  *
- *
 */ 
 
 var geoExtMap;
@@ -16,6 +15,9 @@ var selectedLayers; //later an array containing all visible (selected) layers
 var selectedQueryableLayers; //later an array of all visible (selected and queryable) layers
 var allLayers; //later an array containing all leaf layers
 var thematicLayer, highlightLayer, featureInfoHighlightLayer;
+var googleSatelliteLayer;
+var bingSatelliteLayer;
+// var bingApiKey = "add Bing api key here"; // http://msdn.microsoft.com/en-us/library/ff428642.aspx
 var highLightGeometry = new Array();
 var WMSGetFInfo, WMSGetFInfoHover;
 var lastLayer, lastFeature;
@@ -52,6 +54,11 @@ var legendMetaTabPanel; //a reference to the Ext tabpanel holding the tabs for l
 var legendTab; //a reference to the Ext tab holding the legend graphic
 var metadataTab; //a reference to the Ext tab holding the metadata information
 var measurePopup;
+var baseLayers = [];
+var layerImageFormats = layerImageFormats || []; // use config from GlobalOptions if any
+
+// Call custom Init in Customizations.js
+customInit();
 
 Ext.onReady(function () {
 	//dpi detection
@@ -99,12 +106,53 @@ Ext.onReady(function () {
 
 	//set some status messsages
 	mainStatusText.setText(mapAppLoadingString[lang]);
+
+	if (enableGoogleCommercialMaps) {
+		googleSatelliteLayer = new OpenLayers.Layer.Google(
+			"Google Satellite",
+			{type: google.maps.MapTypeId.SATELLITE, numZoomLevels: 22, isBaseLayer: true}
+		);
+		baseLayers.push(googleSatelliteLayer);
+	}
+	if (enableBingCommercialMaps) {
+		bingSatelliteLayer = new OpenLayers.Layer.Bing({
+			name: "Bing Satellite",
+			key: bingApiKey,
+			type: "Aerial",
+			isBaseLayer: true,
+			visibility: false
+		});
+		baseLayers.push(bingSatelliteLayer);
+	}
 	
 	if (urlParamsOK) {
 		loadWMSConfig();
 	} else {
 		alert(errMessageStartupNotAllParamsFoundString[lang]);
 	}
+
+	if (fullColorLayers.length > 0) {
+		// add fullColorLayers to layerImageFormats
+		var fullColorLayersAppended = false;
+		for (var i = 0; i < layerImageFormats.length; i++) {
+			var layerImageFormat = layerImageFormats[i];
+			if (layerImageFormat.format == "image/jpeg") {
+				// append fullColorLayers to jpeg format
+				layerImageFormat.layers = layerImageFormat.layers.concat(fullColorLayers);
+				fullColorLayersAppended = true;
+				break;
+			}
+		}
+		if (!fullColorLayersAppended) {
+			// add new jpeg config with fullColorLayers
+			layerImageFormats.push({
+				format: "image/jpeg",
+				layers: fullColorLayers
+			});
+		}
+	}
+
+    customPostLoading(); //in Customizations.js
 });
 
 function loadWMSConfig() {
@@ -133,17 +181,23 @@ function loadWMSConfig() {
 			uiProvider: Ext.tree.TriStateNodeUI
 		}
 	});
+
 	var root = new Ext.tree.AsyncTreeNode({
-		loader: wmsLoader,
-		allowDrop: false,
-		listeners: {
-			'load': function () {
-				postLoading();
-			}
-		}
+        id: 'wmsNode',
+        text: 'WMS',
+		    loader: wmsLoader,
+		    allowDrop: false,
+        expanded: true,
+        expandChildNodes: true,
+		    listeners: {
+			    'load': function () {
+				    postLoading();
+			    }
+		    }
 	});
 
 	layerTree.setRootNode(root);	
+
 }
 
 layerTreeSelectionChangeHandlerFunction = function (selectionModel, treeNode) {
@@ -154,6 +208,10 @@ layerTreeSelectionChangeHandlerFunction = function (selectionModel, treeNode) {
 }
 
 function postLoading() {
+
+	// run the function from Customizations.js
+	customBeforeMapInit();
+
 	//set root node to active layer of layertree
 	layerTree.selectPath(layerTree.root.firstChild.getPath());
 
@@ -214,15 +272,14 @@ function postLoading() {
 		}
 			
 		layerTree.root.firstChild.expand(true, false);
+		// expand all nodes in order to allow toggling checkboxes on deeper levels
+		layerTree.root.findChildBy(function () {
+			if (this.isExpandable()) {
+				this.expand(true, false);
+			}
+			return false;
+		}, null, true);
 		for (var index = 0; index < visibleLayers.length; index++) {
-			// expand all nodes in order to allow toggling checkboxes on deeper levels
-			layerTree.root.findChildBy(function () {
-				if (this.isExpandable()) {
-					this.expand(true, false);
-				}
-				return false;
-			}, null, true);
-
 			// toggle checkboxes of visible layers
 			layerTree.root.findChildBy(function () {
 				if (wmsLoader.layerTitleNameMapping[this.attributes["text"]] == visibleLayers[index]) {
@@ -232,22 +289,14 @@ function postLoading() {
 				}
 				return false;
 			}, null, true);
-
-			//test to see if we need to change to jpeg because checked
-			//layer is in array fullColorLayers
-			if (fullColorLayers.length > 0 && origFormat.match(/8bit/)) {
-				for (var i = 0; i < fullColorLayers.length; i++) {
-					if (fullColorLayers[i] == visibleLayers[index]) {
-						format = "image/jpeg";
-						break;
-					}
-				}
-			}
 		}
 		
 		//we need to get a flat list of visible layers so we can set the layerOrderPanel
 		getVisibleFlatLayers(layerTree.root.firstChild);
 
+		// add abstracts to project node and group nodes
+		addAbstractToLayerGroups();
+		
 		// add components to tree nodes while tree is expanded to match GUI layout
 		// info buttons in layer tree
 		addInfoButtonsToLayerTree();
@@ -266,8 +315,17 @@ function postLoading() {
 		Ext.getCmp('measureDistance').toggleHandler = mapToolbarHandler;
 		Ext.getCmp('measureArea').toggleHandler = mapToolbarHandler;
 		Ext.getCmp('PrintMap').toggleHandler = mapToolbarHandler;
-        //Ext.getCmp('SendPermalink').handler = mapToolbarHandler;
+        // Remove permaLinkURLShortener if not defined
+        if(typeof(permaLinkURLShortener) == 'undefined' || ! permaLinkURLShortener){
+            Ext.getCmp('SendPermalink').destroy();
+        } else {
+            Ext.getCmp('SendPermalink').handler = mapToolbarHandler;
+        }
 		Ext.getCmp('ShowHelp').handler = mapToolbarHandler;
+		
+		// Add custom buttons (Customizations.js)
+		customToolbarLoad();
+
 		//combobox listeners
 		var ObjectIdentificationModeCombobox = Ext.getCmp('ObjectIdentificationModeCombo');
 		ObjectIdentificationModeCombobox.setValue("topMostHit");
@@ -284,6 +342,7 @@ function postLoading() {
 	//get values from first layer group (root) of project settings
 	if (maxExtent instanceof OpenLayers.Bounds == false) {
 		var boundingBox = wmsLoader.projectSettings.capability.nestedLayers[0].bbox;
+		//iterate over bbox - there should be only one entry
 		for (var key in boundingBox) {
 			if (key.match(/^EPSG:*/)) {
 				var bboxArray = boundingBox[key].bbox;
@@ -295,7 +354,7 @@ function postLoading() {
 					},
 					LayerOptions
 				);
-				dummyLayer.projection = new OpenLayers.Projection("EPSG:"+epsgcode);
+				dummyLayer.projection = new OpenLayers.Projection(authid);
 				var reverseAxisOrder = dummyLayer.reverseAxisOrder(); 
 				maxExtent = OpenLayers.Bounds.fromArray(bboxArray, reverseAxisOrder);
 			}
@@ -307,6 +366,7 @@ function postLoading() {
 	selectedLayers = Array();
 	selectedQueryableLayers = Array();
 	allLayers = Array();
+
 	layerTree.root.firstChild.cascade(
 
 	function (n) {
@@ -321,6 +381,7 @@ function postLoading() {
 		}
 	});
 	mainStatusText.setText(mapLoadingString[lang]);
+	format = imageFormatForLayers(selectedLayers);
 
 	if (initialLoadDone) {
 		printCapabilities.layouts = [];
@@ -349,21 +410,15 @@ function postLoading() {
 		}
 	}
 
-    // The printProvider that connects us to the print service
-    if ((printCapabilities.method == 'POST') && (printCapabilities.url_proxy != '')){
-        printUri = 'project=' + getProject() + '&';
-        printUri += 'SERVICE=WMS&VERSION=1.3&REQUEST=GetPrint&FORMAT=pdf&EXCEPTIONS=application/vnd.ogc.se_inimage&TRANSPARENT=true';
-    } else {
-        printUri = wmsURI + 'SERVICE=WMS&VERSION=1.3&REQUEST=GetPrint&FORMAT=pdf&EXCEPTIONS=application/vnd.ogc.se_inimage&TRANSPARENT=true';
-    }
-    
+	// The printProvider that connects us to the print service
+	printUri = wmsURI + 'SERVICE=WMS&VERSION=1.3&REQUEST=GetPrint&FORMAT=pdf&EXCEPTIONS=application/vnd.ogc.se_inimage&TRANSPARENT=true';
 	if (initialLoadDone) {
 		printProvider.capabilities = printCapabilities;
 		printProvider.url = printUri;
 	}
 	else {
 		printProvider = new QGIS.PrintProvider({
-			method: "POST", // "POST" recommended for production use
+			method: "GET", // "POST" recommended for production use
 			capabilities: printCapabilities, // from the info.json script in the html
 			url: printUri
 		});
@@ -441,12 +496,13 @@ function postLoading() {
             frame: false,
             border: false,
 			zoom: 1.6,
-			layers: [
+			layers: baseLayers.concat([
 			thematicLayer = new OpenLayers.Layer.WMS(layerTree.root.firstChild.text,
 				wmsURI, {
 					layers: selectedLayers.join(","),
 					opacities: layerOpacities(selectedLayers),
 					format: format,
+					transparent: qgisLayerTransparency,
 					dpi: screenDpi,
 					VERSION: "1.3.0"
 				},
@@ -459,7 +515,7 @@ function postLoading() {
 			featureInfoHighlightLayer = new OpenLayers.Layer.Vector("featureInfoHighlight", {
 				isBaseLayer: false,
 				styleMap: styleMapHighLightLayer
-			})],
+			})]),
 			map: MapOptions,
 			id: "geoExtMapPanel",
 			width: MapPanelRef.getInnerWidth(),
@@ -467,6 +523,7 @@ function postLoading() {
 			renderTo: MapPanelRef.body,
 			plugins: [printExtent]
 		});
+
 	}
 	else {
 		thematicLayer.name = layerTree.root.firstChild.text;
@@ -490,9 +547,7 @@ function postLoading() {
 		}
 		//add listener to adapt map on panel resize (only needed because of IE)
 		MapPanelRef.on('resize', function (panel, w, h) {
-			geoExtMap.setWidth(panel.getInnerWidth());
-			geoExtMap.setHeight(panel.getInnerHeight());
-
+			geoExtMap.setSize(panel.getInnerWidth(),panel.getInnerHeight());
 		});
 
 		// selection from permalink
@@ -510,29 +565,6 @@ function postLoading() {
 				Ext.getCmp('navZoomBoxButton').toggle(false);
 			}
 		});
-        
-        //SOGIS
-        var sogisToolTip = function (evt){
-            var xy = geoExtMap.map.events.getMousePosition(evt);
-            var geoxy = geoExtMap.map.getLonLatFromPixel(xy);
-            var nDeci = 0;
-            var left = Math.round(geoExtMap.map.getExtent().left);
-            var bottom = Math.round(geoExtMap.map.getExtent().bottom);
-            var right = Math.round(geoExtMap.map.getExtent().right);
-            var top = Math.round(geoExtMap.map.getExtent().top);
-            var strExtent = left + ',' + bottom + ',' + right + ',' + top;
-            var currentScale = geoExtMap.map.getScale();
-            if (currentScale <= 400) {
-                nDeci = 1;
-                if (currentScale <= 100) {
-                    nDeci = 2;
-                }
-            }
-            if ((identifyToolActive == true) && (isTooltipSOGIS() == true)) {
-                    getTooltipHtml(geoxy.lon.toFixed(nDeci), geoxy.lat.toFixed(nDeci), Math.round(currentScale), strExtent);
-            }
-        }
-        geoExtMap.map.events.register('click', this, sogisToolTip);
 
 		// loading listeners
 		thematicLayer.events.register('loadstart', this, function() {
@@ -626,13 +658,9 @@ function postLoading() {
 		geoExtMap.map.removeControl(WMSGetFInfo);
 	}
 	var fiLayer = new OpenLayers.Layer.WMS(layerTree.root.firstChild.text, wmsURI, {
-		layers: []
-	}, {
-		buffer: 0,
-		singleTile: true,
-		ratio: 1,
-		projection: 'EPSG:'+epsgcode
-	});
+		layers: [],
+		VERSION: "1.3.0"
+	}, LayerOptions);
 
 	WMSGetFInfo = new OpenLayers.Control.WMSGetFeatureInfo({
 		layers: [fiLayer],
@@ -659,8 +687,6 @@ function postLoading() {
 	WMSGetFInfoHover.events.register("getfeatureinfo", this, showFeatureInfoHover);
 	geoExtMap.map.addControl(WMSGetFInfoHover);
 	
-	
-	
 	//overview map
 	if (!initialLoadDone) {
 		OverviewMapOptions.maxExtent = maxExtent;
@@ -669,10 +695,10 @@ function postLoading() {
 			minRatio: 16,
 			maxRatio: 64,
 			mapOptions: OverviewMapOptions,
-            maximized: true,
+            maximized: OverviewMapMaximized,
 			layers: [overviewLayer]
 		}));
-        
+
 	}
 	else {
 		//todo: find out how to change the max extent in the OverviewMap
@@ -687,7 +713,7 @@ function postLoading() {
 			id: 'navZoomBoxButton',
 			scale: 'medium',
 			control: new OpenLayers.Control.ZoomBox({
-				out: false
+			out: false
 			}),
 			map: geoExtMap.map,
 			tooltip: zoomRectangleTooltipString[lang],
@@ -706,7 +732,8 @@ function postLoading() {
 			control: navHistoryCtrl.previous,
 			disabled: true,
 			tooltip: navigationHistoryBackwardTooltipString[lang],
-			tooltipType: 'qtip'
+			tooltipType: 'qtip',
+            id: 'zoomLast'
 		});
 		myTopToolbar.insert(1, zoomToPreviousAction);
 		//zoom next
@@ -716,13 +743,11 @@ function postLoading() {
 			control: navHistoryCtrl.next,
 			disabled: true,
 			tooltip: navigationHistoryForwardTooltipString[lang],
-			tooltipType: 'qtip'
+			tooltipType: 'qtip',
+            id: 'zoomNext'
 		});
 		myTopToolbar.insert(2, zoomToNextAction);
 
-        //SOGIS: Permalink
-        addPermalinkToToolbar(myTopToolbar);
- 
 		//add QGISSearchCombo
 		if (useGeoNamesSearchBox || searchBoxQueryURL != null) {
 			myTopToolbar.insert(myTopToolbar.items.length, new Ext.Toolbar.Fill());
@@ -735,27 +760,26 @@ function postLoading() {
 					loadingText: geonamesLoadingString[lang],
 					emptyText: geonamesEmptyString[lang]
 				});
+				var emptySearchFieldButton = new Ext.Button({
+					scale: 'medium',
+					icon: 'gis_icons/mActionUndo.png',
+					tooltipType: 'qtip',
+					tooltip: resetSearchFieldTooltipString[lang],
+					id: 'EmptySearchField'
+				});
+				emptySearchFieldButton.handler = mapToolbarHandler;
+				myTopToolbar.insert(myTopToolbar.items.length, emptySearchFieldButton);
 			} else {
 				qgisSearchCombo = new QGIS.SearchComboBox({
 					map: geoExtMap.map,
 					highlightLayerName: 'attribHighLight',
+					hasReverseAxisOrder: thematicLayer.reverseAxisOrder(),
 					width: 300,
 					searchtables: searchtables
 				});
 			}
 			myTopToolbar.insert(myTopToolbar.items.length, qgisSearchCombo);
-
-			var emptySearchFieldButton = new Ext.Button({
-				scale: 'medium',
-				icon: 'gis_icons/mActionUndo.png',
-				tooltipType: 'qtip',
-				tooltip: resetSearchFieldTooltipString[lang],
-				id: 'EmptySearchField'
-			});
-			emptySearchFieldButton.handler = mapToolbarHandler;
-			myTopToolbar.insert(myTopToolbar.items.length, emptySearchFieldButton);
 		}
-
 
 		myTopToolbar.doLayout();
 
@@ -808,6 +832,74 @@ function postLoading() {
 			};
 		};
 
+        /*
+         * Show search panel results
+         */ 
+        function showSearchPanelResults(searchPanelInstance, features){
+            if(features.length){
+                // Here we select where to show the search results
+                var targetComponent = null;
+                if(typeof(mapSearchPanelOutputRegion) == 'undefined'){
+                   mapSearchPanelOutputRegion = 'default';
+                }
+                switch(mapSearchPanelOutputRegion){
+                    case 'right':
+                        targetComponent = Ext.getCmp('RightPanel');
+                    break;
+                    case 'bottom':
+                        targetComponent = Ext.getCmp('BottomPanel');
+                    break;
+                    case 'popup':
+                        if(typeof(Ext.getCmp('SearchResultsPopUp')) == 'undefined'){
+                            targetComponent =  new Ext.Window(
+                            {
+                                id: 'SearchResultsPopUp',
+                                layout: 'fit',
+                                width: "80%",
+                                height: 300,
+                                modal: false,
+                                closeAction: 'hide'
+                            });
+                        }
+                        targetComponent = Ext.getCmp('SearchResultsPopUp');
+                    break;
+                    case 'default':
+                    default:
+                        targetComponent = searchPanelInstance;
+                    break;
+                }
+                // Make sure it's shown and expanded
+                targetComponent.show();
+                targetComponent.collapsible && targetComponent.expand();
+                // Delete and re-create
+                if(searchPanelInstance.resultsGrid){
+                    Ext.getCmp('SearchPanelResultsGrid').destroy();
+                }
+                searchPanelInstance.resultsGrid = new Ext.grid.GridPanel({
+                  id: 'SearchPanelResultsGrid',
+                  title: searchResultString[lang],
+                  collapsible: true,
+                  collapsed: false,
+                  store: searchPanelInstance.store,
+                  columns: searchPanelInstance.gridColumns,
+                  autoHeight: true,
+                  viewConfig: {
+                    forceFit: true
+                  }
+                });
+                searchPanelInstance.resultsGrid.on('rowclick', searchPanelInstance.onRowClick, searchPanelInstance);
+                targetComponent.add(searchPanelInstance.resultsGrid);
+                targetComponent.doLayout();
+                // Always make sure it's shown and expanded
+                searchPanelInstance.resultsGrid.show();
+                searchPanelInstance.resultsGrid.collapsible && searchPanelInstance.resultsGrid.expand();
+            } else {
+                // No features: shouldn't we warn the user?
+                Ext.MessageBox.alert(searchPanelTitleString[lang], searchNoRecordsFoundString[lang]);                
+            }
+            return true;
+        }
+        
 		//search panel and URL search parameters
 		var searchPanelConfigs = [];
 		if (wmsMapName in mapSearchPanelConfigs) {
@@ -820,6 +912,9 @@ function postLoading() {
 				var panel = new QGIS.SearchPanel(searchPanelConfigs[i]);
 				panel.on("featureselected", showFeatureSelected);
 				panel.on("featureselectioncleared", clearFeatureSelected);
+				panel.on("beforesearchdataloaded", showSearchPanelResults);
+                // Just for debugging...
+				// panel.on("afterdsearchdataloaded", function(e){console.log(e);});
 				searchTabPanel.add(panel);
 			}
 			searchTabPanel.setActiveTab(0);
@@ -881,6 +976,8 @@ function postLoading() {
 				"measure": handleMeasurements,
 				"measurepartial": handleMeasurements
 			});
+			control.setImmediate(true);
+			control.geodesic = useGeodesicMeasurement;
 			geoExtMap.map.addControl(control);
 		}
 	}
@@ -892,7 +989,6 @@ function postLoading() {
 		//now collect all selected queryable layers for WMS request
 		selectedLayers = Array();
 		selectedQueryableLayers = Array();
-		format = origFormat;
 		layerTree.root.firstChild.cascade(
 
 		function (n) {
@@ -901,18 +997,9 @@ function postLoading() {
 				if (wmsLoader.layerProperties[wmsLoader.layerTitleNameMapping[n.text]].queryable) {
 					selectedQueryableLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
 				}
-				//test to see if we need to change to jpeg because checked
-				//layer is in array fullColorLayers
-				if (fullColorLayers.length > 0 && origFormat.match(/8bit/)) {
-					for (var i = 0; i < fullColorLayers.length; i++) {
-						if (fullColorLayers[i] == n.text) {
-							format = "image/jpeg";
-							break;
-						}
-					}
-				}
 			}
 		});
+		format = imageFormatForLayers(selectedLayers);
 		updateLayerOrderPanel();
 
 		//change array order
@@ -969,6 +1056,36 @@ function postLoading() {
 	}
 	//add listeners for layertree
 	layerTree.addListener('leafschange',leafsChangeFunction);
+	
+	//deal with commercial external bg layers
+	if (enableBGMaps) {
+		var BgLayerList = new Ext.tree.TreeNode({
+			leaf: false,
+			expanded: true,
+			text: "Background Layers"
+		});
+
+		layerTree.root.appendChild(BgLayerList);
+
+		if (enableBGMaps && baseLayers.length > 0) {
+			//todo use a more generic way to implement
+			var bgnode0 = new GeoExt.tree.LayerNode({
+				layer: baseLayers[0],
+				leaf: true,
+				checked: true,
+				uiProvider: Ext.tree.TriStateNodeUI
+			});
+			var bgnode1 = new GeoExt.tree.LayerNode({
+				layer: baseLayers[1],
+				leaf: true,
+				checked: false,
+				uiProvider: Ext.tree.TriStateNodeUI
+			});
+
+			BgLayerList.appendChild(bgnode0);
+			BgLayerList.appendChild(bgnode1);
+		}	
+	}
 
 	if (!initialLoadDone) {
 		if (printLayoutsDefined == true) {
@@ -976,7 +1093,7 @@ function postLoading() {
 			printWindow = new Ext.Window({
 				title: printSettingsToolbarTitleString[lang],
 				height: 67,
-				width: 440,
+				width: 530,
 				layout: "fit",
 				renderTo: "geoExtMapPanel",
 				resizable: false,
@@ -1018,7 +1135,7 @@ function postLoading() {
 						}, {
 							xtype: 'combo',
 							id: 'PrintScaleCombobox',
-							width: 75,
+							width: 95,
 							mode: 'local',
 							triggerAction: 'all',
 							store: new Ext.data.JsonStore({
@@ -1042,8 +1159,7 @@ function postLoading() {
 									printExtent.page.setScale(record);
 								}
 							}
-                        //SOGIS: No choice of printresolution
-						}, /*{
+						}, {
 							xtype: 'tbspacer'
 						}, {
 							xtype: 'combo',
@@ -1072,7 +1188,7 @@ function postLoading() {
 									printProvider.setDpi(record);
 								}
 							}
-						}, */{
+						}, {
 							xtype: 'tbspacer'
 						}, {
 							xtype: 'tbspacer'
@@ -1156,8 +1272,15 @@ function postLoading() {
 	else {
 		printLayoutsCombobox = Ext.getCmp('PrintLayoutsCombobox');
 		printLayoutsCombobox.setValue(printLayoutsCombobox.store.getAt(0).data.name);
+		var printDPICombobox = Ext.getCmp('PrintDPICombobox');
+		printDPICombobox.setValue("300");
 		//need to manually fire the event, because .setValue doesn't; index omitted, not needed
-		//printDPICombobox.fireEvent("select", printDPICombobox, printDPICombobox.findRecord(printDPICombobox.valueField, "300"));
+		printDPICombobox.fireEvent("select", printDPICombobox, printDPICombobox.findRecord(printDPICombobox.valueField, "300"));
+        //if the var fixedPrintResolution in GlobalOptions.js is set, the printLayoutsCombobox will be hidden
+        if (fixedPrintResolution != null && parseInt(fixedPrintResolution) > 0){
+            printDPICombobox.hide(); // hide dpi combobox
+            printWindow.setWidth(printWindow.width - 80); // reduce the legth of the print window
+        }
 		//bug in spinnerField: need to explicitly show/hide printWindow (toolbar)
 		printWindow.show();
 		printWindow.hide();
@@ -1183,6 +1306,9 @@ function postLoading() {
 		loadMask.hide();
 	}
 	initialLoadDone = true;
+
+	// run the function in the Customizations.js
+	customAfterMapInit();
 }
 
 function getVisibleLayers(visibleLayers, currentNode){
@@ -1231,13 +1357,15 @@ function uniqueLayersInLegend(origArr) {
 
 function mapToolbarHandler(btn, evt) {
 	removeMeasurePopup();
+
+	// Call custom toolbar handler in Customizations.js
+	customMapToolbarHandler(btn, evt);
+
 	if (btn.id == "IdentifyTool") {
-        isTooltipSOGIS();
 		if (btn.pressed) {
-            activateGetFeatureInfo(true);
 			identifyToolActive = true;
+			activateGetFeatureInfo(true);
 			mainStatusText.setText(modeObjectIdentificationString[lang]);
-                      
 		} else {
 			identifyToolActive = false;
 			activateGetFeatureInfo(false);
@@ -1322,7 +1450,6 @@ function mapToolbarHandler(btn, evt) {
 			mainStatusText.setText(modeNavigationString[lang]);
 		}
 	}
-    
 	if (btn.id == "SendPermalink") {
 		var permalink = createPermalink();
 		if (permaLinkURLShortener) {
@@ -1341,7 +1468,6 @@ function mapToolbarHandler(btn, evt) {
 			openPermaLink(encodeURIComponent(permalink));
 		}
 	}
-
   if (btn.id == "ShowHelp") {
     if (help_active == true){
       help_active = false;
@@ -1449,16 +1575,15 @@ function createPermalink(){
 	var startExtentArray = geoExtMap.map.getExtent().toArray();
 	var startExtent = startExtentArray[0] + "," + startExtentArray[1] + "," + startExtentArray[2] + "," + startExtentArray[3];
 
-
 	if (!norewrite){
 		var servername = location.href.split(/\/+/)[1];
 		permalink = "http://"+servername;
 		if (gis_projects) {
 			permalink += gis_projects.path + "/";
-		}/*
+		}
 		else {
 			permalink += "/";
-		}*/
+		}
 		permalink += wmsMapName+"?";
 	} else {
 		permalink = urlArray[0] + "?map=";
@@ -1499,9 +1624,8 @@ function createPermalink(){
 
 	// selection
 	permalinkParams.selection = thematicLayer.params.SELECTION;	
-    if (false) {
-	//if (permaLinkURLShortener) {
-	    permalink = encodeURIComponent(permalink + decodeURIComponent(Ext.urlEncode(permalinkParams)));
+	if (permaLinkURLShortener) {
+		permalink = encodeURIComponent(permalink + decodeURIComponent(Ext.urlEncode(permalinkParams)));
 	}
 	else {
 		permalink = permalink + Ext.urlEncode(permalinkParams);	
@@ -1511,20 +1635,38 @@ function createPermalink(){
 }
 
 function addInfoButtonsToLayerTree() {
-	layerTree.root.firstChild.cascade(
+	var treeRoot = layerTree.getNodeById("wmsNode");
+	treeRoot.firstChild.cascade(
 		function (n) {
-			if (n.isLeaf()) {
-				// info button
-				var buttonId = 'layer_' + n.id;
-				Ext.DomHelper.insertBefore(n.getUI().getAnchor(), {
-					tag: 'b',
-					id: buttonId,
-					cls: 'layer-button x-tool custom-x-tool-info'
-				});
+			// info button
+			var buttonId = 'layer_' + n.id;
+			Ext.DomHelper.insertBefore(n.getUI().getAnchor(), {
+				tag: 'b',
+				id: buttonId,
+				cls: 'layer-button x-tool custom-x-tool-info'
+			});
+            Ext.get(buttonId).on('click', function(e) {
+                if(typeof(interactiveLegendGetLegendURL) == 'undefined'){
+                    showLegendAndMetadata(n.text);
+                } else {
+                    showInteractiveLegendAndMetadata(n.text);
+                }
+            });
+		}
+	);
+}
 
-				Ext.get(buttonId).on('click', function(e) {
-					showLegendAndMetadata(n.text);
-				});
+function addAbstractToLayerGroups() {
+	var treeRoot = layerTree.getNodeById("wmsNode");
+	treeRoot.firstChild.cascade(
+		function (n) {
+			if (! n.isLeaf()) {
+				if (n == treeRoot.firstChild) {
+					var thisAbstract = wmsLoader.projectSettings.service.abstract;
+				} else {
+					var thisAbstract = layerGroupString[lang]+ ' "' + n.text + '"';
+				}
+				wmsLoader.layerProperties[n.text].abstract = thisAbstract;
 			}
 		}
 	);
@@ -1682,13 +1824,36 @@ function activateGetFeatureInfo(doIt) {
 	}
 }
 
-function openPermaLink(permalink) {
-	var mailToText = "mailto:?subject="+sendPermalinkLinkFromString[lang]+titleBarText+layerTree.root.firstChild.text+"&body="+permalink;
-	var mailWindow = window.open(mailToText);
-	mailWindow.close();
-}
+/* SOGIS: This function has been reimpelented in sogis.js */
+//function openPermaLink(permalink) {
+//	var mailToText = "mailto:?subject="+sendPermalinkLinkFromString[lang]+titleBarText+layerTree.root.firstChild.text+"&body="+permalink;
+//	var mailWindow = window.open(mailToText);
+//	if (mailWindow){
+//		mailWindow.close();
+//	} // can be null, if e.g. popus are blocked
+//}
 
 function receiveShortPermalinkFromDB(result, request) {
 	var result = eval("("+result.responseText+")");
 	openPermaLink(result.shortUrl);
+}
+
+// get best image format for a list of layers
+function imageFormatForLayers(layers) {
+	var format = origFormat;
+	if (layerImageFormats.length > 0 && origFormat.match(/8bit/)) {
+		for (var f = 0; f < layerImageFormats.length; f++) {
+			var layerImageFormat = layerImageFormats[f];
+			for (var l = 0; l < layerImageFormat.layers.length; l++) {
+				if (layers.indexOf(layerImageFormat.layers[l]) != -1) {
+					format = layerImageFormat.format;
+					break;
+				}
+			}
+			if (format != origFormat) {
+				break;
+			}
+		}
+	}
+	return format;
 }

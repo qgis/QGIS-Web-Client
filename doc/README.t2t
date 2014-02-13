@@ -22,7 +22,7 @@ Installation  and Configuration Guide
 % title pic stuff used to put a logo on the front page
 %! PostProc(tex): '\\documentclass{article}' '\\documentclass{scrartcl}\n\\setlength{\\parindent}{0pt}\n\\setlength{\\parskip}{2ex}'
 % use the color table and table packages so we can pimp the tables a little
-%! PostProc(tex): '\\usepackage{style.css}  % user defined' '\\usepackage{fancyvrb}\n\\usepackage{colortbl} \n\\usepackage [table]{xcolor}\n\\definecolor{tableShade}{HTML}{cecece}\n\\definecolor{qgis-green}{HTML}{0E7300}\n\\usepackage{wallpaper}\n\\LRCornerWallPaper{1}{WALLPAPER-IMAGE}\n\\usepackage{hyperref}\n\\hypersetup{linkcolor=qgis-green,urlcolor=qgis-green}\\renewcommand\\thesection{\\color{qgis-green}\\thechapter\\arabic{section}}'
+%! PostProc(tex): '\\usepackage{style.css}  % user defined' '\\usepackage{fancyvrb}\n\\usepackage{colortbl} \n\\usepackage[table]{xcolor}\n\\definecolor{tableShade}{HTML}{cecece}\n\\definecolor{qgis-green}{HTML}{0E7300}\n\\usepackage{wallpaper}\n\\LRCornerWallPaper{1}{WALLPAPER-IMAGE}\n\\usepackage{hyperref}\n\\hypersetup{linkcolor=qgis-green,urlcolor=qgis-green}\\renewcommand\\thesection{\\color{qgis-green}\\arabic{section}}'
 % Make the header row of tables have a dark background. light text
 %! PostProc(tex): '\\hline \\textbf' '\\hline \\rowcolor[rgb]{0,0,0} \\color{white} \\textbf'
 %! PostProc(tex): '& \\textbf' '& \\color{white} \\textbf'
@@ -176,14 +176,16 @@ A comma-separated list of layers that should be set visible on the project start
 format
 ```
 This optional parameter allows a per project definition of the file format. Valid values are
-'image/png', 'image/jpeg' and 'image/png;mode=8bit'. Defaults to 'image/png' if no format is given per project.
+'image/png', 'image/jpeg' and 'image/png;mode=8bit'. Defaults to 'image/png' if no format is given per project. 
+For correct specification of 'image/png;mode=8bit' in a URL please encode it correctly: 'image%2fpng%3b%20mode%3d8bit'.
+If you specify this in site/js/GISProjectListing.js you do not need to encode it.
 
 ```
 fullColorLayers
 ```
 An optional comma-separated list of layers that need to be in full color (24bit). This parameter is only
 relevant if the project default image format is set to 'image/png' or 'image/png;mode=8bit'.
-If any of the layers in the fullColorLayers parameter list is set visible, the format changes to 'image/jpeg'.
+If any of the layers in the fullColorLayers parameter list is set visible, the format changes to 'image/jpeg'. 
 
 ```
 maxExtent
@@ -266,7 +268,6 @@ the following get request will be made.
 REQUEST=GetFeatureInfo&LAYERS=Country&QUERY_LAYERS=Country&
 FEATURE_COUNT=10&INFO_FORMAT=text/xml&SRS=EPSG:4326&
 FILTER=Country:"name"+=+'africa'``
-
 
 === Using URL Rewriting ===
 
@@ -393,7 +394,6 @@ your thumbnail should be called 'helloworld.png'.
 In addition you need to make entries for topics and projects in the file
 'site/js/GISProjectListing.js'. Please use the given file as a template.
 The file is in JSON format and starts with a few central parameters.
-
 
 === Central theme switcher parameters ===
 
@@ -553,6 +553,10 @@ tags
 Optional. Tags or keywords displayed in the tooltips in the theme switcher.
 The tags are also used in the search filter used in the theme switcher.
 
+== Extending the interface ==
+
+You can add buttons to implements additional functions (editing, advanced identify, etc.).
+See the example in site/js/Customizations.js.
 
 = URL Rewriting =
 
@@ -640,20 +644,23 @@ containing the db connection strings. Search for the line
 conn = psycopg2.connect("host='yourhost' dbname='yourdb' port='5432' user='yourusername' password='yourpassword'")
 ```
 
-and adapt the parameters according to your server/db.
+and adapt the parameters according to your server/db. It is highly recommended to
+**connect with a database user having limited rights only** (e.g. select rights on relevant tables only).
 
 === Search type to be used ===
 
 The search can use PostgreSQL's tsvector data type. 
 "A tsvector value is a sorted list of distinct lexemes, which are words that have been normalized to
-merge different variants of the same word." [from the PostgreSQL doc at http://www.postgresql.org/docs/9.0/interactive/datatype-textsearch.html#DATATYPE-TSVECTOR]
+merge different variants of the same word."
+from the [PostgreSQL doc http://www.postgresql.org/docs/9.0/interactive/datatype-textsearch.html#DATATYPE-TSVECTOR].
 Thus tsvector skips all the fill words and reduces nouns to their single form, a behaviour useful
 for searching texts. However as we are normally dealing with **place names** here we want them to stay as they are.
 If you use a language where the single form is a lot different from the plural form but your name contains a plural
-you will not get a suitable result. If you want to use the tsvector search option you should activate the line
+you will not get a suitable result. If you want to use the tsvector search option you should activate the lines
 
 ```
-sql += "searchstring_tsvector @@ to_tsquery(\'not_your_language\', '"+querystrings[j]+":*')"
+sql += "searchstring_tsvector @@ to_tsquery(\'not_your_language\', %s)"
+data += (querystrings[j]+":*",)
 ```
 
 //not_your_language// is to be replaced with an entry e.g. //finnish// if you have German place names.
@@ -663,7 +670,8 @@ Be sure to fill the field //searchstring_tsvector// with ```to_tsvector('not_you
 The use of
 
 ```
-sql += "searchstring::tsvector @@ lower('"+querystrings[j]+":*')::tsquery"
+sql += "searchstring::tsvector @@ lower(%s)::tsquery"
+data += (querystrings[j]+":*",)
 ```
 
 is **discouraged** as it does not find a place name like //Stoke-sub-Hamden// when you enter //Stoke//.
@@ -672,7 +680,8 @@ If you do not want to use tsvector at all you can enable the full string compari
 (activated by default).
 
 ```
-sql += "searchstring ILIKE \'%"+querystrings[j]+"%\'"
+sql += "searchstring ILIKE %s"
+data += ("%" + querystrings[j] + "%",)
 ```
 
 This method however is slower than tsvector but not relevantly at least if you only have a couple 1000 datasets. 
@@ -696,7 +705,7 @@ CREATE TABLE cadastre.searchtable
 WITH (
   OIDS=FALSE
 );
-GRANT SELECT ON TABLE cadastre.searchtable TO alle;
+GRANT SELECT ON TABLE cadastre.searchtable TO qwc_user;
 
 -- Index: cadastre.in_cadastre_searchstring_tsvector_gin
 
@@ -707,10 +716,150 @@ CREATE INDEX in_cadastre_searchstring_tsvector_gin
 ```
 
 The above search table can also be a view or materialized view. One can combine
-several search tables by specifying the ```searchtables=searchtable1,searchtable2,searchtable3``` 
-parameter when requesting the //search.wsgi// script.
+several search tables by specifying the ```searchtables=searchtable1,searchtable_n``` 
+parameter when requesting the //search.wsgi// script. Any searchtable passed to //search.wsgi// may only contain
+the letters //A to Z, a to z// and the underscore. Double quoting the search table throws an error, thus searchtables' names must
+contain lower characters only.
 
 Using views is generally slower than properly indexed tables, check for yourself what works best.
+
+
+= Configuration of search PHP script =
+
+As an alternative to python-wsgi scripts, a set of PHP scripts is available
+under ``php`` folder. PHP scripts are similar in scope to python-wsgi scripts
+but should require less configuration and should work out of the box 
+with just a few lines of configuration. The DB table structure must not be altered
+in order to use PHP search scripts.
+
+
+== Differences with python-wsi scripts ==
+
+The main difference is that there are no hardcoded values and much less
+configuration is needed because all needed informations are read from
+the project file.
+
+Another notable difference is that layer names are used instead of
+table names, this in order to not disclose internal DB details.
+
+
+== Available scripts ==
+
+=== Search ===
+
+The "search.php" scripts works in the same way as the "search.wsgi" (see the paragraph above).
+Accepted parameters:
+
+- map (map name or path)
+- query (search text)
+- searchtables (optional: layer names to search in)
+
+
+The companion "search_geom.php" has the same role of the wsgi script "getSearchGeom.wsgi".
+
+- map (map name or path)
+- searchtable (layer name)
+- displaytext (the matched string)
+
+
+=== Unique list ===
+
+This simple script returns the unique values of a given column of a given PostgreSQL layer.
+Accepted parameters:
+
+- map (map name or path)
+- layer (layer name)
+- field (column name)
+
+
+The script returns a json array of unique values and can be useful to implement select combo boxes for the search panels.
+
+=== Get legend ===
+
+This script has no wsgi counterpart, it works with recent QGIS Server versions (2.0.1 and newer) and can be used to build a template-based HTML legend instead of the image provided by GetLegendGraphic calls.
+
+To use this feature you must activate it in ``GlobalOptions.js``, search for the commented line below:
+
+```
+var interactiveLegendGetLegendURL = '../php/get_legend.php?map=' + project_map + '&';
+```
+
+Legends generated by this script can be cached for speed, see the paragraph on configuration below.
+
+Accepted parameters:
+
+- map (map name or path)
+- layer (layer name)
+
+
+== The configuration file ==
+
+Configuration for the services is stored in  `config.php`.
+
+Example:
+
+```
+/****************************
+ * Map rewrite configuration
+ */
+// Prefix map name with path
+#define('MAP_PATH_REWRITE', '/home/xxx/public_html/QGIS-Web-Client/projects/');
+// Append .qgs to the map name
+#define('MAP_PATH_APPEND_QGS', true);
+
+
+/**************************************
+ * search configuration
+ */
+// Configuration for searchable layers
+$searchlayers_config = array(
+    // Key is layer name
+    'Country' => array(
+        // SQL for text search: where to search
+        'search_column' => 'name'
+    )
+);
+
+// Default search tables
+define('DEFAULT_SEARCH_LAYERS', 'Country');
+// Limit search results
+define('SEARCH_LIMIT', 100);
+
+
+/**************************************
+ *  Get legend configuration
+ */
+// Cache expiry time in seconds 0=never cache
+define('GET_LEGEND_CACHE_EXPIRY', 60*60);
+// Cache directory, defaults to dirname(__FILE__) . '/legend_cache'
+define('GET_LEGEND_CACHE_DIRECTORY', null);
+// Defaults to current URL + '../cgi-bin/qgis_mapserv.fcgi?'
+define('WMS_ONLINE_RESOURCE', null);
+
+/* End configuration */
+```
+
+QGIS Web Client needs to know where to find the scripts, since most
+configuration is read from the project file, this must be passed in the
+query string, the file where this parameters are set is
+``GlobalOptions.js`` see the example below:
+
+
+```
+// Adds project_map, read value from query string
+var project_map = Ext.urlDecode(window.location.search.substring(1)).map;
+
+var searchBoxQueryURL = '../php/search.php?map=' + project_map;
+var searchBoxGetGeomURL = '../php/search_geom.php?map=' + project_map;
+```
+
+
+
+== TODO ==
+
+Permalinks: the permalinks script.
+
+
 
 
 = License =
@@ -745,6 +894,7 @@ Developers:
 - Marco Hugentobler
 - Pirmin Kalberer
 - Andreas Neumann
+- Alessandro Pasotti
 - Niccolo Rigacci
 - Denis Rouzaud
 - Bernhard Ströbl
@@ -759,6 +909,7 @@ Translators:
 - Diana Galindo
 - Mayeul Kauffmann
 - Samuel Mesa
+- Alessandro Pasotti
 - Nelson Silva
 - Pavlo Taranov
 

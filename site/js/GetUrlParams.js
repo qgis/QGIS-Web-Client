@@ -19,6 +19,7 @@ var maxExtent; //later holds the bounding box
 var olBoundsRegexp = /^-*[\d\.]+,-*[\d\.]+,-*[\d\.]+,-*[\d\.]+$/; //regExp to check whether bounding box matches OpenLayers bounding box format
 var urlString = "";
 var format = "image/png"; //the default image format
+//var format = "image/png; mode=8bit"; //the default image format
 var origFormat = format; //the original default image format, format is temporarily changed
 var searchtables = null;
 var visibleLayers = null; //later an array of layer names that are initially visible
@@ -32,6 +33,8 @@ if (document.documentURI) {
 	//older IEs do not know document.documentURI
 	urlString = window.location.href;
 }
+// replace spaces encoded as '+'
+urlString = urlString.replace(/\+/g, ' ');
 var urlArray = urlString.split('?');
 //substr did not work on ie - patch from Noda
 var norewrite;

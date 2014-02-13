@@ -13,13 +13,13 @@
 <DIV CLASS="header" ID="header">
 <H1>Quantum GIS (QGIS) Web Client</H1>
 <H2>Installation  and Configuration Guide</H2>
-<H3>Monday December 10, 2012</H3>
+<H3>Thursday January 16, 2014</H3>
 </DIV>
 
 <DIV CLASS="body" ID="body">
 <P>
-Last Updated: Monday December 10, 2012
-Last Change : Monday December 10, 2012
+Last Updated: Thursday January 16, 2014
+Last Change : Thursday January 16, 2014
 </P>
 <DIV CLASS="toc">
 
@@ -32,17 +32,25 @@ Last Change : Monday December 10, 2012
     <LI><A HREF="#toc5">4.1. Per Project Startup Options</A>
     <LI><A HREF="#toc6">4.2. Configuration of search panels</A>
     <LI><A HREF="#toc7">4.3. Configuration of the theme switcher</A>
+    <LI><A HREF="#toc8">4.4. Extending the interface</A>
     </UL>
-  <LI><A HREF="#toc8">URL Rewriting</A>
-  <LI><A HREF="#toc9">Configuration of search python script</A>
+  <LI><A HREF="#toc9">URL Rewriting</A>
+  <LI><A HREF="#toc10">Configuration of search python script</A>
     <UL>
-    <LI><A HREF="#toc10">6.1. Configuration of mod_wsgi</A>
-    <LI><A HREF="#toc11">6.2. Adaption of the wsgi scripts to your settings and needs</A>
+    <LI><A HREF="#toc11">6.1. Configuration of mod_wsgi</A>
+    <LI><A HREF="#toc12">6.2. Adaption of the wsgi scripts to your settings and needs</A>
     </UL>
-  <LI><A HREF="#toc12">PostgreSQL table setup for searching</A>
-  <LI><A HREF="#toc13">License</A>
-  <LI><A HREF="#toc14">Developers and Contributors</A>
-  <LI><A HREF="#toc15">Acknowledgements</A>
+  <LI><A HREF="#toc13">PostgreSQL table setup for searching</A>
+  <LI><A HREF="#toc14">Configuration of search PHP script</A>
+    <UL>
+    <LI><A HREF="#toc15">8.1. Differences with python-wsi scripts</A>
+    <LI><A HREF="#toc16">8.2. Available scripts</A>
+    <LI><A HREF="#toc17">8.3. The configuration file</A>
+    <LI><A HREF="#toc18">8.4. TODO</A>
+    </UL>
+  <LI><A HREF="#toc19">License</A>
+  <LI><A HREF="#toc20">Developers and Contributors</A>
+  <LI><A HREF="#toc21">Acknowledgements</A>
   </OL>
 
 </DIV>
@@ -206,7 +214,9 @@ format
 
 <P>
 This optional parameter allows a per project definition of the file format. Valid values are
-'image/png', 'image/jpeg' and 'image/png;mode=8bit'. Defaults to 'image/png' if no format is given per project.
+'image/png', 'image/jpeg' and 'image/png;mode=8bit'. Defaults to 'image/png' if no format is given per project. 
+For correct specification of 'image/png;mode=8bit' in a URL please encode it correctly: 'image%2fpng%3b%20mode%3d8bit'.
+If you specify this in site/js/GISProjectListing.js you do not need to encode it.
 </P>
 
 <div class="code"><PRE>
@@ -216,7 +226,7 @@ fullColorLayers
 <P>
 An optional comma-separated list of layers that need to be in full color (24bit). This parameter is only
 relevant if the project default image format is set to 'image/png' or 'image/png;mode=8bit'.
-If any of the layers in the fullColorLayers parameter list is set visible, the format changes to 'image/jpeg'.
+If any of the layers in the fullColorLayers parameter list is set visible, the format changes to 'image/jpeg'. 
 </P>
 
 <div class="code"><PRE>
@@ -660,6 +670,14 @@ The tags are also used in the search filter used in the theme switcher.
 </P>
 
 <A NAME="toc8"></A>
+<H2>4.4. Extending the interface</H2>
+
+<P>
+You can add buttons to implements additional functions (editing, advanced identify, etc.).
+See the example in site/js/Customizations.js.
+</P>
+
+<A NAME="toc9"></A>
 <H1>5. URL Rewriting</H1>
 
 <P>
@@ -734,7 +752,7 @@ RewriteRule ^/maps-protected/([^\.]+)$ /qgis-web-client/site/qgiswebclient.html 
 RewriteRule ^/maps-protected/(.*) /qgis-web-client/site/$1 [PT]
 </PRE></div>
 
-<A NAME="toc9"></A>
+<A NAME="toc10"></A>
 <H1>6. Configuration of search python script</H1>
 
 <P>
@@ -746,7 +764,7 @@ install the wsgi scripts in a separate directory, e.g. /home/www/wsgi, a place
 that is not reachable by regular web traffic.
 </P>
 
-<A NAME="toc10"></A>
+<A NAME="toc11"></A>
 <H2>6.1. Configuration of mod_wsgi</H2>
 
 <P>
@@ -764,7 +782,7 @@ WSGIScriptAlias /wsgi/ /home/www/wsgi/
 WSGIScriptAliasMatch ^/wsgi/([^/]+) /home/www/wsgi/$1.wsgi
 </PRE></div>
 
-<A NAME="toc11"></A>
+<A NAME="toc12"></A>
 <H2>6.2. Adaption of the wsgi scripts to your settings and needs</H2>
 
 <H3>6.2.1. DB connection</H3>
@@ -779,7 +797,8 @@ conn = psycopg2.connect("host='yourhost' dbname='yourdb' port='5432' user='youru
 </PRE></div>
 
 <P>
-and adapt the parameters according to your server/db.
+and adapt the parameters according to your server/db. It is highly recommended to
+<B>connect with a database user having limited rights only</B> (e.g. select rights on relevant tables only).
 </P>
 
 <H3>6.2.2. Search type to be used</H3>
@@ -787,15 +806,17 @@ and adapt the parameters according to your server/db.
 <P>
 The search can use PostgreSQL's tsvector data type. 
 "A tsvector value is a sorted list of distinct lexemes, which are words that have been normalized to
-merge different variants of the same word." <A HREF="http://www.postgresql.org/docs/9.0/interactive/datatype-textsearch.html#DATATYPE-TSVECTOR">from the PostgreSQL doc at</A>
+merge different variants of the same word."
+from the <A HREF="http://www.postgresql.org/docs/9.0/interactive/datatype-textsearch.html#DATATYPE-TSVECTOR">PostgreSQL doc</A>.
 Thus tsvector skips all the fill words and reduces nouns to their single form, a behaviour useful
 for searching texts. However as we are normally dealing with <B>place names</B> here we want them to stay as they are.
 If you use a language where the single form is a lot different from the plural form but your name contains a plural
-you will not get a suitable result. If you want to use the tsvector search option you should activate the line
+you will not get a suitable result. If you want to use the tsvector search option you should activate the lines
 </P>
 
 <div class="code"><PRE>
-sql += "searchstring_tsvector @@ to_tsquery(\'not_your_language\', '"+querystrings[j]+":*')"
+sql += "searchstring_tsvector @@ to_tsquery(\'not_your_language\', %s)"
+data += (querystrings[j]+":*",)
 </PRE></div>
 
 <P>
@@ -808,7 +829,8 @@ The use of
 </P>
 
 <div class="code"><PRE>
-sql += "searchstring::tsvector @@ lower('"+querystrings[j]+":*')::tsquery"
+sql += "searchstring::tsvector @@ lower(%s)::tsquery"
+data += (querystrings[j]+":*",)
 </PRE></div>
 
 <P>
@@ -820,14 +842,15 @@ If you do not want to use tsvector at all you can enable the full string compari
 </P>
 
 <div class="code"><PRE>
-sql += "searchstring ILIKE \'%"+querystrings[j]+"%\'"
+sql += "searchstring ILIKE %s"
+data += ("%" + querystrings[j] + "%",)
 </PRE></div>
 
 <P>
 This method however is slower than tsvector but not relevantly at least if you only have a couple 1000 datasets. 
 </P>
 
-<A NAME="toc12"></A>
+<A NAME="toc13"></A>
 <H1>7. PostgreSQL table setup for searching</H1>
 
 <div class="code"><PRE>
@@ -846,7 +869,7 @@ CREATE TABLE cadastre.searchtable
 WITH (
   OIDS=FALSE
 );
-GRANT SELECT ON TABLE cadastre.searchtable TO alle;
+GRANT SELECT ON TABLE cadastre.searchtable TO qwc_user;
 
 -- Index: cadastre.in_cadastre_searchstring_tsvector_gin
 
@@ -858,15 +881,182 @@ CREATE INDEX in_cadastre_searchstring_tsvector_gin
 
 <P>
 The above search table can also be a view or materialized view. One can combine
-several search tables by specifying the <CODE>`searchtables=searchtable1,searchtable2,searchtable3`</CODE> 
-parameter when requesting the <I>search.wsgi</I> script.
+several search tables by specifying the <CODE>`searchtables=searchtable1,searchtable_n`</CODE> 
+parameter when requesting the <I>search.wsgi</I> script. Any searchtable passed to <I>search.wsgi</I> may only contain
+the letters <I>A to Z, a to z</I> and the underscore. Double quoting the search table throws an error, thus searchtables' names must
+contain lower characters only.
 </P>
 <P>
 Using views is generally slower than properly indexed tables, check for yourself what works best.
 </P>
 
-<A NAME="toc13"></A>
-<H1>8. License</H1>
+<A NAME="toc14"></A>
+<H1>8. Configuration of search PHP script</H1>
+
+<P>
+As an alternative to python-wsgi scripts, a set of PHP scripts is available
+under <CODE>php</CODE> folder. PHP scripts are similar in scope to python-wsgi scripts
+but should require less configuration and should work out of the box 
+with just a few lines of configuration. The DB table structure must not be altered
+in order to use PHP search scripts.
+</P>
+
+<A NAME="toc15"></A>
+<H2>8.1. Differences with python-wsi scripts</H2>
+
+<P>
+The main difference is that there are no hardcoded values and much less
+configuration is needed because all needed informations are read from
+the project file.
+</P>
+<P>
+Another notable difference is that layer names are used instead of
+table names, this in order to not disclose internal DB details.
+</P>
+
+<A NAME="toc16"></A>
+<H2>8.2. Available scripts</H2>
+
+<H3>8.2.1. Search</H3>
+
+<P>
+The "search.php" scripts works in the same way as the "search.wsgi" (see the paragraph above).
+Accepted parameters:
+</P>
+
+<UL>
+<LI>map (map name or path)
+<LI>query (search text)
+<LI>searchtables (optional: layer names to search in)
+</UL>
+
+<P>
+The companion "search_geom.php" has the same role of the wsgi script "getSearchGeom.wsgi".
+</P>
+
+<UL>
+<LI>map (map name or path)
+<LI>searchtable (layer name)
+<LI>displaytext (the matched string)
+</UL>
+
+<H3>8.2.2. Unique list</H3>
+
+<P>
+This simple script returns the unique values of a given column of a given PostgreSQL layer.
+Accepted parameters:
+</P>
+
+<UL>
+<LI>map (map name or path)
+<LI>layer (layer name)
+<LI>field (column name)
+</UL>
+
+<P>
+The script returns a json array of unique values and can be useful to implement select combo boxes for the search panels.
+</P>
+
+<H3>8.2.3. Get legend</H3>
+
+<P>
+This script has no wsgi counterpart, it works with recent QGIS Server versions (2.0.1 and newer) and can be used to build a template-based HTML legend instead of the image provided by GetLegendGraphic calls.
+</P>
+<P>
+To use this feature you must activate it in <CODE>GlobalOptions.js</CODE>, search for the commented line below:
+</P>
+
+<div class="code"><PRE>
+var interactiveLegendGetLegendURL = '../php/get_legend.php?map=' + project_map + '&amp;';
+</PRE></div>
+
+<P>
+Legends generated by this script can be cached for speed, see the paragraph on configuration below.
+</P>
+<P>
+Accepted parameters:
+</P>
+
+<UL>
+<LI>map (map name or path)
+<LI>layer (layer name)
+</UL>
+
+<A NAME="toc17"></A>
+<H2>8.3. The configuration file</H2>
+
+<P>
+Configuration for the services is stored in  `config.php`.
+</P>
+<P>
+Example:
+</P>
+
+<div class="code"><PRE>
+/****************************
+ * Map rewrite configuration
+ */
+// Prefix map name with path
+#define('MAP_PATH_REWRITE', '/home/xxx/public_html/QGIS-Web-Client/projects/');
+// Append .qgs to the map name
+#define('MAP_PATH_APPEND_QGS', true);
+
+
+/**************************************
+ * search configuration
+ */
+// Configuration for searchable layers
+$searchlayers_config = array(
+    // Key is layer name
+    'Country' =&gt; array(
+        // SQL for text search: where to search
+        'search_column' =&gt; 'name'
+    )
+);
+
+// Default search tables
+define('DEFAULT_SEARCH_LAYERS', 'Country');
+// Limit search results
+define('SEARCH_LIMIT', 100);
+
+
+/**************************************
+ *  Get legend configuration
+ */
+// Cache expiry time in seconds 0=never cache
+define('GET_LEGEND_CACHE_EXPIRY', 60*60);
+// Cache directory, defaults to dirname(__FILE__) . '/legend_cache'
+define('GET_LEGEND_CACHE_DIRECTORY', null);
+// Defaults to current URL + '../cgi-bin/qgis_mapserv.fcgi?'
+define('WMS_ONLINE_RESOURCE', null);
+
+/* End configuration */
+</PRE></div>
+
+<P>
+QGIS Web Client needs to know where to find the scripts, since most
+configuration is read from the project file, this must be passed in the
+query string, the file where this parameters are set is
+<CODE>GlobalOptions.js</CODE> see the example below:
+</P>
+
+<div class="code"><PRE>
+// Adds project_map, read value from query string
+var project_map = Ext.urlDecode(window.location.search.substring(1)).map;
+
+var searchBoxQueryURL = '../php/search.php?map=' + project_map;
+var searchBoxGetGeomURL = '../php/search_geom.php?map=' + project_map;
+</PRE></div>
+
+<A NAME="toc18"></A>
+<H2>8.4. TODO</H2>
+
+<P>
+Permalinks: the permalinks script.
+</P>
+
+<A NAME="toc19"></A>
+<H1>9. License</H1>
 
 <P>
 The QGIS web client is released under a BSD license.
@@ -896,8 +1086,8 @@ HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABI
 THE POSSIBILITY OF SUCH DAMAGE.
 </UL>
 
-<A NAME="toc14"></A>
-<H1>9. Developers and Contributors</H1>
+<A NAME="toc20"></A>
+<H1>10. Developers and Contributors</H1>
 
 <P>
 Developers:
@@ -908,6 +1098,7 @@ Developers:
 <LI>Marco Hugentobler
 <LI>Pirmin Kalberer
 <LI>Andreas Neumann
+<LI>Alessandro Pasotti
 <LI>Niccolo Rigacci
 <LI>Denis Rouzaud
 <LI>Bernhard Ströbl
@@ -926,12 +1117,13 @@ Translators:
 <LI>Diana Galindo
 <LI>Mayeul Kauffmann
 <LI>Samuel Mesa
+<LI>Alessandro Pasotti
 <LI>Nelson Silva
 <LI>Pavlo Taranov
 </UL>
 
-<A NAME="toc15"></A>
-<H1>10. Acknowledgements</H1>
+<A NAME="toc21"></A>
+<H1>11. Acknowledgements</H1>
 
 <P>
 We'd like to thank the OpenLayers, GeoExt and ExtJS teams for providing their base libraries
