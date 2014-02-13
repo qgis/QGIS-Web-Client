@@ -275,14 +275,12 @@ ThemeSwitcher.prototype.changeTheme = function (dataView, index, node, evt) {
 		 if (legendMetadataWindow_active) {
 			legendMetadataWindow.close();
 		 }
-
-        		
+		
 		//switch off GetFeatureInfo if active
 		if (identifyToolActive) {
 			identifyToolWasActive = true;
 			Ext.getCmp('IdentifyTool').toggle(false);
 		}
-
 		themeChangeActive = true;
 		var projData = dataView.getSelectedRecords()[0].data.data;
 		this.themeSearchField.reset();
@@ -292,7 +290,6 @@ ThemeSwitcher.prototype.changeTheme = function (dataView, index, node, evt) {
 		this.themeSwitcherWindow.hide();
 		layerTree.removeListener("selectionChange",layerTreeSelectionChangeHandlerFunction);
 		urlParamsOK = true;
-        
 		//concatenate path for webserver and cgi
 		wmsURI = '';
 		if (projData.mapserver) {
@@ -306,7 +303,6 @@ ThemeSwitcher.prototype.changeTheme = function (dataView, index, node, evt) {
 			wmsURI += "/" + projData.projectpath + "/" + projData.projectfile + "?";
 		}
 		wmsMapName = projData.projectpath + "/" + projData.projectfile;
-        
 		//handle visible layers
 		if (projData.visibleLayers) {
 			visibleLayers = projData.visibleLayers.split(",");

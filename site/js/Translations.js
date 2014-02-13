@@ -144,17 +144,6 @@ mapLoadingString["uk"] = "Завантаження мапи...";
 mapLoadingString["hu"] = "Térkép betöltése folyamatban...";
 mapLoadingString["ro"] = "Harta se incarcă...";
 
-//indicating is waiting for print
-var printLoadingString = new Array();
-printLoadingString["en"] = "Printing initialised. Please wait...";
-printLoadingString["es"] = "Printing initialised. Please wait..."; //FIXME
-printLoadingString["de"] = "Der Druckauftrag ist erfolgt. Bitte haben sie etwas Geduld...";
-printLoadingString["fr"] = "Printing initialised. Please wait..."; //FIXME
-printLoadingString["it"] = "Printing initialised. Please wait..."; //FIXME
-printLoadingString["pt_PT"] = "Printing initialised. Please wait..."; //FIXME
-printLoadingString["uk"] = "Printing initialised. Please wait..."; //FIXME
-printLoadingString["hu"] = "Printing initialised. Please wait..."; //FIXME
-
 //mode string for navigation
 var modeNavigationString = new Array();
 modeNavigationString["en"] = "Mode: navigation. Shift/rectangle or mouse wheel for zooming.";
@@ -816,7 +805,7 @@ coordinateTextLabel["ro"] = "Coordonate:";
 var searchFieldDefaultTextString = new Array();
 searchFieldDefaultTextString["en"] = "Search (addresses, parcel-nrs, names, etc.)";
 searchFieldDefaultTextString["es"] = "Buscar (direcciones, registros, nombres, etc.)";
-searchFieldDefaultTextString["de"] = "Suche (Adressen, Parzellennr, Flurnamen, etc.)";
+searchFieldDefaultTextString["de"] = "Suche (Adressen, Parzellenr, Flurnamen, etc.)";
 searchFieldDefaultTextString["fr"] = "Chercher (adresses, n° de parcelles, noms, etc.)";
 searchFieldDefaultTextString["it"] = "Ricerca (indirizzi, n° delle particelle, nomi, ecc.)";
 searchFieldDefaultTextString["pt_PT"] = "Pesquisar (morada, parcelas, nomes, etc.)";
@@ -1228,7 +1217,7 @@ geonamesLoadingString["ro"] = "Caută în Geonames...";
 var geonamesEmptyString = new Array();
 geonamesEmptyString["en"] = "Search location in Geonames";
 geonamesEmptyString["es"] = "Buscar lugar en Geonames";
-geonamesEmptyString["de"] = "Suche (Gemeinde, Adresse, Gebnr., etc.)";
+geonamesEmptyString["de"] = "Suche Ort in Geonames";
 geonamesEmptyString["fr"] = "Rechercher le lieu dans Geonames";
 geonamesEmptyString["it"] = "Cerca località con Geonames";
 geonamesEmptyString["pt_PT"] = "Pesquisar localização em Geonames";

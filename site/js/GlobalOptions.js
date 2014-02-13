@@ -255,7 +255,6 @@ var printCapabilities={
     {"name":"1:750'000","value":"750000"},
     {"name":"1:1'000'000","value":"1000000"},
     {"name":"1:2'500'000","value":"3000000"}
-    /*
     {"name":"1:5'000'000","value":"5000000"},
     {"name":"1:7'500'000","value":"7500000"},
     {"name":"1:10'000'000","value":"10000000"},
@@ -274,7 +273,9 @@ var printCapabilities={
  ],
   "dpis":[
     {"name":"150 dpi","value":"150"},
-    {"name":"220 dpi","value":"220"},
+    {"name":"300 dpi","value":"300"},
+    {"name":"600 dpi","value":"600"},
+    {"name":"1200 dpi","value":"1200"}
   ],
   "layouts":[],
   //
