@@ -4,6 +4,9 @@
 #http://localhost/wsgi/search.wsgi?searchtables=abwasser.such§tabelle&query=1100&cb=bla
 #http://localhost/wsgi/search.wsgi?query=Oberlandstr&cb=bla
 
+
+DB_CONN_STRING="host='yourhost' dbname='yourdb' port='5432' user='yourusername' password='yourpassword'"
+
 import re #regular expression support
 import string #string manipulation support
 from webob import Request
@@ -33,12 +36,12 @@ def application(environ, start_response):
   #split on whitespaces
   regex = re.compile(r'\s+')
   querystrings = regex.split(querystring)
-  
+
   searchtableLength = len(searchtables)
   querystringsLength = len(querystrings)
   sql = ""
   errorText = ''
-  
+
   # any searchtable given?
   if searchtableLength == 0:
     errorText += 'error: no search table'
@@ -73,7 +76,7 @@ def application(environ, start_response):
       # if all tsvector stuff fails you can use this string comparison on the searchstring field
       sql += "searchstring ILIKE %s"
       data += ("%" + querystrings[j] + "%",)
-      
+
       if j < querystringsLength - 1:
         sql += " AND "
     #union for next table
@@ -81,9 +84,9 @@ def application(environ, start_response):
       sql += " UNION "
 
   sql += " ORDER BY search_category ASC, displaytext ASC;"
-    
+
   try:
-    conn = psycopg2.connect("host='yourhost' dbname='yourdb' port='5432' user='yourusername' password='yourpassword'")
+    conn = psycopg2.connect(DB_CONN_STRING)
   except:
     errorText += 'error: database connection failed'
     # write the error message to the error.log
@@ -93,9 +96,9 @@ def application(environ, start_response):
     start_response('500 INTERNAL SERVER ERROR', response_headers)
 
     return [errorText]
-  
+
   cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    
+
   try:
     cur.execute(sql, data)
   except:
@@ -109,7 +112,7 @@ def application(environ, start_response):
     start_response('500 INTERNAL SERVER ERROR', response_headers)
 
     return [errorText]
-    
+
   rowData = [];
   rows = cur.fetchall()
   lastSearchCategory = '';
@@ -118,17 +121,17 @@ def application(environ, start_response):
       rowData.append({"displaytext":row['searchcat_trimmed'],"searchtable":None,"bbox":None})
       lastSearchCategory = row['search_category']
     rowData.append({"displaytext":row['displaytext'],"searchtable":row['searchtable'],"bbox":row['bbox']})
-  
+
   resultString = '{"results": '+json.dumps(rowData)+'}'
   resultString = string.replace(resultString,'"bbox": "[','"bbox": [')
   resultString = string.replace(resultString,']"}',']}')
-  
+
   #we need to add the name of the callback function if the parameter was specified
   if "cb" in request.params:
     resultString = request.params["cb"] + '(' + resultString + ')'
-  
+
   response = Response(resultString,"200 OK",[("Content-type","application/json"),("Content-length", str(len(resultString)) )])
-  
+
   conn.close()
-  
+
   return response(environ, start_response)

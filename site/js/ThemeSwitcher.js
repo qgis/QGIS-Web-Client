@@ -43,31 +43,31 @@ function ThemeSwitcher(parentPanel) {
 			for (var j = 0; j < topicRec.data.projects.length; j++) {
 				var projData = topicRec.data.projects[j];
                 if (projData.switcher == true){
-				projData.topic = topicRec.data.name;
-				var tooltip = themeSwitcherTooltipMapThemeString[lang] + projData.name;
-				if (projData.tags) {
-					tooltip += "\n" + themeSwitcherTooltipTagString[lang] + projData.tags;
-				}
-				if (projData.responsible) {
-					tooltip += "\n" + themeSwitcherTooltipResponsibleString[lang] + projData.responsible;
-				}
-				if (projData.updateInterval) {
-					tooltip += "\n" + themeSwitcherTooltipUpdateString[lang] + projData.updateInterval;
-				}
-				if (projData.lastUpdate) {
-					tooltip += "\n" + themeSwitcherTooltipLastUpdateString[lang] + projData.lastUpdate;
-				}
-				var pwprotected = "no";
-				if (projData.pwProtected) {
-					if (projData.pwProtected == "yes") {
-						pwprotected = "yes";
-						tooltip += "\n\n" + themeSwitcherTooltipPwProtectedString[lang] + ": " + projData.pwMessage;
-					}
-				}
-				projListingArray.push([topicCounter + '_' + projData.projectfile, projData.name, projData.topic, projData.projectfile, projData.tags, pwprotected, tooltip, projData]);
+				    projData.topic = topicRec.data.name;
+				    var tooltip = themeSwitcherTooltipMapThemeString[lang] + projData.name;
+				    if (projData.tags) {
+				    	tooltip += "\n" + themeSwitcherTooltipTagString[lang] + projData.tags;
+				    }
+				    if (projData.responsible) {
+				    	tooltip += "\n" + themeSwitcherTooltipResponsibleString[lang] + projData.responsible;
+				    }
+				    if (projData.updateInterval) {
+				    	tooltip += "\n" + themeSwitcherTooltipUpdateString[lang] + projData.updateInterval;
+				    }
+				    if (projData.lastUpdate) {
+				    	tooltip += "\n" + themeSwitcherTooltipLastUpdateString[lang] + projData.lastUpdate;
+				    }
+				    var pwprotected = "no";
+				    if (projData.pwProtected) {
+				    	if (projData.pwProtected == "yes") {
+				    		pwprotected = "yes";
+				    		tooltip += "\n\n" + themeSwitcherTooltipPwProtectedString[lang] + ": " + projData.pwMessage;
+				    	}
+				    }
+				    projListingArray.push([topicCounter + '_' + projData.projectfile, projData.name, projData.topic, projData.projectfile, projData.tags, pwprotected, tooltip, projData]);
 			}
 			topicCounter++;
-        }
+            }
 		}
 		//create a new json data store holding the project data
 		this.gisProjectListingStore = new Ext.data.ArrayStore({
@@ -129,11 +129,12 @@ ThemeSwitcher.prototype.initialize = function () {
 		title: themeSwitcherWindowTitleString[lang],
 		width: this.parentPanel.getInnerWidth() - 10,
 		height: this.parentPanel.getInnerHeight() - 10,
-		renderTo: "geoExtMapPanel",
 		resizable: true,
 		closable: true,
 		maximizable: true,
 		layout: 'border',
+        constrain: false,
+        constrainHead: true,
 		listeners: {
 			"close": function (myWindow) {
 				me.themeSearchField.reset();
@@ -143,8 +144,8 @@ ThemeSwitcher.prototype.initialize = function () {
 				me.themeSwitcherWindow = undefined;
 			}
 		},
-		x: 5,
-		y: 5,
+		x: Ext.getCmp('geoExtMapPanel').getBox().x + 5,
+		y: Ext.getCmp('geoExtMapPanel').getBox().y + 5,
 		items: [{
 			xtype: 'panel',
 			region: 'west',
@@ -327,6 +328,9 @@ ThemeSwitcher.prototype.changeTheme = function (dataView, index, node, evt) {
 		if (projData.searchtables) {
 			searchtables = projData.searchtables;
 		}
+        //SOGIS has individual projects
+        initSOGISProjects();
+
 		//handle max extent
 		if (projData.maxExtent) {
 			//need to check validity of maxExtent parameter

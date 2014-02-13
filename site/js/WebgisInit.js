@@ -56,6 +56,7 @@ var legendTab; //a reference to the Ext tab holding the legend graphic
 var metadataTab; //a reference to the Ext tab holding the metadata information
 var measurePopup;
 var baseLayers = [];
+var layerImageFormats = layerImageFormats || []; // use config from GlobalOptions if any
 
 // Call custom Init in Customizations.js
 customInit();
@@ -130,6 +131,29 @@ Ext.onReady(function () {
 	} else {
 		alert(errMessageStartupNotAllParamsFoundString[lang]);
 	}
+
+	if (fullColorLayers.length > 0) {
+		// add fullColorLayers to layerImageFormats
+		var fullColorLayersAppended = false;
+		for (var i = 0; i < layerImageFormats.length; i++) {
+			var layerImageFormat = layerImageFormats[i];
+			if (layerImageFormat.format == "image/jpeg") {
+				// append fullColorLayers to jpeg format
+				layerImageFormat.layers = layerImageFormat.layers.concat(fullColorLayers);
+				fullColorLayersAppended = true;
+				break;
+			}
+		}
+		if (!fullColorLayersAppended) {
+			// add new jpeg config with fullColorLayers
+			layerImageFormats.push({
+				format: "image/jpeg",
+				layers: fullColorLayers
+			});
+		}
+	}
+
+    customPostLoading(); //in Customizations.js
 });
 
 function loadWMSConfig() {
@@ -249,15 +273,14 @@ function postLoading() {
 		}
 			
 		layerTree.root.firstChild.expand(true, false);
+		// expand all nodes in order to allow toggling checkboxes on deeper levels
+		layerTree.root.findChildBy(function () {
+			if (this.isExpandable()) {
+				this.expand(true, false);
+			}
+			return false;
+		}, null, true);
 		for (var index = 0; index < visibleLayers.length; index++) {
-			// expand all nodes in order to allow toggling checkboxes on deeper levels
-			layerTree.root.findChildBy(function () {
-				if (this.isExpandable()) {
-					this.expand(true, false);
-				}
-				return false;
-			}, null, true);
-
 			// toggle checkboxes of visible layers
 			layerTree.root.findChildBy(function () {
 				if (wmsLoader.layerTitleNameMapping[this.attributes["text"]] == visibleLayers[index]) {
@@ -267,22 +290,14 @@ function postLoading() {
 				}
 				return false;
 			}, null, true);
-
-			//test to see if we need to change to jpeg because checked
-			//layer is in array fullColorLayers
-			if (fullColorLayers.length > 0 && origFormat.match(/8bit/)) {
-				for (var i = 0; i < fullColorLayers.length; i++) {
-					if (fullColorLayers[i] == visibleLayers[index]) {
-						format = "image/jpeg";
-						break;
-					}
-				}
-			}
 		}
 		
 		//we need to get a flat list of visible layers so we can set the layerOrderPanel
 		getVisibleFlatLayers(layerTree.root.firstChild);
 
+		// add abstracts to project node and group nodes
+		addAbstractToLayerGroups();
+		
 		// add components to tree nodes while tree is expanded to match GUI layout
 		// info buttons in layer tree
 		addInfoButtonsToLayerTree();
@@ -301,7 +316,12 @@ function postLoading() {
 		Ext.getCmp('measureDistance').toggleHandler = mapToolbarHandler;
 		Ext.getCmp('measureArea').toggleHandler = mapToolbarHandler;
 		Ext.getCmp('PrintMap').toggleHandler = mapToolbarHandler;
-        //Ext.getCmp('SendPermalink').handler = mapToolbarHandler;
+        // Remove permaLinkURLShortener if not defined
+        if(typeof(permaLinkURLShortener) == 'undefined' || ! permaLinkURLShortener){
+            Ext.getCmp('SendPermalink').destroy();
+        } else {
+            Ext.getCmp('SendPermalink').handler = mapToolbarHandler;
+        }
 		Ext.getCmp('ShowHelp').handler = mapToolbarHandler;
 		
 		// Add custom buttons (Customizations.js)
@@ -334,7 +354,7 @@ function postLoading() {
 					},
 					LayerOptions
 				);
-				dummyLayer.projection = new OpenLayers.Projection("EPSG:"+epsgcode);
+				dummyLayer.projection = new OpenLayers.Projection(authid);
 				var reverseAxisOrder = dummyLayer.reverseAxisOrder(); 
 				maxExtent = OpenLayers.Bounds.fromArray(bboxArray, reverseAxisOrder);
 			}
@@ -361,6 +381,7 @@ function postLoading() {
 		}
 	});
 	mainStatusText.setText(mapLoadingString[lang]);
+	format = imageFormatForLayers(selectedLayers);
 
 	if (initialLoadDone) {
 		printCapabilities.layouts = [];
@@ -532,9 +553,7 @@ function postLoading() {
 		}
 		//add listener to adapt map on panel resize (only needed because of IE)
 		MapPanelRef.on('resize', function (panel, w, h) {
-			geoExtMap.setWidth(panel.getInnerWidth());
-			geoExtMap.setHeight(panel.getInnerHeight());
-
+			geoExtMap.setSize(panel.getInnerWidth(),panel.getInnerHeight());
 		});
 
 		// selection from permalink
@@ -707,7 +726,7 @@ function postLoading() {
 			minRatio: 16,
 			maxRatio: 64,
 			mapOptions: OverviewMapOptions,
-            maximized: true,
+            maximized: OverviewMapMaximized,
 			layers: [overviewLayer]
 		}));
 
@@ -725,7 +744,7 @@ function postLoading() {
 			id: 'navZoomBoxButton',
 			scale: 'medium',
 			control: new OpenLayers.Control.ZoomBox({
-				out: false
+			out: false
 			}),
 			map: geoExtMap.map,
 			tooltip: zoomRectangleTooltipString[lang],
@@ -848,6 +867,74 @@ function postLoading() {
 			};
 		};
 
+        /*
+         * Show search panel results
+         */ 
+        function showSearchPanelResults(searchPanelInstance, features){
+            if(features.length){
+                // Here we select where to show the search results
+                var targetComponent = null;
+                if(typeof(mapSearchPanelOutputRegion) == 'undefined'){
+                   mapSearchPanelOutputRegion = 'default';
+                }
+                switch(mapSearchPanelOutputRegion){
+                    case 'right':
+                        targetComponent = Ext.getCmp('RightPanel');
+                    break;
+                    case 'bottom':
+                        targetComponent = Ext.getCmp('BottomPanel');
+                    break;
+                    case 'popup':
+                        if(typeof(Ext.getCmp('SearchResultsPopUp')) == 'undefined'){
+                            targetComponent =  new Ext.Window(
+                            {
+                                id: 'SearchResultsPopUp',
+                                layout: 'fit',
+                                width: "80%",
+                                height: 300,
+                                modal: false,
+                                closeAction: 'hide'
+                            });
+                        }
+                        targetComponent = Ext.getCmp('SearchResultsPopUp');
+                    break;
+                    case 'default':
+                    default:
+                        targetComponent = searchPanelInstance;
+                    break;
+                }
+                // Make sure it's shown and expanded
+                targetComponent.show();
+                targetComponent.collapsible && targetComponent.expand();
+                // Delete and re-create
+                if(searchPanelInstance.resultsGrid){
+                    Ext.getCmp('SearchPanelResultsGrid').destroy();
+                }
+                searchPanelInstance.resultsGrid = new Ext.grid.GridPanel({
+                  id: 'SearchPanelResultsGrid',
+                  title: searchResultString[lang],
+                  collapsible: true,
+                  collapsed: false,
+                  store: searchPanelInstance.store,
+                  columns: searchPanelInstance.gridColumns,
+                  autoHeight: true,
+                  viewConfig: {
+                    forceFit: true
+                  }
+                });
+                searchPanelInstance.resultsGrid.on('rowclick', searchPanelInstance.onRowClick, searchPanelInstance);
+                targetComponent.add(searchPanelInstance.resultsGrid);
+                targetComponent.doLayout();
+                // Always make sure it's shown and expanded
+                searchPanelInstance.resultsGrid.show();
+                searchPanelInstance.resultsGrid.collapsible && searchPanelInstance.resultsGrid.expand();
+            } else {
+                // No features: shouldn't we warn the user?
+                Ext.MessageBox.alert(searchPanelTitleString[lang], searchNoRecordsFoundString[lang]);                
+            }
+            return true;
+        }
+        
 		//search panel and URL search parameters
 		var searchPanelConfigs = [];
 		if (wmsMapName in mapSearchPanelConfigs) {
@@ -860,6 +947,9 @@ function postLoading() {
 				var panel = new QGIS.SearchPanel(searchPanelConfigs[i]);
 				panel.on("featureselected", showFeatureSelected);
 				panel.on("featureselectioncleared", clearFeatureSelected);
+				panel.on("beforesearchdataloaded", showSearchPanelResults);
+                // Just for debugging...
+				// panel.on("afterdsearchdataloaded", function(e){console.log(e);});
 				searchTabPanel.add(panel);
 			}
 			searchTabPanel.setActiveTab(0);
@@ -934,7 +1024,6 @@ function postLoading() {
 		//now collect all selected queryable layers for WMS request
 		selectedLayers = Array();
 		selectedQueryableLayers = Array();
-		format = origFormat;
 		layerTree.root.firstChild.cascade(
 
 		function (n) {
@@ -943,18 +1032,9 @@ function postLoading() {
 				if (wmsLoader.layerProperties[wmsLoader.layerTitleNameMapping[n.text]].queryable) {
 					selectedQueryableLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
 				}
-				//test to see if we need to change to jpeg because checked
-				//layer is in array fullColorLayers
-				if (fullColorLayers.length > 0 && origFormat.match(/8bit/)) {
-					for (var i = 0; i < fullColorLayers.length; i++) {
-						if (fullColorLayers[i] == n.text) {
-							format = "image/jpeg";
-							break;
-						}
-					}
-				}
 			}
 		});
+		format = imageFormatForLayers(selectedLayers);
 		updateLayerOrderPanel();
 
 		//change array order
@@ -1048,7 +1128,7 @@ function postLoading() {
 			printWindow = new Ext.Window({
 				title: printSettingsToolbarTitleString[lang],
 				height: 67,
-				width: 440,
+				width: 530,
 				layout: "fit",
 				renderTo: "geoExtMapPanel",
 				resizable: false,
@@ -1229,7 +1309,12 @@ function postLoading() {
 		printLayoutsCombobox = Ext.getCmp('PrintLayoutsCombobox');
 		printLayoutsCombobox.setValue(printLayoutsCombobox.store.getAt(0).data.name);
 		//need to manually fire the event, because .setValue doesn't; index omitted, not needed
-		//printDPICombobox.fireEvent("select", printDPICombobox, printDPICombobox.findRecord(printDPICombobox.valueField, "300"));
+		printDPICombobox.fireEvent("select", printDPICombobox, printDPICombobox.findRecord(printDPICombobox.valueField, "300"));
+        //if the var fixedPrintResolution in GlobalOptions.js is set, the printLayoutsCombobox will be hidden
+        if (fixedPrintResolution != null && parseInt(fixedPrintResolution) > 0){
+            printDPICombobox.hide(); // hide dpi combobox
+            printWindow.setWidth(printWindow.width - 80); // reduce the legth of the print window
+        }
 		//bug in spinnerField: need to explicitly show/hide printWindow (toolbar)
 		printWindow.show();
 		printWindow.hide();
@@ -1593,21 +1678,38 @@ function createPermalink(){
 }
 
 function addInfoButtonsToLayerTree() {
-		var treeRoot = layerTree.getNodeById("wmsNode");
-		treeRoot.firstChild.cascade(
+	var treeRoot = layerTree.getNodeById("wmsNode");
+	treeRoot.firstChild.cascade(
 		function (n) {
-			if (n.isLeaf()) {
-				// info button
-				var buttonId = 'layer_' + n.id;
-				Ext.DomHelper.insertBefore(n.getUI().getAnchor(), {
-					tag: 'b',
-					id: buttonId,
-					cls: 'layer-button x-tool custom-x-tool-info'
-				});
+			// info button
+			var buttonId = 'layer_' + n.id;
+			Ext.DomHelper.insertBefore(n.getUI().getAnchor(), {
+				tag: 'b',
+				id: buttonId,
+				cls: 'layer-button x-tool custom-x-tool-info'
+			});
+            Ext.get(buttonId).on('click', function(e) {
+                if(typeof(interactiveLegendGetLegendURL) == 'undefined'){
+                    showLegendAndMetadata(n.text);
+                } else {
+                    showInteractiveLegendAndMetadata(n.text);
+                }
+            });
+		}
+	);
+}
 
-				Ext.get(buttonId).on('click', function(e) {
-					showLegendAndMetadata(n.text);
-				});
+function addAbstractToLayerGroups() {
+	var treeRoot = layerTree.getNodeById("wmsNode");
+	treeRoot.firstChild.cascade(
+		function (n) {
+			if (! n.isLeaf()) {
+				if (n == treeRoot.firstChild) {
+					var thisAbstract = wmsLoader.projectSettings.service.abstract;
+				} else {
+					var thisAbstract = layerGroupString[lang]+ ' "' + n.text + '"';
+				}
+				wmsLoader.layerProperties[n.text].abstract = thisAbstract;
 			}
 		}
 	);
@@ -1765,15 +1867,36 @@ function activateGetFeatureInfo(doIt) {
 	}
 }
 
-function openPermaLink(permalink) {
-	var mailToText = "mailto:?subject="+sendPermalinkLinkFromString[lang]+titleBarText+layerTree.root.firstChild.text+"&body="+permalink;
-	var mailWindow = window.open(mailToText);
-	if (mailWindow){
-		mailWindow.close();
-	} // can be null, if e.g. popus are blocked
-}
+/* SOGIS: This function has been reimpelented in sogis.js */
+//function openPermaLink(permalink) {
+//	var mailToText = "mailto:?subject="+sendPermalinkLinkFromString[lang]+titleBarText+layerTree.root.firstChild.text+"&body="+permalink;
+//	var mailWindow = window.open(mailToText);
+//	if (mailWindow){
+//		mailWindow.close();
+//	} // can be null, if e.g. popus are blocked
+//}
 
 function receiveShortPermalinkFromDB(result, request) {
 	var result = eval("("+result.responseText+")");
 	openPermaLink(result.shortUrl);
+}
+
+// get best image format for a list of layers
+function imageFormatForLayers(layers) {
+	var format = origFormat;
+	if (layerImageFormats.length > 0 && origFormat.match(/8bit/)) {
+		for (var f = 0; f < layerImageFormats.length; f++) {
+			var layerImageFormat = layerImageFormats[f];
+			for (var l = 0; l < layerImageFormat.layers.length; l++) {
+				if (layers.indexOf(layerImageFormat.layers[l]) != -1) {
+					format = layerImageFormat.format;
+					break;
+				}
+			}
+			if (format != origFormat) {
+				break;
+			}
+		}
+	}
+	return format;
 }

@@ -12,3 +12,6 @@ README.toc
 index.xml
 qgis-web-client.conf
 *.swp
+
+.gitignore
+

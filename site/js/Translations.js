@@ -7,10 +7,10 @@
  * https://github.com/qgis/qgis-web-client/blob/master/README
  * for the full text of the license and the list of contributors.
  *
-*/ 
+*/
 
 //indicating which of the help files have been translated already
-var availableHelpLanguages = Array("en","de","hu");
+var availableHelpLanguages = Array("en","de","hu","it");
 
 //list of available languages
 var availableLanguages = new Array();
@@ -18,7 +18,7 @@ availableLanguages["en"] = {names:[], translator:"Andreas Neumann"}; //a (dot) n
 availableLanguages["es"] = {names:[], translator:"Samuel Mesa, Diana Galindo, Germán Carrillo"}; // samuelmesa (at) gmail (dot) com , drgalindog (at) linuxmail (dot) org
 availableLanguages["de"] = {names:[], translator:"Andreas Neumann"}; //a(dot)neumann(at)carto(dot)net
 availableLanguages["fr"] = {names:[], translator:"Mayeul Kauffmann, Amandine Schloupt (Aguram)"}; //mayeul (dot) kauffmann (at) free (dot) fr, aschloupt (at) aguram (dot) org
-availableLanguages["it"] = {names:[], translator:"Paolo Cavallini (Faunalia), Giovanni Allegri (Gis3W)"}; //cavallini (at) faunalia (dot) it
+availableLanguages["it"] = {names:[], translator:"Paolo Cavallini (Faunalia), Giovanni Allegri (Gis3W), Alessandro Pasotti (ItOpen)"}; //cavallini (at) faunalia (dot) it
 availableLanguages["pt_PT"] = {names:[], translator:"Nelson Silva, Giovanni Manghi (Faunalia)"}; //nelson (dot) jgs (at) gmail (dot) com>, giovanni (dot) manghi (at) faunalia (dot) pt
 availableLanguages["uk"] = {names:[], translator:"Pavlo Taranov"}; //taranov (dot) pavel (at) gmail (dot) com>
 availableLanguages["hu"] = {names:[], translator:"Szilárd Lajcsik"}; //szilajinfo (at) gmail (dot) com>
@@ -28,7 +28,7 @@ availableLanguages["ro"] = {names:[], translator:"Tudor Bărăscu"}; //tudorbara
 // first language index is fixed, second variable
 // The string is the name of the first language translated in the second language.
 
-//English; 
+//English;
 availableLanguages["en"].names["en"] = "English";
 availableLanguages["en"].names["de"] = "Englisch";
 availableLanguages["en"].names["es"] = "Inglés";
@@ -161,7 +161,7 @@ modeNavigationString["en"] = "Mode: navigation. Shift/rectangle or mouse wheel f
 modeNavigationString["es"] = "Modo: navegación. Shift/rectángulo o rueda del ratón que desea zoom.";
 modeNavigationString["de"] = "Modus: Navigation. Shift/Rechteck aufziehen oder Mausrad zum zoomen.";
 modeNavigationString["fr"] = "Mode: navigation. Majuscule+tracer un rectangle ou roulette de la souris pour zoomer.";
-modeNavigationString["it"] = "Modalità: navigazione. Shift+rettangolo o rotella del mouse per zommare.";
+modeNavigationString["it"] = "Modalità: navigazione. Shift+rettangolo o rotella del mouse per zoomare.";
 modeNavigationString["pt_PT"] = "Modo: navegação. Shift+rectângulo ou roda do rato para efectuar zoom.";
 modeNavigationString["uk"] = "Режим: навігація. Shift/прямокутне виділення або колесо миші для зміни масштабу.";
 modeNavigationString["hu"] = "Mód: navigáció. Shift / téglalappal vagy egér görgővel lehet nagyítani.";
@@ -239,6 +239,18 @@ modePrintingString["uk"] = "Режим: друк. Обаріть ділянку 
 modePrintingString["hu"] = "Mód: nyomtatás. Mozgatható, forgatható a nyomtatási terület.";
 modePrintingString["ro"] =  "Mod: tipărire/print. Suprafața hărtii se poate mișca sau roti. Când ești gata apasă butonul 'Print'";
 
+//indicating is waiting for print
+var printLoadingString = new Array();
+printLoadingString["en"] = "Printing initialised. Please wait...";
+printLoadingString["es"] = "Printing initialised. Please wait..."; //FIXME
+printLoadingString["de"] = "Der Druckauftrag ist erfolgt. Bitte haben sie etwas Geduld...";
+printLoadingString["fr"] = "Printing initialised. Please wait..."; //FIXME
+printLoadingString["it"] = "Printing initialised. Please wait..."; //FIXME
+printLoadingString["pt_PT"] = "Printing initialised. Please wait..."; //FIXME
+printLoadingString["uk"] = "Printing initialised. Please wait..."; //FIXME
+printLoadingString["hu"] = "Printing initialised. Please wait..."; //FIXME
+printLoadingString["ro"] = "Printing initialised. Please wait..."; //FIXME
+
 /***********************
 GUI stuff
 ***********************/
@@ -270,7 +282,7 @@ searchPanelTitleString["ro"] = "Căutare";
 //text of theme Switcher button
 var mapThemeButtonTitleString = new Array();
 mapThemeButtonTitleString["en"] = "Map themes";
-mapThemeButtonTitleString["es"] = "Temas de mapas"; 
+mapThemeButtonTitleString["es"] = "Temas de mapas";
 mapThemeButtonTitleString["de"] = "Kartenthemen";
 mapThemeButtonTitleString["fr"] = "Modèles de carte";
 mapThemeButtonTitleString["it"] = "Temi della mappa";
@@ -282,7 +294,7 @@ mapThemeButtonTitleString["ro"] = "Tematici hărti";
 //theme switcher window title
 var themeSwitcherWindowTitleString = new Array();
 themeSwitcherWindowTitleString["en"] = "Map theme choice";
-themeSwitcherWindowTitleString["es"] = "Elección de tema de mapa"; 
+themeSwitcherWindowTitleString["es"] = "Elección de tema de mapa";
 themeSwitcherWindowTitleString["de"] = "Kartenthemenwechsel";
 themeSwitcherWindowTitleString["fr"] = "Choix des modèles de carte";
 themeSwitcherWindowTitleString["it"] = "Scelta del tema della mappa";
@@ -294,7 +306,7 @@ themeSwitcherWindowTitleString["ro"] = "Alegere tematică hartă";
 //theme switcher filter label string
 var themeSwitcherFilterLabelString = new Array();
 themeSwitcherFilterLabelString["en"] = "Filter by map title: ";
-themeSwitcherFilterLabelString["es"] = "Filtrar por título de mapa: "; 
+themeSwitcherFilterLabelString["es"] = "Filtrar por título de mapa: ";
 themeSwitcherFilterLabelString["de"] = "Filterung nach Kartentitel: ";
 themeSwitcherFilterLabelString["fr"] = "Filtrer par titre de carte: ";
 themeSwitcherFilterLabelString["it"] = "Filtra sul titolo della mappa: ";
@@ -306,18 +318,18 @@ themeSwitcherFilterLabelString["ro"] = "Filtrează harta dupa titlu: ";
 //theme switcher all themes string in list view
 var themeSwitcherAllThemesListViewString = new Array();
 themeSwitcherAllThemesListViewString["en"] = "All map themes";
-themeSwitcherAllThemesListViewString["es"] = "Todos los temas de mapas"; 
+themeSwitcherAllThemesListViewString["es"] = "Todos los temas de mapas";
 themeSwitcherAllThemesListViewString["de"] = "Alle Kartenthemen";
 themeSwitcherAllThemesListViewString["fr"] = "Tous les modèles de carte";
 themeSwitcherAllThemesListViewString["it"] = "Tutti i temi della mappa";
-themeSwitcherAllThemesListViewString["pt_PT"] = "Todos os temas de mapa"; 
+themeSwitcherAllThemesListViewString["pt_PT"] = "Todos os temas de mapa";
 themeSwitcherAllThemesListViewString["uk"] = "Усі теми мап";
 themeSwitcherAllThemesListViewString["hu"] = "Összes tematikus térkép";
 themeSwitcherAllThemesListViewString["ro"] = "Toate tematicile hărtilor";
 
 var themeSwitcherTooltipResponsibleString = new Array();
 themeSwitcherTooltipResponsibleString["en"] = "Responsible: ";
-themeSwitcherTooltipResponsibleString["es"] = "Responsable: "; 
+themeSwitcherTooltipResponsibleString["es"] = "Responsable: ";
 themeSwitcherTooltipResponsibleString["de"] = "Verantwortlich: ";
 themeSwitcherTooltipResponsibleString["fr"] = "Responsable: ";
 themeSwitcherTooltipResponsibleString["it"] = "Responsabile: ";
@@ -328,7 +340,7 @@ themeSwitcherTooltipResponsibleString["ro"] = "Responsabil: ";
 //either tags or keywords
 var themeSwitcherTooltipTagString = new Array();
 themeSwitcherTooltipTagString["en"] = "Tags: ";
-themeSwitcherTooltipTagString["es"] = "Etiquetas: "; 
+themeSwitcherTooltipTagString["es"] = "Etiquetas: ";
 themeSwitcherTooltipTagString["de"] = "Stichwörter: ";
 themeSwitcherTooltipTagString["fr"] = "Etiquettes: ";
 themeSwitcherTooltipTagString["it"] = "Etichette: ";
@@ -355,13 +367,13 @@ themeSwitcherTooltipUpdateString["de"] = "Aktualisierung: ";
 themeSwitcherTooltipUpdateString["fr"] = "Intervalle de mise à jour: ";
 themeSwitcherTooltipUpdateString["it"] = "Update interval: "; //FIXME
 themeSwitcherTooltipUpdateString["pt_PT"] = "Intervalo de atualização: ";
-themeSwitcherTooltipUpdateString["uk"] = "Час оновлення: "; 
-themeSwitcherTooltipUpdateString["hu"] = "Frissítés intervalluma: "; 
+themeSwitcherTooltipUpdateString["uk"] = "Час оновлення: ";
+themeSwitcherTooltipUpdateString["hu"] = "Frissítés intervalluma: ";
 themeSwitcherTooltipUpdateString["ro"] = "Intervalul de actualizare: ";
 
 var themeSwitcherTooltipLastUpdateString = new Array();
 themeSwitcherTooltipLastUpdateString["en"] = "Last update: ";
-themeSwitcherTooltipLastUpdateString["es"] = "Última actualización: "; 
+themeSwitcherTooltipLastUpdateString["es"] = "Última actualización: ";
 themeSwitcherTooltipLastUpdateString["de"] = "Letze Aktualisierung: ";
 themeSwitcherTooltipLastUpdateString["fr"] = "Dernière mise à jour ";
 themeSwitcherTooltipLastUpdateString["it"] = "Utimo aggiornamento: ";
@@ -372,7 +384,7 @@ themeSwitcherTooltipLastUpdateString["ro"] = "Ultima actualizare: ";
 
 var themeSwitcherTooltipPwProtectedString = new Array();
 themeSwitcherTooltipPwProtectedString["en"] = "password protected";
-themeSwitcherTooltipPwProtectedString["es"] = "protegido por contraseña"; 
+themeSwitcherTooltipPwProtectedString["es"] = "protegido por contraseña";
 themeSwitcherTooltipPwProtectedString["de"] = "passwortgeschützt";
 themeSwitcherTooltipPwProtectedString["fr"] = "protégé par mot de passe";
 themeSwitcherTooltipPwProtectedString["it"] = "protetto tramite password";
@@ -383,7 +395,7 @@ themeSwitcherTooltipPwProtectedString["ro"] = "protejat cu parolă";
 
 var emptyThemeSearchFieldString = new Array();
 emptyThemeSearchFieldString["en"] = "Insert filter string";
-emptyThemeSearchFieldString["es"] = "Inserte el texto para filtrar"; 
+emptyThemeSearchFieldString["es"] = "Inserte el texto para filtrar";
 emptyThemeSearchFieldString["de"] = "Filtertext eingeben";
 emptyThemeSearchFieldString["fr"] = "Entrer le texte pour filtrer";
 emptyThemeSearchFieldString["it"] = "Inserire stringa di filtro";
@@ -394,7 +406,7 @@ emptyThemeSearchFieldString["ro"] = "Introduceți textul de filtrare";
 
 var resetThemeSearchFieldTooltipString = new Array();
 resetThemeSearchFieldTooltipString["en"] = "Reset map theme search filter";
-resetThemeSearchFieldTooltipString["es"] = "Borrar el filtro de búsqueda de temas de mapa"; 
+resetThemeSearchFieldTooltipString["es"] = "Borrar el filtro de búsqueda de temas de mapa";
 resetThemeSearchFieldTooltipString["de"] = "Kartenthemenfilter zurücksetzen";
 resetThemeSearchFieldTooltipString["fr"] = "Réinitialiser le filtre de recherche pour le modèle de carte";
 resetThemeSearchFieldTooltipString["it"] = "Resetta il filtro per la ricerca del tema della mappa";
@@ -433,7 +445,7 @@ layerOrderPanelTitleString["en"] = "Layer order";
 layerOrderPanelTitleString["es"] = "Layer order"; //FIXME
 layerOrderPanelTitleString["de"] = "Ebenenreihenfolge";
 layerOrderPanelTitleString["fr"] = "Ordre des couches";
-layerOrderPanelTitleString["it"] = "Layer order"; //FIXME
+layerOrderPanelTitleString["it"] = "Ordine dei layer";
 layerOrderPanelTitleString["pt_PT"] = "Ordem e transparência camadas";
 layerOrderPanelTitleString["uk"] = "Layer order"; //FIXME
 layerOrderPanelTitleString["hu"] = "Réteg sorrend";
@@ -445,7 +457,7 @@ layerOrderPanelLayerSettingsTooltipString["en"] = "Settings";
 layerOrderPanelLayerSettingsTooltipString["es"] = "Settings"; //FIXME
 layerOrderPanelLayerSettingsTooltipString["de"] = "Einstellungen";
 layerOrderPanelLayerSettingsTooltipString["fr"] = "Réglages";
-layerOrderPanelLayerSettingsTooltipString["it"] = "Settings"; //FIXME
+layerOrderPanelLayerSettingsTooltipString["it"] = "Impostazioni";
 layerOrderPanelLayerSettingsTooltipString["pt_PT"] = "Configurações";
 layerOrderPanelLayerSettingsTooltipString["uk"] = "Settings"; //FIXME
 layerOrderPanelLayerSettingsTooltipString["hu"] = "Beállítások";
@@ -457,7 +469,7 @@ layerOrderPanelVisibilityChangeTooltipString["en"] = "Change Layer Visibility";
 layerOrderPanelVisibilityChangeTooltipString["es"] = "Change Layer Visibility"; //FIXME
 layerOrderPanelVisibilityChangeTooltipString["de"] = "Ebenensichtbarkeit ändern";
 layerOrderPanelVisibilityChangeTooltipString["fr"] = "Changer la visibilité de la couche";
-layerOrderPanelVisibilityChangeTooltipString["it"] = "Change Layer Visibility"; //FIXME
+layerOrderPanelVisibilityChangeTooltipString["it"] = "Cambia la visilità del layer"; //FIXME
 layerOrderPanelVisibilityChangeTooltipString["pt_PT"] = "Mudar visibilidade da camada";
 layerOrderPanelVisibilityChangeTooltipString["uk"] = "Change Layer Visibility"; //FIXME
 layerOrderPanelVisibilityChangeTooltipString["hu"] = "Réteg ki/be kapcsolása";
@@ -469,7 +481,7 @@ layerOrderPanelMoveLayerTextString["en"] = "Move layer";
 layerOrderPanelMoveLayerTextString["es"] = "Move layer"; //FIXME
 layerOrderPanelMoveLayerTextString["de"] = "Ebene verschieben";
 layerOrderPanelMoveLayerTextString["fr"] = "Supprimer la couche";
-layerOrderPanelMoveLayerTextString["it"] = "Move layer"; //FIXME
+layerOrderPanelMoveLayerTextString["it"] = "Sposta layer";
 layerOrderPanelMoveLayerTextString["pt_PT"] = "Deslocar camada";
 layerOrderPanelMoveLayerTextString["uk"] = "Move layer"; //FIXME
 layerOrderPanelMoveLayerTextString["hu"] = "Réteg mozgatása";
@@ -481,7 +493,7 @@ layerOrderPanelTransparencyTooltipString["en"] = "Transparency {0}%";
 layerOrderPanelTransparencyTooltipString["es"] = "Transparency {0}%"; //FIXME
 layerOrderPanelTransparencyTooltipString["de"] = "Transparenz {0}%";
 layerOrderPanelTransparencyTooltipString["fr"] = "Transparence {0}%";
-layerOrderPanelTransparencyTooltipString["it"] = "Transparency {0}%"; //FIXME
+layerOrderPanelTransparencyTooltipString["it"] = "Trasparenza {0}%";
 layerOrderPanelTransparencyTooltipString["pt_PT"] = "Transparência {0}%";
 layerOrderPanelTransparencyTooltipString["uk"] = "Transparency {0}%"; //FIXME
 layerOrderPanelTransparencyTooltipString["hu"] = "Átlászóság {0}%";
@@ -499,6 +511,19 @@ legendTabTitleString["uk"] = "Легенда";
 legendTabTitleString["hu"] = "Jelkulcs";
 legendTabTitleString["ro"] = "Legendă";
 
+//legend loading message in legend tab
+var legendTabLoadingString = new Array();
+legendTabLoadingString["en"] = "Loading legend, please wait...";
+legendTabLoadingString["es"] = "Leyenda"; //FIXME
+legendTabLoadingString["de"] = "Legende"; //FIXME
+legendTabLoadingString["fr"] = "Légende"; //FIXME
+legendTabLoadingString["it"] = "Legenda in caricamento, attendere prego...";
+legendTabLoadingString["pt_PT"] = "Legenda"; //FIXME
+legendTabLoadingString["uk"] = "Легенда"; //FIXME 
+legendTabLoadingString["hu"] = "Jelkulcs"; //FIXME
+legendTabLoadingString["ro"] = "Legendă"; //FIXME
+ 
+
 //title of metadata tab
 var metadataTabTitleString = new Array();
 metadataTabTitleString["en"] = "Metadata";
@@ -514,7 +539,7 @@ metadataTabTitleString["ro"] = "Metadate";
 //title of help window
 var helpWindowTitleString = new Array();
 helpWindowTitleString["en"] = "Help";
-helpWindowTitleString["es"] = "Ayuda"; 
+helpWindowTitleString["es"] = "Ayuda";
 helpWindowTitleString["de"] = "Hilfe";
 helpWindowTitleString["fr"] = "Aide";
 helpWindowTitleString["it"] = "Aiuto";
@@ -529,7 +554,7 @@ legendMetadataWindowTitleString["en"] = "Legend and metadata information of laye
 legendMetadataWindowTitleString["es"] = "Legend and metadata information of layer"; //FIXME
 legendMetadataWindowTitleString["de"] = "Legende und Metadaten der Ebene";
 legendMetadataWindowTitleString["fr"] = "Légende et métadonnée de la couche";
-legendMetadataWindowTitleString["it"] = "Legend and metadata information of layer"; //FIXME
+legendMetadataWindowTitleString["it"] = "Legenda e metadati del layer";
 legendMetadataWindowTitleString["pt_PT"] = "Legenda e metadados da camada";
 legendMetadataWindowTitleString["uk"] = "Legend and metadata information of layer"; //FIXME
 legendMetadataWindowTitleString["hu"] = "Jelkulcs és metaadat információ a következő rétegről: ";
@@ -537,15 +562,15 @@ legendMetadataWindowTitleString["ro"] = "Legenda și informațiile tip metadate 
 
 //title of metadata section
 var metadataSectionTitleString = new Array();
-metadataSectionTitleString["en"] = "Metadata of layer ";
-metadataSectionTitleString["es"] = "Metadata of layer "; //FIXME
-metadataSectionTitleString["de"] = "Metadaten der Ebene ";
-metadataSectionTitleString["fr"] = "Métadonnée de la couche ";
-metadataSectionTitleString["it"] = "Metadata of layer "; //FIXME
-metadataSectionTitleString["pt_PT"] = "Metadados da camada ";
-metadataSectionTitleString["uk"] = "Metadata of layer "; //FIXME
-metadataSectionTitleString["hu"] = "Réteg neve: ";
-metadataSectionTitleString["ro"] = "Metadatele stratului ";
+metadataSectionTitleString["en"] = "Metadata of layer";
+metadataSectionTitleString["es"] = "Metadata of layer"; //FIXME
+metadataSectionTitleString["de"] = "Metadaten der Ebene";
+metadataSectionTitleString["fr"] = "Métadonnée de la couche";
+metadataSectionTitleString["it"] = "Metadati del layer";
+metadataSectionTitleString["pt_PT"] = "Metadados da camada";
+metadataSectionTitleString["uk"] = "Metadata of layer"; //FIXME
+metadataSectionTitleString["hu"] = "Réteg neve:";
+metadataSectionTitleString["ro"] = "Metadatele stratului";
 
 //Abstract
 var abstractString = new Array();
@@ -553,7 +578,7 @@ abstractString["en"] = "Abstract:";
 abstractString["es"] = "Abstract:"; //FIXME
 abstractString["de"] = "Zusammenfassung:";
 abstractString["fr"] = "Résumé:";
-abstractString["it"] = "Abstract:"; //FIXME
+abstractString["it"] = "Riassunto:";
 abstractString["pt_PT"] = "Resumo:";
 abstractString["uk"] = "Abstract:"; //FIXME
 abstractString["hu"] = "Absztrakt:";
@@ -565,7 +590,7 @@ layerQueryable["en"] = "This layer is queryable: ";
 layerQueryable["es"] = "This layer is queryable: "; //FIXME
 layerQueryable["de"] = "Diese Ebene ist abfragbar: ";
 layerQueryable["fr"] = "Cette couche est requêtable: ";
-layerQueryable["it"] = "This layer is queryable: "; //FIXME
+layerQueryable["it"] = "Questo layer è interrogabile: ";
 layerQueryable["pt_PT"] = "A camada pode-se pesquisar: ";
 layerQueryable["uk"] = "This layer is queryable: "; //FIXME
 layerQueryable["hu"] = "Ez a réteg lekérdezhető: ";
@@ -577,7 +602,7 @@ yesString["en"] = "yes";
 yesString["es"] = "yes"; //FIXME
 yesString["de"] = "ja";
 yesString["fr"] = "oui";
-yesString["it"] = "yes"; //FIXME
+yesString["it"] = "si";
 yesString["pt_PT"] = "sim";
 yesString["uk"] = "yes"; //FIXME
 yesString["hu"] = "igen";
@@ -589,11 +614,23 @@ noString["en"] = "no";
 noString["es"] = "no"; //FIXME
 noString["de"] = "nein";
 noString["fr"] = "non";
-noString["it"] = "no"; //FIXME
+noString["it"] = "no";
 noString["pt_PT"] = "não";
 noString["uk"] = "no"; //FIXME
 noString["hu"] = "nem";
 noString["ro"] = "nu";
+
+//metadata: layer group
+var layerGroupString = new Array();
+layerGroupString["en"] = "Layer group";
+layerGroupString["es"] = "Layer group"; //FIXME
+layerGroupString["de"] = "Ebenengruppe";
+layerGroupString["fr"] = "Layer group"; //FIXME
+layerGroupString["it"] = "Layer group"; //FIXME
+layerGroupString["pt_PT"] = "Layer group"; //FIXME
+layerGroupString["uk"] = "Layer group"; //FIXME
+layerGroupString["hu"] = "Layer group"; //FIXME
+layerGroupString["ro"] = "Layer group"; //FIXME
 
 //metadata: display field (for tooltips)
 var displayFieldString = new Array();
@@ -601,7 +638,7 @@ displayFieldString["en"] = "Display-Field";
 displayFieldString["es"] = "Display-Field"; //FIXME
 displayFieldString["de"] = "Anzeigefeld";
 displayFieldString["fr"] = "Affichage";
-displayFieldString["it"] = "Display-Field"; //FIXME
+displayFieldString["it"] = "Campo visualizzato";
 displayFieldString["pt_PT"] = "Atributo que será visualizado";
 displayFieldString["uk"] = "Display-Field"; //FIXME
 displayFieldString["hu"] = "Megjelenő-Mező";
@@ -613,7 +650,7 @@ coordinateSystemsString["en"] = "Available Coordinate Systems";
 coordinateSystemsString["es"] = "Available Coordinate Systems"; //FIXME
 coordinateSystemsString["de"] = "Verfügbare Koordinatensysteme";
 coordinateSystemsString["fr"] = "Système de coordonnées disponible";
-coordinateSystemsString["it"] = "Available Coordinate Systems"; //FIXME
+coordinateSystemsString["it"] = "Sistemi di coordinate disponibili";
 coordinateSystemsString["pt_PT"] = "Sistemas de coordenadas disponíveis";
 coordinateSystemsString["uk"] = "Available Coordinate Systems"; //FIXME
 coordinateSystemsString["hu"] = "Elérhető koordináta rendszerek";
@@ -625,7 +662,7 @@ geographicExtentString["en"] = "Geographic Extent";
 geographicExtentString["es"] = "Geographic Extent"; //FIXME
 geographicExtentString["de"] = "Geographischer Ausschnitt";
 geographicExtentString["fr"] = "Etendue géographique";
-geographicExtentString["it"] = "Geographic Extent"; //FIXME
+geographicExtentString["it"] = "Estensione geografica";
 geographicExtentString["pt_PT"] = "Extensão geográfica";
 geographicExtentString["uk"] = "Geographic Extent"; //FIXME
 geographicExtentString["hu"] = "Földrajzi kiterjedés";
@@ -637,7 +674,7 @@ westString["en"] = "west";
 westString["es"] = "west"; //FIXME
 westString["de"] = "Westen";
 westString["fr"] = "ouest";
-westString["it"] = "west"; //FIXME
+westString["it"] = "ovest";
 westString["pt_PT"] = "oeste";
 westString["uk"] = "west"; //FIXME
 westString["hu"] = "nyugat";
@@ -649,7 +686,7 @@ eastString["en"] = "east";
 eastString["es"] = "east"; //FIXME
 eastString["de"] = "Osten";
 eastString["fr"] = "est";
-eastString["it"] = "east"; //FIXME
+eastString["it"] = "est";
 eastString["pt_PT"] = "leste";
 eastString["uk"] = "east"; //FIXME
 eastString["hu"] = "kelet";
@@ -661,7 +698,7 @@ northString["en"] = "north";
 northString["es"] = "north"; //FIXME
 northString["de"] = "Norden";
 northString["fr"] = "nord";
-northString["it"] = "north"; //FIXME
+northString["it"] = "nord";
 northString["pt_PT"] = "norte";
 northString["uk"] = "north"; //FIXME
 northString["hu"] = "észak";
@@ -870,6 +907,18 @@ searchErrorString["pt_PT"] = "Erro durante a pesquisa";
 searchErrorString["uk"] = "Помилка під час пошуку";
 searchErrorString["hu"] = "Hiba a keresés alatt";
 searchErrorString["ro"] = "Eroare în timpul căutarii";
+
+//search no records found
+var searchNoRecordsFoundString = new Array();
+searchNoRecordsFoundString["en"] = "No records found"; 
+searchNoRecordsFoundString["es"] = "Error en la búsqueda"; // FIXME
+searchNoRecordsFoundString["de"] = "Fehler bei Suche"; // FIXME
+searchNoRecordsFoundString["fr"] = "Erreur pendant la recherche"; // FIXME
+searchNoRecordsFoundString["it"] = "Nessun risultato";
+searchNoRecordsFoundString["pt_PT"] = "Erro durante a pesquisa"; // FIXME
+searchNoRecordsFoundString["uk"] = "Помилка під час пошуку"; // FIXME
+searchNoRecordsFoundString["hu"] = "Hiba a keresés alatt"; // FIXME
+searchNoRecordsFoundString["ro"] = "Eroare în timpul căutarii"; // FIXME
 
 //print settings toolbar title
 var printSettingsToolbarTitleString = new Array();
@@ -1154,7 +1203,7 @@ sendPermalinkLinkFromString["ro"] = "Link de la ";
 //Show Help
 var showHelpTooltipString = new Array();
 showHelpTooltipString["en"] = "Show Help";
-showHelpTooltipString["es"] = "Mostrar ayuda"; 
+showHelpTooltipString["es"] = "Mostrar ayuda";
 showHelpTooltipString["de"] = "Hilfe öffnen";
 showHelpTooltipString["fr"] = "Afficher l'aide";
 showHelpTooltipString["it"] = "Mostra l'aiuto";
@@ -1199,7 +1248,7 @@ resetSearchFieldTooltipString["uk"] = "Очистити поле пошуку";
 resetSearchFieldTooltipString["hu"] = "Kereső mező törlése";
 resetSearchFieldTooltipString["ro"] = "Resetează/golește câmpul de căutare";
 
-//print window title 
+//print window title
 var printWindowTitleString = new Array();
 printWindowTitleString["en"] = "The server is generating a PDF file. For correct up to scale printing please deactivate the option 'Fit to Page'!";
 printWindowTitleString["es"] = "El servidor está generando un archivo PDF. Para corregir la escala de impresión desactive la opción 'Ajustar a la página'!";
@@ -1266,7 +1315,7 @@ var mapThemeButtonTooltipString = new Array();
 mapThemeButtonTooltipString["en"] = "Click to choose a new map theme";
 mapThemeButtonTooltipString["es"] = "Haga click para escoger un nuevo tema de mapa";
 mapThemeButtonTooltipString["de"] = "Klicken Sie um das Kartenthema zu wechseln";
-mapThemeButtonTooltipString["fr"] = "Cliquer pour choisir un nouveau modèle de carte"; 
+mapThemeButtonTooltipString["fr"] = "Cliquer pour choisir un nouveau modèle de carte";
 mapThemeButtonTooltipString["it"] = "Click per scegliere un nuovo tema di mappa";
 mapThemeButtonTooltipString["pt_PT"] = "Clique para escolher um novo tema de mapa";
 mapThemeButtonTooltipString["uk"] = "Клацніть щоб обрати нову тему мапи";
@@ -1372,3 +1421,27 @@ errMessageSearchComboNetworkRequestFailureString["pt_PT"] = "O pedido de rede pa
 errMessageSearchComboNetworkRequestFailureString["uk"] = "Не вдалося виконати запит геометрії для результатів пошуку:\n";
 errMessageSearchComboNetworkRequestFailureString["hu"] = "Hálozati kérés a keresett geometriára sikertelen:\n";
 errMessageSearchComboNetworkRequestFailureString["ro"] = "Cererea de rețea pentru geometria rezultatului căutarii a eșuat:\n";
+
+//error message of print title
+var errMessagePrintCrashedTitleString = new Array();
+errMessagePrintCrashedTitleString["en"] = "Print request failed"; 
+errMessagePrintCrashedTitleString["es"] = "Print request failed"; //FIXME
+errMessagePrintCrashedTitleString["de"] = "Fehler beim Drucken";
+errMessagePrintCrashedTitleString["fr"] = "Print request failed"; //FIXME
+errMessagePrintCrashedTitleString["it"] = "Print request failed"; //FIXME
+errMessagePrintCrashedTitleString["pt_PT"] = "Print request failed"; //FIXME
+errMessagePrintCrashedTitleString["uk"] = "Print request failed"; //FIXME
+errMessagePrintCrashedTitleString["hu"] = "Print request failed"; //FIXME
+errMessagePrintCrashedTitleString["ro"] = "Print request failed"; //FIXME
+
+//error message of print 
+var errMessagePrintCrashedString = new Array();
+errMessagePrintCrashedString["en"] = "Regrettably, we are for a moment uanble to fulfill the print request";
+errMessagePrintCrashedString["es"] = "Der Druckauftrag hat einen Fehler verursacht"; //FIXME
+errMessagePrintCrashedString["de"] = "Regrettably, we are for a moment uanble to fulfill the print request";
+errMessagePrintCrashedString["fr"] = "Regrettably, we are for a moment uanble to fulfill the print request"; //FIXME
+errMessagePrintCrashedString["it"] = "Regrettably, we are for a moment uanble to fulfill the print request"; //FIXME
+errMessagePrintCrashedString["pt_PT"] = "Regrettably, we are for a moment uanble to fulfill the print request"; //FIXME
+errMessagePrintCrashedString["uk"] = "Regrettably, we are for a moment uanble to fulfill the print request"; //FIXME
+errMessagePrintCrashedString["hu"] = "Regrettably, we are for a moment uanble to fulfill the print request"; //FIXME
+errMessagePrintCrashedString["ro"] = "Regrettably, we are for a moment uanble to fulfill the print request"; //FIXME
