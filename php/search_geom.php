@@ -37,7 +37,7 @@ $layer = get_layer($layername, $project);
 $ds_params = get_layer_info($layer, $project);
 
 $sql = "SELECT ST_AsText(${ds_params['geom_column']}) AS geom FROM " . $ds_params['table'] . " WHERE ${layer_config['search_column']} = ?";
-$dbh = get_connection($layer, $project);
+$dbh = get_connection($layer, $project, $map);
 $stmt = $dbh->prepare($sql);
 $stmt->bindValue(1, $displaytext, PDO::PARAM_STR);
 $stmt->execute();
