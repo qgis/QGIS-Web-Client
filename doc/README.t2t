@@ -547,6 +547,14 @@ Optional. The maximum bounding box (left,bottom,right,top in map units) of the p
 If not specified the extent from the GetProjectSettings is used.
 
 ```
+showFeatureInfoLayerTitle
+```
+
+Optional. Boolean (true|false). Defines whether the layer title is displayed or not at the top
+of the popup bubble displaying the feature info results. Influences both the hover and the click popups.
+
+
+```
 tags
 ```
 

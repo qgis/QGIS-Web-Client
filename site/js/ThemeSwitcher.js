@@ -18,6 +18,8 @@ function ThemeSwitcher(parentPanel) {
 	this.activeTopicIndex = 0; //points to all topics
 	this.activeTopicName = ""; //will hold the current topic filter later
 	this.titleAndTagFilter = ""; //will hold the current title or tag filter string later
+	this.activeProjectData = undefined; //will hold data of currently active project
+	
 	me = this;
 	//create a new jsonstore holding the topic-listing data
 	if (gis_projects) {
@@ -38,6 +40,7 @@ function ThemeSwitcher(parentPanel) {
 		//will be used to display a table of thumbnails
 		var topicCounter = 0;
 		var projListingArray = [];
+		var mapName = wmsMapName.replace(/\.qgs$/,'');
 		for (var i = 0; i < this.gisTopicListingStore.getCount(); i++) {
 			var topicRec = this.gisTopicListingStore.getAt(i);
 			for (var j = 0; j < topicRec.data.projects.length; j++) {
@@ -63,6 +66,11 @@ function ThemeSwitcher(parentPanel) {
 						tooltip += "\n\n" + themeSwitcherTooltipPwProtectedString[lang] + ": " + projData.pwMessage;
 					}
 				}
+				var projShowFeatureInfoLayerTitle = showFeatureInfoLayerTitle;
+				if (typeof(projData.showFeatureInfoLayerTitle) == "boolean") {
+					projShowFeatureInfoLayerTitle = projData.showFeatureInfoLayerTitle;
+				}
+				projData.showFeatureInfoLayerTitle = projShowFeatureInfoLayerTitle;
 				var thumbnail = null;
 				if (projData.thumbnail) {
 					thumbnail = projData.thumbnail;
@@ -70,14 +78,19 @@ function ThemeSwitcher(parentPanel) {
 				else {
 					thumbnail = projData.projectfile + ".png";
 				}
-				projListingArray.push([topicCounter + '_' + projData.projectfile, projData.name, projData.topic, projData.projectfile, projData.tags, pwprotected, tooltip, thumbnail, projData]);
+				projListingArray.push([topicCounter + '_' + projData.projectfile, projData.name, projData.topic, projData.projectfile, projData.tags, projData.showFeatureInfoLayerTitle, pwprotected, tooltip, thumbnail, projData]);
+				//test to see if this record matches current project
+				//variable "map" comes from file GetUrlParams.js
+				if (projData.projectpath+"/"+projData.projectfile == mapName) {
+					this.activeProjectData = projData;
+				}
 			}
 			topicCounter++;
 		}
 		//create a new json data store holding the project data
 		this.gisProjectListingStore = new Ext.data.ArrayStore({
 			storeId: 'gisProjectListingStore',
-			fields: ['id', 'projname', 'topic', 'projectfile', 'tags', 'pwprotected', 'tooltip', 'thumbnail', 'data'],
+			fields: ['id', 'projname', 'topic', 'projectfile', 'tags', 'showFeatureInfoLayerTitle', 'pwprotected', 'tooltip', 'thumbnail', 'data'],
 			idProperty: 'id',
 			data: projListingArray
 		});
@@ -287,6 +300,7 @@ ThemeSwitcher.prototype.changeTheme = function (dataView, index, node, evt) {
 		}
 		themeChangeActive = true;
 		var projData = dataView.getSelectedRecords()[0].data.data;
+		this.activeProjectData = projData;
 		this.themeSearchField.reset();
 		this.filterThumbnailsByTitleOrTag('');
 		this.gisProjectListingStore.clearFilter(false);

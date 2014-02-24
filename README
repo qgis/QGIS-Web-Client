@@ -1,10 +1,10 @@
 Quantum GIS (QGIS) Web Client
 Installation  and Configuration Guide
-Thursday January 16, 2014
+Monday February 24, 2014
 
 
-Last Updated: Thursday January 16, 2014
-Last Change : Thursday January 16, 2014
+Last Updated: Monday February 24, 2014
+Last Change : Monday February 24, 2014
 
 
   1. For the terminally lazy
@@ -15,7 +15,6 @@ Last Change : Thursday January 16, 2014
     4.2. Configuration of search panels
     4.3. Configuration of the theme switcher
     4.4. Extending the interface
-    4.5. Configuration of spatial printing
   5. URL Rewriting
   6. Configuration of search python script
     6.1. Configuration of mod_wsgi
@@ -455,6 +454,11 @@ If not specified, maxExtent or the extent from the GetProjectSettings is used.
 Optional. The maximum bounding box (left,bottom,right,top in map units) of the project.
 If not specified the extent from the GetProjectSettings is used.
 
+  showFeatureInfoLayerTitle
+
+Optional. Boolean (true|false). Defines whether the layer title is displayed or not at the top
+of the popup bubble displaying the feature info results. Influences both the hover and the click popups.
+
   tags
 
 Optional. Tags or keywords displayed in the tooltips in the theme switcher.
@@ -466,18 +470,6 @@ The tags are also used in the search filter used in the theme switcher.
 
 You can add buttons to implements additional functions (editing, advanced identify, etc.).
 See the example in site/js/Customizations.js.
-
-  4.5. Configuration of spatial printing
-  ======================================
-
-It is possible to add a polygone-layer in QGIS, which is queried in the Web-Client for spatial related printing-information. You could e.g. add a layer with regional information as name of the region, phone number and other contact details of the responsible administration. To do this, follow-up these steps in QGIS:
-1. The layer providing spatial related printing-information has to be named 'print'
-2. The polygone-geometry field of the layer has to be named 'geometry'
-3. Use the attribute-title of the layer in the print template as 'Item ID' (de: 'Elementkennung')
-4. To hide the layer 'print', you could exclude it from the WMS-Capabilities (QGIS: project-settings->ows server-> WMS-Capabilities)
-5. The layer has to be published in the WFS-Capabilities
-
-Now the QGIS-client sends the spatial information (attribute-titles of the layer 'print') to the server and there the corresponding item will be filled in when generating a .pdf-document. For the spatial query, the center of the map is being used. 
 
 
   5. URL Rewriting

@@ -14,7 +14,8 @@ var gis_projects = {
 			"visibleLayers": "Country,Hello",
 			"updateInterval": "occasional",
 			"responsible": "The QGIS project",
-			"tags": "Hello World, beginner project"
+			"showFeatureInfoLayerTitle": false,
+			"tags": "Hello World,beginner project"
 		}]
 	},{
 		"name": "Natural Earth",

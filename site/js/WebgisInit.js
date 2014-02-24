@@ -43,7 +43,8 @@ var mapInfoFieldName = "tooltip"; // this field is suppressed in the AttributeTr
 var identifyToolActive = false; // a state variable used to track whether the tooltip should be displayed or not
 var identifyToolWasActive = false; //this state variable is used during theme switching
 var initialLoadDone = false; //a state variable defining if an initial project was loaded or not
-var themeChangeActive = false; //status to indicate if theme chang is active
+var themeChangeActive = false; //status to indicate if theme change is active
+var mapThemeSwitcher = null; //later optionally holds reference to themeSwitcher
 var layerTreeSelectionChangeHandlerFunction; //a reference to the handler function of the selection tree
 var layerOrderPanel = null;
 var help_active = false; //help window is active or not
@@ -786,7 +787,7 @@ function postLoading() {
 
 		//map themes panel
 		if (mapThemeSwitcherActive == true) {
-			var MyThemeSwitcher = new ThemeSwitcher(Ext.getCmp('MapPanel'));
+			mapThemeSwitcher = new ThemeSwitcher(Ext.getCmp('MapPanel'));
 		} else {
 			// hide map theme button
 			Ext.getCmp('mapThemeButton').hide();

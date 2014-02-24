@@ -53,8 +53,9 @@ var suppressEmptyValues = true;
 var suppressInfoGeometry = true;
 // do show field names in click-popup during object identification
 var showFieldNamesInClickPopup = true;
-// do show the layer title in the hover popup
-var showHoverLayerTitle = true;
+// show or hide the layer title in the feature info popup
+// can be overwritten on a per-project basis in GISProjectListing.js
+var showFeatureInfoLayerTitle = true;
 // max-width and max-height of the feature-info popup can be controlled in site/css/popup.css
 
 //config for QGIS.SearchPanel
