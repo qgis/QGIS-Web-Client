@@ -7,7 +7,7 @@
  * https://github.com/qgis/qgis-web-client/blob/master/README
  * for the full text of the license and the list of contributors.
  *
-*/ 
+*/
 
 /* Five QGIS extensions:
 * QGIS.WMSCapabilitiesLoader
@@ -118,7 +118,7 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
 								extend = OpenLayers.Util.extend;
             var layer = {nestedLayers: [],
                     styles: parentLayer ? [].concat(parentLayer.styles) : [],
-                    srs: parentLayer ? extend({}, parent.srs) : {}, 
+                    srs: parentLayer ? extend({}, parent.srs) : {},
                     metadataURLs: [],
                     bbox: parentLayer ? extend({}, parent.bbox) : {},
                     llbbox: parent.llbbox,
@@ -126,24 +126,24 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
                     authorityURLs: parentLayer ? extend({}, parent.authorityURLs) : {},
                     identifiers: {},
                     keywords: [],
-                    queryable: (queryable && queryable !== "") ? 
+                    queryable: (queryable && queryable !== "") ?
                         (queryable === "1" || queryable === "true" ) :
                         (parent.queryable || false),
                     cascaded: (cascaded !== null) ? parseInt(cascaded) :
                         (parent.cascaded || 0),
-                    opaque: opaque ? 
+                    opaque: opaque ?
                         (opaque === "1" || opaque === "true" ) :
                         (parent.opaque || false),
 										//visible and displayField are QGIS extensions
 										visible: (visible && visible !== "") ?
 											( visible === "1" || visible === "true" ) : true,
 										displayField: displayField,
-										noSubsets: (noSubsets !== null) ? 
+										noSubsets: (noSubsets !== null) ?
 												(noSubsets === "1" || noSubsets === "true" ) :
 												(parent.noSubsets || false),
-										fixedWidth: (fixedWidth != null) ? 
+										fixedWidth: (fixedWidth != null) ?
 												parseInt(fixedWidth) : (parent.fixedWidth || 0),
-										fixedHeight: (fixedHeight != null) ? 
+										fixedHeight: (fixedHeight != null) ?
 												parseInt(fixedHeight) : (parent.fixedHeight || 0),
 										minScale: parent.minScale,
 										maxScale: parent.maxScale,
@@ -443,7 +443,7 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
     this.emptyText = OpenLayers.i18n(searchFieldDefaultTextString[lang]);
     this.triggerConfig = { // we use a default clear trigger here
               tag: "img", src: Ext.BLANK_IMAGE_URL, cls:'x-form-trigger x-form-clear-trigger'
-            }; 
+            };
     this.on("keyUp", this.keyUpHandler);
     this.on("afterrender", this.afterrenderHandler);
     this.on("beforeselect", this.beforeselectHandler);
@@ -493,7 +493,7 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
       // if index == 0: user pressed enter while entering search term
     }
   },
-  
+
   keyUpHandler: function(cmp, e) {
     //reset if user deleted last sign
     this.checkTrigger();
@@ -505,21 +505,21 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
       this.collapse();
     }
   },
-  
+
   checkTrigger: function() {
     // show trigger only if there is any input
     if (this.rendered) {
       this.trigger[!Ext.isEmpty(this.getValue()) ? 'show': 'hide']();
     }
   },
-    
+
   onTriggerClick: function() {
     // reimplements default onTriggerClick function (which does nothing)
     this.resetSearch();
     this.checkTrigger();
     this.focus();
   },
-  
+
   onSelect: function(record, index){
     if(this.fireEvent('beforeselect', this, record, index) !== false){
       if (record.get('searchtable') != null) {
@@ -528,12 +528,21 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
       }
     }
   },
-  
+
   resetSearch: function(){
     this.collapse();
     this.clearSearchResult();
   },
-  
+
+  /**
+   * Activated on selection of the search result item.
+   * An AJAX call retrieves the geometry from the server
+   * and highights it on the map.
+   *
+   * @param object combo
+   * @param object record
+   * @param int index
+   */
   recordSelected: function(combo, record, index) {
     var extent = OpenLayers.Bounds.fromArray(record.get('bbox'), this.hasReverseAxisOrder);
     //make sure that map extent is not too small for point data
@@ -573,7 +582,30 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
       });
     }
   },
+  // This event is called after a successfull retrieval of the geometry
+  // from the server. If the requested 'searchtable' is a valid layer
+  // name and if the autoActivateSearchGeometryLayer = true, then the layer
+  // is made visible.
+  // This should work out of the box if you are using PHP scripts.
   showSearchGeometry: function(result, request) {
+    // Check if we need to activate the layer and the layers exists...
+    if( typeof autoActivateSearchGeometryLayer != 'undefined'
+        && autoActivateSearchGeometryLayer
+        && allLayers.indexOf(request.params.searchtable) != -1 )
+    {
+        var found = false;
+        layerTree.root.cascade(function(n){
+            if(n.text==request.params.searchtable){
+                found=n;
+            }
+        });
+        if(found){
+            // Bring it up!
+            found.getUI().toggleCheck(true);
+            // Spread the word ...
+            layerTree.fireEvent("leafschange");
+        }
+    }
     this.highlightLayer.removeAllFeatures();
     var feature = new OpenLayers.Feature.Vector(OpenLayers.Geometry.fromWKT(result.responseText));
     this.highlightLayer.addFeatures([feature]);
@@ -633,7 +665,7 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
   * zoom level for feature selection
   */
   selectionZoom: 4,
-  
+
 
   constructor: function (config) {
     config = config || {};
@@ -705,16 +737,19 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
     if (this.store != null) {
       this.store.removeAll();
     }
-    if (this.resultsGrid != null) {
+    // Moved to try/catch because of wierd error in popup implementation
+    // when submitting from different search panel.
+    try {
         this.resultsGrid.hide();
+    } catch (e) {
+        // Logging?
     }
     this.fireEvent("featureselectioncleared");
     this.fireEvent("searchformsubmitted");
     this.el.mask(pleaseWaitString[lang], 'x-mask-loading');
     if (this.useWmsRequest) {
       this.submitGetFeatureInfo();
-    }
-    else {
+    } else {
       this.submitForm();
     }
   },
@@ -737,7 +772,7 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
         filter.push("\"" + key + "\" "+ filterOp +" " + valueQuotes + fieldValues[key] + valueQuotes);
         fieldsValidate &= field.validate();
       }
-    }    
+    }
 
     if (fieldsValidate) {
       filter = this.queryLayer + ":" + filter.join(' AND ');
@@ -984,7 +1019,7 @@ Ext.override(Ext.ToolTip, {
           this.anchor = this.origAnchor;
       }
       this.showAt(this.getTargetXY());
-      
+
       if(this.anchor){
           this.anchorEl.show();
           this.syncAnchor();
@@ -1209,7 +1244,7 @@ QGIS.LayerOrderPanel = Ext.extend(Ext.Panel, {
   hasLayer: function(layer) {
     return this.store.getById(layer) != undefined;
   },
-	
+
 	toggleLayerVisibility: function(layer) {
 			// toggle icon
 			if (this.hasLayer(layer)) {
@@ -1219,7 +1254,7 @@ QGIS.LayerOrderPanel = Ext.extend(Ext.Panel, {
 				buttonEl.toggleClass('action-invisible');
 			}
 	},
-	
+
 	//return if a layer is visible (true) or not (false)
 	//TODO:
 	//maybe there is a more elegant solution to check the visibility of a layer in the layer order panel?

@@ -7,7 +7,7 @@
  * https://github.com/qgis/qgis-web-client/blob/master/README
  * for the full text of the license and the list of contributors.
  *
-*/ 
+*/
 
 var geoExtMap;
 var layerTree;
@@ -65,7 +65,7 @@ Ext.onReady(function () {
 	//dpi detection
 	screenDpi = document.getElementById("dpiDetection").offsetHeight;
 	OpenLayers.DOTS_PER_INCH = screenDpi;
-	
+
 	//fix for IE <= 8, missing indexOf function
 	if (!Array.prototype.indexOf) {
     Array.prototype.indexOf = function (searchElement /*, fromIndex */ ) {
@@ -125,7 +125,7 @@ Ext.onReady(function () {
 		});
 		baseLayers.push(bingSatelliteLayer);
 	}
-	
+
 	if (urlParamsOK) {
 		loadWMSConfig();
 	} else {
@@ -197,7 +197,7 @@ function loadWMSConfig() {
 		    }
 	});
 
-	layerTree.setRootNode(root);	
+	layerTree.setRootNode(root);
 
 }
 
@@ -271,7 +271,7 @@ function postLoading() {
 			//GetProjectSettings response - we need to adapt the drawing order from the project
 			visibleLayers = layersInDrawingOrder(wmsLoader.initialVisibleLayers);
 		}
-			
+
 		layerTree.root.firstChild.expand(true, false);
 		// expand all nodes in order to allow toggling checkboxes on deeper levels
 		layerTree.root.findChildBy(function () {
@@ -291,13 +291,13 @@ function postLoading() {
 				return false;
 			}, null, true);
 		}
-		
+
 		//we need to get a flat list of visible layers so we can set the layerOrderPanel
 		getVisibleFlatLayers(layerTree.root.firstChild);
 
 		// add abstracts to project node and group nodes
 		addAbstractToLayerGroups();
-		
+
 		// add components to tree nodes while tree is expanded to match GUI layout
 		// info buttons in layer tree
 		addInfoButtonsToLayerTree();
@@ -323,7 +323,7 @@ function postLoading() {
             Ext.getCmp('SendPermalink').handler = mapToolbarHandler;
         }
 		Ext.getCmp('ShowHelp').handler = mapToolbarHandler;
-		
+
 		// Add custom buttons (Customizations.js)
 		customToolbarLoad();
 
@@ -337,7 +337,7 @@ function postLoading() {
 			layerTree.fireEvent("leafschange");
 		});
 	}
-	
+
 	//test if max extent was set from URL or project settings
 	//if not, set map parameters from GetProjectSettings/GetCapabilities
 	//get values from first layer group (root) of project settings
@@ -356,7 +356,7 @@ function postLoading() {
 					LayerOptions
 				);
 				dummyLayer.projection = new OpenLayers.Projection(authid);
-				var reverseAxisOrder = dummyLayer.reverseAxisOrder(); 
+				var reverseAxisOrder = dummyLayer.reverseAxisOrder();
 				maxExtent = OpenLayers.Bounds.fromArray(bboxArray, reverseAxisOrder);
 			}
 		}
@@ -424,7 +424,7 @@ function postLoading() {
 			url: printUri
 		});
 	}
-	
+
 	if (!printExtent) {
 		printExtent = new GeoExt.plugins.PrintExtent({
 			printProvider: printProvider
@@ -535,7 +535,7 @@ function postLoading() {
 			"FORMAT": format
 		});
 	}
-	
+
 	if (!initialLoadDone) {
 		if (urlParams.startExtent) {
 			var startExtentParams = urlParams.startExtent.split(",");
@@ -651,7 +651,7 @@ function postLoading() {
 		navHistoryCtrl = new OpenLayers.Control.NavigationHistory();
 		geoExtMap.map.addControl(navHistoryCtrl);
 	}
-	
+
 	//controls for getfeatureinfo
 	selectedQueryableLayers = layersInDrawingOrder(selectedQueryableLayers);
 
@@ -688,7 +688,7 @@ function postLoading() {
 	});
 	WMSGetFInfoHover.events.register("getfeatureinfo", this, showFeatureInfoHover);
 	geoExtMap.map.addControl(WMSGetFInfoHover);
-	
+
 	//overview map
 	if (!initialLoadDone) {
 		OverviewMapOptions.maxExtent = maxExtent;
@@ -836,7 +836,7 @@ function postLoading() {
 
         /*
          * Show search panel results
-         */ 
+         */
         function showSearchPanelResults(searchPanelInstance, features){
             if(features.length){
                 // Here we select where to show the search results
@@ -874,8 +874,10 @@ function postLoading() {
                 targetComponent.show();
                 targetComponent.collapsible && targetComponent.expand();
                 // Delete and re-create
-                if(searchPanelInstance.resultsGrid){
+                try {
                     Ext.getCmp('SearchPanelResultsGrid').destroy();
+                } catch(e) {
+                    // Eventually log...
                 }
                 searchPanelInstance.resultsGrid = new Ext.grid.GridPanel({
                   id: 'SearchPanelResultsGrid',
@@ -897,11 +899,17 @@ function postLoading() {
                 searchPanelInstance.resultsGrid.collapsible && searchPanelInstance.resultsGrid.expand();
             } else {
                 // No features: shouldn't we warn the user?
-                Ext.MessageBox.alert(searchPanelTitleString[lang], searchNoRecordsFoundString[lang]);                
+                Ext.MessageBox.alert(searchPanelTitleString[lang], searchNoRecordsFoundString[lang]);
+                try {
+                    Ext.getCmp('SearchPanelResultsGrid').destroy();
+                } catch(e) {
+                    // Eventually log...
+                }
+                searchPanelInstance.resultsGrid = null;
             }
             return true;
         }
-        
+
 		//search panel and URL search parameters
 		var searchPanelConfigs = [];
 		if (wmsMapName in mapSearchPanelConfigs) {
@@ -1007,7 +1015,7 @@ function postLoading() {
 		//change array order
 		selectedLayers = layersInDrawingOrder(selectedLayers);
 		selectedQueryableLayers = layersInDrawingOrder(selectedQueryableLayers);
-		
+
 		//special case if only active layers are queried for feature infos
 		if (identificationMode == 'activeLayers') {
 			//only collect selected layers that are active
@@ -1052,13 +1060,13 @@ function postLoading() {
 			};
 		}
 	}
-	
+
 	if (initialLoadDone) {
 		layerTree.removeListener("leafschange",leafsChangeFunction);
 	}
 	//add listeners for layertree
 	layerTree.addListener('leafschange',leafsChangeFunction);
-	
+
 	//deal with commercial external bg layers
 	if (enableBGMaps) {
 		var BgLayerList = new Ext.tree.TreeNode({
@@ -1086,7 +1094,7 @@ function postLoading() {
 
 			BgLayerList.appendChild(bgnode0);
 			BgLayerList.appendChild(bgnode1);
-		}	
+		}
 	}
 
 	if (!initialLoadDone) {
@@ -1288,7 +1296,7 @@ function postLoading() {
 		printWindow.hide();
 	}
 	printExtent.hide();
-	
+
 	if (initialLoadDone) {
 		if (identifyToolWasActive) {
 			identifyToolWasActive = false;
@@ -1296,7 +1304,7 @@ function postLoading() {
 		}
 		themeChangeActive = false;
 	}
-	
+
 	//handle selection events
 	var selModel = layerTree.getSelectionModel();
 	//add listeners to selection model
@@ -1620,19 +1628,19 @@ function createPermalink(){
 	if (opacities != null) {
 		permalinkParams.opacities = Ext.util.JSON.encode(opacities);
 	}
-	
+
 	//layer order
 	permalinkParams.initialLayerOrder = layerOrderPanel.orderedLayers().toString();
 
 	// selection
-	permalinkParams.selection = thematicLayer.params.SELECTION;	
+	permalinkParams.selection = thematicLayer.params.SELECTION;
 	if (permaLinkURLShortener) {
 		permalink = encodeURIComponent(permalink + decodeURIComponent(Ext.urlEncode(permalinkParams)));
 	}
 	else {
-		permalink = permalink + Ext.urlEncode(permalinkParams);	
+		permalink = permalink + Ext.urlEncode(permalinkParams);
 	}
-	
+
 	return permalink;
 }
 
