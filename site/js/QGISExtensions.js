@@ -578,7 +578,11 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
         Ext.MessageBox.alert(errMessageSearchComboNetworkRequestFailureTitleString[lang], errMessageSearchComboNetworkRequestFailureString+result.responseText);
       },
       method: 'GET',
-      params: { searchtable: record.get('searchtable'), displaytext: record.get('displaytext') }
+      params: {
+          searchtable: record.get('searchtable'),
+          showlayer: record.get('showlayer'),
+          displaytext: record.get('displaytext')
+        }
       });
     }
   },
@@ -589,9 +593,10 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
   // This should work out of the box if you are using PHP scripts.
   showSearchGeometry: function(result, request) {
     // Check if we need to activate the layer and the layers exists...
+    var showLayerName = request.params.showlayer ? request.params.showlayer: request.params.searchtable;
     if( typeof autoActivateSearchGeometryLayer != 'undefined'
         && autoActivateSearchGeometryLayer
-        && allLayers.indexOf(request.params.searchtable) != -1 )
+        && allLayers.indexOf(showLayerName) != -1 )
     {
         var found = false;
         layerTree.root.cascade(function(n){
