@@ -1,10 +1,10 @@
 Quantum GIS (QGIS) Web Client
 Installation  and Configuration Guide
-Monday February 24, 2014
+Wednesday February 26, 2014
 
 
-Last Updated: Monday February 24, 2014
-Last Change : Monday February 24, 2014
+Last Updated: Wednesday February 26, 2014
+Last Change : Wednesday February 26, 2014
 
 
   1. For the terminally lazy
@@ -93,7 +93,7 @@ git clone https://github.com/qgis/qgis-web-client.git
   4. Configuration of Client
   ==========================
 
-Global Settings for all projects (make a copy from one of the templates 
+Global Settings for all projects (make a copy from one of the templates
 provided):
 
   site/js/GlobalOptions.js
@@ -135,7 +135,7 @@ A comma-separated list of layers that should be set visible on the project start
   format
 
 This optional parameter allows a per project definition of the file format. Valid values are
-'image/png', 'image/jpeg' and 'image/png;mode=8bit'. Defaults to 'image/png' if no format is given per project. 
+'image/png', 'image/jpeg' and 'image/png;mode=8bit'. Defaults to 'image/png' if no format is given per project.
 For correct specification of 'image/png;mode=8bit' in a URL please encode it correctly: 'image%2fpng%3b%20mode%3d8bit'.
 If you specify this in site/js/GISProjectListing.js you do not need to encode it.
 
@@ -143,7 +143,7 @@ If you specify this in site/js/GISProjectListing.js you do not need to encode it
 
 An optional comma-separated list of layers that need to be in full color (24bit). This parameter is only
 relevant if the project default image format is set to 'image/png' or 'image/png;mode=8bit'.
-If any of the layers in the fullColorLayers parameter list is set visible, the format changes to 'image/jpeg'. 
+If any of the layers in the fullColorLayers parameter list is set visible, the format changes to 'image/jpeg'.
 
   maxExtent
 
@@ -170,7 +170,23 @@ The default search tables are hard-coded in the file 'wsgi/search.wsgi', in the 
 There are two types of search panels supported, using a direct WMS
 GetFeatureInfo request or using URL rewriting with a much shorter search URL.
 
-The search panels are configured in 'site/js/GlobalOptions.js'. 
+The search panels are configured in 'site/js/GlobalOptions.js'.
+
+The following options are available:
+
+  mapSearchPanelOutputRegion
+
+SearchPanel search results output configuration (string), possible values:
+default,right,bottom,popup
+By default, search results will be shown in left panel, under the
+search form. Sometimes this is not desired, here you can choose to
+show the results in one of the other panels, like BottomPanel and
+RightPanel. These additional panels are hidden by default because
+their expansion and collapse trigger a map resize->reload cycle that
+can slow down the application.
+Example:
+
+  var mapSearchPanelOutputRegion = 'popup';
 
 
     4.2.1. Using WMS GetFeatureInfo
@@ -325,7 +341,7 @@ the key for the search list.
 
 The theme switcher allows to change to a diffent QGIS project (or map theme)
 without having to leave the application and using the map extent. To
-enable/disable the theme switcher you have to set the variable 
+enable/disable the theme switcher you have to set the variable
 
   var mapThemeSwitcherActive = true;
 
@@ -427,7 +443,7 @@ command.
   fullColorLayers
 
 Optional. A comma separated list of layers that would trigger a format change from 'image/png' to 'image/jpeg'.
-Per defaul, the project would use 'image/png' or 'image/png;mode=8bit' but if the user toggles the visibility 
+Per defaul, the project would use 'image/png' or 'image/png;mode=8bit' but if the user toggles the visibility
 of a layer with orthophoto data or satellit images, the format will change to 'image/jpeg'.
 
   updateInterval
@@ -553,7 +569,7 @@ You need to configure apache with the following lines (e.g. in file
     ====================
 
 In the files "search.wsgi" and "getSearchGeom.wsgi" please edit the line
-containing the db connection strings. Search for the line 
+containing the db connection strings. Search for the line
 
   conn = psycopg2.connect("host='yourhost' dbname='yourdb' port='5432' user='yourusername' password='yourpassword'")
 
@@ -564,7 +580,7 @@ connect with a database user having limited rights only (e.g. select rights on r
     6.2.2. Search type to be used
     =============================
 
-The search can use PostgreSQL's tsvector data type. 
+The search can use PostgreSQL's tsvector data type.
 "A tsvector value is a sorted list of distinct lexemes, which are words that have been normalized to
 merge different variants of the same word."
 from the PostgreSQL doc (http://www.postgresql.org/docs/9.0/interactive/datatype-textsearch.html#DATATYPE-TSVECTOR).
@@ -593,7 +609,7 @@ If you do not want to use tsvector at all you can enable the full string compari
   sql += "searchstring ILIKE %s"
   data += ("%" + querystrings[j] + "%",)
 
-This method however is slower than tsvector but not relevantly at least if you only have a couple 1000 datasets. 
+This method however is slower than tsvector but not relevantly at least if you only have a couple 1000 datasets.
 
 
   7. PostgreSQL table setup for searching
@@ -624,7 +640,7 @@ This method however is slower than tsvector but not relevantly at least if you o
     (searchstring_tsvector);
 
 The above search table can also be a view or materialized view. One can combine
-several search tables by specifying the `searchtables=searchtable1,searchtable_n` 
+several search tables by specifying the `searchtables=searchtable1,searchtable_n`
 parameter when requesting the search.wsgi script. Any searchtable passed to search.wsgi may only contain
 the letters A to Z, a to z and the underscore. Double quoting the search table throws an error, thus searchtables' names must
 contain lower characters only.
@@ -637,9 +653,9 @@ Using views is generally slower than properly indexed tables, check for yourself
 
 As an alternative to python-wsgi scripts, a set of PHP scripts is available
 under php folder. PHP scripts are similar in scope to python-wsgi scripts
-but should require less configuration and should work out of the box 
-with just a few lines of configuration. The DB table structure must not be altered
-in order to use PHP search scripts.
+but should require much less configuration and should work out of the box
+with just a few lines of configuration. There is not need to alter the DB
+table structure in order to use PHP search scripts.
 
 
   8.1. Differences with python-wsi scripts
@@ -765,7 +781,7 @@ GlobalOptions.js see the example below:
   8.4. TODO
   =========
 
-Permalinks: the permalinks script.
+Permalinks: the permalinks script is not yet implemented in PHP.
 
 
   9. License
