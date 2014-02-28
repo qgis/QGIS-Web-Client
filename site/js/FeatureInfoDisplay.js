@@ -92,12 +92,14 @@ function showFeatureInfoHover(evt) {
         var layerNodes = xmlDoc.getElementsByTagName("Layer");
         var text = '';
         var result = false;
-		//test if we need to show the feature info layer title
-		//either from global setting or from project setting
-		var showFILayerTitle = showFeatureInfoLayerTitle;
-		if (mapThemeSwitcher) {
-			showFILayerTitle = mapThemeSwitcher.activeProjectData.showFeatureInfoLayerTitle;
-		}
+        //test if we need to show the feature info layer title
+        //either from global setting or from project setting
+        var showFILayerTitle = showFeatureInfoLayerTitle;
+        if (mapThemeSwitcher) {
+            if (mapThemeSwitcher.activeProjectData != undefined) {
+                showFILayerTitle = mapThemeSwitcher.activeProjectData.showFeatureInfoLayerTitle;
+            }
+        }
 
         for (var i = layerNodes.length - 1; i > -1; --i) {
             //case vector layers
