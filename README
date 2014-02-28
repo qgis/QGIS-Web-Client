@@ -1,10 +1,10 @@
 Quantum GIS (QGIS) Web Client
 Installation  and Configuration Guide
-Wednesday February 26, 2014
+Friday February 28, 2014
 
 
-Last Updated: Wednesday February 26, 2014
-Last Change : Wednesday February 26, 2014
+Last Updated: Friday February 28, 2014
+Last Change : Friday February 28, 2014
 
 
   1. For the terminally lazy
@@ -16,18 +16,12 @@ Last Change : Wednesday February 26, 2014
     4.3. Configuration of the theme switcher
     4.4. Extending the interface
   5. URL Rewriting
-  6. Configuration of search python script
-    6.1. Configuration of mod_wsgi
-    6.2. Adaption of the wsgi scripts to your settings and needs
-  7. PostgreSQL table setup for searching
-  8. Configuration of search PHP script
-    8.1. Differences with python-wsi scripts
-    8.2. Available scripts
-    8.3. The configuration file
-    8.4. TODO
-  9. License
-  10. Developers and Contributors
-  11. Acknowledgements
+  6. Configuration of the search
+    6.1. PHP Search
+    6.2. WSGI Search
+  7. License
+  8. Developers and Contributors
+  9. Acknowledgements
 
 
   1. For the terminally lazy
@@ -536,162 +530,57 @@ For adding zones in different subdirecories (e.g. maps and maps-protected) add t
   RewriteRule ^/maps-protected/(.*) /qgis-web-client/site/$1 [PT]
 
 
-  6. Configuration of search python script
-  ========================================
+  6. Configuration of the search
+  ==============================
 
-Searching is handled by two separate python-wsgi scripts: "search.wsgi" lists
+Searching is handled by two separate scripts: "search" lists
 back a hit list while the user is typing in the searchbox. It groups the
-results and returns a bounding box of the result. "getSearchGeom.wsgi" returns
-the actual wkt geometry for a selected search result. It is recommended to
+results and returns a bounding box of the result. "getSearchGeom" returns
+the actual wkt geometry for a selected search result.
+
+These scripts are provided in two flavors: PHP and WSGI (Python). 
+The PHP version should run out-of-the-box
+with just a few lines of configuration. There is no need to alter the DB
+table structure in order to use PHP search scripts because all needed informations are read from
+the project file. Another notable difference is that layer names are used instead of
+table names, this is in order to not disclose internal DB details. The PHP scripts are available
+under the php folder. 
+
+The Python wsgi search scripts provide an advanced, more configurable and 
+more detailed search solution. They draw their results directly from dedicated relations
+in a PostGIS database. The WSGI scripts are available
+under the wsgi folder. It is recommended to
 install the wsgi scripts in a separate directory, e.g. /home/www/wsgi, a place
 that is not reachable by regular web traffic.
 
 
-  6.1. Configuration of mod_wsgi
-  ==============================
-
-You need to enable mod_wsgi as root. (Ubuntu: a2enmod mod_wsgi).
-
-You need to configure apache with the following lines (e.g. in file
-/etc/apache2/sites-available/default):
-
-  #mod_wsgi
-  WSGIDaemonProcess gis processes=5 threads=15 display-name=%{GROUP}
-  WSGIScriptAlias /wsgi/ /home/www/wsgi/
-  WSGIScriptAliasMatch ^/wsgi/([^/]+) /home/www/wsgi/$1.wsgi
+  6.1. PHP Search
+  ===============
 
 
-  6.2. Adaption of the wsgi scripts to your settings and needs
-  ============================================================
+    6.1.1. Available PHP scripts
+    ============================
 
 
-    6.2.1. DB connection
-    ====================
+      6.1.1.1. Search
+      ===============
 
-In the files "search.wsgi" and "getSearchGeom.wsgi" please edit the line
-containing the db connection strings. Search for the line
-
-  conn = psycopg2.connect("host='yourhost' dbname='yourdb' port='5432' user='yourusername' password='yourpassword'")
-
-and adapt the parameters according to your server/db. It is highly recommended to
-connect with a database user having limited rights only (e.g. select rights on relevant tables only).
-
-
-    6.2.2. Search type to be used
-    =============================
-
-The search can use PostgreSQL's tsvector data type.
-"A tsvector value is a sorted list of distinct lexemes, which are words that have been normalized to
-merge different variants of the same word."
-from the PostgreSQL doc (http://www.postgresql.org/docs/9.0/interactive/datatype-textsearch.html#DATATYPE-TSVECTOR).
-Thus tsvector skips all the fill words and reduces nouns to their single form, a behaviour useful
-for searching texts. However as we are normally dealing with place names here we want them to stay as they are.
-If you use a language where the single form is a lot different from the plural form but your name contains a plural
-you will not get a suitable result. If you want to use the tsvector search option you should activate the lines
-
-  sql += "searchstring_tsvector @@ to_tsquery(\'not_your_language\', %s)"
-  data += (querystrings[j]+":*",)
-
-not_your_language is to be replaced with an entry e.g. finnish if you have German place names.
-Thus plural forms and fillwords are kept as they are. Be aware of side effects!
-Be sure to fill the field searchstring_tsvector with `to_tsvector('not_your_language', 'yourstring')`.
-
-The use of
-
-  sql += "searchstring::tsvector @@ lower(%s)::tsquery"
-  data += (querystrings[j]+":*",)
-
-is discouraged as it does not find a place name like Stoke-sub-Hamden when you enter Stoke.
-
-If you do not want to use tsvector at all you can enable the full string comparison on the field searchstring
-(activated by default).
-
-  sql += "searchstring ILIKE %s"
-  data += ("%" + querystrings[j] + "%",)
-
-This method however is slower than tsvector but not relevantly at least if you only have a couple 1000 datasets.
-
-
-  7. PostgreSQL table setup for searching
-  =======================================
-
-  CREATE TABLE cadastre.searchtable
-  (
-    searchstring text, --the search string (all lower case), e.g. "zürichstrasse 46, 8610 uster"
-    displaytext text NOT NULL, --the display text for the search combobox, e.g. "Zürichstrasse 46, 8610 Uster (address)"
-    search_category text, --should have a leading two digit number:, e.g.
-                          --"03_parcels", where 03 is the order of the search categories, the number
-                          --should be unique across all search tables
-    the_geom geometry,    --the actual geometry
-    geometry_type text,   --the geometry type as returned by ST_GeometryType(the_geom)
-    searchstring_tsvector tsvector, -- be sure to fill this with to_tsvector()
-    CONSTRAINT searchtable_pkey PRIMARY KEY (displaytext)
-  )
-  WITH (
-    OIDS=FALSE
-  );
-  GRANT SELECT ON TABLE cadastre.searchtable TO qwc_user;
-  
-  -- Index: cadastre.in_cadastre_searchstring_tsvector_gin
-  
-  CREATE INDEX in_cadastre_searchstring_tsvector_gin
-    ON cadastre.searchtable
-    USING gin
-    (searchstring_tsvector);
-
-The above search table can also be a view or materialized view. One can combine
-several search tables by specifying the `searchtables=searchtable1,searchtable_n`
-parameter when requesting the search.wsgi script. Any searchtable passed to search.wsgi may only contain
-the letters A to Z, a to z and the underscore. Double quoting the search table throws an error, thus searchtables' names must
-contain lower characters only.
-
-Using views is generally slower than properly indexed tables, check for yourself what works best.
-
-
-  8. Configuration of search PHP script
-  =====================================
-
-As an alternative to python-wsgi scripts, a set of PHP scripts is available
-under php folder. PHP scripts are similar in scope to python-wsgi scripts
-but should require much less configuration and should work out of the box
-with just a few lines of configuration. There is not need to alter the DB
-table structure in order to use PHP search scripts.
-
-
-  8.1. Differences with python-wsi scripts
-  ========================================
-
-The main difference is that there are no hardcoded values and much less
-configuration is needed because all needed informations are read from
-the project file.
-
-Another notable difference is that layer names are used instead of
-table names, this in order to not disclose internal DB details.
-
-
-  8.2. Available scripts
-  ======================
-
-
-    8.2.1. Search
-    =============
-
-The "search.php" scripts works in the same way as the "search.wsgi" (see the paragraph above).
+The "search.php" scripts works as described above.
 Accepted parameters:
 
 - map (map name or path)
 - query (search text)
 - searchtables (optional: layer names to search in)
 
-The companion "search_geom.php" has the same role of the wsgi script "getSearchGeom.wsgi".
+The companion is "search_geom.php".
 
 - map (map name or path)
 - searchtable (layer name)
 - displaytext (the matched string)
 
 
-    8.2.2. Unique list
-    ==================
+      6.1.1.2. Unique list
+      ====================
 
 This simple script returns the unique values of a given column of a given PostgreSQL layer.
 Accepted parameters:
@@ -703,8 +592,8 @@ Accepted parameters:
 The script returns a json array of unique values and can be useful to implement select combo boxes for the search panels.
 
 
-    8.2.3. Get legend
-    =================
+      6.1.1.3. Get legend
+      ===================
 
 This script has no wsgi counterpart, it works with recent QGIS Server versions (2.0.1 and newer) and can be used to build a template-based HTML legend instead of the image provided by GetLegendGraphic calls.
 
@@ -720,8 +609,8 @@ Accepted parameters:
 - layer (layer name)
 
 
-  8.3. The configuration file
-  ===========================
+    6.1.2. PHP configuration file
+    =============================
 
 Configuration for the services is stored in  `config.php`.
 
@@ -778,13 +667,119 @@ GlobalOptions.js see the example below:
   var searchBoxGetGeomURL = '../php/search_geom.php?map=' + project_map;
 
 
-  8.4. TODO
-  =========
+    6.1.3. TODO
+    ===========
 
 Permalinks: the permalinks script is not yet implemented in PHP.
 
 
-  9. License
+  6.2. WSGI Search
+  ================
+
+
+    6.2.1. Configuration of mod_wsgi
+    ================================
+
+You need to enable mod_wsgi as root. (Ubuntu: a2enmod mod_wsgi).
+
+You need to configure apache with the following lines (e.g. in file
+/etc/apache2/sites-available/default):
+
+  #mod_wsgi
+  WSGIDaemonProcess gis processes=5 threads=15 display-name=%{GROUP}
+  WSGIScriptAlias /wsgi/ /home/www/wsgi/
+  WSGIScriptAliasMatch ^/wsgi/([^/]+) /home/www/wsgi/$1.wsgi
+
+
+    6.2.2. Adaption of the wsgi scripts to your settings and needs
+    ==============================================================
+
+
+      6.2.2.1. DB connection
+      ======================
+
+In the files "search.wsgi" and "getSearchGeom.wsgi" please edit the first line
+containing the db connection strings.
+
+  DB_CONN_STRING="host='yourhost' dbname='yourdb' port='5432' user='yourusername' password='yourpassword'"
+
+Adapt the parameters according to your server/db. It is highly recommended to
+connect with a database user having limited rights only (e.g. select rights on relevant tables only).
+
+
+      6.2.2.2. Search type to be used
+      ===============================
+
+The search can use PostgreSQL's tsvector data type.
+"A tsvector value is a sorted list of distinct lexemes, which are words that have been normalized to
+merge different variants of the same word."
+from the PostgreSQL doc (http://www.postgresql.org/docs/9.0/interactive/datatype-textsearch.html#DATATYPE-TSVECTOR).
+Thus tsvector skips all the fill words and reduces nouns to their single form, a behaviour useful
+for searching texts. However as we are normally dealing with place names here we want them to stay as they are.
+If you use a language where the single form is a lot different from the plural form but your name contains a plural
+you will not get a suitable result. If you want to use the tsvector search option you should activate the lines
+
+  sql += "searchstring_tsvector @@ to_tsquery(\'not_your_language\', %s)"
+  data += (querystrings[j]+":*",)
+
+not_your_language is to be replaced with an entry e.g. finnish if you have German place names.
+Thus plural forms and fillwords are kept as they are. Be aware of side effects!
+Be sure to fill the field searchstring_tsvector with `to_tsvector('not_your_language', 'yourstring')`.
+
+The use of
+
+  sql += "searchstring::tsvector @@ lower(%s)::tsquery"
+  data += (querystrings[j]+":*",)
+
+is discouraged as it does not find a place name like Stoke-sub-Hamden when you enter Stoke.
+
+If you do not want to use tsvector at all you can enable the full string comparison on the field searchstring
+(activated by default).
+
+  sql += "searchstring ILIKE %s"
+  data += ("%" + querystrings[j] + "%",)
+
+This method however is slower than tsvector but not relevantly at least if you only have a couple 1000 datasets.
+
+
+    6.2.3. PostgreSQL table setup for searching
+    ===========================================
+
+  CREATE TABLE cadastre.searchtable
+  (
+    searchstring text, --the search string (all lower case), e.g. "zürichstrasse 46, 8610 uster"
+    displaytext text NOT NULL, --the display text for the search combobox, e.g. "Zürichstrasse 46, 8610 Uster (address)"
+    search_category text, --should have a leading two digit number:, e.g.
+                          --"03_parcels", where 03 is the order of the search categories, the number
+                          --should be unique across all search tables
+    the_geom geometry,    --the actual geometry
+    geometry_type text,   --the geometry type as returned by ST_GeometryType(the_geom)
+    searchstring_tsvector tsvector, -- be sure to fill this with to_tsvector()
+    showlayer varchar(256), -- holds the layer name to be set visible if user chooses a respective result
+    CONSTRAINT searchtable_pkey PRIMARY KEY (displaytext)
+  )
+  WITH (
+    OIDS=FALSE
+  );
+  GRANT SELECT ON TABLE cadastre.searchtable TO qwc_user;
+  
+  -- Index: cadastre.in_cadastre_searchstring_tsvector_gin
+  
+  CREATE INDEX in_cadastre_searchstring_tsvector_gin
+    ON cadastre.searchtable
+    USING gin
+    (searchstring_tsvector);
+
+The above search table can also be a view or materialized view. One can combine
+several search tables by specifying the `searchtables=searchtable1,searchtable_n`
+parameter when requesting the search.wsgi script. Any searchtable passed to search.wsgi may only contain
+the letters A to Z, a to z and the underscore. Double quoting the search table throws an error, thus searchtables' names must
+contain lower characters only.
+
+Using views is generally slower than properly indexed tables, check for yourself what works best.
+
+
+  7. License
   ==========
 
 The QGIS web client is released under a BSD license.
@@ -810,8 +805,8 @@ HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABI
 THE POSSIBILITY OF SUCH DAMAGE.
 
 
-  10. Developers and Contributors
-  ===============================
+  8. Developers and Contributors
+  ==============================
 
 Developers:
 
@@ -839,8 +834,8 @@ Translators:
 - Pavlo Taranov
 
 
-  11. Acknowledgements
-  ====================
+  9. Acknowledgements
+  ===================
 
 We'd like to thank the OpenLayers, GeoExt and ExtJS teams for providing their base libraries
 we build upon.

@@ -459,7 +459,7 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
         searchtables: this.getSearchTables()
       },
       root: 'results',
-      fields: ['searchtable', 'displaytext', 'bbox']
+      fields: ['searchtable', 'displaytext', 'bbox', 'showlayer']
     });
     this.tpl = new Ext.XTemplate(
       '<tpl for="."><div class="x-combo-list-item {service}">',
@@ -600,7 +600,7 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
     {
         var found = false;
         layerTree.root.cascade(function(n){
-            if(n.text==request.params.searchtable){
+            if(n.text==showLayerName){
                 found=n;
             }
         });

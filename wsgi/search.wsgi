@@ -56,7 +56,7 @@ def application(environ, start_response):
   data = ()
   #for each table
   for i in range(searchtableLength):
-    sql += "SELECT displaytext, '"+searchtables[i]+r"' AS searchtable, search_category, substring(search_category from 4) AS searchcat_trimmed, "
+    sql += "SELECT displaytext, '"+searchtables[i]+r"' AS searchtable, search_category, substring(search_category from 4) AS searchcat_trimmed, showlayer, "
     # the following line is responsible for zooming in to the features
     # this is supposed to work in PostgreSQL since version 9.0
     sql += "'['||replace(regexp_replace(BOX2D(the_geom)::text,'BOX\(|\)','','g'),' ',',')||']'::text AS bbox "
@@ -118,13 +118,13 @@ def application(environ, start_response):
   lastSearchCategory = '';
   for row in rows:
     if lastSearchCategory != row['search_category']:
-      rowData.append({"displaytext":row['searchcat_trimmed'],"searchtable":None,"bbox":None})
+      rowData.append({"displaytext":row['searchcat_trimmed'],"searchtable":None,"bbox":None,"showlayer":None}})
       lastSearchCategory = row['search_category']
-    rowData.append({"displaytext":row['displaytext'],"searchtable":row['searchtable'],"bbox":row['bbox']})
+    rowData.append({"displaytext":row['displaytext'],"searchtable":row['searchtable'],"bbox":row['bbox'],"showlayer":row['showlayer']})
 
   resultString = '{"results": '+json.dumps(rowData)+'}'
   resultString = string.replace(resultString,'"bbox": "[','"bbox": [')
-  resultString = string.replace(resultString,']"}',']}')
+  resultString = string.replace(resultString,']",','],')
 
   #we need to add the name of the callback function if the parameter was specified
   if "cb" in request.params:

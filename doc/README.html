@@ -13,13 +13,13 @@
 <DIV CLASS="header" ID="header">
 <H1>Quantum GIS (QGIS) Web Client</H1>
 <H2>Installation  and Configuration Guide</H2>
-<H3>Wednesday February 26, 2014</H3>
+<H3>Friday February 28, 2014</H3>
 </DIV>
 
 <DIV CLASS="body" ID="body">
 <P>
-Last Updated: Wednesday February 26, 2014
-Last Change : Wednesday February 26, 2014
+Last Updated: Friday February 28, 2014
+Last Change : Friday February 28, 2014
 </P>
 <DIV CLASS="toc">
 
@@ -35,22 +35,14 @@ Last Change : Wednesday February 26, 2014
     <LI><A HREF="#toc8">4.4. Extending the interface</A>
     </UL>
   <LI><A HREF="#toc9">URL Rewriting</A>
-  <LI><A HREF="#toc10">Configuration of search python script</A>
+  <LI><A HREF="#toc10">Configuration of the search</A>
     <UL>
-    <LI><A HREF="#toc11">6.1. Configuration of mod_wsgi</A>
-    <LI><A HREF="#toc12">6.2. Adaption of the wsgi scripts to your settings and needs</A>
+    <LI><A HREF="#toc11">6.1. PHP Search</A>
+    <LI><A HREF="#toc12">6.2. WSGI Search</A>
     </UL>
-  <LI><A HREF="#toc13">PostgreSQL table setup for searching</A>
-  <LI><A HREF="#toc14">Configuration of search PHP script</A>
-    <UL>
-    <LI><A HREF="#toc15">8.1. Differences with python-wsi scripts</A>
-    <LI><A HREF="#toc16">8.2. Available scripts</A>
-    <LI><A HREF="#toc17">8.3. The configuration file</A>
-    <LI><A HREF="#toc18">8.4. TODO</A>
-    </UL>
-  <LI><A HREF="#toc19">License</A>
-  <LI><A HREF="#toc20">Developers and Contributors</A>
-  <LI><A HREF="#toc21">Acknowledgements</A>
+  <LI><A HREF="#toc13">License</A>
+  <LI><A HREF="#toc14">Developers and Contributors</A>
+  <LI><A HREF="#toc15">Acknowledgements</A>
   </OL>
 
 </DIV>
@@ -785,174 +777,41 @@ RewriteRule ^/maps-protected/(.*) /qgis-web-client/site/$1 [PT]
 </PRE></div>
 
 <A NAME="toc10"></A>
-<H1>6. Configuration of search python script</H1>
+<H1>6. Configuration of the search</H1>
 
 <P>
-Searching is handled by two separate python-wsgi scripts: "search.wsgi" lists
+Searching is handled by two separate scripts: "search" lists
 back a hit list while the user is typing in the searchbox. It groups the
-results and returns a bounding box of the result. "getSearchGeom.wsgi" returns
-the actual wkt geometry for a selected search result. It is recommended to
+results and returns a bounding box of the result. "getSearchGeom" returns
+the actual wkt geometry for a selected search result.
+</P>
+<P>
+These scripts are provided in two flavors: PHP and WSGI (Python). 
+The PHP version should run out-of-the-box
+with just a few lines of configuration. There is no need to alter the DB
+table structure in order to use PHP search scripts because all needed informations are read from
+the project file. Another notable difference is that layer names are used instead of
+table names, this is in order to not disclose internal DB details. The PHP scripts are available
+under the <CODE>php</CODE> folder. 
+</P>
+<P>
+The Python wsgi search scripts provide an advanced, more configurable and 
+more detailed search solution. They draw their results directly from dedicated relations
+in a PostGIS database. The WSGI scripts are available
+under the <CODE>wsgi</CODE> folder. It is recommended to
 install the wsgi scripts in a separate directory, e.g. /home/www/wsgi, a place
 that is not reachable by regular web traffic.
 </P>
 
 <A NAME="toc11"></A>
-<H2>6.1. Configuration of mod_wsgi</H2>
+<H2>6.1. PHP Search</H2>
+
+<H3>6.1.1. Available PHP scripts</H3>
+
+<H4>6.1.1.1. Search</H4>
 
 <P>
-You need to enable mod_wsgi as root. (Ubuntu: a2enmod mod_wsgi).
-</P>
-<P>
-You need to configure apache with the following lines (e.g. in file
-/etc/apache2/sites-available/default):
-</P>
-
-<div class="code"><PRE>
-#mod_wsgi
-WSGIDaemonProcess gis processes=5 threads=15 display-name=%{GROUP}
-WSGIScriptAlias /wsgi/ /home/www/wsgi/
-WSGIScriptAliasMatch ^/wsgi/([^/]+) /home/www/wsgi/$1.wsgi
-</PRE></div>
-
-<A NAME="toc12"></A>
-<H2>6.2. Adaption of the wsgi scripts to your settings and needs</H2>
-
-<H3>6.2.1. DB connection</H3>
-
-<P>
-In the files "search.wsgi" and "getSearchGeom.wsgi" please edit the line
-containing the db connection strings. Search for the line
-</P>
-
-<div class="code"><PRE>
-conn = psycopg2.connect("host='yourhost' dbname='yourdb' port='5432' user='yourusername' password='yourpassword'")
-</PRE></div>
-
-<P>
-and adapt the parameters according to your server/db. It is highly recommended to
-<B>connect with a database user having limited rights only</B> (e.g. select rights on relevant tables only).
-</P>
-
-<H3>6.2.2. Search type to be used</H3>
-
-<P>
-The search can use PostgreSQL's tsvector data type.
-"A tsvector value is a sorted list of distinct lexemes, which are words that have been normalized to
-merge different variants of the same word."
-from the <A HREF="http://www.postgresql.org/docs/9.0/interactive/datatype-textsearch.html#DATATYPE-TSVECTOR">PostgreSQL doc</A>.
-Thus tsvector skips all the fill words and reduces nouns to their single form, a behaviour useful
-for searching texts. However as we are normally dealing with <B>place names</B> here we want them to stay as they are.
-If you use a language where the single form is a lot different from the plural form but your name contains a plural
-you will not get a suitable result. If you want to use the tsvector search option you should activate the lines
-</P>
-
-<div class="code"><PRE>
-sql += "searchstring_tsvector @@ to_tsquery(\'not_your_language\', %s)"
-data += (querystrings[j]+":*",)
-</PRE></div>
-
-<P>
-<I>not_your_language</I> is to be replaced with an entry e.g. <I>finnish</I> if you have German place names.
-Thus plural forms and fillwords are kept as they are. Be aware of side effects!
-Be sure to fill the field <I>searchstring_tsvector</I> with <CODE>`to_tsvector('not_your_language', 'yourstring')`</CODE>.
-</P>
-<P>
-The use of
-</P>
-
-<div class="code"><PRE>
-sql += "searchstring::tsvector @@ lower(%s)::tsquery"
-data += (querystrings[j]+":*",)
-</PRE></div>
-
-<P>
-is <B>discouraged</B> as it does not find a place name like <I>Stoke-sub-Hamden</I> when you enter <I>Stoke</I>.
-</P>
-<P>
-If you do not want to use tsvector at all you can enable the full string comparison on the field <I>searchstring</I>
-(activated by default).
-</P>
-
-<div class="code"><PRE>
-sql += "searchstring ILIKE %s"
-data += ("%" + querystrings[j] + "%",)
-</PRE></div>
-
-<P>
-This method however is slower than tsvector but not relevantly at least if you only have a couple 1000 datasets.
-</P>
-
-<A NAME="toc13"></A>
-<H1>7. PostgreSQL table setup for searching</H1>
-
-<div class="code"><PRE>
-CREATE TABLE cadastre.searchtable
-(
-  searchstring text, --the search string (all lower case), e.g. "zürichstrasse 46, 8610 uster"
-  displaytext text NOT NULL, --the display text for the search combobox, e.g. "Zürichstrasse 46, 8610 Uster (address)"
-  search_category text, --should have a leading two digit number:, e.g.
-                        --"03_parcels", where 03 is the order of the search categories, the number
-                        --should be unique across all search tables
-  the_geom geometry,    --the actual geometry
-  geometry_type text,   --the geometry type as returned by ST_GeometryType(the_geom)
-  searchstring_tsvector tsvector, -- be sure to fill this with to_tsvector()
-  CONSTRAINT searchtable_pkey PRIMARY KEY (displaytext)
-)
-WITH (
-  OIDS=FALSE
-);
-GRANT SELECT ON TABLE cadastre.searchtable TO qwc_user;
-
--- Index: cadastre.in_cadastre_searchstring_tsvector_gin
-
-CREATE INDEX in_cadastre_searchstring_tsvector_gin
-  ON cadastre.searchtable
-  USING gin
-  (searchstring_tsvector);
-</PRE></div>
-
-<P>
-The above search table can also be a view or materialized view. One can combine
-several search tables by specifying the <CODE>`searchtables=searchtable1,searchtable_n`</CODE>
-parameter when requesting the <I>search.wsgi</I> script. Any searchtable passed to <I>search.wsgi</I> may only contain
-the letters <I>A to Z, a to z</I> and the underscore. Double quoting the search table throws an error, thus searchtables' names must
-contain lower characters only.
-</P>
-<P>
-Using views is generally slower than properly indexed tables, check for yourself what works best.
-</P>
-
-<A NAME="toc14"></A>
-<H1>8. Configuration of search PHP script</H1>
-
-<P>
-As an alternative to python-wsgi scripts, a set of PHP scripts is available
-under <CODE>php</CODE> folder. PHP scripts are similar in scope to python-wsgi scripts
-but should require much less configuration and should work out of the box
-with just a few lines of configuration. There is not need to alter the DB
-table structure in order to use PHP search scripts.
-</P>
-
-<A NAME="toc15"></A>
-<H2>8.1. Differences with python-wsi scripts</H2>
-
-<P>
-The main difference is that there are no hardcoded values and much less
-configuration is needed because all needed informations are read from
-the project file.
-</P>
-<P>
-Another notable difference is that layer names are used instead of
-table names, this in order to not disclose internal DB details.
-</P>
-
-<A NAME="toc16"></A>
-<H2>8.2. Available scripts</H2>
-
-<H3>8.2.1. Search</H3>
-
-<P>
-The "search.php" scripts works in the same way as the "search.wsgi" (see the paragraph above).
+The "search.php" scripts works as described above.
 Accepted parameters:
 </P>
 
@@ -963,7 +822,7 @@ Accepted parameters:
 </UL>
 
 <P>
-The companion "search_geom.php" has the same role of the wsgi script "getSearchGeom.wsgi".
+The companion is "search_geom.php".
 </P>
 
 <UL>
@@ -972,7 +831,7 @@ The companion "search_geom.php" has the same role of the wsgi script "getSearchG
 <LI>displaytext (the matched string)
 </UL>
 
-<H3>8.2.2. Unique list</H3>
+<H4>6.1.1.2. Unique list</H4>
 
 <P>
 This simple script returns the unique values of a given column of a given PostgreSQL layer.
@@ -989,7 +848,7 @@ Accepted parameters:
 The script returns a json array of unique values and can be useful to implement select combo boxes for the search panels.
 </P>
 
-<H3>8.2.3. Get legend</H3>
+<H4>6.1.1.3. Get legend</H4>
 
 <P>
 This script has no wsgi counterpart, it works with recent QGIS Server versions (2.0.1 and newer) and can be used to build a template-based HTML legend instead of the image provided by GetLegendGraphic calls.
@@ -1014,8 +873,7 @@ Accepted parameters:
 <LI>layer (layer name)
 </UL>
 
-<A NAME="toc17"></A>
-<H2>8.3. The configuration file</H2>
+<H3>6.1.2. PHP configuration file</H3>
 
 <P>
 Configuration for the services is stored in  `config.php`.
@@ -1080,15 +938,141 @@ var searchBoxQueryURL = '../php/search.php?map=' + project_map;
 var searchBoxGetGeomURL = '../php/search_geom.php?map=' + project_map;
 </PRE></div>
 
-<A NAME="toc18"></A>
-<H2>8.4. TODO</H2>
+<H3>6.1.3. TODO</H3>
 
 <P>
 Permalinks: the permalinks script is not yet implemented in PHP.
 </P>
 
-<A NAME="toc19"></A>
-<H1>9. License</H1>
+<A NAME="toc12"></A>
+<H2>6.2. WSGI Search</H2>
+
+<H3>6.2.1. Configuration of mod_wsgi</H3>
+
+<P>
+You need to enable mod_wsgi as root. (Ubuntu: a2enmod mod_wsgi).
+</P>
+<P>
+You need to configure apache with the following lines (e.g. in file
+/etc/apache2/sites-available/default):
+</P>
+
+<div class="code"><PRE>
+#mod_wsgi
+WSGIDaemonProcess gis processes=5 threads=15 display-name=%{GROUP}
+WSGIScriptAlias /wsgi/ /home/www/wsgi/
+WSGIScriptAliasMatch ^/wsgi/([^/]+) /home/www/wsgi/$1.wsgi
+</PRE></div>
+
+<H3>6.2.2. Adaption of the wsgi scripts to your settings and needs</H3>
+
+<H4>6.2.2.1. DB connection</H4>
+
+<P>
+In the files "search.wsgi" and "getSearchGeom.wsgi" please edit the first line
+containing the db connection strings.
+</P>
+
+<div class="code"><PRE>
+DB_CONN_STRING="host='yourhost' dbname='yourdb' port='5432' user='yourusername' password='yourpassword'"
+</PRE></div>
+
+<P>
+Adapt the parameters according to your server/db. It is highly recommended to
+<B>connect with a database user having limited rights only</B> (e.g. select rights on relevant tables only).
+</P>
+
+<H4>6.2.2.2. Search type to be used</H4>
+
+<P>
+The search can use PostgreSQL's tsvector data type.
+"A tsvector value is a sorted list of distinct lexemes, which are words that have been normalized to
+merge different variants of the same word."
+from the <A HREF="http://www.postgresql.org/docs/9.0/interactive/datatype-textsearch.html#DATATYPE-TSVECTOR">PostgreSQL doc</A>.
+Thus tsvector skips all the fill words and reduces nouns to their single form, a behaviour useful
+for searching texts. However as we are normally dealing with <B>place names</B> here we want them to stay as they are.
+If you use a language where the single form is a lot different from the plural form but your name contains a plural
+you will not get a suitable result. If you want to use the tsvector search option you should activate the lines
+</P>
+
+<div class="code"><PRE>
+sql += "searchstring_tsvector @@ to_tsquery(\'not_your_language\', %s)"
+data += (querystrings[j]+":*",)
+</PRE></div>
+
+<P>
+<I>not_your_language</I> is to be replaced with an entry e.g. <I>finnish</I> if you have German place names.
+Thus plural forms and fillwords are kept as they are. Be aware of side effects!
+Be sure to fill the field <I>searchstring_tsvector</I> with <CODE>`to_tsvector('not_your_language', 'yourstring')`</CODE>.
+</P>
+<P>
+The use of
+</P>
+
+<div class="code"><PRE>
+sql += "searchstring::tsvector @@ lower(%s)::tsquery"
+data += (querystrings[j]+":*",)
+</PRE></div>
+
+<P>
+is <B>discouraged</B> as it does not find a place name like <I>Stoke-sub-Hamden</I> when you enter <I>Stoke</I>.
+</P>
+<P>
+If you do not want to use tsvector at all you can enable the full string comparison on the field <I>searchstring</I>
+(activated by default).
+</P>
+
+<div class="code"><PRE>
+sql += "searchstring ILIKE %s"
+data += ("%" + querystrings[j] + "%",)
+</PRE></div>
+
+<P>
+This method however is slower than tsvector but not relevantly at least if you only have a couple 1000 datasets.
+</P>
+
+<H3>6.2.3. PostgreSQL table setup for searching</H3>
+
+<div class="code"><PRE>
+CREATE TABLE cadastre.searchtable
+(
+  searchstring text, --the search string (all lower case), e.g. "zürichstrasse 46, 8610 uster"
+  displaytext text NOT NULL, --the display text for the search combobox, e.g. "Zürichstrasse 46, 8610 Uster (address)"
+  search_category text, --should have a leading two digit number:, e.g.
+                        --"03_parcels", where 03 is the order of the search categories, the number
+                        --should be unique across all search tables
+  the_geom geometry,    --the actual geometry
+  geometry_type text,   --the geometry type as returned by ST_GeometryType(the_geom)
+  searchstring_tsvector tsvector, -- be sure to fill this with to_tsvector()
+  showlayer varchar(256), -- holds the layer name to be set visible if user chooses a respective result
+  CONSTRAINT searchtable_pkey PRIMARY KEY (displaytext)
+)
+WITH (
+  OIDS=FALSE
+);
+GRANT SELECT ON TABLE cadastre.searchtable TO qwc_user;
+
+-- Index: cadastre.in_cadastre_searchstring_tsvector_gin
+
+CREATE INDEX in_cadastre_searchstring_tsvector_gin
+  ON cadastre.searchtable
+  USING gin
+  (searchstring_tsvector);
+</PRE></div>
+
+<P>
+The above search table can also be a view or materialized view. One can combine
+several search tables by specifying the <CODE>`searchtables=searchtable1,searchtable_n`</CODE>
+parameter when requesting the <I>search.wsgi</I> script. Any searchtable passed to <I>search.wsgi</I> may only contain
+the letters <I>A to Z, a to z</I> and the underscore. Double quoting the search table throws an error, thus searchtables' names must
+contain lower characters only.
+</P>
+<P>
+Using views is generally slower than properly indexed tables, check for yourself what works best.
+</P>
+
+<A NAME="toc13"></A>
+<H1>7. License</H1>
 
 <P>
 The QGIS web client is released under a BSD license.
@@ -1118,8 +1102,8 @@ HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABI
 THE POSSIBILITY OF SUCH DAMAGE.
 </UL>
 
-<A NAME="toc20"></A>
-<H1>10. Developers and Contributors</H1>
+<A NAME="toc14"></A>
+<H1>8. Developers and Contributors</H1>
 
 <P>
 Developers:
@@ -1154,8 +1138,8 @@ Translators:
 <LI>Pavlo Taranov
 </UL>
 
-<A NAME="toc21"></A>
-<H1>11. Acknowledgements</H1>
+<A NAME="toc15"></A>
+<H1>9. Acknowledgements</H1>
 
 <P>
 We'd like to thank the OpenLayers, GeoExt and ExtJS teams for providing their base libraries
