@@ -321,7 +321,7 @@ function parseFIResult(node) {
                                         htmlText += "<td>" + attName + ":</td>";
                                     }
                                     // add hyperlinks for URLs in attribute values
-                                    if (attValue != '' && /http:\/\/.+\..+/i.test(attValue)) {
+                                    if (attValue != '' && /^((http|https|ftp):\/\/).+\..+/i.test(attValue)) {
                                         if (! /\<a./i.test(attValue)) {
                                             //do not reformat already formated tags
                                             attValue = "<a class=\"popupLink\" href=\"" + attValue + "\" target=\"_blank\">" + attValue + "</a>";
