@@ -32,9 +32,9 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
   projectSettings: null,
   //this list holds layer properties, indexed by layername
   layerProperties: new Array(),
-	//this list holds a mapping between title and layer name - the tree shows the title, the WMS requests need names
-	layerTitleNameMapping: new Array(),
-	initialVisibleLayers: new Array(),
+    //this list holds a mapping between title and layer name - the tree shows the title, the WMS requests need names
+    layerTitleNameMapping: new Array(),
+    initialVisibleLayers: new Array(),
   getParams: function(node) {
     return {
       SERVICE: 'WMS',
@@ -88,13 +88,13 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
 
           // based on OpenLayers.Format.WMSCapabilities.v1 parser
           "Layer": function(node, obj) {
-						var parentLayer, capability;
-						if (obj.capability) {
-								capability = obj.capability;
-								parentLayer = obj;
-						} else {
-								capability = obj;
-						}
+                        var parentLayer, capability;
+                        if (obj.capability) {
+                                capability = obj.capability;
+                                parentLayer = obj;
+                        } else {
+                                capability = obj;
+                        }
             var attrNode = node.getAttributeNode("queryable");
             var queryable = (attrNode && attrNode.specified) ?
               node.getAttribute("queryable") : null;
@@ -114,8 +114,8 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
             var noSubsets = node.getAttribute('noSubsets');
             var fixedWidth = node.getAttribute('fixedWidth');
             var fixedHeight = node.getAttribute('fixedHeight');
-						var parent = parentLayer || {},
-								extend = OpenLayers.Util.extend;
+                        var parent = parentLayer || {},
+                                extend = OpenLayers.Util.extend;
             var layer = {nestedLayers: [],
                     styles: parentLayer ? [].concat(parentLayer.styles) : [],
                     srs: parentLayer ? extend({}, parent.srs) : {},
@@ -134,25 +134,25 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
                     opaque: opaque ?
                         (opaque === "1" || opaque === "true" ) :
                         (parent.opaque || false),
-										//visible and displayField are QGIS extensions
-										visible: (visible && visible !== "") ?
-											( visible === "1" || visible === "true" ) : true,
-										displayField: displayField,
-										noSubsets: (noSubsets !== null) ?
-												(noSubsets === "1" || noSubsets === "true" ) :
-												(parent.noSubsets || false),
-										fixedWidth: (fixedWidth != null) ?
-												parseInt(fixedWidth) : (parent.fixedWidth || 0),
-										fixedHeight: (fixedHeight != null) ?
-												parseInt(fixedHeight) : (parent.fixedHeight || 0),
-										minScale: parent.minScale,
-										maxScale: parent.maxScale,
-										attribution: parent.attribution
-								};
+                                        //visible and displayField are QGIS extensions
+                                        visible: (visible && visible !== "") ?
+                                            ( visible === "1" || visible === "true" ) : true,
+                                        displayField: displayField,
+                                        noSubsets: (noSubsets !== null) ?
+                                                (noSubsets === "1" || noSubsets === "true" ) :
+                                                (parent.noSubsets || false),
+                                        fixedWidth: (fixedWidth != null) ?
+                                                parseInt(fixedWidth) : (parent.fixedWidth || 0),
+                                        fixedHeight: (fixedHeight != null) ?
+                                                parseInt(fixedHeight) : (parent.fixedHeight || 0),
+                                        minScale: parent.minScale,
+                                        maxScale: parent.maxScale,
+                                        attribution: parent.attribution
+                                };
             obj.nestedLayers.push(layer);
             layer.capability = capability;
             this.readChildNodes(node, layer);
-						delete layer.capability;
+                        delete layer.capability;
                 if(layer.name) {
                     var parts = layer.name.split(":"),
                         request = capability.request,
@@ -185,9 +185,9 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
             };
             obj.push(attribute);
           },
-					"SRS": function(node, obj) {
-							obj.srs[this.getChildValue(node)] = true;
-					}
+                    "SRS": function(node, obj) {
+                            obj.srs[this.getChildValue(node)] = true;
+                    }
         }, OpenLayers.Format.WMSCapabilities.v1_3.prototype.readers["wms"])
       }
     }).read(this.WMSCapabilities);
@@ -199,20 +199,20 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
       this.layerProperties[layer.name] = {
         name: layer.name,
         title: layer.title,
-				abstract: layer.abstract,
-				visible: layer.visible,
+                abstract: layer.abstract,
+                visible: layer.visible,
         opacity: 255,
         queryable: layer.queryable,
         displayField: layer.displayField,
         nrChildLayers: layer.nestedLayers.length,
-				attributes: layer.attributes,
-				srsList: layer.srs,
-				bbox: layer.llbbox
+                attributes: layer.attributes,
+                srsList: layer.srs,
+                bbox: layer.llbbox
       };
-			this.layerTitleNameMapping[layer.title] = layer.name;
-			if (layer.visible) {
-				this.initialVisibleLayers.push(layer.name);
-			}
+            this.layerTitleNameMapping[layer.title] = layer.name;
+            if (layer.visible) {
+                this.initialVisibleLayers.push(layer.name);
+            }
     }
 
     // defaults for GetCapabilities
@@ -233,7 +233,7 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
           formats: layer.formats[0],
           layers: layer.name
         },
-				this.layerParams),
+                this.layerParams),
         OpenLayers.Util.extend({
           minScale: layer.minScale,
           queryable: layer.queryable,
@@ -1150,7 +1150,7 @@ QGIS.LayerOrderPanel = Ext.extend(Ext.Panel, {
                 buttonEl.toggleClass('action-invisible');
 
                 var rec = this.store.getAt(rowIndex);
-								//set sprite of button
+                                //set sprite of button
                 this.fireEvent('layerVisibilityChange', rec.get('layer'));
               },
               scope: this
@@ -1236,10 +1236,10 @@ QGIS.LayerOrderPanel = Ext.extend(Ext.Panel, {
     this.store.insert(0, rec);
     // add opacity slider
     this.addOpacitySlider(layer);
-		//set visibility
-		if (visibleLayers.indexOf(layer) == -1) {
-			this.toggleLayerVisibility(layer);
-		}
+        //set visibility
+        if (visibleLayers.indexOf(layer) == -1) {
+            this.toggleLayerVisibility(layer);
+        }
   },
 
   clearLayers: function() {
@@ -1250,31 +1250,31 @@ QGIS.LayerOrderPanel = Ext.extend(Ext.Panel, {
     return this.store.getById(layer) != undefined;
   },
 
-	toggleLayerVisibility: function(layer) {
-			// toggle icon
-			if (this.hasLayer(layer)) {
-				var layerId = this.escapeString(layer);
-				var buttonEl = Ext.select('img.layerOptions_' + layerId).first().next();
-				buttonEl.toggleClass('action-visible');
-				buttonEl.toggleClass('action-invisible');
-			}
-	},
+    toggleLayerVisibility: function(layer) {
+            // toggle icon
+            if (this.hasLayer(layer)) {
+                var layerId = this.escapeString(layer);
+                var buttonEl = Ext.select('img.layerOptions_' + layerId).first().next();
+                buttonEl.toggleClass('action-visible');
+                buttonEl.toggleClass('action-invisible');
+            }
+    },
 
-	//return if a layer is visible (true) or not (false)
-	//TODO:
-	//maybe there is a more elegant solution to check the visibility of a layer in the layer order panel?
-	layerVisible: function(layer) {
-			var returnVal = undefined;
-			if (this.hasLayer(layer)) {
-				var layerId = this.escapeString(layer);
-				var buttonEl = Ext.select('img.layerOptions_' + layerId).first().next();
-				returnVal = true;
-				if (buttonEl.dom.className.match(/action-invisible/)) {
-					returnVal = false;
-				}
-			}
-			return returnVal;
-	},
+    //return if a layer is visible (true) or not (false)
+    //TODO:
+    //maybe there is a more elegant solution to check the visibility of a layer in the layer order panel?
+    layerVisible: function(layer) {
+            var returnVal = undefined;
+            if (this.hasLayer(layer)) {
+                var layerId = this.escapeString(layer);
+                var buttonEl = Ext.select('img.layerOptions_' + layerId).first().next();
+                returnVal = true;
+                if (buttonEl.dom.className.match(/action-invisible/)) {
+                    returnVal = false;
+                }
+            }
+            return returnVal;
+    },
 
   orderedLayers: function() {
     var layers = [];
@@ -1369,3 +1369,4 @@ Ext.override(Ext.dd.DragTracker, {
     this.fireEvent('drag', this, e);
   }
 });
+

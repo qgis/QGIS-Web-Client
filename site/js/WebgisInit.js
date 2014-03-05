@@ -548,8 +548,7 @@ function postLoading() {
 		}
 		//add listener to adapt map on panel resize (only needed because of IE)
 		MapPanelRef.on('resize', function (panel, w, h) {
-			geoExtMap.setWidth(panel.getInnerWidth());
-			geoExtMap.setHeight(panel.getInnerHeight());
+            geoExtMap.setSize(panel.getInnerWidth(),panel.getInnerHeight());
 		});
 
 		// selection from permalink

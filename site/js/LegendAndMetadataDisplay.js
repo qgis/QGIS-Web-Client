@@ -26,7 +26,7 @@ function showInteractiveLegendAndMetadata(layertitle) {
         return;
     }
 	var legendUrl =  interactiveLegendGetLegendURL + Ext.urlEncode({
-		layer: layername,
+		layer: layername
 	});
 	legendMetaTabPanel = Ext.getCmp('legendMetaTabPanel');
 	
