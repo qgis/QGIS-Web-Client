@@ -4,9 +4,9 @@
     <mapcanvas>
         <units>meters</units>
         <extent>
-            <xmin>-28711512.9774462953209877</xmin>
+            <xmin>-29084730.82826505601406097</xmin>
             <ymin>-20577256.13247221708297729</ymin>
-            <xmax>28710724.50901079922914505</xmax>
+            <xmax>29083942.35982955992221832</xmax>
             <ymax>19391643.38112752139568329</ymax>
         </extent>
         <projections>1</projections>
@@ -23,7 +23,7 @@
             </spatialrefsys>
         </destinationsrs>
     </mapcanvas>
-    <legend updateDrawingOrder="true" activeLayer="ne_110m_land20131111112024526">
+    <legend updateDrawingOrder="true" activeLayer="ne_110m_rivers_lake_centerlines20121113085601105">
         <legendlayer drawingOrder="0" open="false" checked="Qt::Unchecked" name="Geographic Features" showFeatureCount="0">
             <filegroup open="false" hidden="false">
                 <legendlayerfile isInOverview="0" layerid="ne_110m_geography_regions_elevation_points20121113085601074" visible="0"/>
@@ -82,7 +82,7 @@
                         </layer>
                     </symbol>
                 </overviewFrame>
-                <Extent ymin="323289" xmin="-2.39031e+06" ymax="8.52329e+06" xmax="1.11597e+07"/>
+                <Extent ymin="323289" xmin="-2.39031e+06" ymax="8.5233e+06" xmax="1.11597e+07"/>
                 <LayerSet/>
                 <Grid gridStyle="0" crossLength="3" intervalX="5e+06" offsetX="0" intervalY="5e+06" offsetY="0" gridFrameStyle="0" gridFrameWidth="2" gridBlendMode="0" show="1">
                     <symbol alpha="1" type="line" name="">
@@ -1130,7 +1130,7 @@
             <excludeAttributesWFS/>
             <attributeactions/>
         </maplayer>
-        <maplayer minimumScale="0" maximumScale="1e+08" minLabelScale="1" maxLabelScale="1e+08" geometry="Line" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
+        <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" minLabelScale="1" maxLabelScale="1e+08" geometry="Line" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
             <id>ne_110m_rivers_lake_centerlines20121113085601105</id>
             <datasource>dbname='../data/naturalearth_110m_physical.sqlite' table="ne_110m_rivers_lake_centerlines" (geom) sql=</datasource>
             <title></title>
@@ -1179,9 +1179,13 @@
                 <property key="labeling" value="pal"/>
                 <property key="labeling/addDirectionSymbol" value="false"/>
                 <property key="labeling/angleOffset" value="0"/>
+                <property key="labeling/blendMode" value="0"/>
+                <property key="labeling/bufferBlendMode" value="0"/>
+                <property key="labeling/bufferColorA" value="255"/>
                 <property key="labeling/bufferColorB" value="255"/>
                 <property key="labeling/bufferColorG" value="255"/>
                 <property key="labeling/bufferColorR" value="255"/>
+                <property key="labeling/bufferDraw" value="true"/>
                 <property key="labeling/bufferJoinStyle" value="64"/>
                 <property key="labeling/bufferNoFill" value="false"/>
                 <property key="labeling/bufferSize" value="1"/>
@@ -1194,6 +1198,7 @@
                 <property key="labeling/distInMapUnits" value="false"/>
                 <property key="labeling/enabled" value="false"/>
                 <property key="labeling/fieldName" value=""/>
+                <property key="labeling/fontBold" value="false"/>
                 <property key="labeling/fontCapitals" value="0"/>
                 <property key="labeling/fontFamily" value="Sans Serif"/>
                 <property key="labeling/fontItalic" value="false"/>
@@ -1211,20 +1216,74 @@
                 <property key="labeling/isExpression" value="false"/>
                 <property key="labeling/labelOffsetInMapUnits" value="true"/>
                 <property key="labeling/labelPerPart" value="false"/>
+                <property key="labeling/leftDirectionSymbol" value="&lt;"/>
+                <property key="labeling/limitNumLabels" value="false"/>
+                <property key="labeling/maxCurvedCharAngleIn" value="20"/>
+                <property key="labeling/maxCurvedCharAngleOut" value="-20"/>
+                <property key="labeling/maxNumLabels" value="2000"/>
                 <property key="labeling/mergeLines" value="false"/>
                 <property key="labeling/minFeatureSize" value="0"/>
                 <property key="labeling/multilineAlign" value="0"/>
                 <property key="labeling/multilineHeight" value="1"/>
                 <property key="labeling/namedStyle" value="Normal"/>
                 <property key="labeling/obstacle" value="true"/>
+                <property key="labeling/placeDirectionSymbol" value="0"/>
                 <property key="labeling/placement" value="2"/>
                 <property key="labeling/placementFlags" value="10"/>
-                <property key="labeling/plussign" value="true"/>
+                <property key="labeling/plussign" value="false"/>
                 <property key="labeling/preserveRotation" value="true"/>
                 <property key="labeling/previewBkgrdColor" value="#ffffff"/>
                 <property key="labeling/priority" value="5"/>
-                <property key="labeling/scaleMax" value="0"/>
-                <property key="labeling/scaleMin" value="0"/>
+                <property key="labeling/quadOffset" value="4"/>
+                <property key="labeling/reverseDirectionSymbol" value="false"/>
+                <property key="labeling/rightDirectionSymbol" value=">"/>
+                <property key="labeling/scaleMax" value="10000000"/>
+                <property key="labeling/scaleMin" value="1"/>
+                <property key="labeling/scaleVisibility" value="false"/>
+                <property key="labeling/shadowBlendMode" value="6"/>
+                <property key="labeling/shadowColorB" value="0"/>
+                <property key="labeling/shadowColorG" value="0"/>
+                <property key="labeling/shadowColorR" value="0"/>
+                <property key="labeling/shadowDraw" value="false"/>
+                <property key="labeling/shadowOffsetAngle" value="135"/>
+                <property key="labeling/shadowOffsetDist" value="1"/>
+                <property key="labeling/shadowOffsetGlobal" value="true"/>
+                <property key="labeling/shadowOffsetUnits" value="1"/>
+                <property key="labeling/shadowRadius" value="1.5"/>
+                <property key="labeling/shadowRadiusAlphaOnly" value="false"/>
+                <property key="labeling/shadowRadiusUnits" value="1"/>
+                <property key="labeling/shadowScale" value="100"/>
+                <property key="labeling/shadowTransparency" value="30"/>
+                <property key="labeling/shadowUnder" value="0"/>
+                <property key="labeling/shapeBlendMode" value="0"/>
+                <property key="labeling/shapeBorderColorA" value="255"/>
+                <property key="labeling/shapeBorderColorB" value="128"/>
+                <property key="labeling/shapeBorderColorG" value="128"/>
+                <property key="labeling/shapeBorderColorR" value="128"/>
+                <property key="labeling/shapeBorderWidth" value="0"/>
+                <property key="labeling/shapeBorderWidthUnits" value="1"/>
+                <property key="labeling/shapeDraw" value="false"/>
+                <property key="labeling/shapeFillColorA" value="255"/>
+                <property key="labeling/shapeFillColorB" value="255"/>
+                <property key="labeling/shapeFillColorG" value="255"/>
+                <property key="labeling/shapeFillColorR" value="255"/>
+                <property key="labeling/shapeJoinStyle" value="64"/>
+                <property key="labeling/shapeOffsetUnits" value="1"/>
+                <property key="labeling/shapeOffsetX" value="0"/>
+                <property key="labeling/shapeOffsetY" value="0"/>
+                <property key="labeling/shapeRadiiUnits" value="1"/>
+                <property key="labeling/shapeRadiiX" value="0"/>
+                <property key="labeling/shapeRadiiY" value="0"/>
+                <property key="labeling/shapeRotation" value="0"/>
+                <property key="labeling/shapeRotationType" value="0"/>
+                <property key="labeling/shapeSVGFile" value=""/>
+                <property key="labeling/shapeSizeType" value="0"/>
+                <property key="labeling/shapeSizeUnits" value="1"/>
+                <property key="labeling/shapeSizeX" value="0"/>
+                <property key="labeling/shapeSizeY" value="0"/>
+                <property key="labeling/shapeTransparency" value="0"/>
+                <property key="labeling/shapeType" value="0"/>
+                <property key="labeling/textColorA" value="255"/>
                 <property key="labeling/textColorB" value="0"/>
                 <property key="labeling/textColorG" value="0"/>
                 <property key="labeling/textColorR" value="0"/>
@@ -1262,17 +1321,30 @@
                 <selectedonly on=""/>
             </labelattributes>
             <edittypes>
-                <edittype labelontop="0" editable="1" type="0" name="featurecla"/>
-                <edittype labelontop="0" editable="1" type="0" name="id"/>
-                <edittype labelontop="0" editable="1" type="0" name="name"/>
-                <edittype labelontop="0" editable="1" type="0" name="name_alt"/>
-                <edittype labelontop="0" editable="1" type="0" name="scalerank"/>
+                <edittype labelontop="1" editable="1" type="11" name="featurecla"/>
+                <edittype labelontop="1" editable="1" type="0" name="id"/>
+                <edittype labelontop="1" editable="1" type="0" name="name"/>
+                <edittype labelontop="1" editable="1" type="0" name="name_alt"/>
+                <edittype labelontop="1" editable="0" type="0" name="pk"/>
+                <edittype labelontop="1" editable="0" type="0" name="scalerank"/>
+                <edittype widgetWidth="0" labelontop="1" editable="1" type="18" name="webpage" widgetHeight="0"/>
             </edittypes>
             <editform>.</editform>
             <editforminit></editforminit>
             <annotationform>.</annotationform>
             <editorlayout>generatedlayout</editorlayout>
-            <excludeAttributesWMS/>
+            <aliases>
+                <alias field="name" index="4" name=""/>
+                <alias field="name_alt" index="5" name="Name old"/>
+                <alias field="pk" index="0" name=""/>
+                <alias field="webpage" index="6" name="Webpage"/>
+            </aliases>
+            <excludeAttributesWMS>
+                <attribute>featurecla</attribute>
+                <attribute>scalerank</attribute>
+                <attribute>pk</attribute>
+                <attribute>id</attribute>
+            </excludeAttributesWMS>
             <excludeAttributesWFS/>
             <attributeactions/>
         </maplayer>
@@ -1309,8 +1381,8 @@
             <Automatic type="bool">true</Automatic>
             <DegreeFormat type="QString">D</DegreeFormat>
         </PositionPrecision>
-        <WMSServiceCapabilities type="bool">true</WMSServiceCapabilities>
         <WMSContactPhone type="QString"></WMSContactPhone>
+        <WMSServiceCapabilities type="bool">true</WMSServiceCapabilities>
         <WMSServiceAbstract type="QString">Data Source: Natural Earth Data: 
 http://www.naturalearthdata.com/</WMSServiceAbstract>
         <WMSAddWktGeometry type="bool">true</WMSAddWktGeometry>

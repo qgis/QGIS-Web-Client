@@ -141,17 +141,17 @@ if(count($sql)){
     while ($row = $stmt->fetch()) {
         if($lastSearchCategory != $row['search_category']){
             $row_data[] = array(
-                "displaytext" => $row['search_category'],"searchtable" => null, "bbox" => null
+                "displaytext" => $row['search_category'],"searchtable" => null, "bbox" => null, "showlayer" => null
             );
         }
         $row_data[] = array(
-            "displaytext" => $row['displaytext'],"searchtable" => $row['searchtable'],"bbox" => $row['bbox']
+            "displaytext" => $row['displaytext'],"searchtable" => $row['searchtable'],"bbox" => $row['bbox'], "showlayer" => $row['searchtable']
         );
         $lastSearchCategory = $row['search_category'];
     }
     $resultString = '{"results": '.json_encode($row_data).'}';
     $resultString = str_replace('"bbox":"[','"bbox": [', $resultString);
-    $resultString = str_replace(']"}',']}', $resultString);
+    $resultString = str_replace(']",','],', $resultString);
 
     #we need to add the name of the callback function if the parameter was specified
     if ($cb = @$_REQUEST["cb"]){

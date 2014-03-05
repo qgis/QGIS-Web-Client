@@ -28,6 +28,11 @@ var useGeoNamesSearchBox = false;
 var searchBoxQueryURL = null; // "/wsgi/search.wsgi?query=";
 var searchBoxGetGeomURL = null; // "/wsgi/getSearchGeom.wsgi";
 
+// If set, will make sure that the layer for the search results is
+// visible. This feature will work out of the box if PHP scripts are
+// used.
+var autoActivateSearchGeometryLayer = true;
+
 // Used to dynamically determine the project.
 var project_map = Ext.urlDecode(window.location.search.substring(1)).map;
 
@@ -53,8 +58,9 @@ var suppressEmptyValues = true;
 var suppressInfoGeometry = true;
 // do show field names in click-popup during object identification
 var showFieldNamesInClickPopup = true;
-// do show the layer title in the hover popup
-var showHoverLayerTitle = true;
+// show or hide the layer title in the feature info popup
+// can be overwritten on a per-project basis in GISProjectListing.js
+var showFeatureInfoLayerTitle = true;
 // max-width and max-height of the feature-info popup can be controlled in site/css/popup.css
 
 //config for QGIS.SearchPanel
@@ -115,7 +121,7 @@ var mapSearchPanelConfigs = {
 mapSearchPanelConfigs[project_map] = [simpleWmsSearch, urlRewriteSearch];
 
 //templates to define tooltips for a layer, to be shown on hover identify. The layer fields must be wrapped inside <%%> special tags.
-//if a layers field is found with the name "tooltip" its content will have precedence over this configuration 
+//if a layers field is found with the name "tooltip" its content will have precedence over this configuration
 var tooltipTemplates = {
 	'Country':{
 		template: "Look for the country on Google Search: <a href='http://www.google.it/#output=search&q=<%name%>' target='_blank'><%name%></a>"
@@ -208,7 +214,7 @@ var LayerOptions = {
   yx: {"EPSG:900913": false}
   // If your projection is known to have an inverse axis order in WMS 1.3 compared to WMS 1.1 enter true for yx.
   // For EPSG:900913 OpenLayers should know it by default but because of a bug in OL 2.12 we enter it here.
-	
+
 };
 
 //overview map settings - do not change variable names!
@@ -227,7 +233,7 @@ var overviewLayer = new OpenLayers.Layer.WMS("Overview-Map",
   {buffer:0,singleTile:true,transitionEffect:"resize"});
 
 // prevent the user from choosing a print resolution
-// if fixedPrintResolution = null, the user is allowed to choose the print resolution. 
+// if fixedPrintResolution = null, the user is allowed to choose the print resolution.
 var fixedPrintResolution = null; // for a fixed resolution of 200dpi fill 200
 
 //print options - scales and dpi
