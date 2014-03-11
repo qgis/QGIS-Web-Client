@@ -63,7 +63,11 @@ var showFieldNamesInClickPopup = true;
 var showFeatureInfoLayerTitle = true;
 // max-width and max-height of the feature-info popup can be controlled in site/css/popup.css
 
+
 //config for QGIS.SearchPanel
+//Number of results: FEATURE_COUNT in WMS request
+var simpleWmsSearchMaxResults = 10;
+
 var simpleWmsSearch = {
   title: "Search continent",
   query: 'simpleWmsSearch',
