@@ -6,6 +6,11 @@
 
 
 DB_CONN_STRING="host='yourhost' dbname='yourdb' port='5432' user='yourusername' password='yourpassword'"
+# make themes choosable in search combo
+THEMES_CHOOSABLE = True
+# zoom to this bbox if a layer is chosen in the search combo [minx, miny, maxx, maxy]
+# set to None if extent should not be changed
+MAX_BBOX = None
 
 import re #regular expression support
 import string #string manipulation support
@@ -113,14 +118,21 @@ def application(environ, start_response):
 
     return [errorText]
 
+  if THEMES_CHOOSABLE:
+      selectable = "1"
+      maxBbox = MAX_BBOX
+  else:
+      selectable = "0"
+      maxBbox = None
+      
   rowData = [];
   rows = cur.fetchall()
   lastSearchCategory = '';
   for row in rows:
     if lastSearchCategory != row['search_category']:
-      rowData.append({"displaytext":row['searchcat_trimmed'],"searchtable":None,"bbox":None,"showlayer":None}})
+      rowData.append({"displaytext":row['searchcat_trimmed'],"searchtable":None,"bbox":maxBbox,"showlayer":row['showlayer'],"selectable":selectable})
       lastSearchCategory = row['search_category']
-    rowData.append({"displaytext":row['displaytext'],"searchtable":row['searchtable'],"bbox":row['bbox'],"showlayer":row['showlayer']})
+    rowData.append({"displaytext":row['displaytext'],"searchtable":row['searchtable'],"bbox":row['bbox'],"showlayer":row['showlayer'],"selectable":"1"})
 
   resultString = '{"results": '+json.dumps(rowData)+'}'
   resultString = string.replace(resultString,'"bbox": "[','"bbox": [')

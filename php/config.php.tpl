@@ -35,6 +35,11 @@ $searchlayers_config = array(
 define('DEFAULT_SEARCH_LAYERS', 'Country');
 // Limit search results
 define('SEARCH_LIMIT', 100);
+// make themes choosable in search combo
+$themes_choosable = false);
+// zoom to this bbox if a layer is chosen in the search combo [minx, miny, maxx, maxy]
+// set to null if extent should not be changed
+$max_bbox = null;
 
 
 /**************************************
