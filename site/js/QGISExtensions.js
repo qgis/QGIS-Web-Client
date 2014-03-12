@@ -789,7 +789,7 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
           'REQUEST': 'GetFeatureInfo',
           'LAYERS': this.queryLayer,
           'QUERY_LAYERS': this.queryLayer,
-          'FEATURE_COUNT': 10,
+          'FEATURE_COUNT': (typeof simpleWmsSearchMaxResults != 'undefined' ? simpleWmsSearchMaxResults : 10),
           'INFO_FORMAT': 'text/xml',
           'SRS': authid,
           'FILTER': filter

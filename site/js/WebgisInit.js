@@ -843,12 +843,16 @@ function postLoading() {
                 if(typeof(mapSearchPanelOutputRegion) == 'undefined'){
                    mapSearchPanelOutputRegion = 'default';
                 }
+                // These option are for different output modes
+                var collapsible = true;
+                var autoHeight = true;
                 switch(mapSearchPanelOutputRegion){
                     case 'right':
                         targetComponent = Ext.getCmp('RightPanel');
                     break;
                     case 'bottom':
                         targetComponent = Ext.getCmp('BottomPanel');
+                        collapsible = false; // No collapsible in bottom
                     break;
                     case 'popup':
                         if(typeof(Ext.getCmp('SearchResultsPopUp')) == 'undefined'){
@@ -862,6 +866,8 @@ function postLoading() {
                                 closeAction: 'hide'
                             });
                         }
+                        autoHeight = false; // No scrollbars if true
+                        collapsible = false; // No collapsible in popup
                         targetComponent = Ext.getCmp('SearchResultsPopUp');
                     break;
                     case 'default':
@@ -881,11 +887,11 @@ function postLoading() {
                 searchPanelInstance.resultsGrid = new Ext.grid.GridPanel({
                   id: 'SearchPanelResultsGrid',
                   title: searchResultString[lang],
-                  collapsible: true,
+                  collapsible: collapsible,
                   collapsed: false,
                   store: searchPanelInstance.store,
                   columns: searchPanelInstance.gridColumns,
-                  autoHeight: true,
+                  autoHeight: autoHeight, // No vert. scrollbars in popup if true!!
                   viewConfig: {
                     forceFit: true
                   }
