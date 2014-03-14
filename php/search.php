@@ -20,6 +20,13 @@ $query = trim(@$_REQUEST['query']);
 // Get project
 $project = get_project($map);
 
+if ($themes_choosable) {
+    $selectable = "1";
+} else {
+    $selectable = "0";
+    $max_bbox = null;
+}
+
 // WARNING: we are using layer names instead of table names, the
 // parameter name "searchtables" was not changed.
 // Search layers
@@ -141,11 +148,11 @@ if(count($sql)){
     while ($row = $stmt->fetch()) {
         if($lastSearchCategory != $row['search_category']){
             $row_data[] = array(
-                "displaytext" => $row['search_category'],"searchtable" => null, "bbox" => null, "showlayer" => null
+                "displaytext" => $row['search_category'],"searchtable" => null, "bbox" => $max_bbox, "showlayer" => null, "selectable" => $selectable
             );
         }
         $row_data[] = array(
-            "displaytext" => $row['displaytext'],"searchtable" => $row['searchtable'],"bbox" => $row['bbox'], "showlayer" => $row['searchtable']
+            "displaytext" => $row['displaytext'],"searchtable" => $row['searchtable'],"bbox" => $row['bbox'], "showlayer" => $row['searchtable'], "selectable" => "1"
         );
         $lastSearchCategory = $row['search_category'];
     }
