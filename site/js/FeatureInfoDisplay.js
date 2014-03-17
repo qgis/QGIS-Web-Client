@@ -65,6 +65,8 @@ function showFeatureInfo(evt) {
                     true,  // closeBox
                     onClickPopupClosed // closeBoxCallBackFunction
                     );
+                // For the displacement problem
+                clickPopup.panMapIfOutOfView = Ext.isGecko;
                 clickPopup.autoSize = true;
                 clickPopup.events.fallThrough = false;
                 map.addPopup(clickPopup); //*/
@@ -284,7 +286,7 @@ function parseFIResult(node) {
 		var showFILayerTitle = showFeatureInfoLayerTitle;
 		if (mapThemeSwitcher) {
 			showFILayerTitle = mapThemeSwitcher.activeProjectData.showFeatureInfoLayerTitle;
-		}		
+		}
         if (node.hasChildNodes() && node.nodeName == "Layer") {
             var hasAttributes = false;
             var rasterData = false;
