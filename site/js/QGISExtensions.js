@@ -459,7 +459,7 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
         searchtables: this.getSearchTables()
       },
       root: 'results',
-      fields: ['searchtable', 'displaytext', 'bbox', 'showlayer']
+      fields: ['searchtable', 'displaytext', 'bbox', 'showlayer', 'selectable']
     });
     this.tpl = new Ext.XTemplate(
       '<tpl for="."><div class="x-combo-list-item {service}">',
@@ -488,9 +488,8 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
   },
 
   beforeselectHandler: function(combo,record,index) {
-    if (index > 0) { //user made a selection in combo
+    if (record.get('selectable') == "1") {
       this.collapse();
-      // if index == 0: user pressed enter while entering search term
     }
   },
 
@@ -522,7 +521,7 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
 
   onSelect: function(record, index){
     if(this.fireEvent('beforeselect', this, record, index) !== false){
-      if (record.get('searchtable') != null) {
+      if (record.get('selectable') == "1") {
         this.setValue(record.get('displaytext'));
         this.fireEvent('select', this, record, index);
       }
@@ -544,31 +543,35 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
    * @param int index
    */
   recordSelected: function(combo, record, index) {
-    var extent = OpenLayers.Bounds.fromArray(record.get('bbox'), this.hasReverseAxisOrder);
-    //make sure that map extent is not too small for point data
-    //need to improve this for units other than "m", e.g. degrees
-    var extWidth = extent.getWidth();
-    var extHeight = extent.getHeight();
-    if (extWidth < 50) {
-      centerX = extent.left + extWidth * 0.5;
-      extent.left = centerX - 25;
-      extent.right = centerX + 25;
+    var bbox = record.get('bbox');
+    
+    if (bbox != null) {
+        var extent = OpenLayers.Bounds.fromArray(bbox, this.hasReverseAxisOrder);
+        //make sure that map extent is not too small for point data
+        //need to improve this for units other than "m", e.g. degrees
+        var extWidth = extent.getWidth();
+        var extHeight = extent.getHeight();
+        if (extWidth < 50) {
+          centerX = extent.left + extWidth * 0.5;
+          extent.left = centerX - 25;
+          extent.right = centerX + 25;
+        }
+        else {
+          extent.left -= extWidth * 0.05;
+          extent.right += extWidth * 0.05;
+        }
+        if (extHeight < 50) {
+          centerY = extent.bottom + extHeight * 0.5;
+          extent.bottom = centerY - 25;
+          extent.top = centerY + 25;
+        }
+        else {
+          extent.bottom -= extHeight = 0.05;
+          extent.top += extHeight = 0.05;
+        }
+        //need to check if extent is too small
+        this.map.zoomToExtent(extent);
     }
-    else {
-      extent.left -= extWidth * 0.05;
-      extent.right += extWidth * 0.05;
-    }
-    if (extHeight < 50) {
-      centerY = extent.bottom + extHeight * 0.5;
-      extent.bottom = centerY - 25;
-      extent.top = centerY + 25;
-    }
-    else {
-      extent.bottom -= extHeight = 0.05;
-      extent.top += extHeight = 0.05;
-    }
-    //need to check if extent is too small
-    this.map.zoomToExtent(extent);
     if (this.highlightLayer) {
       //network request to get real wkt geometry of search object
       Ext.Ajax.request({
