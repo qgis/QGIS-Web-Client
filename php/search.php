@@ -4,8 +4,8 @@
 
     Generic search: just like search.wsgi
 
-    @copyright: 2013 by Alessandro Pasotti ItOpen (http://www.itopen.it)
-        <apasotti@gmail.com>
+    @copyright: 2013-2014 by Alessandro Pasotti -
+        ItOpen (http://www.itopen.it) <apasotti@gmail.com>
     @license: GNU AGPL, see COPYING for details.
 */
 
@@ -20,8 +20,9 @@ $query = trim(@$_REQUEST['query']);
 // Get project
 $project = get_project($map);
 
-if ($themes_choosable) {
+if (defined('THEMES_CHOOSABLE') && THEMES_CHOOSABLE) {
     $selectable = "1";
+    $max_bbox = defined('MAX_BBOX') ? MAX_BBOX : null;
 } else {
     $selectable = "0";
     $max_bbox = null;
@@ -63,7 +64,7 @@ function build_postgis_search_query($dbtable, $search_column, $geom_column, $lay
     }
     #for each querystring
     for($j = 0; $j < count($querystrings); $j++){
-      
+
       $sql .= "$search_column ILIKE '%" . $querystrings[$j] . "%'";
 
       if ($j < count($querystrings) - 1){
@@ -91,7 +92,7 @@ function build_spatialite_search_query($dbtable, $search_column, $geom_column, $
     }
     #for each querystring
     for($j = 0; $j < count($querystrings); $j++){
-      
+
       $sql .= "$search_column LIKE '%" . $querystrings[$j] . "%'";
 
       if ($j < count($querystrings) - 1){
@@ -137,7 +138,6 @@ if(count($sql)){
         $sql .= ' LIMIT ' . SEARCH_LIMIT;
     }
     $sql .= ';';
-    //die($sql);
     // Get connection from the last layer
     $dbh = get_connection($layer, $project, $map);
     $stmt = $dbh->prepare($sql);
