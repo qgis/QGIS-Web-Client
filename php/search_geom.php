@@ -4,7 +4,8 @@
 
     Get search geometry
 
-    @copyright: 2013 by Alessandro Pasotti - ItOpen (http://www.itopen.it) <apasotti@gmail.com>
+    @copyright: 2013-2014 by Alessandro Pasotti -
+        ItOpen (http://www.itopen.it) <apasotti@gmail.com>
     @license: GNU AGPL, see COPYING for details.
 */
 
