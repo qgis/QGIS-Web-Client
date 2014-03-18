@@ -52,6 +52,8 @@ if (enableBingCommercialMaps || enableGoogleCommercialMaps) {
 	enableBGMaps = true;
 }
 
+// media base URL to match media links in layer attributes
+var mediaurl = '';
 // do not show fields in ObjectIdentification results that have null values
 var suppressEmptyValues = true;
 // hide geometry in ObjectIdentification results (should be only false if there is a good reason to do so)
