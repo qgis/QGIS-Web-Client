@@ -44,12 +44,22 @@ var project_map = Ext.urlDecode(window.location.search.substring(1)).map;
 //use a URL shortener for your permalink function
 var permaLinkURLShortener = null; // "/wsgi/createShortPermalink.wsgi";
 
-// enable to use commercial Google and Bing layers (also add BingApiKey in WebgisInit.js)
+// enable to use commercial Google and Bing layers (also add BingApiKey)
 var enableBingCommercialMaps = false;
+
+if (enableBingCommercialMaps) {
+    var bingApiKey = "add Bing api key here"; // http://msdn.microsoft.com/en-us/library/ff428642.aspx
+}
 var enableGoogleCommercialMaps = true;
 var enableBGMaps = false;
 if (enableBingCommercialMaps || enableGoogleCommercialMaps) {
 	enableBGMaps = true;
+}
+if (enableBGMaps) {
+	// enter the index of the backgroundLayer to be visible after loading, 
+	// set to a value < 0 to not show any backgroundLayer
+	// this setting is overridden if a value for url-parameter visibleBackgroundLayer is passed
+	var initialBGMap = 0;
 }
 
 // media base URL to match media links in layer attributes

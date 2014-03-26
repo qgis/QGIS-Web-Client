@@ -476,6 +476,20 @@ layerTreeTitleString["hu"] = "Térkép rétegei";
 layerTreeTitleString["ro"] = "Straturi hartă";
 layerTreeTitleString["ru"] = "Слои карты";
 
+
+//title of background layers
+var backgroundLayerTitleString = new Array();
+backgroundLayerTitleString["en"] = "Background Layers";
+backgroundLayerTitleString["es"] = "Background Layers";
+backgroundLayerTitleString["de"] = "Hintergrundebenen";
+backgroundLayerTitleString["fr"] = "Background Layers";
+backgroundLayerTitleString["it"] = "Background Layers";
+backgroundLayerTitleString["pt_PT"] = "Background Layers";
+backgroundLayerTitleString["uk"] = "Background Layers";
+backgroundLayerTitleString["hu"] = "Background Layers";
+backgroundLayerTitleString["ro"] = "Background Layers";
+backgroundLayerTitleString["ru"] = "Background Layers";
+
 //title of layer order panel
 var layerOrderPanelTitleString = new Array();
 layerOrderPanelTitleString["en"] = "Layer order";

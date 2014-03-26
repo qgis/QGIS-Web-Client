@@ -1,10 +1,10 @@
 Quantum GIS (QGIS) Web Client
 Installation  and Configuration Guide
-Friday February 28, 2014
+Friday March 28, 2014
 
 
-Last Updated: Friday February 28, 2014
-Last Change : Friday February 28, 2014
+Last Updated: Friday March 28, 2014
+Last Change : Friday March 28, 2014
 
 
   1. For the terminally lazy
@@ -125,6 +125,12 @@ that must be present in the file 'site/js/Translations.js'.
   visibleLayers
 
 A comma-separated list of layers that should be set visible on the project start.
+
+  visibleBackgroundLayer
+
+Optionally the name of the background layer that should be set visible on project start. You must have background layers enabled in
+GlobalOptions.js by setting enableBGMaps to true and a background layer must exist with this name. If either 
+of these prerequisites is not met nothing happens and the parameter is simply ignored.
 
   format
 

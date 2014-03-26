@@ -16,8 +16,8 @@ var selectedQueryableLayers; //later an array of all visible (selected and query
 var allLayers; //later an array containing all leaf layers
 var thematicLayer, highlightLayer, featureInfoHighlightLayer;
 var googleSatelliteLayer;
+var googleMapLayer;
 var bingSatelliteLayer;
-// var bingApiKey = "add Bing api key here"; // http://msdn.microsoft.com/en-us/library/ff428642.aspx
 var highLightGeometry = new Array();
 var WMSGetFInfo, WMSGetFInfoHover;
 var lastLayer, lastFeature;
@@ -56,6 +56,7 @@ var legendTab; //a reference to the Ext tab holding the legend graphic
 var metadataTab; //a reference to the Ext tab holding the metadata information
 var measurePopup;
 var baseLayers = [];
+var currentlyVisibleBaseLayer = null;
 var layerImageFormats = layerImageFormats || []; // use config from GlobalOptions if any
 
 // Call custom Init in Customizations.js
@@ -114,6 +115,11 @@ Ext.onReady(function () {
 			{type: google.maps.MapTypeId.SATELLITE, numZoomLevels: 22, isBaseLayer: true}
 		);
 		baseLayers.push(googleSatelliteLayer);
+		googleMapLayer = new OpenLayers.Layer.Google(
+			"Google Map",
+			{type: google.maps.MapTypeId.MAP, numZoomLevels: 22, isBaseLayer: true}
+		);
+		baseLayers.push(googleMapLayer);
 	}
 	if (enableBingCommercialMaps) {
 		bingSatelliteLayer = new OpenLayers.Layer.Bing({
@@ -1064,6 +1070,36 @@ function postLoading() {
 				'QUERY_LAYERS': selectedActiveQueryableLayers.join(',')
 			};
 		}
+		// switch backgroundLayers
+		if (enableBGMaps) {
+			var checkedBackgroundNodes = [];
+			var newVisibleBaseLayer = null;
+			layerTree.root.lastChild.cascade(
+			function (n) {
+				if (n.isLeaf() && n.attributes.checked) {
+					checkedBackgroundNodes.push(n);
+				}
+			});
+			
+			if (checkedBackgroundNodes.length == 1) {
+				newVisibleBaseLayer = checkedBackgroundNodes[0].layer.name;
+			} else if (checkedBackgroundNodes.length == 2) {
+				layerTree.removeListener("leafschange",leafsChangeFunction);
+				layerTree.root.lastChild.cascade(
+				function (n) {
+					if (n.isLeaf() && n.attributes.checked) {
+						if (n.layer.name == currentlyVisibleBaseLayer) {
+							n.unselect();
+							n.layer.setVisibility(false);
+						} else {
+							newVisibleBaseLayer = n.layer.name;
+						}
+					}
+				});
+				layerTree.addListener('leafschange',leafsChangeFunction);
+			}
+			currentlyVisibleBaseLayer = newVisibleBaseLayer;
+		}
 	}
 
 	if (initialLoadDone) {
@@ -1077,28 +1113,34 @@ function postLoading() {
 		var BgLayerList = new Ext.tree.TreeNode({
 			leaf: false,
 			expanded: true,
-			text: "Background Layers"
+			text: backgroundLayerTitleString[lang]
 		});
 
 		layerTree.root.appendChild(BgLayerList);
+		
+		if (visibleBackgroundLayer != null) {
+			initialBGMap = -1; 
+			// do not show any baseLayer if passed visibleBackgroundLayer is not found
+			for (var i = 0; i < baseLayers.length; i++) {
+				if (baseLayers[i].name == visibleBackgroundLayer) {
+					initialBGMap = i;
+					break;
+				}
+			}
+		}
 
-		if (enableBGMaps && baseLayers.length > 0) {
-			//todo use a more generic way to implement
-			var bgnode0 = new GeoExt.tree.LayerNode({
-				layer: baseLayers[0],
+		for (var i = 0; i < baseLayers.length; i++) {
+			baseLayers[i].setVisibility(i == initialBGMap);
+			var bgnode = new GeoExt.tree.LayerNode({
+				layer: baseLayers[i],
 				leaf: true,
-				checked: true,
+				checked: (i == initialBGMap),
 				uiProvider: Ext.tree.TriStateNodeUI
 			});
-			var bgnode1 = new GeoExt.tree.LayerNode({
-				layer: baseLayers[1],
-				leaf: true,
-				checked: false,
-				uiProvider: Ext.tree.TriStateNodeUI
-			});
-
-			BgLayerList.appendChild(bgnode0);
-			BgLayerList.appendChild(bgnode1);
+			if (i == initialBGMap) {
+				currentlyVisibleBaseLayer = baseLayers[i].name;
+			}
+			BgLayerList.appendChild(bgnode);
 		}
 	}
 

@@ -13,13 +13,13 @@
 <DIV CLASS="header" ID="header">
 <H1>Quantum GIS (QGIS) Web Client</H1>
 <H2>Installation  and Configuration Guide</H2>
-<H3>Friday February 28, 2014</H3>
+<H3>Friday March 28, 2014</H3>
 </DIV>
 
 <DIV CLASS="body" ID="body">
 <P>
-Last Updated: Friday February 28, 2014
-Last Change : Friday February 28, 2014
+Last Updated: Friday March 28, 2014
+Last Change : Friday March 28, 2014
 </P>
 <DIV CLASS="toc">
 
@@ -198,6 +198,16 @@ visibleLayers
 
 <P>
 A comma-separated list of layers that should be set visible on the project start.
+</P>
+
+<div class="code"><PRE>
+visibleBackgroundLayer
+</PRE></div>
+
+<P>
+Optionally the name of the background layer that should be set visible on project start. You must have background layers enabled in
+GlobalOptions.js by setting enableBGMaps to true and a background layer must exist with this name. If either 
+of these prerequisites is not met nothing happens and the parameter is simply ignored.
 </P>
 
 <div class="code"><PRE>
