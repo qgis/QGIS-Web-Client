@@ -52,6 +52,10 @@ function customPostLoading() {
 //    Ext.get("panel_header").addClass('sogis-header').insertHtml('beforeEnd', '<div style="float: right; width: 250px;">hello world</div>');
 }
 
+// called when starting print
+function customBeforePrint() {
+    // do something. e.g. rearrange your layers
+}
 
 // new buttons for the toolbar
 var customButtons = [ 
