@@ -40,7 +40,8 @@ var project_map = Ext.urlDecode(window.location.search.substring(1)).map;
 //var searchBoxQueryURL = '../php/search.php?map=' + project_map;
 //var searchBoxGetGeomURL = '../php/search_geom.php?map=' + project_map;
 
-
+// show the permalink button
+var enablePermalink = true;
 //use a URL shortener for your permalink function
 var permaLinkURLShortener = null; // "/wsgi/createShortPermalink.wsgi";
 

@@ -322,8 +322,12 @@ function postLoading() {
 		Ext.getCmp('measureDistance').toggleHandler = mapToolbarHandler;
 		Ext.getCmp('measureArea').toggleHandler = mapToolbarHandler;
 		Ext.getCmp('PrintMap').toggleHandler = mapToolbarHandler;
-        // Remove permaLinkURLShortener if not defined
-        if(typeof(permaLinkURLShortener) == 'undefined' || ! permaLinkURLShortener){
+        // check for undefined to not break existing installations
+        if (typeof(enablePermalink) == 'undefined') {
+            enablePermalink = true;
+        }
+        // Remove permaLinkButton as configured in GlobalOptions
+        if (!enablePermalink) {
             Ext.getCmp('SendPermalink').destroy();
         } else {
             Ext.getCmp('SendPermalink').handler = mapToolbarHandler;
