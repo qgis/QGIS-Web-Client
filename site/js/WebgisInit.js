@@ -1394,6 +1394,20 @@ function getVisibleFlatLayers(currentNode) {
 	});
 }
 
+function getVisibleBackgroundLayer() {
+    var visibleBackgroundLayer = null;
+    
+    if (enableBGMaps) {
+        layerTree.root.lastChild.cascade(function(node) {
+            if (node.isLeaf() && node.attributes.checked) {
+                visibleBackgroundLayer = node.text;
+            }
+        });
+    }
+    return visibleBackgroundLayer;
+}
+        
+        
 function uniqueLayersInLegend(origArr) {
 	var newArr = [],
 	origLen = origArr.length,
@@ -1630,6 +1644,7 @@ function createPermalink(){
 	var permalinkParams = {};
 	visibleLayers = getVisibleLayers(visibleLayers, layerTree.root.firstChild);
 	visibleLayers = uniqueLayersInLegend(visibleLayers);
+	var visibleBackgroundLayer = getVisibleBackgroundLayer();
 	var startExtentArray = geoExtMap.map.getExtent().toArray();
 	var startExtent = startExtentArray[0] + "," + startExtentArray[1] + "," + startExtentArray[2] + "," + startExtentArray[3];
 
@@ -1656,6 +1671,9 @@ function createPermalink(){
 	// extent
 	permalinkParams.startExtent = startExtent;
 
+	// visible BackgroundLayer
+	permalinkParams.visibleBackgroundLayer = visibleBackgroundLayer;
+    
 	// visible layers and layer order
 	permalinkParams.visibleLayers = visibleLayers.toString();
 
