@@ -275,7 +275,10 @@ ThemeSwitcher.prototype.changeTheme = function (dataView, index, node, evt) {
 		 if (legendMetadataWindow_active) {
 			legendMetadataWindow.close();
 		 }
-		
+
+	    //SOGIS has individual projects
+        initSOGISProjects();
+	
 		//switch off GetFeatureInfo if active
 		if (identifyToolActive) {
 			identifyToolWasActive = true;
@@ -324,9 +327,6 @@ ThemeSwitcher.prototype.changeTheme = function (dataView, index, node, evt) {
 		if (projData.searchtables) {
 			searchtables = projData.searchtables;
 		}
-        //SOGIS has individual projects
-        initSOGISProjects();
-
 		//handle max extent
 		if (projData.maxExtent) {
 			//need to check validity of maxExtent parameter

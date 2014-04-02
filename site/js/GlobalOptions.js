@@ -179,7 +179,7 @@ var authid = "EPSG:"+21781;
 
 //background transparency for the QGIS server generated layer (commercial background layers not effected)
 //set to true if you want the background to be transparent, layer image will be bigger (32 vs 24bit)
-var qgisLayerTransparency = true;
+var qgisLayerTransparency = false;
 
 // OpenLayers global options
 // see http://dev.openlayers.org/releases/OpenLayers-2.10/doc/apidocs/files/OpenLayers/Map-js.html
@@ -221,7 +221,7 @@ var OverviewMapSize = new OpenLayers.Size(200,200);
 var OverviewMapMaximized = true; // is the overview map opend or closed by default
 var overviewLayer = new OpenLayers.Layer.WMS("Uebersicht",
   "http://www.sogis1.so.ch/wms/strassenkarte",
-  {layers:"Strassenkarte",format:"image/png"},
+  {layers:"Strassenkarte",format:"image/jpeg"},
   {buffer:0,singleTile:true,transitionEffect:"resize"});
 
 // prevent the user from choosing a print resolution

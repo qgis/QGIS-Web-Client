@@ -92,7 +92,7 @@ var gis_projects = {
           "projectfile": "neophyten",
           //"format": "image/png; mode=8bit", //only active after switching, initial def in GetUrlParams.js
           //"fullColorLayers" : "Orthofoto", //obsolete
-          "visibleLayers": "2013 Pflanzenliste,Gemeindegrenzen,Grundkarte",
+          "visibleLayers": "2011 Pflanzenliste,2012 Pflanzenliste,2013 Pflanzenliste,2014 Pflanzenliste,Gemeindegrenzen,Orthofoto",
           "format": "image/png; mode=8bit",
           "fullColorLayers" : "Orthofoto",
           "updateInterval": "occasional",
@@ -165,7 +165,7 @@ var gis_projects = {
           "sogisdefaultbutton" : "sogistooltip"
     }]  
   },{
-    "name": "Amt für Landwirtschaf",
+    "name": "Amt für Landwirtschaft",
     "projects": [{
           "name": "Bienenstandorte",
           "projectpath": "",
@@ -175,7 +175,7 @@ var gis_projects = {
           "visibleLayers": "Bienenstandorte,Streptomycineinsatz,Feuerbrand Schutzobjekte,Gemeindegrenzen,Grundkarte",
           "updateInterval": "occasional",
           "searchtables": "qwebclient.search_bienenstnr",
-          "responsible": "Amt für Landwirtschaf",
+          "responsible": "Amt für Landwirtschaft",
           "tags": "Bienenstandorte",
           "switcher": true,
           "sogistooltipwidth" : "400",
