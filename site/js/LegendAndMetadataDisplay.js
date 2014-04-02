@@ -192,6 +192,12 @@ function showLegendAndMetadata(layertitle) {
 	}
 	metadataText += '</div>'
 	metadataTab.update(metadataText);
+
+    //if no metadata shall be displayed, remove tab
+    //the var showMetaDataInLegend is defined in GlobalOptions.js
+    if (! showMetaDataInLegend ){
+        legendMetaTabPanel.remove('metadataTab', true);
+    }
 	
 	//create legend image
 	legendMetaTabPanel.activate(legendTab);
@@ -232,7 +238,7 @@ function setupLegendAndMetadataWindow() {
 			}
 		}
 	});
-	legendMetaTabPanel = Ext.getCmp('legendMetaTabPanel');
-	legendTab = Ext.getCmp('legendTab');
-	metadataTab = Ext.getCmp('metadataTab');
+    legendMetaTabPanel = Ext.getCmp('legendMetaTabPanel');
+    legendTab = Ext.getCmp('legendTab');
+    metadataTab = Ext.getCmp('metadataTab');
 }

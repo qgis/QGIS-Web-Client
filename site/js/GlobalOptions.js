@@ -17,6 +17,9 @@ var useGetProjectSettings = true;
 // show the layerOrderTab in the GUI
 var showLayerOrderTab = true;
 
+// show the tab metadata in legend
+var showMetaDataInLegend = true;
+
 // use geodesic measures, i.e. not planar measures
 // this is useful if a projection with high distortion of length/area is used, eg.g. GoogleMercator
 var useGeodesicMeasurement = true;
