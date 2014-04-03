@@ -318,26 +318,28 @@ function parseFIResult(node) {
                                         hasAttributes = true;
                                     }
                                 } else {
-                                    htmlText += "\n   <tr>";
-                                    if (showFieldNamesInClickPopup) {
-                                        htmlText += "<td>" + attName + ":</td>";
-                                    }
-                                    // add hyperlinks for URLs in attribute values
-                                    if (attValue != '' && /^((http|https|ftp):\/\/).+\..+/i.test(attValue)) {
-                                        if (! /\<a./i.test(attValue)) {
-                                            //do not reformat already formated tags
-                                            attValue = "<a class=\"popupLink\" href=\"" + attValue + "\" target=\"_blank\">" + attValue + "</a>";
-                                        }
-                                    }
-                                    // add hyperlinks for URLs containing mediaurl pattern
-                                    if (mediaurl != ''){
-                                        var mediapattern = new RegExp(mediaurl,'i');
-                                        if (mediapattern.test(attValue)){
-                                            attValue = "<a href=\"/" + attValue + "\" target=\"_blank\">" + attValue + "</a>";
-                                        }
-                                    }
-                                    htmlText += "<td>" + attValue + "</td></tr>";
-                                    hasAttributes = true;
+                                    if (attName !== "maptip") {
+                                      htmlText += "\n   <tr>";
+                                      if (showFieldNamesInClickPopup) {
+                                          htmlText += "<td>" + attName + ":</td>";
+                                      }
+                                      // add hyperlinks for URLs in attribute values
+                                      if (attValue != '' && /^((http|https|ftp):\/\/).+\..+/i.test(attValue)) {
+                                          if (! /\<a./i.test(attValue)) {
+                                              //do not reformat already formated tags
+                                              attValue = "<a class=\"popupLink\" href=\"" + attValue + "\" target=\"_blank\">" + attValue + "</a>";
+                                          }
+                                      }
+                                      // add hyperlinks for URLs containing mediaurl pattern
+                                      if (mediaurl != ''){
+                                          var mediapattern = new RegExp(mediaurl,'i');
+                                          if (mediapattern.test(attValue)){
+                                              attValue = "<a href=\"/" + attValue + "\" target=\"_blank\">" + attValue + "</a>";
+                                          }
+                                      }
+                                      htmlText += "<td>" + attValue + "</td></tr>";
+                                      hasAttributes = true;
+                                  }
                                 }
                             }
                         }
