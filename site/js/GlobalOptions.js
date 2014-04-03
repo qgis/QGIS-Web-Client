@@ -17,6 +17,9 @@ var useGetProjectSettings = true;
 // show the layerOrderTab in the GUI
 var showLayerOrderTab = true;
 
+// show layername in layerTree in gray when layer is outside visible scale
+var grayLayerNameWhenOutsideScale = true;
+
 // show the tab metadata in legend
 var showMetaDataInLegend = true;
 

@@ -77,3 +77,8 @@
 .x-tree-branch-checked .x-tree-node-disabled .x-tree-node-grayed {
 	background-position:-39px -13px;
 }
+
+.outsidescale a span{
+    color:#AAAAAA !important;
+    font-style:italic;
+}

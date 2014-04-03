@@ -578,6 +578,9 @@ function postLoading() {
 			}
 		});
 
+        //scale listener to gray out names in TOC, which are outside visible scale
+        geoExtMap.map.events.register('zoomend', this, this.setGrayNameWhenOutsideScale);
+
 		// loading listeners
 		thematicLayer.events.register('loadstart', this, function() {
 			mapIsLoading = true;
@@ -1369,6 +1372,9 @@ function postLoading() {
 	}
 	initialLoadDone = true;
 
+    //draw layers outside scale gray
+    setGrayNameWhenOutsideScale();
+
 	// run the function in the Customizations.js
 	customAfterMapInit();
 }
@@ -1935,4 +1941,135 @@ function imageFormatForLayers(layers) {
 		}
 	}
 	return format;
+}
+
+
+//this function checks if layers and layer-groups are outside scale-limits.
+//if a layer is outside scale-limits, its label in the TOC is being displayed in a light gray
+function setGrayNameWhenOutsideScale() {
+    if ( grayLayerNameWhenOutsideScale ) { //only if global boolean is set
+
+        //layers
+        //------
+        var allLayersWithIDs = new Array();
+
+        //iterate layer tree to get title and layer-id
+        layerTree.root.firstChild.cascade(
+            function (n) {
+                if (n.isLeaf()) {
+                    allLayersWithIDs.push([n.text,n.id]);
+                }
+            }
+        );
+
+        //iterate ProjectSettings
+        for (var i=0;i<wmsLoader.projectSettings.capability.layers.length;i++){
+
+            MaxScale = Math.round(wmsLoader.projectSettings.capability.layers[i].maxScale);
+            //if no MaxScale is defined
+            if (MaxScale < 1){
+                MaxScale = 1;
+            }
+
+            MinScale = Math.round(wmsLoader.projectSettings.capability.layers[i].minScale);
+            //if no MinScale is defined
+            if (MinScale < 1){ //if not defined, this value is very small
+                MinScale = 150000000; //within terrestrial dimensions big enough
+            }
+
+            //set content gray
+            if (wmsLoader.projectSettings.capability.layers[i].maxScale > geoExtMap.map.getScale() ||
+                wmsLoader.projectSettings.capability.layers[i].minScale < geoExtMap.map.getScale()) {
+                    for (var j=0;j<allLayersWithIDs.length;j++){
+                        //comparison layerTree and info from getProjectsettings
+                        if (allLayersWithIDs[j][0] == wmsLoader.projectSettings.capability.layers[i].title) {
+                                layerTree.root.findChild('id', allLayersWithIDs[j][1], true).setCls('outsidescale');//add css for outside scale
+                                strTOCTooltip = tooltipLayerTreeLayerOutsideScale[lang] + ' 1:' + MaxScale + ' - 1:' + MinScale
+                                layerTree.root.findChild('id', allLayersWithIDs[j][1], true).setTooltip(strTOCTooltip);
+                                layerTree.root.findChild('id', allLayersWithIDs[j][1], true).isOutsideScale = true;
+                                layerTree.root.findChild('id', allLayersWithIDs[j][1], true).MinScale = MinScale;
+                                layerTree.root.findChild('id', allLayersWithIDs[j][1], true).MaxScale = MaxScale;
+                            }
+                        }
+
+                    // reset gray
+                    } else {
+                        for (var j=0;j<allLayersWithIDs.length;j++){
+                            if (allLayersWithIDs[j][0] == wmsLoader.projectSettings.capability.layers[i].title) {
+                                layerTree.root.findChild('id', allLayersWithIDs[j][1], true).setTooltip(''); //empty tooltip
+                                node = layerTree.root.findChild('id', allLayersWithIDs[j][1], true); //remove css class
+                                node.ui.removeClass('outsidescale'); //remove css class
+                                layerTree.root.findChild('id', allLayersWithIDs[j][1], true).isOutsideScale = false;
+                                layerTree.root.findChild('id', allLayersWithIDs[j][1], true).MinScale = MinScale;
+                                layerTree.root.findChild('id', allLayersWithIDs[j][1], true).MinScale = MaxScale;
+                            }
+                        }
+                    }
+                }
+
+        // layer-groups
+        // ------------
+        var arrLayerGroups = new Array(); //array containing all layer-groups
+        var arrOutsideScale = new Array(); //array with the state of all layers within the group
+        var arrMaxScale = new Array(); //array with the defined max-scale of the group
+        var arrMinScale = new Array(); //array with the defined min-scale of the group
+
+        //iterate layer tree
+        layerTree.root.firstChild.cascade(
+            function (n) {
+                if (!(n.isLeaf())) {
+                    layerTree.root.findChild('id', n.id, true).cascade(
+                    function (m) {
+                        // has to be a leaf and outside scale
+                        if (m.isLeaf()){
+                            arrOutsideScale.push(m.isOutsideScale);
+                            arrMaxScale.push(m.MaxScale);
+                            arrMinScale.push(m.MinScale);
+                        }
+                    });
+                    //arrLayerGroups: layer-id, layer-name, boolean if currently outside scale, maxscale, minscale
+                    arrLayerGroups.push([n.id, n.text, arrOutsideScale, arrMaxScale, arrMinScale]);
+                }
+                // empty arrays for next iteration
+                arrOutsideScale = [];
+                arrMaxScale = [];
+                arrMinScale = [];
+            });
+
+        //iterate all leaf layers within a group
+        for (var i=0;i<arrLayerGroups.length;i++){
+            bolGroupOutsideScale = true;
+            MinScale = 0; //set an extreme minscale
+            MaxScale = 150000000; //set an extreme maxscale
+
+            for (var j=0;j<arrLayerGroups[i][2].length;j++){
+                //in each iteration take the bigger minscale
+                if (MinScale < arrLayerGroups[i][4][j]){
+                    MinScale = arrLayerGroups[i][4][j];
+                }
+                //in each iteration take the smallest maxscale
+                if (MaxScale > arrLayerGroups[i][3][j]){
+                    MaxScale = arrLayerGroups[i][3][j];
+                }
+
+                //if one single leaf layer is visible, the group has as well to be visible
+                if ( !arrLayerGroups[i][2][j] ){ //[2] = arrOutsideScale
+                    bolGroupOutsideScale = false;
+                }
+            }
+
+            //the group is invisible
+            if ( bolGroupOutsideScale ) {
+                layerTree.root.findChild('id', arrLayerGroups[i][0], true).setCls('outsidescale'); // add css class
+                strTOCTooltip = tooltipLayerTreeLayerOutsideScale[lang] + ' 1:' + MaxScale + ' - 1:' + MinScale
+                layerTree.root.findChild('id', arrLayerGroups[i][0], true).setTooltip(strTOCTooltip);
+
+            //the group is visible
+            } else {
+                node = layerTree.root.findChild('id', arrLayerGroups[i][0], true); //remove css class
+                node.ui.removeClass('outsidescale'); //remove css class
+                layerTree.root.findChild('id', arrLayerGroups[i][0], true).setTooltip('');
+            }
+        }
+    }
 }

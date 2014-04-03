@@ -1446,6 +1446,19 @@ mapThemeButtonTooltipString["hu"] = "Klikkeljen ide új tematikus térkép vála
 mapThemeButtonTooltipString["ro"] = "Click pentru a alege o nouă tematică de hartă";
 mapThemeButtonTooltipString["ru"] = "Кликните чтобы выбрать новую тему для карты";
 
+//comment, if layer is outside scale range
+var tooltipLayerTreeLayerOutsideScale = new Array();
+tooltipLayerTreeLayerOutsideScale["en"] = "Visible at scales";
+tooltipLayerTreeLayerOutsideScale["es"] = "Visible at scales"; //FIXME
+tooltipLayerTreeLayerOutsideScale["de"] = "Sichtbar in den Massstäben";
+tooltipLayerTreeLayerOutsideScale["fr"] = "Visible at scales"; //FIXME
+tooltipLayerTreeLayerOutsideScale["it"] = "Visible at scales"; //FIXME
+tooltipLayerTreeLayerOutsideScale["pt_PT"] = "Visible at scales"; //FIXME
+tooltipLayerTreeLayerOutsideScale["uk"] = "Visible at scales"; //FIXME
+tooltipLayerTreeLayerOutsideScale["hu"] = "Visible at scales"; //FIXME
+tooltipLayerTreeLayerOutsideScale["ro"] = "Visible at scales"; //FIXME
+tooltipLayerTreeLayerOutsideScale["ru"] = "Visible at scales"; //FIXME
+
 /***********************
 Error Messages
 ***********************/
