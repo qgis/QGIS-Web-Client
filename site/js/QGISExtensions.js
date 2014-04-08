@@ -488,7 +488,8 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
   },
 
   beforeselectHandler: function(combo,record,index) {
-    if (record.get('selectable') == "1") {
+    if (index > 0){
+    //if (record.get('selectable') == "1") {
       this.collapse();
     }
   },
@@ -521,7 +522,8 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
 
   onSelect: function(record, index){
     if(this.fireEvent('beforeselect', this, record, index) !== false){
-      if (record.get('selectable') == "1") {
+        if (record.get('searchtable') != null) {
+      //if (record.get('selectable') == "1") {
         this.setValue(record.get('displaytext'));
         this.fireEvent('select', this, record, index);
       }
