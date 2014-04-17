@@ -112,12 +112,12 @@ Ext.onReady(function () {
 	if (enableGoogleCommercialMaps) {
 		googleSatelliteLayer = new OpenLayers.Layer.Google(
 			"Google Satellite",
-			{type: google.maps.MapTypeId.SATELLITE, numZoomLevels: 22, isBaseLayer: true}
+			{type: google.maps.MapTypeId.SATELLITE, numZoomLevels: ZOOM_LEVELS, isBaseLayer: true}
 		);
 		baseLayers.push(googleSatelliteLayer);
 		googleMapLayer = new OpenLayers.Layer.Google(
 			"Google Map",
-			{type: google.maps.MapTypeId.MAP, numZoomLevels: 22, isBaseLayer: true}
+			{type: google.maps.MapTypeId.MAP, numZoomLevels: ZOOM_LEVELS, isBaseLayer: true}
 		);
 		baseLayers.push(googleMapLayer);
 	}

@@ -212,6 +212,9 @@ var authid = "EPSG:"+3857;
 //set to true if you want the background to be transparent, layer image will be bigger (32 vs 24bit)
 var qgisLayerTransparency = true;
 
+//number of zoomlevels, uses main map layer and all base layers
+var ZOOM_LEVELS = 22;
+
 // OpenLayers global options
 // see http://dev.openlayers.org/releases/OpenLayers-2.10/doc/apidocs/files/OpenLayers/Map-js.html
 var MapOptions = {
@@ -219,7 +222,7 @@ var MapOptions = {
   units: "m",
 //  maxScale:50,
 //  minScale:40000000,
-//  numZoomLevels:20,
+  numZoomLevels:ZOOM_LEVELS,
   fractionalZoom: enableBGMaps ? false : true,
   transitionEffect:"resize",
   controls: []
@@ -251,7 +254,7 @@ var OverviewMapOptions = {
 var OverviewMapSize = new OpenLayers.Size(200,200);
 var OverviewMapMaximized = false; // is the overview map opend or closed by default
 var overviewLayer = new OpenLayers.Layer.WMS("Overview-Map",
-  "/cgi-bin/qgis_mapserv.fcgi?map=/home/web/qgis-web-client/projects/naturalearth_110million.qgs",
+  serverAndCGI+"?map=/home/web/qgis-web-client/projects/naturalearth_110million.qgs",
   {layers:"Land",format:"image/png"},
   {buffer:0,singleTile:true,transitionEffect:"resize"});
 

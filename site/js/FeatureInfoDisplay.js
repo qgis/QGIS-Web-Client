@@ -285,7 +285,9 @@ function parseFIResult(node) {
 		//either from global setting or from project setting
 		var showFILayerTitle = showFeatureInfoLayerTitle;
 		if (mapThemeSwitcher) {
-			showFILayerTitle = mapThemeSwitcher.activeProjectData.showFeatureInfoLayerTitle;
+			if (mapThemeSwitcher.activeProjectData != undefined) {
+				showFILayerTitle = mapThemeSwitcher.activeProjectData.showFeatureInfoLayerTitle;
+			}
 		}
         if (node.hasChildNodes() && node.nodeName == "Layer") {
             var hasAttributes = false;
