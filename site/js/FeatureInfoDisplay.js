@@ -236,7 +236,8 @@ function onHoverPopupClick(evt){
 function onClickPopupClosed(evt) {
     removeClickPopup();
     // enable the hover popup for the curent mosue position
-    WMSGetFInfoHover.activate();
+    if (enableHoverPopup)
+		WMSGetFInfoHover.activate();
     var map = geoExtMap.map; // gets OL map object
     evt.xy = map.events.getMousePosition(evt); // non api function of OpenLayers.Events
     map.events.triggerEvent("mousemove", evt);

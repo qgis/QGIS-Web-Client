@@ -669,7 +669,8 @@ function postLoading() {
 	selectedQueryableLayers = layersInDrawingOrder(selectedQueryableLayers);
 
 	if (initialLoadDone) {
-		geoExtMap.map.removeControl(WMSGetFInfoHover);
+		if (enableHoverPopup)
+			geoExtMap.map.removeControl(WMSGetFInfoHover);
 		geoExtMap.map.removeControl(WMSGetFInfo);
 	}
 	var fiLayer = new OpenLayers.Layer.WMS(layerTree.root.firstChild.text, wmsURI, {
@@ -690,18 +691,20 @@ function postLoading() {
 	WMSGetFInfo.events.register("nogetfeatureinfo", this, noFeatureInfoClick);
 	geoExtMap.map.addControl(WMSGetFInfo);
 
-	WMSGetFInfoHover = new OpenLayers.Control.WMSGetFeatureInfo({
-		layers: [fiLayer],
-		infoFormat: "text/xml",
-		queryVisible: true,
-		hover: true,
-		vendorParams: {
-			QUERY_LAYERS: selectedQueryableLayers.join(",")
-		}
-	});
-	WMSGetFInfoHover.events.register("getfeatureinfo", this, showFeatureInfoHover);
-	geoExtMap.map.addControl(WMSGetFInfoHover);
-
+	if (enableHoverPopup) {
+		WMSGetFInfoHover = new OpenLayers.Control.WMSGetFeatureInfo({
+			layers: [fiLayer],
+			infoFormat: "text/xml",
+			queryVisible: true,
+			hover: true,
+			vendorParams: {
+				QUERY_LAYERS: selectedQueryableLayers.join(",")
+			}
+		});
+		WMSGetFInfoHover.events.register("getfeatureinfo", this, showFeatureInfoHover);
+		geoExtMap.map.addControl(WMSGetFInfoHover);
+	}
+	
 	//overview map
 	if (!initialLoadDone) {
 		OverviewMapOptions.maxExtent = maxExtent;
@@ -1064,20 +1067,22 @@ function postLoading() {
 			WMSGetFInfo.vendorParams = {
 				'QUERY_LAYERS': selectedQueryableLayers.join(',')
 			};
+			if (enableHoverPopup) {
+				WMSGetFInfoHover.vendorParams = {
+					'QUERY_LAYERS': selectedQueryableLayers.join(',')
+				};
+			}
 		} else {
 			WMSGetFInfo.vendorParams = {
 				'QUERY_LAYERS': selectedActiveQueryableLayers.join(',')
 			};
-		}
-		if (identificationMode != 'activeLayers') {
-			WMSGetFInfoHover.vendorParams = {
-				'QUERY_LAYERS': selectedQueryableLayers.join(',')
-			};
-		} else {
+			if (enableHoverPopup) {
 			WMSGetFInfoHover.vendorParams = {
 				'QUERY_LAYERS': selectedActiveQueryableLayers.join(',')
 			};
+			}
 		}
+		
 		// switch backgroundLayers
 		if (enableBGMaps) {
 			var checkedBackgroundNodes = [];
@@ -1903,10 +1908,12 @@ function activateGetFeatureInfo(doIt) {
 	// activate/deactivate FeatureInfo
 	if (doIt) {
 		WMSGetFInfo.activate();
-		WMSGetFInfoHover.activate();
+		if (enableHoverPopup)
+			WMSGetFInfoHover.activate();
 	} else {
 		WMSGetFInfo.deactivate();
-		WMSGetFInfoHover.deactivate();
+		if (enableHoverPopup)
+			WMSGetFInfoHover.deactivate();
 	}
 }
 

@@ -23,6 +23,10 @@ var grayLayerNameWhenOutsideScale = true;
 // show the tab metadata in legend
 var showMetaDataInLegend = true;
 
+// show maptips when mouse is over object, set to false if you just want to click and show results
+// if set to true every mouse position over feature of queriable layers is GetFeatureInfo request on server
+var enableHoverPopup = true;
+
 // use geodesic measures, i.e. not planar measures
 // this is useful if a projection with high distortion of length/area is used, eg.g. GoogleMercator
 var useGeodesicMeasurement = true;
