@@ -1584,20 +1584,6 @@ tooltipLayerTreeLayerOutsideScale["ro"] = "Vizibil la scara";
 tooltipLayerTreeLayerOutsideScale["ru"] = "Visible at scales"; //FIXME
 tooltipLayerTreeLayerOutsideScale["si"] = "vidno pri merilih";
 
-//title in ClickPopup
-var clickPopupTitleString = new Array();
-clickPopupTitleString["en"] = "Results"; //FIXME
-clickPopupTitleString["es"] = "Results"; //FIXME
-clickPopupTitleString["de"] = "Results"; //FIXME
-clickPopupTitleString["fr"] = "Results"; //FIXME
-clickPopupTitleString["it"] = "Results"; //FIXME
-clickPopupTitleString["pt_PT"] = "Results"; //FIXME
-clickPopupTitleString["uk"] = "Results"; //FIXME
-clickPopupTitleString["hu"] = "Results"; //FIXME
-clickPopupTitleString["ro"] = "Results"; //FIXME
-clickPopupTitleString["ru"] = "Results"; //FIXME
-clickPopupTitleString["si"] = "Rezultati poizvedbe";
-
 /***********************
 Error Messages
 ***********************/

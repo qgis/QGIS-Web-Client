@@ -213,7 +213,6 @@ function setupLegendAndMetadataWindow() {
 		autoScroll: true,
 		maximizable: true,
 		layout: 'fit',
-		shadow: false,
 		items: [{
 			xtype: 'tabpanel',
 			activeTab: 0,
