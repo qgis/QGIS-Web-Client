@@ -58,7 +58,7 @@ function showFeatureInfo(evt) {
                 
 				//new way GeoExt Popup
 				clickPopup = new GeoExt.Popup({
-					title: "aaa"+closePopupClick,
+					title: clickPopupTitleString[lang],
 					location: map.getLonLatFromPixel(evt.xy),
 					map: map,
 					autoScroll: true,
