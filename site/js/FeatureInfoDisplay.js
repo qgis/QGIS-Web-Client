@@ -21,7 +21,6 @@
  * to click by changing to "hand".
 */
 
-var featureInfoPopupContents;
 var closePopupClick = false; // stores if the click results from closing a clickPopup
 
 function showFeatureInfo(evt) {
@@ -56,20 +55,37 @@ function showFeatureInfo(evt) {
                         featureInfoHighlightLayer.addFeatures(highLightGeometry[i]);
                     }
                 }
-                clickPopup = new OpenLayers.Popup.FramedCloud(
-                    null, // id
-                    map.getLonLatFromPixel(evt.xy), // lonlat
-                    null, //new OpenLayers.Size(1,1), // contentSize
-                    text, //contentHTML
-                    null, // anchor
-                    true,  // closeBox
-                    onClickPopupClosed // closeBoxCallBackFunction
-                    );
-                // For the displacement problem
-                clickPopup.panMapIfOutOfView = Ext.isGecko;
-                clickPopup.autoSize = true;
-                clickPopup.events.fallThrough = false;
-                map.addPopup(clickPopup); //*/
+                
+				//new way GeoExt Popup
+				clickPopup = new GeoExt.Popup({
+					title: "aaa"+closePopupClick,
+					location: map.getLonLatFromPixel(evt.xy),
+					map: map,
+					autoScroll: true,
+					height: geoExtMap.getHeight() * 0.3,
+					html: text,
+					maximizable: true,
+					collapsible: true
+				});
+				//can't have autoHeight or dinamyically set height
+				//clickPopup.setSize(geoExtMap.getWidth() * 0.3,geoExtMap.getHeight() * 0.3);
+				clickPopup.show();
+				
+				//old way with OpenLayers.Popup
+				// clickPopup = new OpenLayers.Popup.FramedCloud(
+                    // null, // id
+                    // map.getLonLatFromPixel(evt.xy), // lonlat
+                    // null, //new OpenLayers.Size(1,1), // contentSize
+                    // text, //contentHTML
+                    // null, // anchor
+                    // true,  // closeBox
+                    // onClickPopupClosed // closeBoxCallBackFunction
+                    // );
+                // // For the displacement problem
+                // clickPopup.panMapIfOutOfView = Ext.isGecko;
+                // clickPopup.autoSize = true;
+                // clickPopup.events.fallThrough = false;
+                // map.addPopup(clickPopup); //*/
                 changeCursorInMap("default");
             }
         } else {
@@ -234,7 +250,7 @@ function onHoverPopupClick(evt){
 }
 
 function onClickPopupClosed(evt) {
-    removeClickPopup();
+	removeClickPopup();
     // enable the hover popup for the curent mosue position
     if (enableHoverPopup)
 		WMSGetFInfoHover.activate();
@@ -245,8 +261,8 @@ function onClickPopupClosed(evt) {
 }
 
 function removeClickPopup() {
-    var map = geoExtMap.map; // gets OL map object
-    map.removePopup(clickPopup);
+	//var map = geoExtMap.map; // gets OL map object
+    //map.removePopup(clickPopup);
     clickPopup.destroy();
     clickPopup = null;
     featureInfoHighlightLayer.removeAllFeatures();
