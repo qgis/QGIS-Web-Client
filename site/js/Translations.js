@@ -24,6 +24,7 @@ availableLanguages["uk"] = {names:[], translator:"Pavlo Taranov"}; //taranov (do
 availableLanguages["hu"] = {names:[], translator:"Szilárd Lajcsik"}; //szilajinfo (at) gmail (dot) com>
 availableLanguages["ro"] = {names:[], translator:"Tudor Bărăscu"}; //tudorbarascu (at) gmail (dot) com>
 availableLanguages["ru"] = {names:[], translator:"Nikolay Zhigalov"}; //jederlacht1 (at) gmail (dot) com>
+availableLanguages["si"] = {names:[], translator:"Uroš Preložnik"};	//uros00 (at) gmail (dot) com
 
 //translations of languages
 // first language index is fixed, second variable
@@ -40,6 +41,7 @@ availableLanguages["en"].names["uk"] = "Англійська";
 availableLanguages["en"].names["hu"] = "Angol";
 availableLanguages["en"].names["ro"] = "Engleză";
 availableLanguages["en"].names["ru"] = "Ангийский";
+availableLanguages["en"].names["si"] = "angleščina";
 
 //German
 availableLanguages["de"].names["en"] = "German";
@@ -52,6 +54,7 @@ availableLanguages["de"].names["uk"] = "Німецька";
 availableLanguages["de"].names["hu"] = "Német";
 availableLanguages["de"].names["ro"] = "Germană";
 availableLanguages["de"].names["ru"] = "Немецкий";
+availableLanguages["de"].names["si"] = "nemščina";
 
 //French
 availableLanguages["fr"].names["en"] = "French";
@@ -64,6 +67,8 @@ availableLanguages["fr"].names["uk"] = "Французька";
 availableLanguages["fr"].names["hu"] = "Francia";
 availableLanguages["fr"].names["ro"] = "Franceză";
 availableLanguages["fr"].names["ru"] = "Францкузский";
+availableLanguages["fr"].names["si"] = "francoščina";
+
 
 //Italian
 availableLanguages["it"].names["en"] = "Italian";
@@ -76,6 +81,7 @@ availableLanguages["it"].names["uk"] = "Італійська";
 availableLanguages["it"].names["hu"] = "Olasz";
 availableLanguages["it"].names["ro"] = "Italiană";
 availableLanguages["it"].names["ru"] = "Итальянский";
+availableLanguages["it"].names["si"] = "italijanščina";
 
 //Portuguese
 availableLanguages["pt_PT"].names["en"] = "Portuguese";
@@ -88,6 +94,7 @@ availableLanguages["pt_PT"].names["uk"] = "Португальська";
 availableLanguages["pt_PT"].names["hu"] = "Portugál";
 availableLanguages["pt_PT"].names["ro"] = "Portugheză";
 availableLanguages["pt_PT"].names["ru"] = "Португальский";
+availableLanguages["pt_PT"].names["si"] = "portugalščina";
 
 //Ukrainian
 availableLanguages["uk"].names["en"] = "Ukrainian";
@@ -100,6 +107,7 @@ availableLanguages["uk"].names["uk"] = "Українська";
 availableLanguages["uk"].names["hu"] = "Ukrán";
 availableLanguages["uk"].names["ro"] = "Ucraineană";
 availableLanguages["uk"].names["ru"] = "Украинский";
+availableLanguages["uk"].names["si"] = "ukrajinščina";
 
 //Hungarian
 availableLanguages["hu"].names["en"] = "Hungarian";
@@ -112,6 +120,7 @@ availableLanguages["hu"].names["uk"] = "Угорська";
 availableLanguages["hu"].names["hu"] = "Magyar";
 availableLanguages["hu"].names["ro"] = "Maghiară";
 availableLanguages["hu"].names["ru"] = "Венгерский";
+availableLanguages["hu"].names["si"] = "madžarščina";
 
 //Romanian
 availableLanguages["ro"].names["en"] = "Romanian";
@@ -124,6 +133,7 @@ availableLanguages["ro"].names["uk"] = "Румунська";
 availableLanguages["ro"].names["hu"] = "Román";
 availableLanguages["ro"].names["ro"] = "Română";
 availableLanguages["ro"].names["ru"] = "Румынский";
+availableLanguages["ro"].names["si"] = "romunščina";
 
 //Russian
 availableLanguages["ru"].names["en"] = "Russian";
@@ -136,6 +146,20 @@ availableLanguages["ru"].names["uk"] = "Російська";
 availableLanguages["ru"].names["hu"] = "Orosz";
 availableLanguages["ru"].names["ro"] = "Rusă";
 availableLanguages["ru"].names["ru"] = "Русский";
+availableLanguages["ru"].names["si"] = "ruščina";
+
+//Slovenian
+availableLanguages["si"].names["en"] = "Slovenian";
+availableLanguages["si"].names["de"] = "Slowenisch";
+availableLanguages["si"].names["es"] = "esloveno";
+availableLanguages["si"].names["fr"] = "slovène";
+availableLanguages["si"].names["it"] = "sloveno";
+availableLanguages["si"].names["pt_PT"] = "esloveno";
+availableLanguages["si"].names["uk"] = "Словенська";
+availableLanguages["si"].names["hu"] = "szlovén";
+availableLanguages["si"].names["ro"] = "sloven";
+availableLanguages["si"].names["ru"] = "словенский";
+availableLanguages["si"].names["si"] = "slovenščina";
 
 /***********************
 Status messages
@@ -153,6 +177,7 @@ mapAppLoadingString["uk"] = "Завантаження додатку...";
 mapAppLoadingString["hu"] = "Térkép kliens betöltése";
 mapAppLoadingString["ro"] = "Aplicația se încarcă...";
 mapAppLoadingString["ru"] = "Загрузка приложения...";
+mapAppLoadingString["si"] = "Nalaganje aplikacije...";
 
 //indicating that map app was loaded and we are now loading the map
 var mapLoadingString = new Array();
@@ -166,6 +191,7 @@ mapLoadingString["uk"] = "Завантаження мапи...";
 mapLoadingString["hu"] = "Térkép betöltése folyamatban...";
 mapLoadingString["ro"] = "Harta se încarcă...";
 mapLoadingString["ru"] = "Загрузка карты...";
+mapLoadingString["si"] = "Nalaganje karte...";
 
 //mode string for navigation
 var modeNavigationString = new Array();
@@ -179,7 +205,7 @@ modeNavigationString["uk"] = "Режим: навігація. Shift/прямок
 modeNavigationString["hu"] = "Mód: navigáció. Shift / téglalappal vagy egér görgővel lehet nagyítani.";
 modeNavigationString["ro"] =  "Mod: navigare. Shift+desenează un dreptunghi; folosește rotița mouse-ului pentru zoom.";
 modeNavigationString["ru"] =  "Режим:навигация. Shift+выделение прямоугольника или колесо мыши для изменения масштаба.";
-
+modeNavigationString["si"] =  "Način: navigacija. Miška (lev gumb premik, kolešček povečava), Tipkovnica (smerne tipke in +-), SHIFT+pravokotnik za povečavo.";
 
 //mode string for rectangle zoom
 var modeZoomRectangle = new Array();
@@ -193,6 +219,7 @@ modeZoomRectangle["uk"] = "Режим: збільшення прямокутни
 modeZoomRectangle["hu"] = "Mód: nagyítás kijelöléssel. Rajzolj egy téglalapot a nagyítani kívánt területre.";
 modeZoomRectangle["ro"] = "Mod: zoom cu dreptunghi. Se desenează un dreptunghi deasupra regiunii dorite.";
 modeZoomRectangle["ru"] = "Режим: масштаб прямоугольником. Выделите прямоугольником регион чтобы увеличить его.";
+modeZoomRectangle["si"] = "Način: povečava z pravokotnikom. Nariši pravokotnik na območju željene povečave.";
 
 //mode string for attribute data detailed
 var modeObjectIdentificationString = new Array();
@@ -206,6 +233,7 @@ modeObjectIdentificationString["uk"] = "Режим: вибір об'єкта. К
 modeObjectIdentificationString["hu"] = "Mód: térképi elem azonosítás. Mozgasd az egeret a kívánt térképi elem fölé, klikkelj rá.";
 modeObjectIdentificationString["ro"] = "Mod: identificare obiect. Pentru aceasta se pune mouse-ul pe el; se poate da click pentru vizualizare atribute";
 modeObjectIdentificationString["ru"] = "Режим: идентификация объекта. Наведите указатель мыши на объект чтобы идентифицировать его. Кликните чтобы просмотреть атрибуты";
+modeObjectIdentificationString["si"] = "Način: poizvedba. Premakni miško na objekt zanimanja za identifikacijo ali klikni na objektu za prikaz opisnih podatkov.";
 
 //mode string for map tips (display main attribute with tooltips)
 var modeMapTipsString = new Array();
@@ -219,6 +247,7 @@ modeMapTipsString["uk"] = "Режим: випливаючі підказки. Н
 modeMapTipsString["hu"] = "Mód: Térkép tipp. Megjelenik az egér fölött a buborék információ."; //FIXME
 modeMapTipsString["ro"] = "Mod: Indicii hartă. Se afișează cand mouse-u este deasupra.";
 modeMapTipsString["ru"] = "Режим: всплывающие подсказки. Показывать подсказки при наведении мыши.";
+modeMapTipsString["si"] = "Mode: MapTips. Display on mouse over with Tooltips.";	//FIXME
 
 //mode measure distance
 var modeMeasureDistanceString = new Array();
@@ -232,6 +261,7 @@ modeMeasureDistanceString["uk"] = "Режим: вимірювання відст
 modeMeasureDistanceString["hu"] = "Mód: távolság mérés. Befejezés dupla kattintással.";
 modeMeasureDistanceString["ro"] = "Mod: masoară distanța. Se face dublu click pentru a termina.";
 modeMeasureDistanceString["ru"] = "Режим: измерение дистанции. Двойной клик чтобы завершить.";
+modeMeasureDistanceString["si"] = "Način: merjenje razdalje. Zaključi z dvoklikom.";
 
 //mode measure area
 var modeMeasureAreaString = new Array();
@@ -245,6 +275,7 @@ modeMeasureAreaString["uk"] = "Режим: вимірювання площі. П
 modeMeasureAreaString["hu"] = "Mód: terület mérés. Befejezés dupla kattintással.";
 modeMeasureAreaString["ro"] = "Mod: masoară aria. Se face dublu click pentru a termina";
 modeMeasureAreaString["ru"] = "Режим: измерение площади. Двойной клик чтобы завершить.";
+modeMeasureAreaString["si"] = "Način: merjenje površine. Zaključi z dvoklikom.";
 
 //mode printing
 var modePrintingString = new Array();
@@ -258,6 +289,7 @@ modePrintingString["uk"] = "Режим: друк. Обаріть ділянку 
 modePrintingString["hu"] = "Mód: nyomtatás. Mozgatható, forgatható a nyomtatási terület.";
 modePrintingString["ro"] =  "Mod: tipărire/print. Suprafața hărtii se poate mișca sau roti. Când ești gata apasă butonul 'Print'";
 modePrintingString["ru"] =  "Режим:печать. Двигайте и поворачивайте прямоугольник чтобы выбрать участок карты. Для печати нажмите кнопку 'Печать'.";
+modePrintingString["si"] =  "Način: tiskanje. Premakni ali zasuči območje tiska. Nadaljuj z gumbom 'Tiskanje'.";
 
 //indicating is waiting for print
 var printLoadingString = new Array();
@@ -271,6 +303,7 @@ printLoadingString["uk"] = "Printing initialised. Please wait..."; //FIXME
 printLoadingString["hu"] = "Printing initialised. Please wait..."; //FIXME
 printLoadingString["ro"] = "Tipărire inițializată. Te rog așteaptă...";
 printLoadingString["ru"] = "Печать инициализирована . Пожалуйста, подождите...";
+printLoadingString["si"] = "Tiskanje se pripravlja. Prosimo počakajte...";
 
 /***********************
 GUI stuff
@@ -288,6 +321,7 @@ leftPanelTitleString["uk"] = "Дані та інструменти";
 leftPanelTitleString["hu"] = "Információk és Eszközök";
 leftPanelTitleString["ro"] = "Informații și unelte";
 leftPanelTitleString["ru"] = "Информация и инструменты";
+leftPanelTitleString["si"] = "Informacije in orodja";
 
 //title of search panel
 var searchPanelTitleString = new Array();
@@ -301,6 +335,7 @@ searchPanelTitleString["uk"] = "Пошук";
 searchPanelTitleString["hu"] = "Keres";
 searchPanelTitleString["ro"] = "Căutare";
 searchPanelTitleString["ru"] = "Поиск";
+searchPanelTitleString["si"] = "Iskanje";
 
 //text of theme Switcher button
 var mapThemeButtonTitleString = new Array();
@@ -314,6 +349,7 @@ mapThemeButtonTitleString["uk"] = "Теми";
 mapThemeButtonTitleString["hu"] = "Tematikus térképek";
 mapThemeButtonTitleString["ro"] = "Tematici hărți";
 mapThemeButtonTitleString["ru"] = "Темы";
+mapThemeButtonTitleString["si"] = "Tematske vsebine";
 
 //theme switcher window title
 var themeSwitcherWindowTitleString = new Array();
@@ -327,6 +363,7 @@ themeSwitcherWindowTitleString["uk"] = "Вибір теми";
 themeSwitcherWindowTitleString["hu"] = "Tematikus térkép választó";
 themeSwitcherWindowTitleString["ro"] = "Alegere tematică hartă";
 themeSwitcherWindowTitleString["ru"] = "Выбор темы";
+themeSwitcherWindowTitleString["si"] = "Izbira vsebine";
 
 //theme switcher filter label string
 var themeSwitcherFilterLabelString = new Array();
@@ -340,6 +377,7 @@ themeSwitcherFilterLabelString["uk"] = "Фільтр за назвою мапи:
 themeSwitcherFilterLabelString["hu"] = "Szűrés térkép cím alapján:";
 themeSwitcherFilterLabelString["ro"] = "Filtrează harta după titlu: ";
 themeSwitcherFilterLabelString["ru"] = "Фильтр тем по названию: ";
+themeSwitcherFilterLabelString["si"] = "Filter po naslovu vsebine: ";
 
 //theme switcher all themes string in list view
 var themeSwitcherAllThemesListViewString = new Array();
@@ -353,6 +391,7 @@ themeSwitcherAllThemesListViewString["uk"] = "Усі теми мап";
 themeSwitcherAllThemesListViewString["hu"] = "Összes tematikus térkép";
 themeSwitcherAllThemesListViewString["ro"] = "Toate tematicile hărților";
 themeSwitcherAllThemesListViewString["ru"] = "Все темы";
+themeSwitcherAllThemesListViewString["si"] = "Vse vsebine";
 
 var themeSwitcherTooltipResponsibleString = new Array();
 themeSwitcherTooltipResponsibleString["en"] = "Responsible: ";
@@ -365,6 +404,8 @@ themeSwitcherTooltipResponsibleString["uk"] = "Відповідальний: ";
 themeSwitcherTooltipResponsibleString["hu"] = "Felelős: ";
 themeSwitcherTooltipResponsibleString["ro"] = "Responsabil: ";
 themeSwitcherTooltipResponsibleString["ru"] = "Ответственный: ";
+themeSwitcherTooltipResponsibleString["si"] = "Odgovornost: ";
+
 //either tags or keywords
 var themeSwitcherTooltipTagString = new Array();
 themeSwitcherTooltipTagString["en"] = "Tags: ";
@@ -377,6 +418,7 @@ themeSwitcherTooltipTagString["uk"] = "Теги: ";
 themeSwitcherTooltipTagString["hu"] = "Címkék: ";
 themeSwitcherTooltipTagString["ro"] = "Etichete: ";
 themeSwitcherTooltipTagString["ru"] = "Тэги: ";
+themeSwitcherTooltipTagString["si"] = "Oznake: ";
 
 var themeSwitcherTooltipMapThemeString = new Array();
 themeSwitcherTooltipMapThemeString["en"] = "Map theme: ";
@@ -389,6 +431,7 @@ themeSwitcherTooltipMapThemeString["uk"] = "Тема мапи: ";
 themeSwitcherTooltipMapThemeString["hu"] = "Tematikus térkép: ";
 themeSwitcherTooltipMapThemeString["ro"] = "Tematica hărții: ";
 themeSwitcherTooltipMapThemeString["ru"] = "Тема карты: ";
+themeSwitcherTooltipMapThemeString["si"] = "Vsebina: ";
 
 var themeSwitcherTooltipUpdateString = new Array();
 themeSwitcherTooltipUpdateString["en"] = "Update interval: ";
@@ -401,6 +444,7 @@ themeSwitcherTooltipUpdateString["uk"] = "Час оновлення: ";
 themeSwitcherTooltipUpdateString["hu"] = "Frissítés intervalluma: ";
 themeSwitcherTooltipUpdateString["ro"] = "Intervalul de actualizare: ";
 themeSwitcherTooltipUpdateString["ru"] = "Интервал обновления: ";
+themeSwitcherTooltipUpdateString["si"] = "Osvežitveni interval: ";
 
 var themeSwitcherTooltipLastUpdateString = new Array();
 themeSwitcherTooltipLastUpdateString["en"] = "Last update: ";
@@ -413,6 +457,7 @@ themeSwitcherTooltipLastUpdateString["uk"] = "Останнє оновлення:
 themeSwitcherTooltipLastUpdateString["hu"] = "Utolsó frissítés: ";
 themeSwitcherTooltipLastUpdateString["ro"] = "Ultima actualizare: ";
 themeSwitcherTooltipLastUpdateString["ru"] = "Последнее обновление: ";
+themeSwitcherTooltipLastUpdateString["si"] = "Zadnja sprememba: ";
 
 var themeSwitcherTooltipPwProtectedString = new Array();
 themeSwitcherTooltipPwProtectedString["en"] = "password protected";
@@ -425,6 +470,7 @@ themeSwitcherTooltipPwProtectedString["uk"] = "захищено паролем";
 themeSwitcherTooltipPwProtectedString["hu"] = "jelszóval védett";
 themeSwitcherTooltipPwProtectedString["ro"] = "protejat cu parolă";
 themeSwitcherTooltipPwProtectedString["ru"] = "защищено паролем";
+themeSwitcherTooltipPwProtectedString["si"] = "zaščiteno z geslom";
 
 var emptyThemeSearchFieldString = new Array();
 emptyThemeSearchFieldString["en"] = "Insert filter string";
@@ -437,6 +483,7 @@ emptyThemeSearchFieldString["uk"] = "Ведіть текст для фільтр
 emptyThemeSearchFieldString["hu"] = "Szűrő feltétel helye";
 emptyThemeSearchFieldString["ro"] = "Introduceți textul de filtrare";
 emptyThemeSearchFieldString["ru"] = "Введите строку для фильтрации";
+emptyThemeSearchFieldString["si"] = "Vnesi besedilo za filter";
 
 var resetThemeSearchFieldTooltipString = new Array();
 resetThemeSearchFieldTooltipString["en"] = "Reset map theme search filter";
@@ -449,6 +496,7 @@ resetThemeSearchFieldTooltipString["uk"] = "Скинути фільтр пошу
 resetThemeSearchFieldTooltipString["hu"] = "Szűrő mező törlése";
 resetThemeSearchFieldTooltipString["ro"] = "Resetează filtrul de căutare a tematicii de hartă";
 resetThemeSearchFieldTooltipString["ru"] = "Сбросить фильтр поиска темы";
+resetThemeSearchFieldTooltipString["si"] = "Ponastavi iskalni filter";
 
 //title of map panel
 var mapPanelTitleString = new Array();
@@ -462,6 +510,7 @@ mapPanelTitleString["uk"] = "Мапа";
 mapPanelTitleString["hu"] = "Térkép";
 mapPanelTitleString["ro"] = "Harta";
 mapPanelTitleString["ru"] = "Карта";
+mapPanelTitleString["si"] = "Karta";
 
 //title of map layer tree
 var layerTreeTitleString = new Array();
@@ -475,6 +524,7 @@ layerTreeTitleString["uk"] = "Шари мапи";
 layerTreeTitleString["hu"] = "Térkép rétegei";
 layerTreeTitleString["ro"] = "Straturi hartă";
 layerTreeTitleString["ru"] = "Слои карты";
+layerTreeTitleString["si"] = "Sloji";
 
 
 //title of background layers
@@ -489,6 +539,7 @@ backgroundLayerTitleString["uk"] = "Background Layers";
 backgroundLayerTitleString["hu"] = "Background Layers";
 backgroundLayerTitleString["ro"] = "Straturi de Background ";
 backgroundLayerTitleString["ru"] = "Background Layers";
+backgroundLayerTitleString["si"] = "Podlage";
 
 //title of layer order panel
 var layerOrderPanelTitleString = new Array();
@@ -502,6 +553,7 @@ layerOrderPanelTitleString["uk"] = "Layer order"; //FIXME
 layerOrderPanelTitleString["hu"] = "Réteg sorrend";
 layerOrderPanelTitleString["ro"] = "Ordinea straturilor";
 layerOrderPanelTitleString["ru"] = "Порядок слоев";
+layerOrderPanelTitleString["si"] = "Nastavitve slojev";
 
 //tooltip of layer settings button in layer order panel
 var layerOrderPanelLayerSettingsTooltipString = new Array();
@@ -515,6 +567,7 @@ layerOrderPanelLayerSettingsTooltipString["uk"] = "Settings"; //FIXME
 layerOrderPanelLayerSettingsTooltipString["hu"] = "Beállítások";
 layerOrderPanelLayerSettingsTooltipString["ro"] = "Setări";
 layerOrderPanelLayerSettingsTooltipString["ru"] = "Настройки";
+layerOrderPanelLayerSettingsTooltipString["si"] = "Nastavitve";
 
 //tooltip of remove layer button in layer order panel
 var layerOrderPanelVisibilityChangeTooltipString = new Array();
@@ -528,6 +581,7 @@ layerOrderPanelVisibilityChangeTooltipString["uk"] = "Change Layer Visibility"; 
 layerOrderPanelVisibilityChangeTooltipString["hu"] = "Réteg ki/be kapcsolása";
 layerOrderPanelVisibilityChangeTooltipString["ro"] = "Schimbă vizibilitatea stratului";
 layerOrderPanelVisibilityChangeTooltipString["ru"] = "Изменить видимость слоя";
+layerOrderPanelVisibilityChangeTooltipString["si"] = "Spremeni vidnost sloja";
 
 //text when dragging layer in layer order panel
 var layerOrderPanelMoveLayerTextString = new Array();
@@ -541,6 +595,7 @@ layerOrderPanelMoveLayerTextString["uk"] = "Move layer"; //FIXME
 layerOrderPanelMoveLayerTextString["hu"] = "Réteg mozgatása";
 layerOrderPanelMoveLayerTextString["ro"] = "Mută stratul";
 layerOrderPanelMoveLayerTextString["ru"] = "Переместить слой";
+layerOrderPanelMoveLayerTextString["si"] = "Premakni sloj";
 
 //tooltip of transparency sliders in layer order panel
 var layerOrderPanelTransparencyTooltipString = new Array();
@@ -554,6 +609,7 @@ layerOrderPanelTransparencyTooltipString["uk"] = "Transparency {0}%"; //FIXME
 layerOrderPanelTransparencyTooltipString["hu"] = "Átlászóság {0}%";
 layerOrderPanelTransparencyTooltipString["ro"] = "Transparență {0}%";
 layerOrderPanelTransparencyTooltipString["ru"] = "Прозрачность {0}%";
+layerOrderPanelTransparencyTooltipString["si"] = "Prosojnost {0}%";
 
 //title of legend tab
 var legendTabTitleString = new Array();
@@ -567,6 +623,7 @@ legendTabTitleString["uk"] = "Легенда";
 legendTabTitleString["hu"] = "Jelkulcs";
 legendTabTitleString["ro"] = "Legendă";
 legendTabTitleString["ru"] = "Легенда";
+legendTabTitleString["si"] = "Legenda";
 
 //legend loading message in legend tab
 var legendTabLoadingString = new Array();
@@ -580,6 +637,7 @@ legendTabLoadingString["uk"] = "Легенда"; //FIXME
 legendTabLoadingString["hu"] = "Jelkulcs"; //FIXME
 legendTabLoadingString["ro"] = "Legenda se încarcă. Te rog așteaptă...";
 legendTabLoadingString["ru"] = "Загрузка легенды. Пожалуйста, подождите"; 
+legendTabLoadingString["si"] = "Nalaganje legende, prosimo počakajte..."; 
 
 //title of metadata tab
 var metadataTabTitleString = new Array();
@@ -593,6 +651,7 @@ metadataTabTitleString["uk"] = "Метадані";
 metadataTabTitleString["hu"] = "Metaadat";
 metadataTabTitleString["ro"] = "Metadate";
 metadataTabTitleString["ru"] = "Метаданные";
+metadataTabTitleString["si"] = "Metapodatki";
 
 //title of help window
 var helpWindowTitleString = new Array();
@@ -606,6 +665,7 @@ helpWindowTitleString["uk"] = "Довідка";
 helpWindowTitleString["hu"] = "Segítség";
 helpWindowTitleString["ro"] = "Ajutor";
 helpWindowTitleString["ru"] = "Помощь";
+helpWindowTitleString["si"] = "Pomoč";
 
 //title of legend and per layer metadata window
 var legendMetadataWindowTitleString = new Array();
@@ -619,6 +679,7 @@ legendMetadataWindowTitleString["uk"] = "Legend and metadata information of laye
 legendMetadataWindowTitleString["hu"] = "Jelkulcs és metaadat információ a következő rétegről: ";
 legendMetadataWindowTitleString["ro"] = "Legenda și informațiile tip metadate ale stratului";
 legendMetadataWindowTitleString["ru"] = "Легенда и метаданные слоя";
+legendMetadataWindowTitleString["si"] = "Legenda in metapodatki za sloj";
 
 //title of metadata section
 var metadataSectionTitleString = new Array();
@@ -632,6 +693,7 @@ metadataSectionTitleString["uk"] = "Metadata of layer"; //FIXME
 metadataSectionTitleString["hu"] = "Réteg neve:";
 metadataSectionTitleString["ro"] = "Metadatele stratului";
 metadataSectionTitleString["ru"] = "Метаданные слоя";
+metadataSectionTitleString["si"] = "Metapodatki za sloj";
 
 //Abstract
 var abstractString = new Array();
@@ -645,6 +707,7 @@ abstractString["uk"] = "Abstract:"; //FIXME
 abstractString["hu"] = "Absztrakt:";
 abstractString["ro"] = "Abstract:";
 abstractString["ru"] = "Абстрактные:";
+abstractString["si"] = "Opis:";
 
 //title of legend and per layer metadata window
 var layerQueryable = new Array();
@@ -658,6 +721,7 @@ layerQueryable["uk"] = "This layer is queryable: "; //FIXME
 layerQueryable["hu"] = "Ez a réteg lekérdezhető: ";
 layerQueryable["ro"] = "Acest strat este interogabil: ";
 layerQueryable["ru"] = "Возможны запросы к слою: ";
+layerQueryable["si"] = "Sloj omogoča poizvedovanje: ";
 
 //in case we need a yes
 var yesString = new Array();
@@ -671,6 +735,7 @@ yesString["uk"] = "yes"; //FIXME
 yesString["hu"] = "igen";
 yesString["ro"] = "da";
 yesString["ru"] = "да";
+yesString["si"] = "da";
 
 //in case we need a no
 var noString = new Array();
@@ -684,6 +749,7 @@ noString["uk"] = "no"; //FIXME
 noString["hu"] = "nem";
 noString["ro"] = "nu";
 noString["ru"] = "нет";
+noString["si"] = "ne";
 
 //metadata: layer group
 var layerGroupString = new Array();
@@ -697,6 +763,7 @@ layerGroupString["uk"] = "Layer group"; //FIXME
 layerGroupString["hu"] = "Layer group"; //FIXME
 layerGroupString["ro"] = "Grup straturi";
 layerGroupString["ru"] = "Группа слоев"; //FIXME
+layerGroupString["si"] = "Skupina slojev";
 
 //metadata: display field (for tooltips)
 var displayFieldString = new Array();
@@ -710,6 +777,7 @@ displayFieldString["uk"] = "Display-Field"; //FIXME
 displayFieldString["hu"] = "Megjelenő-Mező";
 displayFieldString["ro"] = "Afișaj";
 displayFieldString["ru"] = "Display-Field"; //FIXME
+displayFieldString["si"] = "Polje za prikaz";
 
 //metadata: coordinate systems
 var coordinateSystemsString = new Array();
@@ -723,6 +791,7 @@ coordinateSystemsString["uk"] = "Available Coordinate Systems"; //FIXME
 coordinateSystemsString["hu"] = "Elérhető koordináta rendszerek";
 coordinateSystemsString["ro"] = "Sisteme de coordonate disponibile";
 coordinateSystemsString["ru"] = "Доступные системы координат";
+coordinateSystemsString["si"] = "Razpoložljivi koordinatni sistemi";
 
 //metadata: geographic extent
 var geographicExtentString = new Array();
@@ -736,6 +805,7 @@ geographicExtentString["uk"] = "Geographic Extent"; //FIXME
 geographicExtentString["hu"] = "Földrajzi kiterjedés";
 geographicExtentString["ro"] = "Întinderea geografică";
 geographicExtentString["ru"] = "Географический экстент";
+geographicExtentString["si"] = "Območje";
 
 //metadata: geographic extent
 var westString = new Array();
@@ -749,6 +819,7 @@ westString["uk"] = "west"; //FIXME
 westString["hu"] = "nyugat";
 westString["ro"] = "Vest";
 westString["ru"] = "запад";
+westString["si"] = "zahod";
 
 //metadata: geographic extent
 var eastString = new Array();
@@ -762,6 +833,7 @@ eastString["uk"] = "east"; //FIXME
 eastString["hu"] = "kelet";
 eastString["ro"] = "Est";
 eastString["ru"] = "восток";
+eastString["si"] = "vzhod";
 
 //metadata: geographic extent
 var northString = new Array();
@@ -775,6 +847,7 @@ northString["uk"] = "north"; //FIXME
 northString["hu"] = "észak";
 northString["ro"] = "Nord";
 northString["ru"] = "север";
+northString["si"] = "sever";
 
 //metadata: geographic extent
 var southString = new Array();
@@ -788,6 +861,7 @@ southString["uk"] = "south"; //FIXME
 southString["hu"] = "dél";
 southString["ro"] = "Sud";
 southString["ru"] = "юг";
+southString["si"] = "jug";
 
 //attributes / fields
 var attributesString = new Array();
@@ -801,6 +875,7 @@ attributesString["uk"] = "Атрибути";
 attributesString["hu"] = "Attribútumok / Mezők";
 attributesString["ro"] = "Atribute / Câmpuri";
 attributesString["ru"] = "Атрибуты / Поля";
+attributesString["si"] = "Opisni podatki / polja";
 
 //attribute name string
 var attributeNameString = new Array();
@@ -814,6 +889,7 @@ attributeNameString["uk"] = "Attribute name";
 attributeNameString["hu"] = "Attribútum név";
 attributeNameString["ro"] = "Nume atribute";
 attributeNameString["ru"] = "Название атрибута";
+attributeNameString["si"] = "ime";
 
 //attribute type string
 var attributeTypeString = new Array();
@@ -827,6 +903,7 @@ attributeTypeString["uk"] = "Type";
 attributeTypeString["hu"] = "Típus";
 attributeTypeString["ro"] = "Tip";
 attributeTypeString["ru"] = "Тип";
+attributeTypeString["si"] = "tip";
 
 //attribute comment string
 var attributeCommentString = new Array();
@@ -840,6 +917,7 @@ attributeCommentString["uk"] = "Comment";
 attributeCommentString["hu"] = "Megjegyzés";
 attributeCommentString["ro"] = "Comentariu";
 attributeCommentString["ru"] = "Комментарий";
+attributeCommentString["si"] = "komentar";
 
 //attribute length string
 var attributeLengthString = new Array();
@@ -853,6 +931,7 @@ attributeLengthString["uk"] = "Length";
 attributeLengthString["hu"] = "Hossz";
 attributeLengthString["ro"] = "Lungime";
 attributeLengthString["ru"] = "Длина";
+attributeLengthString["si"] = "dolžina";
 
 //attribute length string
 var attributePrecisionString = new Array();
@@ -866,6 +945,7 @@ attributePrecisionString["uk"] = "Precision";
 attributePrecisionString["hu"] = "Pontosság";
 attributePrecisionString["ro"] = "Precizie";
 attributePrecisionString["ru"] = "Точность";
+attributePrecisionString["si"] = "natančnost";
 
 //label in main toolbar for object identification
 var objectIdentificationTextLabel = new Array();
@@ -879,6 +959,7 @@ objectIdentificationTextLabel["uk"] = "Вибір об'єкту: ";
 objectIdentificationTextLabel["hu"] = "Elem azonosítás: ";
 objectIdentificationTextLabel["ro"] = "Identificare obiect: ";
 objectIdentificationTextLabel["ru"] = "Идентификация объекта: ";
+objectIdentificationTextLabel["si"] = "poizvedba na: ";
 
 //Coordinate text label (coordinate display in bottom toolbar of main map window)
 var coordinateTextLabel = new Array();
@@ -892,6 +973,7 @@ coordinateTextLabel["uk"] = "Координати:";
 coordinateTextLabel["hu"] = "Koordináta:";
 coordinateTextLabel["ro"] = "Coordonate:";
 coordinateTextLabel["ru"] = "Координаты:";
+coordinateTextLabel["si"] = "koordinate:";
 
 //search
 var searchFieldDefaultTextString = new Array();
@@ -905,6 +987,7 @@ searchFieldDefaultTextString["uk"] = "Шукати (адреси, назви, т
 searchFieldDefaultTextString["hu"] = "Keres (cím, név, stb.)";
 searchFieldDefaultTextString["ro"] = "Caută (adrese, nr. parcele, nume, etc.)";
 searchFieldDefaultTextString["ru"] = "Поиск (адрес, индекс, название и др.)";
+searchFieldDefaultTextString["si"] = "Iskanje (naslovi, parcele, imena...)";
 
 //search button
 var searchButtonString = new Array();
@@ -918,6 +1001,7 @@ searchButtonString["uk"] = "Пошук";
 searchButtonString["hu"] = "Keres";
 searchButtonString["ro"] = "Caută";
 searchButtonString["ru"] = "Поиск";
+searchButtonString["si"] = "Išči";
 
 //reset button
 var resetButtonString = new Array();
@@ -931,6 +1015,7 @@ resetButtonString["uk"] = "Очистити";
 resetButtonString["hu"] = "Törlés";
 resetButtonString["ro"] = "Șterge";
 resetButtonString["ru"] = "Очистить";
+resetButtonString["si"] = "Pobriši";
 
 //please wait
 var pleaseWaitString = new Array();
@@ -944,6 +1029,7 @@ pleaseWaitString["uk"] = "Зачекайте";
 pleaseWaitString["hu"] = "Kérem várjon";
 pleaseWaitString["ro"] = "Așteaptă te rog";
 pleaseWaitString["ru"] = "Пожалуйста, подождите";
+pleaseWaitString["si"] = "Prosimo počakajte";
 
 //search result
 var searchResultString = new Array();
@@ -957,6 +1043,7 @@ searchResultString["uk"] = "Результати пошуку";
 searchResultString["hu"] = "Keresés eredménye";
 searchResultString["ro"] = "Rezultatul căutării";
 searchResultString["ru"] = "Результаты поиска";
+searchResultString["si"] = "Rezultati iskanja";
 
 //network error
 var networkErrorString = new Array();
@@ -970,6 +1057,7 @@ networkErrorString["uk"] = "Помилка мережі";
 networkErrorString["hu"] = "Hálózati hiba";
 networkErrorString["ro"] = "Eroare de rețea";
 networkErrorString["ru"] = "Сетевая ошибка";
+networkErrorString["si"] = "Težava z omrežjem";
 
 // missing or invalid search params
 var missingOrInvalidSearchParams = new Array();
@@ -983,6 +1071,7 @@ missingOrInvalidSearchParams["uk"] = "Відсутні або не правил�
 missingOrInvalidSearchParams["hu"] = "Hiányzó vagy érvénytelen értékek a keresési űrlapon";
 missingOrInvalidSearchParams["ro"] = "Valori lipsă sau invalide în căutare";
 missingOrInvalidSearchParams["ru"] = "Отсутствуют или неправильны данные в форме поиска";
+missingOrInvalidSearchParams["si"] = "Nepopolna ali nepravilna vrednost iskanja";
 
 //search error
 var searchErrorString = new Array();
@@ -996,6 +1085,8 @@ searchErrorString["uk"] = "Помилка під час пошуку";
 searchErrorString["hu"] = "Hiba a keresés alatt";
 searchErrorString["ro"] = "Eroare în timpul căutarii";
 searchErrorString["ru"] = "Ошибка поиска";
+searchErrorString["si"] = "Napaka pri iskanju";
+
 
 //search no records found
 var searchNoRecordsFoundString = new Array();
@@ -1009,6 +1100,7 @@ searchNoRecordsFoundString["uk"] = "Помилка під час пошуку"; 
 searchNoRecordsFoundString["hu"] = "Hiba a keresés alatt"; // FIXME
 searchNoRecordsFoundString["ro"] = "Nu am găsit niciun rezultat (căutarea e case-sensitive)";
 searchNoRecordsFoundString["ru"] = "Записи не найдены"; 
+searchNoRecordsFoundString["si"] = "ni rezultatov"; 
 
 //print settings toolbar title
 var printSettingsToolbarTitleString = new Array();
@@ -1022,6 +1114,7 @@ printSettingsToolbarTitleString["uk"] = "Налаштовування друку
 printSettingsToolbarTitleString["hu"] = "Nyomtatás beállításai";
 printSettingsToolbarTitleString["ro"] = "Setări tipărire/print";
 printSettingsToolbarTitleString["ru"] = "Настройки печати";
+printSettingsToolbarTitleString["si"] = "Nastavitve tiskanja";
 
 //print rotation text label
 var printSettingsRotationTextlabelString = new Array();
@@ -1035,6 +1128,7 @@ printSettingsRotationTextlabelString["uk"] = "Поворот: ";
 printSettingsRotationTextlabelString["hu"] = "Forgatás: ";
 printSettingsRotationTextlabelString["ro"] = "Rotește: ";
 printSettingsRotationTextlabelString["ru"] = "Поворот: ";
+printSettingsRotationTextlabelString["si"] = "rotacija: ";
 
 //print button text
 var printButtonTextString = new Array();
@@ -1048,6 +1142,7 @@ printButtonTextString["uk"] = "Друк";
 printButtonTextString["hu"] = "Nyomtat";
 printButtonTextString["ro"] = "Printează";
 printButtonTextString["ru"] = "Печать";
+printButtonTextString["si"] = "tiskanje";
 
 //print cancel button text
 var printCancelButtonTextString = new Array();
@@ -1061,6 +1156,7 @@ printCancelButtonTextString["uk"] = "Відмінити";
 printCancelButtonTextString["hu"] = "Mégsem";
 printCancelButtonTextString["ro"] = "Anulează";
 printCancelButtonTextString["ru"] = "Отмена";
+printCancelButtonTextString["si"] = "prekini";
 
 //objectIdentificationModeStrings
 var objectIdentificationModeString = new Array();
@@ -1075,6 +1171,7 @@ objectIdentificationModeString["topMostHit"]["uk"] = "Верхній шар";
 objectIdentificationModeString["topMostHit"]["hu"] = "Legfelső találat";
 objectIdentificationModeString["topMostHit"]["ro"] = "Stratul superior";
 objectIdentificationModeString["topMostHit"]["ru"] = "Верхний слой";
+objectIdentificationModeString["topMostHit"]["si"] = "zgornji zadetek";
 
 objectIdentificationModeString["allLayers"] = new Array();
 objectIdentificationModeString["allLayers"]["en"] = "All layers";
@@ -1087,6 +1184,7 @@ objectIdentificationModeString["allLayers"]["uk"] = "Усі шари";
 objectIdentificationModeString["allLayers"]["hu"] = "Minden réteg";
 objectIdentificationModeString["allLayers"]["ro"] = "Toate straturile";
 objectIdentificationModeString["allLayers"]["ru"] = "Все слои";
+objectIdentificationModeString["allLayers"]["si"] = "vsi sloji";
 
 objectIdentificationModeString["activeLayers"] = new Array();
 objectIdentificationModeString["activeLayers"]["en"] = "Active Layer";
@@ -1099,6 +1197,7 @@ objectIdentificationModeString["activeLayers"]["uk"] = "Активний шар"
 objectIdentificationModeString["activeLayers"]["hu"] = "Aktív réteg";
 objectIdentificationModeString["activeLayers"]["ro"] = "Stratul activ";
 objectIdentificationModeString["activeLayers"]["ru"] = "Активный слой";
+objectIdentificationModeString["activeLayers"]["si"] = "aktiven sloj";
 
 //measure distance result prefix
 var measureDistanceResultPrefixString = new Array();
@@ -1112,6 +1211,7 @@ measureDistanceResultPrefixString["uk"] = "Відстань";
 measureDistanceResultPrefixString["hu"] = "Távolság";
 measureDistanceResultPrefixString["ro"] = "Distanța";
 measureDistanceResultPrefixString["ru"] = "Дистанция";
+measureDistanceResultPrefixString["si"] = "razdalja";
 
 //distance prefix for result:
 var measureAreaResultPrefixString = new Array();
@@ -1125,6 +1225,7 @@ measureAreaResultPrefixString["uk"] = "Площа";
 measureAreaResultPrefixString["hu"] = "Terület";
 measureAreaResultPrefixString["ro"] = "Aria";
 measureAreaResultPrefixString["ru"] = "Площадь";
+measureAreaResultPrefixString["si"] = "površina";
 
 /***********************
 Tooltips
@@ -1142,6 +1243,7 @@ zoomRectangleTooltipString["uk"] = "Масштабувати прямокутн�
 zoomRectangleTooltipString["hu"] = "Nagyítás téglalappal";
 zoomRectangleTooltipString["ro"] = "Zoom cu dreptunghi";
 zoomRectangleTooltipString["ru"] = "Масштаб прямоугольником";
+zoomRectangleTooltipString["si"] = "povečava s pravokotnikom";
 
 //zoom to full view
 var zoomFullViewTooltipString = new Array();
@@ -1155,6 +1257,7 @@ zoomFullViewTooltipString["uk"] = "Масштаб за розмірами мап
 zoomFullViewTooltipString["hu"] = "Teljes nézet";
 zoomFullViewTooltipString["ro"] = "Zoom la întinderea maximă a hărții";
 zoomFullViewTooltipString["ru"] = "Масштаб по размеру карты";
+zoomFullViewTooltipString["si"] = "povečava na celotno območje";
 
 //navigation history backward
 var navigationHistoryBackwardTooltipString = new Array();
@@ -1168,6 +1271,7 @@ navigationHistoryBackwardTooltipString["uk"] = "Історія навігіці�
 navigationHistoryBackwardTooltipString["hu"] = "Előző nagyítás";
 navigationHistoryBackwardTooltipString["ro"] = "Înapoi la ultima zonă";
 navigationHistoryBackwardTooltipString["ru"] = "Навигация назад";
+navigationHistoryBackwardTooltipString["si"] = "prejšnji pogled";
 
 //navigation history forward
 var navigationHistoryForwardTooltipString = new Array();
@@ -1181,6 +1285,7 @@ navigationHistoryForwardTooltipString["uk"] = "Історія навігації
 navigationHistoryForwardTooltipString["hu"] = "Következő nagyítás";
 navigationHistoryForwardTooltipString["ro"] = "La zona de dinainte";
 navigationHistoryForwardTooltipString["ru"] = "Навигация вперед";
+navigationHistoryForwardTooltipString["si"] = "naslednji pogled";
 
 //discrete zoom in button above zoom slider
 var zoomInTooltipString = new Array();
@@ -1194,6 +1299,7 @@ zoomInTooltipString["uk"] = "Збільшити";
 zoomInTooltipString["hu"] = "Nagyítás (diszkrét lépéssekkel)";
 zoomInTooltipString["ro"] = "Zoom înăuntru (un nivel)";
 zoomInTooltipString["ru"] = "Увеличить";
+zoomInTooltipString["si"] = "povečava (diskretni način)";
 
 //discrete zoom in button above zoom slider
 var zoomOutTooltipString = new Array();
@@ -1207,6 +1313,7 @@ zoomOutTooltipString["uk"] = "Зменшити";
 zoomOutTooltipString["hu"] = "Kicsinyít (diszkrét lépéssekkel)";
 zoomOutTooltipString["ro"] = "Zoom în afară (un nivel)";
 zoomOutTooltipString["ru"] = "Уменьшить";
+zoomOutTooltipString["si"] = "pomanjšava (diskretni način)";
 
 //object identification tooltip
 var objIdentificationTooltipString = new Array();
@@ -1220,7 +1327,7 @@ objIdentificationTooltipString["uk"] = "Вибір об'єкту (атрибут
 objIdentificationTooltipString["hu"] = "Elem azonosítás (attribútum adatok)";
 objIdentificationTooltipString["ro"] = "Identificare obiect (date atribut)";
 objIdentificationTooltipString["ru"] = "Идентификация объектов (атрибуты)";
-
+objIdentificationTooltipString["si"] = "poizvedba (opisni podatki) na lokaciji";
 
 //MapTips tooltip
 var mapTipsTooltipString = new Array();
@@ -1234,6 +1341,7 @@ mapTipsTooltipString["uk"] = "Показівати виринаючі підка
 mapTipsTooltipString["hu"] = "Megjeleníti térkép szövegbuborákait (attribútum adatok)";
 mapTipsTooltipString["ro"] = "Afișează indicii hartă (date atribut)";
 mapTipsTooltipString["ru"] = "Показывать подсказки (атрибуты)";
+mapTipsTooltipString["si"] = "Display MapTips (attribute data)"; //FIXME
 
 //Measure Distance
 var measureDistanceTooltipString = new Array();
@@ -1247,6 +1355,7 @@ measureDistanceTooltipString["uk"] = "Вимірювання відстані";
 measureDistanceTooltipString["hu"] = "Távolság mérés";
 measureDistanceTooltipString["ro"] = "Măsoară distanța";
 measureDistanceTooltipString["ru"] = "Измерение дистанции";
+measureDistanceTooltipString["si"] = "merjenje razdalje";
 
 //Measure Area
 var measureAreaTooltipString = new Array();
@@ -1260,6 +1369,7 @@ measureAreaTooltipString["uk"] = "Вимірювання площі";
 measureAreaTooltipString["hu"] = "Terület mérés";
 measureAreaTooltipString["ro"] = "Măsoară aria";
 measureAreaTooltipString["ru"] = "Измерение площади";
+measureAreaTooltipString["si"] = "merjenje površine";
 
 //Print Map
 var printMapTooltipString = new Array();
@@ -1273,6 +1383,7 @@ printMapTooltipString["uk"] = "Друкувати мапу";
 printMapTooltipString["hu"] = "Térkép nyomtatás";
 printMapTooltipString["ro"] = "Tipărește harta";
 printMapTooltipString["ru"] = "Печать карты";
+printMapTooltipString["si"] = "tiskanje karte";
 
 //Print Map disabled
 var printMapDisabledTooltipString = new Array();
@@ -1286,6 +1397,7 @@ printMapDisabledTooltipString["uk"] = "Друк відключено, не вк�
 printMapDisabledTooltipString["hu"] = "Nyomtatás letiltva, nincs nyomtatási nézet definiálva a QGIS projektben";
 printMapDisabledTooltipString["ro"] = "Tipărirea nu este activă deoarece niciun model de tipărire nu este definit în proiectul QGIS";
 printMapDisabledTooltipString["ru"] = "Печать отключена.  Нет макета в проекте QGIS";
+printMapDisabledTooltipString["si"] = "Tiskanje onemogočeno, manjka 'layout' v QGIS projektu";
 
 //Send permalink
 var sendPermalinkTooltipString = new Array();
@@ -1299,6 +1411,7 @@ sendPermalinkTooltipString["uk"] = "Email a link to this map"; //FIXME
 sendPermalinkTooltipString["hu"] = "Email egy linkkel erre a térképre";
 sendPermalinkTooltipString["ro"] = "Trimite un link către această hartă";
 sendPermalinkTooltipString["ru"] = "Послать ссылку на карту по E-mail";
+sendPermalinkTooltipString["si"] = "pošiljanje povezave na trenutno karto po e-pošti";
 
 //Send permalink
 var sendPermalinkLinkFromString = new Array();
@@ -1312,6 +1425,7 @@ sendPermalinkLinkFromString["uk"] = "Link from "; //FIXME
 sendPermalinkLinkFromString["hu"] = "Link from ";
 sendPermalinkLinkFromString["ro"] = "Link de la ";
 sendPermalinkLinkFromString["ru"] = "Ссылка из ";
+sendPermalinkLinkFromString["si"] = "povezava od ";
 
 //Show Help
 var showHelpTooltipString = new Array();
@@ -1325,6 +1439,7 @@ showHelpTooltipString["uk"] = "Показати довідку";
 showHelpTooltipString["hu"] = "Mutasd a súgót";
 showHelpTooltipString["ro"] = "Afișează Ajutorul";
 showHelpTooltipString["ru"] = "Показать помощь";
+showHelpTooltipString["si"] = "pomoč";
 
 //Geonames loading string
 var geonamesLoadingString = new Array();
@@ -1338,6 +1453,7 @@ geonamesLoadingString["uk"] = "Пошук в Геоданих...";
 geonamesLoadingString["hu"] = "Keresés geoadatokban...";
 geonamesLoadingString["ro"] = "Caută în Geonames...";
 geonamesLoadingString["ru"] = "Поиск в геоданных...";
+geonamesLoadingString["si"] = "Search in Geonames..."; //FIXME
 
 //Geonames empty string
 var geonamesEmptyString = new Array();
@@ -1351,6 +1467,7 @@ geonamesEmptyString["uk"] = "Пошук місць у Геоданих";
 geonamesEmptyString["hu"] = "Keresés a térképen";
 geonamesEmptyString["ro"] = "Caută locația în Geonames";
 geonamesEmptyString["ru"] = "Поиск местоположения в геоданных";
+geonamesEmptyString["si"] = "Search location in Geonames";	//FIXME
 
 //Reset Search Field
 var resetSearchFieldTooltipString = new Array();
@@ -1364,6 +1481,7 @@ resetSearchFieldTooltipString["uk"] = "Очистити поле пошуку";
 resetSearchFieldTooltipString["hu"] = "Kereső mező törlése";
 resetSearchFieldTooltipString["ro"] = "Resetează/golește câmpul de căutare";
 resetSearchFieldTooltipString["ru"] = "Очистить поле поиска";
+resetSearchFieldTooltipString["si"] = "Ponastavi/izprazni iskalna polja";
 
 //print window title
 var printWindowTitleString = new Array();
@@ -1377,6 +1495,7 @@ printWindowTitleString["uk"] = "На сервері створюється PDF �
 printWindowTitleString["hu"] = "A szerver generál egy PDF állományt. A helyes lépték érdekében kérem kapcsolja ki a 'Oldalhoz igazítás' opciót!";
 printWindowTitleString["ro"] = "Serverul generează un fișier PDF . Pentru o imprimare la scara corectă deactivați opțiunea 'Fit to Page/Incadrare pe pagină' când dați print la acesta!";
 printWindowTitleString["ru"] = "Сервер генерирует PDF файл . Для корректного масштабирования печати отключите опцию 'Подогнать по странице'!";
+printWindowTitleString["si"] = "Priprava PDF dokumenta. Za izris v izbranem merilu je potrebno izklopiti opcijo 'Fit to Page'!";
 
 //print object data alternative string in case no pdf plugin is present in browser
 //attention: single quotes around string, partially html formatting
@@ -1391,6 +1510,7 @@ printingObjectDataAlternativeString1["uk"] = 'Схоже Ваш оглядач �
 printingObjectDataAlternativeString1["hu"] = 'Böngésző nem tudja megnyítni a PDF állományokat. PDF állomány elérhető <a href="';
 printingObjectDataAlternativeString1["ro"] = 'Se pare ca browser-ul tău nu poate deschide direct fișiere PDF. Nu e grav - poți să <a href="';
 printingObjectDataAlternativeString1["ru"] = 'Похоже, ваш браузер не может открыть PDF. Нет проблем - <a href="';
+printingObjectDataAlternativeString1["si"] = 'Vaš brskalnik ne omogoča neposrednega prikaza PDF dokumentov, lahko pa - <a href="';
 
 //the second part of the string after the URL
 //attention: single quotes around string, partially html formatting
@@ -1405,6 +1525,7 @@ printingObjectDataAlternativeString2["uk"] = '">посиланням</a> аби 
 printingObjectDataAlternativeString2["hu"] = '">ezen a linken.</a>.</p></object>';
 printingObjectDataAlternativeString2["ro"] = '">descarci fișierul PDF aici.</a>.</p></object>';
 printingObjectDataAlternativeString2["ru"] = '">скачайте PDF-файл здесь.</a>.</p></object>';
+printingObjectDataAlternativeString2["si"] = '">prevzamete PDF dokument tukaj.</a>.</p></object>';
 
 //print button tooltip
 var printButtonTooltipString = new Array();
@@ -1418,6 +1539,7 @@ printButtonTooltipString["uk"] = "Друкувати (PDF)";
 printButtonTooltipString["hu"] = "Nyomtat (PDF generálása)";
 printButtonTooltipString["ro"] = "Print/Tipărește (Generează un PDF)";
 printButtonTooltipString["ru"] = "Печать (Генерация PDF)";
+printButtonTooltipString["si"] = "Tiskanje (PDF)";
 
 //print cancel button tooltip
 var printCancelButtonTooltipString = new Array();
@@ -1432,6 +1554,7 @@ printCancelButtonTooltipString["hu"] = "Mégsem nyomtat (bezár)";
 printCancelButtonTooltipString["en"] = "Cancel Print (Close)";
 printCancelButtonTooltipString["ro"] = "Anulează Tipărirea (Închide)";
 printCancelButtonTooltipString["ru"] = "Отмена печати (Закрыть)";
+printCancelButtonTooltipString["si"] = "prekini tisk (zapri)";
 
 //theme switcher button tooltip
 var mapThemeButtonTooltipString = new Array();
@@ -1445,6 +1568,7 @@ mapThemeButtonTooltipString["uk"] = "Клацніть щоб обрати нов
 mapThemeButtonTooltipString["hu"] = "Klikkeljen ide új tematikus térkép választásához";
 mapThemeButtonTooltipString["ro"] = "Click pentru a alege o nouă tematică de hartă";
 mapThemeButtonTooltipString["ru"] = "Кликните чтобы выбрать новую тему для карты";
+mapThemeButtonTooltipString["si"] = "izbor vsebine";
 
 //comment, if layer is outside scale range
 var tooltipLayerTreeLayerOutsideScale = new Array();
@@ -1458,6 +1582,7 @@ tooltipLayerTreeLayerOutsideScale["uk"] = "Visible at scales"; //FIXME
 tooltipLayerTreeLayerOutsideScale["hu"] = "Visible at scales"; //FIXME
 tooltipLayerTreeLayerOutsideScale["ro"] = "Vizibil la scara";
 tooltipLayerTreeLayerOutsideScale["ru"] = "Visible at scales"; //FIXME
+tooltipLayerTreeLayerOutsideScale["si"] = "vidno pri merilih";
 
 /***********************
 Error Messages
@@ -1475,6 +1600,7 @@ errMessageStartupMapParamString["uk"] = "Параметр 'map' відсутні
 errMessageStartupMapParamString["hu"] = "Indulási-Paraméter 'map' hiányzik!";
 errMessageStartupMapParamString["ro"] = "Lipsește parametrul de pornire 'map'!";
 errMessageStartupMapParamString["ru"] = "Параметр 'map' отсутствует!";
+errMessageStartupMapParamString["si"] = "Začetni parameter 'map' manjka!";
 
 //additional startup error message
 var errMessageStartupNotAllParamsFoundString = new Array();
@@ -1488,6 +1614,7 @@ errMessageStartupNotAllParamsFoundString["uk"] = "Відсутні обов'яз
 errMessageStartupNotAllParamsFoundString["hu"] = "Néhány kötelező indítási paramétert hiányzik, vagy egy opcionális indítási paraméter érvénytelen.";
 errMessageStartupNotAllParamsFoundString["ro"] = "Lipsesc niște parametri obligatorii sau un parametru opțional de start este invalid.";
 errMessageStartupNotAllParamsFoundString["ru"] = "Отсутствуют обязательные параметры или необязательный параметр неверен.";
+errMessageStartupNotAllParamsFoundString["si"] = "Obvezni začetni parametri manjkajo ali pa je podan nepravilni parameter.";
 
 //error message if optional startExtent parameter is wrong
 var errMessageExtentParamWrongPart1 = new Array();
@@ -1501,6 +1628,7 @@ errMessageExtentParamWrongPart1["uk"] = "Параметр '";
 errMessageExtentParamWrongPart1["hu"] = "Indulási-paraméter '";
 errMessageExtentParamWrongPart1["ro"] = "Parametrul de start '";
 errMessageExtentParamWrongPart1["ru"] = "Параметр запуска '";
+errMessageExtentParamWrongPart1["si"] = "Začetni parameter '";
 
 //error message if optional startExtent parameter is wrong
 var errMessageExtentParamWrongPart2 = new Array();
@@ -1514,6 +1642,7 @@ errMessageExtentParamWrongPart2["uk"] = "' має бути в форматі Ope
 errMessageExtentParamWrongPart2["hu"] = "' következő formátum szükséges OpenLayers.Bounds: 'left,bottom,right,top'.";
 errMessageExtentParamWrongPart2["ro"] = "' trebuie sa fie in format OpenLayers.Bounds: 'left,bottom,right,top'.";
 errMessageExtentParamWrongPart2["ru"] = "' должен быть в формате OpenLayers.Bounds: 'left,bottom,right,top'.";
+errMessageExtentParamWrongPart2["si"] = "' mora biti v 'OpenLayers.Bounds' formatu: 'left,bottom,right,top'.";
 
 //error message invalid language code, part 1
 var errMessageInvalidLanguageCodeString1 = new Array();
@@ -1527,6 +1656,7 @@ errMessageInvalidLanguageCodeString1["uk"] = "Вказано невірний к
 errMessageInvalidLanguageCodeString1["hu"] = "Érvénytelen nyelvi kód: ";
 errMessageInvalidLanguageCodeString1["ro"] = "Codul de limbă este invalid: ";
 errMessageInvalidLanguageCodeString1["ru"] = "Неверный код языка: ";
+errMessageInvalidLanguageCodeString1["si"] = "Podana nepravilna koda jezika: ";
 
 //error message invalid language code, part 2
 var errMessageInvalidLanguageCodeString2 = new Array();
@@ -1540,6 +1670,7 @@ errMessageInvalidLanguageCodeString2["uk"] = "Переключаюсь на мо
 errMessageInvalidLanguageCodeString2["hu"] = "Visszatér az alapértelmezett nyelvhez ";
 errMessageInvalidLanguageCodeString2["ro"] = "Trec pe limba implicită ";
 errMessageInvalidLanguageCodeString2["ru"] = "Возвращение к языку по умолчанию ";
+errMessageInvalidLanguageCodeString2["si"] = "Preklop na privzeti jezik ";
 
 //error message of search combo network request title
 var errMessageSearchComboNetworkRequestFailureTitleString = new Array();
@@ -1553,6 +1684,7 @@ errMessageSearchComboNetworkRequestFailureTitleString["uk"] = "Помилка м
 errMessageSearchComboNetworkRequestFailureTitleString["hu"] = "Hálózati kérés sikertelen";
 errMessageSearchComboNetworkRequestFailureTitleString["ro"] = "Cererea de rețea a eșuat";
 errMessageSearchComboNetworkRequestFailureTitleString["ru"] = "Ошибка сетевого запроса";
+errMessageSearchComboNetworkRequestFailureTitleString["si"] = "Omrežni zahtevek ni uspel";
 
 //error message of search combo network request detailed message - do not forget the \n at the end of the string!
 var errMessageSearchComboNetworkRequestFailureString = new Array();
@@ -1566,3 +1698,4 @@ errMessageSearchComboNetworkRequestFailureString["uk"] = "Не вдалося в
 errMessageSearchComboNetworkRequestFailureString["hu"] = "Hálozati kérés a keresett geometriára sikertelen:\n";
 errMessageSearchComboNetworkRequestFailureString["ro"] = "Cererea de rețea pentru geometria rezultatului căutarii a eșuat:\n";
 errMessageSearchComboNetworkRequestFailureString["ru"] = "не удалось выполнить запрос геометрии для результатов поиска:\n";
+errMessageSearchComboNetworkRequestFailureString["si"] = "Omrežni zahtevek za geometrijo iskalnega rezultata ni uspel:\n";
