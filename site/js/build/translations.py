@@ -65,14 +65,21 @@ def main():
             outFile.write(aLine)
         elif aLine.find("new Array()") != -1:
             outFile.write(aLine)
-        elif aLine.find("availableLanguages[") != -1:
-            outFile.write(aLine)
         else:
             for aLang in languages:
-                if aLine.find("[\"" + aLang.strip() + "\"]") != -1:
-                    outFile.write(aLine)
-                elif aLine.find("[\'" + aLang.strip() + "\']") != -1:
-                    outFile.write(aLine)
+                if aLine.find("availableLanguages[") != -1:
+                    if aLine.find("availableLanguages[\"" + aLang.strip() + "\"]") != -1:
+                        if aLine.find("= {names:[]") != -1:
+                            outFile.write(aLine)
+                        else:
+                            for bLang in languages:
+                                if aLine.find("names[\"" + bLang + "\"]") != -1:
+                                    outFile.write(aLine)
+                else:
+                    if aLine.find("[\"" + aLang.strip() + "\"]") != -1:
+                        outFile.write(aLine)
+                    elif aLine.find("[\'" + aLang.strip() + "\']") != -1:
+                        outFile.write(aLine)
         
     inputFile.close()
     outFile.close()
