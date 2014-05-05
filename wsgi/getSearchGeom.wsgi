@@ -26,7 +26,7 @@ def application(environ, start_response):
   
   result = "nogeom"
   
-  if searchtable == "null":
+  if searchtable != "null":
     errorText = ''
     try:
       conn = psycopg2.connect(DB_CONN_STRING)
