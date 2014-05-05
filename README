@@ -1,10 +1,10 @@
 Quantum GIS (QGIS) Web Client
 Installation  and Configuration Guide
-Monday April 28, 2014
+Monday May 05, 2014
 
 
-Last Updated: Monday April 28, 2014
-Last Change : Monday April 28, 2014
+Last Updated: Monday May 05, 2014
+Last Change : Monday May 05, 2014
 
 
   1. For the terminally lazy
@@ -501,7 +501,7 @@ need into site/js/build/translations.cfg and run the script, i.e. in a shell cha
 
   python translations.py
 
-A new file site/js/Translations_custom.js is created. Copy this file to the server and adapt qgiswebclient.html accordingly.
+A new file site/js/Translations_custom.js is created. Copy this file to your server and adapt qgiswebclient.html accordingly.
 
 
   5. URL Rewriting
@@ -854,6 +854,8 @@ Translators:
 - Alessandro Pasotti
 - Nelson Silva
 - Pavlo Taranov
+- Tudor Bărăscu
+- Uroš Preložnik
 
 
   9. Acknowledgements
