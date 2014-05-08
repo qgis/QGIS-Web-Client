@@ -29,12 +29,22 @@ if(isset($_REQUEST['map0:extent'])){
 	$ymin = $extent[1];
 	$xmax = $extent[2];
 	$ymax = $extent[3];
+	
+	if (! (is_numeric($xmin) && is_numeric($ymin) && is_numeric($xmax) && is_numeric($xmin) && is_numeric($ymax))){
+		die('SQL injection prevention : bad extent');
+	}
+	
 }else{
-die('you must provide a valid bounding box');
+die('You must provide a valid bounding box');
 }
 
 if(isset($_REQUEST['srid'])){
 	$srid = $_REQUEST['srid'];
+	
+	if (! is_numeric($srid)){
+		die('SQL injection prevention : bad srid');
+	}
+	
 }
 
 
