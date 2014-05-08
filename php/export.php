@@ -6,7 +6,7 @@
  * Need to install gdal binaries (apt-get install gdal-bin) and adapt the ogr2ogr command you need.
  * Can be adapted to export/import almost everything (look at http://www.gdal.org/ogr/ogr_formats.html)
  * 
- * Nicolas Liaudat - nliaudat@pompiers-chatel.ch
+ * Nicolas Liaudat - nliaudat(at)pompiers-chatel(dot)ch
  *
  *
  * export.php -- part of Quantum GIS Web Client
