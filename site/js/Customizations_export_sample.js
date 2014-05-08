@@ -82,7 +82,7 @@ function customInit() {
 							  var parentPanel = Ext.getCmp('geoExtMapPanel');
 							  var ExportLoginWindow = new Ext.Window(
 								{
-								  title: 'Export DXF',
+								  title: 'Export',
 								  width: Ext.getBody().getWidth() /4,
 								  height: Ext.getBody().getHeight() /4,
 								  resizable: true,
@@ -91,7 +91,7 @@ function customInit() {
 								  constrainHeader: true,
 								  x:50,
 								  y:50,
-								  html: '<object data="'+url+'" type="application/zip" width="100%" height="100%"><p style="margin:5px;">Vous pouvez <a href="' + url + '">Download file</a>.</p></object>'
+								  html: '<object data="'+url+'" type="application/zip" width="100%" height="100%"><p style="margin:5px;"><a href="' + url + '">Download file</a>.</p></object>'
 								}
 							  );
 							  ExportLoginWindow.show();
@@ -126,7 +126,7 @@ function customAfterMapInit() {
 				ExportProvider = new QGIS.ExportProvider({
 						method: "POST", // "POST" recommended for production use
 						capabilities: printCapabilities, // from the info.json script in the html
-						url: './php/export.php?'
+						url: '../php/export.php?'
 				});
 
 				
@@ -138,7 +138,7 @@ function customAfterMapInit() {
 							if (exportLayoutsDefined == true) {
 								//create new window to hold exporting toolbar
 								exportWindow = new Ext.Window({
-									title: 'Export DXF',
+									title: 'Export',
 									//printSettingsToolbarTitleString[lang],
 									height: 67,
 									width: 200,
@@ -157,8 +157,8 @@ function customAfterMapInit() {
 											
 											items: [{
 												xtype: 'button',
-												tooltip: 'Exporter',
-												text: 'Exporter',
+												tooltip: 'Export',
+												text: 'Export',
 												tooltipType: 'qtip',
 												iconCls: '',
 												scale: 'medium',
@@ -229,7 +229,7 @@ var customButtons = [
 							scale: 'medium',
 							icon: 'gis_icons/mActionExport.png',
 							tooltipType: 'qtip',
-							tooltip: 'Export,
+							tooltip: 'Export',
 							id: 'ExportMap'
 						}
 ];
