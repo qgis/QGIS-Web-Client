@@ -10,7 +10,7 @@
 */
 
 //indicating which of the help files have been translated already
-var availableHelpLanguages = Array("en","de","hu","it","pl","fr");
+var availableHelpLanguages = Array("en","de","hu","it","pl","fr","ro");
 
 // list of available languages
 var availableLanguages = new Array();
