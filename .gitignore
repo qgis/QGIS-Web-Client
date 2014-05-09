@@ -12,6 +12,6 @@ README.toc
 index.xml
 qgis-web-client.conf
 *.swp
-
+site/js/Translations_custom.js
 .gitignore
 

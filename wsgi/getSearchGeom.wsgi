@@ -22,11 +22,11 @@ def application(environ, start_response):
     print >> environ['wsgi.errors'], "offending input: %s" % searchtable
     sql = ""
   else:
-    sql = "SELECT ST_AsText(the_geom) AS geom FROM "+searchtable+" WHERE displaytext = %(displaytext)s;"
+    sql = "SELECT COALESCE(ST_AsText(the_geom), \'nogeom\') AS geom FROM "+searchtable+" WHERE displaytext = %(displaytext)s;"
   
   result = "nogeom"
   
-  if searchtable == "null":
+  if searchtable != "" and searchtable != "null":
     errorText = ''
     try:
       conn = psycopg2.connect(DB_CONN_STRING)

@@ -791,7 +791,7 @@ function postLoading() {
 				qgisSearchCombo = new QGIS.SearchComboBox({
 					map: geoExtMap.map,
 					highlightLayerName: 'attribHighLight',
-					hasReverseAxisOrder: thematicLayer.reverseAxisOrder(),
+					hasReverseAxisOrder: false, // PostGIS returns bbox' coordinates always x/y
 					width: 300,
 					searchtables: searchtables
 				});

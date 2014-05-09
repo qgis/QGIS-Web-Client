@@ -13,13 +13,13 @@
 <DIV CLASS="header" ID="header">
 <H1>Quantum GIS (QGIS) Web Client</H1>
 <H2>Installation  and Configuration Guide</H2>
-<H3>Friday March 28, 2014</H3>
+<H3>Monday May 05, 2014</H3>
 </DIV>
 
 <DIV CLASS="body" ID="body">
 <P>
-Last Updated: Friday March 28, 2014
-Last Change : Friday March 28, 2014
+Last Updated: Monday May 05, 2014
+Last Change : Monday May 05, 2014
 </P>
 <DIV CLASS="toc">
 
@@ -33,16 +33,17 @@ Last Change : Friday March 28, 2014
     <LI><A HREF="#toc6">4.2. Configuration of search panels</A>
     <LI><A HREF="#toc7">4.3. Configuration of the theme switcher</A>
     <LI><A HREF="#toc8">4.4. Extending the interface</A>
+    <LI><A HREF="#toc9">4.5. Customize languages</A>
     </UL>
-  <LI><A HREF="#toc9">URL Rewriting</A>
-  <LI><A HREF="#toc10">Configuration of the search</A>
+  <LI><A HREF="#toc10">URL Rewriting</A>
+  <LI><A HREF="#toc11">Configuration of the search</A>
     <UL>
-    <LI><A HREF="#toc11">6.1. PHP Search</A>
-    <LI><A HREF="#toc12">6.2. WSGI Search</A>
+    <LI><A HREF="#toc12">6.1. PHP Search</A>
+    <LI><A HREF="#toc13">6.2. WSGI Search</A>
     </UL>
-  <LI><A HREF="#toc13">License</A>
-  <LI><A HREF="#toc14">Developers and Contributors</A>
-  <LI><A HREF="#toc15">Acknowledgements</A>
+  <LI><A HREF="#toc14">License</A>
+  <LI><A HREF="#toc15">Developers and Contributors</A>
+  <LI><A HREF="#toc16">Acknowledgements</A>
   </OL>
 
 </DIV>
@@ -189,7 +190,8 @@ lang
 <P>
 An optional language parameter. Normally, this parameter is defined in the file 'site/js/GlobalOptions.js'.
 Optionally this can be overwritten on a per project base. Allowed values are two-character language codes
-that must be present in the file 'site/js/Translations.js'.
+that must be present in the file 'site/js/Translations.js' or 'site/js/Translations_custom.js' if a custom tranlsations
+file is used.
 </P>
 
 <div class="code"><PRE>
@@ -712,6 +714,26 @@ See the example in site/js/Customizations.js.
 </P>
 
 <A NAME="toc9"></A>
+<H2>4.5. Customize languages</H2>
+
+<P>
+In order to provide shorter loading times you can reduce the languages in <CODE>Translations.js</CODE> to those you really need.
+For this purpose the Python script <CODE>site/js/build/translations.py</CODE> is shipped with QGIS Web Client.
+</P>
+<P>
+Write the languages you
+need into <CODE>site/js/build/translations.cfg</CODE> and run the script, i.e. in a shell change to <CODE>site/js/build</CODE> and enter
+</P>
+
+<div class="code"><PRE>
+python translations.py
+</PRE></div>
+
+<P>
+A new file <CODE>site/js/Translations_custom.js</CODE> is created. Copy this file to your server and adapt <CODE>qgiswebclient.html</CODE> accordingly.
+</P>
+
+<A NAME="toc10"></A>
 <H1>5. URL Rewriting</H1>
 
 <P>
@@ -786,7 +808,7 @@ RewriteRule ^/maps-protected/([^\.]+)$ /qgis-web-client/site/qgiswebclient.html 
 RewriteRule ^/maps-protected/(.*) /qgis-web-client/site/$1 [PT]
 </PRE></div>
 
-<A NAME="toc10"></A>
+<A NAME="toc11"></A>
 <H1>6. Configuration of the search</H1>
 
 <P>
@@ -813,7 +835,7 @@ install the wsgi scripts in a separate directory, e.g. /home/www/wsgi, a place
 that is not reachable by regular web traffic.
 </P>
 
-<A NAME="toc11"></A>
+<A NAME="toc12"></A>
 <H2>6.1. PHP Search</H2>
 
 <H3>6.1.1. Available PHP scripts</H3>
@@ -954,7 +976,7 @@ var searchBoxGetGeomURL = '../php/search_geom.php?map=' + project_map;
 Permalinks: the permalinks script is not yet implemented in PHP.
 </P>
 
-<A NAME="toc12"></A>
+<A NAME="toc13"></A>
 <H2>6.2. WSGI Search</H2>
 
 <H3>6.2.1. Configuration of mod_wsgi</H3>
@@ -1081,7 +1103,7 @@ contain lower characters only.
 Using views is generally slower than properly indexed tables, check for yourself what works best.
 </P>
 
-<A NAME="toc13"></A>
+<A NAME="toc14"></A>
 <H1>7. License</H1>
 
 <P>
@@ -1112,7 +1134,7 @@ HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABI
 THE POSSIBILITY OF SUCH DAMAGE.
 </UL>
 
-<A NAME="toc14"></A>
+<A NAME="toc15"></A>
 <H1>8. Developers and Contributors</H1>
 
 <P>
@@ -1146,9 +1168,11 @@ Translators:
 <LI>Alessandro Pasotti
 <LI>Nelson Silva
 <LI>Pavlo Taranov
+<LI>Tudor Bărăscu
+<LI>Uroš Preložnik
 </UL>
 
-<A NAME="toc15"></A>
+<A NAME="toc16"></A>
 <H1>9. Acknowledgements</H1>
 
 <P>

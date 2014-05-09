@@ -1,10 +1,10 @@
 Quantum GIS (QGIS) Web Client
 Installation  and Configuration Guide
-Friday March 28, 2014
+Monday May 05, 2014
 
 
-Last Updated: Friday March 28, 2014
-Last Change : Friday March 28, 2014
+Last Updated: Monday May 05, 2014
+Last Change : Monday May 05, 2014
 
 
   1. For the terminally lazy
@@ -15,6 +15,7 @@ Last Change : Friday March 28, 2014
     4.2. Configuration of search panels
     4.3. Configuration of the theme switcher
     4.4. Extending the interface
+    4.5. Customize languages
   5. URL Rewriting
   6. Configuration of the search
     6.1. PHP Search
@@ -120,7 +121,8 @@ is responsible for the proper handling of the startup options. The following opt
 
 An optional language parameter. Normally, this parameter is defined in the file 'site/js/GlobalOptions.js'.
 Optionally this can be overwritten on a per project base. Allowed values are two-character language codes
-that must be present in the file 'site/js/Translations.js'.
+that must be present in the file 'site/js/Translations.js' or 'site/js/Translations_custom.js' if a custom tranlsations
+file is used.
 
   visibleLayers
 
@@ -488,6 +490,20 @@ You can add buttons to implements additional functions (editing, advanced identi
 See the example in site/js/Customizations.js.
 
 
+  4.5. Customize languages
+  ========================
+
+In order to provide shorter loading times you can reduce the languages in Translations.js to those you really need.
+For this purpose the Python script site/js/build/translations.py is shipped with QGIS Web Client.
+
+Write the languages you
+need into site/js/build/translations.cfg and run the script, i.e. in a shell change to site/js/build and enter
+
+  python translations.py
+
+A new file site/js/Translations_custom.js is created. Copy this file to your server and adapt qgiswebclient.html accordingly.
+
+
   5. URL Rewriting
   ================
 
@@ -840,6 +856,7 @@ Translators:
 - Pavlo Taranov
 - Tudor Bărăscu
 - Uroš Preložnik
+
 
   9. Acknowledgements
   ===================
