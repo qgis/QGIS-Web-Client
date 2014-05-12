@@ -134,7 +134,8 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 					xtype: 'panel',
 					layout: 'accordion',
 					border: false,
-                    frame: false,
+					frame: false,
+					id: 'collapsiblePanels',
 					flex: 0.9,
 					width: '100%',
 					layoutConfig: {
