@@ -377,20 +377,32 @@ function postLoading() {
 	selectedLayers = Array();
 	selectedQueryableLayers = Array();
 	allLayers = Array();
-
-	layerTree.root.firstChild.cascade(
-
-	function (n) {
-		if (n.isLeaf()) {
-			if (n.attributes.checked) {
-				selectedLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
-				if (wmsLoader.layerProperties[wmsLoader.layerTitleNameMapping[n.text]].queryable) {
-					selectedQueryableLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
-				}
-			}
-			allLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
+	
+	// prepare the context menu for "Zoom To Layer Extent"
+	menuC = new Ext.menu.Menu({
+		id: 'layerContextMenu',
+		items: {
+			text: contextZoomLayerExtent[lang],
+			handler: zoomToLayerExtent,
 		}
 	});
+
+	layerTree.root.firstChild.cascade(
+		function (n) {
+			if (n.isLeaf()) {
+				if (n.attributes.checked) {
+					selectedLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
+					if (wmsLoader.layerProperties[wmsLoader.layerTitleNameMapping[n.text]].queryable) {
+						selectedQueryableLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
+					}
+				}
+				allLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
+				
+				// add the "Zoom To Layer Extent" context menu
+				n.on ('contextMenu', contextMenuHandler);
+			}
+		}
+	);
 	mainStatusText.setText(mapLoadingString[lang]);
 	format = imageFormatForLayers(selectedLayers);
 
@@ -1950,7 +1962,6 @@ function imageFormatForLayers(layers) {
 	return format;
 }
 
-
 //this function checks if layers and layer-groups are outside scale-limits.
 //if a layer is outside scale-limits, its label in the TOC is being displayed in a light gray
 function setGrayNameWhenOutsideScale() {
@@ -2079,4 +2090,30 @@ function setGrayNameWhenOutsideScale() {
             }
         }
     }
+}
+
+// Function to zoom to layer extent - called by context menu on left panel (only on the leafs 
+// of tree node)
+function zoomToLayerExtent(item) {
+	var myLayerName = layerTree.getSelectionModel().getSelectedNode().text;
+	
+	myArray = wmsLoader.projectSettings.capability.layers;
+	var arrayLength = myArray.length;
+	// Search through the layers of the project file
+	for (var i = 0; i < arrayLength; i++) {
+		l = myArray[i];
+		if (l.name == myLayerName) {
+			// NOTE: I'm using the default projection of the project.
+			// Maybe it would be a problem with different projections?
+			bbox = l.bbox[geoExtMap.map.projection.toString()].bbox;
+			geoExtMap.map.zoomToExtent(new OpenLayers.Bounds(bbox));
+			break;
+		}
+	}	
+}
+
+// Show the menu on right click of the leaf node of the layerTree object
+function contextMenuHandler(node) {
+	node.select();
+	menuC.show ( node.ui.getAnchor());
 }
