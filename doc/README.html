@@ -13,13 +13,13 @@
 <DIV CLASS="header" ID="header">
 <H1>Quantum GIS (QGIS) Web Client</H1>
 <H2>Installation  and Configuration Guide</H2>
-<H3>Monday May 05, 2014</H3>
+<H3>Monday May 19, 2014</H3>
 </DIV>
 
 <DIV CLASS="body" ID="body">
 <P>
-Last Updated: Monday May 05, 2014
-Last Change : Monday May 05, 2014
+Last Updated: Monday May 19, 2014
+Last Change : Monday May 19, 2014
 </P>
 <DIV CLASS="toc">
 
@@ -1001,14 +1001,16 @@ WSGIScriptAliasMatch ^/wsgi/([^/]+) /home/www/wsgi/$1.wsgi
 <H4>6.2.2.1. DB connection</H4>
 
 <P>
-In the files "search.wsgi" and "getSearchGeom.wsgi" please edit the first line
-containing the db connection strings.
+In the file <CODE>qwc_connect.py</CODE> please edit the first line containing the db connection string. 
 </P>
 
 <div class="code"><PRE>
-DB_CONN_STRING="host='yourhost' dbname='yourdb' port='5432' user='yourusername' password='yourpassword'"
+DB_CONN_STRING="host='myhost' dbname='mydb' port='5432' user='myuser' password='secret'"
 </PRE></div>
 
+<P>
+This connection will be used in all wsgi scripts.
+</P>
 <P>
 Adapt the parameters according to your server/db. It is highly recommended to
 <B>connect with a database user having limited rights only</B> (e.g. select rights on relevant tables only).

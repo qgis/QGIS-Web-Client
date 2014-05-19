@@ -815,12 +815,13 @@ WSGIScriptAliasMatch ^/wsgi/([^/]+) /home/www/wsgi/$1.wsgi
 === Adaption of the wsgi scripts to your settings and needs ===
 
 ==== DB connection ====
-In the files "search.wsgi" and "getSearchGeom.wsgi" please edit the first line
-containing the db connection strings.
+In the file ``qwc_connect.py`` please edit the first line containing the db connection string. 
 
 ```
-DB_CONN_STRING="host='yourhost' dbname='yourdb' port='5432' user='yourusername' password='yourpassword'"
+DB_CONN_STRING="host='myhost' dbname='mydb' port='5432' user='myuser' password='secret'"
 ```
+
+This connection will be used in all wsgi scripts.
 
 Adapt the parameters according to your server/db. It is highly recommended to
 **connect with a database user having limited rights only** (e.g. select rights on relevant tables only).
