@@ -587,6 +587,34 @@ tags
 Optional. Tags or keywords displayed in the tooltips in the theme switcher.
 The tags are also used in the search filter used in the theme switcher.
 
+== Configuring of background layers ==
+You can use any [OpenLayers.Layer http://dev.openlayers.org/releases/OpenLayers-2.13.1/doc/apidocs/files/OpenLayers/Layer-js.html] subclass as background layer. This layer must be added to ``baseLayers``. You should do this in ``customBeforeMapInit()`` in Customizations.js. Example:
+```
+// called before map initialization
+function customBeforeMapInit() {
+    // define base layer
+    var myBaseLayer = new OpenLayers.Layer.WMS("myBaseLayerName",
+        "myBaseLayerWmsUrl", {
+            layers: "myLayer",
+            format: format,
+            dpi: screenDpi,
+            VERSION: "1.3.0"
+        },
+        {
+            buffer:0,
+            singleTile:true,
+            ratio:1,
+            transitionEffect:"resize",
+            isBaseLayer: true, // important!
+            projection:authid // requests the base layer in the projection defined in GlobalOptions
+        }
+    );
+
+    // now add to baseLayers array
+    baseLayers.push(myBaseLayer);
+}
+```
+
 == Extending the interface ==
 
 You can add buttons to implements additional functions (editing, advanced identify, etc.).

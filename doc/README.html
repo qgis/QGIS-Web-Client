@@ -13,13 +13,13 @@
 <DIV CLASS="header" ID="header">
 <H1>Quantum GIS (QGIS) Web Client</H1>
 <H2>Installation  and Configuration Guide</H2>
-<H3>Monday May 19, 2014</H3>
+<H3>Thursday May 22, 2014</H3>
 </DIV>
 
 <DIV CLASS="body" ID="body">
 <P>
-Last Updated: Monday May 19, 2014
-Last Change : Monday May 19, 2014
+Last Updated: Thursday May 22, 2014
+Last Change : Thursday May 22, 2014
 </P>
 <DIV CLASS="toc">
 
@@ -32,18 +32,19 @@ Last Change : Monday May 19, 2014
     <LI><A HREF="#toc5">4.1. Per Project Startup Options</A>
     <LI><A HREF="#toc6">4.2. Configuration of search panels</A>
     <LI><A HREF="#toc7">4.3. Configuration of the theme switcher</A>
-    <LI><A HREF="#toc8">4.4. Extending the interface</A>
-    <LI><A HREF="#toc9">4.5. Customize languages</A>
+    <LI><A HREF="#toc8">4.4. Configuring of background layers</A>
+    <LI><A HREF="#toc9">4.5. Extending the interface</A>
+    <LI><A HREF="#toc10">4.6. Customize languages</A>
     </UL>
-  <LI><A HREF="#toc10">URL Rewriting</A>
-  <LI><A HREF="#toc11">Configuration of the search</A>
+  <LI><A HREF="#toc11">URL Rewriting</A>
+  <LI><A HREF="#toc12">Configuration of the search</A>
     <UL>
-    <LI><A HREF="#toc12">6.1. PHP Search</A>
-    <LI><A HREF="#toc13">6.2. WSGI Search</A>
+    <LI><A HREF="#toc13">6.1. PHP Search</A>
+    <LI><A HREF="#toc14">6.2. WSGI Search</A>
     </UL>
-  <LI><A HREF="#toc14">License</A>
-  <LI><A HREF="#toc15">Developers and Contributors</A>
-  <LI><A HREF="#toc16">Acknowledgements</A>
+  <LI><A HREF="#toc15">License</A>
+  <LI><A HREF="#toc16">Developers and Contributors</A>
+  <LI><A HREF="#toc17">Acknowledgements</A>
   </OL>
 
 </DIV>
@@ -706,15 +707,48 @@ The tags are also used in the search filter used in the theme switcher.
 </P>
 
 <A NAME="toc8"></A>
-<H2>4.4. Extending the interface</H2>
+<H2>4.4. Configuring of background layers</H2>
+
+<P>
+You can use any <A HREF="http://dev.openlayers.org/releases/OpenLayers-2.13.1/doc/apidocs/files/OpenLayers/Layer-js.html">OpenLayers.Layer</A> subclass as background layer. This layer must be added to <CODE>baseLayers</CODE>. You should do this in <CODE>customBeforeMapInit()</CODE> in Customizations.js. Example:
+</P>
+
+<div class="code"><PRE>
+// called before map initialization
+function customBeforeMapInit() {
+    // define base layer
+    var myBaseLayer = new OpenLayers.Layer.WMS("myBaseLayerName",
+        "myBaseLayerWmsUrl", {
+            layers: "myLayer",
+            format: format,
+            dpi: screenDpi,
+            VERSION: "1.3.0"
+        },
+        {
+            buffer:0,
+            singleTile:true,
+            ratio:1,
+            transitionEffect:"resize",
+            isBaseLayer: true, // important!
+            projection:authid // requests the base layer in the projection defined in GlobalOptions
+        }
+    );
+
+    // now add to baseLayers array
+    baseLayers.push(myBaseLayer);
+}
+</PRE></div>
+
+<A NAME="toc9"></A>
+<H2>4.5. Extending the interface</H2>
 
 <P>
 You can add buttons to implements additional functions (editing, advanced identify, etc.).
 See the example in site/js/Customizations.js.
 </P>
 
-<A NAME="toc9"></A>
-<H2>4.5. Customize languages</H2>
+<A NAME="toc10"></A>
+<H2>4.6. Customize languages</H2>
 
 <P>
 In order to provide shorter loading times you can reduce the languages in <CODE>Translations.js</CODE> to those you really need.
@@ -733,7 +767,7 @@ python translations.py
 A new file <CODE>site/js/Translations_custom.js</CODE> is created. Copy this file to your server and adapt <CODE>qgiswebclient.html</CODE> accordingly.
 </P>
 
-<A NAME="toc10"></A>
+<A NAME="toc11"></A>
 <H1>5. URL Rewriting</H1>
 
 <P>
@@ -808,7 +842,7 @@ RewriteRule ^/maps-protected/([^\.]+)$ /qgis-web-client/site/qgiswebclient.html 
 RewriteRule ^/maps-protected/(.*) /qgis-web-client/site/$1 [PT]
 </PRE></div>
 
-<A NAME="toc11"></A>
+<A NAME="toc12"></A>
 <H1>6. Configuration of the search</H1>
 
 <P>
@@ -835,7 +869,7 @@ install the wsgi scripts in a separate directory, e.g. /home/www/wsgi, a place
 that is not reachable by regular web traffic.
 </P>
 
-<A NAME="toc12"></A>
+<A NAME="toc13"></A>
 <H2>6.1. PHP Search</H2>
 
 <H3>6.1.1. Available PHP scripts</H3>
@@ -976,7 +1010,7 @@ var searchBoxGetGeomURL = '../php/search_geom.php?map=' + project_map;
 Permalinks: the permalinks script is not yet implemented in PHP.
 </P>
 
-<A NAME="toc13"></A>
+<A NAME="toc14"></A>
 <H2>6.2. WSGI Search</H2>
 
 <H3>6.2.1. Configuration of mod_wsgi</H3>
@@ -1105,7 +1139,7 @@ contain lower characters only.
 Using views is generally slower than properly indexed tables, check for yourself what works best.
 </P>
 
-<A NAME="toc14"></A>
+<A NAME="toc15"></A>
 <H1>7. License</H1>
 
 <P>
@@ -1136,7 +1170,7 @@ HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABI
 THE POSSIBILITY OF SUCH DAMAGE.
 </UL>
 
-<A NAME="toc15"></A>
+<A NAME="toc16"></A>
 <H1>8. Developers and Contributors</H1>
 
 <P>
@@ -1174,7 +1208,7 @@ Translators:
 <LI>Uroš Preložnik
 </UL>
 
-<A NAME="toc16"></A>
+<A NAME="toc17"></A>
 <H1>9. Acknowledgements</H1>
 
 <P>
