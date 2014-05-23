@@ -433,7 +433,8 @@ function postLoading() {
 			capabilities: printCapabilities, // from the info.json script in the html
 			url: printUri
 		});
-        printProvider.addListener("beforeprint", customBeforePrint);
+		printProvider.addListener("beforeprint", customBeforePrint);
+		printProvider.addListener("afterprint", customAfterPrint);
 	}
 
 	if (!printExtent) {
