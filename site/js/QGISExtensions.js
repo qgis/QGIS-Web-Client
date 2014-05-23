@@ -374,6 +374,8 @@ Ext.extend(QGIS.PrintProvider, GeoExt.data.PrintProvider, {
             readWithPOST: true
     });
 
+    this.fireEvent("afterprint", this, map, pages, options);
+
     protocol.read({
         callback: function(response) {
                 if(response.features.length > 0) {
