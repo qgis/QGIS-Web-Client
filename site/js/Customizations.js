@@ -39,7 +39,7 @@ function customAfterMapInit() {
 //             var xy = geoExtMap.map.getLonLatFromViewPortPx(e.xy);
 //             var x = xy.lon;
 //             var y = xy.lat;
-//             
+//
 //             alert ( "You clicked on " + x + ", " + y );
 //         }
 //     });
@@ -54,6 +54,11 @@ function customPostLoading() {
 
 // called when starting print
 function customBeforePrint() {
+    // do something. e.g. rearrange your layers
+}
+
+// called when printing is launched
+function customAfterPrint() {
     // do something. e.g. rearrange your layers
 }
 
