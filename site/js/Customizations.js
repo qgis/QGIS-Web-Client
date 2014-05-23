@@ -57,6 +57,12 @@ function customBeforePrint() {
     // do something. e.g. rearrange your layers
 }
 
+// called after print
+function customAfterPrint() {
+    // do something. e.g. rearrange your layers
+}
+
+
 // new buttons for the toolbar
 var customButtons = [ 
    
