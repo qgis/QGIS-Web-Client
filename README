@@ -1,10 +1,10 @@
 Quantum GIS (QGIS) Web Client
 Installation  and Configuration Guide
-Thursday May 22, 2014
+Wednesday June 04, 2014
 
 
-Last Updated: Thursday May 22, 2014
-Last Change : Thursday May 22, 2014
+Last Updated: Wednesday June 04, 2014
+Last Change : Wednesday June 04, 2014
 
 
   1. For the terminally lazy
@@ -212,8 +212,11 @@ Example:
     gridColumns: [
       {header: 'Name', dataIndex: 'name', menuDisabled: 'true'}
     ],
+    highlightFeature: false,
+    highlightLabel: 'name',
     selectionLayer: 'Country',
-    selectionZoom: 0
+    selectionZoom: 0,
+    doZoomToExtent: true
   };
 
 - title: title of the search tab
@@ -227,9 +230,12 @@ Example:
  - blankText: popup text for blank fields
 - gridColumns: list of Ext.grid.GridPanel column configs to show search
   results
+- highlightFeature (optional): use QGIS WMS highlight instead of QGIS WMS selection if enabled
+- highlightLabel (optional): show this feature attribute as label if highlightFeature is enabled
 - selectionLayer: name of layer for marking selected results (the same as
-  queryLayer)
+  queryLayer) if highlightFeature is not enabled
 - selectionZoom: zoom level for jump-to when selecting results
+- doZoomToExtent (optional): zoom to feature extent when selecting results, overrides selectionZoom
 
 Request URL:
 
@@ -270,8 +276,11 @@ would contain something like this:
       {header: 'PKUID', dataIndex: 'pkuid', menuDisabled: 'true'},
       {header: 'Colour', dataIndex: 'colour', menuDisabled: 'true'}
     ],
+    highlightFeature: false,
+    highlightLabel: 'colour',
     selectionLayer: 'Hello',
-    selectionZoom: 1
+    selectionZoom: 1,
+    doZoomToExtent: true
   };
 
 - title: title of the search tab
@@ -284,8 +293,11 @@ would contain something like this:
  - blankText: popup text for blank fields
 - gridColumns: list of Ext.grid.GridPanel column configs to show search
   results
-- selectionLayer: name of layer for marking selected results
+- highlightFeature (optional): use QGIS WMS highlight instead of QGIS WMS selection if enabled
+- highlightLabel (optional): show this feature attribute as label if highlightFeature is enabled
+- selectionLayer: name of layer for marking selected results if highlightFeature is not enabled
 - selectionZoom: zoom level for jump-to when selecting results
+- doZoomToExtent (optional): zoom to feature extent when selecting results, overrides selectionZoom
 
 For every search of this type you have to add a URL rewrite rule in the Apache
 config. *Note:* Linebreaks added for formatting - they should be removed in your
@@ -297,7 +309,6 @@ config file.
   <path-to-qgis-server-projects>/$1.qgs&SERVICE=WMS&VERSION=1.1.1&
   REQUEST=GetFeatureInfo&LAYERS=Hello&QUERY_LAYERS=Hello&FEATURE_COUNT=20&
   INFO_FORMAT=text/xml&SRS=EPSG:4326&FILTER=Hello:"colour"\ =\ '%1' [PT]
-
 
 The first RewriteCond matches the query id of the search panel config. The
 second RewriteCond extracts the values of the search request parameters.

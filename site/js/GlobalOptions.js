@@ -109,6 +109,8 @@ var simpleWmsSearch = {
   gridColumns: [
     {header: 'Name', dataIndex: 'name', menuDisabled: 'true'}
   ],
+//  highlightFeature: true,
+//  highlightLabel: 'name',
   selectionLayer: 'Country',
   selectionZoom: 0,
   doZoomToExtent: true
@@ -135,6 +137,8 @@ var urlRewriteSearch = {
     {header: 'PKUID', dataIndex: 'pkuid', menuDisabled: 'true'},
     {header: 'Colour', dataIndex: 'colour', menuDisabled: 'true'}
   ],
+//  highlightFeature: true,
+//  highlightLabel: 'colour',
   selectionLayer: 'Hello',
   selectionZoom: 1
 };
@@ -241,10 +245,13 @@ var LayerOptions = {
   transitionEffect:"resize",
   isBaseLayer: false,
   projection:authid,
-  yx: {"EPSG:900913": false}
+  yx: {"EPSG:900913": false},
   // If your projection is known to have an inverse axis order in WMS 1.3 compared to WMS 1.1 enter true for yx.
   // For EPSG:900913 OpenLayers should know it by default but because of a bug in OL 2.12 we enter it here.
-
+  tileOptions: {
+    // use POST for long URLs
+    maxGetUrlLength: 2048
+  }
 };
 
 //overview map settings - do not change variable names!
@@ -345,8 +352,20 @@ var symbolizersHighLightLayer = {
   "Polygon": {
     strokeWidth: 2,
     strokeColor: "#FF8C00",
-    fillColor: "none"
+    fillColor: "none",
+    fillOpacity: 0
   }
+};
+
+// style for highlight labels of search results
+// font weight from 0 to 99 (Light: 25, Normal: 50, DemiBold: 63, Bold: 75, Black: 87)
+var highlightLabelStyle = {
+//  font: "Serif",
+  size: 12,
+//  weight: 75,
+  color: "#000000",
+  buffercolor: "#FFFFFF",
+  buffersize: 1
 };
 
 //styling for measure controls (distance and area)

@@ -18,6 +18,7 @@ var thematicLayer, highlightLayer, featureInfoHighlightLayer;
 var googleSatelliteLayer;
 var googleMapLayer;
 var bingSatelliteLayer;
+var highlighter = null;
 var highLightGeometry = new Array();
 var WMSGetFInfo, WMSGetFInfoHover;
 var lastLayer, lastFeature;
@@ -933,6 +934,12 @@ function postLoading() {
             return true;
         }
 
+        // highlighting
+        if (!initialLoadDone) {
+            highlighter = new QGIS.Highlighter(geoExtMap.map, thematicLayer);
+        }
+        highlighter.clear();
+
 		//search panel and URL search parameters
 		var searchPanelConfigs = [];
 		if (wmsMapName in mapSearchPanelConfigs) {
@@ -943,8 +950,8 @@ function postLoading() {
 			var searchTabPanel = Ext.getCmp('SearchTabPanel');
 			for (var i = 0; i < searchPanelConfigs.length; i++) {
 				var panel = new QGIS.SearchPanel(searchPanelConfigs[i]);
-				panel.on("featureselected", showFeatureSelected);
-				panel.on("featureselectioncleared", clearFeatureSelected);
+				panel.on("featureselected", highlighter.highlightFeature, highlighter);
+				panel.on("featureselectioncleared", highlighter.unhighlightFeature, highlighter);
 				panel.on("beforesearchdataloaded", showSearchPanelResults);
                 // Just for debugging...
 				// panel.on("afterdsearchdataloaded", function(e){console.log(e);});

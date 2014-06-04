@@ -260,26 +260,6 @@ function removeHoverPopup(){
     featureInfoHighlightLayer.removeAllFeatures();
 }
 
-function showFeatureSelected(args) {
-    // select feature in layer
-    thematicLayer.mergeNewParams({
-        "SELECTION": args["layer"] + ":" + args["id"]
-    });
-    if (args["doZoomToExtent"]){
-        geoExtMap.map.zoomToExtent(args["bbox"]);
-    }
-    else{
-        geoExtMap.map.setCenter(new OpenLayers.LonLat(args["x"], args["y"]), args["zoom"]);
-    }
-}
-
-function clearFeatureSelected() {
-    // clear selection
-    thematicLayer.mergeNewParams({
-        "SELECTION": null
-    });
-}
-
 function parseFIResult(node) {
     if (node.hasChildNodes()) {
 		//test if we need to show the feature info layer title

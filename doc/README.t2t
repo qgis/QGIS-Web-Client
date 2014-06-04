@@ -263,8 +263,11 @@ var simpleWmsSearch = {
   gridColumns: [
     {header: 'Name', dataIndex: 'name', menuDisabled: 'true'}
   ],
+  highlightFeature: false,
+  highlightLabel: 'name',
   selectionLayer: 'Country',
-  selectionZoom: 0
+  selectionZoom: 0,
+  doZoomToExtent: true
 };
 ```
 
@@ -280,9 +283,12 @@ var simpleWmsSearch = {
  -
 - ``gridColumns``: list of Ext.grid.GridPanel column configs to show search
   results
+- ``highlightFeature`` (optional): use QGIS WMS highlight instead of QGIS WMS selection if enabled
+- ``highlightLabel`` (optional): show this feature attribute as label if ``highlightFeature`` is enabled
 - ``selectionLayer``: name of layer for marking selected results (the same as
-  ``queryLayer``)
+  ``queryLayer``) if ``highlightFeature`` is not enabled
 - ``selectionZoom``: zoom level for jump-to when selecting results
+- ``doZoomToExtent`` (optional): zoom to feature extent when selecting results, overrides ``selectionZoom``
 -
 
 Request URL:
@@ -323,8 +329,11 @@ var urlRewriteSearch = {
     {header: 'PKUID', dataIndex: 'pkuid', menuDisabled: 'true'},
     {header: 'Colour', dataIndex: 'colour', menuDisabled: 'true'}
   ],
+  highlightFeature: false,
+  highlightLabel: 'colour',
   selectionLayer: 'Hello',
-  selectionZoom: 1
+  selectionZoom: 1,
+  doZoomToExtent: true
 };
 ```
 
@@ -339,8 +348,12 @@ var urlRewriteSearch = {
  -
 - ``gridColumns``: list of Ext.grid.GridPanel column configs to show search
   results
-- ``selectionLayer``: name of layer for marking selected results
+- ``highlightFeature`` (optional): use QGIS WMS highlight instead of QGIS WMS selection if enabled
+- ``highlightLabel`` (optional): show this feature attribute as label if ``highlightFeature`` is enabled
+- ``selectionLayer``: name of layer for marking selected results if ``highlightFeature`` is not enabled
 - ``selectionZoom``: zoom level for jump-to when selecting results
+- ``doZoomToExtent`` (optional): zoom to feature extent when selecting results, overrides ``selectionZoom``
+-
 
 For every search of this type you have to add a URL rewrite rule in the Apache
 config. *Note:* Linebreaks added for formatting - they should be removed in your
