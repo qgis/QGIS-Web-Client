@@ -229,9 +229,9 @@ GeoExt.ux.GeoNamesSearchCombo = Ext.extend(Ext.form.ComboBox, {
 
         var urlAppendString = '';
 
-        //if (this.countryString.length > 0) {
-        //    urlAppendString = urlAppendString + this.countryString;      
-        //}
+        if (this.countryString.length > 0) {
+            urlAppendString = urlAppendString + this.countryString;      
+        }
 
         if (this.featureClassString.length > 0) {
             urlAppendString = urlAppendString + this.featureClassString;
@@ -255,8 +255,7 @@ GeoExt.ux.GeoNamesSearchCombo = Ext.extend(Ext.form.ComboBox, {
                 adminCode3: this.adminCode3,
                 tag: this.tag,
                 charset: this.charset,
-                username: this.username,
-                country: this.country
+                username: this.username
             },
             reader: new Ext.data.JsonReader({
                 idProperty: 'geonameId',
