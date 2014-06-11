@@ -1,10 +1,10 @@
 Quantum GIS (QGIS) Web Client
 Installation  and Configuration Guide
-Wednesday June 04, 2014
+Wednesday June 11, 2014
 
 
-Last Updated: Wednesday June 04, 2014
-Last Change : Wednesday June 04, 2014
+Last Updated: Wednesday June 11, 2014
+Last Change : Wednesday June 11, 2014
 
 
   1. For the terminally lazy
@@ -617,6 +617,11 @@ under the wsgi folder. It is recommended to
 install the wsgi scripts in a separate directory, e.g. /home/www/wsgi, a place
 that is not reachable by regular web traffic.
 
+There are two options to highlight a feature that is selected from the search results. If the option
+enableSearchBoxWmsHighlight in GlobalOptions.js is enabled, the selected feature will be
+highlighted using QGIS WMS highlight. Otherwise the feature will be added as a vector feature to
+the highlight layer.
+
 
   6.1. PHP Search
   ===============
@@ -899,6 +904,7 @@ Translators:
 - Pavlo Taranov
 - Tudor Bărăscu
 - Uroš Preložnik
+- Klas Karlsson
 
 
   9. Acknowledgements

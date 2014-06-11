@@ -429,6 +429,8 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
   map: null,
   highlightLayerName: null,
   highlightLayer: null,
+  useWmsHighlight: false,
+  highlighter: null,
   hasReverseAxisOrder: false,
 
   /** config
@@ -578,7 +580,7 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
         //need to check if extent is too small
         this.map.zoomToExtent(extent);
     }
-    if (this.highlightLayer) {
+    if (this.highlightLayer || (this.useWmsHighlight && this.highlighter)) {
       //network request to get real wkt geometry of search object
       Ext.Ajax.request({
       url: this.geomUrl,
@@ -586,6 +588,7 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
       failure: function ( result, request) {
         Ext.MessageBox.alert(errMessageSearchComboNetworkRequestFailureTitleString[lang], errMessageSearchComboNetworkRequestFailureString+result.responseText);
       },
+      scope: this,
       method: 'GET',
       params: {
           searchtable: record.get('searchtable'),
@@ -620,14 +623,28 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
             layerTree.fireEvent("leafschange");
         }
     }
-    this.highlightLayer.removeAllFeatures();
-    var feature = new OpenLayers.Feature.Vector(OpenLayers.Geometry.fromWKT(result.responseText));
-    this.highlightLayer.addFeatures([feature]);
+    // highlight feature
+    if (this.useWmsHighlight) {
+      // use QGIS WMS highlight
+      this.highlighter.highlightFeature({
+        geom: result.responseText,
+        labelstring: request.params.displaytext // NOTE: get label text from request params
+      });
+    }
+    else {
+      // add OpenLayers vector feature
+      this.highlightLayer.removeAllFeatures();
+      var feature = new OpenLayers.Feature.Vector(OpenLayers.Geometry.fromWKT(result.responseText));
+      this.highlightLayer.addFeatures([feature]);
+    }
   },
   clearSearchResult: function() {
     this.setValue("");
     if (this.highlightLayer) {
       this.highlightLayer.removeAllFeatures();
+    }
+    if (this.highlighter) {
+      this.highlighter.unhighlightFeature();
     }
   },
   getSearchTables: function() {
@@ -1123,7 +1140,7 @@ QGIS.Highlighter = Ext.extend(Object, {
     });
   },
 
-  // highlight and zoom to feature
+  // highlight and optionally zoom to feature
   highlightFeature: function(args) {
     // highlight feature
     if (args.geom) {
@@ -1160,7 +1177,7 @@ QGIS.Highlighter = Ext.extend(Object, {
     if (args.doZoomToExtent){
       this.map.zoomToExtent(args.bbox);
     }
-    else{
+    else if (args.x != undefined && args.y != undefined) {
       this.map.setCenter(new OpenLayers.LonLat(args.x, args.y), args.zoom);
     }
   },

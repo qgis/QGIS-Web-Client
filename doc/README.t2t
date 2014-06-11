@@ -719,6 +719,11 @@ under the ``wsgi`` folder. It is recommended to
 install the wsgi scripts in a separate directory, e.g. /home/www/wsgi, a place
 that is not reachable by regular web traffic.
 
+There are two options to highlight a feature that is selected from the search results. If the option
+``enableSearchBoxWmsHighlight`` in ``GlobalOptions.js`` is enabled, the selected feature will be
+highlighted using QGIS WMS highlight. Otherwise the feature will be added as a vector feature to
+the highlight layer.
+
 == PHP Search ==
 
 === Available PHP scripts ===

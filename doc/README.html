@@ -13,13 +13,13 @@
 <DIV CLASS="header" ID="header">
 <H1>Quantum GIS (QGIS) Web Client</H1>
 <H2>Installation  and Configuration Guide</H2>
-<H3>Wednesday June 04, 2014</H3>
+<H3>Wednesday June 11, 2014</H3>
 </DIV>
 
 <DIV CLASS="body" ID="body">
 <P>
-Last Updated: Wednesday June 04, 2014
-Last Change : Wednesday June 04, 2014
+Last Updated: Wednesday June 11, 2014
+Last Change : Wednesday June 11, 2014
 </P>
 <DIV CLASS="toc">
 
@@ -883,6 +883,12 @@ under the <CODE>wsgi</CODE> folder. It is recommended to
 install the wsgi scripts in a separate directory, e.g. /home/www/wsgi, a place
 that is not reachable by regular web traffic.
 </P>
+<P>
+There are two options to highlight a feature that is selected from the search results. If the option
+<CODE>enableSearchBoxWmsHighlight</CODE> in <CODE>GlobalOptions.js</CODE> is enabled, the selected feature will be
+highlighted using QGIS WMS highlight. Otherwise the feature will be added as a vector feature to
+the highlight layer.
+</P>
 
 <A NAME="toc13"></A>
 <H2>6.1. PHP Search</H2>
@@ -1221,6 +1227,7 @@ Translators:
 <LI>Pavlo Taranov
 <LI>Tudor Bărăscu
 <LI>Uroš Preložnik
+<LI>Klas Karlsson
 </UL>
 
 <A NAME="toc17"></A>

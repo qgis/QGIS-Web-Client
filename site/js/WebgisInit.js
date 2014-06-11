@@ -724,6 +724,11 @@ function postLoading() {
 		//todo: find out how to change the max extent in the OverviewMap
 	}
 
+	// highlighting
+	if (!initialLoadDone) {
+		highlighter = new QGIS.Highlighter(geoExtMap.map, thematicLayer);
+	}
+
 	//navigation actions
 	if (!initialLoadDone) {
 		var myTopToolbar = Ext.getCmp('myTopToolbar');
@@ -793,6 +798,8 @@ function postLoading() {
 				qgisSearchCombo = new QGIS.SearchComboBox({
 					map: geoExtMap.map,
 					highlightLayerName: 'attribHighLight',
+					useWmsHighlight: enableSearchBoxWmsHighlight,
+					highlighter: highlighter,
 					hasReverseAxisOrder: false, // PostGIS returns bbox' coordinates always x/y
 					width: 300,
 					searchtables: searchtables
@@ -933,12 +940,6 @@ function postLoading() {
             }
             return true;
         }
-
-        // highlighting
-        if (!initialLoadDone) {
-            highlighter = new QGIS.Highlighter(geoExtMap.map, thematicLayer);
-        }
-        highlighter.clear();
 
 		//search panel and URL search parameters
 		var searchPanelConfigs = [];
