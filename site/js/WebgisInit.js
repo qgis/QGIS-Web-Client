@@ -783,7 +783,8 @@ function postLoading() {
 					width: 300,
 					minChars: 2,
 					loadingText: geonamesLoadingString[lang],
-					emptyText: geonamesEmptyString[lang]
+					emptyText: geonamesEmptyString[lang],
+					username: geoNamesUserName
 				});
 				var emptySearchFieldButton = new Ext.Button({
 					scale: 'medium',

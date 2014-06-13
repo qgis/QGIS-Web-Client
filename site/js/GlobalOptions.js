@@ -34,6 +34,7 @@ var useGeodesicMeasurement = true;
 //search box for queries while typing
 //enable to use GeoNames search
 var useGeoNamesSearchBox = false;
+var geoNamesUserName = 'insert your geonames user name';
 //URL for custom search scripts
 var searchBoxQueryURL = null; // "/wsgi/search.wsgi?query=";
 var searchBoxGetGeomURL = null; // "/wsgi/getSearchGeom.wsgi";
