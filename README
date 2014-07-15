@@ -1,4 +1,4 @@
-Quantum GIS (QGIS) Web Client
+QGIS Web Client
 Installation  and Configuration Guide
 Wednesday June 11, 2014
 
@@ -73,7 +73,7 @@ On ubuntu you can meet these requirements by simply doing:
 
   sudo apt-get install libapache2-mod-fcgid
 
-The QGIS server compilation and installation will be covered in the QGIS manual.
+The QGIS Server compilation and installation will be covered in the QGIS manual.
 
 For searching:
 
@@ -313,7 +313,7 @@ config file.
 The first RewriteCond matches the query id of the search panel config. The
 second RewriteCond extracts the values of the search request parameters.
 
-The RewriteRule composes the actual WMS GetFeatureInfo request to QGIS mapserver.
+The RewriteRule composes the actual WMS GetFeatureInfo request to QGIS Server.
 
 Request URL:
 
@@ -549,7 +549,7 @@ A new file site/js/Translations_custom.js is created. Copy this file to your ser
   5. URL Rewriting
   ================
 
-Using a standard installation of QGIS server, GlobalOptions.js will have a WMS
+Using a standard installation of QGIS Server, GlobalOptions.js will have a WMS
 server configuration like
 
   var serverAndCGI = "/cgi-bin/qgis_mapserv.fcgi";

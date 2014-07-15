@@ -4,7 +4,7 @@ var lang = "en"; //for available codes see array availableLanguages in file Glob
 //Help file (must be a local file)
 var helpfile = "help_en.html";
 
-//Servername (optional) and path and name name of QGIS mapserver FCGI-file
+//Servername (optional) and path and name name of QGIS Server FCGI-file
 //either with or without server-name - without servername recommended for easier porting to other servers
 //do not add a ? or & after the .fcgi extension
 var serverAndCGI = "/cgi-bin/qgis_mapserv.fcgi";
@@ -220,7 +220,7 @@ var layerImageFormats = [
 //EPSG projection code of your QGIS project
 var authid = "EPSG:"+3857;
 
-//background transparency for the QGIS server generated layer (commercial background layers not effected)
+//background transparency for the QGIS Server generated layer (commercial background layers not effected)
 //set to true if you want the background to be transparent, layer image will be bigger (32 vs 24bit)
 var qgisLayerTransparency = true;
 

@@ -1,9 +1,9 @@
 /*
  *
- * WebgisInit.js -- part of Quantum GIS Web Client
+ * WebgisInit.js -- part of QGIS Web Client
  *
  * Copyright (2010-2013), The QGIS Project All rights reserved.
- * Quantum GIS Web Client is released under a BSD license. Please see
+ * QGIS Web Client is released under a BSD license. Please see
  * https://github.com/qgis/qgis-web-client/blob/master/README
  * for the full text of the license and the list of contributors.
  *
@@ -1859,8 +1859,8 @@ function setupLayerOrderPanel() {
 
 	layerOrderPanel.clearLayers();
 	for (var i=0; i<orderedLayers.length; i++) {
-		//because of a but in QGIS server we need to check if a layer from layerDrawingOrder actually really exists
-		//QGIS server is delivering invalid layer when linking to different projects
+		//because of a but in QGIS Server we need to check if a layer from layerDrawingOrder actually really exists
+		//QGIS Server is delivering invalid layer when linking to different projects
 		if (wmsLoader.layerProperties[orderedLayers[i]]) {
 			layerOrderPanel.addLayer(orderedLayers[i], wmsLoader.layerProperties[orderedLayers[i]].opacity);
 		}
