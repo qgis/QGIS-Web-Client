@@ -82,7 +82,9 @@ function get_layer_info($layer, $project){
 function get_map_path($mapname){
     // Rewrite map to full path
     if(defined('MAP_PATH_REWRITE') && MAP_PATH_REWRITE){
-        $mapname = MAP_PATH_REWRITE . $mapname;
+        // Replace map name, if present
+        $map_prefix = str_replace('$map_name', $mapname, MAP_PATH_REWRITE);
+        $mapname = $map_prefix . $mapname;
         if(defined('MAP_PATH_APPEND_QGS') && MAP_PATH_APPEND_QGS){
             $mapname .= '.qgs';
         }
