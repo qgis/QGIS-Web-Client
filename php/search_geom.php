@@ -45,7 +45,7 @@ if ($layername != "null") {
     // Get the search column from QS or default, sanitize
     $search_column = preg_replace('/[^A-z0-9_-]\s/', '', @$_REQUEST['searchcolumn']);
     if(!$search_column){
-        $layer_config['search_column'];
+        $search_column = $layer_config['search_column'];
     }
 
     // Get layer
