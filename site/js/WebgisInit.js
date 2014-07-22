@@ -809,6 +809,7 @@ function postLoading() {
 					map: geoExtMap.map,
 					highlightLayerName: 'attribHighLight',
 					useWmsHighlight: enableSearchBoxWmsHighlight,
+					wmsHighlightLabelAttribute: searchBoxWmsHighlightLabel,
 					highlighter: highlighter,
 					hasReverseAxisOrder: false, // PostGIS returns bbox' coordinates always x/y
 					width: 300,

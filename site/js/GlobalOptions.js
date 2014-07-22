@@ -41,6 +41,8 @@ var searchBoxGetGeomURL = null; // "/wsgi/getSearchGeom.wsgi";
 
 // use QGIS WMS highlight for selected search result in search box
 var enableSearchBoxWmsHighlight = false;
+// search result attribute to show as label if enableSearchBoxWmsHighlight is enabled
+var searchBoxWmsHighlightLabel = 'displaytext';
 
 // If set, will make sure that the layer for the search results is
 // visible. This feature will work out of the box if PHP scripts are

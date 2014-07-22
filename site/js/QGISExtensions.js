@@ -463,6 +463,8 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
   highlightLayerName: null,
   highlightLayer: null,
   useWmsHighlight: false,
+  wmsHighlightLabelAttribute: null,
+  wmsHighlightLabel: null,
   highlighter: null,
   hasReverseAxisOrder: false,
 
@@ -488,6 +490,10 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
     this.on("keyUp", this.keyUpHandler);
     this.on("afterrender", this.afterrenderHandler);
     this.on("beforeselect", this.beforeselectHandler);
+    var fields = ['searchtable', 'displaytext', 'bbox', 'showlayer', 'selectable'];
+    if (this.useWmsHighlight && fields.indexOf(this.wmsHighlightLabelAttribute) == -1) {
+      fields.push(this.wmsHighlightLabelAttribute);
+    }
     this.store = new Ext.data.JsonStore({
       proxy: new Ext.data.ScriptTagProxy({
         url: this.url,
@@ -500,7 +506,7 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
         searchtables: this.getSearchTables()
       },
       root: 'results',
-      fields: ['searchtable', 'displaytext', 'bbox', 'showlayer', 'selectable']
+      fields: fields
     });
     this.tpl = new Ext.XTemplate(
       '<tpl for="."><div class="x-combo-list-item {service}">',
@@ -614,6 +620,10 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
         this.map.zoomToExtent(extent);
     }
     if (this.highlightLayer || (this.useWmsHighlight && this.highlighter)) {
+      if (this.useWmsHighlight) {
+        // set highlight label text
+        this.wmsHighlightLabel = record.get(this.wmsHighlightLabelAttribute) + " - label";
+      }
       //network request to get real wkt geometry of search object
       Ext.Ajax.request({
       url: this.geomUrl,
@@ -661,7 +671,7 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
       // use QGIS WMS highlight
       this.highlighter.highlightFeature({
         geom: result.responseText,
-        labelstring: request.params.displaytext // NOTE: get label text from request params
+        labelstring: this.wmsHighlightLabel
       });
     }
     else {
@@ -673,6 +683,7 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
   },
   clearSearchResult: function() {
     this.setValue("");
+    this.wmsHighlightLabel = null;
     if (this.highlightLayer) {
       this.highlightLayer.removeAllFeatures();
     }
