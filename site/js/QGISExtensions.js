@@ -58,6 +58,19 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
         this.WMSCapabilities.loadXML(response.responseText);
       }
     }
+
+    var layersToSkip = [];
+
+    // skip WMTS print layers
+    if (this.topic in wmtsLayersConfigs) {
+      // collect print layers for WMTS layers of current topic
+      var wmtsLayersConfig = wmtsLayersConfigs[this.topic];
+      for (var i=0; i<wmtsLayersConfig.length; i++) {
+        var config = wmtsLayersConfig[i];
+        layersToSkip.push(config.printWmsLayer);
+      }
+    }
+
     this.projectSettings = new OpenLayers.Format.WMSCapabilities({
       readers: {
         "wms": OpenLayers.Util.applyDefaults({
@@ -150,10 +163,11 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
                                         maxScale: parent.maxScale,
                                         attribution: parent.attribution
                                 };
-            obj.nestedLayers.push(layer);
             layer.capability = capability;
             this.readChildNodes(node, layer);
-                        delete layer.capability;
+            delete layer.capability;
+            if (layersToSkip.indexOf(layer.name) == -1) {
+                obj.nestedLayers.push(layer);
                 if(layer.name) {
                     var parts = layer.name.split(":"),
                         request = capability.request,
@@ -169,7 +183,8 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
                         layer.infoFormats = gfi.formats;
                     }
                 }
-            },
+            }
+        },
 
           "Attributes": function(node, obj) {
             obj.attributes = []
@@ -350,7 +365,25 @@ Ext.extend(QGIS.PrintProvider, GeoExt.data.PrintProvider, {
         printResolution = this.dpi.get("value");
     }
 
-    var printUrl = this.url+'&SRS='+authid+'&DPI='+printResolution+'&TEMPLATE='+this.layout.get("name")+'&map0:extent='+printExtent.page.getPrintExtent(map).toBBOX(1,false)+'&map0:rotation='+(printExtent.page.rotation * -1)+'&map0:scale='+mapScale+'&map0:grid_interval_x='+grid_interval+'&map0:grid_interval_y='+grid_interval+'&LAYERS='+encodeURIComponent(thematicLayer.params.LAYERS);
+    var layers = thematicLayer.params.LAYERS;
+
+    if (this.topic in wmtsLayersConfigs) {
+      // collect print layers for visible WMTS layers of current topic
+      var wmtsLayersConfig = wmtsLayersConfigs[this.topic];
+      var printLayers = [];
+      for (var i=0; i<wmtsLayersConfig.length; i++) {
+        var config = wmtsLayersConfig[i];
+        if (config.wmtsLayer.getVisibility()) {
+          printLayers.push(config.printWmsLayer);
+        }
+      }
+      if (printLayers.length > 0) {
+        // prepend WMTS print layers
+        layers = printLayers.join(',') + "," + layers;
+      }
+    }
+
+    var printUrl = this.url+'&SRS='+authid+'&DPI='+printResolution+'&TEMPLATE='+this.layout.get("name")+'&map0:extent='+printExtent.page.getPrintExtent(map).toBBOX(1,false)+'&map0:rotation='+(printExtent.page.rotation * -1)+'&map0:scale='+mapScale+'&map0:grid_interval_x='+grid_interval+'&map0:grid_interval_y='+grid_interval+'&LAYERS='+encodeURIComponent(layers);
     if (thematicLayer.params.OPACITIES) {
       printUrl += '&OPACITIES='+encodeURIComponent(thematicLayer.params.OPACITIES);
     }

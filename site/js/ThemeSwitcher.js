@@ -318,10 +318,17 @@ ThemeSwitcher.prototype.changeTheme = function (dataView, index, node, evt) {
 		}
 		if (norewrite) {
 			wmsURI += "?map=" + projData.projectpath + "/" + projData.projectfile + ".qgs&";
+			wmsMapName = projData.projectpath + "/" + projData.projectfile;
 		} else {
-			wmsURI += "/" + projData.projectpath + "/" + projData.projectfile + "?";
+			if (projData.projectpath.length > 0) {
+				wmsURI += "/" + projData.projectpath + "/" + projData.projectfile + "?";
+				wmsMapName = projData.projectpath + "/" + projData.projectfile;
+			}
+			else {
+				wmsURI += "/" + projData.projectfile + "?";
+				wmsMapName = projData.projectfile;
+			}
 		}
-		wmsMapName = projData.projectpath + "/" + projData.projectfile;
 		//handle visible layers
 		if (projData.visibleLayers) {
 			visibleLayers = projData.visibleLayers.split(",");

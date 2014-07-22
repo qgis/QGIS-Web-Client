@@ -681,6 +681,23 @@ layerTreeTitleString["nl"] = "Kaartlagen";
 layerTreeTitleString["pl"] = "Zawartość mapy";
 layerTreeTitleString["sv"] = "Kartlager";
 
+//title of WMTS base layers
+var wmtsBaseLayerTitleString = new Array();
+wmtsBaseLayerTitleString["en"] = "Background Layers";
+wmtsBaseLayerTitleString["es"] = "Background Layers";
+wmtsBaseLayerTitleString["de"] = "Hintergrundebenen";
+wmtsBaseLayerTitleString["fr"] = "Couches d'arrière-plan";
+wmtsBaseLayerTitleString["it"] = "Background Layers";
+wmtsBaseLayerTitleString["pt_PT"] = "Background Layers";
+wmtsBaseLayerTitleString["uk"] = "Background Layers";
+wmtsBaseLayerTitleString["hu"] = "Background Layers";
+wmtsBaseLayerTitleString["ro"] = "Straturi de Background ";
+wmtsBaseLayerTitleString["ru"] = "Background Layers";
+wmtsBaseLayerTitleString["si"] = "Podlage";
+wmtsBaseLayerTitleString["nl"] = "Achtergrondlagen";
+wmtsBaseLayerTitleString["pl"] = "Warstwy podkładowe";
+wmtsBaseLayerTitleString["sv"] = "Bakgrundslager";
+
 //title of background layers
 var backgroundLayerTitleString = new Array();
 backgroundLayerTitleString["en"] = "Background Layers";
