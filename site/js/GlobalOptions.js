@@ -68,8 +68,11 @@ if (enableBingCommercialMaps) {
     var bingApiKey = "add Bing api key here"; // http://msdn.microsoft.com/en-us/library/ff428642.aspx
 }
 var enableGoogleCommercialMaps = true;
+
+var enableOSMMaps = true;
+
 var enableBGMaps = false;
-if (enableBingCommercialMaps || enableGoogleCommercialMaps) {
+if (enableBingCommercialMaps || enableOSMMaps || enableGoogleCommercialMaps) {
 	enableBGMaps = true;
 }
 if (enableBGMaps) {
@@ -308,8 +311,10 @@ var OverviewMapSize = new OpenLayers.Size(200,200);
 var OverviewMapMaximized = false; // is the overview map opend or closed by default
 var overviewLayer = new OpenLayers.Layer.WMS("Overview-Map",
   serverAndCGI+"?map=/home/web/qgis-web-client/projects/naturalearth_110million.qgs",
-  {layers:"Land",format:"image/png"},
-  {buffer:0,singleTile:true,transitionEffect:"resize"});
+  {layers:"Land",format:"image/png", transparent:true},
+  {buffer:0,singleTile:true,transitionEffect:"resize", isBaseLayer:false});
+  
+var OverviewOSM = new OpenLayers.Layers.OSM();
 
 // prevent the user from choosing a print resolution
 // if fixedPrintResolution = null, the user is allowed to choose the print resolution.
