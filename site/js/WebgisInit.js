@@ -15,6 +15,13 @@ var selectedLayers; //later an array containing all visible (selected) layers
 var selectedQueryableLayers; //later an array of all visible (selected and queryable) layers
 var allLayers; //later an array containing all leaf layers
 var thematicLayer, highlightLayer, featureInfoHighlightLayer;
+var arrayOSM; //OSM
+var arrayAerial; //OSM
+var arrayCycle; //OSM
+var baseOSM; //OSM
+var baseAerial; //OSM
+var mapnik; //OSM
+var cycle; //OSM
 var googleSatelliteLayer;
 var googleMapLayer;
 var bingSatelliteLayer;
@@ -109,6 +116,32 @@ Ext.onReady(function () {
 
 	//set some status messsages
 	mainStatusText.setText(mapAppLoadingString[lang]);
+
+	//OpenstreetMap background layers
+	if (enableOSMMaps) {	    
+        	arrayOSM = ["http://otile1.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg",
+                    	"http://otile2.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg",
+                    	"http://otile3.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg",
+                    	"http://otile4.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg"];
+        	arrayAerial = ["http://otile1.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg",
+                        "http://otile2.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg",
+                        "http://otile3.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg",
+                        "http://otile4.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg"];
+       		arrayCycle = ["http://a.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png",
+   			"http://b.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png",
+   			"http://c.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png"];
+
+        	baseOSM = new OpenLayers.Layer.OSM("MapQuest-OSM Tiles", arrayOSM, {numZoomLevels: 19, attribution: "Data, imagery and map information provided by <a href='http://www.mapquest.com/'  target='_blank'>MapQuest</a>, <a href='http://www.openstreetmap.org/' target='_blank'>Open Street Map</a> and contributors, <a href='http://creativecommons.org/licenses/by-sa/2.0/' target='_blank'>CC-BY-SA</a>  <img src='http://developer.mapquest.com/content/osm/mq_logo.png' border='0'>"} );
+       		baseAerial = new OpenLayers.Layer.OSM("MapQuest Open Aerial Tiles (zoom < 11)", arrayAerial, {numZoomLevels: 11, attribution: "Data, imagery and map information provided by <a href='http://www.mapquest.com/'  target='_blank'>MapQuest</a>, <a href='http://www.openstreetmap.org/' target='_blank'>Open Street Map</a> and contributors, <a href='http://creativecommons.org/licenses/by-sa/2.0/' target='_blank'>CC-BY-SA</a>  <img src='http://developer.mapquest.com/content/osm/mq_logo.png' border='0'>"});
+		mapnik= new OpenLayers.Layer.OSM("OpenStreetMap (mapnik)");
+		cycle = new OpenLayers.Layer.OSM("OpenCycleMap",arrayCycle, {attribution: "<a href='http://www.openstreetmap.org/' target='_blank'>Open Street Map</a> and contributors. Tiles courtesy of<a target='_blank' href='http://www.thunderforest.com/'>Andy Allan</a>"});
+
+
+		baseLayers.push(mapnik)
+		baseLayers.push(baseOSM);
+		baseLayers.push(cycle);
+		baseLayers.push(baseAerial);
+	}
 
 	if (enableGoogleCommercialMaps) {
 		googleSatelliteLayer = new OpenLayers.Layer.Google(
@@ -634,6 +667,7 @@ function postLoading() {
 		//add OpenLayers map controls
 		geoExtMap.map.addControl(new OpenLayers.Control.KeyboardDefaults());
 		geoExtMap.map.addControl(new OpenLayers.Control.Navigation());
+		geoExtMap.map.addControl(new OpenLayers.Control.Attribution());
 		//to hide miles/feet in the graphical scale bar we need to adapt "olControlScaleLineBottom" in file /OpenLayers/theme/default/style.css: display:none;
 		geoExtMap.map.addControl(new OpenLayers.Control.ScaleLine());
 		geoExtMap.map.addControl(new OpenLayers.Control.PanZoomBar({zoomWorldIcon:true,forceFixedZoomLevel:false}));
