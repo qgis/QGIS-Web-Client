@@ -628,7 +628,7 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
     if (this.highlightLayer || (this.useWmsHighlight && this.highlighter)) {
       if (this.useWmsHighlight) {
         // set highlight label text
-        this.wmsHighlightLabel = record.get(this.wmsHighlightLabelAttribute) + "";
+        this.wmsHighlightLabel = record.get(this.wmsHighlightLabelAttribute);
       }
       //network request to get real wkt geometry of search object
       Ext.Ajax.request({
