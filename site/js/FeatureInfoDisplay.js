@@ -1,9 +1,9 @@
 /*
  *
- * FeatureInfoDisplay.js -- part of Quantum GIS Web Client
+ * FeatureInfoDisplay.js -- part of QGIS Web Client
  *
  * Copyright (2010-2012), The QGIS Project All rights reserved.
- * Quantum GIS Web Client is released under a BSD license. Please see
+ * QGIS Web Client is released under a BSD license. Please see
  * https://github.com/qgis/qgis-web-client/blob/master/README
  * for the full text of the license and the list of contributors.
  *
@@ -258,26 +258,6 @@ function removeHoverPopup(){
     hoverPopup.destroy();
     hoverPopup = null;
     featureInfoHighlightLayer.removeAllFeatures();
-}
-
-function showFeatureSelected(args) {
-    // select feature in layer
-    thematicLayer.mergeNewParams({
-        "SELECTION": args["layer"] + ":" + args["id"]
-    });
-    if (args["doZoomToExtent"]){
-        geoExtMap.map.zoomToExtent(args["bbox"]);
-    }
-    else{
-        geoExtMap.map.setCenter(new OpenLayers.LonLat(args["x"], args["y"]), args["zoom"]);
-    }
-}
-
-function clearFeatureSelected() {
-    // clear selection
-    thematicLayer.mergeNewParams({
-        "SELECTION": null
-    });
 }
 
 function parseFIResult(node) {

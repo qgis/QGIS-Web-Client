@@ -2,8 +2,6 @@
 # -*- coding: utf-8 -*-
 #http://localhost/wsgi/getSearchGeom.wsgi?searchtable=av_user.suchtabelle&displaytext=Oberlandautobahn (Strasse, Uster)
 
-DB_CONN_STRING="host='yourhost' dbname='yourdb' port='5432' user='yourusername' password='yourpassword'"
-
 import re #regular expression support
 import string #string manipulation support
 from webob import Request
@@ -11,6 +9,14 @@ from webob import Response
 import psycopg2 #PostgreSQL DB Connection
 import psycopg2.extras #z.b. für named column indexes
 import sys #für Fehlerreporting
+import os
+
+# append the Python path with the wsgi-directory
+qwcPath = os.path.dirname(__file__)
+if not qwcPath in sys.path:
+  sys.path.append(qwcPath)
+    
+import qwc_connect
 
 def application(environ, start_response):
   request = Request(environ)
@@ -28,17 +34,10 @@ def application(environ, start_response):
   
   if searchtable != "" and searchtable != "null":
     errorText = ''
-    try:
-      conn = psycopg2.connect(DB_CONN_STRING)
-    except:
-      errorText += 'error: database connection failed.'
-      # write the error message to the error.log
-      print >> environ['wsgi.errors'], "%s" % errorText
-      response_headers = [('Content-type', 'text/plain'),
-                          ('Content-Length', str(len(errorText)))]
-      start_response('500 INTERNAL SERVER ERROR', response_headers)
-
-      return [errorText]
+    conn = qwc_connect.getConnection(environ, start_response)
+  
+    if conn == None:
+      return [""]
 
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 

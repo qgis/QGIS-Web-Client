@@ -28,6 +28,27 @@ function customInit() {
 
 // called before map initialization
 function customBeforeMapInit() {
+//  Example how to use a WMS layer as background layer:
+//  create an OpenLayers.Layer.WMS object, see OpenLayers documentation for details
+//  var myBackgroundLayer = new OpenLayers.Layer.WMS("myName",
+//      "myURL", {
+//          layers: "myLayer",
+//          format: format,
+//          dpi: screenDpi,
+//          VERSION: "1.3.0"
+//      },
+//      {
+//          buffer:0,
+//          singleTile:true,
+//          ratio:1,
+//          transitionEffect:"resize",
+//          isBaseLayer: true,
+//          projection:authid
+//      }
+//  );
+//
+//  add the layer to the array of background layers
+//  baseLayers.push(myBackgroundLayer); 
 }
 
 // called after map initialization
@@ -39,7 +60,7 @@ function customAfterMapInit() {
 //             var xy = geoExtMap.map.getLonLatFromViewPortPx(e.xy);
 //             var x = xy.lon;
 //             var y = xy.lat;
-//             
+//
 //             alert ( "You clicked on " + x + ", " + y );
 //         }
 //     });
@@ -54,6 +75,11 @@ function customPostLoading() {
 
 // called when starting print
 function customBeforePrint() {
+    // do something. e.g. rearrange your layers
+}
+
+// called when printing is launched
+function customAfterPrint() {
     // do something. e.g. rearrange your layers
 }
 

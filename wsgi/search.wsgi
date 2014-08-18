@@ -4,8 +4,6 @@
 #http://localhost/wsgi/search.wsgi?searchtables=abwasser.such§tabelle&query=1100&cb=bla
 #http://localhost/wsgi/search.wsgi?query=Oberlandstr&cb=bla
 
-
-DB_CONN_STRING="host='yourhost' dbname='yourdb' port='5432' user='yourusername' password='yourpassword'"
 # make themes choosable in search combo
 THEMES_CHOOSABLE = True
 # zoom to this bbox if a layer is chosen in the search combo [minx, miny, maxx, maxy]
@@ -20,6 +18,14 @@ import psycopg2 #PostgreSQL DB Connection
 import psycopg2.extras #z.b. für named column indexes
 import json
 import sys #für Fehlerreporting
+import os
+
+# append the Python path with the wsgi-directory
+qwcPath = os.path.dirname(__file__)
+if not qwcPath in sys.path:
+  sys.path.append(qwcPath)
+
+import qwc_connect
 
 def application(environ, start_response):
   request = Request(environ)
@@ -90,17 +96,10 @@ def application(environ, start_response):
 
   sql += " ORDER BY search_category ASC, displaytext ASC;"
 
-  try:
-    conn = psycopg2.connect(DB_CONN_STRING)
-  except:
-    errorText += 'error: database connection failed'
-    # write the error message to the error.log
-    print >> environ['wsgi.errors'], "%s" % errorText
-    response_headers = [('Content-type', 'text/plain'),
-                        ('Content-Length', str(len(errorText)))]
-    start_response('500 INTERNAL SERVER ERROR', response_headers)
-
-    return [errorText]
+  conn = qwc_connect.getConnection(environ, start_response)
+  
+  if conn == None:
+    return [""]
 
   cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 

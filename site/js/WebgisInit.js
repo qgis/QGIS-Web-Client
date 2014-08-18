@@ -1,9 +1,9 @@
 /*
  *
- * WebgisInit.js -- part of Quantum GIS Web Client
+ * WebgisInit.js -- part of QGIS Web Client
  *
  * Copyright (2010-2013), The QGIS Project All rights reserved.
- * Quantum GIS Web Client is released under a BSD license. Please see
+ * QGIS Web Client is released under a BSD license. Please see
  * https://github.com/qgis/qgis-web-client/blob/master/README
  * for the full text of the license and the list of contributors.
  *
@@ -15,9 +15,17 @@ var selectedLayers; //later an array containing all visible (selected) layers
 var selectedQueryableLayers; //later an array of all visible (selected and queryable) layers
 var allLayers; //later an array containing all leaf layers
 var thematicLayer, highlightLayer, featureInfoHighlightLayer;
+var arrayOSM; //OSM
+var arrayAerial; //OSM
+var arrayCycle; //OSM
+var baseOSM; //OSM
+var baseAerial; //OSM
+var mapnik; //OSM
+var cycle; //OSM
 var googleSatelliteLayer;
 var googleMapLayer;
 var bingSatelliteLayer;
+var highlighter = null;
 var highLightGeometry = new Array();
 var WMSGetFInfo, WMSGetFInfoHover;
 var lastLayer, lastFeature;
@@ -109,6 +117,32 @@ Ext.onReady(function () {
 	//set some status messsages
 	mainStatusText.setText(mapAppLoadingString[lang]);
 
+	//OpenstreetMap background layers
+	if (enableOSMMaps) {	    
+        	arrayOSM = ["http://otile1.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg",
+                    	"http://otile2.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg",
+                    	"http://otile3.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg",
+                    	"http://otile4.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg"];
+        	arrayAerial = ["http://otile1.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg",
+                        "http://otile2.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg",
+                        "http://otile3.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg",
+                        "http://otile4.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg"];
+       		arrayCycle = ["http://a.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png",
+   			"http://b.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png",
+   			"http://c.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png"];
+
+        	baseOSM = new OpenLayers.Layer.OSM("MapQuest-OSM Tiles", arrayOSM, {numZoomLevels: 19, attribution: "Data, imagery and map information provided by <a href='http://www.mapquest.com/'  target='_blank'>MapQuest</a>, <a href='http://www.openstreetmap.org/' target='_blank'>Open Street Map</a> and contributors, <a href='http://creativecommons.org/licenses/by-sa/2.0/' target='_blank'>CC-BY-SA</a>  <img src='http://developer.mapquest.com/content/osm/mq_logo.png' border='0'>"} );
+       		baseAerial = new OpenLayers.Layer.OSM("MapQuest Open Aerial Tiles (zoom < 11)", arrayAerial, {numZoomLevels: 11, attribution: "Data, imagery and map information provided by <a href='http://www.mapquest.com/'  target='_blank'>MapQuest</a>, <a href='http://www.openstreetmap.org/' target='_blank'>Open Street Map</a> and contributors, <a href='http://creativecommons.org/licenses/by-sa/2.0/' target='_blank'>CC-BY-SA</a>  <img src='http://developer.mapquest.com/content/osm/mq_logo.png' border='0'>"});
+		mapnik= new OpenLayers.Layer.OSM("OpenStreetMap (mapnik)");
+		cycle = new OpenLayers.Layer.OSM("OpenCycleMap",arrayCycle, {attribution: "<a href='http://www.openstreetmap.org/' target='_blank'>Open Street Map</a> and contributors. Tiles courtesy of<a target='_blank' href='http://www.thunderforest.com/'>Andy Allan</a>"});
+
+
+		baseLayers.push(mapnik)
+		baseLayers.push(baseOSM);
+		baseLayers.push(cycle);
+		baseLayers.push(baseAerial);
+	}
+
 	if (enableGoogleCommercialMaps) {
 		googleSatelliteLayer = new OpenLayers.Layer.Google(
 			"Google Satellite",
@@ -186,7 +220,8 @@ function loadWMSConfig() {
 		},
 		baseAttrs: {
 			uiProvider: Ext.tree.TriStateNodeUI
-		}
+		},
+		topic: wmsMapName
 	});
 
 	var root = new Ext.tree.AsyncTreeNode({
@@ -371,7 +406,10 @@ function postLoading() {
 			}
 		}
 	}
-	MapOptions.maxExtent = maxExtent;
+	// never change the map extents when using WMTS base layers
+	if (!enableWmtsBaseLayers) {
+		MapOptions.maxExtent = maxExtent;
+	}
 
 	//now collect all selected layers (with checkbox enabled in tree)
 	selectedLayers = Array();
@@ -426,14 +464,17 @@ function postLoading() {
 	if (initialLoadDone) {
 		printProvider.capabilities = printCapabilities;
 		printProvider.url = printUri;
+		printProvider.topic = wmsMapName;
 	}
 	else {
 		printProvider = new QGIS.PrintProvider({
 			method: "GET", // "POST" recommended for production use
 			capabilities: printCapabilities, // from the info.json script in the html
-			url: printUri
+			url: printUri,
+			topic: wmsMapName
 		});
-        printProvider.addListener("beforeprint", customBeforePrint);
+		printProvider.addListener("beforeprint", customBeforePrint);
+		printProvider.addListener("afterprint", customAfterPrint);
 	}
 
 	if (!printExtent) {
@@ -547,6 +588,9 @@ function postLoading() {
 		});
 	}
 
+	// add WMTS base layers
+	updateWmtsBaseLayers(wmsMapName, layerTree.root);
+
 	if (!initialLoadDone) {
 		if (urlParams.startExtent) {
 			var startExtentParams = urlParams.startExtent.split(",");
@@ -623,6 +667,7 @@ function postLoading() {
 		//add OpenLayers map controls
 		geoExtMap.map.addControl(new OpenLayers.Control.KeyboardDefaults());
 		geoExtMap.map.addControl(new OpenLayers.Control.Navigation());
+		geoExtMap.map.addControl(new OpenLayers.Control.Attribution());
 		//to hide miles/feet in the graphical scale bar we need to adapt "olControlScaleLineBottom" in file /OpenLayers/theme/default/style.css: display:none;
 		geoExtMap.map.addControl(new OpenLayers.Control.ScaleLine());
 		geoExtMap.map.addControl(new OpenLayers.Control.PanZoomBar({zoomWorldIcon:true,forceFixedZoomLevel:false}));
@@ -722,6 +767,11 @@ function postLoading() {
 		//todo: find out how to change the max extent in the OverviewMap
 	}
 
+	// highlighting
+	if (!initialLoadDone) {
+		highlighter = new QGIS.Highlighter(geoExtMap.map, thematicLayer);
+	}
+
 	//navigation actions
 	if (!initialLoadDone) {
 		var myTopToolbar = Ext.getCmp('myTopToolbar');
@@ -792,6 +842,9 @@ function postLoading() {
 				qgisSearchCombo = new QGIS.SearchComboBox({
 					map: geoExtMap.map,
 					highlightLayerName: 'attribHighLight',
+					useWmsHighlight: enableSearchBoxWmsHighlight,
+					wmsHighlightLabelAttribute: searchBoxWmsHighlightLabel,
+					highlighter: highlighter,
 					hasReverseAxisOrder: false, // PostGIS returns bbox' coordinates always x/y
 					width: 300,
 					searchtables: searchtables
@@ -943,8 +996,8 @@ function postLoading() {
 			var searchTabPanel = Ext.getCmp('SearchTabPanel');
 			for (var i = 0; i < searchPanelConfigs.length; i++) {
 				var panel = new QGIS.SearchPanel(searchPanelConfigs[i]);
-				panel.on("featureselected", showFeatureSelected);
-				panel.on("featureselectioncleared", clearFeatureSelected);
+				panel.on("featureselected", highlighter.highlightFeature, highlighter);
+				panel.on("featureselectioncleared", highlighter.unhighlightFeature, highlighter);
 				panel.on("beforesearchdataloaded", showSearchPanelResults);
                 // Just for debugging...
 				// panel.on("afterdsearchdataloaded", function(e){console.log(e);});
@@ -1716,6 +1769,10 @@ function createPermalink(){
 
 	// selection
 	permalinkParams.selection = thematicLayer.params.SELECTION;
+
+	// WMTS base layers
+	OpenLayers.Util.extend(permalinkParams, wmtsPermalinkParams(wmsMapName));
+
 	if (permaLinkURLShortener) {
 		permalink = encodeURIComponent(permalink + decodeURIComponent(Ext.urlEncode(permalinkParams)));
 	}
@@ -1791,6 +1848,8 @@ function applyPermalinkParams() {
 			}
 		}
 	}
+
+	applyWmtsPermalinkParams(urlParams, wmsMapName);
 }
 
 function setupLayerOrderPanel() {
@@ -1850,8 +1909,8 @@ function setupLayerOrderPanel() {
 
 	layerOrderPanel.clearLayers();
 	for (var i=0; i<orderedLayers.length; i++) {
-		//because of a but in QGIS server we need to check if a layer from layerDrawingOrder actually really exists
-		//QGIS server is delivering invalid layer when linking to different projects
+		//because of a but in QGIS Server we need to check if a layer from layerDrawingOrder actually really exists
+		//QGIS Server is delivering invalid layer when linking to different projects
 		if (wmsLoader.layerProperties[orderedLayers[i]]) {
 			layerOrderPanel.addLayer(orderedLayers[i], wmsLoader.layerProperties[orderedLayers[i]].opacity);
 		}
@@ -2080,4 +2139,88 @@ function setGrayNameWhenOutsideScale() {
             }
         }
     }
+}
+
+// WMTS base layers
+
+function updateWmtsBaseLayers(topic, root) {
+	// cleanup old WMTS layers
+	var oldWmtsLayers = geoExtMap.map.getLayersBy('isWmtsLayer', true);
+	for (var i=0; i<oldWmtsLayers.length; i++) {
+		geoExtMap.map.removeLayer(oldWmtsLayers[i]);
+	}
+
+	if (topic in wmtsLayersConfigs) {
+		// collect WMTS layers for current topic
+		var wmtsLayersConfig = wmtsLayersConfigs[topic];
+		var wmtsLayers = [];
+		for (var i=0; i<wmtsLayersConfig.length; i++) {
+			wmtsLayers.push(wmtsLayersConfig[i].wmtsLayer);
+		}
+		wmtsLayers = wmtsLayers.reverse();
+
+		if (wmtsLayers.length > 0) {
+			// add WMTS layers
+			var thematicLayerIndex = geoExtMap.map.getLayerIndex(thematicLayer);
+			for (var i=0; i<wmtsLayers.length; i++) {
+				var wmtsLayer = wmtsLayers[i];
+				// mark layer as WMTS
+				wmtsLayer.isWmtsLayer = true;
+				// add layer in front of main WMS layer
+				geoExtMap.map.addLayer(wmtsLayer);
+				geoExtMap.map.setLayerIndex(wmtsLayer, thematicLayerIndex);
+			}
+
+			// add new background layers node
+			var backgroundLayersNode = new Ext.tree.TreeNode({
+				leaf: false,
+				expanded: true,
+				text: wmtsBaseLayerTitleString[lang]
+			});
+			root.appendChild(backgroundLayersNode);
+
+			// update layer tree
+			for (var i=0; i<wmtsLayers.length; i++) {
+				var layer = wmtsLayers[i];
+				var node = new GeoExt.tree.LayerNode({
+					layer: layer,
+					leaf: true,
+					checked: layer.getVisibility(),
+					uiProvider: Ext.tree.TriStateNodeUI
+				});
+				backgroundLayersNode.appendChild(node);
+			}
+		}
+	}
+}
+
+function wmtsPermalinkParams(topic) {
+	var permalinkParams = {};
+
+	if (topic in wmtsLayersConfigs) {
+		// collect visible WMTS layers for current topic
+		var wmtsLayersConfig = wmtsLayersConfigs[topic];
+		var wmtsLayerNames = [];
+		for (var i=0; i<wmtsLayersConfig.length; i++) {
+			var wmtsLayer = wmtsLayersConfig[i].wmtsLayer;
+			if (wmtsLayer.getVisibility()) {
+				wmtsLayerNames.push(wmtsLayer.name);
+			}
+		}
+		permalinkParams.visibleWmtsLayers = wmtsLayerNames.join(',');
+	}
+
+	return permalinkParams;
+}
+
+function applyWmtsPermalinkParams(params, topic) {
+	if ((params.visibleWmtsLayers != undefined) && (topic in wmtsLayersConfigs)) {
+		// set WMTS layer visibilities for current topic
+		var visibleWmtsLayers = params.visibleWmtsLayers.split(',');
+		var wmtsLayersConfig = wmtsLayersConfigs[topic];
+		for (var i=0; i<wmtsLayersConfig.length; i++) {
+			var wmtsLayer = wmtsLayersConfig[i].wmtsLayer;
+			wmtsLayer.setVisibility(visibleWmtsLayers.indexOf(wmtsLayer.name) != -1);
+		}
+	}
 }

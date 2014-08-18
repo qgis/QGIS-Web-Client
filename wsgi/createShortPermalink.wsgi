@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # Script to create a short permalink from a long list of parameters
 # currently, only a Postgis db is supported - we may later add a spatialite version if there is demand
-# adapt your login-parameters in the psycopg2.connect line and potentially also your schema and table in the two queries (SELECT and INSERT) below
+# adapt potentially your schema and table in the two queries (SELECT and INSERT) below
 #http://servername/wsgi/createShortPermalink.wsgi?longPermalink=...
 
 
@@ -14,6 +14,14 @@ import psycopg2.extras #z.b. für named column indexes
 import sys #für Fehlerreporting
 import uuid
 import urllib2
+import os
+
+# append the Python path with the wsgi-directory
+qwcPath = os.path.dirname(__file__)
+if not qwcPath in sys.path:
+  sys.path.append(qwcPath)
+  
+import qwc_connect
 
 def application(environ, start_response):
   request = Request(environ)
@@ -22,13 +30,13 @@ def application(environ, start_response):
   servername = longPermalink.split("/")[2]
   newUuid = str(uuid.uuid4())
 
-  sqlErrorText = ''
+  errorText = ''
   
   #SQL database connection
-  try:
-    conn = psycopg2.connect("host='yourservername' port='5434' user='youruser' password='yourpassword' dbname='yourdb'")
-  except:
-    sqlErrorText += 'error: Datenbankverbindung fehlgeschlagen'
+  conn = qwc_connect.getConnection(environ, start_response)
+  
+  if conn == None:
+    return [""]
   
   cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
   
@@ -39,7 +47,15 @@ def application(environ, start_response):
     cur.execute(sqlQuery,{'longPermalink':longPermalink})
   except:
     exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
-    sqlErrorText += 'error: Could not execute SELECT Query: '+str(exceptionValue)
+    conn.close()
+    errorText += 'error: could not execute query'
+    # write the error message to the error.log
+    print >> environ['wsgi.errors'], "%s" % errorText+": "+str(exceptionValue)
+    print >> environ['wsgi.errors'], "%s" % sqlQuery
+    response_headers = [('Content-type', 'text/plain'),
+                        ('Content-Length', str(len(errorText)))]
+    start_response('500 INTERNAL SERVER ERROR', response_headers)
+    return [errorText]
 
   row = cur.fetchone()
   
@@ -53,10 +69,18 @@ def application(environ, start_response):
       conn.commit()
     except:
       exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
-      sqlErrorText += 'error: Could not execute INSERT Query: '+str(exceptionValue)
+      conn.close()
+      errorText += 'error: could not execute query'
+      # write the error message to the error.log
+      print >> environ['wsgi.errors'], "%s" % errorText+": "+str(exceptionValue)
+      print >> environ['wsgi.errors'], "%s" % sqlInsert
+      response_headers = [('Content-type', 'text/plain'),
+                        ('Content-Length', str(len(errorText)))]
+      start_response('500 INTERNAL SERVER ERROR', response_headers)
+      return [errorText]
 	  
   shortURL = "http://"+servername+"/wsgi/webgisLauncher.wsgi?uuid="+newUuid
-  resultString = '{"shortUrl": "'+shortURL+'", "errorText": "'+sqlErrorText+'"}'
+  resultString = '{"shortUrl": "'+shortURL+'", "errorText": "'+errorText+'"}'
     
   response = Response(resultString,"200 OK",[("Content-type","application/json; charset=utf-8"),("Content-length", str(len(resultString)) )])
 

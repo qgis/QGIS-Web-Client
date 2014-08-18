@@ -1,9 +1,9 @@
 /*
  *
- * ThemeSwitcher.js -- part of Quantum GIS Web Client
+ * ThemeSwitcher.js -- part of QGIS Web Client
  *
  * Copyright (2010-2012), The QGIS Project All rights reserved.
- * Quantum GIS Web Client is released under a BSD license. Please see
+ * QGIS Web Client is released under a BSD license. Please see
  * https://github.com/qgis/qgis-web-client/blob/master/README
  * for the full text of the license and the list of contributors.
  *
@@ -318,10 +318,17 @@ ThemeSwitcher.prototype.changeTheme = function (dataView, index, node, evt) {
 		}
 		if (norewrite) {
 			wmsURI += "?map=" + projData.projectpath + "/" + projData.projectfile + ".qgs&";
+			wmsMapName = projData.projectpath + "/" + projData.projectfile;
 		} else {
-			wmsURI += "/" + projData.projectpath + "/" + projData.projectfile + "?";
+			if (projData.projectpath.length > 0) {
+				wmsURI += "/" + projData.projectpath + "/" + projData.projectfile + "?";
+				wmsMapName = projData.projectpath + "/" + projData.projectfile;
+			}
+			else {
+				wmsURI += "/" + projData.projectfile + "?";
+				wmsMapName = projData.projectfile;
+			}
 		}
-		wmsMapName = projData.projectpath + "/" + projData.projectfile;
 		//handle visible layers
 		if (projData.visibleLayers) {
 			visibleLayers = projData.visibleLayers.split(",");

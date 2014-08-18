@@ -1,4 +1,4 @@
-Quantum GIS (QGIS) Web Client
+QGIS Web Client
 Installation  and Configuration Guide
 %%date(%A %B %d, %Y)
 
@@ -115,7 +115,7 @@ On ubuntu you can meet these requirements by simply doing:
 sudo apt-get install libapache2-mod-fcgid
 ```
 
-The QGIS server compilation and installation will be covered in the QGIS manual.
+The QGIS Server compilation and installation will be covered in the QGIS manual.
 
 
 For searching:
@@ -263,8 +263,11 @@ var simpleWmsSearch = {
   gridColumns: [
     {header: 'Name', dataIndex: 'name', menuDisabled: 'true'}
   ],
+  highlightFeature: false,
+  highlightLabel: 'name',
   selectionLayer: 'Country',
-  selectionZoom: 0
+  selectionZoom: 0,
+  doZoomToExtent: true
 };
 ```
 
@@ -280,9 +283,12 @@ var simpleWmsSearch = {
  -
 - ``gridColumns``: list of Ext.grid.GridPanel column configs to show search
   results
+- ``highlightFeature`` (optional): use QGIS WMS highlight instead of QGIS WMS selection if enabled
+- ``highlightLabel`` (optional): show this feature attribute as label if ``highlightFeature`` is enabled
 - ``selectionLayer``: name of layer for marking selected results (the same as
-  ``queryLayer``)
+  ``queryLayer``) if ``highlightFeature`` is not enabled
 - ``selectionZoom``: zoom level for jump-to when selecting results
+- ``doZoomToExtent`` (optional): zoom to feature extent when selecting results, overrides ``selectionZoom``
 -
 
 Request URL:
@@ -323,8 +329,11 @@ var urlRewriteSearch = {
     {header: 'PKUID', dataIndex: 'pkuid', menuDisabled: 'true'},
     {header: 'Colour', dataIndex: 'colour', menuDisabled: 'true'}
   ],
+  highlightFeature: false,
+  highlightLabel: 'colour',
   selectionLayer: 'Hello',
-  selectionZoom: 1
+  selectionZoom: 1,
+  doZoomToExtent: true
 };
 ```
 
@@ -339,8 +348,12 @@ var urlRewriteSearch = {
  -
 - ``gridColumns``: list of Ext.grid.GridPanel column configs to show search
   results
-- ``selectionLayer``: name of layer for marking selected results
+- ``highlightFeature`` (optional): use QGIS WMS highlight instead of QGIS WMS selection if enabled
+- ``highlightLabel`` (optional): show this feature attribute as label if ``highlightFeature`` is enabled
+- ``selectionLayer``: name of layer for marking selected results if ``highlightFeature`` is not enabled
 - ``selectionZoom``: zoom level for jump-to when selecting results
+- ``doZoomToExtent`` (optional): zoom to feature extent when selecting results, overrides ``selectionZoom``
+-
 
 For every search of this type you have to add a URL rewrite rule in the Apache
 config. *Note:* Linebreaks added for formatting - they should be removed in your
@@ -358,7 +371,7 @@ INFO_FORMAT=text/xml&SRS=EPSG:4326&FILTER=Hello:"colour"\ =\ '%1' [PT]
 The first RewriteCond matches the ``query`` id of the search panel config. The
 second RewriteCond extracts the values of the search request parameters.
 
-The RewriteRule composes the actual WMS GetFeatureInfo request to QGIS mapserver.
+The RewriteRule composes the actual WMS GetFeatureInfo request to QGIS Server.
 
 
 Request URL:
@@ -587,6 +600,34 @@ tags
 Optional. Tags or keywords displayed in the tooltips in the theme switcher.
 The tags are also used in the search filter used in the theme switcher.
 
+== Configuring of background layers ==
+You can use any [OpenLayers.Layer http://dev.openlayers.org/releases/OpenLayers-2.13.1/doc/apidocs/files/OpenLayers/Layer-js.html] subclass as background layer. This layer must be added to ``baseLayers``. You should do this in ``customBeforeMapInit()`` in Customizations.js. Example:
+```
+// called before map initialization
+function customBeforeMapInit() {
+    // define base layer
+    var myBaseLayer = new OpenLayers.Layer.WMS("myBaseLayerName",
+        "myBaseLayerWmsUrl", {
+            layers: "myLayer",
+            format: format,
+            dpi: screenDpi,
+            VERSION: "1.3.0"
+        },
+        {
+            buffer:0,
+            singleTile:true,
+            ratio:1,
+            transitionEffect:"resize",
+            isBaseLayer: true, // important!
+            projection:authid // requests the base layer in the projection defined in GlobalOptions
+        }
+    );
+
+    // now add to baseLayers array
+    baseLayers.push(myBaseLayer);
+}
+```
+
 == Extending the interface ==
 
 You can add buttons to implements additional functions (editing, advanced identify, etc.).
@@ -606,7 +647,7 @@ A new file ``site/js/Translations_custom.js`` is created. Copy this file to your
 
 = URL Rewriting =
 
-Using a standard installation of QGIS server, GlobalOptions.js will have a WMS
+Using a standard installation of QGIS Server, GlobalOptions.js will have a WMS
 server configuration like
 ```
 var serverAndCGI = "/cgi-bin/qgis_mapserv.fcgi";
@@ -677,6 +718,11 @@ in a PostGIS database. The WSGI scripts are available
 under the ``wsgi`` folder. It is recommended to
 install the wsgi scripts in a separate directory, e.g. /home/www/wsgi, a place
 that is not reachable by regular web traffic.
+
+There are two options to highlight a feature that is selected from the search results. If the option
+``enableSearchBoxWmsHighlight`` in ``GlobalOptions.js`` is enabled, the selected feature will be
+highlighted using QGIS WMS highlight. Otherwise the feature will be added as a vector feature to
+the highlight layer.
 
 == PHP Search ==
 
@@ -815,12 +861,13 @@ WSGIScriptAliasMatch ^/wsgi/([^/]+) /home/www/wsgi/$1.wsgi
 === Adaption of the wsgi scripts to your settings and needs ===
 
 ==== DB connection ====
-In the files "search.wsgi" and "getSearchGeom.wsgi" please edit the first line
-containing the db connection strings.
+In the file ``qwc_connect.py`` please edit the first line containing the db connection string. 
 
 ```
-DB_CONN_STRING="host='yourhost' dbname='yourdb' port='5432' user='yourusername' password='yourpassword'"
+DB_CONN_STRING="host='myhost' dbname='mydb' port='5432' user='myuser' password='secret'"
 ```
+
+This connection will be used in all wsgi scripts.
 
 Adapt the parameters according to your server/db. It is highly recommended to
 **connect with a database user having limited rights only** (e.g. select rights on relevant tables only).
@@ -955,6 +1002,7 @@ Translators:
 - Pavlo Taranov
 - Tudor Bărăscu
 - Uroš Preložnik
+- Klas Karlsson
 
 
 = Acknowledgements =

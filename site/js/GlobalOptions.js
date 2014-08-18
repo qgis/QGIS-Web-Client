@@ -4,7 +4,7 @@ var lang = "en"; //for available codes see array availableLanguages in file Glob
 //Help file (must be a local file)
 var helpfile = "help_en.html";
 
-//Servername (optional) and path and name name of QGIS mapserver FCGI-file
+//Servername (optional) and path and name name of QGIS Server FCGI-file
 //either with or without server-name - without servername recommended for easier porting to other servers
 //do not add a ? or & after the .fcgi extension
 var serverAndCGI = "/cgi-bin/qgis_mapserv.fcgi";
@@ -39,6 +39,11 @@ var geoNamesUserName = 'insert your geonames user name';
 var searchBoxQueryURL = null; // "/wsgi/search.wsgi?query=";
 var searchBoxGetGeomURL = null; // "/wsgi/getSearchGeom.wsgi";
 
+// use QGIS WMS highlight for selected search result in search box
+var enableSearchBoxWmsHighlight = false;
+// search result attribute to show as label if enableSearchBoxWmsHighlight is enabled
+var searchBoxWmsHighlightLabel = 'displaytext';
+
 // If set, will make sure that the layer for the search results is
 // visible. This feature will work out of the box if PHP scripts are
 // used.
@@ -63,8 +68,11 @@ if (enableBingCommercialMaps) {
     var bingApiKey = "add Bing api key here"; // http://msdn.microsoft.com/en-us/library/ff428642.aspx
 }
 var enableGoogleCommercialMaps = true;
+
+var enableOSMMaps = true;
+
 var enableBGMaps = false;
-if (enableBingCommercialMaps || enableGoogleCommercialMaps) {
+if (enableBingCommercialMaps || enableOSMMaps || enableGoogleCommercialMaps) {
 	enableBGMaps = true;
 }
 if (enableBGMaps) {
@@ -72,6 +80,42 @@ if (enableBGMaps) {
 	// set to a value < 0 to not show any backgroundLayer
 	// this setting is overridden if a value for url-parameter visibleBackgroundLayer is passed
 	var initialBGMap = 0;
+}
+
+// enable to use WMST base layers
+var enableWmtsBaseLayers = false;
+var wmtsLayersConfigs = {};
+if (enableWmtsBaseLayers) {
+  // example WMTS base layer
+  var matrixIds = new Array(26);
+  for (var i=0; i<26; ++i) {
+    matrixIds[i] = "EPSG:900913:" + i;
+  }
+  var sampleWmtsLayer = new OpenLayers.Layer.WMTS({
+    name: "OpenGeo Countries",
+    url: "http://v2.suite.opengeo.org/geoserver/gwc/service/wmts/",
+    layer: "opengeo:countries",
+    matrixSet: "EPSG:900913",
+    matrixIds: matrixIds,
+    format: "image/png",
+    style: "_null",
+    opacity: 0.7,
+    visibility: true,
+    isBaseLayer: false
+  });
+  // NOTE: also set MapOptions according to WMTS
+
+  // optional WMTS base layers per map name
+  wmtsLayersConfigs = {
+    "helloworld": [
+      {
+        // WMTS base layer
+        wmtsLayer: sampleWmtsLayer,
+        // this WMS layer will be hidden in the layer tree and only be used for printing
+        printWmsLayer: "Country"
+      }
+    ],
+  };
 }
 
 // media base URL to match media links in layer attributes
@@ -110,6 +154,8 @@ var simpleWmsSearch = {
   gridColumns: [
     {header: 'Name', dataIndex: 'name', menuDisabled: 'true'}
   ],
+//  highlightFeature: true,
+//  highlightLabel: 'name',
   selectionLayer: 'Country',
   selectionZoom: 0,
   doZoomToExtent: true
@@ -136,6 +182,8 @@ var urlRewriteSearch = {
     {header: 'PKUID', dataIndex: 'pkuid', menuDisabled: 'true'},
     {header: 'Colour', dataIndex: 'colour', menuDisabled: 'true'}
   ],
+//  highlightFeature: true,
+//  highlightLabel: 'colour',
   selectionLayer: 'Hello',
   selectionZoom: 1
 };
@@ -213,7 +261,7 @@ var layerImageFormats = [
 //EPSG projection code of your QGIS project
 var authid = "EPSG:"+3857;
 
-//background transparency for the QGIS server generated layer (commercial background layers not effected)
+//background transparency for the QGIS Server generated layer (commercial background layers not effected)
 //set to true if you want the background to be transparent, layer image will be bigger (32 vs 24bit)
 var qgisLayerTransparency = true;
 
@@ -228,7 +276,7 @@ var MapOptions = {
 //  maxScale:50,
 //  minScale:40000000,
   numZoomLevels:ZOOM_LEVELS,
-  fractionalZoom: enableBGMaps ? false : true,
+  fractionalZoom: !enableWmtsBaseLayers && !enableBGMaps,
   transitionEffect:"resize",
   controls: []
 };
@@ -242,10 +290,13 @@ var LayerOptions = {
   transitionEffect:"resize",
   isBaseLayer: false,
   projection:authid,
-  yx: {"EPSG:900913": false}
+  yx: {"EPSG:900913": false},
   // If your projection is known to have an inverse axis order in WMS 1.3 compared to WMS 1.1 enter true for yx.
   // For EPSG:900913 OpenLayers should know it by default but because of a bug in OL 2.12 we enter it here.
-
+  tileOptions: {
+    // use POST for long URLs
+    maxGetUrlLength: 2048
+  }
 };
 
 //overview map settings - do not change variable names!
@@ -260,8 +311,10 @@ var OverviewMapSize = new OpenLayers.Size(200,200);
 var OverviewMapMaximized = false; // is the overview map opend or closed by default
 var overviewLayer = new OpenLayers.Layer.WMS("Overview-Map",
   serverAndCGI+"?map=/home/web/qgis-web-client/projects/naturalearth_110million.qgs",
-  {layers:"Land",format:"image/png"},
-  {buffer:0,singleTile:true,transitionEffect:"resize"});
+  {layers:"Land",format:"image/png", transparent:true},
+  {buffer:0,singleTile:true,transitionEffect:"resize", isBaseLayer:false});
+  
+var OverviewOSM = new OpenLayers.Layers.OSM();
 
 // prevent the user from choosing a print resolution
 // if fixedPrintResolution = null, the user is allowed to choose the print resolution.
@@ -346,8 +399,20 @@ var symbolizersHighLightLayer = {
   "Polygon": {
     strokeWidth: 2,
     strokeColor: "#FF8C00",
-    fillColor: "none"
+    fillColor: "none",
+    fillOpacity: 0
   }
+};
+
+// style for highlight labels of search results
+// font weight from 0 to 99 (Light: 25, Normal: 50, DemiBold: 63, Bold: 75, Black: 87)
+var highlightLabelStyle = {
+//  font: "Serif",
+  size: 12,
+//  weight: 75,
+  color: "#000000",
+  buffercolor: "#FFFFFF",
+  buffersize: 1
 };
 
 //styling for measure controls (distance and area)

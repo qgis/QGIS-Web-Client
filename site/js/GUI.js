@@ -1,9 +1,9 @@
 /*
  *
- * GUI.js -- part of Quantum GIS Web Client
+ * GUI.js -- part of QGIS Web Client
  *
  * Copyright (2010-2012), The QGIS Project All rights reserved.
- * Quantum GIS Web Client is released under a BSD license. Please see
+ * QGIS Web Client is released under a BSD license. Please see
  * https://github.com/qgis/qgis-web-client/blob/master/README
  * for the full text of the license and the list of contributors.
  *
@@ -134,7 +134,8 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 					xtype: 'panel',
 					layout: 'accordion',
 					border: false,
-                    frame: false,
+					frame: false,
+					id: 'collapsiblePanels',
 					flex: 0.9,
 					width: '100%',
 					layoutConfig: {
