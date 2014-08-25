@@ -260,6 +260,28 @@ function removeHoverPopup(){
     featureInfoHighlightLayer.removeAllFeatures();
 }
 
+
+/**
+ * Search for if a custom formatter exists for this layerName and
+ * attName combination and return formatter's results if found.
+ *
+ */
+function runCustomFormatters(layerName, attName, attValue){
+    try {
+        if (typeof customFormatters[layerName][attName] == 'object') {
+            var ret = '';
+            Ext.each(customFormatters[layerName][attName], function(formatter){
+                ret += formatter(layerName, attName, attValue);
+            });
+            return ret;
+        } else {
+            return customFormatters[layerName][attName](layerName, attName, attValue);
+        }
+    } catch(e){
+        return attValue;
+    }
+}
+
 function parseFIResult(node) {
     if (node.hasChildNodes()) {
 		//test if we need to show the feature info layer title
@@ -320,6 +342,8 @@ function parseFIResult(node) {
                                               attValue = "<a href=\"/" + attValue + "\" target=\"_blank\">" + attValue + "</a>";
                                           }
                                       }
+                                      // Check for custom formatters and apply if found
+                                      attValue = runCustomFormatters(node.getAttribute("name"), attName, attValue);
                                       htmlText += "<td>" + attValue + "</td></tr>";
                                       hasAttributes = true;
                                   }
