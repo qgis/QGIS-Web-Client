@@ -3,7 +3,7 @@
 <HEAD>
 <META NAME="generator" CONTENT="http://txt2tags.org">
 <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
-<TITLE>Quantum GIS (QGIS) Web Client</TITLE>
+<TITLE>QGIS Web Client</TITLE>
 
 <!-- CSS include failed for style.css -->
 
@@ -11,15 +11,15 @@
 <BODY>
 
 <DIV CLASS="header" ID="header">
-<H1>Quantum GIS (QGIS) Web Client</H1>
+<H1>QGIS Web Client</H1>
 <H2>Installation  and Configuration Guide</H2>
-<H3>Thursday May 22, 2014</H3>
+<H3>Wednesday June 11, 2014</H3>
 </DIV>
 
 <DIV CLASS="body" ID="body">
 <P>
-Last Updated: Thursday May 22, 2014
-Last Change : Thursday May 22, 2014
+Last Updated: Wednesday June 11, 2014
+Last Change : Wednesday June 11, 2014
 </P>
 <DIV CLASS="toc">
 
@@ -115,7 +115,7 @@ sudo apt-get install libapache2-mod-fcgid
 </PRE></div>
 
 <P>
-The QGIS server compilation and installation will be covered in the QGIS manual.
+The QGIS Server compilation and installation will be covered in the QGIS manual.
 </P>
 <P>
 For searching:
@@ -318,8 +318,11 @@ var simpleWmsSearch = {
   gridColumns: [
     {header: 'Name', dataIndex: 'name', menuDisabled: 'true'}
   ],
+  highlightFeature: false,
+  highlightLabel: 'name',
   selectionLayer: 'Country',
-  selectionZoom: 0
+  selectionZoom: 0,
+  doZoomToExtent: true
 };
 </PRE></div>
 
@@ -337,9 +340,12 @@ var simpleWmsSearch = {
  </UL>
 <LI><CODE>gridColumns</CODE>: list of Ext.grid.GridPanel column configs to show search
   results
+<LI><CODE>highlightFeature</CODE> (optional): use QGIS WMS highlight instead of QGIS WMS selection if enabled
+<LI><CODE>highlightLabel</CODE> (optional): show this feature attribute as label if <CODE>highlightFeature</CODE> is enabled
 <LI><CODE>selectionLayer</CODE>: name of layer for marking selected results (the same as
-  <CODE>queryLayer</CODE>)
+  <CODE>queryLayer</CODE>) if <CODE>highlightFeature</CODE> is not enabled
 <LI><CODE>selectionZoom</CODE>: zoom level for jump-to when selecting results
+<LI><CODE>doZoomToExtent</CODE> (optional): zoom to feature extent when selecting results, overrides <CODE>selectionZoom</CODE>
 </UL>
 
 <P>
@@ -386,8 +392,11 @@ var urlRewriteSearch = {
     {header: 'PKUID', dataIndex: 'pkuid', menuDisabled: 'true'},
     {header: 'Colour', dataIndex: 'colour', menuDisabled: 'true'}
   ],
+  highlightFeature: false,
+  highlightLabel: 'colour',
   selectionLayer: 'Hello',
-  selectionZoom: 1
+  selectionZoom: 1,
+  doZoomToExtent: true
 };
 </PRE></div>
 
@@ -404,13 +413,19 @@ var urlRewriteSearch = {
  </UL>
 <LI><CODE>gridColumns</CODE>: list of Ext.grid.GridPanel column configs to show search
   results
-<LI><CODE>selectionLayer</CODE>: name of layer for marking selected results
+<LI><CODE>highlightFeature</CODE> (optional): use QGIS WMS highlight instead of QGIS WMS selection if enabled
+<LI><CODE>highlightLabel</CODE> (optional): show this feature attribute as label if <CODE>highlightFeature</CODE> is enabled
+<LI><CODE>selectionLayer</CODE>: name of layer for marking selected results if <CODE>highlightFeature</CODE> is not enabled
 <LI><CODE>selectionZoom</CODE>: zoom level for jump-to when selecting results
-<P></P>
+<LI><CODE>doZoomToExtent</CODE> (optional): zoom to feature extent when selecting results, overrides <CODE>selectionZoom</CODE>
+</UL>
+
+<P>
 For every search of this type you have to add a URL rewrite rule in the Apache
 config. *Note:* Linebreaks added for formatting - they should be removed in your
 config file.
-<P></P>
+</P>
+
 <div class="code"><PRE>
 RewriteCond %{QUERY_STRING} ^(?:.*)query=samplesearch&amp;*(?:.*)$
 RewriteCond %{QUERY_STRING} ^(?:(?:.*)&amp;)?colour=([^&amp;]*)(?:.*)$
@@ -420,13 +435,13 @@ REQUEST=GetFeatureInfo&amp;LAYERS=Hello&amp;QUERY_LAYERS=Hello&amp;FEATURE_COUNT
 INFO_FORMAT=text/xml&amp;SRS=EPSG:4326&amp;FILTER=Hello:"colour"\ =\ '%1' [PT]
 </PRE></div>
 
-<P></P>
+<P>
 The first RewriteCond matches the <CODE>query</CODE> id of the search panel config. The
 second RewriteCond extracts the values of the search request parameters.
-<P></P>
-The RewriteRule composes the actual WMS GetFeatureInfo request to QGIS mapserver.
-</UL>
-
+</P>
+<P>
+The RewriteRule composes the actual WMS GetFeatureInfo request to QGIS Server.
+</P>
 <P>
 Request URL:
 </P>
@@ -771,7 +786,7 @@ A new file <CODE>site/js/Translations_custom.js</CODE> is created. Copy this fil
 <H1>5. URL Rewriting</H1>
 
 <P>
-Using a standard installation of QGIS server, GlobalOptions.js will have a WMS
+Using a standard installation of QGIS Server, GlobalOptions.js will have a WMS
 server configuration like
 </P>
 
@@ -867,6 +882,12 @@ in a PostGIS database. The WSGI scripts are available
 under the <CODE>wsgi</CODE> folder. It is recommended to
 install the wsgi scripts in a separate directory, e.g. /home/www/wsgi, a place
 that is not reachable by regular web traffic.
+</P>
+<P>
+There are two options to highlight a feature that is selected from the search results. If the option
+<CODE>enableSearchBoxWmsHighlight</CODE> in <CODE>GlobalOptions.js</CODE> is enabled, the selected feature will be
+highlighted using QGIS WMS highlight. Otherwise the feature will be added as a vector feature to
+the highlight layer.
 </P>
 
 <A NAME="toc13"></A>
@@ -1206,6 +1227,7 @@ Translators:
 <LI>Pavlo Taranov
 <LI>Tudor Bărăscu
 <LI>Uroš Preložnik
+<LI>Klas Karlsson
 </UL>
 
 <A NAME="toc17"></A>

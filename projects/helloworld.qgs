@@ -45,7 +45,7 @@
                     <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
                 </ComposerItem>
             </ComposerLabel>
-            <ComposerLabel valign="32" labelText="Quantum GIS Mapserver" htmlState="0" halign="1" margin="1">
+            <ComposerLabel valign="32" labelText="QGIS Mapserver" htmlState="0" halign="1" margin="1">
                 <LabelFont description="Ubuntu,48,-1,5,75,0,0,0,0,0"/>
                 <FontColor red="0" blue="0" green="0"/>
                 <ComposerItem width="215.03" x="49.9838" transparency="0" y="9.33411" rotation="0" height="28.0023" positionMode="0" frame="false" outlineWidth="0.3" zValue="2" lastValidViewScaleFactor="2.89262" uuid="{1684f77a-7a33-4839-8a95-a7d1fbd606d4}" id="" background="false" blendMode="0" positionLock="false">
@@ -517,7 +517,7 @@
     <properties>
         <WMSContactPerson type="QString">Tim Sutton</WMSContactPerson>
         <WMSOnlineResource type="QString"></WMSOnlineResource>
-        <WMSContactOrganization type="QString">Quantum GIS</WMSContactOrganization>
+        <WMSContactOrganization type="QString">QGIS</WMSContactOrganization>
         <WMSExtent type="QStringList">
             <value>-25749148.89047467336058617</value>
             <value>-13032965.18542143888771534</value>

@@ -9,10 +9,10 @@
  * Nicolas Liaudat - nliaudat(at)pompiers-chatel(dot)ch
  *
  *
- * export.php -- part of Quantum GIS Web Client
+ * export.php -- part of QGIS Web Client
  *
  * Copyright (2014), The QGIS Project All rights reserved.
- * Quantum GIS Web Client is released under a BSD license. Please see
+ * QGIS Web Client is released under a BSD license. Please see
  * https://github.com/qgis/qgis-web-client/blob/master/README
  * for the full text of the license and the list of contributors.
  *

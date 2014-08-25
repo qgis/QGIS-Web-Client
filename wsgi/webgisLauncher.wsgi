@@ -21,6 +21,8 @@ import os
 qwcPath = os.path.dirname(__file__)
 if not qwcPath in sys.path:
   sys.path.append(qwcPath)
+  
+import qwc_connect
 
 def application(environ, start_response):
   request = Request(environ)

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <title>QGIS Webbklient Hjälp</title>
+  <link type="text/css" href="css/help.css" rel="stylesheet" />
+  <meta charset="utf-8" />
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width; initial-scale=1.0" />
+</head>
+<body>
+<div id="help_page">
+<div id="help_wrapper">
+  <header>
+    <div id="help_caption">
+      <h1>QGIS Webbklient</h1>
+      <h2 class="SubCaption">Standardhjälp för klient</h2>
+    </div>
+  </header>
+ <hr/>
+  <nav>
+    <div id="help_logo">
+      <span class="logo_img"><a href="http://qgis.org"><img src="img/qgis-icon.png"/></a></span>
+    </div>
+    <ul class="ul_help">
+    <li class="list-header">Innehåll
+      <ul class="ul_help">
+        <li><span class="linksim" onclick="scrollToHelpItem('help_generalUsage')">Allmänt</span>
+          <ul class="ul_help">
+            <li><span class="linksim" onclick="scrollToHelpItem('help_workingWithLayers')">Kartlager</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_searching')">Sök</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_navigating')">Kartnavigering</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_measuring')">Mäta</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_printing')">Skriva ut</span></li>
+          </ul>
+        </li>
+        <li><span class="linksim" onclick="scrollToHelpItem('help_about')">Om QGIS webbklient</span>
+          <ul class="ul_help">
+            <li><span class="linksim" onclick="scrollToHelpItem('help_license')">Licens</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_moreHelp')">Mer hjälp</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_usefulLinks')">Användbara länkar</span></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+   </ul>
+  </nav>
+  <div id="help_content">
+  <section id="help_general">
+    <article>
+      <h2 id="help_generalUsage">Allmänt</h2>
+      <p>Applikationsfönstret är delat i tre panerler: <i>Information och verktyg</i> till vänster, huvudkartan med verktygsrad i överkant i mitten och 
+        <i>Attribut data</i> till höger. Beroende på dina val kan paneler till vänster och höger vara synliga eller dolda.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_workingWithLayers">Jobba med lager</h3>
+      <p>I <i>Informtation och verktygs</i> panelen visas tillgängliga lager under <i>kartlager</i>. Markera eller avmarkera lager för att ändra synlighet.
+            Teckenförklaringen för alla synliga lager visas under fliken teckenförklaring.
+      </p>
+      <p>Om du klickar på ett lagers namn, så sätts detta som <b>aktivt lager</b>.
+      </p>
+      <p>Använd <img src="gis_icons/mActionIdentify.png" alt="identiy"/> knappen i huvudkartans verktygsrad för att hämta information om objekt i kartan.
+            Informationen kan bli synlig när musen förs över objekten och/eller visas i <i>attributdata</i>-panelen när objektet klickas på. 
+            Genom att välja ett alternativ från <i>Objektidentifiering</i> så kan du välja vilket(a) lager som förfrågas.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_searching">Sök i kartinnehåll</h3>
+      <p>Fyll i valfri söktext (namn på gata eller plats, typ av objekt, etc.) eller del av det i sökfältet i övre delen av kartfönstret.
+        Varje objekt som matchar din sökning visas; välj ett genom att klicka på det. Kartan fokuserar automatiskt på det valda objektet och
+        objektet markeras.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_navigating">Navigera i kartan</h3>
+      <p>Navigera genom att använda navigationsknapparna <img src="gis_icons/mActionZoomBox.png" alt="ZoomBox"/>
+        <img src="gis_icons/mActionZoomFullExtent.png" alt="ZoomFullExtent"/>
+        <img src="gis_icons/mActionZoomLast.png" alt="ZoomLast"/> och <img src="gis_icons/mActionZoomNext.png" alt="ZoomNext"/> i verktygsraden.
+          Alla knappar har hjälptexter som visas när musen förs över dem.
+      </p>
+      <p>Du kan också zooma kartan med zoomlisten i övre vänstra delen av kartan eller genom att skriva in en skala i skalfältet nere till höger.
+        Om du har en mus med skrollhjul så kan du zooma in och ut med detta också.
+      </p>
+      <p>Panorera kartan genom att trycka ner vänster musknapp medan musen flyttas. Du kan också skriva in koordinater i koordinatfältet i kartans nedre högra hörn.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_measuring">Mät avstånd och områden</h3>
+      <p>Använd verktygen <img src="gis_icons/mActionMeasure.png" alt="Measure"/> och <img src="gis_icons/mActionMeasureArea.png" alt="MeasureArea"/> i verktygsraden.
+        Ett klick med vänster musknapp skapar en punkt i linjen eller området som skall mätas, dubbelklick avslutar mätningen. Mätningsresultatet visas kontinuerligt under kartan.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_printing">Skriva ut</h3>
+      <p>Om utskriftslayouter är definierade så kan du använda dessa genom att klicka på
+        <img src="gis_icons/mActionFilePrint.png" alt="FilePrint"/> knappen. Ramen som visas i kartan beskriver det område som kommer att skrivas ut.
+        Du kan panorera, skala eller rotera ramen för att passa dina syften.
+      </p>
+    </article>
+  </section>
+  <section id="help_about_qgis">
+    <article>
+      <h2 id="help_about">Om QGIS Webbklient</h2>
+      <p>QGIS Webbklient är ett webbgis baserat på OpenLayers, GeoExt och ExtJS som använder QGIS specifika WMS funktioner. Det stödjer kartan, attributfrågor, teckenförklaring, sökning och utskrift. Alla större webbläsare bör stödjas.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_license">Licens</h3>
+      <p>QGIS Webbklient är licensierad under en BSD licens. Läs
+        <a href="http://github.com/qgis/qgis-web-client/blob/master/README" target="_blank">README</a>
+        filen med fullständig information om licensen.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_moreHelp">Mer hjälp</h3>
+      <p>Om du stöter på problem när du använder applikationen så bör du kontakta webbadministratören för sidan du besöker! Utvecklingsteamet för QGIS Webbklient kan inte lösa problem som rör specifika webbplatser.
+    </article>
+    <article>
+      <h3 id="help_usefulLinks">Användbara länkar</h3>
+      <ul>
+        <li><a href="http://github.com/qgis/qgis-web-client" target="_blank">Källkoden till QGIS Webbklient på Github</a></li>
+        <li><a href="http://www.openlayers.org" target="_blank">OpenLayers</a></li>
+        <li><a href="http://geoext.org" target="_blank">GeoExt</a></li>
+        <li><a href="http://www.sencha.com/products/extjs" target="_blank">Sencha Ext JS</a></li>
+        <li><a href="http://qgis.org" target="_blank">QGIS</a></li>
+         <li><a href="http://hub.qgis.org/projects/quantum-gis/wiki/QGIS_Server_Tutorial" target="_blank">QGIS Server</a></li>
+      </ul>
+    </article>
+  </section>
+  </div>
+  <div style="Clear: both"></div>
+</div>
+</div>
+</body>
+</html>
