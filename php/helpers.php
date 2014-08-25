@@ -4,7 +4,7 @@
 
     Common functions and configuration
 
-    @copyright: 2013 by Alessandro Pasotti - (http://www.itopen.it) <apasotti@gmail.com>
+    @copyright: 2013-2014 by Alessandro Pasotti - (http://www.itopen.it) <apasotti@gmail.com>
     @license: GNU AGPL, see COPYING for details.
 */
 
@@ -78,6 +78,8 @@ function get_layer_info($layer, $project){
 
 /**
  * Rewrite and append
+ *
+ * MAP_PATH_REWRITE supports $map_name substitutions
  */
 function get_map_path($mapname){
     // Rewrite map to full path
