@@ -309,12 +309,16 @@ var OverviewMapOptions = {
 };
 var OverviewMapSize = new OpenLayers.Size(200,200);
 var OverviewMapMaximized = false; // is the overview map opend or closed by default
-var overviewLayer = new OpenLayers.Layer.WMS("Overview-Map",
+var overviewLayer = null;
+if (enableOSMMaps) {
+  overviewLayer = new OpenLayers.Layer.OSM();
+}
+else {
+  overviewLayer = new OpenLayers.Layer.WMS("Overview-Map",
   serverAndCGI+"?map=/home/web/qgis-web-client/projects/naturalearth_110million.qgs",
-  {layers:"Land",format:"image/png", transparent:true},
-  {buffer:0,singleTile:true,transitionEffect:"resize", isBaseLayer:false});
-  
-var OverviewOSM = new OpenLayers.Layers.OSM();
+  {layers:"Land",format:"image/png"},
+  {buffer:0,singleTile:true,transitionEffect:"resize"});
+}
 
 // prevent the user from choosing a print resolution
 // if fixedPrintResolution = null, the user is allowed to choose the print resolution.
