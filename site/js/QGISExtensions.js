@@ -844,7 +844,13 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
         else {
           valueQuotes = "'"
         }
-        filter.push("\"" + key + "\" "+ filterOp +" " + valueQuotes + fieldValues[key] + valueQuotes);
+       if (field.initialConfig.filterOp.indexOf('LIKE')>-1) {
+            valueExtra="%";
+        }
+        else {
+            valueExtra="";
+        }
+        filter.push("\"" + key + "\" "+ filterOp +" " + valueQuotes + valueExtra + fieldValues[key] + valueExtra + valueQuotes);
         fieldsValidate &= field.validate();
       }
     }
