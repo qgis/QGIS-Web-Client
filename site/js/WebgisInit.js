@@ -415,13 +415,19 @@ function postLoading() {
 	selectedLayers = Array();
 	selectedQueryableLayers = Array();
 	allLayers = Array();
+	var wmtsLayers = Array();
 
 	layerTree.root.firstChild.cascade(
 
 	function (n) {
 		if (n.isLeaf()) {
 			if (n.attributes.checked) {
-				selectedLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
+				if (!wmsLoader.layerProperties[wmsLoader.layerTitleNameMapping[n.text]].wmtsLayer) {
+					selectedLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
+				}
+				else {
+					wmtsLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
+				}
 				if (wmsLoader.layerProperties[wmsLoader.layerTitleNameMapping[n.text]].queryable) {
 					selectedQueryableLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
 				}
@@ -509,8 +515,23 @@ function postLoading() {
 		var layerDrawingOrder = wmsLoader.projectSettings.capability.layerDrawingOrder;
 		if (layerOrderPanel != null) {
 			// override project settings (after first load)
-			layerDrawingOrder = layerOrderPanel.orderedLayers();
+			if (enableWmtsBaseLayers) {
+				// prepend ordered WMTS layers
+				var orderedLayers = layerOrderPanel.orderedLayers();
+				var wmtsLayers = [];
+				for (var i = 0; i < layerDrawingOrder.length; i++) {
+					var layer = layerDrawingOrder[i];
+					if (orderedLayers.indexOf(layer) == -1) {
+						wmtsLayers.push(layer);
+					}
+				}
+				layerDrawingOrder = wmtsLayers.concat(orderedLayers);
+			}
+			else {
+				layerDrawingOrder = layerOrderPanel.orderedLayers();
+			}
 		}
+
 		if (layerDrawingOrder != null) {
 			var orderedLayers = [];
 			for (var i = 0; i < layerDrawingOrder.length; i++) {
@@ -589,7 +610,7 @@ function postLoading() {
 	}
 
 	// add WMTS base layers
-	updateWmtsBaseLayers(wmsMapName, layerTree.root);
+	updateWmtsBaseLayers(wmsMapName, wmtsLayers);
 
 	if (!initialLoadDone) {
 		if (urlParams.startExtent) {
@@ -1075,18 +1096,23 @@ function postLoading() {
 		//now collect all selected queryable layers for WMS request
 		selectedLayers = Array();
 		selectedQueryableLayers = Array();
-		layerTree.root.firstChild.cascade(
+		var wmtsLayers = Array();
 
+		layerTree.root.firstChild.cascade(
 		function (n) {
 			if (n.isLeaf() && n.attributes.checked) {
-				selectedLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
+				if (!wmsLoader.layerProperties[wmsLoader.layerTitleNameMapping[n.text]].wmtsLayer) {
+					selectedLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
+				}
+				else {
+					wmtsLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
+				}
 				if (wmsLoader.layerProperties[wmsLoader.layerTitleNameMapping[n.text]].queryable) {
 					selectedQueryableLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
 				}
 			}
 		});
 		format = imageFormatForLayers(selectedLayers);
-		updateLayerOrderPanel();
 
 		//change array order
 		selectedLayers = layersInDrawingOrder(selectedLayers);
@@ -1136,7 +1162,10 @@ function postLoading() {
 			};
 			}
 		}
-		
+
+		// update WMTS layers
+		setVisibleWmtsLayers(wmsMapName, wmtsLayers);
+
 		// switch backgroundLayers
 		if (enableBGMaps) {
 			var checkedBackgroundNodes = [];
@@ -1770,9 +1799,6 @@ function createPermalink(){
 	// selection
 	permalinkParams.selection = thematicLayer.params.SELECTION;
 
-	// WMTS base layers
-	OpenLayers.Util.extend(permalinkParams, wmtsPermalinkParams(wmsMapName));
-
 	if (permaLinkURLShortener) {
 		permalink = encodeURIComponent(permalink + decodeURIComponent(Ext.urlEncode(permalinkParams)));
 	}
@@ -1848,8 +1874,6 @@ function applyPermalinkParams() {
 			}
 		}
 	}
-
-	applyWmtsPermalinkParams(urlParams, wmsMapName);
 }
 
 function setupLayerOrderPanel() {
@@ -1911,8 +1935,10 @@ function setupLayerOrderPanel() {
 	for (var i=0; i<orderedLayers.length; i++) {
 		//because of a but in QGIS Server we need to check if a layer from layerDrawingOrder actually really exists
 		//QGIS Server is delivering invalid layer when linking to different projects
-		if (wmsLoader.layerProperties[orderedLayers[i]]) {
-			layerOrderPanel.addLayer(orderedLayers[i], wmsLoader.layerProperties[orderedLayers[i]].opacity);
+		var layerProperties = wmsLoader.layerProperties[orderedLayers[i]];
+		if (layerProperties && !layerProperties.wmtsLayer) {
+			// skip WMTS base layers
+			layerOrderPanel.addLayer(orderedLayers[i], layerProperties.opacity);
 		}
 	}
 
@@ -1952,15 +1978,6 @@ function setupLayerOrderPanel() {
 		} else {
 			Ext.getCmp('leftPanelMap').layout.south.getCollapsedEl().setVisible(showLayerOrderTab);
 		}
-	}
-}
-
-function updateLayerOrderPanel() {
-	// update layer order panel
-	var layersForOrderPanel = [];
-	layersForOrderPanel = layersForOrderPanel.reverse();
-	for (var i=0; i<layersForOrderPanel.length; i++) {
-		layerOrderPanel.addLayer(layersForOrderPanel[i], wmsLoader.layerProperties[layersForOrderPanel[i]].opacity);
 	}
 }
 
@@ -2139,11 +2156,13 @@ function setGrayNameWhenOutsideScale() {
             }
         }
     }
+
+    updateScaleBasedWmtsLayersVisibility(wmsMapName, geoExtMap.map.getScale());
 }
 
 // WMTS base layers
 
-function updateWmtsBaseLayers(topic, root) {
+function updateWmtsBaseLayers(topic, visibleWmtsLayers) {
 	// cleanup old WMTS layers
 	var oldWmtsLayers = geoExtMap.map.getLayersBy('isWmtsLayer', true);
 	for (var i=0; i<oldWmtsLayers.length; i++) {
@@ -2170,57 +2189,44 @@ function updateWmtsBaseLayers(topic, root) {
 				geoExtMap.map.addLayer(wmtsLayer);
 				geoExtMap.map.setLayerIndex(wmtsLayer, thematicLayerIndex);
 			}
-
-			// add new background layers node
-			var backgroundLayersNode = new Ext.tree.TreeNode({
-				leaf: false,
-				expanded: true,
-				text: wmtsBaseLayerTitleString[lang]
-			});
-			root.appendChild(backgroundLayersNode);
-
-			// update layer tree
-			for (var i=0; i<wmtsLayers.length; i++) {
-				var layer = wmtsLayers[i];
-				var node = new GeoExt.tree.LayerNode({
-					layer: layer,
-					leaf: true,
-					checked: layer.getVisibility(),
-					uiProvider: Ext.tree.TriStateNodeUI
-				});
-				backgroundLayersNode.appendChild(node);
-			}
 		}
+
+		setVisibleWmtsLayers(topic, visibleWmtsLayers);
 	}
 }
 
-function wmtsPermalinkParams(topic) {
-	var permalinkParams = {};
-
+function setVisibleWmtsLayers(topic, visibleWmtsLayers) {
 	if (topic in wmtsLayersConfigs) {
-		// collect visible WMTS layers for current topic
+		// set WMTS layer visibility flags for current topic
 		var wmtsLayersConfig = wmtsLayersConfigs[topic];
-		var wmtsLayerNames = [];
 		for (var i=0; i<wmtsLayersConfig.length; i++) {
-			var wmtsLayer = wmtsLayersConfig[i].wmtsLayer;
-			if (wmtsLayer.getVisibility()) {
-				wmtsLayerNames.push(wmtsLayer.name);
-			}
+			wmtsLayersConfig[i].wmtsLayer.show = (visibleWmtsLayers.indexOf(wmtsLayersConfig[i].printWmsLayer) != -1);
 		}
-		permalinkParams.visibleWmtsLayers = wmtsLayerNames.join(',');
+		updateScaleBasedWmtsLayersVisibility(topic, geoExtMap.map.getScale());
 	}
-
-	return permalinkParams;
 }
 
-function applyWmtsPermalinkParams(params, topic) {
-	if ((params.visibleWmtsLayers != undefined) && (topic in wmtsLayersConfigs)) {
+function updateScaleBasedWmtsLayersVisibility(topic, scale) {
+	if (topic in wmtsLayersConfigs) {
 		// set WMTS layer visibilities for current topic
-		var visibleWmtsLayers = params.visibleWmtsLayers.split(',');
 		var wmtsLayersConfig = wmtsLayersConfigs[topic];
 		for (var i=0; i<wmtsLayersConfig.length; i++) {
-			var wmtsLayer = wmtsLayersConfig[i].wmtsLayer;
-			wmtsLayer.setVisibility(visibleWmtsLayers.indexOf(wmtsLayer.name) != -1);
+			var visibility = wmtsLayersConfig[i].wmtsLayer.show;
+			if (visibility) {
+				// check if current scale is in range
+				var layerProperties = wmsLoader.layerProperties[wmtsLayersConfig[i].printWmsLayer];
+				if (layerProperties.minScale != undefined) {
+					visibility = visibility && (layerProperties.minScale > scale);
+				}
+				if (layerProperties.maxScale != undefined) {
+					visibility = visibility && (layerProperties.maxScale <= scale);
+				}
+			}
+			wmtsLayersConfig[i].wmtsLayer.setVisibility(visibility);
+			if (!visibility) {
+				// hide layer immediately
+				wmtsLayersConfig[i].wmtsLayer.removeBackBuffer();
+			}
 		}
 	}
 }
