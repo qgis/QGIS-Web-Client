@@ -15,6 +15,13 @@ var selectedLayers; //later an array containing all visible (selected) layers
 var selectedQueryableLayers; //later an array of all visible (selected and queryable) layers
 var allLayers; //later an array containing all leaf layers
 var thematicLayer, highlightLayer, featureInfoHighlightLayer;
+var arrayOSM; //OSM
+var arrayAerial; //OSM
+var arrayCycle; //OSM
+var baseOSM; //OSM
+var baseAerial; //OSM
+var mapnik; //OSM
+var cycle; //OSM
 var googleSatelliteLayer;
 var googleMapLayer;
 var bingSatelliteLayer;
@@ -110,6 +117,32 @@ Ext.onReady(function () {
 	//set some status messsages
 	mainStatusText.setText(mapAppLoadingString[lang]);
 
+	//OpenstreetMap background layers
+	if (enableOSMMaps) {	    
+        	arrayOSM = ["http://otile1.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg",
+                    	"http://otile2.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg",
+                    	"http://otile3.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg",
+                    	"http://otile4.mqcdn.com/tiles/1.0.0/map/${z}/${x}/${y}.jpg"];
+        	arrayAerial = ["http://otile1.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg",
+                        "http://otile2.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg",
+                        "http://otile3.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg",
+                        "http://otile4.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg"];
+       		arrayCycle = ["http://a.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png",
+   			"http://b.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png",
+   			"http://c.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png"];
+
+        	baseOSM = new OpenLayers.Layer.OSM("MapQuest-OSM Tiles", arrayOSM, {numZoomLevels: 19, attribution: "Data, imagery and map information provided by <a href='http://www.mapquest.com/'  target='_blank'>MapQuest</a>, <a href='http://www.openstreetmap.org/' target='_blank'>Open Street Map</a> and contributors, <a href='http://creativecommons.org/licenses/by-sa/2.0/' target='_blank'>CC-BY-SA</a>  <img src='http://developer.mapquest.com/content/osm/mq_logo.png' border='0'>"} );
+       		baseAerial = new OpenLayers.Layer.OSM("MapQuest Open Aerial Tiles (zoom < 11)", arrayAerial, {numZoomLevels: 11, attribution: "Data, imagery and map information provided by <a href='http://www.mapquest.com/'  target='_blank'>MapQuest</a>, <a href='http://www.openstreetmap.org/' target='_blank'>Open Street Map</a> and contributors, <a href='http://creativecommons.org/licenses/by-sa/2.0/' target='_blank'>CC-BY-SA</a>  <img src='http://developer.mapquest.com/content/osm/mq_logo.png' border='0'>"});
+		mapnik= new OpenLayers.Layer.OSM("OpenStreetMap (mapnik)");
+		cycle = new OpenLayers.Layer.OSM("OpenCycleMap",arrayCycle, {attribution: "<a href='http://www.openstreetmap.org/' target='_blank'>Open Street Map</a> and contributors. Tiles courtesy of<a target='_blank' href='http://www.thunderforest.com/'>Andy Allan</a>"});
+
+
+		baseLayers.push(mapnik)
+		baseLayers.push(baseOSM);
+		baseLayers.push(cycle);
+		baseLayers.push(baseAerial);
+	}
+
 	if (enableGoogleCommercialMaps) {
 		googleSatelliteLayer = new OpenLayers.Layer.Google(
 			"Google Satellite",
@@ -134,7 +167,7 @@ Ext.onReady(function () {
 	}
 
 	if (urlParamsOK) {
-		loadWMSConfig();
+		loadWMSConfig(null);
 	} else {
 		alert(errMessageStartupNotAllParamsFoundString[lang]);
 	}
@@ -163,7 +196,7 @@ Ext.onReady(function () {
     customPostLoading(); //in Customizations.js
 });
 
-function loadWMSConfig() {
+function loadWMSConfig(topicName) {
 	loadMask = new Ext.LoadMask(Ext.getCmp('MapPanel').body, {
 		msg: mapLoadingString[lang]
 	});
@@ -188,7 +221,7 @@ function loadWMSConfig() {
 		baseAttrs: {
 			uiProvider: Ext.tree.TriStateNodeUI
 		},
-		topic: wmsMapName
+		topicName: topicName
 	});
 
 	var root = new Ext.tree.AsyncTreeNode({
@@ -382,13 +415,19 @@ function postLoading() {
 	selectedLayers = Array();
 	selectedQueryableLayers = Array();
 	allLayers = Array();
+	var wmtsLayers = Array();
 
 	layerTree.root.firstChild.cascade(
 
 	function (n) {
 		if (n.isLeaf()) {
 			if (n.attributes.checked) {
-				selectedLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
+				if (!wmsLoader.layerProperties[wmsLoader.layerTitleNameMapping[n.text]].wmtsLayer) {
+					selectedLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
+				}
+				else {
+					wmtsLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
+				}
 				if (wmsLoader.layerProperties[wmsLoader.layerTitleNameMapping[n.text]].queryable) {
 					selectedQueryableLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
 				}
@@ -431,14 +470,12 @@ function postLoading() {
 	if (initialLoadDone) {
 		printProvider.capabilities = printCapabilities;
 		printProvider.url = printUri;
-		printProvider.topic = wmsMapName;
 	}
 	else {
 		printProvider = new QGIS.PrintProvider({
 			method: "GET", // "POST" recommended for production use
 			capabilities: printCapabilities, // from the info.json script in the html
-			url: printUri,
-			topic: wmsMapName
+			url: printUri
 		});
 		printProvider.addListener("beforeprint", customBeforePrint);
 		printProvider.addListener("afterprint", customAfterPrint);
@@ -476,8 +513,23 @@ function postLoading() {
 		var layerDrawingOrder = wmsLoader.projectSettings.capability.layerDrawingOrder;
 		if (layerOrderPanel != null) {
 			// override project settings (after first load)
-			layerDrawingOrder = layerOrderPanel.orderedLayers();
+			if (enableWmtsBaseLayers) {
+				// prepend ordered WMTS layers
+				var orderedLayers = layerOrderPanel.orderedLayers();
+				var wmtsLayers = [];
+				for (var i = 0; i < layerDrawingOrder.length; i++) {
+					var layer = layerDrawingOrder[i];
+					if (orderedLayers.indexOf(layer) == -1) {
+						wmtsLayers.push(layer);
+					}
+				}
+				layerDrawingOrder = wmtsLayers.concat(orderedLayers);
+			}
+			else {
+				layerDrawingOrder = layerOrderPanel.orderedLayers();
+			}
 		}
+
 		if (layerDrawingOrder != null) {
 			var orderedLayers = [];
 			for (var i = 0; i < layerDrawingOrder.length; i++) {
@@ -555,8 +607,10 @@ function postLoading() {
 		});
 	}
 
-	// add WMTS base layers
-	updateWmtsBaseLayers(wmsMapName, layerTree.root);
+	if (enableWmtsBaseLayers) {
+		// add WMTS base layers
+		updateWmtsBaseLayers(layerTree.root.firstChild.text, wmtsLayers);
+	}
 
 	if (!initialLoadDone) {
 		if (urlParams.startExtent) {
@@ -634,6 +688,7 @@ function postLoading() {
 		//add OpenLayers map controls
 		geoExtMap.map.addControl(new OpenLayers.Control.KeyboardDefaults());
 		geoExtMap.map.addControl(new OpenLayers.Control.Navigation());
+		geoExtMap.map.addControl(new OpenLayers.Control.Attribution());
 		//to hide miles/feet in the graphical scale bar we need to adapt "olControlScaleLineBottom" in file /OpenLayers/theme/default/style.css: display:none;
 		geoExtMap.map.addControl(new OpenLayers.Control.ScaleLine());
 		geoExtMap.map.addControl(new OpenLayers.Control.PanZoomBar({zoomWorldIcon:true,forceFixedZoomLevel:false}));
@@ -1041,18 +1096,23 @@ function postLoading() {
 		//now collect all selected queryable layers for WMS request
 		selectedLayers = Array();
 		selectedQueryableLayers = Array();
-		layerTree.root.firstChild.cascade(
+		var wmtsLayers = Array();
 
+		layerTree.root.firstChild.cascade(
 		function (n) {
 			if (n.isLeaf() && n.attributes.checked) {
-				selectedLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
+				if (!wmsLoader.layerProperties[wmsLoader.layerTitleNameMapping[n.text]].wmtsLayer) {
+					selectedLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
+				}
+				else {
+					wmtsLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
+				}
 				if (wmsLoader.layerProperties[wmsLoader.layerTitleNameMapping[n.text]].queryable) {
 					selectedQueryableLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
 				}
 			}
 		});
 		format = imageFormatForLayers(selectedLayers);
-		updateLayerOrderPanel();
 
 		//change array order
 		selectedLayers = layersInDrawingOrder(selectedLayers);
@@ -1102,7 +1162,12 @@ function postLoading() {
 			};
 			}
 		}
-		
+
+		if (enableWmtsBaseLayers) {
+			// update WMTS layers
+			setVisibleWmtsLayers(wmtsLayers);
+		}
+
 		// switch backgroundLayers
 		if (enableBGMaps) {
 			var checkedBackgroundNodes = [];
@@ -1736,9 +1801,6 @@ function createPermalink(){
 	// selection
 	permalinkParams.selection = thematicLayer.params.SELECTION;
 
-	// WMTS base layers
-	OpenLayers.Util.extend(permalinkParams, wmtsPermalinkParams(wmsMapName));
-
 	if (permaLinkURLShortener) {
 		permalink = encodeURIComponent(permalink + decodeURIComponent(Ext.urlEncode(permalinkParams)));
 	}
@@ -1797,14 +1859,9 @@ function applyPermalinkParams() {
 	else {
 		//see if project is defined in GIS ProjectListing
 		//and has an opacities property
-		if (gis_projects) {
-			for (var i=0;i<gis_projects.topics.length;i++) {
-				for (var j=0;j<gis_projects.topics[i].projects.length;j++) {
-					if (gis_projects.topics[i].projects[j].name == layerTree.root.firstChild.text) {
-						opacities = gis_projects.topics[i].projects[j].opacities;
-					}
-				}
-			}
+		var gisProjectSettings = getGisProjectSettings(layerTree.root.firstChild.text);
+		if (gisProjectSettings != null) {
+			opacities = gisProjectSettings.opacities;
 		}
 	}
 	if (opacities) {
@@ -1814,8 +1871,6 @@ function applyPermalinkParams() {
 			}
 		}
 	}
-
-	applyWmtsPermalinkParams(urlParams, wmsMapName);
 }
 
 function setupLayerOrderPanel() {
@@ -1877,8 +1932,10 @@ function setupLayerOrderPanel() {
 	for (var i=0; i<orderedLayers.length; i++) {
 		//because of a but in QGIS Server we need to check if a layer from layerDrawingOrder actually really exists
 		//QGIS Server is delivering invalid layer when linking to different projects
-		if (wmsLoader.layerProperties[orderedLayers[i]]) {
-			layerOrderPanel.addLayer(orderedLayers[i], wmsLoader.layerProperties[orderedLayers[i]].opacity);
+		var layerProperties = wmsLoader.layerProperties[orderedLayers[i]];
+		if (layerProperties && !layerProperties.wmtsLayer) {
+			// skip WMTS base layers
+			layerOrderPanel.addLayer(orderedLayers[i], layerProperties.opacity);
 		}
 	}
 
@@ -1918,15 +1975,6 @@ function setupLayerOrderPanel() {
 		} else {
 			Ext.getCmp('leftPanelMap').layout.south.getCollapsedEl().setVisible(showLayerOrderTab);
 		}
-	}
-}
-
-function updateLayerOrderPanel() {
-	// update layer order panel
-	var layersForOrderPanel = [];
-	layersForOrderPanel = layersForOrderPanel.reverse();
-	for (var i=0; i<layersForOrderPanel.length; i++) {
-		layerOrderPanel.addLayer(layersForOrderPanel[i], wmsLoader.layerProperties[layersForOrderPanel[i]].opacity);
 	}
 }
 
@@ -2105,23 +2153,66 @@ function setGrayNameWhenOutsideScale() {
             }
         }
     }
+
+    if (enableWmtsBaseLayers) {
+        updateScaleBasedWmtsLayersVisibility(geoExtMap.map.getScale());
+    }
+}
+
+function getGisProjectSettings(topicName) {
+	if (gis_projects) {
+		// search in project listing
+		for (var i=0; i<gis_projects.topics.length; i++) {
+			for (var j=0; j<gis_projects.topics[i].projects.length; j++) {
+				if (gis_projects.topics[i].projects[j].name == topicName) {
+					return gis_projects.topics[i].projects[j];
+				}
+			}
+		}
+	}
+	return null;
 }
 
 // WMTS base layers
 
-function updateWmtsBaseLayers(topic, root) {
+function getWmtsLayersConfig(topicName) {
+	var gisProjectSettings = getGisProjectSettings(topicName);
+	if (gisProjectSettings != null) {
+		return gisProjectSettings.wmtsLayers;
+	}
+	return null;
+}
+
+function getWmtsLayers() {
+	return geoExtMap.map.getLayersBy('isWmtsLayer', true);
+}
+
+function updateWmtsBaseLayers(topicName, visibleWmtsLayers) {
 	// cleanup old WMTS layers
-	var oldWmtsLayers = geoExtMap.map.getLayersBy('isWmtsLayer', true);
+	var oldWmtsLayers = getWmtsLayers();
 	for (var i=0; i<oldWmtsLayers.length; i++) {
 		geoExtMap.map.removeLayer(oldWmtsLayers[i]);
 	}
 
-	if (topic in wmtsLayersConfigs) {
-		// collect WMTS layers for current topic
-		var wmtsLayersConfig = wmtsLayersConfigs[topic];
+	var wmtsLayersConfig = getWmtsLayersConfig(topicName);
+	if (wmtsLayersConfig != null) {
+		// create WMTS layers for current topic
 		var wmtsLayers = [];
 		for (var i=0; i<wmtsLayersConfig.length; i++) {
-			wmtsLayers.push(wmtsLayersConfig[i].wmtsLayer);
+			wmtsLayers.push(
+				new OpenLayers.Layer.WMTS(
+					OpenLayers.Util.extend(
+						wmtsLayersConfig[i].wmtsConfig,
+						{
+							visibility: false,
+							isBaseLayer: false,
+							// custom attributes
+							isWmtsLayer: true,
+							wmsLayerName: wmtsLayersConfig[i].wmsLayerName
+						}
+					)
+				)
+			);
 		}
 		wmtsLayers = wmtsLayers.reverse();
 
@@ -2130,63 +2221,45 @@ function updateWmtsBaseLayers(topic, root) {
 			var thematicLayerIndex = geoExtMap.map.getLayerIndex(thematicLayer);
 			for (var i=0; i<wmtsLayers.length; i++) {
 				var wmtsLayer = wmtsLayers[i];
-				// mark layer as WMTS
-				wmtsLayer.isWmtsLayer = true;
 				// add layer in front of main WMS layer
 				geoExtMap.map.addLayer(wmtsLayer);
 				geoExtMap.map.setLayerIndex(wmtsLayer, thematicLayerIndex);
 			}
-
-			// add new background layers node
-			var backgroundLayersNode = new Ext.tree.TreeNode({
-				leaf: false,
-				expanded: true,
-				text: wmtsBaseLayerTitleString[lang]
-			});
-			root.appendChild(backgroundLayersNode);
-
-			// update layer tree
-			for (var i=0; i<wmtsLayers.length; i++) {
-				var layer = wmtsLayers[i];
-				var node = new GeoExt.tree.LayerNode({
-					layer: layer,
-					leaf: true,
-					checked: layer.getVisibility(),
-					uiProvider: Ext.tree.TriStateNodeUI
-				});
-				backgroundLayersNode.appendChild(node);
-			}
 		}
+
+		setVisibleWmtsLayers(visibleWmtsLayers);
 	}
 }
 
-function wmtsPermalinkParams(topic) {
-	var permalinkParams = {};
-
-	if (topic in wmtsLayersConfigs) {
-		// collect visible WMTS layers for current topic
-		var wmtsLayersConfig = wmtsLayersConfigs[topic];
-		var wmtsLayerNames = [];
-		for (var i=0; i<wmtsLayersConfig.length; i++) {
-			var wmtsLayer = wmtsLayersConfig[i].wmtsLayer;
-			if (wmtsLayer.getVisibility()) {
-				wmtsLayerNames.push(wmtsLayer.name);
-			}
-		}
-		permalinkParams.visibleWmtsLayers = wmtsLayerNames.join(',');
+function setVisibleWmtsLayers(visibleWmtsLayers) {
+	// set WMTS layer visibility flags
+	var wmtsLayers = getWmtsLayers();
+	for (var i=0; i<wmtsLayers.length; i++) {
+		wmtsLayers[i].show = (visibleWmtsLayers.indexOf(wmtsLayers[i].wmsLayerName) != -1);
 	}
-
-	return permalinkParams;
+	updateScaleBasedWmtsLayersVisibility(geoExtMap.map.getScale());
 }
 
-function applyWmtsPermalinkParams(params, topic) {
-	if ((params.visibleWmtsLayers != undefined) && (topic in wmtsLayersConfigs)) {
-		// set WMTS layer visibilities for current topic
-		var visibleWmtsLayers = params.visibleWmtsLayers.split(',');
-		var wmtsLayersConfig = wmtsLayersConfigs[topic];
-		for (var i=0; i<wmtsLayersConfig.length; i++) {
-			var wmtsLayer = wmtsLayersConfig[i].wmtsLayer;
-			wmtsLayer.setVisibility(visibleWmtsLayers.indexOf(wmtsLayer.name) != -1);
+function updateScaleBasedWmtsLayersVisibility(scale) {
+	// set WMTS layer visibilities for current scale
+	var wmtsLayers = getWmtsLayers();
+	for (var i=0; i<wmtsLayers.length; i++) {
+		var wmtsLayer = wmtsLayers[i];
+		var visibility = wmtsLayer.show;
+		if (visibility) {
+			// check if current scale is in range
+			var layerProperties = wmsLoader.layerProperties[wmtsLayer.wmsLayerName];
+			if (layerProperties.minScale != undefined) {
+				visibility = visibility && (layerProperties.minScale > scale);
+			}
+			if (layerProperties.maxScale != undefined) {
+				visibility = visibility && (layerProperties.maxScale <= scale);
+			}
+		}
+		wmtsLayer.setVisibility(visibility);
+		if (!visibility) {
+			// hide layer immediately
+			wmtsLayer.removeBackBuffer();
 		}
 	}
 }
