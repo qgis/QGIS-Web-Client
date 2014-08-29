@@ -197,24 +197,29 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
 
     // WMTS base layers
     var wmtsLayers = [];
-    if (this.topic in wmtsLayersConfigs) {
-      // collect print layers for WMTS layers of current topic
-      var wmtsLayersConfig = wmtsLayersConfigs[this.topic];
-      for (var i=0; i<wmtsLayersConfig.length; i++) {
-        var config = wmtsLayersConfig[i];
-        wmtsLayers.push(config.printWmsLayer);
-      }
-    }
+    if (enableWmtsBaseLayers) {
+      // use title from project settings as topic name on first load
+      var topicName = this.topicName || this.projectSettings.service.title;
 
-    // prepend WMTS base layers in drawing order
-    var layerDrawingOrder = wmtsLayers.concat();
-    for (var i=0; i<this.projectSettings.capability.layerDrawingOrder.length; i++) {
-      var layer = this.projectSettings.capability.layerDrawingOrder[i];
-      if (wmtsLayers.indexOf(layer) == -1) {
-        layerDrawingOrder.push(layer);
+      // collect print layers for WMTS layers
+      var wmtsLayersConfig = getWmtsLayersConfig(topicName);
+      if (wmtsLayersConfig != null) {
+        for (var i=0; i<wmtsLayersConfig.length; i++) {
+          var config = wmtsLayersConfig[i];
+          wmtsLayers.push(config.wmsLayerName);
+        }
       }
+
+      // prepend WMTS base layers in drawing order
+      var layerDrawingOrder = wmtsLayers.concat();
+      for (var i=0; i<this.projectSettings.capability.layerDrawingOrder.length; i++) {
+        var layer = this.projectSettings.capability.layerDrawingOrder[i];
+        if (wmtsLayers.indexOf(layer) == -1) {
+          layerDrawingOrder.push(layer);
+        }
+      }
+      this.projectSettings.capability.layerDrawingOrder = layerDrawingOrder;
     }
-    this.projectSettings.capability.layerDrawingOrder = layerDrawingOrder
 
     //fill the list of layer properties
     for (var i=0; i<this.projectSettings.capability.layers.length; i++) {
@@ -377,14 +382,14 @@ Ext.extend(QGIS.PrintProvider, GeoExt.data.PrintProvider, {
 
     var layers = thematicLayer.params.LAYERS;
 
-    if (this.topic in wmtsLayersConfigs) {
-      // collect print layers for visible WMTS layers of current topic
-      var wmtsLayersConfig = wmtsLayersConfigs[this.topic];
+    if (enableWmtsBaseLayers) {
+      // collect print layers for visible WMTS layers
       var printLayers = [];
-      for (var i=0; i<wmtsLayersConfig.length; i++) {
-        var config = wmtsLayersConfig[i];
-        if (config.wmtsLayer.getVisibility()) {
-          printLayers.push(config.printWmsLayer);
+      var wmtsLayers = getWmtsLayers();
+      for (var i=0; i<wmtsLayers.length; i++) {
+        var wmtsLayer = wmtsLayers[i];
+        if (wmtsLayer.getVisibility()) {
+            printLayers.push(wmtsLayer.wmsLayerName);
         }
       }
       if (printLayers.length > 0) {

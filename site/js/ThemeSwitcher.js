@@ -373,7 +373,7 @@ ThemeSwitcher.prototype.changeTheme = function (dataView, index, node, evt) {
 		printLayoutsDefined = false;
 		//now load the config of the new project
 		if (urlParamsOK) {
-			loadWMSConfig();
+			loadWMSConfig(projData.name);
 		} else {
 			alert(errMessageStartupNotAllParamsFoundString[lang]);
 		}

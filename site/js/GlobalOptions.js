@@ -82,41 +82,9 @@ if (enableBGMaps) {
 	var initialBGMap = 0;
 }
 
-// enable to use WMST base layers
+// enable to use WMTS base layers
 var enableWmtsBaseLayers = false;
-var wmtsLayersConfigs = {};
-if (enableWmtsBaseLayers) {
-  // example WMTS base layer
-  var matrixIds = new Array(26);
-  for (var i=0; i<26; ++i) {
-    matrixIds[i] = "EPSG:900913:" + i;
-  }
-  var sampleWmtsLayer = new OpenLayers.Layer.WMTS({
-    name: "OpenGeo Countries",
-    url: "http://v2.suite.opengeo.org/geoserver/gwc/service/wmts/",
-    layer: "opengeo:countries",
-    matrixSet: "EPSG:900913",
-    matrixIds: matrixIds,
-    format: "image/png",
-    style: "_null",
-    opacity: 0.7,
-    visibility: true,
-    isBaseLayer: false
-  });
-  // NOTE: also set MapOptions according to WMTS
-
-  // optional WMTS base layers per map name
-  wmtsLayersConfigs = {
-    "helloworld": [
-      {
-        // WMTS base layer
-        wmtsLayer: sampleWmtsLayer,
-        // this WMS layer will be hidden in the layer tree and only be used for printing
-        printWmsLayer: "Country"
-      }
-    ],
-  };
-}
+// NOTE: also set MapOptions according to WMTS
 
 // media base URL to match media links in layer attributes
 var mediaurl = '';
