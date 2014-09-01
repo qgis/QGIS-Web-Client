@@ -266,16 +266,16 @@ function removeHoverPopup(){
  * attName combination and return formatter's results if found.
  *
  */
-function runCustomFormatters(layerName, attName, attValue){
+function runCustomFormatters(attValue, attName, layerName ){
     try {
-        if (typeof customFormatters[layerName][attName] == 'object') {
+        if (typeof getFeatureInfoCustomFormatters[layerName][attName] == 'object') {
             var ret = '';
-            Ext.each(customFormatters[layerName][attName], function(formatter){
-                ret += formatter(layerName, attName, attValue);
+            Ext.each(getFeatureInfoCustomFormatters[layerName][attName], function(formatter){
+                ret += formatter(attValue, attName, layerName);
             });
             return ret;
         } else {
-            return customFormatters[layerName][attName](layerName, attName, attValue);
+            return getFeatureInfoCustomFormatters[layerName][attName](attValue, attName, layerName);
         }
     } catch(e){
         return attValue;
@@ -343,7 +343,7 @@ function parseFIResult(node) {
                                           }
                                       }
                                       // Check for custom formatters and apply if found
-                                      attValue = runCustomFormatters(node.getAttribute("name"), attName, attValue);
+                                      attValue = runCustomFormatters(attValue, attName, node.getAttribute("name"));
                                       htmlText += "<td>" + attValue + "</td></tr>";
                                       hasAttributes = true;
                                   }
