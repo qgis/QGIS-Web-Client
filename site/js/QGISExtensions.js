@@ -198,8 +198,8 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
     // WMTS base layers
     var wmtsLayers = [];
     if (enableWmtsBaseLayers) {
-      // use title from project settings as topic name on first load
-      var topicName = this.topicName || this.projectSettings.service.title;
+      // use root layer name from project settings as topic name on first load
+      var topicName = this.topicName || this.projectSettings.capability.nestedLayers[0].name;
 
       // collect print layers for WMTS layers
       var wmtsLayersConfig = getWmtsLayersConfig(topicName);
