@@ -388,7 +388,7 @@ Ext.extend(QGIS.PrintProvider, GeoExt.data.PrintProvider, {
       var wmtsLayers = getWmtsLayers();
       for (var i=0; i<wmtsLayers.length; i++) {
         var wmtsLayer = wmtsLayers[i];
-        if (wmtsLayer.getVisibility()) {
+        if (wmtsLayer.show) {
             printLayers.push(wmtsLayer.wmsLayerName);
         }
       }
