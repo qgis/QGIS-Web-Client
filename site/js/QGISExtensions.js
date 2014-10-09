@@ -59,18 +59,6 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
       }
     }
 
-    var layersToSkip = [];
-
-    // skip WMTS print layers
-    if (this.topic in wmtsLayersConfigs) {
-      // collect print layers for WMTS layers of current topic
-      var wmtsLayersConfig = wmtsLayersConfigs[this.topic];
-      for (var i=0; i<wmtsLayersConfig.length; i++) {
-        var config = wmtsLayersConfig[i];
-        layersToSkip.push(config.printWmsLayer);
-      }
-    }
-
     this.projectSettings = new OpenLayers.Format.WMSCapabilities({
       readers: {
         "wms": OpenLayers.Util.applyDefaults({
@@ -166,22 +154,20 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
             layer.capability = capability;
             this.readChildNodes(node, layer);
             delete layer.capability;
-            if (layersToSkip.indexOf(layer.name) == -1) {
-                obj.nestedLayers.push(layer);
-                if(layer.name) {
-                    var parts = layer.name.split(":"),
-                        request = capability.request,
-                        gfi = request.getfeatureinfo;
-                    if(parts.length > 0) {
-                        layer.prefix = parts[0];
-                    }
-                    capability.layers.push(layer);
-                    if (layer.formats === undefined) {
-                        layer.formats = request.getmap.formats;
-                    }
-                    if (layer.infoFormats === undefined && gfi) {
-                        layer.infoFormats = gfi.formats;
-                    }
+            obj.nestedLayers.push(layer);
+            if(layer.name) {
+                var parts = layer.name.split(":"),
+                    request = capability.request,
+                    gfi = request.getfeatureinfo;
+                if(parts.length > 0) {
+                    layer.prefix = parts[0];
+                }
+                capability.layers.push(layer);
+                if (layer.formats === undefined) {
+                    layer.formats = request.getmap.formats;
+                }
+                if (layer.infoFormats === undefined && gfi) {
+                    layer.infoFormats = gfi.formats;
                 }
             }
         },
@@ -209,26 +195,55 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
     }).read(this.WMSCapabilities);
     this.processLayer(this.projectSettings.capability, this.projectSettings.capability.request.getmap.href, node);
 
+    // WMTS base layers
+    var wmtsLayers = [];
+    if (enableWmtsBaseLayers) {
+      // use root layer name from project settings as topic name on first load
+      var topicName = this.topicName || this.projectSettings.capability.nestedLayers[0].name;
+
+      // collect print layers for WMTS layers
+      var wmtsLayersConfig = getWmtsLayersConfig(topicName);
+      if (wmtsLayersConfig != null) {
+        for (var i=0; i<wmtsLayersConfig.length; i++) {
+          var config = wmtsLayersConfig[i];
+          wmtsLayers.push(config.wmsLayerName);
+        }
+      }
+
+      // prepend WMTS base layers in drawing order
+      var layerDrawingOrder = wmtsLayers.concat();
+      for (var i=0; i<this.projectSettings.capability.layerDrawingOrder.length; i++) {
+        var layer = this.projectSettings.capability.layerDrawingOrder[i];
+        if (wmtsLayers.indexOf(layer) == -1) {
+          layerDrawingOrder.push(layer);
+        }
+      }
+      this.projectSettings.capability.layerDrawingOrder = layerDrawingOrder;
+    }
+
     //fill the list of layer properties
     for (var i=0; i<this.projectSettings.capability.layers.length; i++) {
       var layer = this.projectSettings.capability.layers[i];
       this.layerProperties[layer.name] = {
         name: layer.name,
         title: layer.title,
-                abstract: layer.abstract,
-                visible: layer.visible,
+        abstract: layer.abstract,
+        visible: layer.visible,
         opacity: 255,
         queryable: layer.queryable,
         displayField: layer.displayField,
         nrChildLayers: layer.nestedLayers.length,
-                attributes: layer.attributes,
-                srsList: layer.srs,
-                bbox: layer.llbbox
+        attributes: layer.attributes,
+        srsList: layer.srs,
+        bbox: layer.llbbox,
+        minScale: (layer.minScale != null) ? parseFloat(layer.minScale) : null,
+        maxScale: (layer.maxScale != null) ? parseFloat(layer.maxScale) : null,
+        wmtsLayer: (wmtsLayers.indexOf(layer.name) != -1) // mark WMTS base layers
       };
-            this.layerTitleNameMapping[layer.title] = layer.name;
-            if (layer.visible) {
-                this.initialVisibleLayers.push(layer.name);
-            }
+      this.layerTitleNameMapping[layer.title] = layer.name;
+      if (layer.visible) {
+        this.initialVisibleLayers.push(layer.name);
+      }
     }
 
     // defaults for GetCapabilities
@@ -367,14 +382,14 @@ Ext.extend(QGIS.PrintProvider, GeoExt.data.PrintProvider, {
 
     var layers = thematicLayer.params.LAYERS;
 
-    if (this.topic in wmtsLayersConfigs) {
-      // collect print layers for visible WMTS layers of current topic
-      var wmtsLayersConfig = wmtsLayersConfigs[this.topic];
+    if (enableWmtsBaseLayers) {
+      // collect print layers for visible WMTS layers
       var printLayers = [];
-      for (var i=0; i<wmtsLayersConfig.length; i++) {
-        var config = wmtsLayersConfig[i];
-        if (config.wmtsLayer.getVisibility()) {
-          printLayers.push(config.printWmsLayer);
+      var wmtsLayers = getWmtsLayers();
+      for (var i=0; i<wmtsLayers.length; i++) {
+        var wmtsLayer = wmtsLayers[i];
+        if (wmtsLayer.show) {
+            printLayers.push(wmtsLayer.wmsLayerName);
         }
       }
       if (printLayers.length > 0) {
