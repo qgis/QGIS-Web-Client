@@ -580,9 +580,15 @@ function postLoading() {
 			// call custom action on Zoom Event
 			customActionOnZoomEvent();
 		});
+		
+		//listener to call custom action on moveend event
+		geoExtMap.map.events.register('moveend', this, function () {
+			customActionOnMoveEvent();
+		});
 
-        //scale listener to gray out names in TOC, which are outside visible scale
-        geoExtMap.map.events.register('zoomend', this, this.setGrayNameWhenOutsideScale);
+
+		//scale listener to gray out names in TOC, which are outside visible scale
+		geoExtMap.map.events.register('zoomend', this, this.setGrayNameWhenOutsideScale);
 
 		// loading listeners
 		thematicLayer.events.register('loadstart', this, function() {
