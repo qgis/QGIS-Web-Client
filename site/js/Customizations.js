@@ -107,15 +107,15 @@ function customActionLayerTreeCheck(n) {
 }
 
 
-// called when the user zooms. Note that this function is called
-// when the map is drawn the first time, so we will skip only the
-// first time the function is called.
-firstTimeZoom = true;
+// called when the user zooms.
 function customActionOnZoomEvent() {
-	if (firstTimeZoom) {
-		firstTimeZoom = false;
-		return;
-	}
-	
-	// ... action to do on each zoom ...
+	// NOTE: if you define customActionOnMoveEvent() (see below)
+	// that function is called during zooms, too!
+
+	// ... action to do on call
+}
+
+// called after a drag, pan, or zoom completed
+function customActionOnMoveEvent() {
+	// ... action to do on call
 }
