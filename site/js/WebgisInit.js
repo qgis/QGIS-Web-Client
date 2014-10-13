@@ -576,6 +576,9 @@ function postLoading() {
 			if (geoExtMap.map.zoomBoxActive) {
 				Ext.getCmp('navZoomBoxButton').toggle(false);
 			}
+			
+			// call custom action on Zoom Event
+			customActionOnZoomEvent();
 		});
 
         //scale listener to gray out names in TOC, which are outside visible scale
