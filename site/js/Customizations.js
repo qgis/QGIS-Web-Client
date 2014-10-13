@@ -105,3 +105,17 @@ function customActionLayerTreeCheck(n) {
 //        alert ("test layer check state:" + n.attributes.checked);
 //    }
 }
+
+
+// called when the user zooms. Note that this function is called
+// when the map is drawn the first time, so we will skip only the
+// first time the function is called.
+firstTimeZoom = true;
+function customActionOnZoomEvent() {
+	if (firstTimeZoom) {
+		firstTimeZoom = false;
+		return;
+	}
+	
+	// ... action to do on each zoom ...
+}
