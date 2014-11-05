@@ -1111,6 +1111,9 @@ function postLoading() {
 					selectedQueryableLayers.push(wmsLoader.layerTitleNameMapping[n.text]);
 				}
 			}
+			
+			// Call custom action in Customizations.js
+			customActionLayerTreeCheck(n);
 		});
 		format = imageFormatForLayers(selectedLayers);
 
