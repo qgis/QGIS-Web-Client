@@ -216,6 +216,10 @@ function loadWMSConfig(topicName) {
 		// customize the createNode method to add a checkbox to nodes and the ui provider
 		createNode: function (attr) {
 			attr.checked = false;
+			if (!attr.layer.metadata.showCheckbox) {
+				// hide checkbox
+				attr.cls = 'layer-checkbox-hidden';
+			}
 			return QGIS.WMSCapabilitiesLoader.prototype.createNode.apply(this, [attr]);
 		},
 		baseAttrs: {

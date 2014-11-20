@@ -107,11 +107,14 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
             var opaque = (attrNode && attrNode.specified) ?
               node.getAttribute('opaque') : null;
 
-            // custom attributes
+            // QGIS custom attributes
             attrNode = node.getAttributeNode("visible");
             var visible = (attrNode && attrNode.specified) ?
               node.getAttribute("visible") : null;
             var displayField = node.getAttribute('displayField');
+            attrNode = node.getAttributeNode("checkbox");
+            var showCheckbox = (attrNode && attrNode.specified) ?
+              node.getAttribute("checkbox") : null;
 
             var noSubsets = node.getAttribute('noSubsets');
             var fixedWidth = node.getAttribute('fixedWidth');
@@ -136,10 +139,13 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
                     opaque: opaque ?
                         (opaque === "1" || opaque === "true" ) :
                         (parent.opaque || false),
-                                        //visible and displayField are QGIS extensions
+                                        // QGIS extensions
                                         visible: (visible && visible !== "") ?
                                             ( visible === "1" || visible === "true" ) : true,
                                         displayField: displayField,
+                                        showCheckbox: (showCheckbox && showCheckbox !== "") ?
+                                            ( showCheckbox === "1" || showCheckbox === "true" ) : true,
+
                                         noSubsets: (noSubsets !== null) ?
                                                 (noSubsets === "1" || noSubsets === "true" ) :
                                                 (parent.noSubsets || false),
