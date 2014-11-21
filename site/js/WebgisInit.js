@@ -1822,20 +1822,30 @@ function addInfoButtonsToLayerTree() {
 	var treeRoot = layerTree.getNodeById("wmsNode");
 	treeRoot.firstChild.cascade(
 		function (n) {
-			// info button
-			var buttonId = 'layer_' + n.id;
-			Ext.DomHelper.insertBefore(n.getUI().getAnchor(), {
-				tag: 'b',
-				id: buttonId,
-				cls: 'layer-button x-tool custom-x-tool-info'
-			});
-            Ext.get(buttonId).on('click', function(e) {
-                if(typeof(interactiveLegendGetLegendURL) == 'undefined'){
-                    showLegendAndMetadata(n.text);
-                } else {
-                    showInteractiveLegendAndMetadata(n.text);
-                }
-            });
+			var layerProperties = wmsLoader.layerProperties[wmsLoader.layerTitleNameMapping[n.text]];
+			if (!layerProperties.showLegend && !layerProperties.showMetadata) {
+				// no info button, add blank element to keep text aligned
+				Ext.DomHelper.insertBefore(n.getUI().getAnchor(), {
+					tag: 'b',
+					cls: 'layer-button x-tool custom-x-tool-blank'
+				});
+			}
+			else {
+				// info button
+				var buttonId = 'layer_' + n.id;
+				Ext.DomHelper.insertBefore(n.getUI().getAnchor(), {
+					tag: 'b',
+					id: buttonId,
+					cls: 'layer-button x-tool custom-x-tool-info'
+				});
+				Ext.get(buttonId).on('click', function(e) {
+					if(typeof(interactiveLegendGetLegendURL) == 'undefined'){
+						showLegendAndMetadata(n.text);
+					} else {
+						showInteractiveLegendAndMetadata(n.text);
+					}
+				});
+			}
 		}
 	);
 }
@@ -1845,12 +1855,13 @@ function addAbstractToLayerGroups() {
 	treeRoot.firstChild.cascade(
 		function (n) {
 			if (! n.isLeaf()) {
+				var layerProperties = wmsLoader.layerProperties[wmsLoader.layerTitleNameMapping[n.text]];
 				if (n == treeRoot.firstChild) {
-					var thisAbstract = wmsLoader.projectSettings.service.abstract;
-				} else {
-					var thisAbstract = layerGroupString[lang]+ ' "' + n.text + '"';
+					layerProperties.abstract = wmsLoader.projectSettings.service.abstract;
 				}
-				wmsLoader.layerProperties[n.text].abstract = thisAbstract;
+				else if (layerProperties.abstract === undefined) {
+					layerProperties.abstract = layerGroupString[lang]+ ' "' + n.text + '"';
+				}
 			}
 		}
 	);

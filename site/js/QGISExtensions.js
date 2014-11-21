@@ -115,6 +115,12 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
             attrNode = node.getAttributeNode("checkbox");
             var showCheckbox = (attrNode && attrNode.specified) ?
               node.getAttribute("checkbox") : null;
+            attrNode = node.getAttributeNode("legend");
+            var showLegend = (attrNode && attrNode.specified) ?
+              node.getAttribute("legend") : null;
+            attrNode = node.getAttributeNode("metadata");
+            var showMetadata = (attrNode && attrNode.specified) ?
+              node.getAttribute("metadata") : null;
 
             var noSubsets = node.getAttribute('noSubsets');
             var fixedWidth = node.getAttribute('fixedWidth');
@@ -145,6 +151,10 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
                                         displayField: displayField,
                                         showCheckbox: (showCheckbox && showCheckbox !== "") ?
                                             ( showCheckbox === "1" || showCheckbox === "true" ) : true,
+                                        showLegend: (showLegend && showLegend !== "") ?
+                                            ( showLegend === "1" || showLegend === "true" ) : true,
+                                        showMetadata: (showMetadata && showMetadata !== "") ?
+                                            ( showMetadata === "1" || showMetadata === "true" ) : true,
 
                                         noSubsets: (noSubsets !== null) ?
                                                 (noSubsets === "1" || noSubsets === "true" ) :
@@ -244,7 +254,9 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
         bbox: layer.llbbox,
         minScale: (layer.minScale != null) ? parseFloat(layer.minScale) : null,
         maxScale: (layer.maxScale != null) ? parseFloat(layer.maxScale) : null,
-        wmtsLayer: (wmtsLayers.indexOf(layer.name) != -1) // mark WMTS base layers
+        wmtsLayer: (wmtsLayers.indexOf(layer.name) != -1), // mark WMTS base layers
+        showLegend: layer.showLegend,
+        showMetadata: layer.showMetadata
       };
       this.layerTitleNameMapping[layer.title] = layer.name;
       if (layer.visible) {
