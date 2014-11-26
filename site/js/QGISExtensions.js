@@ -64,7 +64,7 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
         "wms": OpenLayers.Util.applyDefaults({
 
           "ComposerTemplates": function(node, obj) {
-            obj.composerTemplates = []
+            obj.composerTemplates = [];
             this.readChildNodes(node, obj.composerTemplates);
           },
           "ComposerTemplate": function(node, obj) {
@@ -82,6 +82,15 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
               width: parseInt(node.getAttribute("width")),
               height: parseInt(node.getAttribute("height"))
             };
+          },
+
+          "ExclusiveLayerGroups": function(node, obj) {
+            obj.exclusiveLayerGroups = [];
+            this.readChildNodes(node, obj.exclusiveLayerGroups);
+          },
+          "group": function(node, obj) {
+            // comma separated layer names
+            obj.push(this.getChildValue(node).split(','));
           },
 
           "LayerDrawingOrder": function(node, obj) {
@@ -265,8 +274,11 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
     }
 
     // defaults for GetCapabilities
-    if (this.projectSettings.capability.composerTemplates == undefined) {
+    if (this.projectSettings.capability.composerTemplates === undefined) {
       this.projectSettings.capability.composerTemplates = [];
+    }
+    if (this.projectSettings.capability.exclusiveLayerGroups === undefined) {
+      this.projectSettings.capability.exclusiveLayerGroups = [];
     }
 
     //deal with callback function
