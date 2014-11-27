@@ -64,7 +64,7 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
         "wms": OpenLayers.Util.applyDefaults({
 
           "ComposerTemplates": function(node, obj) {
-            obj.composerTemplates = []
+            obj.composerTemplates = [];
             this.readChildNodes(node, obj.composerTemplates);
           },
           "ComposerTemplate": function(node, obj) {
@@ -82,6 +82,15 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
               width: parseInt(node.getAttribute("width")),
               height: parseInt(node.getAttribute("height"))
             };
+          },
+
+          "ExclusiveLayerGroups": function(node, obj) {
+            obj.exclusiveLayerGroups = [];
+            this.readChildNodes(node, obj.exclusiveLayerGroups);
+          },
+          "group": function(node, obj) {
+            // comma separated layer names
+            obj.push(this.getChildValue(node).split(','));
           },
 
           "LayerDrawingOrder": function(node, obj) {
@@ -107,11 +116,20 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
             var opaque = (attrNode && attrNode.specified) ?
               node.getAttribute('opaque') : null;
 
-            // custom attributes
+            // QGIS custom attributes
             attrNode = node.getAttributeNode("visible");
             var visible = (attrNode && attrNode.specified) ?
               node.getAttribute("visible") : null;
             var displayField = node.getAttribute('displayField');
+            attrNode = node.getAttributeNode("checkbox");
+            var showCheckbox = (attrNode && attrNode.specified) ?
+              node.getAttribute("checkbox") : null;
+            attrNode = node.getAttributeNode("legend");
+            var showLegend = (attrNode && attrNode.specified) ?
+              node.getAttribute("legend") : null;
+            attrNode = node.getAttributeNode("metadata");
+            var showMetadata = (attrNode && attrNode.specified) ?
+              node.getAttribute("metadata") : null;
 
             var noSubsets = node.getAttribute('noSubsets');
             var fixedWidth = node.getAttribute('fixedWidth');
@@ -136,10 +154,17 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
                     opaque: opaque ?
                         (opaque === "1" || opaque === "true" ) :
                         (parent.opaque || false),
-                                        //visible and displayField are QGIS extensions
+                                        // QGIS extensions
                                         visible: (visible && visible !== "") ?
                                             ( visible === "1" || visible === "true" ) : true,
                                         displayField: displayField,
+                                        showCheckbox: (showCheckbox && showCheckbox !== "") ?
+                                            ( showCheckbox === "1" || showCheckbox === "true" ) : true,
+                                        showLegend: (showLegend && showLegend !== "") ?
+                                            ( showLegend === "1" || showLegend === "true" ) : true,
+                                        showMetadata: (showMetadata && showMetadata !== "") ?
+                                            ( showMetadata === "1" || showMetadata === "true" ) : true,
+
                                         noSubsets: (noSubsets !== null) ?
                                                 (noSubsets === "1" || noSubsets === "true" ) :
                                                 (parent.noSubsets || false),
@@ -238,7 +263,9 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
         bbox: layer.llbbox,
         minScale: (layer.minScale != null) ? parseFloat(layer.minScale) : null,
         maxScale: (layer.maxScale != null) ? parseFloat(layer.maxScale) : null,
-        wmtsLayer: (wmtsLayers.indexOf(layer.name) != -1) // mark WMTS base layers
+        wmtsLayer: (wmtsLayers.indexOf(layer.name) != -1), // mark WMTS base layers
+        showLegend: layer.showLegend,
+        showMetadata: layer.showMetadata
       };
       this.layerTitleNameMapping[layer.title] = layer.name;
       if (layer.visible) {
@@ -247,8 +274,11 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
     }
 
     // defaults for GetCapabilities
-    if (this.projectSettings.capability.composerTemplates == undefined) {
+    if (this.projectSettings.capability.composerTemplates === undefined) {
       this.projectSettings.capability.composerTemplates = [];
+    }
+    if (this.projectSettings.capability.exclusiveLayerGroups === undefined) {
+      this.projectSettings.capability.exclusiveLayerGroups = [];
     }
 
     //deal with callback function

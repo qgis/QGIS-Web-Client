@@ -216,6 +216,10 @@ function loadWMSConfig(topicName) {
 		// customize the createNode method to add a checkbox to nodes and the ui provider
 		createNode: function (attr) {
 			attr.checked = false;
+			if (!attr.layer.metadata.showCheckbox) {
+				// hide checkbox
+				attr.cls = 'layer-checkbox-hidden';
+			}
 			return QGIS.WMSCapabilitiesLoader.prototype.createNode.apply(this, [attr]);
 		},
 		baseAttrs: {
@@ -1201,13 +1205,20 @@ function postLoading() {
 			}
 			currentlyVisibleBaseLayer = newVisibleBaseLayer;
 		}
+
+		updateLayerOrderPanelVisibilities();
 	}
 
 	if (initialLoadDone) {
 		layerTree.removeListener("leafschange",leafsChangeFunction);
 	}
+	else {
+		layerTree.addListener('checkboxclick', onLayerCheckboxClick);
+	}
 	//add listeners for layertree
 	layerTree.addListener('leafschange',leafsChangeFunction);
+
+	initExclusiveLayerGroups();
 
 	//deal with commercial external bg layers
 	if (enableBGMaps) {
@@ -1818,20 +1829,30 @@ function addInfoButtonsToLayerTree() {
 	var treeRoot = layerTree.getNodeById("wmsNode");
 	treeRoot.firstChild.cascade(
 		function (n) {
-			// info button
-			var buttonId = 'layer_' + n.id;
-			Ext.DomHelper.insertBefore(n.getUI().getAnchor(), {
-				tag: 'b',
-				id: buttonId,
-				cls: 'layer-button x-tool custom-x-tool-info'
-			});
-            Ext.get(buttonId).on('click', function(e) {
-                if(typeof(interactiveLegendGetLegendURL) == 'undefined'){
-                    showLegendAndMetadata(n.text);
-                } else {
-                    showInteractiveLegendAndMetadata(n.text);
-                }
-            });
+			var layerProperties = wmsLoader.layerProperties[wmsLoader.layerTitleNameMapping[n.text]];
+			if (!layerProperties.showLegend && !layerProperties.showMetadata) {
+				// no info button, add blank element to keep text aligned
+				Ext.DomHelper.insertBefore(n.getUI().getAnchor(), {
+					tag: 'b',
+					cls: 'layer-button x-tool custom-x-tool-blank'
+				});
+			}
+			else {
+				// info button
+				var buttonId = 'layer_' + n.id;
+				Ext.DomHelper.insertBefore(n.getUI().getAnchor(), {
+					tag: 'b',
+					id: buttonId,
+					cls: 'layer-button x-tool custom-x-tool-info'
+				});
+				Ext.get(buttonId).on('click', function(e) {
+					if(typeof(interactiveLegendGetLegendURL) == 'undefined'){
+						showLegendAndMetadata(n.text);
+					} else {
+						showInteractiveLegendAndMetadata(n.text);
+					}
+				});
+			}
 		}
 	);
 }
@@ -1841,15 +1862,153 @@ function addAbstractToLayerGroups() {
 	treeRoot.firstChild.cascade(
 		function (n) {
 			if (! n.isLeaf()) {
+				var layerProperties = wmsLoader.layerProperties[wmsLoader.layerTitleNameMapping[n.text]];
 				if (n == treeRoot.firstChild) {
-					var thisAbstract = wmsLoader.projectSettings.service.abstract;
-				} else {
-					var thisAbstract = layerGroupString[lang]+ ' "' + n.text + '"';
+					layerProperties.abstract = wmsLoader.projectSettings.service.abstract;
 				}
-				wmsLoader.layerProperties[n.text].abstract = thisAbstract;
+				else if (layerProperties.abstract === undefined) {
+					layerProperties.abstract = layerGroupString[lang]+ ' "' + n.text + '"';
+				}
 			}
 		}
 	);
+}
+
+// apply initial exclusive layer groups: only a single layer of a group may be active, or none
+function initExclusiveLayerGroups() {
+	if (wmsLoader.projectSettings.capability.exclusiveLayerGroups.length == 0) {
+		// no exclusive layer groups
+		return;
+	}
+
+	// collect initially active layers
+	var activeLayers = [];
+	layerTree.root.firstChild.cascade(function(node) {
+		if (node.isLeaf() && node.attributes.checked) {
+			activeLayers.push(wmsLoader.layerTitleNameMapping[node.text]);
+		}
+	});
+
+	// collect layers of exclusive layer groups
+	var layersToUncheck = [];
+	for (var i=0; i<wmsLoader.projectSettings.capability.exclusiveLayerGroups.length; i++) {
+		var exclusiveGroup = wmsLoader.projectSettings.capability.exclusiveLayerGroups[i];
+
+		// get first group layer from active layers
+		var activeLayerName = null;
+		for (var l=0; l<exclusiveGroup.length; l++) {
+			var groupLayerName = exclusiveGroup[l];
+			if (activeLayers.indexOf(groupLayerName) != -1) {
+				activeLayerName = groupLayerName;
+				break;
+			}
+		}
+
+		// collect inactive group layers
+		for (var l=0; l<exclusiveGroup.length; l++) {
+			var groupLayerName = exclusiveGroup[l];
+			if (groupLayerName != activeLayerName) {
+				// add layer to uncheck if not yet in list
+				if (layersToUncheck.indexOf(groupLayerName) == -1) {
+					layersToUncheck.push(groupLayerName);
+				}
+			}
+		}
+	}
+
+	if (layersToUncheck.length > 0) {
+		// update layer tree
+		layerTree.root.firstChild.cascade(function(node) {
+			if (node.isLeaf() && node.attributes.checked) {
+				// uncheck layer node
+				if (layersToUncheck.indexOf(wmsLoader.layerTitleNameMapping[node.text]) != -1) {
+					node.getUI().toggleCheck(false);
+				}
+			}
+		});
+		layerTree.fireEvent("leafschange");
+	}
+}
+
+function onLayerCheckboxClick(node) {
+	if (wmsLoader.projectSettings.capability.exclusiveLayerGroups.length == 0) {
+		// no exclusive layer groups
+		return;
+	}
+
+	// apply exclusive layer groups: only a single layer of a group may be active, or none
+	if (node.attributes.checked) {
+		var layersToUncheck = [];
+		if (node.isLeaf()) {
+			// layer checked
+
+			// collect other layers of the first matching exclusive layer group
+			var activeLayerName = wmsLoader.layerTitleNameMapping[node.text];
+			for (var i=0; i<wmsLoader.projectSettings.capability.exclusiveLayerGroups.length; i++) {
+				var exclusiveGroup = wmsLoader.projectSettings.capability.exclusiveLayerGroups[i];
+				if (exclusiveGroup.indexOf(activeLayerName) != -1) {
+					layersToUncheck = exclusiveGroup.slice().remove(activeLayerName);
+					break;
+				}
+			}
+		}
+		else {
+			// layer group checked
+
+			// collect child layers
+			var childLayers = [];
+			node.cascade(function(node) {
+				if (node.isLeaf()) {
+					childLayers.push(wmsLoader.layerTitleNameMapping[node.text]);
+				}
+			});
+
+			// collect layers of exclusive layer groups for all child layers, keep first layer occuring in child layers active
+			for (var i=0; i<childLayers.length; i++) {
+				for (var g=0; g<wmsLoader.projectSettings.capability.exclusiveLayerGroups.length; g++) {
+					var exclusiveGroup = wmsLoader.projectSettings.capability.exclusiveLayerGroups[g];
+					if (exclusiveGroup.indexOf(childLayers[i]) != -1) {
+						// first matching exclusive layer group
+
+						// get first group layer from child layers
+						var activeLayerName = null;
+						for (var l=0; l<exclusiveGroup.length; l++) {
+							var groupLayerName = exclusiveGroup[l];
+							if (childLayers.indexOf(groupLayerName) != -1) {
+								activeLayerName = groupLayerName;
+								break;
+							}
+						}
+
+						// collect inactive group layers
+						for (var l=0; l<exclusiveGroup.length; l++) {
+							var groupLayerName = exclusiveGroup[l];
+							if (groupLayerName != activeLayerName) {
+								// add layer to uncheck if not yet in list
+								if (layersToUncheck.indexOf(groupLayerName) == -1) {
+									layersToUncheck.push(groupLayerName);
+								}
+							}
+						}
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (layersToUncheck.length > 0) {
+			// update layer tree
+			layerTree.root.firstChild.cascade(function(node) {
+				if (node.isLeaf() && node.attributes.checked) {
+					// uncheck layer node
+					if (layersToUncheck.indexOf(wmsLoader.layerTitleNameMapping[node.text]) != -1) {
+						node.getUI().toggleCheck(false);
+					}
+				}
+			});
+		}
+	}
 }
 
 function applyPermalinkParams() {
@@ -1951,6 +2110,7 @@ function setupLayerOrderPanel() {
 					if (wmsLoader.layerTitleNameMapping[this.attributes["text"]] == layer) {
 						this.getUI().toggleCheck();
 						// update active layers
+						layerTree.fireEvent('checkboxclick', this);
 						layerTree.fireEvent("leafschange");
 						return true;
 					}
@@ -1979,6 +2139,18 @@ function setupLayerOrderPanel() {
 			Ext.getCmp('leftPanelMap').layout.south.getCollapsedEl().setVisible(showLayerOrderTab);
 		}
 	}
+}
+
+function updateLayerOrderPanelVisibilities() {
+	// update layer visibilities in layer order panel according to layer tree
+	layerTree.root.firstChild.cascade(function(node) {
+		if (node.isLeaf()) {
+			var layerName = wmsLoader.layerTitleNameMapping[node.text];
+			if (layerOrderPanel.layerVisible(layerName) != node.attributes.checked) {
+				layerOrderPanel.toggleLayerVisibility(layerName);
+			}
+		}
+	});
 }
 
 function activateGetFeatureInfo(doIt) {

@@ -10,6 +10,10 @@
   width: 15px;
   height: 15px;
 }
+.custom-x-tool-blank {
+  background-image: none;
+  cursor: inherit;
+}
 
 .action-icon {
   background-image: url("../libs/ext/resources/images/gray/panel/tool-sprites.gif");

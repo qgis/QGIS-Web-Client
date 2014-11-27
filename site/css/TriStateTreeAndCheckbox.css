@@ -82,3 +82,7 @@
     color:#AAAAAA !important;
     font-style:italic;
 }
+
+.layer-checkbox-hidden  .x-tree-checkbox {
+	visibility: hidden;
+}

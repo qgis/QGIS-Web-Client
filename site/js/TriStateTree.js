@@ -124,50 +124,8 @@ Ext.override(Ext.tree.TreeNodeUI, {
     if(!this.disabled){
       this.toggleCheck();
     }
-    // Modified code, AN
-    var wasChecked = this.node.attributes.checked == null ? false : !this.node.attributes.checked;
-		var isChecked = !wasChecked;
-    var isParent  = !this.node.isLeaf();
-		
-    if(isParent) {
-      if(wasChecked && !this.node.isExpanded()) {
-        this.node.expand(true, false, function(node) {
-					node.cascade(function(node) {
-						if (node.isLeaf() && layerOrderPanel != null) {
-							if (isChecked != layerOrderPanel.layerVisible(wmsLoader.layerTitleNameMapping[node.text])) {
-								layerOrderPanel.toggleLayerVisibility(wmsLoader.layerTitleNameMapping[node.text]);
-							}
-						}
-					}, this);
-        });
-				this.node.ownerTree.fireEvent('leafschange');
-        this.node.collapse(true,false);
-      }
-      else {
-        var i = 0;
-        this.node.cascade(function(node) {
-					if (node.isLeaf() && layerOrderPanel != null) {
-						if (isChecked != layerOrderPanel.layerVisible(wmsLoader.layerTitleNameMapping[node.text])) {
-							layerOrderPanel.toggleLayerVisibility(wmsLoader.layerTitleNameMapping[node.text]);
-						}
-					}
-          if (i == this.node.childNodes.length) {
-						this.node.ownerTree.fireEvent('leafschange');
-					}
-					i++;
-        }, this);
-      }
-    }
-    else {
-      wasChecked ? this.node.ownerTree.checkedLeafs.push(this.node) : this.node.ownerTree.checkedLeafs.remove(this.node);
-			if (layerOrderPanel != null) {
-				if (isChecked != layerOrderPanel.layerVisible(wmsLoader.layerTitleNameMapping[this.node.text])) {
-					layerOrderPanel.toggleLayerVisibility(wmsLoader.layerTitleNameMapping[this.node.text]);
-				}
-			}
-      this.node.ownerTree.fireEvent('leafschange');
-    }
-    // End of Modified code, AN
+    this.node.ownerTree.fireEvent('checkboxclick', this.node);
+    this.node.ownerTree.fireEvent('leafschange');
   },
   onCheckboxOver:function() {
     this.addClass('x-tree-checkbox-over');
