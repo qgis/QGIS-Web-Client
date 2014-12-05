@@ -131,3 +131,17 @@ function customActionLayerTreeCheck(n) {
 //        alert ("test layer check state:" + n.attributes.checked);
 //    }
 }
+
+
+// called when the user zooms.
+function customActionOnZoomEvent() {
+	// NOTE: if you define customActionOnMoveEvent() (see below)
+	// that function is called during zooms, too!
+
+	// ... action to do on call
+}
+
+// called after a drag, pan, or zoom completed
+function customActionOnMoveEvent() {
+	// ... action to do on call
+}
