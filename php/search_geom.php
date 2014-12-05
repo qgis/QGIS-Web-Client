@@ -4,6 +4,13 @@
 
     Get search geometry
 
+    PARAMETERS
+
+    map: string, map path (or name in case of rewrite)
+    searchtable: string, layer name
+    searchcolumn: string, optional, restrict search to this particular field
+    displaytext: string, the search string
+
     @copyright: 2013-2014 by Alessandro Pasotti -
         ItOpen (http://www.itopen.it) <apasotti@gmail.com>
     @license: GNU AGPL, see COPYING for details.
@@ -26,6 +33,7 @@ if ($layername != "null") {
         err500('layer not found or not searchable');
     }
 
+    // Get the search string
     $displaytext = trim(@$_REQUEST['displaytext']);
 
     // Get project
@@ -34,12 +42,18 @@ if ($layername != "null") {
     // Sanitize
     $displaytext = preg_replace('/[^A-z0-9_-]\s/', '', $displaytext);
 
+    // Get the search column from QS or default, sanitize
+    $search_column = preg_replace('/[^A-z0-9_-]\s/', '', @$_REQUEST['searchcolumn']);
+    if(!$search_column){
+        $search_column = $layer_config['search_column'];
+    }
+
     // Get layer
     $layer = get_layer($layername, $project);
 
     $ds_params = get_layer_info($layer, $project);
 
-    $sql = "SELECT ST_AsText(${ds_params['geom_column']}) AS geom FROM " . $ds_params['table'] . " WHERE ${layer_config['search_column']} = ?";
+    $sql = "SELECT ST_AsText(${ds_params['geom_column']}) AS geom FROM " . $ds_params['table'] . " WHERE $search_column = ?";
     $dbh = get_connection($layer, $project, $map);
     $stmt = $dbh->prepare($sql);
     $stmt->bindValue(1, $displaytext, PDO::PARAM_STR);
