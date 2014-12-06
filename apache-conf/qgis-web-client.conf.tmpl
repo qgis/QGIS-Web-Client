@@ -16,8 +16,10 @@
     allow from all
   </Directory>
 
-  ScriptAlias /cgi-bin/ /<path-to-qgis-web-client>/cgi-bin/
-  <Directory "/<path-to-qgis-web-client>/cgi-bin/">
+  # if qgis-server is installed from packages in ubuntu this is usually /usr/lib/cgi-bin/
+  # run "locate qgis_mapserv.fcgi" if you don't know where qgis_mapserv.fcgi is
+  ScriptAlias /cgi-bin/ /<path-to-qgis_mapserv.fcgi-folder>/
+  <Directory "/<path-to-qgis_mapserv.fcgi-folder>/">
     AllowOverride None
     Options +ExecCGI -MultiViews -SymLinksIfOwnerMatch
     Order allow,deny
@@ -28,9 +30,10 @@
 
 
   # optional rewrite rules
+    RewriteEngine On
 
   # Forbid direct access
-#  RewriteRule ^/cgi-bin/.*$ - [F]
+  # RewriteRule ^/cgi-bin/.*$ - [F]
 
   # Search with SearchPanel
 

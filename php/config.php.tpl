@@ -14,7 +14,7 @@
 /****************************
  * Map rewrite configuration
  */
-// Prefix map name with path
+// Prefix map name with path, also supports $map_name substitution
 #define('MAP_PATH_REWRITE', '/home/xxx/public_html/QGIS-Web-Client/projects/');
 // Append .qgs to the map name
 #define('MAP_PATH_APPEND_QGS', true);

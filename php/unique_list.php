@@ -12,7 +12,7 @@ require_once(dirname(__FILE__). '/config.php');
 require_once(dirname(__FILE__). '/helpers.php');
 
 // Params
-$map = get_map_path(@$_REQUEST['map']);
+$map_path = get_map_path(@$_REQUEST['map']);
 // Name of the layer to query
 $layername = @$_REQUEST['layer'];
 // Field name from where unique values are read
@@ -23,13 +23,13 @@ if(!$field){
 }
 
 // Get project
-$project = get_project($map);
+$project = get_project($map_path);
 // Get layer
 $layer = get_layer($layername, $project);
 
 
 try {
-    $dbh = get_connection($layer, $project, $map);
+    $dbh = get_connection($layer, $project, $map_path);
     $ds_parms = get_layer_info($layer, $project);
     $_field = preg_replace('/[^A-z0-9_-]]/','',$field);
     $stmt = $dbh->prepare("SELECT DISTINCT $_field FROM ${ds_parms['table']} ORDER BY $_field");

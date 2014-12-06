@@ -177,7 +177,7 @@ A comma-separated list of layers that should be set visible on the project start
 visibleBackgroundLayer
 ```
 Optionally the name of the background layer that should be set visible on project start. You must have background layers enabled in
-GlobalOptions.js by setting enableBGMaps to true and a background layer must exist with this name. If either 
+GlobalOptions.js by setting enableBGMaps to true and a background layer must exist with this name. If either
 of these prerequisites is not met nothing happens and the parameter is simply ignored.
 
 ```
@@ -704,15 +704,15 @@ back a hit list while the user is typing in the searchbox. It groups the
 results and returns a bounding box of the result. "getSearchGeom" returns
 the actual wkt geometry for a selected search result.
 
-These scripts are provided in two flavors: PHP and WSGI (Python). 
+These scripts are provided in two flavors: PHP and WSGI (Python).
 The PHP version should run out-of-the-box
 with just a few lines of configuration. There is no need to alter the DB
 table structure in order to use PHP search scripts because all needed informations are read from
 the project file. Another notable difference is that layer names are used instead of
 table names, this is in order to not disclose internal DB details. The PHP scripts are available
-under the ``php`` folder. 
+under the ``php`` folder.
 
-The Python wsgi search scripts provide an advanced, more configurable and 
+The Python wsgi search scripts provide an advanced, more configurable and
 more detailed search solution. They draw their results directly from dedicated relations
 in a PostGIS database. The WSGI scripts are available
 under the ``wsgi`` folder. It is recommended to
@@ -785,7 +785,8 @@ Example:
 /****************************
  * Map rewrite configuration
  */
-// Prefix map name with path
+// Prefix map name with path,  also supports $map_name parameter
+// substitution if you prefer to store project file in a pre-project subfolder
 #define('MAP_PATH_REWRITE', '/home/xxx/public_html/QGIS-Web-Client/projects/');
 // Append .qgs to the map name
 #define('MAP_PATH_APPEND_QGS', true);
@@ -861,7 +862,7 @@ WSGIScriptAliasMatch ^/wsgi/([^/]+) /home/www/wsgi/$1.wsgi
 === Adaption of the wsgi scripts to your settings and needs ===
 
 ==== DB connection ====
-In the file ``qwc_connect.py`` please edit the first line containing the db connection string. 
+In the file ``qwc_connect.py`` please edit the first line containing the db connection string.
 
 ```
 DB_CONN_STRING="host='myhost' dbname='mydb' port='5432' user='myuser' password='secret'"

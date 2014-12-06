@@ -27,6 +27,7 @@ var showMetaDataInLegend = true;
 // if set to true every mouse position over feature of queriable layers is GetFeatureInfo request on server
 var enableHoverPopup = true;
 
+
 // use geodesic measures, i.e. not planar measures
 // this is useful if a projection with high distortion of length/area is used, eg.g. GoogleMercator
 var useGeodesicMeasurement = true;
@@ -67,6 +68,7 @@ var enableBingCommercialMaps = false;
 if (enableBingCommercialMaps) {
     var bingApiKey = "add Bing api key here"; // http://msdn.microsoft.com/en-us/library/ff428642.aspx
 }
+
 var enableGoogleCommercialMaps = true;
 
 var enableOSMMaps = true;
@@ -76,7 +78,7 @@ if (enableBingCommercialMaps || enableOSMMaps || enableGoogleCommercialMaps) {
 	enableBGMaps = true;
 }
 if (enableBGMaps) {
-	// enter the index of the backgroundLayer to be visible after loading, 
+	// enter the index of the backgroundLayer to be visible after loading,
 	// set to a value < 0 to not show any backgroundLayer
 	// this setting is overridden if a value for url-parameter visibleBackgroundLayer is passed
 	var initialBGMap = 0;
@@ -100,6 +102,26 @@ var showFeatureInfoLayerTitle = true;
 // max-width and max-height of the feature-info popup can be controlled in site/css/popup.css
 
 
+// Custom WMS GetFeatureInfo results formatters: you can define custom
+// filter functions to apply custom formatting to values coming from
+// GetFeatureInfo requests when the user use the "identify" tool.
+// The same formatting functions can be normally also used as "renderer"
+// function passed to column configuration in the "gridColumns" property
+// of the grid configuration of the WMS GetFeatureInfo search panels.
+
+// Example formatter, takes the value, the column name and the layer name,
+// normally only the first parameter is used.
+function customURLFormatter(attValue, attName, layerName){
+    return '<a href="http://www.google.com/search?q=' + encodeURI(attValue) + '">' + attValue + '</a>';
+}
+
+// Formatters configuration
+var getFeatureInfoCustomFormatters = {
+    'Country': { // Layer name
+        'name': customURLFormatter // Can be an array if you need multiple formatters
+    }
+};
+
 //config for QGIS.SearchPanel
 //Number of results: FEATURE_COUNT in WMS request
 var simpleWmsSearchMaxResults = 10;
@@ -120,7 +142,7 @@ var simpleWmsSearch = {
     }
   ],
   gridColumns: [
-    {header: 'Name', dataIndex: 'name', menuDisabled: 'true'}
+    {header: 'Name', dataIndex: 'name', menuDisabled: 'true', renderer: customURLFormatter}
   ],
 //  highlightFeature: true,
 //  highlightLabel: 'name',
@@ -161,7 +183,7 @@ var mapSearchPanelConfigs = {
   "helloworld": [simpleWmsSearch, urlRewriteSearch]
 };
 
-// ABP: needed for helloworld if no rewrite
+// Needed for helloworld project if rewrite is not active
 mapSearchPanelConfigs[project_map] = [simpleWmsSearch, urlRewriteSearch];
 
 //templates to define tooltips for a layer, to be shown on hover identify. The layer fields must be wrapped inside <%%> special tags.

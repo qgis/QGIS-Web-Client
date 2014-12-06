@@ -4,7 +4,7 @@
 
     Common functions and configuration
 
-    @copyright: 2013 by Alessandro Pasotti - (http://www.itopen.it) <apasotti@gmail.com>
+    @copyright: 2013-2014 by Alessandro Pasotti - (http://www.itopen.it) <apasotti@gmail.com>
     @license: GNU AGPL, see COPYING for details.
 */
 
@@ -23,9 +23,9 @@ function err500($msg){
 /**
  * Load .qgs file
  */
-function get_project($map){
-    if(file_exists($map) && is_readable($map)){
-        $project = @simplexml_load_file($map);
+function get_project($project_path){
+    if(file_exists($project_path) && is_readable($project_path)){
+        $project = @simplexml_load_file($project_path);
         if(!$project){
             err500('project not valid');
         }
@@ -78,11 +78,15 @@ function get_layer_info($layer, $project){
 
 /**
  * Rewrite and append
+ *
+ * MAP_PATH_REWRITE supports $map_name substitutions
  */
 function get_map_path($mapname){
     // Rewrite map to full path
     if(defined('MAP_PATH_REWRITE') && MAP_PATH_REWRITE){
-        $mapname = MAP_PATH_REWRITE . $mapname;
+        // Replace map name, if present
+        $map_prefix = str_replace('$map_name', $mapname, MAP_PATH_REWRITE);
+        $mapname = $map_prefix . $mapname;
         if(defined('MAP_PATH_APPEND_QGS') && MAP_PATH_APPEND_QGS){
             $mapname .= '.qgs';
         }
@@ -129,7 +133,7 @@ function get_connection($layer, $project, $map_path){
         $PDO_DSN="pgsql:host=${ds_parms['host']};port=${ds_parms['port']};dbname=${ds_parms['dbname']}";
     } else { // Spatialite
         // Calculate directory
-        $dbpath = preg_replace("/'?([^']+)'?/", '\1', $ds_parms['dbname']);        
+        $dbpath = preg_replace("/'?([^']+)'?/", '\1', $ds_parms['dbname']);
         if($dbpath[0] != DIRECTORY_SEPARATOR){
             $dbpath = dirname($map_path) . DIRECTORY_SEPARATOR . $dbpath;
         }
@@ -144,7 +148,7 @@ function get_connection($layer, $project, $map_path){
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     } catch (PDOException $e) {
         err500('db error: ' . $e->getMessage());
-    }    
+    }
     if($ds_parms['provider'] == 'spatialite') {
         try {
             $sql = "SELECT load_extension('libspatialite.so');";
@@ -152,14 +156,14 @@ function get_connection($layer, $project, $map_path){
             $stmt->execute();
         } catch (PDOException $e) {
             err500('db error loading spatialite: ' . $e->getMessage());
-        }     
+        }
     }
     return $dbh;
 }
 
 /**
  * Return current base URL
- */ 
+ */
 function get_current_base_url() {
     $pageURL = 'http';
     if (@$_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
@@ -186,7 +190,7 @@ function get_wms_online_resource($mapname){
 
 /**
  * Returns legend data, querying WMS GetStyles and GetLegendGraphics
- */ 
+ */
 function get_legend($mapname, $layername){
     // Check cache
     if(defined('GET_LEGEND_CACHE_EXPIRY') && GET_LEGEND_CACHE_EXPIRY){
@@ -200,7 +204,7 @@ function get_legend($mapname, $layername){
         if (!$filemtime or (time() - $filemtime >= GET_LEGEND_CACHE_EXPIRY)){
             file_put_contents($cache_file, serialize(build_legend($mapname, $layername)));
         }
-        return unserialize(file_get_contents($cache_file));                
+        return unserialize(file_get_contents($cache_file));
     }
     return build_legend($mapname, $layername);
 }
@@ -219,7 +223,7 @@ function build_legend($mapname, $layername){
     }
     $results = array();
     // For each style, get legend string and image
-    foreach($styles->xpath('//se:Rule') as $rule){        
+    foreach($styles->xpath('//se:Rule') as $rule){
         $name = $rule->xpath('se:Name');
         // FIXME: temporary workaround for http://hub.qgis.org/issues/9321
         if((string)$name[0]){
@@ -239,7 +243,7 @@ function build_legend($mapname, $layername){
                 'ogc_filter' => $filter,
                 'image' => base64_encode($image_data)
             );
-        }        
+        }
     }
     return $results;
 }
