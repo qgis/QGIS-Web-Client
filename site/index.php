@@ -34,7 +34,21 @@
           <ul class="map-list">
             <?php
             foreach(glob($PROJECTS_DIR.'*.qgs') as $file) {
-                print "<li class='map-item'><a href='qgiswebclient.html?map=$file'>$file</a></li>\n";
+                $filename = substr($file, 0, -4);
+                $filename = end(explode('/', $filename));
+                print "<li class='map-item'><a href='maps/$filename'>$filename</a></li>\n";
+            }
+            ?>
+          </ul>
+        </div>
+        <h2>Your local wms</h2>
+        <div>
+          <ul class="map-list">
+            <?php
+            foreach(glob($PROJECTS_DIR.'*.qgs') as $file) {
+                $filename = substr($file, 0, -4);
+                $filename = end(explode('/', $filename));
+                print "<li class='map-item'><a href='wms/$filename?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities'>$filename (GetCapabilities version 1.3.0)</a></li>\n";
             }
             ?>
           </ul>
