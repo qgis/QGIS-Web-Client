@@ -30,7 +30,7 @@
         <div>
           <ul class="map-list">
             <?php
-            require_once './config.php';
+            $PROJECTS_DIR = '<absolute-path-to-qgis-server-projects>/'
             foreach(glob($PROJECTS_DIR.'*.qgs') as $file) {
                 print "<li class='map-item'><a href='qgiswebclient.html?map=$file'>$file</a></li>\n";
             }
