@@ -15,6 +15,9 @@
     AllowOverride None
     Order allow,deny
     allow from all
+    # apache 2.4 requires the next line
+    # see http://httpd.apache.org/docs/2.4/upgrading.html
+    Require all granted
   </Directory>
 
   # if qgis-server is installed from packages in ubuntu this is usually /usr/lib/cgi-bin/
@@ -25,6 +28,9 @@
     Options +ExecCGI -MultiViews -SymLinksIfOwnerMatch
     Order allow,deny
     Allow from all
+    # apache 2.4 requires the next line
+    # see http://httpd.apache.org/docs/2.4/upgrading.html
+    Require all granted
     #Uncomment the next line to enable logging to a file
     #SetEnv QGIS_LOG_FILE /tmp/qgislog.txt
   </Directory>
