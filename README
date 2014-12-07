@@ -29,21 +29,8 @@ Last Change : Wednesday June 11, 2014
   1. For the terminally lazy
   ==========================
 
-  sudo apt-get install apache2 libapache2-mod-fcgid
-  cp apache-conf/qgis-web-client.conf.tmpl apache-conf/qgis-web-client.conf
-
-Update the paths in the copied file then:
-
-  cd /etc/apache2/sites-available/
-  ln -s <path to apache-conf/qgis-web-client.conf> .
-  sudo a2enmod rewrite
-  sudo a2ensite qgis-web-client.conf
-  sudo /etc/init.d/apache2 reload
-
-1. Check the symlink in cgi-bin is correct.
-2. Check the QGIS libs are in your /etc/ld.so.conf path
-3. Copy site/index.xml and check paths match your system OR
-  Modify index.php or index.html and point your browser to that
+  edit (if necessary) the three needed parameters in install.sh
+  sudo ./install.sh
 
 
   2. Purpose
