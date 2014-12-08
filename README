@@ -43,7 +43,7 @@ Update the paths in the copied file then:
 1. Check the symlink in cgi-bin is correct.
 2. Check the QGIS libs are in your /etc/ld.so.conf path
 3. Copy site/index.xml and check paths match your system OR
-  Modify index.html and point your browser to that
+  Modify index.php or index.html and point your browser to that
 
 
   2. Purpose
@@ -100,7 +100,7 @@ Translations (additional languages):
 
 Project settings and index:
 
-  site/index.xml or site/index.html
+  site/index.xml, site/index.php or site/index.html
 
 Stylesheet of project index:
 
