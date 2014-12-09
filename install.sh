@@ -35,7 +35,9 @@ echo "###############################################"
 echo
 
 #install the server
-apt-get install -y qgis-server apache2 libapache2-mod-fcgid locate sed
+apt-get install -y qgis-server apache2 libapache2-mod-fcgid libapache2-mod-php5 locate sed
+a2enmod php5
+
 #Get the QGIS web client root dir
 ROOTDIR=$( cd "$( dirname "$0" )" && pwd )
 # search qgis server installation usually in /usr/lib/cgi-bin
