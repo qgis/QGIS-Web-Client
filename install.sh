@@ -17,6 +17,9 @@ ENABLEURLREWRITE=${3-true}
 #Puts the vhost file in /etc/apache2/sites-available/default
 OVERRIDEDEFAULTVHOST=${4-false}
 
+#calls apachectl restart
+RESTARTAPACHE=${4-true}
+
 
 ###UNLIKELY YOU WILL NEED TO EDIT FROM HERE ON###
 if [ $# -eq 0 ]; then
@@ -31,6 +34,7 @@ echo "QGISPROJECTSDIR: $QGISPROJECTSDIR"
 echo "QGISURL: $QGISURL"
 echo "ENABLEURLREWRITE: $ENABLEURLREWRITE"
 echo "OVERRIDEDEFAULTVHOST: $OVERRIDEDEFAULTVHOST"
+echo "RESTARTAPACHE: $RESTARTAPACHE"
 echo "###############################################"
 echo
 
@@ -88,7 +92,10 @@ else
     a2ensite qgis-web-client.conf
 fi
 
-service apache2 restart
+if [ "$RESTARTAPACHE" = true ]; then
+    apachectl restart
+fi
+
 if [ "$OVERRIDEDEFAULTVHOST" = true ]; then
     url='localhost'
 else
