@@ -9,6 +9,10 @@ var helpfile = "help_en.html";
 //do not add a ? or & after the .fcgi extension
 var serverAndCGI = "/cgi-bin/qgis_mapserv.fcgi";
 
+//Optional url for print server hosted on a different server. Default: same as above.
+// var serverAndCGI = "http://otherserver/cgi-bin/qgis_mapserv.fcgi";
+var printServer = serverAndCGI;
+
 //Define whether you want to use the GetProjectSettings extension of QGIS Server
 //for more configuration options in the project.
 //Set this to false to use GetCapabilities for older QGIS Server versions (<= 1.8).
