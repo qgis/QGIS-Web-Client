@@ -422,16 +422,16 @@ function postLoading() {
 	}
 
 	// The printProvider that connects us to the print service
-	printUri = wmsURI + 'SERVICE=WMS&VERSION=1.3&REQUEST=GetPrint&FORMAT=pdf&EXCEPTIONS=application/vnd.ogc.se_inimage&TRANSPARENT=true';
+	printUrl = printURI + 'SERVICE=WMS&VERSION=1.3&REQUEST=GetPrint&FORMAT=pdf&EXCEPTIONS=application/vnd.ogc.se_inimage&TRANSPARENT=true';
 	if (initialLoadDone) {
 		printProvider.capabilities = printCapabilities;
-		printProvider.url = printUri;
+		printProvider.url = printUrl;
 	}
 	else {
 		printProvider = new QGIS.PrintProvider({
 			method: "GET", // "POST" recommended for production use
 			capabilities: printCapabilities, // from the info.json script in the html
-			url: printUri
+			url: printUrl
 		});
         printProvider.addListener("beforeprint", customBeforePrint);
 	}
