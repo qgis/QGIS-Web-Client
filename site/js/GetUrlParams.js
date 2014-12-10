@@ -14,6 +14,7 @@
 var urlParams = {};
 var urlParamsOK = true;
 var wmsURI; //URI with map parameter or appended map name (with URL rewriting)
+var printURI; //URI with map parameter or appended map name (with URL rewriting) for printing
 var wmsMapName; // map parameter or appended map name (with URL rewriting)
 var maxExtent; //later holds the bounding box
 var olBoundsRegexp = /^-*[\d\.]+,-*[\d\.]+,-*[\d\.]+,-*[\d\.]+$/; //regExp to check whether bounding box matches OpenLayers bounding box format
@@ -56,6 +57,7 @@ if (!norewrite) {
 		suffix = urlBaseArray[3].substr(dashpos);
 	}
 	wmsURI = serverAndCGI + suffix + "/" + map + "?";
+	printURI = printServer + suffix + "/" + map + "?";
 	wmsMapName = map;
 }
 if (urlArray.length > 1) {
@@ -66,6 +68,7 @@ if (urlArray.length > 1) {
 			urlParamsOK = false;
 		} else {
 			wmsURI = serverAndCGI + "?map=" + urlParams.map + "&";
+			printURI = printServer + "?map=" + urlParams.map + "&";
 			wmsMapName = urlParams.map;
 		}
 	}
