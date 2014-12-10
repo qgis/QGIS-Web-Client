@@ -460,11 +460,17 @@ Ext.extend(QGIS.PrintProvider, GeoExt.data.PrintProvider, {
 
     protocol.read({
         callback: function(response) {
-                if(response.features.length > 0) {
-                    attributes = response.features[0].attributes;
-                     for (key in attributes){
-                        printUrl += '&' + key + '=' + encodeURIComponent(attributes[key]);
+                try { // as some projects may have WFS disabled
+                    if(response.features != null) {
+                        if(response.features.length > 0) {
+                            attributes = response.features[0].attributes;
+                             for (key in attributes){
+                                printUrl += '&' + key + '=' + encodeURIComponent(attributes[key]);
+                            }
+                        }
                     }
+                } catch (e) {
+                    //console.log(e)
                 }
             this.download(printUrl);
         },
@@ -667,7 +673,7 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
     if (this.highlightLayer || (this.useWmsHighlight && this.highlighter)) {
       if (this.useWmsHighlight) {
         // set highlight label text
-        this.wmsHighlightLabel = record.get(this.wmsHighlightLabelAttribute) + " - label";
+        this.wmsHighlightLabel = record.get(this.wmsHighlightLabelAttribute);
       }
       //network request to get real wkt geometry of search object
       Ext.Ajax.request({
