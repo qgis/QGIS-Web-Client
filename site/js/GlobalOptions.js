@@ -378,3 +378,4 @@ var sketchSymbolizersMeasureControls = {
     fillOpacity: 0.3
   }
 };
+
