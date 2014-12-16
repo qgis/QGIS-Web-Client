@@ -48,10 +48,10 @@
   # sample search on layer 'Hello'
   #RewriteCond %{QUERY_STRING} ^(?:.*)query=samplesearch&*(?:.*)$
   #RewriteCond %{QUERY_STRING} ^(?:(?:.*)&)?colour=([^&]*)(?:.*)$
-  #RewriteRule ^/wms/(.+)$ /cgi-bin/qgis_mapserv.fcgi?map=/home/marco/dev/renewablesNow/demo_proj/$1.qgs&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&LAYERS=Hello&QUERY_LAYERS=Hello&FEATURE_COUNT=20&INFO_FORMAT=text/xml&SRS=EPSG:4326&FILTER=Hello:"colour"\ =\ '%1' [PT]
+  #RewriteRule ^/wms/(.+)$ /cgi-bin/qgis_mapserv.fcgi?map=<absolute-path-to-qgis-server-projects>/$1.qgs&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&LAYERS=Hello&QUERY_LAYERS=Hello&FEATURE_COUNT=20&INFO_FORMAT=text/xml&SRS=EPSG:4326&FILTER=Hello:"colour"\ =\ '%1' [PT]
 
-  # Rewrite /wms/mapname to qgis_mapserv.fcgi?map=/home/marco/dev/renewablesNow/demo_proj/mapname.qgs
-  #<REMOVE_TO_ENABLE_URL_REWRITE>RewriteRule ^/wms/(.+)$ /cgi-bin/qgis_mapserv.fcgi?map=/home/marco/dev/renewablesNow/demo_proj/$1.qgs [QSA,PT]
+  # Rewrite /wms/mapname to qgis_mapserv.fcgi?map=<absolute-path-to-qgis-server-projects>/mapname.qgs
+  #<REMOVE_TO_ENABLE_URL_REWRITE>RewriteRule ^/wms/(.+)$ /cgi-bin/qgis_mapserv.fcgi?map=<absolute-path-to-qgis-server-projects>/$1.qgs [QSA,PT]
   # Rewrite /maps to index
   #<REMOVE_TO_ENABLE_URL_REWRITE>RewriteRule ^/maps/?$ / [PT]
   # Rewrite /maps/mapname to qgis-web-client main page. mapname will be extracted for wms calls in Javascript code.
