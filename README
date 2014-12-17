@@ -29,7 +29,7 @@ Last Change : Wednesday June 11, 2014
   1. For the terminally lazy
   ==========================
 
-  edit (if necessary) the three needed parameters in install.sh
+  edit (if necessary) the needed parameters in install.sh
   sudo ./install.sh
 
 
