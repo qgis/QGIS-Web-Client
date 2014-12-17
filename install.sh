@@ -2,7 +2,7 @@
 set -e
 
 #######EDIT ACCORDING TO YOUR NEEDS or pass the values as arguments example:
-# ./install.sh /path_to/qgis_project myurl.local false
+# ./install.sh /path_to/qgis_project myurl.local false true false
 
 # Ask for qgis projects dir - the one where your .qgs files are
 QGISPROJECTSDIR=${1-$HOME/QGIS_projects}
@@ -18,10 +18,14 @@ ENABLEURLREWRITE=${3-true}
 OVERRIDEDEFAULTVHOST=${4-false}
 
 #calls apachectl restart
-RESTARTAPACHE=${4-true}
+RESTARTAPACHE=${5-true}
 
+AUTOACCEPT=${6-false}
 
 ###UNLIKELY YOU WILL NEED TO EDIT FROM HERE ON###
+# parse the options
+
+
 if [ $# -eq 0 ]; then
     echo "Using default values."
     echo "You can edit th script according to your needs or pass the values as arguments example:"
@@ -38,8 +42,18 @@ echo "RESTARTAPACHE: $RESTARTAPACHE"
 echo "###############################################"
 echo
 
+if [ "$AUTOACCEPT" = false ]; then
+  read -p "Continue (y/n)?" choice
+  case "$choice" in 
+    y|Y ) echo "Installing..."; AUTOACCEPTAPT='-y';;
+    * ) echo "User aborted"; exit 1;;
+  esac
+else
+    AUTOACCEPTAPT=''
+fi
+
 #install the server
-apt-get install -y qgis-server apache2 libapache2-mod-fcgid libapache2-mod-php5 locate sed
+apt-get install $AUTOACCEPTAPT qgis-server apache2 libapache2-mod-fcgid libapache2-mod-php5 locate sed
 a2enmod php5
 a2enmod cgid
 
