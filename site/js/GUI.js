@@ -61,6 +61,16 @@ var layoutHeaderCfg = {
 			id: 'panel_header_title',
 			html: 'GIS-Browser'
 		},
+        {
+            tag: 'div',
+			style: 'float: right',
+			children: [
+				{
+					tag: 'select',
+					id: 'panel_header_lang_switcher'
+				}
+			]
+        },
 		{
 			tag: 'div',
 			id: 'panel_header_terms_of_use',
@@ -386,4 +396,26 @@ Ext.onReady(function () {
 		renderTo: Ext.getBody()
 	});
 	cmp1.show();
+
+    /* Language chooser combobox*/
+	var lang_switcher = Ext.get('panel_header_lang_switcher')
+	var lang_options = ''
+	for (l in availableLanguages){
+        // strange behaviour of Array() which include a key called remove
+		if (l == 'remove') {continue;}
+
+		lang_options +='<option value="' + l + '"'
+		if (l == lang){
+			lang_options += 'selected=selected'
+		}
+		lang_options += '>'
+		lang_options += availableLanguages[l].names[lang] + '</option>';
+	}
+	lang_switcher.update(lang_options)
+	lang_switcher.on('change', function(){
+		var new_lang = this.dom.options[this.dom.selectedIndex].value;
+		urlParams.lang = new_lang
+		location.assign('//' + location.host + location.pathname + '?' + Ext.urlEncode(urlParams));
+		});
 });
+
