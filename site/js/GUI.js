@@ -71,11 +71,11 @@ var layoutHeaderCfg = {
 if(enableLangSwitcher == true){
     var switcher = {
             tag: 'div',
-			style: 'float: right',
+            id: 'panel_header_lang_switcher',
 			children: [
 				{
 					tag: 'select',
-					id: 'panel_header_lang_switcher'
+					id: 'lang_switcher'
 				}
 			]
         }
@@ -402,7 +402,7 @@ Ext.onReady(function () {
 
     if(enableLangSwitcher == true){
         /* Language chooser combobox*/
-	    var lang_switcher = Ext.get('panel_header_lang_switcher')
+	    var lang_switcher = Ext.get('lang_switcher')
 	    var lang_options = ''
 	    for (l in availableLanguages){
             // strange behaviour of Array() which include a key called remove
