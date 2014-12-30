@@ -231,6 +231,9 @@ var headerLogoLink = ""; // logo links to this URL
 var headerTermsOfUseText = null; // set null for no link
 var headerTermsOfUseLink = ""; // URL to terms of use
 
+//language switcher in qgiswebclient.html
+var enableLangSwitcher = true;
+
 // optional project title per map name
 var projectTitles = {
   "helloworld": "Hello World"

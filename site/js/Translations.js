@@ -64,6 +64,21 @@ availableLanguages["de"].names["sl"] = "Nemščina";
 availableLanguages["de"].names["nl"] = "Duits";
 availableLanguages["de"].names["pl"] = "Niemiecki";
 availableLanguages["de"].names["sv"] = "Tyska";
+//Spanish
+availableLanguages["es"].names["en"] = "Spanish";
+availableLanguages["es"].names["de"] = "Spanisch";
+availableLanguages["es"].names["es"] = "Español";
+availableLanguages["es"].names["fr"] = "Espagnol";
+availableLanguages["es"].names["it"] = "Spagnolo";
+availableLanguages["es"].names["pt_PT"] = "Espnhol";
+availableLanguages["es"].names["uk"] = "іспанська";
+availableLanguages["es"].names["hu"] = "Spanyol";
+availableLanguages["es"].names["ro"] = "Spaniolă";
+availableLanguages["es"].names["ru"] = "spaиспанский";
+availableLanguages["es"].names["sl"] = "Španski";
+availableLanguages["es"].names["nl"] = "Spaans";
+availableLanguages["es"].names["pl"] = "Hiszpański";
+availableLanguages["de"].names["sv"] = "Spanska";
 
 //French
 availableLanguages["fr"].names["en"] = "French";
