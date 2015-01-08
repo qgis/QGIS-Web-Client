@@ -146,3 +146,5 @@ if (urlArray.length > 1) {
 } else {
 	urlParamsOK = !norewrite;
 }
+
+customAfterGetMapUrls();
