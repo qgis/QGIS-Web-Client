@@ -114,7 +114,7 @@ fi
 if [ "$OVERRIDEDEFAULTVHOST" = true ]; then
     url='localhost'
 else
-    echo 127.0.0.1 qgis-web-client.localhost >> /etc/hosts
+    echo 127.0.0.1 $QGISURL >> /etc/hosts
     url=$QGISURL
 fi
 echo "Web client reachable at: " http://$url
