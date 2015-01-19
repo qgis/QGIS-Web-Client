@@ -378,8 +378,8 @@ function postLoading() {
 
 		//combobox listeners
 		var ObjectIdentificationModeCombobox = Ext.getCmp('ObjectIdentificationModeCombo');
-		ObjectIdentificationModeCombobox.setValue("topMostHit");
-		identificationMode = "topMostHit";
+		ObjectIdentificationModeCombobox.setValue(defaultIdentificationMode);
+		identificationMode = defaultIdentificationMode;
 		ObjectIdentificationModeCombobox.on("select", function (combobox, record, index) {
 			identificationMode = record.get("value");
 			//need to updated active selected layers or all selected layers
