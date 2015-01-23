@@ -154,6 +154,7 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
                     opaque: opaque ?
                         (opaque === "1" || opaque === "true" ) :
                         (parent.opaque || false),
+
                                         // QGIS extensions
                                         visible: (visible && visible !== "") ?
                                             ( visible === "1" || visible === "true" ) : true,
@@ -176,6 +177,7 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
                                         maxScale: parent.maxScale,
                                         attribution: parent.attribution
                                 };
+
             layer.capability = capability;
             this.readChildNodes(node, layer);
             delete layer.capability;
@@ -186,7 +188,16 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
                     gfi = request.getfeatureinfo;
                 if(parts.length > 0) {
                     layer.prefix = parts[0];
+
+
+
+
+
+
+
+
                 }
+
                 capability.layers.push(layer);
                 if (layer.formats === undefined) {
                     layer.formats = request.getmap.formats;
@@ -270,6 +281,7 @@ Ext.extend(QGIS.WMSCapabilitiesLoader, GeoExt.tree.WMSCapabilitiesLoader, {
       this.layerTitleNameMapping[layer.title] = layer.name;
       if (layer.visible) {
         this.initialVisibleLayers.push(layer.name);
+
       }
     }
 
@@ -433,6 +445,8 @@ Ext.extend(QGIS.PrintProvider, GeoExt.data.PrintProvider, {
       printUrl += '&OPACITIES='+encodeURIComponent(thematicLayer.params.OPACITIES);
     }
 
+
+
     // add highlight
     var highlightParams = highlighter.printParams("map0");
     if (highlightParams != null) {
@@ -448,6 +462,7 @@ Ext.extend(QGIS.PrintProvider, GeoExt.data.PrintProvider, {
     });
     Ext.getBody().mask(printLoadingString[lang], 'x-mask-loading');
     var protocol = new OpenLayers.Protocol.WFS({
+
             url: printURI,
             featureType: 'print',
             geometryName: 'geometry',
@@ -531,9 +546,19 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
   displayField: 'label',
   forceSelection: true,
   searchtables: null,
+  useSwissNames: null,
 
   initComponent: function() {
     // i18n
+	if(this.url.indexOf("api.geo.admin.ch") != -1){
+	
+		this.useSwissNames = true;
+		this.highlightLayer = null;
+		this.highlightLayerName = null;
+		this.searchtables = null;
+		
+	}
+
     this.emptyText = OpenLayers.i18n(searchFieldDefaultTextString[lang]);
     this.triggerConfig = { // we use a default clear trigger here
               tag: "img", src: Ext.BLANK_IMAGE_URL, cls:'x-form-trigger x-form-clear-trigger'
@@ -541,10 +566,18 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
     this.on("keyUp", this.keyUpHandler);
     this.on("afterrender", this.afterrenderHandler);
     this.on("beforeselect", this.beforeselectHandler);
+
     var fields = ['searchtable', 'displaytext', 'bbox', 'showlayer', 'selectable'];
     if (this.useWmsHighlight && fields.indexOf(this.wmsHighlightLabelAttribute) == -1) {
       fields.push(this.wmsHighlightLabelAttribute);
     }
+	
+		if (this.useSwissNames) {
+			this.emptyText = 'Swisstopo SwissNames';
+			fields = ['name', 'service', 'label', 'bbox'];
+		}
+	
+	
     this.store = new Ext.data.JsonStore({
       proxy: new Ext.data.ScriptTagProxy({
         url: this.url,
@@ -555,20 +588,37 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
       }),
       baseParams: {
         searchtables: this.getSearchTables()
+
       },
       root: 'results',
+
+
       fields: fields
     });
-    this.tpl = new Ext.XTemplate(
-      '<tpl for="."><div class="x-combo-list-item {service}">',
-        '<tpl if="searchtable == null">',
-          '<b>',
-        '</tpl>',
-              '{displaytext}',
-        '<tpl if="searchtable == null">',
-          '</b>',
-        '</tpl>',
-      '</div></tpl>').compile();
+		if (this.useSwissNames) {
+			this.tpl = new Ext.XTemplate(
+				'<tpl for="."><div class="x-combo-list-item {name}">',
+				'<tpl if="service == null">',
+				'<b>',
+				'</tpl>',
+				'{label}',
+				'<tpl if="service == null">',
+				'</b>',
+				'</tpl>',
+				'</div></tpl>').compile();
+		}else{
+			this.tpl = new Ext.XTemplate(
+				'<tpl for="."><div class="x-combo-list-item {service}">',
+				'<tpl if="searchtable == null">',
+				'<b>',
+				'</tpl>',
+				'{displaytext}',
+				'<tpl if="searchtable == null">',
+				'</b>',
+				'</tpl>',
+				'</div></tpl>').compile();
+		}
+
 
     QGIS.SearchComboBox.superclass.initComponent.call(this);
 
@@ -619,10 +669,17 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
 
   onSelect: function(record, index){
     if(this.fireEvent('beforeselect', this, record, index) !== false){
-      if (record.get('selectable') == "1") {
-        this.setValue(record.get('displaytext'));
-        this.fireEvent('select', this, record, index);
-      }
+		if (this.useSwissNames) {
+		  if (record.get('name') != null) {
+			this.setValue(record.get('label').replace(/<(?:.|\n)*?>/gm, ''));
+			this.fireEvent('select', this, record, index);
+		  }
+		}else{
+		  if (record.get('selectable') == "1") {
+			this.setValue(record.get('displaytext'));
+			this.fireEvent('select', this, record, index);
+		  }
+		}
     }
   },
 
@@ -1018,6 +1075,7 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
       if (this.hasOwnProperty('doZoomToExtent')){
         doZoomToExtent = this.doZoomToExtent;
       }
+
 
       var highlightFeature = false;
       if (this.hasOwnProperty('highlightFeature')){
