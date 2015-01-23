@@ -55,7 +55,7 @@ fi
 #install the server
 apt-get install $AUTOACCEPTAPT qgis-server apache2 libapache2-mod-fcgid libapache2-mod-php5 locate sed
 a2enmod php5
-a2enmod cgid
+a2enmod fcgid
 
 #Get the QGIS web client root dir
 ROOTDIR=$( cd "$( dirname "$0" )" && pwd )

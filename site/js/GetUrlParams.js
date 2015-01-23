@@ -111,6 +111,19 @@ else {
             //check if language is available
             if (availableLanguages[urlParams.lang]) {
                 lang = urlParams.lang;
+				var xhr = new XMLHttpRequest();
+				xhr.open('HEAD', "help_"+urlParams.lang+".html", false);
+                xhr.send();			
+				if (xhr.status!="404"){
+					helpfile="help_"+urlParams.lang+".html";
+				}
+				else{
+					alert("Help file unavailable for this language!");
+					if (typeof helpfile == "undefined") {
+					//if helpfile is not defined in GlobalOptions.js we set it to "help_en.html"
+						helpfile = "help_en.html";
+					}
+				}
             } else {
                 alert(errMessageInvalidLanguageCodeString1[lang] + "'" + urlParams.lang + "'\n" + errMessageInvalidLanguageCodeString2[lang] + availableLanguages[lang].names[lang] + ".");
             }
