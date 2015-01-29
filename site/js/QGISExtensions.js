@@ -636,8 +636,9 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
   },
 
   beforeselectHandler: function(combo,record,index) {
-    if (record.get('selectable') == "1") {
+    if (index > 0) {
       this.collapse();
+      // if index == 0: user pressed enter while entering search term
     }
   },
 
@@ -675,7 +676,7 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
 			this.fireEvent('select', this, record, index);
 		  }
 		}else{
-		  if (record.get('selectable') == "1") {
+		  if (record.get('searchtable') != null) {
 			this.setValue(record.get('displaytext'));
 			this.fireEvent('select', this, record, index);
 		  }
@@ -1782,4 +1783,3 @@ Ext.override(Ext.dd.DragTracker, {
     this.fireEvent('drag', this, e);
   }
 });
-
