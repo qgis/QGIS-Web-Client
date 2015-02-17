@@ -757,12 +757,20 @@ function postLoading() {
 		VERSION: "1.3.0"
 	}, LayerOptions);
 
+	var toleranceDpiScale = screenDpi / featureInfoToleranceDpi;
+	var pointTolerance = Math.round(featureInfoPointTolerance * toleranceDpiScale);
+	var lineTolerance = Math.round(featureInfoLineTolerance * toleranceDpiScale);
+	var polygonTolerance = Math.round(featureInfoPolygonTolerance * toleranceDpiScale);
+
 	WMSGetFInfo = new OpenLayers.Control.WMSGetFeatureInfo({
 		layers: [fiLayer],
 		infoFormat: "text/xml",
 		queryVisible: true,
 		vendorParams: {
-			QUERY_LAYERS: selectedQueryableLayers.join(",")
+			QUERY_LAYERS: selectedQueryableLayers.join(","),
+			FI_POINT_TOLERANCE: pointTolerance,
+			FI_LINE_TOLERANCE: lineTolerance,
+			FI_POLYGON_TOLERANCE: polygonTolerance
 		}
 	});
 	WMSGetFInfo.events.register("getfeatureinfo", this, showFeatureInfo);
@@ -777,7 +785,10 @@ function postLoading() {
 			queryVisible: true,
 			hover: true,
 			vendorParams: {
-				QUERY_LAYERS: selectedQueryableLayers.join(",")
+				QUERY_LAYERS: selectedQueryableLayers.join(","),
+				FI_POINT_TOLERANCE: pointTolerance,
+				FI_LINE_TOLERANCE: lineTolerance,
+				FI_POLYGON_TOLERANCE: polygonTolerance
 			}
 		});
 		WMSGetFInfoHover.events.register("getfeatureinfo", this, showFeatureInfoHover);

@@ -109,6 +109,11 @@ var showFieldNamesInClickPopup = true;
 var showFeatureInfoLayerTitle = true;
 // max-width and max-height of the feature-info popup can be controlled in site/css/popup.css
 
+// Tolerances for feature info in pixels at 96dpi. These will be scaled to the actual screenDpi value
+var featureInfoToleranceDpi = 96; // reference dpi
+var featureInfoPointTolerance = 16;
+var featureInfoLineTolerance = 8;
+var featureInfoPolygonTolerance = 4;
 
 // Custom WMS GetFeatureInfo results formatters: you can define custom
 // filter functions to apply custom formatting to values coming from
