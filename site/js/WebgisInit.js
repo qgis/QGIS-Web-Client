@@ -378,8 +378,8 @@ function postLoading() {
 
 		//combobox listeners
 		var ObjectIdentificationModeCombobox = Ext.getCmp('ObjectIdentificationModeCombo');
-		ObjectIdentificationModeCombobox.setValue("topMostHit");
-		identificationMode = "topMostHit";
+		ObjectIdentificationModeCombobox.setValue(defaultIdentificationMode);
+		identificationMode = defaultIdentificationMode;
 		ObjectIdentificationModeCombobox.on("select", function (combobox, record, index) {
 			identificationMode = record.get("value");
 			//need to updated active selected layers or all selected layers
@@ -470,16 +470,16 @@ function postLoading() {
 	}
 
 	// The printProvider that connects us to the print service
-	printUri = wmsURI + 'SERVICE=WMS&VERSION=1.3&REQUEST=GetPrint&FORMAT=pdf&EXCEPTIONS=application/vnd.ogc.se_inimage&TRANSPARENT=true';
+	printUrl = printURI + 'SERVICE=WMS&VERSION=1.3&REQUEST=GetPrint&FORMAT=pdf&EXCEPTIONS=application/vnd.ogc.se_inimage&TRANSPARENT=true';
 	if (initialLoadDone) {
 		printProvider.capabilities = printCapabilities;
-		printProvider.url = printUri;
+		printProvider.url = printUrl;
 	}
 	else {
 		printProvider = new QGIS.PrintProvider({
 			method: "GET", // "POST" recommended for production use
 			capabilities: printCapabilities, // from the info.json script in the html
-			url: printUri
+			url: printUrl
 		});
 		printProvider.addListener("beforeprint", customBeforePrint);
 		printProvider.addListener("afterprint", customAfterPrint);
@@ -757,12 +757,20 @@ function postLoading() {
 		VERSION: "1.3.0"
 	}, LayerOptions);
 
+	var toleranceDpiScale = screenDpi / featureInfoToleranceDpi;
+	var pointTolerance = Math.round(featureInfoPointTolerance * toleranceDpiScale);
+	var lineTolerance = Math.round(featureInfoLineTolerance * toleranceDpiScale);
+	var polygonTolerance = Math.round(featureInfoPolygonTolerance * toleranceDpiScale);
+
 	WMSGetFInfo = new OpenLayers.Control.WMSGetFeatureInfo({
 		layers: [fiLayer],
 		infoFormat: "text/xml",
 		queryVisible: true,
 		vendorParams: {
-			QUERY_LAYERS: selectedQueryableLayers.join(",")
+			QUERY_LAYERS: selectedQueryableLayers.join(","),
+			FI_POINT_TOLERANCE: pointTolerance,
+			FI_LINE_TOLERANCE: lineTolerance,
+			FI_POLYGON_TOLERANCE: polygonTolerance
 		}
 	});
 	WMSGetFInfo.events.register("getfeatureinfo", this, showFeatureInfo);
@@ -777,7 +785,10 @@ function postLoading() {
 			queryVisible: true,
 			hover: true,
 			vendorParams: {
-				QUERY_LAYERS: selectedQueryableLayers.join(",")
+				QUERY_LAYERS: selectedQueryableLayers.join(","),
+				FI_POINT_TOLERANCE: pointTolerance,
+				FI_LINE_TOLERANCE: lineTolerance,
+				FI_POLYGON_TOLERANCE: polygonTolerance
 			}
 		});
 		WMSGetFInfoHover.events.register("getfeatureinfo", this, showFeatureInfoHover);

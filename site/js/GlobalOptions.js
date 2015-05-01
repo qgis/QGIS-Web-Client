@@ -4,10 +4,17 @@ var lang = "en"; //for available codes see array availableLanguages in file Glob
 //Help file (must be a local file)
 var helpfile = "help_en.html";
 
+//Custom function to populate GetUrlParams variables
+var customGetUrlParamsParser = null;
+
 //Servername (optional) and path and name name of QGIS Server FCGI-file
 //either with or without server-name - without servername recommended for easier porting to other servers
 //do not add a ? or & after the .fcgi extension
 var serverAndCGI = "/cgi-bin/qgis_mapserv.fcgi";
+
+//Optional url for print server hosted on a different server. Default: same as above.
+// var serverAndCGI = "http://otherserver/cgi-bin/qgis_mapserv.fcgi";
+var printServer = serverAndCGI;
 
 //Define whether you want to use the GetProjectSettings extension of QGIS Server
 //for more configuration options in the project.
@@ -27,6 +34,7 @@ var showMetaDataInLegend = true;
 // if set to true every mouse position over feature of queriable layers is GetFeatureInfo request on server
 var enableHoverPopup = true;
 
+var defaultIdentificationMode = "topMostHit";
 
 // use geodesic measures, i.e. not planar measures
 // this is useful if a projection with high distortion of length/area is used, eg.g. GoogleMercator
@@ -101,6 +109,11 @@ var showFieldNamesInClickPopup = true;
 var showFeatureInfoLayerTitle = true;
 // max-width and max-height of the feature-info popup can be controlled in site/css/popup.css
 
+// Tolerances for feature info in pixels at 96dpi. These will be scaled to the actual screenDpi value
+var featureInfoToleranceDpi = 96; // reference dpi
+var featureInfoPointTolerance = 16;
+var featureInfoLineTolerance = 8;
+var featureInfoPolygonTolerance = 4;
 
 // Custom WMS GetFeatureInfo results formatters: you can define custom
 // filter functions to apply custom formatting to values coming from
@@ -226,6 +239,9 @@ var headerLogoHeight = 60; // logo image height in pixels
 var headerLogoLink = ""; // logo links to this URL
 var headerTermsOfUseText = null; // set null for no link
 var headerTermsOfUseLink = ""; // URL to terms of use
+
+//language switcher in qgiswebclient.html
+var enableLangSwitcher = true;
 
 // optional project title per map name
 var projectTitles = {

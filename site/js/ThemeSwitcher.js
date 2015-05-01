@@ -353,8 +353,10 @@ ThemeSwitcher.prototype.changeTheme = function (dataView, index, node, evt) {
 		else {
 			searchtables = null;
 		}
-		qgisSearchCombo.searchtables = searchtables;
-		qgisSearchCombo.store.baseParams.searchtables = searchtables;
+        if(qgisSearchCombo) {
+            qgisSearchCombo.searchtables = searchtables;
+            qgisSearchCombo.store.baseParams.searchtables = searchtables;
+        }
 		
 		//handle max extent
 		if (projData.maxExtent) {
