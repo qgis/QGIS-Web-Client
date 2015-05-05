@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Ajuda do QGIS Web Client</title>
+  <link type="text/css" href="css/help.css" rel="stylesheet" />
+  <meta charset="utf-8" />
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width; initial-scale=1.0" />
+</head>
+<body>
+<div id="help_page">
+<div id="help_wrapper">
+  <header>
+    <div id="help_caption">
+      <h1>QGIS Web Client</h1>
+      <h2 class="SubCaption">Ajuda Padr&atilde;o do QGIS Web Client</h2>
+    </div>
+  </header>
+ <hr/>
+  <nav>
+    <div id="help_logo">
+      <span class="logo_img"><a href="http://qgis.org"><img src="img/qgis-icon.png"/></a></span>
+    </div>
+    <ul class="ul_help">
+    <li class="list-header">&Iacute;ndice
+      <ul class="ul_help">
+        <li><span class="linksim" onclick="scrollToHelpItem('help_generalUsage')">Uso Geral</span>
+          <ul class="ul_help">
+            <li><span class="linksim" onclick="scrollToHelpItem('help_workingWithLayers')">Camadas do Mapa</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_searching')">Busca</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_navigating')">Navega&ccedil;&atilde;o no Mapa</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_measuring')">Medi&ccedil;&atilde;o</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_printing')">Impress&atilde;o</span></li>
+          </ul>
+        </li>
+        <li><span class="linksim" onclick="scrollToHelpItem('help_about')">Sobre o QGIS Web Client</span>
+          <ul class="ul_help">
+            <li><span class="linksim" onclick="scrollToHelpItem('help_license')">Licen&ccedil;a</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_moreHelp')">Mais Ajuda</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_usefulLinks')">Links &Uacute;teis</span></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+   </ul>
+  </nav>
+  <div id="help_content">
+  <section id="help_general">
+    <article>
+      <h2 id="help_generalUsage">Uso Geral</h2>
+      <p>A janela da aplica&ccedil;&atilde;o &eacute; dividida em tr&ecirc;s pain&eacute;is: o painel <i>Informa&ccedil;&otilde;es e Ferramentas</i> &agrave; esquerda, o painel principal do mapa com a barra de bot&otilde;es no topo ao centro e o painel de <i>Atributos</i> &agrave; direita. De cordo com a intera&ccedil;&atilde;o com a aplica&ccedil;&atilde;o, os pain&eacute;is da esquerda e da direita podem ou n&atilde;o estar vis&iacute;veis em um determinado momento.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_workingWithLayers">Trabalhando com as Camadas</h3>
+      <p>No painel <i>Informa&ccedil;&otilde;es e Ferramentas</i> todas as camadas dispon&iacute;veis est&atilde;o listadas em <i>Camadas do Mapa</i>. Marque ou desmarque a camada para mudar a sua visibilidade.
+            A legenda de qualquer camada vis&iacute;vel aparece na aba de legenda.
+      </p>
+      <p>Se clicar sobre o nome de uma camada, esta camada se torna a <b>camada ativa</b>.
+      </p>
+      <p>Use bot&atilde;o <img src="gis_icons/mActionIdentify.png" alt="identidade"/> na barra de bot&otilde;es do painel principal para obter informa&ccedil;&otilde;es sobre qualquer objeto no mapa.
+            A informa&ccedil;&atilde;o pode se tornar vis&iacute;vel ao mover o mouse sobre o objeto e/ou mostrada no painel de atributos quando clicar no objeto. Ao escolher uma op&ccedil;&atilde;o de <i>identifica&ccedil;&atilde;o do objeto</i> voc&ecirc; pode decidir qual(is) camada(s) ser&atilde;o buscadas.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_searching">Procurando no Conte&uacute;do do Mapa</h3>
+      <p>Insira qualquer string de busca (nome de uma rua ou local, tipo de fei&ccedil;&atilde;o etc.) ou parte dela na caixa de busca no topo do painel do mapa. Todos os conte&uacute;dos que coincidirem com a sua busca ser&aacute; demonstrada; selecione um clicando sobre ele. O mapa &eacute; automaticamente centralizado no conte&uacute;do escolhido e a fei&ccedil;&atilde;o &eacute; destacada.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_navigating">Navegando no mapa</h3>
+      <p>Navegue utilizando os bot&otilde;es de navega&ccedil;&atilde;o <img src="gis_icons/mActionZoomBox.png" alt="ZoomBox"/>
+        <img src="gis_icons/mActionZoomFullExtent.png" alt="ZoomFullExtent"/>
+        <img src="gis_icons/mActionZoomLast.png" alt="ZoomLast"/> e <img src="gis_icons/mActionZoomNext.png" alt="ZoomNext"/> na barra de bot&otilde;es.
+          Todos os bot&otilde;es possuem dicas que aparecem ao mover o cursor sobre ele.
+      </p>
+      <p>Voc&ecirc; tamb&eacute;m pode dar zoom no mapa com a barra de zoom interativa no canto superior esquerdo do painel do mapa
+      or especificando uma escala na caixa de escala no canto inferior direito.
+      Se voc&ecirc; tiver um mouse com scroll voc&ecirc; pode aumentar e diminuir o zoom por meio dele tamb&eacute;m.
+      </p>
+      <p>Navegue pelo mapa pressionando o bot&atilde;o esquerdo do mapa enquando move o mouse. Voc&ecirc; tamb&eacute;m pode inserir coordenadas 
+      espec&iacute;ficas na caixa de coordenadas no canto inferior direito.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_measuring">Medi&ccedil;&atilde;o de &Áacute;rea de Distância</h3>
+      <p>Use as ferramentas <img src="gis_icons/mActionMeasure.png" alt="Measure"/> e <img src="gis_icons/mActionMeasureArea.png" alt="MeasureArea"/> da barra de bot&otilde;es.
+        Um clique com o bot&atilde;o esquerdo define um ponto na linha ou &aacute;rea para medi&ccedil;&atilde;o, um duplo clique finaliza a medi&ccedil;&atilde;o. O 
+        resultado da medi&ccedil;&atilde;o &eacute; continuamente demonstrado abaixo do mapa.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_printing">Impress&atilde;o</h3>
+      <p>Se o webmaster do site definiu layouts de impress&atilde;o eles estar&atilde;o dispon&iacute;veis para uso clicando no bot&atilde;o 
+        <img src="gis_icons/mActionFilePrint.png" alt="ImpreArquivo"/>. O quadro demonstrado no mapa destaca a &aacute;rea contida 
+        na impress&atilde;o. Voc&ecirc; pode arrastar, redimensionar ou girar o quadro conforme necess&aacute;rio.
+      </p>
+    </article>
+  </section>
+  <section id="help_about_qgis">
+    <article>
+      <h2 id="help_about">Sobre o QGIS Web Client</h2>
+      <p>QGIS ou QGIS Web Client &eacute; um cliente SIG web baseado no OpenLayers, GeoExt e ExtJS que utiliza extens&otilde;es WMS espec&iacute;ficas do QGIS. Suporta visualiza&ccedil;&atilde;o, requisi&ccedil;&atilde;o de informa&ccedil;&otilde;es das fei&ccedil;&otilde;es, visualiza&ccedil;&atilde;o de legenda, busca e impress&atilde;o. Todos os 
+      principais navegadores s&atilde;o suportados.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_license">Licen&ccedil;a</h3>
+      <p>O QGIS Web Client &eacute; licenciado sobre licen&ccedil;a BSD. Veja o arquivo 
+        <a href="http://github.com/qgis/qgis-web-client/blob/master/README" target="_blank">LEIAME</a>
+        para ver o texto completo da licen&ccedil;a.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_moreHelp">Obtendo mais Ajuda</h3>
+      <p>Se encontrar qualquer problema ao utilizar a aplica&ccedil;&atilde;o por favor entre em contato com o webmaster do site! O 
+desenvolvedor do QGIS Web Client n&atilde;o pode resolver problemas espec&iacute;ficos de sites.
+    </article>
+    <article>
+      <h3 id="help_usefulLinks">Links &Uacute;teis</h3>
+      <ul>
+        <li><a href="http://github.com/qgis/qgis-web-client" target="_blank">C&oacute;digo fonte do QGIS Web Client no Github</a></li>
+        <li><a href="http://www.openlayers.org" target="_blank">Site do OpenLayers</a></li>
+        <li><a href="http://geoext.org" target="_blank">Site do GeoExt</a></li>
+        <li><a href="http://www.sencha.com/products/extjs" target="_blank">Site do Sencha Ext JS</a></li>
+        <li><a href="http://qgis.org" target="_blank">Site do QGIS</a></li>
+         <li><a href="http://hub.qgis.org/projects/quantum-gis/wiki/QGIS_Server_Tutorial" target="_blank">Tutorial do QGIS Server</a></li>
+      </ul>
+    </article>
+  </section>
+  </div>
+  <div style="Clear: both"></div>
+</div>
+</div>
+</body>
+</html>
