@@ -947,11 +947,16 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
       // Only add if not blank
       if(fieldValues[key]){
         var filterOp = field.initialConfig.filterOp ? field.initialConfig.filterOp : "=";
-        if (field.isXType('numberfield') || field.isXType('combo')) {
+        if (field.isXType('numberfield')) {
           valueQuotes = "";
         }
         else {
-          valueQuotes = "'"
+            if(isNaN(fieldValues[key])) {
+                valueQuotes = "'";
+            }
+            else {
+                valueQuotes = "";
+            }
         }
        if (field.initialConfig.filterOp.indexOf('LIKE')>-1) {
             valueExtra="%";
