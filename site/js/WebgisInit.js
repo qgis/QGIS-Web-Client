@@ -25,6 +25,10 @@ var cycle; //OSM
 var googleSatelliteLayer;
 var googleMapLayer;
 var bingSatelliteLayer;
+// var bingApiKey = "add Bing api key here"; // http://msdn.microsoft.com/en-us/library/ff428642.aspx
+var exportLayer; // layer for the export box
+var exportBoxValues; //holds properties of export box
+var exportDrawControl, exportModifyControl, exportWindowWithFile;
 var highlighter = null;
 var highLightGeometry = new Array();
 var WMSGetFInfo, WMSGetFInfoHover;
@@ -361,6 +365,7 @@ function postLoading() {
 		Ext.getCmp('measureDistance').toggleHandler = mapToolbarHandler;
 		Ext.getCmp('measureArea').toggleHandler = mapToolbarHandler;
 		Ext.getCmp('PrintMap').toggleHandler = mapToolbarHandler;
+		Ext.getCmp('ExportMap').toggleHandler = mapToolbarHandler;
         // check for undefined to not break existing installations
         if (typeof(enablePermalink) == 'undefined') {
             enablePermalink = true;
@@ -591,6 +596,9 @@ function postLoading() {
 			featureInfoHighlightLayer = new OpenLayers.Layer.Vector("featureInfoHighlight", {
 				isBaseLayer: false,
 				styleMap: styleMapHighLightLayer
+			}),
+			exportLayer = new OpenLayers.Layer.Vector("exportLayer", {
+				isBaseLayer: false,
 			})]),
 			map: MapOptions,
 			id: "geoExtMapPanel",
@@ -673,6 +681,42 @@ function postLoading() {
 				loadMask = null;
 			}
 		});
+		
+		exportLayer.events.register('featureadded', this, function (f) {
+			Ext.getCmp('StartExporting').enable();
+			exportDrawControl.deactivate();
+			exportModifyControl.activate();
+			if (Ext.getCmp('ExportWidthField').getValue() == '') {
+				Ext.getCmp('ExportWidthField').setValue(Math.round(f.feature.geometry.bounds.getWidth() / exportBoxValues.scale * 1000));
+				Ext.getCmp('ExportHeightField').setValue(Math.round(f.feature.geometry.bounds.getHeight() / exportBoxValues.scale * 1000));
+				exportBoxValues.height = Math.round((Math.round(f.feature.geometry.bounds.getHeight() / exportBoxValues.scale * 1000)) * (exportBoxValues.dpi / 25.4));
+				exportBoxValues.width = Math.round((Math.round(f.feature.geometry.bounds.getWidth() / exportBoxValues.scale * 1000)) * (exportBoxValues.dpi / 25.4));
+				if (exportBoxValues.lockaspectratio) {
+					exportBoxValues.aspectratio = f.feature.geometry.bounds.getWidth() / f.feature.geometry.bounds.getHeight();
+					exportModifyControl.mode |= OpenLayers.Control.ModifyFeature.DRAG;
+					exportModifyControl.mode |= OpenLayers.Control.ModifyFeature.RESIZE;
+					exportModifyControl.mode &= ~OpenLayers.Control.ModifyFeature.RESHAPE;
+				}
+				else {
+					exportBoxValues.aspectratio = 0;
+					exportModifyControl.mode |= OpenLayers.Control.ModifyFeature.DRAG;
+					exportModifyControl.mode |= OpenLayers.Control.ModifyFeature.RESIZE;
+				}
+			}
+		});
+
+		exportLayer.events.register('afterfeaturemodified', this, function (f) {
+			Ext.getCmp('ExportWidthField').setValue(Math.round(f.feature.geometry.bounds.getWidth() / exportBoxValues.scale * 1000));
+			Ext.getCmp('ExportHeightField').setValue(Math.round(f.feature.geometry.bounds.getHeight() / exportBoxValues.scale * 1000));
+			exportBoxValues.height = Math.round((Math.round(f.feature.geometry.bounds.getHeight() / exportBoxValues.scale * 1000)) * (exportBoxValues.dpi / 25.4));
+			exportBoxValues.width = Math.round((Math.round(f.feature.geometry.bounds.getWidth() / exportBoxValues.scale * 1000)) * (exportBoxValues.dpi / 25.4));
+			if (exportBoxValues.lockaspectratio) {
+				exportBoxValues.aspectratio = f.feature.geometry.bounds.getWidth() / f.feature.geometry.bounds.getHeight();
+			}
+			else {
+				exportBoxValues.aspectratio = 0;
+			}
+		});
 
 		//listener on numberfield to set map scale
 		var ScaleNumberField = Ext.getCmp('ScaleNumberField');
@@ -705,7 +749,10 @@ function postLoading() {
 		//to hide miles/feet in the graphical scale bar we need to adapt "olControlScaleLineBottom" in file /OpenLayers/theme/default/style.css: display:none;
 		geoExtMap.map.addControl(new OpenLayers.Control.ScaleLine());
 		geoExtMap.map.addControl(new OpenLayers.Control.PanZoomBar({zoomWorldIcon:true,forceFixedZoomLevel:false}));
-
+		// exportControl is not added here, but created, the layer is added and removed by the button ExportMap
+		exportDrawControl = new OpenLayers.Control.DrawFeature(exportLayer, OpenLayers.Handler.RegularPolygon, {handlerOptions: {sides: 4,irregular: true}});
+		exportModifyControl = new OpenLayers.Control.ModifyFeature(exportLayer);
+		
 		//coordinate display
 		coordinateTextField = Ext.getCmp('CoordinateTextField')
 		geoExtMap.map.events.register('mousemove', this, function (evt) {
@@ -1446,6 +1493,238 @@ function postLoading() {
 				}]
 			});
 		}
+		// export is always possible
+		exportWindow = new Ext.Window({
+			title: exportSettingsToolbarTitleString[lang], //printSettingsToolbarTitleString[lang],
+			height: 67,
+			width: 850,
+			layout: "fit",
+			renderTo: "geoExtMapPanel",
+			resizable: false,
+			closable: false,
+			x: 50,
+			y: 10,
+			items: [{
+				tbar: {
+					xtype: 'toolbar',
+					autoHeight: true,
+					id: 'myExportToolbar',
+					items: [
+					{
+						xtype: 'label',
+						text: exportWidthInputField[lang]
+					}, {
+						xtype: 'tbspacer'
+					}, {
+						xtype: 'numberfield',
+						id: 'ExportWidthField',
+						label: exportWidthInputField[lang],
+						width: 50,
+						maxValue: 3000,
+						minValue: 10,
+						decimalPrecision : 0,
+						listeners: {
+							'change': function (numberfield, newValue, oldValue) {
+								setExportBoxWidth(newValue, oldValue);
+							}
+						}
+					}, {
+						xtype: 'label',
+						text: 'mm'
+					}, {
+						xtype: 'tbspacer'
+					}, {
+						xtype: 'tbspacer'
+					}, {
+						xtype: 'label',
+						text: exportHeightInputField[lang]
+					}, {
+						xtype: 'tbspacer'
+					}, {
+						xtype: 'numberfield',
+						id: 'ExportHeightField',
+						label: exportHeightInputField[lang],
+						width: 50,
+						maxValue: 3000,
+						minValue: 10,
+						decimalPrecision : 0,
+						listeners: {
+							'change': function (numberfield, newValue, oldValue) {
+								setExportBoxHeight(newValue, oldValue);
+							}
+						}
+					}, {
+						xtype: 'label',
+						text: 'mm'
+					}, {
+						xtype: 'tbspacer'
+					}, {
+						xtype: 'tbspacer'
+					}, {
+						xtype: 'label',
+						text: exportLockAspectRatioText[lang]
+					}, {
+						xtype: 'tbspacer'
+					}, {
+						xtype: 'checkbox',
+						id: 'ExportLockAspectRatioCheckbox',
+						fieldLabel: exportLockAspectRatioText[lang],
+						checked: false,
+						listeners: {
+							'check': function (checkbox, checked) {
+								setExportBoxLockAspectRatio(checked);
+							}
+						}
+					}, {
+						xtype: 'tbspacer'
+					}, {
+						xtype: 'tbseparator',
+					}, {
+						xtype: 'tbspacer'
+					}, {
+						xtype: 'combo',
+						id: 'ExportScaleCombobox',
+						width: 95,
+						mode: 'local',
+						triggerAction: 'all',
+						readonly: true,
+						store: new Ext.data.JsonStore({
+							// store configs
+							data: exportCapabilities,
+							storeId: 'exportScalesStore',
+							// reader configs
+							root: 'scales',
+							fields: [{
+								name: 'name',
+								type: 'string'
+							}, {
+								name: 'value',
+								type: 'int'
+							}]
+						}),
+						valueField: 'value',
+						displayField: 'name',
+						listeners: {
+							'select': function (combo, record, index) {
+								setExportBoxScale(record);
+							}
+						}
+					}, {
+						xtype: 'tbspacer'
+					}, {
+						xtype: 'combo',
+						id: 'ExportDPICombobox',
+						width: 70,
+						mode: 'local',
+						triggerAction: 'all',
+						readonly: true,
+						store: new Ext.data.JsonStore({
+							// store configs
+							data: exportCapabilities,
+							storeId: 'exportDPIStore',
+							// reader configs
+							root: 'dpis',
+							fields: [{
+								name: 'name',
+								type: 'string'
+							}, {
+								name: 'value',
+								type: 'int'
+							}]
+						}),
+						valueField: 'value',
+						displayField: 'name',
+						listeners: {
+							'select': function (combo, record, index) {
+								setExportBoxDpi(record);
+							}
+						}
+					}, {
+						xtype: 'tbspacer'
+					}, {
+						xtype: 'combo',
+						id: 'ExportFormatCombobox',
+						width: 70,
+						mode: 'local',
+						triggerAction: 'all',
+						readonly: true,
+						store: new Ext.data.JsonStore({
+							// store configs
+							data: exportCapabilities,
+							storeId: 'exportFormatStore',
+							// reader configs
+							root: 'formats',
+							fields: [{
+								name: 'name',
+								type: 'string'
+							}, {
+								name: 'value',
+								type: 'string'
+							}]
+						}),
+						valueField: 'value',
+						displayField: 'name',
+						value: 'png',
+						listeners: {
+							'select': function (combo, record, index) {
+								setExportBoxFormat(record);
+							}
+						}
+					}, {
+						xtype: 'tbspacer'
+					}, {
+						xtype: 'tbspacer'
+					}, {
+						xtype: 'label',
+						text: exportTransparentOptionText[lang]
+					}, {
+						xtype: 'tbspacer'
+					}, {
+						xtype: 'checkbox',
+						id: 'ExportTransparentCheckbox',
+						fieldLabel: exportTransparentOptionText[lang],
+						listeners: {
+							'check': function (checkbox, checked) {
+								setExportBoxTransparent(checked);
+							}
+						}
+					}, {
+						xtype: 'tbspacer'
+					}, {
+						xtype: 'tbseparator',
+					}, {
+						xtype: 'tbspacer'
+					}, {
+						xtype: 'button',
+						tooltip: exportButtonTooltipString[lang],
+						text: exportButtonTextString[lang],
+						tooltipType: 'qtip',
+						iconCls: '',
+						scale: 'medium',
+						id: 'StartExporting',
+						listeners: {
+							'click': function () {
+								exportBoxDetailFromMap();
+								Ext.getCmp('ExportMap').toggle(false);
+							}
+						}
+					}, {
+						xtype: 'button',
+						tooltip: exportCancelButtonTooltipString[lang],
+						text: printCancelButtonTextString[lang],
+						tooltipType: 'qtip',
+						iconCls: '',
+						scale: 'medium',
+						id: 'CancelExporting2',
+						listeners: {
+							'click': function () {
+								Ext.getCmp('ExportMap').toggle(false); // qwertz
+							}
+						}
+					}]
+				}
+			}]
+		});
 	}
 	else {
 		printLayoutsCombobox = Ext.getCmp('PrintLayoutsCombobox');
@@ -1475,7 +1754,10 @@ function postLoading() {
 		printWindow.hide();
 	}
 	printExtent.hide();
-
+	
+	// ExportDialog initials
+	Ext.getCmp('ExportDPICombobox').setValue("300");
+	
 	if (initialLoadDone) {
 		if (identifyToolWasActive) {
 			identifyToolWasActive = false;
@@ -1645,6 +1927,48 @@ function mapToolbarHandler(btn, evt) {
 			printWindow.hide();
 			printExtent.hide();
 			mainStatusText.setText(modeNavigationString[lang]);
+		}
+	}
+	if (btn.id == "ExportMap") {
+		if (btn.pressed) {
+			var currentScales = Ext.getCmp('ExportScaleCombobox').store.getRange();
+			for (var i = currentScales.length - 1; i > 0; --i) {
+				if (currentScales[i].json.value > Math.round(geoExtMap.map.getScale())) {
+					Ext.getCmp('ExportScaleCombobox').setValue(currentScales[i-1].json.value);
+				}
+			}
+
+			Ext.getCmp('ExportHeightField').setValue();
+			Ext.getCmp('ExportWidthField').setValue();
+
+			exportBoxValues = {
+				"format": "png",
+				"transparent": false,
+				"dpi": Ext.getCmp('ExportDPICombobox').getValue(),
+				"scale": Ext.getCmp('ExportScaleCombobox').getValue(),
+				"lockaspectratio": Ext.getCmp('ExportLockAspectRatioCheckbox').getValue(),
+				"aspectratio": 0,
+				"width": 0,
+				"height": 0
+			};
+			if (exportBoxValues.lockaspectratio) {
+				exportBoxValues.aspectratio = 1;
+			}			
+
+			exportWindow.show();
+			Ext.getCmp('StartExporting').disable();
+
+			geoExtMap.map.addControl(exportDrawControl);
+			geoExtMap.map.addControl(exportModifyControl);
+			exportDrawControl.activate();
+
+		} else {
+			exportWindow.hide();
+			exportLayer.destroyFeatures();
+			exportModifyControl.deactivate();
+			exportDrawControl.deactivate();
+			geoExtMap.map.removeControl(exportModifyControl)
+			geoExtMap.map.removeControl(exportDrawControl)
 		}
 	}
 	if (btn.id == "navZoomBoxButton") {
@@ -2219,6 +2543,156 @@ function imageFormatForLayers(layers) {
 	return format;
 }
 
+// export functions , draw and modify version
+function setExportBoxHeight(newValue, oldValue) {
+	if (oldValue != '') {
+		exportBoxValues.height = Math.round(newValue * (exportBoxValues.dpi / 25.4));
+		var scale = newValue / oldValue;
+		if (exportBoxValues.lockaspectratio) {
+			var ratio = 1;
+			exportBoxValues.width = exportBoxValues.width * scale;
+			Ext.getCmp('ExportWidthField').setValue(Ext.getCmp('ExportWidthField').getValue() * scale);
+		} else {
+			var ratio = 1 / scale;
+		}
+		var origin = exportLayer.features[0].geometry.getCentroid();
+		exportLayer.features[0].geometry.resize(scale, origin, ratio);
+		exportLayer.redraw();
+	} else if (Ext.getCmp('ExportWidthField').getValue() != '') {
+		drawExportBox();
+	}
+}
+
+function setExportBoxWidth(newValue, oldValue) {
+	if (oldValue != '') {
+		exportBoxValues.width = Math.round(newValue * (exportBoxValues.dpi / 25.4));
+		var scale = newValue / oldValue;
+		if (exportBoxValues.lockaspectratio) {
+			var ratio = 1;
+			exportBoxValues.height = exportBoxValues.height * scale;
+			Ext.getCmp('ExportHeightField').setValue(Ext.getCmp('ExportHeightField').getValue() * scale);
+		} else {
+			var ratio = 1 / scale;
+		}
+		var origin = exportLayer.features[0].geometry.getCentroid();
+		exportLayer.features[0].geometry.rotate(90, origin);
+		exportLayer.features[0].geometry.resize(scale, origin, ratio);
+		exportLayer.features[0].geometry.rotate(-90, origin);
+		exportLayer.redraw();
+	} else if (Ext.getCmp('ExportHeightField').getValue() != '') {
+		drawExportBox();
+	}
+}
+
+function setExportBoxLockAspectRatio(checked) {
+	exportBoxValues.lockaspectratio = checked;
+	exportModifyControl.deactivate();
+	exportModifyControl.mode = OpenLayers.Control.ModifyFeature.RESHAPE;
+	if (checked) {
+		exportBoxValues.aspectratio = (exportBoxValues.width / exportBoxValues.height);
+		exportModifyControl.mode |= OpenLayers.Control.ModifyFeature.DRAG;
+		exportModifyControl.mode |= OpenLayers.Control.ModifyFeature.RESIZE;
+		exportModifyControl.mode &= ~OpenLayers.Control.ModifyFeature.RESHAPE;
+	} else {
+		exportBoxValues.aspectratio = 0;
+		exportModifyControl.mode |= OpenLayers.Control.ModifyFeature.DRAG;
+		exportModifyControl.mode |= OpenLayers.Control.ModifyFeature.RESIZE;
+	}
+	exportModifyControl.activate();
+}
+
+function setExportBoxScale(record) {
+	var scale = record.data.value / exportBoxValues.scale;
+	var origin = exportLayer.features[0].geometry.getCentroid();
+	exportLayer.features[0].geometry.resize(scale, origin);
+	exportLayer.redraw();
+	exportBoxValues.scale = record.data.value;
+}
+
+function setExportBoxDpi(record) {
+	exportBoxValues.dpi = Ext.getCmp('ExportDPICombobox').getValue();
+	var widthVal = Ext.getCmp('ExportWidthField').getValue();
+	var heightVal = Ext.getCmp('ExportHeightField').getValue();
+	if (widthVal > 0) {
+		exportBoxValues.width = Math.round(widthVal * (exportBoxValues.dpi / 25.4));
+	}
+	if (heightVal > 0) {
+		exportBoxValues.height = Math.round(heightVal * (exportBoxValues.dpi / 25.4));
+	}
+}
+
+function setExportBoxFormat(record) {
+	if (record.get("value") == "png") {
+		Ext.getCmp('ExportTransparentCheckbox').enable();
+	} else {
+		Ext.getCmp('ExportTransparentCheckbox').setValue(false);
+		Ext.getCmp('ExportTransparentCheckbox').disable();
+	}
+	exportBoxValues.format = record.get("value");
+}
+
+function setExportBoxTransparent(checked) {
+	exportBoxValues.transparent = checked;
+}
+
+function drawExportBox() {
+	var width = Ext.getCmp('ExportWidthField').getValue() / 1000 * exportBoxValues.scale;
+	var origin = new OpenLayers.Geometry.Point(geoExtMap.map.center.lon,geoExtMap.map.center.lat).transform( new OpenLayers.Projection(authid), geoExtMap.map.getProjectionObject());
+	var radius = Math.sqrt(Math.pow(width,2) * 2) / 2;
+	var sides = 4;
+	var rotation = 0;
+	
+	var scale = Ext.getCmp('ExportHeightField').getValue() / Ext.getCmp('ExportWidthField').getValue();
+	var ratio = 1 / scale;
+
+	var feature = new OpenLayers.Feature.Vector();
+	feature.geometry = OpenLayers.Geometry.Polygon.createRegularPolygon(origin,radius,sides,rotation);
+	feature.geometry.resize(scale, origin, ratio);
+
+	exportLayer.addFeatures([feature]);
+
+	exportBoxValues.height = Math.round((Math.round(feature.geometry.bounds.getHeight() / exportBoxValues.scale * 1000)) * (exportBoxValues.dpi / 25.4));
+	exportBoxValues.width = Math.round((Math.round(feature.geometry.bounds.getWidth() / exportBoxValues.scale * 1000)) * (exportBoxValues.dpi / 25.4));
+	exportBoxValues.aspectratio = feature.geometry.bounds.getWidth() / feature.geometry.bounds.getHeight();
+}
+
+function exportBoxDetailFromMap() {
+	var aspectRatio = exportBoxValues.width / exportBoxValues.height;
+	
+	var url = wmsURI + 'SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&EXCEPTIONS=INIMAGE&FORMAT=image%2F'+exportBoxValues.format+'&TRANSPARENT='+exportBoxValues.transparent+'&STYLES=&CRS='+authid+'&DPI='+exportBoxValues.dpi+'&LAYERS='+encodeURIComponent(thematicLayer.params.LAYERS)+'&WIDTH='+exportBoxValues.width+'&HEIGHT='+exportBoxValues.height+'&BBOX='+exportLayer.features[0].geometry.bounds.toBBOX(1,false);
+		
+	if (exportBoxValues.width < (Ext.getBody().getWidth() - 100) && exportBoxValues.height < (Ext.getBody().getHeight() - 100)) {
+		var winWidth = exportBoxValues.width;
+		var winHeight = exportBoxValues.height;
+	} else if (aspectRatio == 1) {
+		var winWidth = Ext.getBody().getHeight() - 100
+		var winHeight = Ext.getBody().getHeight() - 100
+	} else if (aspectRatio < 1) {
+		var factor = (Ext.getBody().getHeight() - 100) / exportBoxValues.height;
+		var winWidth = exportBoxValues.width * factor;
+		var winHeight = exportBoxValues.height * factor;
+	} else {
+		var factor = (Ext.getBody().getWidth() - 100) / exportBoxValues.width;
+		var winWidth = exportBoxValues.width * factor;
+		var winHeight = exportBoxValues.height * factor;
+	}
+	exportWindowWithFile = new Ext.Window(	{
+		title: exportWindowTitleString[lang],
+		id: 'exportFileWindow',
+		width: winWidth,
+		height: winHeight,
+		resizable: true,
+		closable: true,
+		constrain: true,
+		constrainHeader: true,
+		x:50,
+		y:50,
+		html: '<img id="exportImage" src="'+url+'" width="'+winWidth+'px" height="'+winHeight+'px"><p style="margin:5px;">'
+	});
+	exportWindowWithFile.show();
+	setTimeout("exportWindowWithFile.setTitle('"+exportFilePropertyTextString[lang]+exportBoxValues.width+"x"+exportBoxValues.height+"px ("+exportBoxValues.dpi+" dpi); "+exportSaveCopyHintText[lang]+"');",1500);
+	Ext.getBody().unmask();
+}
 
 //this function checks if layers and layer-groups are outside scale-limits.
 //if a layer is outside scale-limits, its label in the TOC is being displayed in a light gray

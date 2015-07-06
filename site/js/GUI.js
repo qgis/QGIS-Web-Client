@@ -147,7 +147,7 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 					xtype: 'panel',
 					layout: 'accordion',
 					border: false,
-					frame: false,
+                    frame: false,
 					id: 'collapsiblePanels',
 					flex: 0.9,
 					width: '100%',
@@ -296,6 +296,16 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 							id: 'PrintMap'
 						}, {
 							xtype: 'button',
+							enableToggle: true,
+							allowDepress: true,
+							toggleGroup: 'mapTools',
+							scale: 'medium',
+							icon: 'gis_icons/mActionSaveMapAsImage.png',
+							tooltipType: 'qtip',
+							tooltip: exportMapTooltipString[lang],
+							id: 'ExportMap'
+						}, {
+							xtype: 'button',
 							enableToggle: false,
 							allowDepress: false,
 							scale: 'medium',
@@ -420,7 +430,7 @@ Ext.onReady(function () {
 		    var new_lang = this.dom.options[this.dom.selectedIndex].value;
 		    urlParams.lang = new_lang
 		    location.assign('//' + location.host + location.pathname + '?' + Ext.urlEncode(urlParams));
-		    });
+});
     }
 });
 
