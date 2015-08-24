@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="88.345222"
+   height="88.345222"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.3.1 r9886"
+   sodipodi:docname="clear_textfield.svg"
+   inkscape:export-filename="/home/www/www/qgis-web-client/gis_icons/clear_textfield.png"
+   inkscape:export-xdpi="52.119999"
+   inkscape:export-ydpi="52.119999">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="9.29"
+     inkscape:cx="21.137091"
+     inkscape:cy="44.172606"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     fit-margin-top="1"
+     fit-margin-left="1"
+     fit-margin-bottom="1"
+     fit-margin-right="1"
+     inkscape:window-width="1920"
+     inkscape:window-height="1121"
+     inkscape:window-x="-2"
+     inkscape:window-y="-3"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-5.8273875,-958.18957)">
+    <path
+       sodipodi:type="arc"
+       style="fill:#b3b3b3;fill-opacity:1;stroke:none"
+       id="path2985"
+       sodipodi:cx="46.501614"
+       sodipodi:cy="45.640472"
+       sodipodi:rx="45.209904"
+       sodipodi:ry="41.119484"
+       d="m 91.711517,45.640472 c 0,22.709664 -20.241163,41.119484 -45.209903,41.119484 -24.968741,0 -45.2099041,-18.40982 -45.2099041,-41.119484 0,-22.709663 20.2411631,-41.1194835 45.2099041,-41.1194835 24.96874,0 45.209903,18.4098205 45.209903,41.1194835 z"
+       transform="matrix(0.95493706,0,0,1.0499308,5.5938858,954.44284)" />
+    <path
+       style="fill:none;stroke:#ffffff;stroke-width:5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 23.546824,975.90901 52.906351,52.90639"
+       id="path2987"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#ffffff;stroke-width:5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="M 76.453194,975.90903 23.546805,1028.8154"
+       id="path2987-5"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>

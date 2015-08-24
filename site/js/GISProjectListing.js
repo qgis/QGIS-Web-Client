@@ -3,6 +3,8 @@ var gis_projects = {
 	"mapserver": "/cgi-bin/qgis_mapserv.fcgi",
 	"thumbnails": "/thumbnails",
 	"title": "QGIS Mapserver demo",
+	"DXFExportDownloadDisclaimer":"<h4 class='DXFExportDisclaimer'>QGIS Web Client DXF Export Disclaimer</h4><p class='DXFExportDisclaimer'>Put your disclaimer text here ...</p>",
+	"DXFExportPrefix":"qgis_dxf_export_",
 	"topics": [{
 		"name": "QGIS Server Hello World",
 		"projects": [{
@@ -32,7 +34,8 @@ var gis_projects = {
 				}
 			],
 */
-			"updateInterval": "occasional",
+			"enableDXFExport": true,
+                        "updateInterval": "occasional",
 			"responsible": "The QGIS project",
 			"showFeatureInfoLayerTitle": false,
 			"tags": "Hello World,beginner project"
@@ -46,7 +49,8 @@ var gis_projects = {
 			"format": "image/png; mode=8bit",
 			"visibleLayers": "Land,Lakes,Glaciated Areas,Rivers,Shaded Relief",
 			"opacities": {"Glaciated Areas":90,"Land":253},
-			"updateInterval": "occasional",
+			"enableDXFExport": true,
+                        "updateInterval": "occasional",
 			"responsible": "The QGIS project",
 			"tags": "Natural Earth,Physical Earth Map"
 		}]

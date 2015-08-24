@@ -65,6 +65,11 @@ var project_map = Ext.urlDecode(window.location.search.substring(1)).map;
 //var searchBoxQueryURL = '../php/search.php?map=' + project_map;
 //var searchBoxGetGeomURL = '../php/search_geom.php?map=' + project_map;
 
+//control if DXF export is globally enabled
+//note that DXF export needs a recent QGIS server equal or younger to https://github.com/qgis/QGIS/commit/4e7efd669de21f58adcf32be21df4ac510a67c3a (2015-07)
+//other settings can/should be set in the file GISProjectListing.js
+var enableDXFExport = true;
+
 // show the permalink button
 var enablePermalink = true;
 //use a URL shortener for your permalink function
@@ -200,7 +205,7 @@ var mapSearchPanelConfigs = {
 mapSearchPanelConfigs[project_map] = [simpleWmsSearch, urlRewriteSearch];
 
 //templates to define tooltips for a layer, to be shown on hover identify. The layer fields must be wrapped inside <%%> special tags.
-//if a layers field is found with the name "tooltip" its content will have precedence over this configuration
+//if a layers field is found with the name "tooltip" its content will have precedence over this configuration 
 var tooltipTemplates = {
 	'Country':{
 		template: "Look for the country on Google Search: <a href='http://www.google.it/#output=search&q=<%name%>' target='_blank'><%name%></a>"
@@ -327,7 +332,7 @@ else {
 }
 
 // prevent the user from choosing a print resolution
-// if fixedPrintResolution = null, the user is allowed to choose the print resolution.
+// if fixedPrintResolution = null, the user is allowed to choose the print resolution. 
 var fixedPrintResolution = null; // for a fixed resolution of 200dpi fill 200
 
 //print options - scales and dpi
@@ -377,7 +382,7 @@ var printCapabilities={
     {"name":"1:100'000'000","value":"100000000"},
     {"name":"1:125'000'000","value":"125000000"},
     {"name":"1:150'000'000","value":"150000000"}
- ],
+  ],
   "dpis":[
     {"name":"150 dpi","value":"150"},
     {"name":"300 dpi","value":"300"},

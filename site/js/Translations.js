@@ -12,7 +12,7 @@
 //indicating which of the help files have been translated already
 var availableHelpLanguages = Array("en","de","hu","it","pl","fr","ro","ru","sv","sl");
 
-// list of available languages
+//list of available languages
 var availableLanguages = new Array();
 availableLanguages["en"] = {names:[], translator:"Andreas Neumann"}; //a (dot) neumann (at) carto (dot) net
 availableLanguages["es"] = {names:[], translator:"Samuel Mesa, Diana Galindo, Germán Carrillo"}; // samuelmesa (at) gmail (dot) com , drgalindog (at) linuxmail (dot) org
@@ -30,7 +30,7 @@ availableLanguages["nl"] = {names:[], translator:"Carl Defevere"}; //carl (dot) 
 availableLanguages["pl"] = {names:[], translator:"Sławomir Bienias"}; //slawomir (dot) bienias (at) gmail (dot) com>
 availableLanguages["sv"] = {names:[], translator:"Klas Karlsson"}; //klaskarlsson (at) hotmail (dot) com>
 
-// translations of languages
+//translations of languages
 // first language index is fixed, second variable
 // The string is the name of the first language translated in the second language.
 
@@ -1474,7 +1474,7 @@ searchErrorString["sv"] = "Fel under sökningen";
 
 //search no records found
 var searchNoRecordsFoundString = new Array();
-searchNoRecordsFoundString["en"] = "No records found";
+searchNoRecordsFoundString["en"] = "No records found"; 
 searchNoRecordsFoundString["es"] = "Error en la búsqueda"; // FIXME
 searchNoRecordsFoundString["de"] = "Fehler bei Suche"; // FIXME
 searchNoRecordsFoundString["fr"] = "Aucun résultat trouvé (la recherche est sensible à la casse)";
@@ -1484,7 +1484,7 @@ searchNoRecordsFoundString["pt_BR"] = "Erro durante a pesquisa"; // FIXME
 searchNoRecordsFoundString["uk"] = "Помилка під час пошуку"; // FIXME
 searchNoRecordsFoundString["hu"] = "Hiba a keresés alatt"; // FIXME
 searchNoRecordsFoundString["ro"] = "Nu am găsit niciun rezultat (căutarea e case-sensitive)";
-searchNoRecordsFoundString["ru"] = "Записи не найдены";
+searchNoRecordsFoundString["ru"] = "Записи не найдены"; 
 searchNoRecordsFoundString["sl"] = "Ni najdenih rezultatov";
 searchNoRecordsFoundString["nl"] = "Geen resultaten gevonden";
 searchNoRecordsFoundString["pl"] = "Nie znaleziono szukanych atrybutów";
@@ -1562,6 +1562,7 @@ printCancelButtonTextString["nl"] = "Annuleren";
 printCancelButtonTextString["pl"] = "Anuluj";
 printCancelButtonTextString["sv"] = "Avbryt";
 
+//export toolbar title string
 var exportSettingsToolbarTitleString = new Array();
 exportSettingsToolbarTitleString["en"] = "Export Settings - Enter width/height or create rectangle in map.";
 exportSettingsToolbarTitleString["es"] = "Export Settings - Enter width/height or create rectangle in map."; //FIXME
@@ -1722,6 +1723,145 @@ exportSaveCopyHintText["sl"] = "Use context menu (right click) to save or copy f
 exportSaveCopyHintText["nl"] = "Use context menu (right click) to save or copy file."; //FIXME
 exportSaveCopyHintText["pl"] = "Use context menu (right click) to save or copy file."; //FIXME
 exportSaveCopyHintText["sv"] = "Use context menu (right click) to save or copy file."; //FIXME
+
+//DXF export disclaimer window title
+var DXFExportDisclaimerWindowTitle = new Array();
+DXFExportDisclaimerWindowTitle["en"] = "Disclaimer regarding DXF data download and usage.";
+DXFExportDisclaimerWindowTitle["es"] = "Disclaimer regarding DXF data download and usage."; //FIXME
+DXFExportDisclaimerWindowTitle["de"] = "Haftungsausschluss bezüglich DXF Datendownload und Nutzung.";
+DXFExportDisclaimerWindowTitle["fr"] = "Disclaimer regarding DXF data download and usage."; //FIXME
+DXFExportDisclaimerWindowTitle["it"] = "Disclaimer regarding DXF data download and usage."; //FIXME
+DXFExportDisclaimerWindowTitle["pt_PT"] = "Disclaimer regarding DXF data download and usage."; //FIXME
+DXFExportDisclaimerWindowTitle["pt_BR"] = "Disclaimer regarding DXF data download and usage."; //FIXME
+DXFExportDisclaimerWindowTitle["uk"] = "Disclaimer regarding DXF data download and usage."; //FIXME
+DXFExportDisclaimerWindowTitle["hu"] = "Disclaimer regarding DXF data download and usage."; //FIXME
+DXFExportDisclaimerWindowTitle["ro"] = "Disclaimer regarding DXF data download and usage."; //FIXME
+DXFExportDisclaimerWindowTitle["ru"] = "Disclaimer regarding DXF data download and usage."; //FIXME
+DXFExportDisclaimerWindowTitle["sl"] = "Disclaimer regarding DXF data download and usage."; //FIXME
+DXFExportDisclaimerWindowTitle["nl"] = "Disclaimer regarding DXF data download and usage."; //FIXME
+DXFExportDisclaimerWindowTitle["pl"] = "Disclaimer regarding DXF data download and usage."; //FIXME
+DXFExportDisclaimerWindowTitle["sv"] = "Disclaimer regarding DXF data download and usage."; //FIXME
+
+//DXF export disclaimer accept button
+var acceptDXFDisclaimerButtonText = new Array();
+acceptDXFDisclaimerButtonText["en"] = "Accept";
+acceptDXFDisclaimerButtonText["es"] = "Accept"; //FIXME
+acceptDXFDisclaimerButtonText["de"] = "Akzeptieren";
+acceptDXFDisclaimerButtonText["fr"] = "Accept"; //FIXME
+acceptDXFDisclaimerButtonText["it"] = "Accept"; //FIXME
+acceptDXFDisclaimerButtonText["pt_PT"] = "Accept"; //FIXME
+acceptDXFDisclaimerButtonText["pt_BR"] = "Accept"; //FIXME
+acceptDXFDisclaimerButtonText["uk"] = "Accept"; //FIXME
+acceptDXFDisclaimerButtonText["hu"] = "Accept"; //FIXME
+acceptDXFDisclaimerButtonText["ro"] = "Accept"; //FIXME
+acceptDXFDisclaimerButtonText["ru"] = "Accept"; //FIXME
+acceptDXFDisclaimerButtonText["sl"] = "Accept"; //FIXME
+acceptDXFDisclaimerButtonText["nl"] = "Accept"; //FIXME
+acceptDXFDisclaimerButtonText["pl"] = "Accept"; //FIXME
+acceptDXFDisclaimerButtonText["sv"] = "Accept"; //FIXME
+
+//DXF export disclaimer decline button
+var declineDXFDisclaimerButtonText = new Array();
+declineDXFDisclaimerButtonText["en"] = "Decline";
+declineDXFDisclaimerButtonText["es"] = "Decline"; //FIXME
+declineDXFDisclaimerButtonText["de"] = "Ablehnen";
+declineDXFDisclaimerButtonText["fr"] = "Decline"; //FIXME
+declineDXFDisclaimerButtonText["it"] = "Decline"; //FIXME
+declineDXFDisclaimerButtonText["pt_PT"] = "Decline"; //FIXME
+declineDXFDisclaimerButtonText["pt_BR"] = "Decline"; //FIXME
+declineDXFDisclaimerButtonText["uk"] = "Decline"; //FIXME
+declineDXFDisclaimerButtonText["hu"] = "Decline"; //FIXME
+declineDXFDisclaimerButtonText["ro"] = "Decline"; //FIXME
+declineDXFDisclaimerButtonText["ru"] = "Decline"; //FIXME
+declineDXFDisclaimerButtonText["sl"] = "Decline"; //FIXME
+declineDXFDisclaimerButtonText["nl"] = "Decline"; //FIXME
+declineDXFDisclaimerButtonText["pl"] = "Decline"; //FIXME
+declineDXFDisclaimerButtonText["sv"] = "Decline"; //FIXME
+
+//DXF export window title
+var DXFExportWindowTitleString = new Array();
+DXFExportWindowTitleString["en"] = "DXF Export of the current map extent - Please select a symbology map scale";
+DXFExportWindowTitleString["es"] = "DXF Export of the current map extent - Please select a symbology map scale"; //FIXME
+DXFExportWindowTitleString["de"] = "DXF Export des aktuellen Kartenausschnittes - Wählen Sie einen Symbolisierungsmassstab";
+DXFExportWindowTitleString["fr"] = "DXF Export of the current map extent - Please select a symbology map scale"; //FIXME
+DXFExportWindowTitleString["it"] = "DXF Export of the current map extent - Please select a symbology map scale"; //FIXME
+DXFExportWindowTitleString["pt_PT"] = "DXF Export of the current map extent - Please select a symbology map scale"; //FIXME
+DXFExportWindowTitleString["pt_BR"] = "DXF Export of the current map extent - Please select a symbology map scale"; //FIXME
+DXFExportWindowTitleString["uk"] = "DXF Export of the current map extent - Please select a symbology map scale"; //FIXME
+DXFExportWindowTitleString["hu"] = "DXF Export of the current map extent - Please select a symbology map scale"; //FIXME
+DXFExportWindowTitleString["ro"] = "DXF Export of the current map extent - Please select a symbology map scale"; //FIXME
+DXFExportWindowTitleString["ru"] = "DXF Export of the current map extent - Please select a symbology map scale"; //FIXME
+DXFExportWindowTitleString["sl"] = "DXF Export of the current map extent - Please select a symbology map scale"; //FIXME
+DXFExportWindowTitleString["nl"] = "DXF Export of the current map extent - Please select a symbology map scale"; //FIXME
+DXFExportWindowTitleString["pl"] = "DXF Export of the current map extent - Please select a symbology map scale"; //FIXME
+DXFExportWindowTitleString["sv"] = "DXF Export of the current map extent - Please select a symbology map scale"; //FIXME
+
+//DXF export symbology scale label
+var DXFExportSymbologyScaleLabel = new Array();
+DXFExportSymbologyScaleLabel["en"] = "Symbology Scale: ";
+DXFExportSymbologyScaleLabel["es"] = "Symbology Scale: "; //FIXME
+DXFExportSymbologyScaleLabel["de"] = "Symbolisierungsmassstab: ";
+DXFExportSymbologyScaleLabel["fr"] = "Symbology Scale: "; //FIXME
+DXFExportSymbologyScaleLabel["it"] = "Symbology Scale: "; //FIXME
+DXFExportSymbologyScaleLabel["pt_PT"] = "Symbology Scale: "; //FIXME
+DXFExportSymbologyScaleLabel["pt_BR"] = "Symbology Scale: "; //FIXME
+DXFExportSymbologyScaleLabel["uk"] = "Symbology Scale: "; //FIXME
+DXFExportSymbologyScaleLabel["hu"] = "Symbology Scale: "; //FIXME
+DXFExportSymbologyScaleLabel["ro"] = "Symbology Scale: "; //FIXME
+DXFExportSymbologyScaleLabel["ru"] = "Symbology Scale: "; //FIXME
+DXFExportSymbologyScaleLabel["sl"] = "Symbology Scale: "; //FIXME
+DXFExportSymbologyScaleLabel["nl"] = "Symbology Scale: "; //FIXME
+DXFExportSymbologyScaleLabel["pl"] = "Symbology Scale: "; //FIXME
+DXFExportSymbologyScaleLabel["sv"] = "Symbology Scale: "; //FIXME
+
+//area limit for the DXF export label
+var DXFExportAreaLimitLabel = new Array();
+DXFExportAreaLimitLabel["en"] = "Area limit for export: ";
+DXFExportAreaLimitLabel["es"] = "Area limit for export: "; //FIXME
+DXFExportAreaLimitLabel["de"] = "Grössenlimit beim Export: ";
+DXFExportAreaLimitLabel["fr"] = "Area limit for export: "; //FIXME
+DXFExportAreaLimitLabel["it"] = "Area limit for export: "; //FIXME
+DXFExportAreaLimitLabel["pt_PT"] = "Area limit for export: "; //FIXME
+DXFExportAreaLimitLabel["pt_BR"] = "Area limit for export: "; //FIXME
+DXFExportAreaLimitLabel["uk"] = "Area limit for export: "; //FIXME
+DXFExportAreaLimitLabel["hu"] = "Area limit for export: "; //FIXME
+DXFExportAreaLimitLabel["ro"] = "Area limit for export: "; //FIXME
+DXFExportAreaLimitLabel["ru"] = "Area limit for export: "; //FIXME
+DXFExportAreaLimitLabel["sl"] = "Area limit for export: "; //FIXME
+DXFExportAreaLimitLabel["nl"] = "Area limit for export: "; //FIXME
+DXFExportAreaLimitLabel["pl"] = "Area limit for export: "; //FIXME
+DXFExportAreaLimitLabel["sv"] = "Area limit for export: "; //FIXME
+
+//area limit for the DXF export label
+var DXFExportCurrentAreaLabel = new Array();
+DXFExportCurrentAreaLabel["en"] = "Current area: ";
+DXFExportCurrentAreaLabel["es"] = "Current area: "; //FIXME
+DXFExportCurrentAreaLabel["de"] = "Aktuelle Fläche: ";
+DXFExportCurrentAreaLabel["fr"] = "Current area: "; //FIXME
+DXFExportCurrentAreaLabel["it"] = "Current area: "; //FIXME
+DXFExportCurrentAreaLabel["pt_PT"] = "Current area: "; //FIXME
+DXFExportCurrentAreaLabel["pt_BR"] = "Current area: "; //FIXME
+DXFExportCurrentAreaLabel["uk"] = "Current area: "; //FIXME
+DXFExportCurrentAreaLabel["hu"] = "Current area: "; //FIXME
+DXFExportCurrentAreaLabel["ro"] = "Current area: "; //FIXME
+DXFExportCurrentAreaLabel["ru"] = "Current area: "; //FIXME
+DXFExportCurrentAreaLabel["sl"] = "Current area: "; //FIXME
+DXFExportCurrentAreaLabel["nl"] = "Current area: "; //FIXME
+DXFExportCurrentAreaLabel["pl"] = "Current area: "; //FIXME
+DXFExportCurrentAreaLabel["sv"] = "Current area: "; //FIXME
+
+//no limit for the DXF export label
+var DXFExportNoAreaLimitLabel = new Array();
+DXFExportNoAreaLimitLabel["en"] = "no limit";
+DXFExportNoAreaLimitLabel["es"] = "no limit"; //FIXME
+DXFExportNoAreaLimitLabel["de"] = "kein Limit";
+DXFExportNoAreaLimitLabel["fr"] = "no limit"; //FIXME
+DXFExportNoAreaLimitLabel["it"] = "no limit"; //FIXME
+DXFExportNoAreaLimitLabel["pt_PT"] = "no limit"; //FIXME
+DXFExportNoAreaLimitLabel["uk"] = "no limit"; //FIXME
+DXFExportNoAreaLimitLabel["hu"] = "no limit"; //FIXME
+DXFExportNoAreaLimitLabel["ro"] = "no limit"; //FIXME
+DXFExportNoAreaLimitLabel["ru"] = "no limit"; //FIXME
 
 //objectIdentificationModeStrings
 var objectIdentificationModeString = new Array();
@@ -2049,6 +2189,24 @@ exportMapTooltipString["sl"] = "Export Map as Raster"; //FIXME
 exportMapTooltipString["nl"] = "Export Map as Raster"; //FIXME
 exportMapTooltipString["pl"] = "Export Map as Raster"; //FIXME
 exportMapTooltipString["sv"] = "Export Map as Raster"; //FIXME
+
+//Export DXF
+var exportDXFTooltipString = new Array();
+exportDXFTooltipString["en"] = "Export map extent as DXF";
+exportDXFTooltipString["es"] = "Export map extent as DXF"; //FIXME
+exportDXFTooltipString["de"] = "Kartenausschnitt als DXF exportieren";
+exportDXFTooltipString["fr"] = "Export map extent as DXF"; //FIXME
+exportDXFTooltipString["it"] = "Export map extent as DXF"; //FIXME
+exportDXFTooltipString["pt_PT"] = "Export map extent as DXF"; //FIXME
+exportDXFTooltipString["pt_BR"] = "Export map extent as DXF"; //FIXME
+exportDXFTooltipString["uk"] = "Export map extent as DXF"; //FIXME
+exportDXFTooltipString["hu"] = "Export map extent as DXF"; //FIXME
+exportDXFTooltipString["ro"] = "Export map extent as DXF"; //FIXME
+exportDXFTooltipString["ru"] = "Export map extent as DXF"; //FIXME
+exportDXFTooltipString["sl"] = "Export map extent as DXF"; //FIXME
+exportDXFTooltipString["nl"] = "Export map extent as DXF"; //FIXME
+exportDXFTooltipString["pl"] = "Export map extent as DXF"; //FIXME
+exportDXFTooltipString["sv"] = "Export map extent as DXF"; //FIXME
 
 //Send permalink
 var sendPermalinkTooltipString = new Array();
