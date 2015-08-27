@@ -118,7 +118,7 @@ else {
 					helpfile="help_"+urlParams.lang+".html";
 				}
 				else{
-					alert("Help file unavailable for this language!");
+					alert(errMessageHelpFile[lang]);
 					if (typeof helpfile == "undefined") {
 					//if helpfile is not defined in GlobalOptions.js we set it to "help_en.html"
 						helpfile = "help_en.html";

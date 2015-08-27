@@ -2631,5 +2631,14 @@ errMessageSearchComboNetworkRequestFailureString["ro"] = "Cererea de rețea pent
 errMessageSearchComboNetworkRequestFailureString["ru"] = "не удалось выполнить запрос геометрии для результатов поиска:\n";
 errMessageSearchComboNetworkRequestFailureString["sl"] = "Omrežni zahtevek za geometrijo iskalnega rezultata ni uspel:\n";
 errMessageSearchComboNetworkRequestFailureString["nl"] = "Netwerkrequest voor de geometrie van het zoekresultaat is mislukt:\n";
-errMessageSearchComboNetworkRequestFailureString["en"] = "Zapytanie sieci o geometrię wyszukiwania nie powiodło się:\n";
+errMessageSearchComboNetworkRequestFailureString["pl"] = "Zapytanie sieci o geometrię wyszukiwania nie powiodło się:\n";
 errMessageSearchComboNetworkRequestFailureString["sv"] = "Nätverksbegäran för den eftersökta geometrin misslyckades:\n";
+
+//error message when help is unavailable for selected language
+var errMessageHelpFile = new Array();
+errMessageHelpFile["en"] = "Help file unavailable for this language!\n";
+errMessageHelpFile["es"] = "Help file unavailable for this language!\n"; //FIXME
+errMessageHelpFile["pt_PT"] = "Help file unavailable for this language!\n"; //FIXME
+errMessageHelpFile["pt_BR"] = "Help file unavailable for this language!\n"; //FIXME
+errMessageHelpFile["uk"] = "Help file unavailable for this language!\n"; //FIXME
+errMessageHelpFile["nl"] = "Help file unavailable for this language!\n"; //FIXME
