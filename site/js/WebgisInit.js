@@ -2676,7 +2676,7 @@ function drawExportBox() {
 function exportBoxDetailFromMap() {
 	var aspectRatio = exportBoxValues.width / exportBoxValues.height;
 	
-	var url = wmsURI + 'SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&EXCEPTIONS=INIMAGE&FORMAT=image%2F'+exportBoxValues.format+'&TRANSPARENT='+exportBoxValues.transparent+'&STYLES=&CRS='+authid+'&DPI='+exportBoxValues.dpi+'&LAYERS='+encodeURIComponent(thematicLayer.params.LAYERS)+'&WIDTH='+exportBoxValues.width+'&HEIGHT='+exportBoxValues.height+'&BBOX='+exportLayer.features[0].geometry.bounds.toBBOX(1,false);
+	var url = wmsURI + 'SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&EXCEPTIONS=INIMAGE&FORMAT=image%2F'+exportBoxValues.format+'&TRANSPARENT='+exportBoxValues.transparent+'&STYLES=&CRS='+authid+'&DPI='+exportBoxValues.dpi+'&LAYERS='+encodeURIComponent(thematicLayer.params.LAYERS)+'&WIDTH='+exportBoxValues.width+'&HEIGHT='+exportBoxValues.height+'&BBOX='+exportLayer.features[0].geometry.bounds.toBBOX(1,thematicLayer.reverseAxisOrder());
 		
 	if (exportBoxValues.width < (Ext.getBody().getWidth() - 100) && exportBoxValues.height < (Ext.getBody().getHeight() - 100)) {
 		var winWidth = exportBoxValues.width;
