@@ -1194,7 +1194,7 @@ function postLoading() {
 			customActionLayerTreeCheck(n);
 		});
 		format = imageFormatForLayers(selectedLayers);
-		updateLayerOrderPanelVisibilities();
+		updateLayerOrderPanel();
 
 		//change array order
 		selectedLayers = layersInDrawingOrder(selectedLayers);
