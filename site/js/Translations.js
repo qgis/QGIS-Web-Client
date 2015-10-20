@@ -263,7 +263,7 @@ availableLanguages["pl"].names["uk"] = "Polish"; //FIXME
 availableLanguages["pl"].names["hu"] = "Polish"; //FIXME
 availableLanguages["pl"].names["ro"] = "Poloneză";
 availableLanguages["pl"].names["sl"] = "Poljščina";
-availableLanguages["pl"].names["nl"] = "Pools"; //FIXME
+availableLanguages["pl"].names["nl"] = "Pools";
 availableLanguages["pl"].names["pl"] = "Polski";
 availableLanguages["pl"].names["sv"] = "Polska";
 
