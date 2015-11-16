@@ -161,14 +161,14 @@ function DXFExporter(parentPanel) {
 									}
 								}
 								//add projectname to filename
-								if (typeof(mapThemeSwitcher.activeProjectData) !== 'undefined') {
+								if (mapThemeSwitcher !== null && typeof(mapThemeSwitcher.activeProjectData) !== 'undefined') {
 									getDXFURL += mapThemeSwitcher.activeProjectData.projectfile + "_";
 								}
 								//add date to filename
 								getDXFURL += today+".dxf&CRS=EPSG:"+authid+"&BBOX="+geoExtMap.map.getExtent().toString()+"&WIDTH="+geoExtMap.map.getSize().w+"&HEIGHT="+geoExtMap.map.getSize().h+"&LAYERS=";
 								//check if we need to enable additional layers
 								var DXFExportLayers = thematicLayer.params.LAYERS;
-								if (typeof(mapThemeSwitcher.activeProjectData) !== 'undefined') {
+								if (mapThemeSwitcher !== null && typeof(mapThemeSwitcher.activeProjectData) !== 'undefined') {
 									if (mapThemeSwitcher.activeProjectData.DXFExportForcedLayers) {
 										var DXFExportForcedLayers = mapThemeSwitcher.activeProjectData.DXFExportForcedLayers.split(",");
 										for (var i=0; i < DXFExportForcedLayers.length; i++) {
@@ -206,8 +206,8 @@ function DXFExporter(parentPanel) {
 //test if DXF export should be enabled/disabled
 DXFExporter.prototype.checkEnabled = function() {
 	if (typeof(enableDXFExport) !== 'undefined') {
-		if (typeof(mapThemeSwitcher) !== 'undefined') {
-			if (typeof(mapThemeSwitcher.activeProjectData) !== 'undefined') {
+		if (mapThemeSwitcher !== null && typeof(mapThemeSwitcher) !== 'undefined') {
+			if (mapThemeSwitcher.activeProjectData !== null && typeof(mapThemeSwitcher.activeProjectData) !== 'undefined') {
 				if (mapThemeSwitcher.activeProjectData.enableDXFExport === undefined) {
 					//if not defined on project level use the global option
 					if (enableDXFExport == true) {
@@ -247,7 +247,7 @@ DXFExporter.prototype.startDXFExport = function () {
 			showDXFExportDisclaimer = true;
 		}
 	}
-	if (typeof(mapThemeSwitcher.activeProjectData) !== 'undefined') {
+	if (mapThemeSwitcher !== null && typeof(mapThemeSwitcher.activeProjectData) !== 'undefined') {
 		if (mapThemeSwitcher.activeProjectData.DXFExportDownloadDisclaimer) {
 			if (mapThemeSwitcher.activeProjectData.DXFExportDownloadDisclaimer.length > 1) {
 				Ext.getCmp('DXFExportDisclaimerHTMLContainer').update(mapThemeSwitcher.activeProjectData.DXFExportDownloadDisclaimer);
@@ -267,7 +267,7 @@ DXFExporter.prototype.startDXFExport = function () {
 	//deal with dxf export scale limits
 	var scaleCombobox = Ext.getCmp('DXFExportScaleCombobox');
 	var scaleDataStore = scaleCombobox.getStore();
-	if (typeof(mapThemeSwitcher.activeProjectData) !== 'undefined') {
+	if (mapThemeSwitcher !== null && typeof(mapThemeSwitcher.activeProjectData) !== 'undefined') {
 		if (mapThemeSwitcher.activeProjectData.DXFExportDefaultScale) {
 			scaleCombobox.setValue(mapThemeSwitcher.activeProjectData.DXFExportDefaultScale);
 		}
