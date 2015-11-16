@@ -208,7 +208,7 @@ DXFExporter.prototype.checkEnabled = function() {
 	if (typeof(enableDXFExport) !== 'undefined') {
 		if (mapThemeSwitcher !== null && typeof(mapThemeSwitcher) !== 'undefined') {
 			if (mapThemeSwitcher.activeProjectData !== null && typeof(mapThemeSwitcher.activeProjectData) !== 'undefined') {
-				if (mapThemeSwitcher.activeProjectData.enableDXFExport === 'undefined') {
+				if (mapThemeSwitcher.activeProjectData.enableDXFExport === undefined) {
 					//if not defined on project level use the global option
 					if (enableDXFExport == true) {
 						Ext.getCmp('ExportDXF').show();
