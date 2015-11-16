@@ -141,7 +141,7 @@ def application(environ, start_response):
   if "cb" in request.params:
     resultString = request.params["cb"] + '(' + resultString + ')'
 
-  response = Response(resultString,"200 OK",[("Content-type","application/json"),("Content-length", str(len(resultString)) )])
+  response = Response(resultString,"200 OK",[("Content-type","application/javascript"),("Content-length", str(len(resultString)) )])
 
   conn.close()
 
