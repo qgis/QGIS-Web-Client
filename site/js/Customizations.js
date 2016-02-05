@@ -143,9 +143,19 @@ function customActionOnZoomEvent() {
 	// that function is called during zooms, too!
 
 	// ... action to do on call
+        // Maintain the Permanent URL in the addressbar for modern browsers
+	if (history.replaceState) {
+        	var permalink = createPermalink();
+		history.replaceState(null, null, permalink);
+	}
 }
 
 // called after a drag, pan, or zoom completed
 function customActionOnMoveEvent() {
 	// ... action to do on call
+        // Maintain the Permanent URL in the addressbar for modern browsers
+        if (history.replaceState) {
+                var permalink = createPermalink();
+                history.replaceState(null, null, permalink);
+        }
 }
