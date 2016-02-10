@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Hilfe zum QGIS Web Client</title>
+  <link type="text/css" href="css/help.css" rel="stylesheet" />
+  <meta charset="utf-8" />
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width; initial-scale=1.0" />
+</head>
+<body>
+<div id="help_page">
+<div id="help_wrapper">
+  <header>
+    <div id="help_caption">
+      <h1 >QGIS Web Client</h1>
+      <h2 class="SubCaption">Hilfe zum Client</h2>
+    </div>
+  </header>
+ <hr>
+  <nav>
+    <div id="help_logo">
+      <span class="logo_img"><a href="http://qgis.org"><img src="img/qgis-icon.png"/></a></span>
+    </div>
+    <ul class="ul_help">
+    <li class="list-header">Inhalt
+      <ul class="ul_help">
+        <li><span class="linksim" onclick="scrollToHelpItem('help_generalUsage')">Allgemeines</span>
+          <ul class="ul_help">
+            <li><span class="linksim" onclick="scrollToHelpItem('help_workingWithLayers')">Kartenebenen</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_searching')">Suche</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_navigating')">Kartennavigation</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_measuring')">Messen</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_printing')">Drucken</span></li>
+          </ul>
+        </li>
+        <li><span class="linksim" onclick="scrollToHelpItem('help_about')">Über den QGIS Web Client</span>
+          <ul class="ul_help">
+            <li><span class="linksim" onclick="scrollToHelpItem('help_license')">Lizenz</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_moreHelp')">Weitere Hilfe</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_usefulLinks')">Nützliche Links</span></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    </ul>
+  </nav>
+  <div id="help_content">
+  <section id="help_general">
+    <article>
+      <h2 id="help_generalUsage">Allgemeines</h2>
+      <p>Das Anwendungsfenster ist in drei Bereich aufgeteilt: <i>Infos und Werzeuge</i> auf der linken Seite, das Hauptkartenfenster (mit Werzeugleiste oben) in der Mitte und die <i>Attributdaten</i> auf der rechten Seite. Der rechte und der linke Bereich können geschlossen und wieder geöffnet werden.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_workingWithLayers">Mit Kartenlayern arbeiten</h3>
+      <p>Im Bereich <i>Info und Werzeuge</i> sind alle verfügbaren Layer in den <i>Kartenebenen</i> aufgelistet. Haken Sie einen Layer an, um ihn in der Karte anzuzeigen. Die Legende aller angezeigten Layer wird im Reiter <i>Legende</i> angezeigt.
+      </p>
+      <p>Sobald Sie auf einen Layernamen klicken, wird dieser Layer der <b>aktive Layer</b>.
+      </p>
+      <p>Mit dem Werkzeug <img src="gis_icons/mActionIdentify.png" alt="identiy"/> in der Werkzeugleiste können Sie Informationen zu jedewedem Kartenobjekt abfragen.
+            Die Informationen können sichtbar sein, wenn die Maus über das Objekt bewegt wird und/oder sie werden angezeigt, wenn auf das Objekt geklickt wird.
+            Mit der Auswahl in der <i>Objektidentifikation</i> können Sie festlegen, von welchen Layern die angezeigten Informationen stammen sollen.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_searching">Nach Kartenobjekten suchen</h3>
+      <p>Geben Sie einen beliebigen Suchbegriff (Strassenname, Objekttyp etc.) oder auch nur einen Teil davon in die Suchmaske im oberen Teil des Kartenbereichs ein. Alle Objekte, die der Suche entsprechen, werden angezeigt; durch Anklicken können Sie eines davon auswählen. Der Kartenausschnitt wird dann automatisch so gewählt, dass das Objekt enthalten ist, das Objekt selbst wird farbig hervorgehoben.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_navigating">Sich in der Karte bewegen</h3>
+      <p>Um sich in der Karte zu bewegen, werden folgende Werkzeuge benutzt: <img src="gis_icons/mActionZoomBox.png" alt="ZoomBox"/>
+        <img src="gis_icons/mActionZoomFullExtent.png" alt="ZoomFullExtent"/>
+        <img src="gis_icons/mActionZoomLast.png" alt="ZoomLast"/> und <img src="gis_icons/mActionZoomNext.png" alt="ZoomNext"/>.
+          Alle Werkzeuge zeigen eine kleine Hilfe zu ihrer Funktion, wenn Sie die Maus über das Werkzeug bewegen.
+      </p>
+      <p>Sie können die Karte natürlich auch mit dem Massstabswerkzeug in der linken oberen Ecke des Kartenbereichs ein- und auszoomen oder geben Sie einen konkreten Massstab in das Massstabsfeld rechts unten ein. Weiterhin können Sie auch mit dem Mausrad ein- und auszoomen.     
+      </p>
+      <p>Um die Karte zu verschieben, drücken Sie die linke Maustaste und halten Sie sie gedrückt, während Sie die Maus verschieben. Weiterhin können Sie auch konkrete Koordinaten in das Koordinatenfeld in der rechten unteren Ecke eingeben.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_measuring">Entfernungen und Flächen messen</h3>
+      <p>Mit den Werkzeugen <img src="gis_icons/mActionMeasure.png" alt="Measure"/> und <img src="gis_icons/mActionMeasureArea.png" alt="MeasureArea"/> können Sie messen. Ein Klick mit der linken Maustaste setzt einen Punkt in der zu messenden Linie bzw. Fläche, ein Doppelklick beendet die Messung. Das Messergebnis wird kontinuierlich unterhalb der Karte angezeigt.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_printing">Drucken</h3>
+      <p>Falls der Verantwortliche dieser Webseite Drucklayouts definiert hat, können Sie sie hiermit anzeigen
+        <img src="gis_icons/mActionFilePrint.png" alt="FilePrint"/>. Auf der Karte wird dann der im Druck enthaltene Ausschnitt angezeigt. Sie können diesen Ausschnitt so drehen, skalieren und verschieben, bis er Ihren Vorstellungen entspricht.
+      </p>
+    </article>
+  </section>
+  <section id="help_about_qgis">
+    <article>
+      <h2 id="help_about">Über den QGIS Web Client</h2>
+      <p>QGIS oder QGIS Web Client ist ein Webgis-Client der auf OpenLayers, GeoExt und ExtJS basiert und der QGIS-eigene Erweiterungen des WMS-Standards nutzt. Er unterstützt die Kartenanzeige, Objektabfragen, Legenden, Suche und das Drucken von Kartenausschnitten. Er sollte in allen handelsüblichen Browsern funktionieren.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_license">Lizenz</h3>
+      <p>Der QGIS Web Client ist unter einer BSD-Lizenz lizensiert. Der volle Lizenztext befindet sich in der 
+        <a href="http://github.com/qgis/qgis-web-client/blob/master/README" target="_blank">README</a>-Datei.
+      </p>
+    </article>
+    <article>
+      <h2 id="help_moreHelp">Weitere Hilfe</h2>
+      <p>Wenn Sie Probleme bei der Benutzung dieser Anwendung haben, wenden Sie sich bitte zuerst an den Verantwortlichen der Seite, auf der Sie sich befinden! Das Entwicklerteam des
+        QGIS Web Client kann nicht die Probleme einer einzelnen Seite lösen.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_usefulLinks">Nützliche Links</h3>
+      <ul>
+        <li><a href="http://github.com/qgis/qgis-web-client" target="_blank">Quellcode von QGIS Web Client at Github</a></li>
+        <li><a href="http://www.openlayers.org" target="_blank">OpenLayers Homepage</a></li>
+        <li><a href="http://geoext.org" target="_blank">GeoExt Homepage</a></li>
+        <li><a href="http://www.sencha.com/products/extjs" target="_blank">Sencha Ext JS</a></li>
+        <li><a href="http://qgis.org" target="_blank">QGIS Homepage</a></li>
+		 <li><a href="http://hub.qgis.org/projects/quantum-gis/wiki/QGIS_Server_Tutorial" target="_blank">QGIS Server Tutorial</a></li>
+      </ul>
+	</article>
+  </section>
+  </div>
+  <div style="Clear: both"></div>
+</div>
+</div>
+</body>
+</html>

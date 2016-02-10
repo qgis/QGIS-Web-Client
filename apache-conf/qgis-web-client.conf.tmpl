@@ -1,50 +1,63 @@
 <VirtualHost *:80>
   ServerAdmin webmaster@localhost
   # Add an entry to your /etc/hosts file for qgis-web-client.localhost e.g.
-  # 127.0.0.1 qgis-web-client.localhost
-  ServerName qgis-web-client.localhost
+  # 127.0.0.1 <qgis-web-client.localhost>
+  ServerName <qgis-web-client.localhost>
 
-  DocumentRoot /<path-to-qgis-web-client>/site
+  DocumentRoot <absolute-path-to-qgis-web-client>/site
   <Directory />
     Options FollowSymLinks
     AllowOverride None
   </Directory>
-  <Directory /<path-to-qgis-web-client>/site/>
+  <Directory <absolute-path-to-qgis-web-client>/site/>
+    DirectoryIndex index.php index.html
     Options Indexes FollowSymLinks MultiViews
     AllowOverride None
     Order allow,deny
     allow from all
+    # apache 2.4 requires the next line
+    # see http://httpd.apache.org/docs/2.4/upgrading.html
+    #<ENABLE_FOR_APACHE_2_4>Require all granted
   </Directory>
 
-  ScriptAlias /cgi-bin/ /<path-to-qgis-web-client>/cgi-bin/
-  <Directory "/<path-to-qgis-web-client>/cgi-bin/">
+  # if qgis-server is installed from packages in ubuntu this is usually /usr/lib/cgi-bin/
+  # run "locate qgis_mapserv.fcgi" if you don't know where qgis_mapserv.fcgi is
+  ScriptAlias /cgi-bin/ <absolute-path-to-qgis_mapserv.fcgi-folder>/
+  <Directory "<absolute-path-to-qgis_mapserv.fcgi-folder>/">
     AllowOverride None
     Options +ExecCGI -MultiViews -SymLinksIfOwnerMatch
     Order allow,deny
     Allow from all
+    # apache 2.4 requires the next line
+    # see http://httpd.apache.org/docs/2.4/upgrading.html
+    #<ENABLE_FOR_APACHE_2_4>Require all granted
     #Uncomment the next line to enable logging to a file
     #SetEnv QGIS_LOG_FILE /tmp/qgislog.txt
   </Directory>
 
 
   # optional rewrite rules
+  #<REMOVE_TO_ENABLE_URL_REWRITE>RewriteEngine On
 
   # Forbid direct access
-#  RewriteRule ^/cgi-bin/.*$ - [F]
+  #<REMOVE_TO_ENABLE_URL_REWRITE>RewriteRule ^/cgi-bin/.*$ - [F]
 
   # Search with SearchPanel
 
   # sample search on layer 'Hello'
-  RewriteCond %{QUERY_STRING} ^(?:.*)query=samplesearch&*(?:.*)$
-  RewriteCond %{QUERY_STRING} ^(?:(?:.*)&)?colour=([^&]*)(?:.*)$
-  RewriteRule ^/wms/(.+)$ /cgi-bin/qgis_mapserv.fcgi?map=/<path-to-qgis-server-projects>/$1.qgs&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&LAYERS=Hello&QUERY_LAYERS=Hello&FEATURE_COUNT=20&INFO_FORMAT=text/xml&SRS=EPSG:4326&FILTER=Hello:"colour"\ =\ '%1' [PT]
+  # sample search on layer 'Hello'
+  #RewriteCond %{QUERY_STRING} ^(?:.*)query=samplesearch&*(?:.*)$
+  #RewriteCond %{QUERY_STRING} ^(?:(?:.*)&)?colour=([^&]*)(?:.*)$
+  #RewriteRule ^/wms/(.+)$ /cgi-bin/qgis_mapserv.fcgi?map=<absolute-path-to-qgis-server-projects>/$1.qgs&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&LAYERS=Hello&QUERY_LAYERS=Hello&FEATURE_COUNT=20&INFO_FORMAT=text/xml&SRS=EPSG:4326&FILTER=Hello:"colour"\ =\ '%1' [PT]
 
-  # Rewrite /wms/mapname to qgis_mapserv.fcgi?map=/<path-to-qgis-server-projects>/mapname.qgs
-  RewriteRule ^/wms/(.+)$ /cgi-bin/qgis_mapserv.fcgi?map=/<path-to-qgis-server-projects>/$1.qgs [QSA,PT]
+  # Rewrite /wms/mapname to qgis_mapserv.fcgi?map=<absolute-path-to-qgis-server-projects>/mapname.qgs
+  #<REMOVE_TO_ENABLE_URL_REWRITE>RewriteRule ^/wms/(.+)$ /cgi-bin/qgis_mapserv.fcgi?map=<absolute-path-to-qgis-server-projects>/$1.qgs [QSA,PT]
+  # Rewrite /maps to index
+  #<REMOVE_TO_ENABLE_URL_REWRITE>RewriteRule ^/maps/?$ / [PT]
   # Rewrite /maps/mapname to qgis-web-client main page. mapname will be extracted for wms calls in Javascript code.
-  RewriteRule ^/maps/([^\.]+)$ /qgis-web-client/site/qgiswebclient.html [PT]
+  #<REMOVE_TO_ENABLE_URL_REWRITE>RewriteRule ^/maps/([^\.]+)$ /qgiswebclient.html [PT]
   # Rewrite /maps/* to qgis-web-client/site (e.g. /maps/gis_icons/mActionZoomNext.png -> /qgis-web-client/site/gis_icons/mActionZoomNext.png)
-  RewriteRule ^/maps/(.*) /qgis-web-client/site/$1 [PT]
+  #<REMOVE_TO_ENABLE_URL_REWRITE>RewriteRule ^/maps/(.*) /$1 [PT]
 
 
   ErrorLog ${APACHE_LOG_DIR}/qgis-web-client-error.log

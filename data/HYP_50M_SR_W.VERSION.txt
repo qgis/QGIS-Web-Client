@@ -1,0 +1,2 @@
+2.0.0 resampled from 0.03 to 0.08 pixel resolution.
+3.0.0 retransformed to EPSG 3857. changed to JPEG compression. removed unnecessary prj file. (2013-10-22)

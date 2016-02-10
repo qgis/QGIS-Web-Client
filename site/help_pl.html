@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <title>Podręcznik pomocy QGIS Web Client</title>
+  <link type="text/css" href="css/help.css" rel="stylesheet" />
+  <meta charset="utf-8" />
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width; initial-scale=1.0" />
+</head>
+<body>
+<div id="help_page">
+<div id="help_wrapper">
+  <header>
+    <div id="help_caption">
+      <h1>QGIS Web Client</h1>
+      <h2 class="SubCaption">Podręcznik pomocy korzystania z aplikacji</h2>
+    </div>
+  </header>
+ <hr/>
+  <nav>
+    <div id="help_logo">
+      <span class="logo_img"><a href="http://qgis.org"><img src="img/qgis-icon.png"/></a></span>
+    </div>
+    <ul class="ul_help">
+    <li class="list-header">Spis treści
+      <ul class="ul_help">
+        <li><span class="linksim" onclick="scrollToHelpItem('help_generalUsage')">Ogólne użytkowanie</span>
+          <ul class="ul_help">
+            <li><span class="linksim" onclick="scrollToHelpItem('help_workingWithLayers')">Warstwy mapy</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_searching')">Wyszukiwanie</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_navigating')">Nawigacja mapy</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_measuring')">Pomiary</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_printing')">Drukowanie</span></li>
+          </ul>
+        </li>
+        <li><span class="linksim" onclick="scrollToHelpItem('help_about')">O aplikacji QGIS Web Client</span>
+          <ul class="ul_help">
+            <li><span class="linksim" onclick="scrollToHelpItem('help_license')">Licencja</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_moreHelp')">Więcej pomocy</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_usefulLinks')">Przydatne linki</span></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+   </ul>
+  </nav>
+  <div id="help_content">
+  <section id="help_general">
+    <article>
+      <h2 id="help_generalUsage">Ogólne użytkowanie</h2>
+      <p>Okno aplikacji podzielone jest na dwa panele: <i>Informacje i narzędzia</i> po lewej stronie oraz główny panel mapy z belką nawigacyjną u góry. Panel lewy można ukryć klikając symbol strzałek obok tytułu ramki.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_workingWithLayers">Praca z warstwami</h3>
+      <p>W panelu <i>Informacje i narzędzia</i> wszystkie widoczne warstwy są wypisane w sekcji <i>Zawartość mapy</i>. Zaznacz lub odznacz warstwę, aby włączyć lub wyłączyć jej wyświetlanie na mapie.
+            Legenda każdej widocznej warstwy może być wyświetlona po kliknięciu ikony informacji znajdującej się obok nazwy danej warstwy.
+      </p>
+      <p>Jeśli klikniesz na nazwę danej warstwy, stanie się ona <b>aktywną warstwą</b>.
+      </p>
+      <p>Użyj przycisku <img src="gis_icons/mActionIdentify.png" alt="identiy"/> znajdującego się na belce narzędziowej panelu głównego mapy, aby uzyskać informację o dowolnym obiekcie widocznym na mapie.
+            Informacje mogą być widoczne, podczas
+            poruszania kursorem nad obiektem i/lub w <i>Ramce atrybutów</i>, która ukaże się po kliknięciu w dany obiekt. Wybierając opcję z listy <i>Identyfikacja obiektu</i>
+            możesz zdecydować, w jaki sposób ma być przeprowadzone zapytanie (najwyższa warstwa, wszystkie warstwy na raz, tylko obiekty z aktywnej warstwy).
+      </p>
+    </article>
+    <article>
+      <h3 id="help_searching">Przeszukiwanie zawartości mapy</h3>
+      <p>Wpisz dowolne wyrażenie (nazwę ulicy, miejsce, rodzaj szukanego obiektu, itp.) lub część wyrażenia w pole wyszkukiwania w panelu <i>Informacje i narzędzia</i>. 
+	Poniżej zostaną wyświetlone wszystkie znalezione obiekty, z których możesz zostać wybrany interesujący Cię obiekt. Po zaznaczeniu go, mapa automatycznie zostanie wycentrowana na wybranym obiekcie.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_navigating">Nawigacja mapy</h3>
+      <p>Nawiguj używając przycisków <img src="gis_icons/mActionZoomBox.png" alt="ZoomBox"/>
+        <img src="gis_icons/mActionZoomFullExtent.png" alt="ZoomFullExtent"/>
+        <img src="gis_icons/mActionZoomLast.png" alt="ZoomLast"/> oraz <img src="gis_icons/mActionZoomNext.png" alt="ZoomNext"/> znajdujących się na belce nawigacyjnej.
+          Wszystkie przyciski posiadają podpowiedzi, które pojawią się po najechaniu kursorem na dany przycisk.
+      </p>
+      <p>Możesz również przybliżyć mapę używając interaktywnego paska powiększenia w lewej górnej części mapy
+	lub wybierając konkretną skalę w prawym dolnym rogu ekranu.
+	Jeśli posiadasz mysz z kółkiem, możesz go użyć, aby zmienić poziom powiększenia mapy.
+      </p>
+      <p>Przesuń mapę poprzez wciśnięcie lewego przycisku myszki w obszarze mapy, podczas poruszania myszką. Możesz również wpisać interesujące Cię współrzędne w prawym dolnym rogu ekranu.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_measuring">Pomiar odległości i powierzchni</h3>
+      <p>Użyj narzędzi <img src="gis_icons/mActionMeasure.png" alt="Measure"/> oraz <img src="gis_icons/mActionMeasureArea.png" alt="MeasureArea"/> na belce narzędziowej.
+        Klikając na mapie lewym przyciskiem myszy wyznacz punkty węzłowe ścieżki lub obszaru, jaki chcesz zmierzyć; podwójne kliknięcie w ostatnim punkcie kończy pomiar. Wynik pomiaru będzie aktualizowany w okienku na bieżąco.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_printing">Drukowanie</h3>
+      <p>Jeśli szablony drukowania zostały ustalone przez administratora mapy, wtedy są one dostępne po kliknięciu przycisku 
+        <img src="gis_icons/mActionFilePrint.png" alt="FilePrint"/>. Po kliknięciu w tę ikonę pokaże się okno, w którym można wybrać kolejno: szablon wydruku, skalę, rozdzielczość wydruku oraz kąt, pod jakim ma zostać obrócona ramka z zakresem wydruku. Oprócz zdefiniowania obrotu, ramkę z zakresem możesz przenieść w inne miejsce lub zmienić jej rozmiar tak, by dopasować wydruk do swoich potrzeb.
+      </p>
+    </article>
+  </section>
+  <section id="help_about_qgis">
+    <article>
+      <h2 id="help_about">O aplikacji QGIS Web Client</h2>
+      <p>QGIS lub QGIS Web Client jest internetową aplikacją GIS-ową opartą na OpenLayers, GeoExt oraz ExtJS, pozwalającą na użycie rozszerzeń WMS QGIS. Umożliwia wyświetlanie mapy, wykonywanie zapytań obiektów, graficzną legendę, wyszukiwanie oraz drukowanie. Aplikacja jest obsługiwana przez wszystkie główne przeglądarki internetowe.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_license">Licencja</h3>
+      <p>QGIS Web Client posiada licencję BSD. Przeczytaj plik
+        <a href="http://github.com/qgis/qgis-web-client/blob/master/README" target="_blank">README</a>,
+        aby zapoznać się z pełną treścią licencji.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_moreHelp">Więcej pomocy</h3>
+      <p>Jeśli napotkałeś jakieś problemy używając tej aplikajci, skontatkuj się z administratorem danego serwisu! Zespół deweloperów QGIS Web Client nie jest w stanie rozwiązywać problemów pojawiających się na poszczególnych witrynach.</p>
+    </article>
+    <article>
+      <h3 id="help_usefulLinks">Przydatne linki</h3>
+      <ul>
+        <li><a href="http://github.com/qgis/qgis-web-client" target="_blank">Kod źródłowy QGIS Web Client w serwisie Github</a></li>
+        <li><a href="http://www.openlayers.org" target="_blank">Strona główna OpenLayers</a></li>
+        <li><a href="http://geoext.org" target="_blank">Strona główna GeoExt</a></li>
+        <li><a href="http://www.sencha.com/products/extjs" target="_blank">Strona główna Sencha Ext JS</a></li>
+        <li><a href="http://qgis.org" target="_blank">Strona główna QGIS</a></li>
+        <li><a href="http://hub.qgis.org/projects/quantum-gis/wiki/QGIS_Server_Tutorial" target="_blank">Samouczek QGIS Server</a></li>
+      </ul>
+    </article>
+  </section>
+  </div>
+  <div style="Clear: both"></div>
+</div>
+</div>
+</body>
+</html>

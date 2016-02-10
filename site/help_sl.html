@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="sl">
+<head>
+  <title>Pomoč za QGIS spletni odjemalec</title>
+  <link type="text/css" href="css/help.css" rel="stylesheet" />
+  <meta charset="utf-8" />
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width; initial-scale=1.0" />
+</head>
+<body>
+<div id="help_page">
+<div id="help_wrapper">
+  <header>
+    <div id="help_caption">
+      <h1>QGIS spletni odjemalec</h1>
+      <h2 class="SubCaption">Navodila za uporabo osnovne različice programa</h2>
+    </div>
+  </header>
+ <hr/>
+  <nav>
+    <div id="help_logo">
+      <span class="logo_img"><a href="http://qgis.org"><img src="img/qgis-icon.png"/></a></span>
+    </div>
+    <ul class="ul_help">
+    <li class="list-header">Kazalo vsebine
+      <ul class="ul_help">
+        <li><span class="linksim" onclick="scrollToHelpItem('help_generalUsage')">Splošno o uporabi</span>
+          <ul class="ul_help">
+            <li><span class="linksim" onclick="scrollToHelpItem('help_workingWithLayers')">Sloji zemljevida</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_searching')">Iskanje</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_navigating')">Navigacija po zemljevidu</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_measuring')">Merjenje</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_printing')">Tiskanje</span></li>
+          </ul>
+        </li>
+        <li><span class="linksim" onclick="scrollToHelpItem('help_about')">O spletnem odjemalcu</span>
+          <ul class="ul_help">
+            <li><span class="linksim" onclick="scrollToHelpItem('help_license')">Licenca</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_moreHelp')">Dodatna pomoč</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_usefulLinks')">Uporabne povezave</span></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+   </ul>
+  </nav>
+  <div id="help_content">
+  <section id="help_general">
+    <article>
+      <h2 id="help_generalUsage">Splošno o uporabi</h2>
+      <p>Okno aplikacije je razdeljeno na tri dele: ekran <i>Informacije in orodja</i> na levi strani, glavni ekran z zemljevidom (mapo) z orodno vrstico na vrhu in ekranom <i>Opisni podatki</i> na desni. Skladno z načinom uporabe aplikacije sta levi in desni ekran v določenem trenutku lahko vidna ali pa ne.
+      </p>
+	</article>
+    <article>
+      <h3 id="help_workingWithLayers">Delo s sloji</h3>
+      <p>V ekranu <i>Informacije in orodja</i> so na zavihku <i>Sloji</i> navedeni vsi sloji, ki so na razpolago v aplikaciji. S kljukico označite ali odznačite sloj za spremembo vidnosti v glavnem ekranu.
+            Legenda in metapodatki sloja se pokažejo v ločenem oknu s klikom na ikono "i" poleg imena sloja.
+      </p>
+      <p>Ko kliknete na ime sloja, postane ta <b>aktivni sloj.</b>
+      </p>
+      <p>Za identifikacijo poljubnega objekta na zemljevidu uporabite gumb <img src="gis_icons/mActionIdentify.png" alt="*Identifikacija objekta*"/> v orodni vrstici na vrhu glavnega ekrana.
+          Informacija je lahko vidna že ob premiku miškinega kazalca preko objekta in/ali v ločenem ekranu <i>Atributni podatki</i> s klikom na objekt. Z izborom ene izmed možnosti pri <i>Identifikaciji objekta</i> lahko izberete, kateri sloj oz. sloji bodo uporabljeni za poizvedbo.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_searching">Iskanje objektov v mapi</h3>
+      <p>Glede na konfiguracijo aplikacije lahko vnesete besedilni niz (ali del niza) v iskalno polje v zgornjem desnem oknu zemljevida. Vsa vsebina, ki ustreza vnešenemu besedilu, se prikaže v seznamu. S klikom na objekt v seznamu se zemljevid samodejno premakne in približa pogled tako, da se izbrani objekt nahaja v sredini mape in je barvno označen.</p>
+    </article>
+    <article>
+      <h3 id="help_navigating">Navigacija po zemljevidu</h3>
+      <p>Za navigacijo lahko (odvisno od konfiguracije aplikacije) uporabite navigacijske gumbe <img src="gis_icons/mActionZoomBox.png" alt="*ZoomBox*"/>
+        <img src="gis_icons/mActionZoomFullExtent.png" alt="*ZoomFullExtent*"/>
+        <img src="gis_icons/mActionZoomLast.png" alt="*ZoomLast*"/> and <img src="gis_icons/mActionZoomNext.png" alt="*ZoomNext*"/> v orodni vrstici.
+          S premikom miškinega kazalce preko gumba se pokaže namig.</p>
+      <p>Za navigacijo ter za približevanje/oddaljevanje pogleda (ang. <i>Zoom in / Zoom out</i>)lahko uporabite tudi interaktivno orodje v zgornjem levem kotu okna z zemljevidom.</p>
+		<p>Za spreminjanje bližine pogleda lahko vrtite srednji gumb (kolo) na miški ali pa neposredno vnesete merilo v polje merila v spodnjem desnem vogalu okna mape.
+		</p>
+	    <p>Pogled lahko približate tudi tako, da držite tipko <i>Ctrl</i>in s kliknjenim levim gumbom miške označite pravokotnik, ki ga želite približati.
+      </p>
+      <p>Premikanje zemljevida lahko izvedete s premikanjem miške in ob tem držite levi gumb miške kliknjen. Na želeno lokacijo se lahko premaknete tudi z neposrednim vnosom koordinat v polje za koordinate v spodnjem desnem vogalu okna mape.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_measuring">Merjenje razdalj in površin</h3>
+      <p>Uporabite orodja <img src="gis_icons/mActionMeasure.png" alt="*Merjenje razdalje*"/> and <img src="gis_icons/mActionMeasureArea.png" alt="*Merjenje površine*"/> v orodni vrstici.
+        Levi klik označi začetno točko linije ali ploskve za merjenje, naslednji kliki označijo prelom linije, dvoklik zaključi meritev. Rezultat meritve se sproti prikazuje v mapi.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_printing">Tiskanje</h3>
+      <p>V kolikor so v aplikaciji vnaprej določene predloge, bodo ponujene v izbor s klikom na gumb
+        <img src="gis_icons/mActionFilePrint.png" alt="*Natisni datoteko*"/>. Okvir označuje področje, ki bo natisnjeno. Okvir lahko premaknete, mu spremenite velikost ali ga zasukate in tako prilagodite svojim potrebam.
+      </p>
+    </article>
+  </section>
+  <section id="help_about_qgis">
+    <article>
+      <h2 id="help_about">O  spletnem odjemalcu</h2>
+      <p>Spletni odjemalec QGIS temelji na OpenLayers, GeoExt in ExtJS in podpira uporabo specifičnih WMS razširitev. Podpira grafično prikazovanje kart in legend, funkcije poizvedb, iskanja in tiskanje. Podpirajo ga vsi večji brskalniki.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_license">Licenca</h3>
+      <p>Spletni odjemalec QGIS je dostopen z licenco BSD. Za dodatne informacije in omejitve si poglejte datoteko
+        <a href="http://github.com/qgis/qgis-web-client/blob/master/README" target="_blank">README</a>.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_moreHelp">Dodatna pomoč</h3>
+      <p>Če naletite na kakršne koli težave z aplikacijo, se obrnite na skrbnika spletne strani, ki jo obiskujete!</p>
+    </article>
+    <article>
+      <h3 id="help_usefulLinks">Uporabne povezave</h3>
+      <ul>
+        <li><a href="http://github.com/qgis/qgis-web-client" target="_blank">Izvorna koda spletnega odjemalca QGIS</a></li>
+        <li><a href="http://www.openlayers.org" target="_blank">OpenLayers - domača stran </a></li>
+        <li><a href="http://geoext.org" target="_blank">GeoExt - domača stran </a></li>
+        <li><a href="http://www.sencha.com/products/extjs" target="_blank">Sencha Ext JS - domača stran </a></li>
+        <li><a href="http://qgis.org" target="_blank">QGIS - domača stran </a></li>
+         <li><a href="http://hub.qgis.org/projects/quantum-gis/wiki/QGIS_Server_Tutorial" target="_blank">Priročnik za QGIS strežnik</a></li>
+      </ul>
+    </article>
+  </section>
+  </div>
+  <div style="Clear: both"></div>
+</div>
+</div>
+</body>
+</html>

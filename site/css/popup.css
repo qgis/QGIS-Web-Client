@@ -1,0 +1,117 @@
+
+
+a:link, a:visited
+{
+	color: #FF6600;
+}
+
+h1, h2, h3, h4, h5
+{
+	color: #FF6600;
+}
+
+
+
+
+/* popup related styles */
+.olPopup
+{
+	overflow:inherit;
+	pointer-events: none;
+	max-height:400px;
+}
+
+.olPopup *
+{
+	margin: 0px;
+	padding:0px;
+	font-size: 12px;
+	font-family: sans-serif;
+}
+
+.olPopup div[id$='_FrameDecorationDiv_0'],.olPopup div[id$='_FrameDecorationDiv_1'] {
+	max-height:350px; /*should be .olPopup max-height - 50 */
+}
+
+.olPopup a.close
+{
+	width: 14px;
+	height: 14px;
+	position: absolute;
+	top: 10px;
+	right: 28px;
+	background: url(../img/close.gif) no-repeat top left;
+	margin: 0px;
+	font-size: 1px;
+	padding: 0px;
+	pointer-events: auto;
+}
+
+.olPopup a.close:hover
+{
+	background: url(../img/close-hover.gif) no-repeat top left;
+}
+
+.olPopup .olFramedCloudPopupContent
+{
+	min-width:200px;
+	max-width:400px;
+	max-height:350px; /*should be .olPopup max-height - 50 */
+	background-color: #ffffff !important;
+	padding: 1px !important;
+	margin: 0px !important;
+	font-size: 0.80em;
+	font-family: sans-serif;
+}
+
+.olFramedCloudPopupContent {
+	pointer-events: auto;
+    max-width:400px;
+}
+
+.olPopup .olFramedCloudPopupContent h2
+{
+	font-size: small;
+	text-align: center;
+	padding: 2px 0px 2px 0px;
+	margin: 0px 6px 0px 6px;
+	font-family: sans-serif;
+}
+
+.hoverLayerTitle {
+	text-align: left !important;
+	padding: 0px !important;
+	margin: 0px !important;
+}
+
+.hrHoverLayer {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.olPopup .olFramedCloudPopupContent table
+{
+	border-collapse:collapse;
+	overflow: auto;
+	padding: 6px 0px;
+	width: 100%;
+	margin-bottom: 1em;
+}
+
+.olFramedCloudPopupContent table td
+{
+	padding: 4px;
+	border: 1px solid #cccccc;
+}
+
+.olPopup .olPopupCloseBox
+{
+	background: url(../img/close.gif) no-repeat top left;
+	pointer-events: auto;
+}
+
+.olPopup .olPopupCloseBox:hover
+{
+	background: url(../img/close-hover.gif) no-repeat top left;
+	cursor: pointer;
+}

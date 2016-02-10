@@ -15,12 +15,12 @@
 
 #projects ul li img.thumbnail {
     margin-bottom: 1px;
-		position: absolute;
+	/*position: absolute;*/
 }
 
 
 #projects ul li {
-		position: relative;
+	position: relative;
     float: left;
     padding: 5px;
     margin: 5px;

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>QGIS Web Client Help</title>
+  <link type="text/css" href="css/help.css" rel="stylesheet" />
+  <meta charset="utf-8" />
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width; initial-scale=1.0" />
+</head>
+<body>
+<div id="help_page">
+<div id="help_wrapper">
+  <header>
+    <div id="help_caption">
+      <h1>QGIS Web Client</h1>
+      <h2 class="SubCaption">Помощь</h2>
+    </div>
+  </header>
+ <hr/>
+  <nav>
+    <div id="help_logo">
+      <span class="logo_img"><a href="http://qgis.org"><img src="img/qgis-icon.png"/></a></span>
+    </div>
+    <ul class="ul_help">
+    <li class="list-header">Оглавление
+      <ul class="ul_help">
+        <li><span class="linksim" onclick="scrollToHelpItem('help_generalUsage')">Использование</span>
+          <ul class="ul_help">
+            <li><span class="linksim" onclick="scrollToHelpItem('help_workingWithLayers')">Слои</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_searching')">Поиск</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_navigating')">Нивигация по карте</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_measuring')">Измерение</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_printing')">Печать</span></li>
+          </ul>
+        </li>
+        <li><span class="linksim" onclick="scrollToHelpItem('help_about')">Информация о QGIS Web Client</span>
+          <ul class="ul_help">
+            <li><span class="linksim" onclick="scrollToHelpItem('help_license')">Лицензия</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_moreHelp')">Поддержка</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_usefulLinks')">Полезные ссылки</span></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+   </ul>
+  </nav>
+  <div id="help_content">
+  <section id="help_general">
+    <article>
+      <h2 id="help_generalUsage">Использование</h2>
+      <p>Окно приложения разделено на три панели: панель <i>Информация и инструменты</i> слева, главная панель карты с панелью инструментов в центре и панель <i>Атрибуты</i> справа. Во время работы с приложением левая и правая панели могут быть видимы или скрыты.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_workingWithLayers">Работа со слоями</h3>
+      <p>В панели <i>Информация и инструменты</i> все доступные слои отображаются на вкладке <i>Слои карты</i>. Поставьте или снимите флажок рядом с названием слоя чтобы сделать его видимым/невидимым.
+            Легенда видимого слоя отображается во вкладке Легенда.
+      </p>
+      <p>При нажатии на название слоя этот слой становится <b>активным</b>.
+      </p>
+      <p>Используйте кнопку <img src="gis_icons/mActionIdentify.png" alt="identiy"/> в верхней панели инструментов чтобы получить информацию о любом объекте на карте.
+            Информация может отображаться при 
+            наведении указателя мыши на объект и/или в панели <i>Атрибуты</i> при нажатии на объект. Вы можете выбрать, информация из какого слоя (слоев) будет отображаться, в списке <i>Идентификация объекта</i>.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_searching">Поиск по карте</h3>
+      <p>Введите строку поиска (название улицы или места, тип и др.) или его часть в строку поиска сверху
+        панели с картой. Будет выведено все содержимое, соответствующее вашему запросу; Выберите объект щелчком. Карта автоматически 
+		сфокусируется на выбранном объекте, и объект будет выделен.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_navigating">Навигация по карте</h3>
+      <p>Для перемещения по карте используйте навигационные клавиши <img src="gis_icons/mActionZoomBox.png" alt="ZoomBox"/>
+        <img src="gis_icons/mActionZoomFullExtent.png" alt="ZoomFullExtent"/>
+        <img src="gis_icons/mActionZoomLast.png" alt="ZoomLast"/> и <img src="gis_icons/mActionZoomNext.png" alt="ZoomNext"/> в панели инструментов.
+          Все кнопки имеют всплывающие подсказки, которые отображаются при наведении на них указателя мыши.
+      </p>
+      <p>Масштабировать карту можно при помощи ползунка масштабирования в левом верхнем углу карты
+        или введением масштаба в поле масштаба в нижнем правом углу.
+        Вы также можете менять масштаб колесиком мыши.
+      </p>
+      <p>Перемещать карту можно перетаскиванием левой кнопкой мыши. Также можно ввести нужные координаты в поле в правом нижнем углу.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_measuring">Измерение расстояния и площади</h3>
+      <p>Используйте кнопки <img src="gis_icons/mActionMeasure.png" alt="Measure"/> и <img src="gis_icons/mActionMeasureArea.png" alt="MeasureArea"/> в панели инструментов.
+        Клик левой кнопкой мыши устанавливает точку в линии или многоугольнике, двойной клик завершает измерение. Результат измерения постоянно отображается поверх выделенной фигуры.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_printing">Печать</h3>
+      <p>Если шаблоны печати настроены вебмастером сайта, они предлагаютси нажатии кнопки
+        <img src="gis_icons/mActionFilePrint.png" alt="FilePrint"/>. Рамка, отображаемая на карте, выделяет область, которая будет напечатана. Вы можете перемещать, растягивать, вращать рамку, чтобы выбрать нужную область.
+      </p>
+    </article>
+  </section>
+  <section id="help_about_qgis">
+    <article>
+      <h2 id="help_about">Информация о QGIS Web Client</h2>
+      <p>QGIS or QGIS Web Client  - это веб-приложение QGIS, основанное на OpenLayers, GeoExt и ExtJS. Оно использует собственные расширения стандарта WMS. Поддерживает отображение карты, запросы информации, графическое отображение легенды, поиск и печать. Все основные браузеры должны поддерживаться.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_license">Лицензия</h3>
+      <p>QGIS Web Client защищен лицензией BSD. Полный текст лицензии смотрите в файле
+        <a href="http://github.com/qgis/qgis-web-client/blob/master/README" target="_blank">README</a>.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_moreHelp">Поддержка</h3>
+      <p>Если вы столкнулись с проблемой при использовании приложения, пожалуйста, свяжитесь с вебмастером сайта, на котором вы находитесь! Команда разработчиков QGIS Web Client не может решить проблемы определенного сайта.</p>
+    </article>
+    <article>
+      <h3 id="help_usefulLinks">Полезные ссылки</h3>
+      <ul>
+        <li><a href="http://github.com/qgis/qgis-web-client" target="_blank">Исходный код QGIS Web Client на Github</a></li>
+        <li><a href="http://www.openlayers.org" target="_blank">Сайт OpenLayers</a></li>
+        <li><a href="http://geoext.org" target="_blank">Сайт GeoExt</a></li>
+        <li><a href="http://www.sencha.com/products/extjs" target="_blank">Sencha Ext JS</a></li>
+        <li><a href="http://qgis.org" target="_blank">Сайт QGIS</a></li>
+        <li><a href="http://hub.qgis.org/projects/quantum-gis/wiki/QGIS_Server_Tutorial" target="_blank">Инструкция по QGIS Server</a></li>
+      </ul>
+    </article>
+  </section>
+  </div>
+  <div style="Clear: both"></div>
+</div>
+</div>
+</body>
+</html>

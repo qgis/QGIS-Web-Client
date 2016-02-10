@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Aide du client web Qgis</title>
+  <link type="text/css" href="css/help.css" rel="stylesheet" />
+  <meta charset="utf-8" />
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width; initial-scale=1.0" />
+</head>
+<body>
+<div id="help_page">
+<div id="help_wrapper">
+  <header>
+    <div id="help_caption">
+      <h1>Aide du client web Qgis</h1>
+      <h2 class="SubCaption"></h2>
+    </div>
+  </header>
+ <hr/>
+  <nav>
+    <div id="help_logo">
+      <span class="logo_img"><a href="http://qgis.org"><img src="img/qgis-icon.png"/></a></span>
+    </div>
+    <ul class="ul_help">
+    <li class="list-header">Table des mati&egrave;res
+      <ul class="ul_help">
+        <li><span class="linksim" onclick="scrollToHelpItem('help_generalUsage')">Utilisation g&eacute;n&eacute;rale</span>
+          <ul class="ul_help">
+            <li><span class="linksim" onclick="scrollToHelpItem('help_workingWithLayers')">Gestion des couches</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_searching')">Recherche</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_navigating')">Navigation</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_measuring')">Outils de mesure</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_printing')">Impression</span></li>
+          </ul>
+        </li>
+        <li><span class="linksim" onclick="scrollToHelpItem('help_about')">A propos</span>
+          <ul class="ul_help">
+            <li><span class="linksim" onclick="scrollToHelpItem('help_license')">Licence</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_moreHelp')">Plus d'aide</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_usefulLinks')">Liens utiles</span></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+   </ul>
+  </nav>
+  <div id="help_content">
+  <section id="help_general">
+    <article>
+      <h2 id="help_generalUsage">Utilisation g&eacute;n&eacute;rale</h2>
+      <p>La fen&ecirc;tre de l'application est divis&eacute;e en trois sections: <i>Infos et outils</i> sur la gauche, la section <i>Principale</i> avec une barre d'outils au sommet et la sections <i>Donn&eacute;es</i> &agrave; droite. 
+	  Selon votre besoin, les sections gauches et droites peuvent &ecirc;tre masqu&eacute;es.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_workingWithLayers">Travailler avec les couches</h3>
+      <p>Toutes les <i>couches</i> disponibles sont list&eacute;es dans la section <i>Infos et outils</i>. 
+	  Cochez ou d&eacute;cochez une couche pour modifier sa visibilit&eacute;.
+      La l&eacute;gende d'une couche visible est affich&eacute;e dans l'onglet l&eacute;gende.
+      </p>
+      <p>Si vous cliquez sur le nom d'une couche, cette couche devient le <b>calque actif</b>.
+      </p>
+      <p>
+	  Utilisez le bouton <img src="gis_icons/mActionIdentify.png" alt="identiy"/> dans la barre d'outils du panneau principal pour obtenir des informations sur n'importe quel objet sur la carte. 
+	  L'information peut &ecirc;tre visible lorsque vous d&eacute;placez la souris sur l'objet (info-bulle) ou affich&eacute;es dans le <i>panneau de donn&eacute;es</i> lorsque vous cliquez sur l'objet. 
+	  En choisissant une option <i>d'identification d'objet</i>, vous pouvez d&eacute;cider quelles couches sont interrog&eacute;es.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_searching">Recherche de contenu</h3>
+      <p>
+	  Saisissez une cha&icirc;ne de recherche (nom d'une rue ou un lieu, type de fonction, etc) ou une partie de celle-ci dans la bo&icirc;te de recherche.
+	  Chaque contenu correspondant &agrave; votre recherche s'affiche; s&eacute;lectionner en un et cliquer dessus. 
+	  La carte sera automatiquement centr&eacute;e sur le contenu choisi et mis en &eacute;vidence.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_navigating">Navigation dans la carte</h3>
+      <p>Naviguer en utilisant les boutons de navigation<img src="gis_icons/mActionZoomBox.png" alt="ZoomBox"/>
+        <img src="gis_icons/mActionZoomFullExtent.png" alt="ZoomFullExtent"/>
+        <img src="gis_icons/mActionZoomLast.png" alt="ZoomLast"/> et <img src="gis_icons/mActionZoomNext.png" alt="ZoomNext"/> dans la barre d'outils.
+          Tous les boutons ont des info-bulles qui s'affichent lorsque vous d&eacute;placez la souris sur ceux-ci.
+      </p>
+      <p>Vous pouvez &eacute;galement zoomer sur la carte avec la barre interactive de zoom dans le coin sup&eacute;rieur gauche de la carte
+         ou par l'insertion d'une &eacute;chelle sp&eacute;cifique dans la bo&icirc;te de l'&eacute;chelle situ&eacute;es le coin inf&eacute;rieur droit.
+         Vous pouvez aussi zoomer et d&eacute;zoomer &agrave; l'aide de la mollette de la souris.
+      </p>
+      <p>D&eacute;placer la carte en appuyant sur le bouton gauche de la souris. 
+	  Vous pouvez &eacute;galement ins&eacute;rer des coordonn&eacute;es sp&eacute;cifiques dans la bo&icirc;te de coordonn&eacute;es dans le coin inf&eacute;rieur droit.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_measuring">Mesurer des distances et surfaces</h3>
+      <p>Utiliser les outils <img src="gis_icons/mActionMeasure.png" alt="Measure"/> et <img src="gis_icons/mActionMeasureArea.png" alt="MeasureArea"/> dans la barre de boutons.
+        Un clic gauche d&eacute;finit le point de d&eacute;part de la zone &agrave; mesurer, un double clic termine la mesure. 
+		Le r&eacute;sultat de mesure est publi&eacute; de fa&ccedil;on continue sur la carte.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_printing">Impression</h3>
+      <p>L'impression est disponible (si activ&eacute;e par le gestionnaire) par l'interm&eacute;diaire du bouton
+        <img src="gis_icons/mActionFilePrint.png" alt="FilePrint"/>.
+		Le cadre repr&eacute;sent&eacute; sur la carte met en &eacute;vidence la zone d'impression. 
+		Vous pouvez effectuer un zoom ou faire pivoter le cadre pour l'adapter &agrave; vos besoins.
+      </p>
+    </article>
+  </section>
+  <section id="help_about_qgis">
+    <article>
+      <h2 id="help_about">A propos du client web Qgis</h2>
+      <p>
+	  QGIS Web Client est un client bas&eacute; sur OpenLayers WebGIS, GeoExt et ExtJS et utilise des extensions WMS sp&eacute;cifiques &agrave; Qqis.
+	  Il prend en charge l'affichage de cartes, la consultation de donn&eacute;es, l'affichage de l&eacute;gende, la recherche et l'impression. 
+	  Tous les principaux navigateurs devraient &ecirc;tre pris en charge.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_license">Licence</h3>
+      <p>
+	  Le client Web QGIS est sous licence BSD. Voir le fichier <a href="http://github.com/qgis/qgis-web-client/blob/master/README" target="_blank">README</a> pour le texte int&eacute;gral de la licence.
+	  </p>
+    </article>
+    <article>
+      <h3 id="help_moreHelp">Obtenir plus d'aide</h3>
+      <p>
+	  Si vous rencontrez des probl&egrave;mes en utilisant cette application, veuillez contacter le responsable du site que vous visitez! 
+	  L'&eacute;quipe de d&eacute;veloppement du client Web Qgis ne peut pas r&eacute;soudre les probl&egrave;mes sur des sites sp&eacute;cifiques.
+	  </p>
+    </article>
+    <article>
+      <h3 id="help_usefulLinks">Liens utiles</h3>
+      <ul>
+        <li><a href="http://github.com/qgis/qgis-web-client" target="_blank">Code source du client web QGIS sur Github</a></li>
+        <li><a href="http://www.openlayers.org" target="_blank">OpenLayers</a></li>
+        <li><a href="http://geoext.org" target="_blank">GeoExt</a></li>
+        <li><a href="http://www.sencha.com/products/extjs" target="_blank">Sencha Ext JS</a></li>
+        <li><a href="http://qgis.org" target="_blank">QGIS</a></li>
+         <li><a href="http://hub.qgis.org/projects/quantum-gis/wiki/QGIS_Server_Tutorial" target="_blank">QGIS Serveur</a></li>
+      </ul>
+    </article>
+  </section>
+  </div>
+  <div style="Clear: both"></div>
+</div>
+</div>
+</body>
+</html>

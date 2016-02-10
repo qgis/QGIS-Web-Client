@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>QGIS Web Client Help</title>
+  <link type="text/css" href="css/help.css" rel="stylesheet" />
+  <meta charset="utf-8" />
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width; initial-scale=1.0" />
+</head>
+<body>
+<div id="help_page">
+<div id="help_wrapper">
+  <header>
+    <div id="help_caption">
+      <h1>QGIS Web Client</h1>
+      <h2 class="SubCaption">Default Client Help</h2>
+    </div>
+  </header>
+ <hr/>
+  <nav>
+    <div id="help_logo">
+      <span class="logo_img"><a href="http://qgis.org"><img src="img/qgis-icon.png"/></a></span>
+    </div>
+    <ul class="ul_help">
+    <li class="list-header">Table of Contents
+      <ul class="ul_help">
+        <li><span class="linksim" onclick="scrollToHelpItem('help_generalUsage')">General Usage</span>
+          <ul class="ul_help">
+            <li><span class="linksim" onclick="scrollToHelpItem('help_workingWithLayers')">Map Layers</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_searching')">Search</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_navigating')">Map Navigation</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_measuring')">Measuring</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_printing')">Printing</span></li>
+          </ul>
+        </li>
+        <li><span class="linksim" onclick="scrollToHelpItem('help_about')">About QGIS Web Client</span>
+          <ul class="ul_help">
+            <li><span class="linksim" onclick="scrollToHelpItem('help_license')">License</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_moreHelp')">More Help</span></li>
+            <li><span class="linksim" onclick="scrollToHelpItem('help_usefulLinks')">Useful Links</span></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+   </ul>
+  </nav>
+  <div id="help_content">
+  <section id="help_general">
+    <article>
+      <h2 id="help_generalUsage">General Usage</h2>
+      <p>The application window is divided in three panels: the <i>Info and Tools</i> panel to the left, the main map panel with a button bar on top in the
+        middle and the <i>Attribute Data</i> panel to the right. According to your interaction with the application the left and right panels may be visible or not
+        at a specific moment.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_workingWithLayers">Working with Layers</h3>
+      <p>In the <i>Info and Tools</i> panel all available layers are listed in <i>Map Layers</i>. Tick or untick a layer to change its visibility.
+            The legend of any visible layer is shown in the legend tab.
+      </p>
+      <p>If you click on a layer's name, this layer becomes the <b>active layer</b>.
+      </p>
+      <p>Use the <img src="gis_icons/mActionIdentify.png" alt="identiy"/> button in the main panel's button bar to get information on any object on the map.
+            Information may be visible when
+            moving the mouse over the object and/or shown in the <i>Attribute Data</i> panel when clicking on the object. By choosing an option from <i>Object identification</i>
+            you can decide which layer(s) are queried.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_searching">Searching Map Contents</h3>
+      <p>Enter any search string (name of a street or place, type of feature etc.) or part of it into the search box in the top
+        of the map panel. Every content matching your search is displayed; select one by clicking on it. The map is automatically
+        focused on the chosen content and the feature ist highlighted.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_navigating">Navigating in the Map</h3>
+      <p>Navigate by using the navigation buttons <img src="gis_icons/mActionZoomBox.png" alt="ZoomBox"/>
+        <img src="gis_icons/mActionZoomFullExtent.png" alt="ZoomFullExtent"/>
+        <img src="gis_icons/mActionZoomLast.png" alt="ZoomLast"/> and <img src="gis_icons/mActionZoomNext.png" alt="ZoomNext"/> in the button bar.
+          All buttons have tooltips that display when moving the mouse over the button.
+      </p>
+      <p>You can also zoom the map with the interactive zoom bar in the top left corner of the map panel
+        or by inserting a specific scale in the scale box in the bottom right corner.
+        If you have a wheel mouse you can zoom in and out by rolling the wheel, too.
+      </p>
+      <p>Pan the map with pressing the left mouse button while moving the mouse. You can also insert specific coordinates in the coordinate box in the bottom right corner.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_measuring">Measuring Distances and Areas</h3>
+      <p>Use the <img src="gis_icons/mActionMeasure.png" alt="Measure"/> and <img src="gis_icons/mActionMeasureArea.png" alt="MeasureArea"/> tools in the button bar.
+        A left click sets a point in the line or area to measure, a double click ends the measurement. The measuring result is continuously published below the map.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_printing">Printing</h3>
+      <p>If print layouts have been defined by the webmaster of the site they are offered for use when clicking on the
+        <img src="gis_icons/mActionFilePrint.png" alt="FilePrint"/> button. The frame shown on the map highlights the area contained in the
+        print. You may pan, scale or pivot the frame to make it fit your needs.
+      </p>
+    </article>
+  </section>
+  <section id="help_about_qgis">
+    <article>
+      <h2 id="help_about">About QGIS Web Client</h2>
+      <p>QGIS or QGIS Web Client is a webgis client based on OpenLayers, GeoExt and ExtJS that makes use of QGIS specific WMS extensions. It supports map display, feature info requests, legend graphic display, searching and printing. All major browsers should be supported.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_license">License</h3>
+      <p>The QGIS Web Client is licensed under a BSD licence. See the
+        <a href="http://github.com/qgis/qgis-web-client/blob/master/README" target="_blank">README</a>
+        file for the full text of the license.
+      </p>
+    </article>
+    <article>
+      <h3 id="help_moreHelp">Getting more Help</h3>
+      <p>If you encounter any problems using this application please contact the webmaster of the site you are visiting! The QGIS Web Client developer team cannot solve problems on specific sites.</p>
+    </article>
+    <article>
+      <h3 id="help_usefulLinks">Useful Links</h3>
+      <ul>
+        <li><a href="http://github.com/qgis/qgis-web-client" target="_blank">Source Code of QGIS Web Client at Github</a></li>
+        <li><a href="http://www.openlayers.org" target="_blank">OpenLayers Home</a></li>
+        <li><a href="http://geoext.org" target="_blank">GeoExt Home</a></li>
+        <li><a href="http://www.sencha.com/products/extjs" target="_blank">Sencha Ext JS</a></li>
+        <li><a href="http://qgis.org" target="_blank">QGIS Home</a></li>
+         <li><a href="http://hub.qgis.org/projects/quantum-gis/wiki/QGIS_Server_Tutorial" target="_blank">QGIS Server Tutorial</a></li>
+      </ul>
+    </article>
+  </section>
+  </div>
+  <div style="Clear: both"></div>
+</div>
+</div>
+</body>
+</html>

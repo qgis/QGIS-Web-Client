@@ -1,3 +1,14 @@
+/*
+ *
+ * GUI.js -- part of QGIS Web Client
+ *
+ * Copyright (2010-2012), The QGIS Project All rights reserved.
+ * QGIS Web Client is released under a BSD license. Please see
+ * https://github.com/qgis/qgis-web-client/blob/master/README
+ * for the full text of the license and the list of contributors.
+ *
+*/ 
+
 //this file contains the main gui definition (viewport) as edited through extjs designer
 //source file for ext designer
 //ext data store for combobox for selection of object identification modes (only active layer, all layers, top most hit)
@@ -35,16 +46,80 @@ objectIdentificationModes = Ext.extend(Ext.data.JsonStore, {
 new objectIdentificationModes();
 
 //definition of main GUI
+var layoutHeaderCfg = {
+	tag: 'div',
+	cls: 'x-panel-header',
+	id: 'panel_header',
+	children: [
+		{
+			tag: 'div',
+			id: 'panel_header_link',
+			html: '<a></a>'
+		},
+		{
+			tag: 'div',
+			id: 'panel_header_title',
+			html: 'GIS-Browser'
+		},
+		{
+			tag: 'div',
+			id: 'panel_header_terms_of_use',
+			html: '<a></a>'
+		}
+	]
+};
+if(enableLangSwitcher == true){
+    var switcher = {
+            tag: 'div',
+            id: 'panel_header_lang_switcher',
+			children: [
+				{
+					tag: 'select',
+					id: 'lang_switcher'
+				}
+			]
+        }
+    layoutHeaderCfg['children'].push(switcher)
+}
+if (headerLogoImg != null) {
+	// NOTE: header height must be fixed on creation or layout will not match
+	layoutHeaderCfg['style'] = 'height: ' + headerLogoHeight + 'px;';
+}
+
+
+/*
+ * The main application viewport.
+ *
+ * It contains the following regions:
+ *
+ *  +++++++++++++++++++++++++++++++++++
+ *  +           toolbar               +
+ *  +++++++++++++++++++++++++++++++++++
+ *  +       +                +        +
+ *  + Left  + CenterPanel    + Right  +
+ *  + Panel +                + Panel  +
+ *  +       +                +        +
+ *  +++++++++++++++++++++++++++++++++++
+ *  +         BottomPanel             +
+ *  +++++++++++++++++++++++++++++++++++
+ *
+ * Right and Bottom panel are hidden by default but can be enabled on
+ * request, see an example in Customizations.js: function
+ * customAfterMapInit()
+ * 
+ */ 
 MyViewportUi = Ext.extend(Ext.Viewport, {
 	layout: 'fit',
 	initComponent: function () {
 		this.items = [{
 			xtype: 'panel',
-			title: 'GIS-Browser',
 			layout: 'border',
 			id: 'GisBrowserPanel',
+			headerCfg: layoutHeaderCfg,
 			items: [{
 				xtype: 'panel',
+                margins: '3 0 3 3',
+                cmargins: '3 3 3 3',
 				title: leftPanelTitleString[lang],
 				height: 333,
 				width: 225,
@@ -72,6 +147,8 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 					xtype: 'panel',
 					layout: 'accordion',
 					border: false,
+                    frame: false,
+					id: 'collapsiblePanels',
 					flex: 0.9,
 					width: '100%',
 					layoutConfig: {
@@ -95,8 +172,13 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 						xtype: 'panel',
 						title: mapPanelTitleString[lang],
 						layout: 'border',
+						id: 'leftPanelMap',
+						border: false,
+						frame: false,
 						items: [{
 							xtype: 'treepanel',
+							border: false,
+							frame: false,
 							title: layerTreeTitleString[lang],
 							height: 159,
 							split: true,
@@ -113,35 +195,27 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 								singleClickExpand: true
 							},
 							loader: {}
-						}, {
-							xtype: 'panel',
+						},
+						{
 							region: 'south',
-							collapsible: true,
-							boxMinHeight: 275,
+							xtype: 'qgis_layerorderpanel',
+							id: 'LayerOrderTab',
 							split: true,
-							headerAsText: false,
-							id: 'ToolsPanel',
-							items: [{
-								xtype: 'tabpanel',
-								activeTab: 0,
-								id: 'ToolTabPanel',
-								items: [{
-									xtype: 'panel',
-									title: legendTabTitleString[lang],
-									autoScroll: true,
-									id: 'LegendTab'
-								}, {
-									xtype: 'panel',
-									title: metadataTabTitleString[lang],
-									layout: 'fit',
-									id: 'SearchTab'
-								}]
-							}]
+							collapsible: true,
+							collapsed: true,
+							titleCollapse: false,
+							autoScroll: true,
+							height: 200,
+							border: false,
+							frame: false
 						}] // map items
 					}] // accordion items
 				}] // left panel items
 			}, {
 				xtype: 'panel',
+                border: false,
+                frame: false,
+                margins: '3 3 3 0',
 				flex: 1,
 				region: 'center',
 				width: 100,
@@ -158,7 +232,8 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 						autoHeight: true,
 						id: 'myTopToolbar',
 						items: [{
-							xtype: 'tbseparator'
+							xtype: 'tbseparator',
+                            id: 'separator1'
 						}, {
 							xtype: 'button',
 							tooltip: objIdentificationTooltipString[lang],
@@ -172,7 +247,8 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 							id: 'IdentifyTool'
 						}, {
 							xtype: 'tbtext',
-							text: objectIdentificationTextLabel[lang]
+							text: objectIdentificationTextLabel[lang],
+                            id: 'ObjectIdentificationText'
 						}, {
 							xtype: 'combo',
 							width: 120,
@@ -183,7 +259,8 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 							triggerAction: 'all',
 							id: 'ObjectIdentificationModeCombo'
 						}, {
-							xtype: 'tbseparator'
+							xtype: 'tbseparator',
+                            id: 'separator2'
 						}, {
 							xtype: 'button',
 							enableToggle: true,
@@ -205,7 +282,8 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 							tooltip: measureAreaTooltipString[lang],
 							id: 'measureArea'
 						}, {
-							xtype: 'tbseparator'
+							xtype: 'tbseparator',
+                            id: 'separator3'
 						}, {
 							xtype: 'button',
 							enableToggle: true,
@@ -216,6 +294,47 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 							tooltipType: 'qtip',
 							tooltip: printMapTooltipString[lang],
 							id: 'PrintMap'
+						}, {
+							xtype: 'button',
+							enableToggle: true,
+							allowDepress: true,
+							toggleGroup: 'mapTools',
+							scale: 'medium',
+							icon: 'gis_icons/mActionSaveMapAsImage.png',
+							tooltipType: 'qtip',
+							tooltip: exportMapTooltipString[lang],
+							id: 'ExportMap'
+						}, {
+							xtype: 'button',
+							enableToggle: true,
+							allowDepress: true,
+							toggleGroup: 'mapTools',
+							scale: 'medium',
+							icon: 'gis_icons/mActionSaveAsDXF.png',
+							tooltipType: 'qtip',
+							tooltip: exportDXFTooltipString[lang],
+							id: 'ExportDXF'
+						}, {
+							xtype: 'button',
+							enableToggle: false,
+							allowDepress: false,
+							scale: 'medium',
+							icon: 'gis_icons/mActionMailSend.png',
+							tooltipType: 'qtip',
+							tooltip: sendPermalinkTooltipString[lang],
+							id: 'SendPermalink'
+						}, {
+							xtype: 'tbseparator',
+                            id: 'separator4'
+						}, {
+							xtype: 'button',
+							enableToggle: false,
+							allowDepress: false,
+							scale: 'medium',
+							icon: 'gis_icons/mActionHelp.png',
+							tooltipType: 'qtip',
+							tooltip: showHelpTooltipString[lang],
+							id: 'ShowHelp'
 						}]
 					},
 					bbar: {
@@ -250,35 +369,38 @@ MyViewportUi = Ext.extend(Ext.Viewport, {
 							minValue: 1,
 							allowNegative: false,
 							allowDecimals: false,
-							width: 45,
+							width: 75,
 							enableKeyEvents: true,
 							id: 'ScaleNumberField'
 						}]
 					}
-				}, {
-					xtype: 'treepanel',
-					title: attributeDataTreeTitleString[lang],
-					rootVisible: false,
-					region: 'east',
-					collapsed: true,
-					boxMinWidth: 300,
-					boxMaxWidth: 600,
-					collapsible: true,
-					autoScroll: true,
-					split: true,
-					width: 300,
-					id: 'AttributeDataTree',
-					root: {
-						text: 'Tree Node',
-						expanded: true,
-						editable: false
-					},
-					loader: {
-
-					}
 				}]
-			}]
+			},
+            {
+                xtype: 'panel',
+                id: 'RightPanel',
+                region: 'east',                
+                split: true,
+                collapsible: true,
+                collapsed: true,    
+                hidden: true,
+                width: 200
+            },
+            {
+                xtype: 'panel',
+                id: 'BottomPanel',        
+                region: 'south',
+                split: true,
+                collapsible: true,
+                collapsed: true,    
+                hidden: true,
+                height: 100 
+            }]
 		}];
+
+		// Appends custom buttons from customizations.js
+		this.items[0].items[1].items[0].tbar.items = this.items[0].items[1].items[0].tbar.items.concat ( customButtons ) ;
+
 		MyViewportUi.superclass.initComponent.call(this);
 	}
 });
@@ -297,4 +419,28 @@ Ext.onReady(function () {
 		renderTo: Ext.getBody()
 	});
 	cmp1.show();
+
+    if(enableLangSwitcher == true){
+        /* Language chooser combobox*/
+	    var lang_switcher = Ext.get('lang_switcher')
+	    var lang_options = ''
+	    for (l in availableLanguages){
+            // strange behaviour of Array() which include a key called remove
+		    if (l == 'remove') {continue;}
+
+		    lang_options +='<option value="' + l + '"'
+		    if (l == lang){
+			    lang_options += 'selected=selected'
+		    }
+		    lang_options += '>'
+		    lang_options += availableLanguages[l].names[lang] + '</option>';
+	    }
+	    lang_switcher.update(lang_options)
+	    lang_switcher.on('change', function(){
+		    var new_lang = this.dom.options[this.dom.selectedIndex].value;
+		    urlParams.lang = new_lang
+		    location.assign('//' + location.host + location.pathname + '?' + Ext.urlEncode(urlParams));
 });
+    }
+});
+

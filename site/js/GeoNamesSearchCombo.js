@@ -94,6 +94,14 @@ GeoExt.ux.GeoNamesSearchCombo = Ext.extend(Ext.form.ComboBox, {
      *  ``String``
      */
     lang: 'en',
+	
+    /** api: config[username]
+     *  ``String`` Geonames requiers username
+     */
+    /** private: property[username]
+     *  ``String``
+     */
+    username: '',
 
     /** api: config[countryString]
      *  ``String`` Country in which to make a GeoNames search, default is all countries.
@@ -246,7 +254,8 @@ GeoExt.ux.GeoNamesSearchCombo = Ext.extend(Ext.form.ComboBox, {
                 adminCode2: this.adminCode2,
                 adminCode3: this.adminCode3,
                 tag: this.tag,
-                charset: this.charset
+                charset: this.charset,
+                username: this.username
             },
             reader: new Ext.data.JsonReader({
                 idProperty: 'geonameId',

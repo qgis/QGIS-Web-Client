@@ -1,3 +1,14 @@
+/*
+ *
+ * ThemeSwitcher.js -- part of QGIS Web Client
+ *
+ * Copyright (2010-2012), The QGIS Project All rights reserved.
+ * QGIS Web Client is released under a BSD license. Please see
+ * https://github.com/qgis/qgis-web-client/blob/master/README
+ * for the full text of the license and the list of contributors.
+ *
+*/ 
+
 //this object handles the theme optional switching
 function ThemeSwitcher(parentPanel) {
 	this.parentPanel = parentPanel;
@@ -7,30 +18,33 @@ function ThemeSwitcher(parentPanel) {
 	this.activeTopicIndex = 0; //points to all topics
 	this.activeTopicName = ""; //will hold the current topic filter later
 	this.titleAndTagFilter = ""; //will hold the current title or tag filter string later
+	this.activeProjectData = undefined; //will hold data of currently active project
+	
 	me = this;
 	//create a new jsonstore holding the topic-listing data
 	if (gis_projects) {
 		//add a new record to json array
-		gis_projects.topic.unshift({
+		gis_projects.topics.unshift({
 			name: themeSwitcherAllThemesListViewString[lang],
-			project: []
+			projects: []
 		});
 		this.gisTopicListingStore = new Ext.data.JsonStore({
 			storeId: 'gisTopicListingStore',
 			data: gis_projects,
 			// reader configs
-			root: 'topic',
+			root: 'topics',
 			idProperty: 'name',
-			fields: ['name', 'project']
+			fields: ['name', 'projects']
 		});
 		//fill a new array store with all project records
 		//will be used to display a table of thumbnails
 		var topicCounter = 0;
 		var projListingArray = [];
+		var mapName = wmsMapName.replace(/\.qgs$/,'');
 		for (var i = 0; i < this.gisTopicListingStore.getCount(); i++) {
 			var topicRec = this.gisTopicListingStore.getAt(i);
-			for (var j = 0; j < topicRec.data.project.length; j++) {
-				var projData = topicRec.data.project[j];
+			for (var j = 0; j < topicRec.data.projects.length; j++) {
+				var projData = topicRec.data.projects[j];
 				projData.topic = topicRec.data.name;
 				var tooltip = themeSwitcherTooltipMapThemeString[lang] + projData.name;
 				if (projData.tags) {
@@ -39,8 +53,8 @@ function ThemeSwitcher(parentPanel) {
 				if (projData.responsible) {
 					tooltip += "\n" + themeSwitcherTooltipResponsibleString[lang] + projData.responsible;
 				}
-				if (projData.update) {
-					tooltip += "\n" + themeSwitcherTooltipUpdateString[lang] + projData.update;
+				if (projData.updateInterval) {
+					tooltip += "\n" + themeSwitcherTooltipUpdateString[lang] + projData.updateInterval;
 				}
 				if (projData.lastUpdate) {
 					tooltip += "\n" + themeSwitcherTooltipLastUpdateString[lang] + projData.lastUpdate;
@@ -52,14 +66,31 @@ function ThemeSwitcher(parentPanel) {
 						tooltip += "\n\n" + themeSwitcherTooltipPwProtectedString[lang] + ": " + projData.pwMessage;
 					}
 				}
-				projListingArray.push([topicCounter + '_' + projData.projectfile, projData.name, projData.topic, projData.projectfile, projData.tags, pwprotected, tooltip, projData]);
+				var projShowFeatureInfoLayerTitle = showFeatureInfoLayerTitle;
+				if (typeof(projData.showFeatureInfoLayerTitle) == "boolean") {
+					projShowFeatureInfoLayerTitle = projData.showFeatureInfoLayerTitle;
+				}
+				projData.showFeatureInfoLayerTitle = projShowFeatureInfoLayerTitle;
+				var thumbnail = null;
+				if (projData.thumbnail) {
+					thumbnail = projData.thumbnail;
+				}
+				else {
+					thumbnail = projData.projectfile + ".png";
+				}
+				projListingArray.push([topicCounter + '_' + projData.projectfile, projData.name, projData.topic, projData.projectfile, projData.tags, projData.showFeatureInfoLayerTitle, pwprotected, tooltip, thumbnail, projData]);
+				//test to see if this record matches current project
+				//variable "map" comes from file GetUrlParams.js
+				if (projData.projectpath+"/"+projData.projectfile == mapName) {
+					this.activeProjectData = projData;
+				}
 			}
 			topicCounter++;
 		}
 		//create a new json data store holding the project data
 		this.gisProjectListingStore = new Ext.data.ArrayStore({
 			storeId: 'gisProjectListingStore',
-			fields: ['id', 'projname', 'topic', 'projectfile', 'tags', 'pwprotected', 'tooltip', 'data'],
+			fields: ['id', 'projname', 'topic', 'projectfile', 'tags', 'showFeatureInfoLayerTitle', 'pwprotected', 'tooltip', 'thumbnail', 'data'],
 			idProperty: 'id',
 			data: projListingArray
 		});
@@ -92,11 +123,12 @@ ThemeSwitcher.prototype.openOrInitialize = function () {
 
 ThemeSwitcher.prototype.initialize = function () {
 	me = this;
+	var template = themeSwitcherTemplate?themeSwitcherTemplate:new Ext.XTemplate('<ul>', '<tpl for=".">', '<li class="project">', '<img width="300" height="200" class="thumbnail" src="thumbnails/{thumbnail}" title="{tooltip}" />', '<tpl if="pwprotected==\'yes\'">', '<img class="pwProtected" src="gis_icons/lockIcon.png" width="32" height="32" />','</tpl>','<strong>{projname}', '<tpl if="pwprotected==\'yes\'">', ' - ' + themeSwitcherTooltipPwProtectedString[lang], '</tpl>', '</strong>', '</li>', '</tpl>', '</ul>');
 
 	//add data view for grid thumbnails view
 	this.projectDataView = new Ext.DataView({
 		store: this.gisProjectListingStore,
-		tpl: new Ext.XTemplate('<ul>', '<tpl for=".">', '<li class="project">', '<img width="300" height="200" class="thumbnail" src="thumbnails/{projectfile}.png" title="{tooltip}" />', '<tpl if="pwprotected==\'yes\'">', '<img class="pwProtected" src="gis_icons/lockIcon.png" width="32" height="32" />','</tpl>','<strong>{projname}', '<tpl if="pwprotected==\'yes\'">', ' - ' + themeSwitcherTooltipPwProtectedString[lang], '</tpl>', '</strong>', '</li>', '</tpl>', '</ul>'),
+		tpl: template,
 		id: 'projects',
 		itemSelector: 'li.project',
 		overClass: 'projects-hover',
@@ -115,11 +147,12 @@ ThemeSwitcher.prototype.initialize = function () {
 		title: themeSwitcherWindowTitleString[lang],
 		width: this.parentPanel.getInnerWidth() - 10,
 		height: this.parentPanel.getInnerHeight() - 10,
-		renderTo: "geoExtMapPanel",
 		resizable: true,
 		closable: true,
 		maximizable: true,
 		layout: 'border',
+        constrain: false,
+        constrainHeader: true,
 		listeners: {
 			"close": function (myWindow) {
 				me.themeSearchField.reset();
@@ -129,8 +162,8 @@ ThemeSwitcher.prototype.initialize = function () {
 				me.themeSwitcherWindow = undefined;
 			}
 		},
-		x: 5,
-		y: 5,
+		x: Ext.getCmp('geoExtMapPanel').getBox().x + 5,
+		y: Ext.getCmp('geoExtMapPanel').getBox().y + 5,
 		items: [{
 			xtype: 'panel',
 			region: 'west',
@@ -256,6 +289,11 @@ ThemeSwitcher.prototype.filterThumbnails = function (listView, index, node, evt)
 //here we actually change the map theme
 ThemeSwitcher.prototype.changeTheme = function (dataView, index, node, evt) {
 	if (dataView.getSelectedRecords().length > 0) {
+		//close legend/metadata window if active
+		 if (legendMetadataWindow_active) {
+			legendMetadataWindow.close();
+		 }
+		
 		//switch off GetFeatureInfo if active
 		if (identifyToolActive) {
 			identifyToolWasActive = true;
@@ -263,6 +301,7 @@ ThemeSwitcher.prototype.changeTheme = function (dataView, index, node, evt) {
 		}
 		themeChangeActive = true;
 		var projData = dataView.getSelectedRecords()[0].data.data;
+		this.activeProjectData = projData;
 		this.themeSearchField.reset();
 		this.filterThumbnailsByTitleOrTag('');
 		this.gisProjectListingStore.clearFilter(false);
@@ -278,11 +317,18 @@ ThemeSwitcher.prototype.changeTheme = function (dataView, index, node, evt) {
 			wmsURI = gis_projects.mapserver;
 		}
 		if (norewrite) {
-			wmsURI += "?map=" + projData.projectpath + "/" + projData.projectfile;
+			wmsURI += "?map=" + projData.projectpath + "/" + projData.projectfile + ".qgs&";
+			wmsMapName = projData.projectpath + "/" + projData.projectfile;
 		} else {
-			wmsURI += "/" + projData.projectpath + "/" + projData.projectfile + "?";
+			if (projData.projectpath.length > 0) {
+				wmsURI += "/" + projData.projectpath + "/" + projData.projectfile + "?";
+				wmsMapName = projData.projectpath + "/" + projData.projectfile;
+			}
+			else {
+				wmsURI += "/" + projData.projectfile + "?";
+				wmsMapName = projData.projectfile;
+			}
 		}
-		wmsMapName = projData.projectpath + "/" + projData.projectfile;
 		//handle visible layers
 		if (projData.visibleLayers) {
 			visibleLayers = projData.visibleLayers.split(",");
@@ -304,6 +350,14 @@ ThemeSwitcher.prototype.changeTheme = function (dataView, index, node, evt) {
 		if (projData.searchtables) {
 			searchtables = projData.searchtables;
 		}
+		else {
+			searchtables = null;
+		}
+        if(qgisSearchCombo) {
+            qgisSearchCombo.searchtables = searchtables;
+            qgisSearchCombo.store.baseParams.searchtables = searchtables;
+        }
+		
 		//handle max extent
 		if (projData.maxExtent) {
 			//need to check validity of maxExtent parameter
@@ -321,9 +375,13 @@ ThemeSwitcher.prototype.changeTheme = function (dataView, index, node, evt) {
 				alert(errMessageExtentParamWrongPart1[lang] + "maxExtent" + errMessageExtentParamWrongPart2[lang]);
 			}
 		}
+		//set initialLayerOrder to null to avoid that layers from last project are used for the layer order tree
+		initialLayerOrder = null;
+		//set printLayoutsDefined to false - will be loaded after theme switch
+		printLayoutsDefined = false;
 		//now load the config of the new project
 		if (urlParamsOK) {
-			loadWMSConfig();
+			loadWMSConfig(projData.name);
 		} else {
 			alert(errMessageStartupNotAllParamsFoundString[lang]);
 		}
