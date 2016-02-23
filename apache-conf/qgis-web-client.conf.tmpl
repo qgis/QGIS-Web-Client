@@ -56,7 +56,7 @@
   #<REMOVE_TO_ENABLE_URL_REWRITE>RewriteRule ^/maps/?$ / [PT]
   # Rewrite /maps/mapname to qgis-web-client main page. mapname will be extracted for wms calls in Javascript code.
   #<REMOVE_TO_ENABLE_URL_REWRITE>RewriteRule ^/maps/([^\.]+)$ /qgiswebclient.html [PT]
-  # Rewrite /maps/* to qgis-web-client/site (e.g. /maps/gis_icons/mActionZoomNext.png -> /qgis-web-client/site/gis_icons/mActionZoomNext.png)
+  # Rewrite /maps/\* to qgis-web-client/site (e.g. /maps/gis_icons/mActionZoomNext.png -> /qgis-web-client/site/gis_icons/mActionZoomNext.png)
   #<REMOVE_TO_ENABLE_URL_REWRITE>RewriteRule ^/maps/(.*) /$1 [PT]
 
 
