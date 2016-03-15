@@ -6,7 +6,7 @@ Wednesday June 11, 2014
 
 
 Last Updated: Wednesday June 11, 2014
-Last Change : Wednesday June  11, 2014
+Last Change : Wednesday June 11, 2014
 
 - 1 For the terminally lazy
 - 2 Purpose
