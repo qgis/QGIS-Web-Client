@@ -551,12 +551,12 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
   initComponent: function() {
     // i18n
 	if(this.url.indexOf("api.geo.admin.ch") != -1){
-	
+
 		this.useSwissNames = true;
 		this.highlightLayer = null;
 		this.highlightLayerName = null;
 		this.searchtables = null;
-		
+
 	}
 
     this.emptyText = OpenLayers.i18n(searchFieldDefaultTextString[lang]);
@@ -571,13 +571,13 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
     if (this.useWmsHighlight && fields.indexOf(this.wmsHighlightLabelAttribute) == -1) {
       fields.push(this.wmsHighlightLabelAttribute);
     }
-	
+
 		if (this.useSwissNames) {
 			this.emptyText = 'Swisstopo SwissNames';
 			fields = ['name', 'service', 'label', 'bbox'];
 		}
-	
-	
+
+
     this.store = new Ext.data.JsonStore({
       proxy: new Ext.data.ScriptTagProxy({
         url: this.url,
@@ -700,7 +700,7 @@ QGIS.SearchComboBox = Ext.extend(Ext.form.ComboBox, {
    */
   recordSelected: function(combo, record, index) {
     var bbox = record.get('bbox');
-    
+
     if (bbox != null) {
         var extent = OpenLayers.Bounds.fromArray(bbox, this.hasReverseAxisOrder);
         //make sure that map extent is not too small for point data
@@ -982,7 +982,9 @@ QGIS.SearchPanel = Ext.extend(Ext.Panel, {
           'FEATURE_COUNT': (typeof simpleWmsSearchMaxResults != 'undefined' ? simpleWmsSearchMaxResults : 10),
           'INFO_FORMAT': 'text/xml',
           'SRS': authid,
-          'FILTER': filter
+          'FILTER': filter,
+          // Temporary fix for https://hub.qgis.org/issues/8656 (fixed in QGIS master)
+          'BBOX': geoExtMap.map.getMaxExtent().toBBOX()
         },
         method: 'GET',
         scope: this,
