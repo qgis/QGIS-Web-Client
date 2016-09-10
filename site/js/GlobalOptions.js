@@ -82,7 +82,7 @@ if (enableBingCommercialMaps) {
     var bingApiKey = "add Bing api key here"; // http://msdn.microsoft.com/en-us/library/ff428642.aspx
 }
 
-var enableGoogleCommercialMaps = true;
+var enableGoogleCommercialMaps = false;
 
 var enableOSMMaps = true;
 
