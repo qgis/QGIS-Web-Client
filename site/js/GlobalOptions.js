@@ -60,6 +60,11 @@ var autoActivateSearchGeometryLayer = true;
 
 // Used to dynamically determine the project.
 var project_map = Ext.urlDecode(window.location.search.substring(1)).map;
+//in case of url rewriting http://host/maps/mapname (see apache-conf/qgis-web-client.conf.tmpl) 
+if (project_map == null){
+	project_map = window.location.pathname;
+	project_map = project_map.substring(project_map.lastIndexOf("/")+1);
+}
 
 // PHP based search scripts (postgis layers only)
 //var searchBoxQueryURL = '../php/search.php?map=' + project_map;
@@ -144,6 +149,7 @@ var getFeatureInfoCustomFormatters = {
 //Number of results: FEATURE_COUNT in WMS request
 var simpleWmsSearchMaxResults = 10;
 
+
 var simpleWmsSearch = {
   title: "Search continent",
   query: 'simpleWmsSearch',
@@ -203,6 +209,7 @@ var mapSearchPanelConfigs = {
 
 // Needed for helloworld project if rewrite is not active
 mapSearchPanelConfigs[project_map] = [simpleWmsSearch, urlRewriteSearch];
+
 
 //templates to define tooltips for a layer, to be shown on hover identify. The layer fields must be wrapped inside <%%> special tags.
 //if a layers field is found with the name "tooltip" its content will have precedence over this configuration 
