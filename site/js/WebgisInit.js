@@ -272,7 +272,7 @@ function postLoading() {
 	layerTree.suspendEvents();
 	if (layerTree.root.hasChildNodes()) {
 		//set titles in document and toolbar
-		var title = layerTree.root.firstChild.text;
+		var title = layerTree.root.firstChild.firstChild.text;
 		if (title in projectTitles) {
 			title = projectTitles[title];
 		}
