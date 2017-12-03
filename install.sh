@@ -28,7 +28,7 @@ AUTOACCEPT=${6-false}
 
 if [ $# -eq 0 ]; then
     echo "Using default values."
-    echo "You can edit th script according to your needs or pass the values as arguments example:"
+    echo "You can edit the script according to your needs or pass the values as arguments, for example:"
     echo "./install.sh /path_to/qgis_project myurl.local false"
     echo
 fi
