@@ -34,11 +34,13 @@ Edit (if necessary) the needed parameters in ``install.sh`` and run:
 
 ``sudo ./install.sh``
 
+This will install all needed packages and get the server up and running.
+
 
 2. Purpose
 ------------
 
-A WMS based webgis client that makes use of QGIS specific WMS extensions (e.g.
+This is a WMS based webgis client that makes use of QGIS specific WMS extensions (e.g.
 highlighting, printing, metadata, etc.). QGIS webclient reads the configuration
 from the WMS ``GetCapabilities`` command and builds the layer tree accordingly.
 Supports legend graphic, feature info requests and printing.
@@ -52,9 +54,11 @@ All major browsers should be supported.
 3. Installation
 ---------------
 
+Running the install.sh script will take care of the following requirements. Adjust to your needs.
+
 Requirements (Server):
 
-- Apache2 - Webserver (Ubuntu: apache2)
+- Apache2 - Webserver (Ubuntu: apache2) with php enabled
 - mod-fcgid (Ubuntu: libapache2-mod-fcgid)
 - QGIS and QGIS Server (best installed from source)
 
@@ -62,7 +66,7 @@ On ubuntu you can meet these requirements by simply doing:
 
 ``sudo apt-get install libapache2-mod-fcgid``
 
-The QGIS Server compilation and installation will be covered in the QGIS manual.
+The QGIS Server compilation and installation will is covered in the online QGIS manual. See http://www.qgis.org/en/docs/index.html for the current version.
 
 For searching:
 
@@ -78,9 +82,9 @@ The client part needs to be git cloned with the following command:
 
 4. Configuration of Client
 --------------------------
+All settings are available in the following files.
 
-Global Settings for all projects (make a copy from one of the templates
-provided):
+Global Settings for all projects (make a copy from one of the templates provided):
 
 ``site/js/GlobalOptions.js``
 
@@ -160,8 +164,7 @@ The default search tables are hard-coded in the file ``wsgi/search.wsgi``, in th
 4.2. Configuration of search panels
 -----------------------------------
 
-There are two types of search panels supported, using a direct WMS
-GetFeatureInfo request or using URL rewriting with a much shorter search URL.
+There are two types of search panels supported, using a direct WMS GetFeatureInfo request or using URL rewriting with a much shorter search URL.
 
 The search panels are configured in ``site/js/GlobalOptions.js``.
 
@@ -171,12 +174,7 @@ The following options are available:
 
 SearchPanel search results output configuration (string), possible values:
 ``default, right, bottom, popup``
-By default, search results will be shown in left panel, under the
-search form. Sometimes this is not desired, here you can choose to
-show the results in one of the other panels, like BottomPanel and
-RightPanel. These additional panels are hidden by default because
-their expansion and collapse trigger a map resize->reload cycle that
-can slow down the application. Example:
+By default, search results will be shown in left panel, under the search form. Sometimes this is not desired, here you can choose to show the results in one of the other panels, like BottomPanel and RightPanel. These additional panels are hidden by default because their expansion and collapse trigger a map resize->reload cycle that can slow down the application. Example:
 
 - ``var mapSearchPanelOutputRegion = 'popup';``
 
@@ -230,8 +228,7 @@ can slow down the application. Example:
 
 Request URL:
 
-When performing a search query using the above configuration,
-the following get request will be made:
+When performing a search query using the above configuration, the following get request will be made:
 
 ``http://localhost/wms/helloworld?SERVICE=WMS&VERSION=1.1.1&
 REQUEST=GetFeatureInfo&LAYERS=Country&QUERY_LAYERS=Country&
@@ -242,9 +239,7 @@ FILTER=Country:"name"+=+'africa'``
 4.2.2. Using URL Rewriting
 --------------------------
 
-For security and neatness, you may prefer to use rewritten URLs (so that your
-internal server file paths are not revealed. In that case your options file
-would contain something like this:
+For security and neatness, you may prefer to use rewritten URLs (so that your internal server file paths are not revealed. In that case your options file would contain something like this:
 
 ::
 
@@ -309,8 +304,7 @@ config.
   REQUEST=GetFeatureInfo&LAYERS=Hello&QUERY_LAYERS=Hello&FEATURE_COUNT=20&
   INFO_FORMAT=text/xml&SRS=EPSG:4326&FILTER=Hello:"colour"\ =\ '%1' [PT]
 
-The first RewriteCond matches the query id of the search panel config. The
-second RewriteCond extracts the values of the search request parameters.
+The first RewriteCond matches the query id of the search panel config. The second RewriteCond extracts the values of the search request parameters.
 
 The RewriteRule composes the actual WMS GetFeatureInfo request to QGIS Server.
 
@@ -322,8 +316,7 @@ http://localhost/wms/helloworld?query=samplesearch&colour=orange
 4.2.3. Add search panels to projects
 ------------------------------------
 
-In order for your search panel to appear in the web UI, you must
-enumerate them in your GlobalOptions.js for example (with url rewriting):
+In order for your search panel to appear in the web UI, you must enumerate them in your GlobalOptions.js for example (with url rewriting):
 
 ::
 
