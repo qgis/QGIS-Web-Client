@@ -1,12 +1,13 @@
 QGIS Web Client
 =================
+Deprecation information
+-----------------------
+
+Please note that QGIS Web Client version 1 is not actively maintained anymore. It has been superseded by `QGIS web client 2 (QWC2) <https://github.com/qgis/qwc2-demo-app>`_.
 
 Installation  and Configuration Guide
-Wednesday June 11, 2014
 
-
-Last Updated: Wednesday June 11, 2014
-Last Change : Wednesday June 11, 2014
+Last Updated: Monday Dec 11, 2017
 
 - 1 For the terminally lazy
 - 2 Purpose
